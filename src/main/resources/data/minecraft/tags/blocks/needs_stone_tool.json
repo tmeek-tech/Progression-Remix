@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:rough_iron",
+    "mcremix:rough_copper",
+    "mcremix:rough_zinc",
+    "mcremix:rough_brass",
+    "mcremix:rough_steel",
+    "mcremix:rough_aluminium",
+    "mcremix:aluminium_block"
+  ]
+}

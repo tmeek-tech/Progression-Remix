@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/rope_pulley/block",
+  "textures": {
+    "1": "mcremix:block/machine/bamboo/rope_pulley",
+    "particle": "mcremix:block/machine/bamboo/gearbox"
+  }
+}

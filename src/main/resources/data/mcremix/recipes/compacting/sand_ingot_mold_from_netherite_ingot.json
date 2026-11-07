@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:sand_ingot_mold"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ]
+}

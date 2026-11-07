@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:brass_cogwheel"
+    },
+    {
+      "item": "mcremix:brass_fluid_pipe"
+    }
+  ],
+  "result": {
+    "item": "mcremix:brass_mechanical_pump"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "formula": "Zn",
+  "items": [
+    "create:zinc_ingot",
+    "create:zinc_nugget",
+    "create:zinc_block"
+  ],
+  "fluids": [
+    "mcremix:molten_zinc"
+  ],
+  "atoms": [
+    {
+      "l": "Zn",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

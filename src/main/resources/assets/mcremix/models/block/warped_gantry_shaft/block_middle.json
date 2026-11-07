@@ -1,0 +1,6 @@
+{
+  "parent": "create:block/gantry_shaft/block_middle",
+  "textures": {
+    "2": "mcremix:block/machine/warped/gantry_shaft"
+  }
+}

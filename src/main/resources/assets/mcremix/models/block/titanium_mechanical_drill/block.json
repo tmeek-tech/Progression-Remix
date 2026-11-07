@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/mechanical_drill/block",
+  "textures": {
+    "4": "mcremix:block/machine/titanium/mechanical_drill_top",
+    "10": "mcremix:block/machine/titanium/andesite_casing_very_short",
+    "gearbox_top": "mcremix:block/titanium_casing",
+    "particle": "mcremix:block/titanium_gearbox",
+    "gearbox": "mcremix:block/titanium_gearbox"
+  }
+}

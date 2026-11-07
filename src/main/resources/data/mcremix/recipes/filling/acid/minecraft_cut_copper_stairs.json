@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:exposed_cut_copper_stairs"
+      },
+      {
+        "item": "minecraft:weathered_cut_copper_stairs"
+      },
+      {
+        "item": "minecraft:oxidized_cut_copper_stairs"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:cut_copper_stairs"
+    }
+  ]
+}

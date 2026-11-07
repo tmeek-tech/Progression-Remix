@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:rough_gold",
+    "mcremix:steel_block",
+    "mcremix:titanium_block",
+    "mcremix:titanium_plating",
+    "mcremix:gold_tinted_titanium_plating",
+    "mcremix:purple_tinted_titanium_plating",
+    "mcremix:blue_tinted_titanium_plating"
+  ]
+}

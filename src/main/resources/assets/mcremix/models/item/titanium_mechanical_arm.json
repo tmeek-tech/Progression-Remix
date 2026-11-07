@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_arm/item",
+  "textures": {
+    "5": "mcremix:block/machine/titanium/mechanical_arm",
+    "7": "mcremix:block/machine/titanium/brass_block",
+    "8": "mcremix:block/titanium_casing",
+    "particle": "mcremix:block/titanium_casing"
+  }
+}

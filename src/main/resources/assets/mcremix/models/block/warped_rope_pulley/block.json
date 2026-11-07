@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/rope_pulley/block",
+  "textures": {
+    "1": "mcremix:block/machine/warped/rope_pulley",
+    "particle": "mcremix:block/machine/warped/gearbox"
+  }
+}

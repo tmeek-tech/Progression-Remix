@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:nuggets/zinc"
+  },
+  "result": {
+    "fluid": "mcremix:molten_zinc",
+    "amount": 10
+  }
+}

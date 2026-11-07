@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "create:netherite_diving_helmet"
+  },
+  "result": {
+    "fluid": "mcremix:molten_netherite",
+    "amount": 45
+  }
+}

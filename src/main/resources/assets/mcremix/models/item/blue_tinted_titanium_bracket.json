@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/bracket/item",
+  "textures": {
+    "bracket": "mcremix:block/blue_tinted_titanium_bracket",
+    "plate": "mcremix:block/blue_tinted_titanium_bracket_plate"
+  }
+}

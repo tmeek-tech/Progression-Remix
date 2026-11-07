@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "patina=none": {
+      "model": "mcremix:block/titanium_millstone/block"
+    },
+    "patina=exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_millstone/block"
+    },
+    "patina=weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_millstone/block"
+    },
+    "patina=oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_millstone/block"
+    },
+    "patina=waxed": {
+      "model": "mcremix:block/titanium_millstone/block"
+    },
+    "patina=waxed_exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_millstone/block"
+    },
+    "patina=waxed_weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_millstone/block"
+    },
+    "patina=waxed_oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_millstone/block"
+    }
+  }
+}

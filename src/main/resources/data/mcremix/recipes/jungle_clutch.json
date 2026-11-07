@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:stripped_jungle_log"
+      },
+      {
+        "item": "minecraft:stripped_jungle_wood"
+      }
+    ],
+    {
+      "item": "mcremix:jungle_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:jungle_clutch"
+  }
+}

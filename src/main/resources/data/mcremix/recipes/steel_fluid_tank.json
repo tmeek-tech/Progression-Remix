@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "B",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "B": {
+      "tag": "forge:barrels/wooden"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_fluid_tank"
+  }
+}

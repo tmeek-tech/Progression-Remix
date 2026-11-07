@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "create:flywheel",
+      "required": false
+    },
+    {
+      "id": "create:crushing_wheel",
+      "required": false
+    }
+  ]
+}

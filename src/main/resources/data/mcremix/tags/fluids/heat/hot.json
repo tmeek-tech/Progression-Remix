@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:lava",
+    "minecraft:flowing_lava",
+    "mcremix:molten_zinc",
+    "mcremix:flowing_molten_zinc",
+    "mcremix:molten_aluminium",
+    "mcremix:flowing_molten_aluminium"
+  ]
+}

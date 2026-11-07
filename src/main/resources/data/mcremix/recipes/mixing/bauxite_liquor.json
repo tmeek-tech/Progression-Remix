@@ -1,0 +1,25 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "mcremix:bauxite"
+    },
+    {
+      "item": "mcremix:bauxite"
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:bauxite_liquor",
+      "amount": 250
+    },
+    {
+      "item": "mcremix:red_mud"
+    }
+  ]
+}

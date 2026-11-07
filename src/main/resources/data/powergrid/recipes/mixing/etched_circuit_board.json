@@ -1,0 +1,18 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "powergrid:unetched_circuit"
+    },
+    {
+      "fluid": "mcremix:ferric_chloride",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:incomplete_circuit"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:aluminium_casing"
+    },
+    {
+      "tag": "forge:nuggets/aluminium"
+    },
+    {
+      "tag": "forge:nuggets/aluminium"
+    },
+    {
+      "tag": "forge:nuggets/aluminium"
+    }
+  ],
+  "result": {
+    "item": "mcremix:aluminium_chain_drive"
+  }
+}

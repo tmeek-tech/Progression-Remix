@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:titanium_sheet"
+    },
+    [
+      {
+        "tag": "forge:stripped_logs"
+      },
+      {
+        "tag": "forge:stripped_wood"
+      }
+    ],
+    {
+      "tag": "mcremix:polyethylene"
+    }
+  ],
+  "result": {
+    "item": "mcremix:titanium_casing"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:stripped_dark_oak_log"
+      },
+      {
+        "item": "minecraft:stripped_dark_oak_wood"
+      }
+    ],
+    {
+      "item": "mcremix:dark_oak_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:dark_oak_clutch"
+  }
+}

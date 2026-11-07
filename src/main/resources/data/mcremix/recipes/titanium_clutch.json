@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:titanium_casing"
+    },
+    {
+      "item": "mcremix:titanium_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:titanium_clutch"
+  }
+}

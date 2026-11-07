@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:iron_casing",
+    "mcremix:steel_casing",
+    "mcremix:aluminium_casing",
+    "mcremix:titanium_casing"
+  ]
+}

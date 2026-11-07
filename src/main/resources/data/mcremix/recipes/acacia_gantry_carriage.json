@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:acacia_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_acacia_log"
+      },
+      {
+        "item": "minecraft:stripped_acacia_wood"
+      }
+    ],
+    "I": {
+      "item": "mcremix:acacia_gearbox"
+    }
+  },
+  "result": {
+    "item": "mcremix:acacia_gantry_carriage"
+  }
+}

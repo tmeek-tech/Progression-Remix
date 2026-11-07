@@ -1,0 +1,21 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "searing",
+  "processingTime": 100,
+  "ingredients": [
+    {
+      "fluid": "mcremix:ethylene_dichloride",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:vinyl_chloride",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 250
+    }
+  ]
+}

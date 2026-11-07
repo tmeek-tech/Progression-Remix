@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersive_weathering"
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "immersive_weathering:exposed_iron_trapdoor"
+      },
+      {
+        "item": "immersive_weathering:weathered_iron_trapdoor"
+      },
+      {
+        "item": "immersive_weathering:rusted_iron_trapdoor"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:iron_trapdoor"
+    }
+  ]
+}

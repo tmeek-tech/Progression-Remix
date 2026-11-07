@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:steel_casing"
+    },
+    {
+      "tag": "forge:nuggets/steel"
+    },
+    {
+      "tag": "forge:nuggets/steel"
+    },
+    {
+      "tag": "forge:nuggets/steel"
+    }
+  ],
+  "result": {
+    "item": "mcremix:steel_chain_drive"
+  }
+}

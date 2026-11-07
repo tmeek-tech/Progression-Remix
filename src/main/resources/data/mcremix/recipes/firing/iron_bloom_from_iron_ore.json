@@ -1,0 +1,16 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": [
+    {
+      "item": "minecraft:iron_ore"
+    },
+    {
+      "item": "minecraft:deepslate_iron_ore"
+    }
+  ],
+  "result": {
+    "item": "mcremix:iron_bloom"
+  },
+  "heat": "searing",
+  "time": 400
+}

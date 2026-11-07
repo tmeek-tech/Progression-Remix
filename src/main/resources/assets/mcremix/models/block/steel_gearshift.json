@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gearshift/block",
+  "textures": {
+    "0": "mcremix:block/steel_gearshift_off",
+    "1": "mcremix:block/steel_gearbox",
+    "2": "mcremix:block/steel_frame",
+    "particle": "mcremix:block/steel_gearshift_off"
+  }
+}

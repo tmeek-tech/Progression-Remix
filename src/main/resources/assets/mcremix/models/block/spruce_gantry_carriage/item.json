@@ -1,0 +1,13 @@
+{
+  "parent": "create:block/gantry_carriage/item",
+  "textures": {
+    "0": "mcremix:block/spruce_axis",
+    "10": "mcremix:block/machine/spruce/pinion",
+    "11": "mcremix:block/spruce_axis_top",
+    "12": "mcremix:block/machine/spruce/pinion_bottom",
+    "3": "mcremix:block/machine/spruce/cogwheel",
+    "9": "mcremix:block/machine/spruce/windmill_bearing_side",
+    "opening": "mcremix:block/machine/spruce/gearbox",
+    "particle": "mcremix:block/machine/spruce/andesite_casing"
+  }
+}

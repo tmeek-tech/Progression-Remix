@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:birch_shaft"
+    },
+    "B": [
+      {
+        "item": "minecraft:stripped_birch_log"
+      },
+      {
+        "item": "minecraft:stripped_birch_wood"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:birch_gearbox"
+  }
+}

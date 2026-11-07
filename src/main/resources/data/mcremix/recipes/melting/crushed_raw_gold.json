@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "create:crushed_raw_gold"
+  },
+  "result": {
+    "fluid": "mcremix:molten_gold",
+    "amount": 90
+  }
+}

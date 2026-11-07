@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/weathered_steel_clutch_off",
+    "1": "mcremix:block/weathered_steel_gearbox",
+    "4": "mcremix:block/weathered_steel_frame",
+    "particle": "mcremix:block/weathered_steel_axis",
+    "1_0": "mcremix:block/weathered_steel_axis",
+    "1_1": "mcremix:block/weathered_steel_axis_top"
+  }
+}

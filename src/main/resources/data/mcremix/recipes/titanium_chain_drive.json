@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:titanium_casing"
+    },
+    {
+      "tag": "forge:nuggets/titanium"
+    },
+    {
+      "tag": "forge:nuggets/titanium"
+    },
+    {
+      "tag": "forge:nuggets/titanium"
+    }
+  ],
+  "result": {
+    "item": "mcremix:titanium_chain_drive"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "create:crushed_raw_iron"
+  },
+  "result": {
+    "item": "mcremix:iron_bloom"
+  },
+  "heat": "searing",
+  "time": 250,
+  "bonus_heat": "blazing"
+}

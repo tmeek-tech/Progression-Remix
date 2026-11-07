@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/steam_engine/item",
+  "textures": {
+    "0": "create:block/cam_linkage",
+    "1": "mcremix:block/iron_steam_engine",
+    "particle": "mcremix:block/iron_steam_engine"
+  }
+}

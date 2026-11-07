@@ -1,0 +1,604 @@
+{
+  "parent": "block/block",
+  "texture_size": [
+    32,
+    32
+  ],
+  "textures": {
+    "2": "mcremix:block/brass_pump"
+  },
+  "elements": [
+    {
+      "from": [
+        6.5,
+        -1,
+        3
+      ],
+      "to": [
+        9.5,
+        17,
+        8
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "east": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "rotation": 270,
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "west": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "up": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "down": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        -1,
+        6.5,
+        3
+      ],
+      "to": [
+        17,
+        9.5,
+        8
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "rotation": 180,
+          "texture": "#2"
+        },
+        "east": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "texture": "#2"
+        },
+        "west": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "texture": "#2"
+        },
+        "up": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "rotation": 180,
+          "texture": "#2"
+        },
+        "down": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        6.5,
+        -1,
+        3
+      ],
+      "to": [
+        9.5,
+        17,
+        8
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "east": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "rotation": 270,
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "west": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "up": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "down": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        -1,
+        6.5,
+        3
+      ],
+      "to": [
+        17,
+        9.5,
+        8
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "rotation": 180,
+          "texture": "#2"
+        },
+        "east": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            0,
+            6.5,
+            9,
+            8
+          ],
+          "texture": "#2"
+        },
+        "west": {
+          "uv": [
+            10,
+            6.5,
+            12.5,
+            8
+          ],
+          "texture": "#2"
+        },
+        "up": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "rotation": 180,
+          "texture": "#2"
+        },
+        "down": {
+          "uv": [
+            0,
+            9,
+            9,
+            11.5
+          ],
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        5.5,
+        0.9,
+        3.05
+      ],
+      "to": [
+        10.5,
+        15.1,
+        7.949999999999999
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "texture": "#2"
+        },
+        "up": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "down": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        0.9,
+        5.5,
+        3.05
+      ],
+      "to": [
+        15.1,
+        10.5,
+        7.949999999999999
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "east": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "rotation": 270,
+          "texture": "#2"
+        },
+        "west": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        0.9,
+        5.5,
+        3.05
+      ],
+      "to": [
+        15.1,
+        10.5,
+        7.949999999999999
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "east": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "rotation": 270,
+          "texture": "#2"
+        },
+        "west": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        5.5,
+        0.9,
+        3.05
+      ],
+      "to": [
+        10.5,
+        15.1,
+        7.949999999999999
+      ],
+      "forge_data": {
+        "calculate_normals": true
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "z",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "texture": "#2"
+        },
+        "south": {
+          "uv": [
+            1,
+            7,
+            1.5,
+            7.5
+          ],
+          "texture": "#2"
+        },
+        "up": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        },
+        "down": {
+          "uv": [
+            10,
+            9,
+            12.4747,
+            11.5
+          ],
+          "rotation": 90,
+          "texture": "#2"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_warped_stem"
+      },
+      {
+        "item": "minecraft:stripped_warped_hyphae"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:warped_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:warped_rope_pulley"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "mcremix:salt"
+  },
+  "result": {
+    "fluid": "mcremix:molten_salt",
+    "amount": 100
+  }
+}

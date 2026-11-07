@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/horizontal",
+  "textures": {
+    "5": "mcremix:block/machine/weathered_copper/andesite_casing_piston",
+    "6": "mcremix:block/machine/weathered_copper/piston_bottom",
+    "7": "mcremix:block/machine/weathered_copper/piston_inner",
+    "particle": "mcremix:block/weathered_copper_casing",
+    "gearbox_top": "mcremix:block/weathered_copper_casing",
+    "gearbox": "mcremix:block/weathered_copper_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/weathered_copper/andesite_casing_short"
+  }
+}

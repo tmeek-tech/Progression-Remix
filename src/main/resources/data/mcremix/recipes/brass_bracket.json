@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:nuggets/brass"
+    },
+    "P": {
+      "tag": "forge:ingots/brass"
+    },
+    "C": {
+      "tag": "forge:plates/brass"
+    }
+  },
+  "result": {
+    "item": "mcremix:brass_bracket",
+    "count": 4
+  }
+}

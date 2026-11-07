@@ -1,0 +1,22 @@
+{
+  "type": "powergrid:magnetization",
+  "ingredients": [
+    {
+      "item": "mcremix:black_sand"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:rutile"
+    },
+    {
+      "item": "minecraft:iron_nugget",
+      "count": 2
+    },
+    {
+      "item": "minecraft:iron_nugget",
+      "count": 2,
+      "chance": 0.5
+    }
+  ]
+}

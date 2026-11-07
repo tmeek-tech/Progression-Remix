@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "minecraft:iron_hoe"
+  },
+  "result": {
+    "fluid": "mcremix:molten_iron",
+    "amount": 90
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/cog/ground",
+  "textures": {
+    "bracket": "mcremix:block/exposed_copper_bracket",
+    "plate": "mcremix:block/exposed_copper_bracket_plate",
+    "particle": "mcremix:block/exposed_copper_bracket_plate"
+  }
+}

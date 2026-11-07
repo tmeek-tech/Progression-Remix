@@ -1,0 +1,19 @@
+{
+  "formula": "Al",
+  "items": [
+    "mcremix:aluminium_ingot",
+    "mcremix:aluminium_nugget",
+    "mcremix:aluminium_sheet",
+    "mcremix:aluminium_block"
+  ],
+  "fluids": [
+    "mcremix:molten_aluminium"
+  ],
+  "atoms": [
+    {
+      "l": "Al",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "powergrid:electric_motor"
+    },
+    {
+      "item": "mcremix:steel_fluid_pipe"
+    }
+  ],
+  "result": {
+    "item": "mcremix:steel_electric_pump"
+  }
+}

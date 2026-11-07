@@ -1,0 +1,13 @@
+{
+  "parent": "create:block/gantry_carriage/item",
+  "textures": {
+    "0": "mcremix:block/warped_axis",
+    "10": "mcremix:block/machine/warped/pinion",
+    "11": "mcremix:block/warped_axis_top",
+    "12": "mcremix:block/machine/warped/pinion_bottom",
+    "3": "mcremix:block/machine/warped/cogwheel",
+    "9": "mcremix:block/machine/warped/windmill_bearing_side",
+    "opening": "mcremix:block/machine/warped/gearbox",
+    "particle": "mcremix:block/machine/warped/andesite_casing"
+  }
+}

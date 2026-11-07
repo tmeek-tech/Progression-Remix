@@ -1,0 +1,320 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "patina": "none|waxed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "patina": "exposed|waxed_exposed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_exposed"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "patina": "weathered|waxed_weathered"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_weathered"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "patina": "oxidized|waxed_oxidized"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_oxidized"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_left"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_right"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_melt"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "loaded": "true",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_charge"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "patina": "none|waxed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "patina": "exposed|waxed_exposed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_exposed",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "patina": "weathered|waxed_weathered"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_weathered",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "patina": "oxidized|waxed_oxidized"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_oxidized",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_melt",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "loaded": "true",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_charge",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "patina": "none|waxed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "patina": "exposed|waxed_exposed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_exposed",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "patina": "weathered|waxed_weathered"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_weathered",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "patina": "oxidized|waxed_oxidized"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_oxidized",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_melt",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "loaded": "true",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_charge",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "patina": "none|waxed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "patina": "exposed|waxed_exposed"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_exposed",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "patina": "weathered|waxed_weathered"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_weathered",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "patina": "oxidized|waxed_oxidized"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_oxidized",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_melt",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "loaded": "true",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/arc_furnace_charge",
+        "y": 270
+      }
+    }
+  ]
+}

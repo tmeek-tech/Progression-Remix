@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:exposed_copper"
+      },
+      {
+        "item": "minecraft:weathered_copper"
+      },
+      {
+        "item": "minecraft:oxidized_copper"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:copper_block"
+    }
+  ]
+}

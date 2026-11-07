@@ -1,0 +1,20 @@
+{
+  "type": "mcremix:electrolysis",
+  "charge": 100,
+  "ingredients": [
+    {
+      "fluid": "mcremix:molten_salt",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:molten_sodium",
+      "amount": 50
+    },
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 50
+    }
+  ]
+}

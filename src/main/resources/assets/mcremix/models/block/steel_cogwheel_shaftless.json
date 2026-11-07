@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/cogwheel_shaftless",
+  "textures": {
+    "1_2": "mcremix:block/steel_cogwheel",
+    "particle": "mcremix:block/steel_cogwheel"
+  }
+}

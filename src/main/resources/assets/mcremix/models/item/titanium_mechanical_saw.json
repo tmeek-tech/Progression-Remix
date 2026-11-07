@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_saw/item",
+  "textures": {
+    "slit": "mcremix:block/machine/titanium/mechanical_saw_top_no_slot",
+    "particle": "mcremix:block/titanium_casing",
+    "gearbox_top": "mcremix:block/titanium_casing",
+    "encased_belt": "mcremix:block/titanium_chain_drive",
+    "gearbox": "mcremix:block/titanium_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/titanium/andesite_casing_short"
+  }
+}

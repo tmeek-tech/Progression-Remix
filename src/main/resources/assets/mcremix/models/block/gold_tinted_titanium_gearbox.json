@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/gearbox/block",
+  "textures": {
+    "0": "mcremix:block/gold_tinted_titanium_casing",
+    "1": "mcremix:block/gold_tinted_titanium_gearbox",
+    "particle": "mcremix:block/gold_tinted_titanium_casing"
+  }
+}

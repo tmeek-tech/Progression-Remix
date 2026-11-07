@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/encased_chain_drive/item",
+  "textures": {
+    "side": "mcremix:block/steel_chain_gearshift_off",
+    "1": "mcremix:block/steel_gearbox",
+    "particle": "mcremix:block/steel_casing",
+    "1_0": "mcremix:block/steel_axis",
+    "1_1": "mcremix:block/steel_axis_top"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/shaft",
+  "textures": {
+    "0": "mcremix:block/oak_axis",
+    "1": "mcremix:block/oak_axis_top",
+    "particle": "mcremix:block/oak_axis"
+  }
+}

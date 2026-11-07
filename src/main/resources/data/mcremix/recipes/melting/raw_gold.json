@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:raw_materials/gold"
+  },
+  "result": {
+    "fluid": "mcremix:molten_gold",
+    "amount": 90
+  }
+}

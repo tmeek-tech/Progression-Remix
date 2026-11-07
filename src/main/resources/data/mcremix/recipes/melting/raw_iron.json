@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:raw_materials/iron"
+  },
+  "result": {
+    "fluid": "mcremix:molten_iron",
+    "amount": 90
+  }
+}

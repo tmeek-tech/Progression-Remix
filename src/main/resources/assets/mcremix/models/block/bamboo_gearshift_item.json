@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearshift/item",
+  "textures": {
+    "0": "mcremix:block/bamboo_gearshift_off",
+    "1": "mcremix:block/bamboo_gearbox",
+    "particle": "mcremix:block/bamboo_axis",
+    "1_0": "mcremix:block/bamboo_axis",
+    "1_1": "mcremix:block/bamboo_axis_top"
+  }
+}

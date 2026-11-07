@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/encased_shaft/block",
+  "textures": {
+    "casing": "mcremix:block/titanium_casing",
+    "opening": "mcremix:block/titanium_gearbox"
+  }
+}

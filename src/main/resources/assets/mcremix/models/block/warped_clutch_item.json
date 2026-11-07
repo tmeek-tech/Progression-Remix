@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/warped_clutch_off",
+    "1": "mcremix:block/warped_gearbox",
+    "4": "mcremix:block/warped_frame",
+    "particle": "mcremix:block/warped_axis",
+    "1_0": "mcremix:block/warped_axis",
+    "1_1": "mcremix:block/warped_axis_top"
+  }
+}

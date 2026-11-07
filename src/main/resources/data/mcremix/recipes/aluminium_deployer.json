@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "create:electron_tube"
+    },
+    "I": {
+      "item": "create:brass_hand"
+    },
+    "C": {
+      "item": "mcremix:aluminium_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_deployer"
+  }
+}

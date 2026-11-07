@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/cog/ground",
+  "textures": {
+    "bracket": "mcremix:block/cherry_bracket",
+    "plate": "mcremix:block/cherry_bracket_plate",
+    "particle": "mcremix:block/cherry_bracket_plate"
+  }
+}

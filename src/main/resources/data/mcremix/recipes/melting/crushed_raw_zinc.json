@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "create:crushed_raw_zinc"
+  },
+  "result": {
+    "fluid": "mcremix:molten_zinc",
+    "amount": 90
+  }
+}

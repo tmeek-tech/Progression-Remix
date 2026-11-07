@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "create:wooden_bracket",
+      "required": false
+    }
+  ]
+}

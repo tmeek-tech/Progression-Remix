@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "create:fluid_pipe",
+    "create:encased_fluid_pipe",
+    "create:glass_fluid_pipe",
+    "create:mechanical_pump",
+    "create:smart_fluid_pipe",
+    "create:fluid_valve",
+    "create:fluid_tank",
+    "create:spout",
+    "create:item_drain",
+    "powergrid:electric_pump",
+    "mcremix:glass_pipe",
+    "mcremix:brass_fluid_pipe",
+    "mcremix:brass_mechanical_pump",
+    "mcremix:brass_fluid_tank",
+    "mcremix:iron_fluid_pipe",
+    "mcremix:iron_mechanical_pump",
+    "mcremix:iron_electric_pump",
+    "mcremix:iron_fluid_tank"
+  ]
+}

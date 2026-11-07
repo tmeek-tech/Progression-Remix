@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_iron_gearbox"
+      },
+      {
+        "item": "mcremix:weathered_iron_gearbox"
+      },
+      {
+        "item": "mcremix:rusted_iron_gearbox"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:iron_gearbox"
+    }
+  ]
+}

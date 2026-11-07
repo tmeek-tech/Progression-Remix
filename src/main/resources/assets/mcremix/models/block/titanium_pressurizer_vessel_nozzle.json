@@ -1,0 +1,74 @@
+{
+  "textures": {
+    "side": "mcremix:block/titanium_pressurizer_vessel_side",
+    "top": "mcremix:block/titanium_pressurizer_vessel_top",
+    "valve": "mcremix:block/pressurizer_valve",
+    "port": "mcremix:block/titanium_pressurizer_side",
+    "particle": "mcremix:block/titanium_pressurizer_vessel_side"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        4,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        2
+      ],
+      "faces": {
+        "east": {
+          "texture": "#side",
+          "uv": [
+            4,
+            8,
+            12,
+            10
+          ],
+          "rotation": 90
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            4,
+            8,
+            12,
+            10
+          ],
+          "rotation": 90
+        },
+        "up": {
+          "texture": "#side",
+          "uv": [
+            4,
+            8,
+            12,
+            10
+          ],
+          "rotation": 0
+        },
+        "down": {
+          "texture": "#side",
+          "uv": [
+            4,
+            8,
+            12,
+            10
+          ],
+          "rotation": 0
+        },
+        "north": {
+          "texture": "#port",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "item": "minecraft:bamboo_planks"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_bamboo_block"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:bamboo_bracket",
+    "count": 4
+  }
+}

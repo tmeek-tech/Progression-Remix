@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_piston/normal/head",
+  "textures": {
+    "0": "minecraft:block/crimson_planks",
+    "1": "minecraft:block/crimson_planks",
+    "2": "minecraft:block/crimson_planks",
+    "particle": "minecraft:block/crimson_planks"
+  }
+}

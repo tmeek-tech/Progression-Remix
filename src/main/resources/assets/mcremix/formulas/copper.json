@@ -1,0 +1,19 @@
+{
+  "formula": "Cu",
+  "items": [
+    "minecraft:copper_ingot",
+    "minecraft:copper_block",
+    "create:copper_nugget",
+    "create:copper_sheet"
+  ],
+  "fluids": [
+    "mcremix:molten_copper"
+  ],
+  "atoms": [
+    {
+      "l": "Cu",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "minecraft:clay_ball"
+  },
+  "result": {
+    "item": "minecraft:brick"
+  },
+  "heat": "warm",
+  "time": 160
+}

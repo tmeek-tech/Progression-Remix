@@ -1,0 +1,22 @@
+{
+  "type": "mcremix:fermenting",
+  "processingTime": 600,
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:ethanol",
+      "amount": 250
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/shaft",
+  "textures": {
+    "0": "mcremix:block/bamboo_axis",
+    "1": "mcremix:block/bamboo_axis_top",
+    "particle": "mcremix:block/bamboo_axis"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:warped_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_warped_stem"
+      },
+      {
+        "item": "minecraft:stripped_warped_hyphae"
+      }
+    ],
+    "I": {
+      "item": "mcremix:warped_gearbox"
+    }
+  },
+  "result": {
+    "item": "mcremix:warped_gantry_carriage"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "powergrid:magnetization",
+  "ingredients": [
+    {
+      "item": "mcremix:slag"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:iron_nugget",
+      "chance": 0.5
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "parent": "create:block/mechanical_piston/normal/item",
+  "textures": {
+    "0": "mcremix:block/machine/warped/andesite_casing_piston",
+    "1": "mcremix:block/machine/warped/piston_bottom",
+    "1_0": "mcremix:block/warped_axis",
+    "1_1": "mcremix:block/warped_axis_top",
+    "2": "mcremix:block/machine/warped/gearbox",
+    "3": "mcremix:block/machine/warped/piston_inner",
+    "4": "minecraft:block/warped_planks",
+    "5": "minecraft:block/warped_planks",
+    "particle": "mcremix:block/warped_axis"
+  }
+}

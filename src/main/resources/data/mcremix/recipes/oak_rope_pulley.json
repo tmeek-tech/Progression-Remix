@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_oak_log"
+      },
+      {
+        "item": "minecraft:stripped_oak_wood"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:oak_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:oak_rope_pulley"
+  }
+}

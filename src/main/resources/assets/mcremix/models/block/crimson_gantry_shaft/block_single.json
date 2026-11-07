@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft/block_single",
+  "textures": {
+    "0": "mcremix:block/crimson_axis",
+    "1": "mcremix:block/crimson_axis_top",
+    "2": "mcremix:block/machine/crimson/gantry_shaft",
+    "3": "mcremix:block/machine/crimson/cogwheel"
+  }
+}

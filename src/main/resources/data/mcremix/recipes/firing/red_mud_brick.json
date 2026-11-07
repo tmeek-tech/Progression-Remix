@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:red_mud"
+  },
+  "result": {
+    "item": "mcremix:red_mud_brick"
+  },
+  "heat": "warm",
+  "time": 160
+}

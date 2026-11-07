@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_bamboo_block"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:bamboo_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:bamboo_rope_pulley"
+  }
+}

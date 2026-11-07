@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "create:crushed_raw_copper"
+  },
+  "result": {
+    "fluid": "mcremix:molten_copper",
+    "amount": 90
+  }
+}

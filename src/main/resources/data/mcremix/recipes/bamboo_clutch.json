@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:stripped_bamboo_block"
+      }
+    ],
+    {
+      "item": "mcremix:bamboo_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:bamboo_clutch"
+  }
+}

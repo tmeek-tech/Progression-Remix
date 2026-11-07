@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_copper_clutch"
+      },
+      {
+        "item": "mcremix:weathered_copper_clutch"
+      },
+      {
+        "item": "mcremix:oxidized_copper_clutch"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:copper_clutch"
+    }
+  ]
+}

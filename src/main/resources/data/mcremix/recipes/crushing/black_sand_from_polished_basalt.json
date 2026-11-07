@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "minecraft:polished_basalt"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "mcremix:black_sand"
+    },
+    {
+      "item": "mcremix:black_sand",
+      "chance": 0.25
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/encased_fan/item",
+  "textures": {
+    "2": "mcremix:block/titanium_gearbox",
+    "fan_casing": "mcremix:block/machine/titanium/fan_casing",
+    "particle": "mcremix:block/machine/titanium/fan_side",
+    "fan_side": "mcremix:block/machine/titanium/fan_side"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/bearing/top",
+  "textures": {
+    "bearing_side": "mcremix:block/machine/mangrove/mechanical_bearing_side",
+    "particle": "mcremix:block/machine/mangrove/mechanical_bearing_side"
+  }
+}

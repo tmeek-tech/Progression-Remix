@@ -1,0 +1,25 @@
+{
+  "formula": "HCl",
+  "fluids": [
+    "mcremix:hydrogen_chloride"
+  ],
+  "atoms": [
+    {
+      "l": "H",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "l": "Cl",
+      "x": 1.3,
+      "y": 0.0
+    }
+  ],
+  "bonds": [
+    [
+      0,
+      1,
+      1
+    ]
+  ]
+}

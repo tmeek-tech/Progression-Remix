@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:aluminium_cogwheel"
+    },
+    {
+      "item": "mcremix:aluminium_fluid_pipe"
+    },
+    {
+      "tag": "mcremix:polyethylene"
+    }
+  ],
+  "result": {
+    "item": "mcremix:aluminium_mechanical_pump"
+  }
+}

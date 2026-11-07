@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " B ",
+    "BIB"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:cobblestone"
+    },
+    "I": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "result": {
+    "item": "mcremix:stone_saw_blade"
+  }
+}

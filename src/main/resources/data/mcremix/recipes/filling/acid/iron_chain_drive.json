@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_iron_chain_drive"
+      },
+      {
+        "item": "mcremix:weathered_iron_chain_drive"
+      },
+      {
+        "item": "mcremix:rusted_iron_chain_drive"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:iron_chain_drive"
+    }
+  ]
+}

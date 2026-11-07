@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_iron_clutch"
+      },
+      {
+        "item": "mcremix:weathered_iron_clutch"
+      },
+      {
+        "item": "mcremix:rusted_iron_clutch"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:iron_clutch"
+    }
+  ]
+}

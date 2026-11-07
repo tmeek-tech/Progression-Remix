@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "mcremix:blister_steel"
+  },
+  "result": {
+    "fluid": "mcremix:molten_steel",
+    "amount": 90
+  }
+}

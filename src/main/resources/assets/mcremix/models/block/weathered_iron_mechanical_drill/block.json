@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/mechanical_drill/block",
+  "textures": {
+    "4": "mcremix:block/machine/weathered_iron/mechanical_drill_top",
+    "10": "mcremix:block/machine/weathered_iron/andesite_casing_very_short",
+    "gearbox_top": "mcremix:block/weathered_iron_casing",
+    "particle": "mcremix:block/weathered_iron_gearbox",
+    "gearbox": "mcremix:block/weathered_iron_gearbox"
+  }
+}

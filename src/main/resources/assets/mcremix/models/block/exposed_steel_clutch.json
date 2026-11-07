@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gearshift/block",
+  "textures": {
+    "0": "mcremix:block/exposed_steel_clutch_off",
+    "1": "mcremix:block/exposed_steel_gearbox",
+    "2": "mcremix:block/exposed_steel_frame",
+    "particle": "mcremix:block/exposed_steel_clutch_off"
+  }
+}

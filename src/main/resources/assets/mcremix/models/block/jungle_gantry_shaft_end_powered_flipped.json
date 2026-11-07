@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft_end_powered_flipped",
+  "textures": {
+    "0": "mcremix:block/jungle_axis",
+    "1": "mcremix:block/jungle_axis_top",
+    "2": "mcremix:block/machine/jungle/gantry_shaft_powered_flipped",
+    "3": "mcremix:block/machine/jungle/cogwheel"
+  }
+}

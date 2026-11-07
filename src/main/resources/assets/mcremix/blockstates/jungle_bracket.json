@@ -1,0 +1,154 @@
+{
+  "variants": {
+    "axis_along_first=false,facing=down,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_ground",
+      "x": 180
+    },
+    "axis_along_first=false,facing=down,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_ground",
+      "x": 180
+    },
+    "axis_along_first=false,facing=down,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_ground",
+      "x": 180
+    },
+    "axis_along_first=false,facing=east,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall"
+    },
+    "axis_along_first=false,facing=east,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall"
+    },
+    "axis_along_first=false,facing=east,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall"
+    },
+    "axis_along_first=false,facing=north,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "x": 90,
+      "y": 270
+    },
+    "axis_along_first=false,facing=north,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "x": 90,
+      "y": 270
+    },
+    "axis_along_first=false,facing=north,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "x": 90,
+      "y": 270
+    },
+    "axis_along_first=false,facing=south,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=south,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=south,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_ground"
+    },
+    "axis_along_first=false,facing=up,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_ground"
+    },
+    "axis_along_first=false,facing=up,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_ground"
+    },
+    "axis_along_first=false,facing=west,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "y": 180
+    },
+    "axis_along_first=false,facing=west,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "y": 180
+    },
+    "axis_along_first=false,facing=west,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "y": 180
+    },
+    "axis_along_first=true,facing=down,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_ground",
+      "x": 180,
+      "y": 90
+    },
+    "axis_along_first=true,facing=down,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_ground",
+      "x": 180,
+      "y": 90
+    },
+    "axis_along_first=true,facing=down,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_ground",
+      "x": 180,
+      "y": 90
+    },
+    "axis_along_first=true,facing=east,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "x": 90
+    },
+    "axis_along_first=true,facing=east,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "x": 90
+    },
+    "axis_along_first=true,facing=east,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "x": 90
+    },
+    "axis_along_first=true,facing=north,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "y": 270
+    },
+    "axis_along_first=true,facing=north,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "y": 270
+    },
+    "axis_along_first=true,facing=north,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "y": 270
+    },
+    "axis_along_first=true,facing=south,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "y": 90
+    },
+    "axis_along_first=true,facing=south,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "y": 90
+    },
+    "axis_along_first=true,facing=south,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "y": 90
+    },
+    "axis_along_first=true,facing=up,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_ground",
+      "y": 90
+    },
+    "axis_along_first=true,facing=up,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_ground",
+      "y": 90
+    },
+    "axis_along_first=true,facing=up,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_ground",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,type=cog": {
+      "model": "mcremix:block/bracket/jungle/cog_wall",
+      "x": 90,
+      "y": 180
+    },
+    "axis_along_first=true,facing=west,type=pipe": {
+      "model": "mcremix:block/bracket/jungle/pipe_wall",
+      "x": 90,
+      "y": 180
+    },
+    "axis_along_first=true,facing=west,type=shaft": {
+      "model": "mcremix:block/bracket/jungle/shaft_wall",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

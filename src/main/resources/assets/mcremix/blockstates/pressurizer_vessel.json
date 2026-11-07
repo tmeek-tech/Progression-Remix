@@ -1,0 +1,44 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "mcremix:block/pressurizer_vessel"
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/pressurizer_vessel_nozzle"
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/pressurizer_vessel_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/pressurizer_vessel_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/pressurizer_vessel_nozzle",
+        "y": 270
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "mcremix:block/arc_furnace",
+  "textures": {
+    "shell": "mcremix:block/arc_furnace_shell_oxidized",
+    "rim": "mcremix:block/arc_furnace_rim_oxidized",
+    "post": "mcremix:block/arc_furnace_post_oxidized",
+    "terminals": "mcremix:block/arc_furnace_terminals_oxidized",
+    "particle": "mcremix:block/arc_furnace_shell_oxidized"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearshift/item",
+  "textures": {
+    "0": "mcremix:block/aluminium_gearshift_off",
+    "1": "mcremix:block/aluminium_gearbox",
+    "particle": "mcremix:block/aluminium_axis",
+    "1_0": "mcremix:block/aluminium_axis",
+    "1_1": "mcremix:block/aluminium_axis_top"
+  }
+}

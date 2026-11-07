@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:stripped_cherry_log"
+      },
+      {
+        "item": "minecraft:stripped_cherry_wood"
+      }
+    ],
+    {
+      "item": "mcremix:cherry_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:cherry_clutch"
+  }
+}

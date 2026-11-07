@@ -1,0 +1,17 @@
+{
+  "type": "mcremix:pressurizing",
+  "heat": "warm",
+  "min_speed": 512,
+  "processingTime": 60,
+  "ingredients": [
+    {
+      "fluid": "mcremix:ethylene",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:polyethylene_pellets"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "L",
+    "L"
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:jungle_logs"
+    }
+  },
+  "result": {
+    "item": "mcremix:jungle_shaft",
+    "count": 6
+  }
+}

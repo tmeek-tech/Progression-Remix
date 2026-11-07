@@ -1,0 +1,162 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'net.neoforged.moddev.legacyforge' version '2.0.107'
+}
+
+group = mod_group
+version = "${minecraft_version}-${mod_version}"
+base { archivesName = mod_id }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+// Forge GameTests for the gameplay checklist in docs/BUILD_NOTES.md. Never packaged into the mod jar.
+sourceSets {
+    gametest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+configurations {
+    gametestImplementation.extendsFrom implementation
+    gametestCompileOnly.extendsFrom compileOnly
+    gametestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+legacyForge {
+    version = "${minecraft_version}-${forge_version}"
+
+    parchment {
+        minecraftVersion = minecraft_version
+        mappingsVersion = parchment_version
+    }
+
+    // lets Power Grid run in the dev client (see the file); the mod jar has no access transformer
+    accessTransformers.from 'dev/accesstransformer.cfg'
+
+    mods {
+        mcremix {
+            sourceSet(sourceSets.main)
+            sourceSet(sourceSets.gametest)
+        }
+    }
+
+    runs {
+        configureEach {
+            systemProperty 'forge.logging.console.level', 'info'
+            systemProperty 'mixin.debug.export', 'true'
+            programArgument '-mixin.config=create.mixins.json'
+            programArgument '-mixin.config=ponder.mixins.json'
+            programArgument "-mixin.config=${mod_id}.mixins.json"
+        }
+        client {
+            client()
+            gameDirectory = project.file('run')
+        }
+        server {
+            server()
+            gameDirectory = project.file('run/server')
+            programArgument '--nogui'
+        }
+        // ./gradlew runGameTestServer runs every test in src/gametest and exits
+        gameTestServer {
+            type = 'gameTestServer'
+            sourceSet = sourceSets.gametest
+            gameDirectory = project.file('run/gametest')
+            systemProperty 'forge.enabledGameTestNamespaces', mod_id
+        }
+    }
+}
+legacyForge.addModdingDependenciesTo(sourceSets.gametest)
+
+// Each GameTest run starts in a new flat plains world with a fixed seed, so what lies around the tests is the same every
+// time: in a normal world a test could stand half in a desert and half by a river (Power Grid takes the air temperature
+// from the biome), or a spill could run off the platform into water. Entities saved in an old test world also load
+// after the tests that cleared them.
+tasks.matching { it.name == 'runGameTestServer' }.configureEach {
+    doFirst {
+        def dir = project.file('run/gametest')
+        project.delete(new File(dir, 'world'))
+        def file = new File(dir, 'server.properties')
+        def props = new Properties()
+        if (file.exists()) file.withInputStream { props.load(it) }
+        props['level-type'] = 'minecraft:flat'
+        props['generator-settings'] = '{"biome":"minecraft:plains","layers":[{"block":"minecraft:bedrock","height":1},' +
+            '{"block":"minecraft:stone","height":3},{"block":"minecraft:dirt","height":2},' +
+            '{"block":"minecraft:grass_block","height":1}]}'
+        props['level-seed'] = 'mcremix'
+        props['generate-structures'] = 'false'
+        dir.mkdirs()
+        file.withOutputStream { props.store(it, 'Set by runGameTestServer in build.gradle before each run') }
+    }
+}
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
+
+repositories {
+    maven { url = 'https://maven.createmod.net' }       // Create, Ponder, Flywheel
+    maven { url = 'https://maven.ithundxr.dev/mirror' } // Registrate
+    maven { url = 'https://maven.blamejared.com' }      // JEI
+    exclusiveContent {                                  // Power Grid, Architectury, and the -Pcompanions mods
+        forRepository { maven { url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup 'maven.modrinth' }
+    }
+    mavenCentral()
+}
+
+dependencies {
+    modImplementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
+    modImplementation("net.createmod.ponder:Ponder-Forge-${minecraft_version}:${ponder_version}")
+    modCompileOnly("dev.engine-room.flywheel:flywheel-forge-api-${minecraft_version}:${flywheel_version}")
+    modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}")
+    modImplementation("com.tterrag.registrate:Registrate:${registrate_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+    implementation("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}")
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    // ./gradlew runGameTestServer -Pcompanions (or runClient -Pcompanions) also loads the mods this one is played
+    // alongside, by Modrinth version id: Immersive Weathering 2.0.5 with Moonlight 2.16.36, WWOO 2.0.0, and
+    // Better Combat 1.9.0 with playerAnimator 1.0.2-rc1 and Cloth Config 11.1.136
+    if (project.hasProperty('companions')) {
+        modRuntimeOnly 'maven.modrinth:immersive-weathering:Fl2lADP9'
+        modRuntimeOnly 'maven.modrinth:moonlight:hzhhCbQ3'
+        modRuntimeOnly 'maven.modrinth:wwoo:cNiETBJi'
+        modRuntimeOnly 'maven.modrinth:better-combat:rnhiaw3t'
+        modRuntimeOnly 'maven.modrinth:playeranimator:xe2EVE6q'
+        modRuntimeOnly 'maven.modrinth:cloth-config:t8TXrZvZ'
+    }
+    // Create: Power Grid 0.6.2 is required since 0.14.0 (electrolysis runs on its current, and its parts take steel
+    // and Bakelite), with Architectury 9.2.14, which it needs. By Modrinth version id, as for the companion mods
+    modImplementation 'maven.modrinth:power-grid:CBWW1upo'
+    modImplementation 'maven.modrinth:architectury-api:1MKTLiiG'
+}
+
+processResources {
+    def props = [
+        mod_id: mod_id, mod_name: mod_name, mod_version: mod_version, mod_author: mod_author,
+        mod_license: mod_license, mod_description: mod_description
+    ]
+    inputs.properties props
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) { expand props }
+}
+
+jar {
+    manifest.attributes([
+        'Specification-Title'   : mod_id,
+        'Implementation-Title'  : mod_name,
+        'Implementation-Version': mod_version,
+        'MixinConfigs'          : "${mod_id}.mixins.json"
+    ])
+}

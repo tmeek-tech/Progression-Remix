@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/exposed_iron_clutch_off",
+    "1": "mcremix:block/exposed_iron_gearbox",
+    "4": "mcremix:block/exposed_iron_frame",
+    "particle": "mcremix:block/exposed_iron_axis",
+    "1_0": "mcremix:block/exposed_iron_axis",
+    "1_1": "mcremix:block/exposed_iron_axis_top"
+  }
+}

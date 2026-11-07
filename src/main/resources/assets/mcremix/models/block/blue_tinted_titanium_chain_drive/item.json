@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/encased_chain_drive/item",
+  "textures": {
+    "side": "mcremix:block/blue_tinted_titanium_chain_drive",
+    "1": "mcremix:block/blue_tinted_titanium_gearbox",
+    "particle": "mcremix:block/blue_tinted_titanium_casing",
+    "1_0": "mcremix:block/titanium_axis",
+    "1_1": "mcremix:block/titanium_axis_top"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/shaft",
+  "textures": {
+    "0": "mcremix:block/warped_axis",
+    "1": "mcremix:block/warped_axis_top",
+    "particle": "mcremix:block/warped_axis"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/horizontal",
+  "textures": {
+    "5": "mcremix:block/machine/titanium/andesite_casing_piston",
+    "6": "mcremix:block/machine/titanium/piston_bottom",
+    "7": "mcremix:block/machine/titanium/piston_inner",
+    "particle": "mcremix:block/titanium_casing",
+    "gearbox_top": "mcremix:block/titanium_casing",
+    "gearbox": "mcremix:block/titanium_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/titanium/andesite_casing_short"
+  }
+}

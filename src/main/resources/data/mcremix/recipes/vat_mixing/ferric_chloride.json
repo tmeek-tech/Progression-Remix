@@ -1,0 +1,22 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/iron"
+    },
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 250
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:ferric_chloride",
+      "amount": 250
+    }
+  ]
+}

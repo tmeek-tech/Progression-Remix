@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gearshift/block",
+  "textures": {
+    "0": "mcremix:block/acacia_gearshift_on",
+    "1": "mcremix:block/acacia_gearbox",
+    "2": "mcremix:block/acacia_frame",
+    "particle": "mcremix:block/acacia_gearshift_on"
+  }
+}

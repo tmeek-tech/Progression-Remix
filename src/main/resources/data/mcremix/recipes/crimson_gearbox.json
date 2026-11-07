@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:crimson_shaft"
+    },
+    "B": [
+      {
+        "item": "minecraft:stripped_crimson_stem"
+      },
+      {
+        "item": "minecraft:stripped_crimson_hyphae"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:crimson_gearbox"
+  }
+}

@@ -1,0 +1,388 @@
+{
+  "variants": {
+    "axis_along_first=false,facing=up,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=up,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=down,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,facing=north,patina=none": {
+      "model": "mcremix:block/copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=north,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical",
+      "y": 180
+    },
+    "axis_along_first=false,facing=east,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=east,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,facing=south,patina=none": {
+      "model": "mcremix:block/copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=south,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical"
+    },
+    "axis_along_first=false,facing=west,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,facing=west,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "y": 90
+    },
+    "axis_along_first=true,facing=up,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=up,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,facing=down,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=down,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,facing=north,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=north,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,facing=east,patina=none": {
+      "model": "mcremix:block/copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=east,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical",
+      "y": 270
+    },
+    "axis_along_first=true,facing=south,patina=none": {
+      "model": "mcremix:block/copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=south,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/horizontal"
+    },
+    "axis_along_first=true,facing=west,patina=none": {
+      "model": "mcremix:block/copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=waxed": {
+      "model": "mcremix:block/copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_deployer/vertical",
+      "y": 90
+    },
+    "axis_along_first=true,facing=west,patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_deployer/vertical",
+      "y": 90
+    }
+  }
+}

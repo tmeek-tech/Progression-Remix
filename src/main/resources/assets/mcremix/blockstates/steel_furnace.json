@@ -1,0 +1,304 @@
+{
+  "variants": {
+    "chimney=false,facing=north,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace_capped"
+    },
+    "chimney=false,facing=north,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped"
+    },
+    "chimney=true,facing=north,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace"
+    },
+    "chimney=true,facing=north,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit"
+    },
+    "chimney=false,facing=north,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped"
+    },
+    "chimney=false,facing=north,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped"
+    },
+    "chimney=true,facing=north,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot"
+    },
+    "chimney=true,facing=north,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit"
+    },
+    "chimney=false,facing=north,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped"
+    },
+    "chimney=false,facing=north,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped"
+    },
+    "chimney=true,facing=north,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot"
+    },
+    "chimney=true,facing=north,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit"
+    },
+    "chimney=false,facing=north,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped"
+    },
+    "chimney=false,facing=north,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped"
+    },
+    "chimney=true,facing=north,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot"
+    },
+    "chimney=true,facing=north,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit"
+    },
+    "chimney=false,facing=north,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped"
+    },
+    "chimney=false,facing=north,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped"
+    },
+    "chimney=true,facing=north,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot"
+    },
+    "chimney=true,facing=north,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit"
+    },
+    "chimney=false,facing=east,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace_capped",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 90
+    },
+    "chimney=false,facing=east,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 90
+    },
+    "chimney=true,facing=east,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 90
+    },
+    "chimney=false,facing=south,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace_capped",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 180
+    },
+    "chimney=false,facing=south,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 180
+    },
+    "chimney=true,facing=south,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 180
+    },
+    "chimney=false,facing=west,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace_capped",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=0,lit=false": {
+      "model": "mcremix:block/steel_furnace",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=0,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=1,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=1,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=2,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=2,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=3,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=3,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot_capped",
+      "y": 270
+    },
+    "chimney=false,facing=west,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit_capped",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=4,lit=false": {
+      "model": "mcremix:block/steel_furnace_hot",
+      "y": 270
+    },
+    "chimney=true,facing=west,heat=4,lit=true": {
+      "model": "mcremix:block/steel_furnace_lit",
+      "y": 270
+    }
+  }
+}

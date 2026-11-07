@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_birch_log"
+      },
+      {
+        "item": "minecraft:stripped_birch_wood"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:birch_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:birch_rope_pulley"
+  }
+}

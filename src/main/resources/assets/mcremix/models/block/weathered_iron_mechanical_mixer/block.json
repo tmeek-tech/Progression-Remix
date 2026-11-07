@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_mixer/block",
+  "textures": {
+    "2": "mcremix:block/weathered_iron_casing",
+    "4": "mcremix:block/machine/weathered_iron/mixer_base_side",
+    "11": "mcremix:block/machine/weathered_iron/mechanical_press_top",
+    "particle": "mcremix:block/machine/weathered_iron/mixer_base_side"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mcremix:iron_mechanical_pump",
+      "required": false
+    }
+  ]
+}

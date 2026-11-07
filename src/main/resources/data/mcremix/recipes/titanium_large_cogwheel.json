@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:titanium_shaft"
+    },
+    {
+      "item": "mcremix:titanium_ingot"
+    },
+    {
+      "item": "mcremix:titanium_ingot"
+    }
+  ],
+  "result": {
+    "item": "mcremix:titanium_large_cogwheel"
+  }
+}

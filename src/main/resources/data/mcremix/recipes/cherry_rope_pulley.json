@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_cherry_log"
+      },
+      {
+        "item": "minecraft:stripped_cherry_wood"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:cherry_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:cherry_rope_pulley"
+  }
+}

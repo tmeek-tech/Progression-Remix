@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:glass_panes/colorless"
+    },
+    "C": {
+      "tag": "forge:glass/colorless"
+    }
+  },
+  "result": {
+    "item": "mcremix:glass_pipe",
+    "count": 4
+  }
+}

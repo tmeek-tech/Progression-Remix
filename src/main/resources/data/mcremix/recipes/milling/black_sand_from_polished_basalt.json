@@ -1,0 +1,14 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "minecraft:polished_basalt"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "mcremix:black_sand"
+    }
+  ]
+}

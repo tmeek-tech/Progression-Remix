@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft_start_flipped",
+  "textures": {
+    "0": "mcremix:block/acacia_axis",
+    "1": "mcremix:block/acacia_axis_top",
+    "2": "mcremix:block/machine/acacia/gantry_shaft_flipped",
+    "3": "mcremix:block/machine/acacia/cogwheel"
+  }
+}

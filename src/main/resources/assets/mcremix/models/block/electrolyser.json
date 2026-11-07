@@ -1,0 +1,374 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "bakelite": "mcremix:block/electrolyser_bakelite",
+    "plate": "mcremix:block/electrolyser_plate",
+    "terminals": "mcremix:block/electrolyser_poles",
+    "particle": "mcremix:block/electrolyser_bakelite"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        3
+      ],
+      "to": [
+        15,
+        2,
+        13
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            1,
+            1,
+            15,
+            11
+          ],
+          "texture": "#plate"
+        },
+        "up": {
+          "uv": [
+            1,
+            1,
+            15,
+            11
+          ],
+          "texture": "#plate"
+        },
+        "north": {
+          "uv": [
+            1,
+            12,
+            15,
+            14
+          ],
+          "texture": "#plate"
+        },
+        "south": {
+          "uv": [
+            1,
+            12,
+            15,
+            14
+          ],
+          "texture": "#plate"
+        },
+        "east": {
+          "uv": [
+            3,
+            12,
+            13,
+            14
+          ],
+          "texture": "#plate"
+        },
+        "west": {
+          "uv": [
+            3,
+            12,
+            13,
+            14
+          ],
+          "texture": "#plate"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        2,
+        4
+      ],
+      "to": [
+        14,
+        8,
+        12
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            2,
+            0,
+            14,
+            8
+          ],
+          "texture": "#bakelite"
+        },
+        "north": {
+          "uv": [
+            2,
+            8,
+            14,
+            14
+          ],
+          "texture": "#bakelite"
+        },
+        "south": {
+          "uv": [
+            2,
+            8,
+            14,
+            14
+          ],
+          "texture": "#bakelite"
+        },
+        "east": {
+          "uv": [
+            4,
+            8,
+            12,
+            14
+          ],
+          "texture": "#bakelite"
+        },
+        "west": {
+          "uv": [
+            4,
+            8,
+            12,
+            14
+          ],
+          "texture": "#bakelite"
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        8,
+        6
+      ],
+      "to": [
+        7,
+        9,
+        10
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            12,
+            4,
+            16
+          ],
+          "texture": "#terminals"
+        },
+        "north": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        },
+        "south": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        },
+        "east": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        },
+        "west": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        9,
+        6
+      ],
+      "to": [
+        7,
+        11,
+        10
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            4,
+            4,
+            8
+          ],
+          "texture": "#terminals"
+        },
+        "north": {
+          "uv": [
+            4,
+            4,
+            8,
+            6
+          ],
+          "texture": "#terminals"
+        },
+        "south": {
+          "uv": [
+            4,
+            4,
+            8,
+            6
+          ],
+          "texture": "#terminals"
+        },
+        "east": {
+          "uv": [
+            4,
+            4,
+            8,
+            6
+          ],
+          "texture": "#terminals"
+        },
+        "west": {
+          "uv": [
+            4,
+            4,
+            8,
+            6
+          ],
+          "texture": "#terminals"
+        }
+      }
+    },
+    {
+      "from": [
+        9,
+        8,
+        6
+      ],
+      "to": [
+        13,
+        9,
+        10
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            12,
+            4,
+            16
+          ],
+          "texture": "#terminals"
+        },
+        "north": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        },
+        "south": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        },
+        "east": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        },
+        "west": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#terminals"
+        }
+      }
+    },
+    {
+      "from": [
+        9,
+        9,
+        6
+      ],
+      "to": [
+        13,
+        11,
+        10
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            8,
+            4,
+            12
+          ],
+          "texture": "#terminals"
+        },
+        "north": {
+          "uv": [
+            4,
+            8,
+            8,
+            10
+          ],
+          "texture": "#terminals"
+        },
+        "south": {
+          "uv": [
+            4,
+            8,
+            8,
+            10
+          ],
+          "texture": "#terminals"
+        },
+        "east": {
+          "uv": [
+            4,
+            8,
+            8,
+            10
+          ],
+          "texture": "#terminals"
+        },
+        "west": {
+          "uv": [
+            4,
+            8,
+            8,
+            10
+          ],
+          "texture": "#terminals"
+        }
+      }
+    }
+  ]
+}

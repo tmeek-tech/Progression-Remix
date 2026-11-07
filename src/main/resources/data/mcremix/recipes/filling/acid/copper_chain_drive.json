@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_copper_chain_drive"
+      },
+      {
+        "item": "mcremix:weathered_copper_chain_drive"
+      },
+      {
+        "item": "mcremix:oxidized_copper_chain_drive"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:copper_chain_drive"
+    }
+  ]
+}

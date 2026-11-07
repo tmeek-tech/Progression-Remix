@@ -1,0 +1,160 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "minecraft:block/mud_bricks"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        0,
+        4
+      ],
+      "to": [
+        12,
+        16,
+        12
+      ],
+      "faces": {
+        "down": {
+          "texture": "#wall",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ],
+          "cullface": "down",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#wall",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ],
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#wall",
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#wall",
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#wall",
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#wall",
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        5,
+        0,
+        0
+      ],
+      "to": [
+        11,
+        13,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#wall",
+          "uv": [
+            5,
+            0,
+            11,
+            16
+          ],
+          "cullface": "down",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#wall",
+          "uv": [
+            5,
+            0,
+            11,
+            16
+          ],
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#wall",
+          "uv": [
+            5,
+            3,
+            11,
+            16
+          ],
+          "cullface": "north",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#wall",
+          "uv": [
+            5,
+            3,
+            11,
+            16
+          ],
+          "cullface": "south",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#wall",
+          "uv": [
+            0,
+            3,
+            16,
+            16
+          ],
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#wall",
+          "uv": [
+            0,
+            3,
+            16,
+            16
+          ],
+          "tintindex": 0
+        }
+      }
+    }
+  ]
+}

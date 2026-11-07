@@ -1,0 +1,22 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:titanium_tetrachloride",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:molten_sodium",
+      "amount": 200
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:titanium_sponge"
+    },
+    {
+      "item": "mcremix:salt",
+      "count": 4
+    }
+  ]
+}

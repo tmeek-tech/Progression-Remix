@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/encased_chain_drive/single",
+  "textures": {
+    "side": "mcremix:block/gold_tinted_titanium_chain_gearshift_off",
+    "particle": "mcremix:block/gold_tinted_titanium_casing",
+    "1": "mcremix:block/gold_tinted_titanium_gearbox"
+  }
+}

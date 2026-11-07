@@ -1,0 +1,64 @@
+{
+  "parent": "minecraft:block/cube_north_west_mirrored_all",
+  "textures": {
+    "all": "minecraft:block/mud_bricks"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#down",
+          "cullface": "down",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#up",
+          "cullface": "up",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#north",
+          "uv": [
+            16,
+            0,
+            0,
+            16
+          ],
+          "cullface": "north",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#south",
+          "cullface": "south",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#west",
+          "uv": [
+            16,
+            0,
+            0,
+            16
+          ],
+          "cullface": "west",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#east",
+          "cullface": "east",
+          "tintindex": 0
+        }
+      }
+    }
+  ]
+}

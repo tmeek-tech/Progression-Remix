@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/pipe/wall",
+  "textures": {
+    "bracket": "mcremix:block/copper_bracket",
+    "plate": "mcremix:block/copper_bracket_plate",
+    "particle": "mcremix:block/copper_bracket_plate"
+  }
+}

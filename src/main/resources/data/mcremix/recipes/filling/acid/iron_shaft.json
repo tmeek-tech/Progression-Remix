@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_iron_shaft"
+      },
+      {
+        "item": "mcremix:weathered_iron_shaft"
+      },
+      {
+        "item": "mcremix:rusted_iron_shaft"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:iron_shaft"
+    }
+  ]
+}

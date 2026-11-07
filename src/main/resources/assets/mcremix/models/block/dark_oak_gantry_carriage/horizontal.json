@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/gantry_carriage/horizontal",
+  "textures": {
+    "0": "mcremix:block/dark_oak_axis",
+    "10": "mcremix:block/machine/dark_oak/pinion",
+    "6": "mcremix:block/machine/dark_oak/pinion_bottom",
+    "9": "mcremix:block/machine/dark_oak/windmill_bearing_side",
+    "opening": "mcremix:block/machine/dark_oak/gearbox",
+    "particle": "mcremix:block/machine/dark_oak/andesite_casing"
+  }
+}

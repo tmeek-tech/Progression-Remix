@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:aluminium_sheet",
+    {
+      "id": "#forge:plates/aluminum",
+      "required": false
+    }
+  ]
+}

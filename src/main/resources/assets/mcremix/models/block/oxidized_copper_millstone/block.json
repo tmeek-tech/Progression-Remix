@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/millstone/block",
+  "textures": {
+    "0": "mcremix:block/oxidized_copper_gearbox",
+    "5": "mcremix:block/machine/oxidized_copper/millstone",
+    "particle": "mcremix:block/oxidized_copper_casing"
+  }
+}

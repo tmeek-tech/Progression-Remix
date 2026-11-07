@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gearshift/block",
+  "textures": {
+    "0": "mcremix:block/copper_clutch_off",
+    "1": "mcremix:block/copper_gearbox",
+    "2": "mcremix:block/copper_frame",
+    "particle": "mcremix:block/copper_clutch_off"
+  }
+}

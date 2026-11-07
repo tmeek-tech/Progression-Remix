@@ -1,0 +1,12 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:cementation_pack"
+  },
+  "result": {
+    "item": "mcremix:blister_steel",
+    "count": 4
+  },
+  "heat": "searing",
+  "time": 800
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:unfired_crucible"
+  },
+  "result": {
+    "item": "mcremix:crucible"
+  },
+  "heat": "hot",
+  "time": 400
+}

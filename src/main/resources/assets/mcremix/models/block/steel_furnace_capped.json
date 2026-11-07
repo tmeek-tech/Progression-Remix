@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/kiln_capped",
+  "textures": {
+    "particle": "mcremix:block/steel_casing",
+    "side": "mcremix:block/steel_casing",
+    "top": "mcremix:block/steel_casing"
+  }
+}

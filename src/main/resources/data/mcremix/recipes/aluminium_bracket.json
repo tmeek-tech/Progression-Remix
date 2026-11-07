@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:nuggets/aluminium"
+    },
+    "P": {
+      "tag": "forge:ingots/aluminium"
+    },
+    "C": {
+      "tag": "mcremix:polyethylene"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_bracket",
+    "count": 4
+  }
+}

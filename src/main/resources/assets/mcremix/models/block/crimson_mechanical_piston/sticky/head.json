@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/mechanical_piston/sticky/head",
+  "textures": {
+    "0": "minecraft:block/crimson_planks",
+    "2": "minecraft:block/crimson_planks"
+  }
+}

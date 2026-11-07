@@ -1,0 +1,10 @@
+{
+  "parent": "mcremix:block/arc_furnace",
+  "textures": {
+    "shell": "mcremix:block/arc_furnace_shell_weathered",
+    "rim": "mcremix:block/arc_furnace_rim_weathered",
+    "post": "mcremix:block/arc_furnace_post_weathered",
+    "terminals": "mcremix:block/arc_furnace_terminals_weathered",
+    "particle": "mcremix:block/arc_furnace_shell_weathered"
+  }
+}

@@ -1,0 +1,1059 @@
+{
+ "_comment": "Create 6.0.8 (MIT licence): the blockstates of its bearing, pistons, piston pole and head, gantry carriage and shaft and rope pulley, and the texture variables and parents of their models and item models, which tools/gen_assets.py builds each wood's movers on.",
+ "blockstates": {
+  "gantry_carriage": {
+   "axis_along_first=false,facing=down": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "x": 270,
+    "y": 90
+   },
+   "axis_along_first=false,facing=east": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "y": 270
+   },
+   "axis_along_first=false,facing=north": {
+    "model": "create:block/gantry_carriage/vertical",
+    "y": 180
+   },
+   "axis_along_first=false,facing=south": {
+    "model": "create:block/gantry_carriage/vertical"
+   },
+   "axis_along_first=false,facing=up": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=west": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "y": 90
+   },
+   "axis_along_first=true,facing=down": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "x": 270
+   },
+   "axis_along_first=true,facing=east": {
+    "model": "create:block/gantry_carriage/vertical",
+    "y": 270
+   },
+   "axis_along_first=true,facing=north": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "y": 180
+   },
+   "axis_along_first=true,facing=south": {
+    "model": "create:block/gantry_carriage/horizontal"
+   },
+   "axis_along_first=true,facing=up": {
+    "model": "create:block/gantry_carriage/horizontal",
+    "x": 90
+   },
+   "axis_along_first=true,facing=west": {
+    "model": "create:block/gantry_carriage/vertical",
+    "y": 90
+   }
+  },
+  "gantry_shaft": {
+   "facing=down,part=end,powered=false": {
+    "model": "create:block/gantry_shaft_end_flipped",
+    "x": 180
+   },
+   "facing=down,part=end,powered=true": {
+    "model": "create:block/gantry_shaft_end_powered_flipped",
+    "x": 180
+   },
+   "facing=down,part=middle,powered=false": {
+    "model": "create:block/gantry_shaft_middle_flipped",
+    "x": 180
+   },
+   "facing=down,part=middle,powered=true": {
+    "model": "create:block/gantry_shaft_middle_powered_flipped",
+    "x": 180
+   },
+   "facing=down,part=single,powered=false": {
+    "model": "create:block/gantry_shaft_single_flipped",
+    "x": 180
+   },
+   "facing=down,part=single,powered=true": {
+    "model": "create:block/gantry_shaft_single_powered_flipped",
+    "x": 180
+   },
+   "facing=down,part=start,powered=false": {
+    "model": "create:block/gantry_shaft_start_flipped",
+    "x": 180
+   },
+   "facing=down,part=start,powered=true": {
+    "model": "create:block/gantry_shaft_start_powered_flipped",
+    "x": 180
+   },
+   "facing=east,part=end,powered=false": {
+    "model": "create:block/gantry_shaft/block_end",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=end,powered=true": {
+    "model": "create:block/gantry_shaft_end_powered",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=middle,powered=false": {
+    "model": "create:block/gantry_shaft/block_middle",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=middle,powered=true": {
+    "model": "create:block/gantry_shaft_middle_powered",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=single,powered=false": {
+    "model": "create:block/gantry_shaft/block_single",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=single,powered=true": {
+    "model": "create:block/gantry_shaft_single_powered",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=start,powered=false": {
+    "model": "create:block/gantry_shaft/block_start",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,part=start,powered=true": {
+    "model": "create:block/gantry_shaft_start_powered",
+    "x": 90,
+    "y": 90
+   },
+   "facing=north,part=end,powered=false": {
+    "model": "create:block/gantry_shaft_end_flipped",
+    "x": 90
+   },
+   "facing=north,part=end,powered=true": {
+    "model": "create:block/gantry_shaft_end_powered_flipped",
+    "x": 90
+   },
+   "facing=north,part=middle,powered=false": {
+    "model": "create:block/gantry_shaft_middle_flipped",
+    "x": 90
+   },
+   "facing=north,part=middle,powered=true": {
+    "model": "create:block/gantry_shaft_middle_powered_flipped",
+    "x": 90
+   },
+   "facing=north,part=single,powered=false": {
+    "model": "create:block/gantry_shaft_single_flipped",
+    "x": 90
+   },
+   "facing=north,part=single,powered=true": {
+    "model": "create:block/gantry_shaft_single_powered_flipped",
+    "x": 90
+   },
+   "facing=north,part=start,powered=false": {
+    "model": "create:block/gantry_shaft_start_flipped",
+    "x": 90
+   },
+   "facing=north,part=start,powered=true": {
+    "model": "create:block/gantry_shaft_start_powered_flipped",
+    "x": 90
+   },
+   "facing=south,part=end,powered=false": {
+    "model": "create:block/gantry_shaft/block_end",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=end,powered=true": {
+    "model": "create:block/gantry_shaft_end_powered",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=middle,powered=false": {
+    "model": "create:block/gantry_shaft/block_middle",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=middle,powered=true": {
+    "model": "create:block/gantry_shaft_middle_powered",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=single,powered=false": {
+    "model": "create:block/gantry_shaft/block_single",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=single,powered=true": {
+    "model": "create:block/gantry_shaft_single_powered",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=start,powered=false": {
+    "model": "create:block/gantry_shaft/block_start",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,part=start,powered=true": {
+    "model": "create:block/gantry_shaft_start_powered",
+    "x": 90,
+    "y": 180
+   },
+   "facing=up,part=end,powered=false": {
+    "model": "create:block/gantry_shaft/block_end"
+   },
+   "facing=up,part=end,powered=true": {
+    "model": "create:block/gantry_shaft_end_powered"
+   },
+   "facing=up,part=middle,powered=false": {
+    "model": "create:block/gantry_shaft/block_middle"
+   },
+   "facing=up,part=middle,powered=true": {
+    "model": "create:block/gantry_shaft_middle_powered"
+   },
+   "facing=up,part=single,powered=false": {
+    "model": "create:block/gantry_shaft/block_single"
+   },
+   "facing=up,part=single,powered=true": {
+    "model": "create:block/gantry_shaft_single_powered"
+   },
+   "facing=up,part=start,powered=false": {
+    "model": "create:block/gantry_shaft/block_start"
+   },
+   "facing=up,part=start,powered=true": {
+    "model": "create:block/gantry_shaft_start_powered"
+   },
+   "facing=west,part=end,powered=false": {
+    "model": "create:block/gantry_shaft_end_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=end,powered=true": {
+    "model": "create:block/gantry_shaft_end_powered_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=middle,powered=false": {
+    "model": "create:block/gantry_shaft_middle_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=middle,powered=true": {
+    "model": "create:block/gantry_shaft_middle_powered_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=single,powered=false": {
+    "model": "create:block/gantry_shaft_single_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=single,powered=true": {
+    "model": "create:block/gantry_shaft_single_powered_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=start,powered=false": {
+    "model": "create:block/gantry_shaft_start_flipped",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,part=start,powered=true": {
+    "model": "create:block/gantry_shaft_start_powered_flipped",
+    "x": 90,
+    "y": 270
+   }
+  },
+  "mechanical_bearing": {
+   "facing=down": {
+    "model": "create:block/mechanical_bearing",
+    "x": 180
+   },
+   "facing=east": {
+    "model": "create:block/mechanical_bearing",
+    "x": 90,
+    "y": 90
+   },
+   "facing=north": {
+    "model": "create:block/mechanical_bearing",
+    "x": 90
+   },
+   "facing=south": {
+    "model": "create:block/mechanical_bearing",
+    "x": 90,
+    "y": 180
+   },
+   "facing=up": {
+    "model": "create:block/mechanical_bearing"
+   },
+   "facing=west": {
+    "model": "create:block/mechanical_bearing",
+    "x": 90,
+    "y": 270
+   }
+  },
+  "mechanical_piston": {
+   "axis_along_first=false,facing=down,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 180
+   },
+   "axis_along_first=false,facing=down,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 180
+   },
+   "axis_along_first=false,facing=down,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block",
+    "x": 180
+   },
+   "axis_along_first=false,facing=east,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=east,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=east,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block_rotated",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=north,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90
+   },
+   "axis_along_first=false,facing=north,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90
+   },
+   "axis_along_first=false,facing=north,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block",
+    "x": 90
+   },
+   "axis_along_first=false,facing=south,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=false,facing=south,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=false,facing=south,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=false,facing=up,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block"
+   },
+   "axis_along_first=false,facing=up,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block"
+   },
+   "axis_along_first=false,facing=up,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block"
+   },
+   "axis_along_first=false,facing=west,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=false,facing=west,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=false,facing=west,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block_rotated",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=true,facing=down,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 180
+   },
+   "axis_along_first=true,facing=down,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 180
+   },
+   "axis_along_first=true,facing=down,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block_rotated",
+    "x": 180
+   },
+   "axis_along_first=true,facing=east,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=true,facing=east,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=true,facing=east,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=true,facing=north,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90
+   },
+   "axis_along_first=true,facing=north,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90
+   },
+   "axis_along_first=true,facing=north,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block_rotated",
+    "x": 90
+   },
+   "axis_along_first=true,facing=south,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=true,facing=south,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=true,facing=south,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block_rotated",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=true,facing=up,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated"
+   },
+   "axis_along_first=true,facing=up,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated"
+   },
+   "axis_along_first=true,facing=up,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block_rotated"
+   },
+   "axis_along_first=true,facing=west,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=true,facing=west,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=true,facing=west,state=retracted": {
+    "model": "create:block/mechanical_piston/normal/block",
+    "x": 90,
+    "y": 270
+   }
+  },
+  "mechanical_piston_head": {
+   "facing=down,type=normal": {
+    "model": "create:block/mechanical_piston/normal/head",
+    "x": 180
+   },
+   "facing=down,type=sticky": {
+    "model": "create:block/mechanical_piston/sticky/head",
+    "x": 180
+   },
+   "facing=east,type=normal": {
+    "model": "create:block/mechanical_piston/normal/head",
+    "x": 90,
+    "y": 90
+   },
+   "facing=east,type=sticky": {
+    "model": "create:block/mechanical_piston/sticky/head",
+    "x": 90,
+    "y": 90
+   },
+   "facing=north,type=normal": {
+    "model": "create:block/mechanical_piston/normal/head",
+    "x": 90
+   },
+   "facing=north,type=sticky": {
+    "model": "create:block/mechanical_piston/sticky/head",
+    "x": 90
+   },
+   "facing=south,type=normal": {
+    "model": "create:block/mechanical_piston/normal/head",
+    "x": 90,
+    "y": 180
+   },
+   "facing=south,type=sticky": {
+    "model": "create:block/mechanical_piston/sticky/head",
+    "x": 90,
+    "y": 180
+   },
+   "facing=up,type=normal": {
+    "model": "create:block/mechanical_piston/normal/head"
+   },
+   "facing=up,type=sticky": {
+    "model": "create:block/mechanical_piston/sticky/head"
+   },
+   "facing=west,type=normal": {
+    "model": "create:block/mechanical_piston/normal/head",
+    "x": 90,
+    "y": 270
+   },
+   "facing=west,type=sticky": {
+    "model": "create:block/mechanical_piston/sticky/head",
+    "x": 90,
+    "y": 270
+   }
+  },
+  "piston_extension_pole": {
+   "facing=down": {
+    "model": "create:block/piston_extension_pole",
+    "x": 180
+   },
+   "facing=east": {
+    "model": "create:block/piston_extension_pole",
+    "x": 90,
+    "y": 90
+   },
+   "facing=north": {
+    "model": "create:block/piston_extension_pole",
+    "x": 90
+   },
+   "facing=south": {
+    "model": "create:block/piston_extension_pole",
+    "x": 90,
+    "y": 180
+   },
+   "facing=up": {
+    "model": "create:block/piston_extension_pole"
+   },
+   "facing=west": {
+    "model": "create:block/piston_extension_pole",
+    "x": 90,
+    "y": 270
+   }
+  },
+  "rope_pulley": {
+   "axis=x": {
+    "model": "create:block/rope_pulley/block",
+    "y": 90
+   },
+   "axis=z": {
+    "model": "create:block/rope_pulley/block"
+   }
+  },
+  "sticky_mechanical_piston": {
+   "axis_along_first=false,facing=down,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 180
+   },
+   "axis_along_first=false,facing=down,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 180
+   },
+   "axis_along_first=false,facing=down,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block",
+    "x": 180
+   },
+   "axis_along_first=false,facing=east,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=east,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=east,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block_rotated",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=false,facing=north,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90
+   },
+   "axis_along_first=false,facing=north,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90
+   },
+   "axis_along_first=false,facing=north,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block",
+    "x": 90
+   },
+   "axis_along_first=false,facing=south,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=false,facing=south,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=false,facing=south,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=false,facing=up,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block"
+   },
+   "axis_along_first=false,facing=up,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block"
+   },
+   "axis_along_first=false,facing=up,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block"
+   },
+   "axis_along_first=false,facing=west,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=false,facing=west,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=false,facing=west,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block_rotated",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=true,facing=down,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 180
+   },
+   "axis_along_first=true,facing=down,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 180
+   },
+   "axis_along_first=true,facing=down,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block_rotated",
+    "x": 180
+   },
+   "axis_along_first=true,facing=east,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=true,facing=east,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=true,facing=east,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block",
+    "x": 90,
+    "y": 90
+   },
+   "axis_along_first=true,facing=north,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90
+   },
+   "axis_along_first=true,facing=north,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90
+   },
+   "axis_along_first=true,facing=north,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block_rotated",
+    "x": 90
+   },
+   "axis_along_first=true,facing=south,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=true,facing=south,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=true,facing=south,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block_rotated",
+    "x": 90,
+    "y": 180
+   },
+   "axis_along_first=true,facing=up,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block_rotated"
+   },
+   "axis_along_first=true,facing=up,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block_rotated"
+   },
+   "axis_along_first=true,facing=up,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block_rotated"
+   },
+   "axis_along_first=true,facing=west,state=extended": {
+    "model": "create:block/mechanical_piston/extended/block",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=true,facing=west,state=moving": {
+    "model": "create:block/mechanical_piston/moving/block",
+    "x": 90,
+    "y": 270
+   },
+   "axis_along_first=true,facing=west,state=retracted": {
+    "model": "create:block/mechanical_piston/sticky/block",
+    "x": 90,
+    "y": 270
+   }
+  }
+ },
+ "items": {
+  "gantry_carriage": {
+   "parent": "create:block/gantry_carriage/item"
+  },
+  "gantry_shaft": {
+   "parent": "create:block/gantry_shaft/block_single"
+  },
+  "mechanical_bearing": {
+   "parent": "create:block/bearing/item",
+   "textures": {
+    "back": "create:block/gearbox",
+    "side": "create:block/mechanical_bearing_side",
+    "top": "create:block/bearing_top"
+   }
+  },
+  "mechanical_piston": {
+   "parent": "create:block/mechanical_piston/normal/item"
+  },
+  "piston_extension_pole": {
+   "parent": "create:block/piston_extension_pole"
+  },
+  "rope_pulley": {
+   "parent": "create:block/rope_pulley/item"
+  },
+  "sticky_mechanical_piston": {
+   "parent": "create:block/mechanical_piston/sticky/item"
+  }
+ },
+ "models": {
+  "bearing/block": {
+   "textures": {
+    "bearing_side": "#side",
+    "gearbox": "#back",
+    "particle": "#side"
+   }
+  },
+  "bearing/item": {
+   "parent": "block/block",
+   "textures": {
+    "bearing_side": "#side",
+    "bearing_top": "#top",
+    "gearbox": "#back",
+    "particle": "#side"
+   }
+  },
+  "bearing/top": {
+   "textures": {
+    "bearing_side": "create:block/mechanical_bearing_side",
+    "bearing_top": "create:block/bearing_top",
+    "particle": "create:block/mechanical_bearing_side"
+   }
+  },
+  "gantry_carriage/horizontal": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "10": "create:block/pinion",
+    "6": "create:block/pinion_bottom",
+    "8": "create:block/bearing_top",
+    "9": "create:block/windmill_bearing_side",
+    "opening": "create:block/gearbox",
+    "particle": "create:block/andesite_casing"
+   }
+  },
+  "gantry_carriage/item": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "10": "create:block/pinion",
+    "11": "create:block/axis_top",
+    "12": "create:block/pinion_bottom",
+    "3": "create:block/cogwheel",
+    "8": "create:block/bearing_top",
+    "9": "create:block/windmill_bearing_side",
+    "opening": "create:block/gearbox",
+    "particle": "create:block/andesite_casing"
+   }
+  },
+  "gantry_carriage/vertical": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "10": "create:block/pinion",
+    "6": "create:block/pinion_bottom",
+    "8": "create:block/bearing_top",
+    "9": "create:block/windmill_bearing_side",
+    "opening": "create:block/gearbox",
+    "particle": "create:block/andesite_casing"
+   }
+  },
+  "gantry_carriage/wheels": {
+   "parent": "create:block/large_wheels",
+   "textures": {
+    "3": "create:block/cogwheel",
+    "particle": "create:block/andesite_casing"
+   }
+  },
+  "gantry_shaft/block_end": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "1": "create:block/axis_top",
+    "2": "create:block/gantry_shaft",
+    "3": "create:block/cogwheel",
+    "particle": "#2"
+   }
+  },
+  "gantry_shaft/block_middle": {
+   "parent": "block/block",
+   "textures": {
+    "2": "create:block/gantry_shaft",
+    "particle": "#2"
+   }
+  },
+  "gantry_shaft/block_single": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "1": "create:block/axis_top",
+    "2": "create:block/gantry_shaft",
+    "3": "create:block/cogwheel",
+    "particle": "#2"
+   }
+  },
+  "gantry_shaft/block_start": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "1": "create:block/axis_top",
+    "2": "create:block/gantry_shaft",
+    "3": "create:block/cogwheel",
+    "particle": "#2"
+   }
+  },
+  "gantry_shaft_end_flipped": {
+   "parent": "create:block/gantry_shaft/block_end",
+   "textures": {
+    "2": "create:block/gantry_shaft_flipped"
+   }
+  },
+  "gantry_shaft_end_powered": {
+   "parent": "create:block/gantry_shaft/block_end",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered"
+   }
+  },
+  "gantry_shaft_end_powered_flipped": {
+   "parent": "create:block/gantry_shaft/block_end",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered_flipped"
+   }
+  },
+  "gantry_shaft_middle_flipped": {
+   "parent": "create:block/gantry_shaft/block_middle",
+   "textures": {
+    "2": "create:block/gantry_shaft_flipped"
+   }
+  },
+  "gantry_shaft_middle_powered": {
+   "parent": "create:block/gantry_shaft/block_middle",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered"
+   }
+  },
+  "gantry_shaft_middle_powered_flipped": {
+   "parent": "create:block/gantry_shaft/block_middle",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered_flipped"
+   }
+  },
+  "gantry_shaft_single_flipped": {
+   "parent": "create:block/gantry_shaft/block_single",
+   "textures": {
+    "2": "create:block/gantry_shaft_flipped"
+   }
+  },
+  "gantry_shaft_single_powered": {
+   "parent": "create:block/gantry_shaft/block_single",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered"
+   }
+  },
+  "gantry_shaft_single_powered_flipped": {
+   "parent": "create:block/gantry_shaft/block_single",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered_flipped"
+   }
+  },
+  "gantry_shaft_start_flipped": {
+   "parent": "create:block/gantry_shaft/block_start",
+   "textures": {
+    "2": "create:block/gantry_shaft_flipped"
+   }
+  },
+  "gantry_shaft_start_powered": {
+   "parent": "create:block/gantry_shaft/block_start",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered"
+   }
+  },
+  "gantry_shaft_start_powered_flipped": {
+   "parent": "create:block/gantry_shaft/block_start",
+   "textures": {
+    "2": "create:block/gantry_shaft_powered_flipped"
+   }
+  },
+  "large_wheels": {
+   "parent": "block/block"
+  },
+  "mechanical_bearing": {
+   "parent": "create:block/bearing/block",
+   "textures": {
+    "back": "create:block/gearbox",
+    "side": "create:block/mechanical_bearing_side"
+   }
+  },
+  "mechanical_piston/extended/block": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/andesite_casing_piston",
+    "1": "create:block/piston_bottom",
+    "2": "create:block/gearbox",
+    "3": "create:block/piston_inner",
+    "4": "block/piston_side",
+    "5": "create:block/pole_end",
+    "particle": "create:block/andesite_casing_piston"
+   }
+  },
+  "mechanical_piston/extended/block_rotated": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/andesite_casing_piston",
+    "1": "create:block/piston_bottom",
+    "2": "create:block/gearbox",
+    "3": "create:block/piston_inner",
+    "4": "block/piston_side",
+    "5": "create:block/pole_end",
+    "particle": "create:block/andesite_casing_piston"
+   }
+  },
+  "mechanical_piston/moving/block": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/andesite_casing_piston",
+    "1": "create:block/piston_bottom",
+    "2": "create:block/gearbox",
+    "3": "create:block/piston_inner",
+    "4": "create:block/andesite_casing",
+    "particle": "create:block/andesite_casing_piston"
+   }
+  },
+  "mechanical_piston/moving/block_rotated": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/andesite_casing_piston",
+    "1": "create:block/piston_bottom",
+    "2": "create:block/gearbox",
+    "3": "create:block/piston_inner",
+    "4": "create:block/andesite_casing",
+    "particle": "create:block/andesite_casing_piston"
+   }
+  },
+  "mechanical_piston/normal/block": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/andesite_casing",
+    "1": "create:block/piston_bottom",
+    "2": "create:block/gearbox",
+    "4": "block/piston_side",
+    "5": "block/piston_top",
+    "6": "create:block/andesite_casing_piston",
+    "particle": "create:block/andesite_casing"
+   }
+  },
+  "mechanical_piston/normal/block_rotated": {
+   "textures": {
+    "0": "create:block/andesite_casing_piston",
+    "1": "create:block/piston_bottom",
+    "2": "create:block/gearbox",
+    "4": "block/piston_side",
+    "5": "block/piston_top",
+    "particle": "create:block/andesite_casing_piston"
+   }
+  },
+  "mechanical_piston/normal/head": {
+   "parent": "block/block",
+   "textures": {
+    "0": "block/piston_side",
+    "1": "block/piston_top",
+    "2": "block/piston_top",
+    "particle": "block/piston_top"
+   }
+  },
+  "mechanical_piston/normal/item": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/andesite_casing_piston",
+    "1": "create:block/piston_bottom",
+    "1_0": "create:block/axis",
+    "1_1": "create:block/axis_top",
+    "2": "create:block/gearbox",
+    "3": "create:block/piston_inner",
+    "4": "block/piston_side",
+    "5": "block/piston_top",
+    "particle": "create:block/axis"
+   }
+  },
+  "mechanical_piston/sticky/block": {
+   "parent": "create:block/mechanical_piston/normal/block",
+   "textures": {
+    "5": "block/piston_top_sticky"
+   }
+  },
+  "mechanical_piston/sticky/block_rotated": {
+   "parent": "create:block/mechanical_piston/normal/block_rotated",
+   "textures": {
+    "5": "block/piston_top_sticky"
+   }
+  },
+  "mechanical_piston/sticky/head": {
+   "parent": "create:block/mechanical_piston/normal/head",
+   "textures": {
+    "1": "block/piston_top_sticky",
+    "particle": "block/piston_top_sticky"
+   }
+  },
+  "mechanical_piston/sticky/item": {
+   "parent": "create:block/mechanical_piston/normal/item",
+   "textures": {
+    "5": "block/piston_top_sticky"
+   }
+  },
+  "piston_extension_pole": {
+   "parent": "block/block",
+   "textures": {
+    "0": "block/piston_side",
+    "1": "create:block/pole_end",
+    "particle": "block/piston_top"
+   }
+  },
+  "rope_pulley/block": {
+   "textures": {
+    "1": "create:block/rope_pulley",
+    "particle": "create:block/gearbox"
+   }
+  },
+  "rope_pulley/item": {
+   "parent": "block/block",
+   "textures": {
+    "0": "create:block/axis",
+    "1": "create:block/rope_pulley",
+    "1_1": "create:block/axis_top",
+    "2": "create:block/rope_pulley_coil",
+    "3_1": "create:block/chute_large",
+    "6": "create:block/pulley_magnet",
+    "particle": "create:block/pulley_magnet"
+   }
+  }
+ }
+}

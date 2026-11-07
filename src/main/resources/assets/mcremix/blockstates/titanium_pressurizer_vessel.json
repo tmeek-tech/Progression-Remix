@@ -1,0 +1,192 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "patina": "none|waxed"
+      },
+      "apply": {
+        "model": "mcremix:block/titanium_pressurizer_vessel"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/titanium_pressurizer_vessel_nozzle"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/titanium_pressurizer_vessel_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/titanium_pressurizer_vessel_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/titanium_pressurizer_vessel_nozzle",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|waxed_exposed"
+      },
+      "apply": {
+        "model": "mcremix:block/gold_tinted_titanium_pressurizer_vessel"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|waxed_exposed",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/gold_tinted_titanium_pressurizer_vessel_nozzle"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|waxed_exposed",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/gold_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|waxed_exposed",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/gold_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|waxed_exposed",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/gold_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "weathered|waxed_weathered"
+      },
+      "apply": {
+        "model": "mcremix:block/purple_tinted_titanium_pressurizer_vessel"
+      }
+    },
+    {
+      "when": {
+        "patina": "weathered|waxed_weathered",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/purple_tinted_titanium_pressurizer_vessel_nozzle"
+      }
+    },
+    {
+      "when": {
+        "patina": "weathered|waxed_weathered",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/purple_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "weathered|waxed_weathered",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/purple_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "weathered|waxed_weathered",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/purple_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "oxidized|waxed_oxidized"
+      },
+      "apply": {
+        "model": "mcremix:block/blue_tinted_titanium_pressurizer_vessel"
+      }
+    },
+    {
+      "when": {
+        "patina": "oxidized|waxed_oxidized",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/blue_tinted_titanium_pressurizer_vessel_nozzle"
+      }
+    },
+    {
+      "when": {
+        "patina": "oxidized|waxed_oxidized",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/blue_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "oxidized|waxed_oxidized",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/blue_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "oxidized|waxed_oxidized",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/blue_tinted_titanium_pressurizer_vessel_nozzle",
+        "y": 270
+      }
+    }
+  ]
+}

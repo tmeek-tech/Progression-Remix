@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "L",
+    "L"
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:bamboo_blocks"
+    }
+  },
+  "result": {
+    "item": "mcremix:bamboo_shaft",
+    "count": 6
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:nuggets/zinc"
+    },
+    "P": {
+      "item": "create:andesite_alloy"
+    },
+    "C": {
+      "item": "create:andesite_alloy"
+    }
+  },
+  "result": {
+    "item": "create:metal_bracket",
+    "count": 4
+  },
+  "show_notification": true
+}

@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "minecraft:shears"
+  },
+  "result": {
+    "fluid": "mcremix:molten_iron",
+    "amount": 90
+  }
+}

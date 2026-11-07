@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/mechanical_drill/head",
+  "textures": {
+    "10": "mcremix:block/machine/copper/andesite_casing_very_short",
+    "2": "minecraft:block/cobblestone",
+    "particle": "minecraft:block/cobblestone"
+  }
+}

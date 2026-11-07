@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_arm/item",
+  "textures": {
+    "5": "mcremix:block/machine/steel/mechanical_arm",
+    "7": "mcremix:block/machine/steel/brass_block",
+    "8": "mcremix:block/steel_casing",
+    "particle": "mcremix:block/steel_casing"
+  }
+}

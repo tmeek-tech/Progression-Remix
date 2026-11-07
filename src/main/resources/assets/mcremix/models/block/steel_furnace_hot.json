@@ -1,0 +1,6 @@
+{
+  "parent": "mcremix:block/steel_furnace",
+  "textures": {
+    "inside": "mcremix:block/kiln_inside_lit"
+  }
+}

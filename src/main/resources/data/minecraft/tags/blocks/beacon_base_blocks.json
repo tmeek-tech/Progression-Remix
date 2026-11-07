@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:steel_block",
+    "mcremix:aluminium_block",
+    "mcremix:titanium_block"
+  ]
+}

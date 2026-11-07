@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "mcremix:bakelite"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "powergrid:empty_circuit",
+      "count": 2
+    }
+  ]
+}

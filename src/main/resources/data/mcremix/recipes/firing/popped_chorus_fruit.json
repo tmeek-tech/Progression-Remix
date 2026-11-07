@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "minecraft:chorus_fruit"
+  },
+  "result": {
+    "item": "minecraft:popped_chorus_fruit"
+  },
+  "heat": "hot",
+  "time": 200
+}

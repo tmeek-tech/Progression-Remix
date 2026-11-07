@@ -1,0 +1,28 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:copper_block"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:sand_block_mold"
+    },
+    {
+      "item": "minecraft:copper_block"
+    }
+  ]
+}

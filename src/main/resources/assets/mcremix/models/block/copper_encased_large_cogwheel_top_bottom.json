@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/encased_large_cogwheel/block_top_bottom",
+  "textures": {
+    "1": "minecraft:block/stripped_spruce_log_top",
+    "4": "mcremix:block/copper_encased_opening",
+    "casing": "create:block/copper_casing",
+    "particle": "create:block/copper_casing",
+    "side": "mcremix:block/copper_encased_cogwheel_side_connected"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:mangrove_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_mangrove_log"
+      },
+      {
+        "item": "minecraft:stripped_mangrove_wood"
+      }
+    ],
+    "I": {
+      "item": "mcremix:mangrove_piston_extension_pole"
+    }
+  },
+  "result": {
+    "item": "mcremix:mangrove_mechanical_piston"
+  }
+}

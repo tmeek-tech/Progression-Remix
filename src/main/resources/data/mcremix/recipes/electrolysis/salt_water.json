@@ -1,0 +1,24 @@
+{
+  "type": "mcremix:electrolysis",
+  "charge": 100,
+  "ingredients": [
+    {
+      "fluid": "mcremix:salt_water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 125
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 125
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 125
+    }
+  ]
+}

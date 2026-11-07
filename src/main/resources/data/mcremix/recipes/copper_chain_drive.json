@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create:copper_casing"
+    },
+    {
+      "tag": "forge:nuggets/copper"
+    },
+    {
+      "tag": "forge:nuggets/copper"
+    },
+    {
+      "tag": "forge:nuggets/copper"
+    }
+  ],
+  "result": {
+    "item": "mcremix:copper_chain_drive"
+  }
+}

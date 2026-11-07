@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create:brass_casing"
+    },
+    {
+      "tag": "forge:nuggets/brass"
+    },
+    {
+      "tag": "forge:nuggets/brass"
+    },
+    {
+      "tag": "forge:nuggets/brass"
+    }
+  ],
+  "result": {
+    "item": "mcremix:brass_chain_drive"
+  }
+}

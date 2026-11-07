@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CBC",
+    "S S",
+    "PKP"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:ingots/copper"
+    },
+    "B": {
+      "item": "mcremix:bakelite"
+    },
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "P": {
+      "tag": "forge:plates/copper"
+    },
+    "K": {
+      "tag": "forge:storage_blocks/copper"
+    }
+  },
+  "result": {
+    "item": "mcremix:arc_furnace"
+  }
+}

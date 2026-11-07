@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "create:copper_diving_helmet"
+  },
+  "result": {
+    "fluid": "mcremix:molten_copper",
+    "amount": 225
+  }
+}

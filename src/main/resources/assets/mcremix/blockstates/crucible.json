@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=north,formed=false": {
+      "model": "mcremix:block/crucible/frame"
+    },
+    "facing=north,formed=true": {
+      "model": "mcremix:block/crucible/formed"
+    },
+    "facing=east,formed=false": {
+      "model": "mcremix:block/crucible/frame",
+      "y": 90
+    },
+    "facing=east,formed=true": {
+      "model": "mcremix:block/crucible/formed"
+    },
+    "facing=south,formed=false": {
+      "model": "mcremix:block/crucible/frame"
+    },
+    "facing=south,formed=true": {
+      "model": "mcremix:block/crucible/formed"
+    },
+    "facing=west,formed=false": {
+      "model": "mcremix:block/crucible/frame",
+      "y": 90
+    },
+    "facing=west,formed=true": {
+      "model": "mcremix:block/crucible/formed"
+    }
+  }
+}

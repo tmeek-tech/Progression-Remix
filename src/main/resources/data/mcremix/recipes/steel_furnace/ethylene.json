@@ -1,0 +1,21 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "hot",
+  "processingTime": 100,
+  "catalyst_lasts": 16000,
+  "ingredients": [
+    {
+      "item": "mcremix:alumina"
+    },
+    {
+      "fluid": "mcremix:ethanol",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:ethylene",
+      "amount": 250
+    }
+  ]
+}

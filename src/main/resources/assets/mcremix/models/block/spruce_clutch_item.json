@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/spruce_clutch_off",
+    "1": "mcremix:block/spruce_gearbox",
+    "4": "mcremix:block/spruce_frame",
+    "particle": "mcremix:block/spruce_axis",
+    "1_0": "mcremix:block/spruce_axis",
+    "1_1": "mcremix:block/spruce_axis_top"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "parent": "create:block/gantry_carriage/item",
+  "textures": {
+    "0": "mcremix:block/bamboo_axis",
+    "10": "mcremix:block/machine/bamboo/pinion",
+    "11": "mcremix:block/bamboo_axis_top",
+    "12": "mcremix:block/machine/bamboo/pinion_bottom",
+    "3": "mcremix:block/machine/bamboo/cogwheel",
+    "9": "mcremix:block/machine/bamboo/windmill_bearing_side",
+    "opening": "mcremix:block/machine/bamboo/gearbox",
+    "particle": "mcremix:block/machine/bamboo/andesite_casing"
+  }
+}

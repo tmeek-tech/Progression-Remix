@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/titanium"
+    }
+  },
+  "result": {
+    "item": "mcremix:titanium_plating",
+    "count": 4
+  }
+}

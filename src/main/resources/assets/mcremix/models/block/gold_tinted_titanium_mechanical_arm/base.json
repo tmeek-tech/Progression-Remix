@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/mechanical_arm/base",
+  "textures": {
+    "3": "mcremix:block/machine/gold_tinted_titanium/brass_block",
+    "5": "mcremix:block/machine/gold_tinted_titanium/mechanical_arm"
+  }
+}

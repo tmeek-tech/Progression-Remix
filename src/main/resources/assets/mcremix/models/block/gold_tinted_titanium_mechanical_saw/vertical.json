@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/mechanical_saw/vertical",
+  "textures": {
+    "gearbox_top": "mcremix:block/gold_tinted_titanium_casing",
+    "gearbox": "mcremix:block/gold_tinted_titanium_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/gold_tinted_titanium/andesite_casing_short",
+    "particle": "mcremix:block/machine/gold_tinted_titanium/mechanical_saw_top",
+    "mechanical_saw_top": "mcremix:block/machine/gold_tinted_titanium/mechanical_saw_top"
+  }
+}

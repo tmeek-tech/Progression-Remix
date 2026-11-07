@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:spruce_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_spruce_log"
+      },
+      {
+        "item": "minecraft:stripped_spruce_wood"
+      }
+    ],
+    "I": {
+      "item": "mcremix:spruce_piston_extension_pole"
+    }
+  },
+  "result": {
+    "item": "mcremix:spruce_mechanical_piston"
+  }
+}

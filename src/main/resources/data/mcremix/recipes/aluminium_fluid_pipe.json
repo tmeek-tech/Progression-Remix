@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SCS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/aluminium"
+    },
+    "C": {
+      "tag": "forge:ingots/aluminium"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_fluid_pipe",
+    "count": 4
+  }
+}

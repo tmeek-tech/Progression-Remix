@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:raw_materials/copper"
+  },
+  "result": {
+    "fluid": "mcremix:molten_copper",
+    "amount": 90
+  }
+}

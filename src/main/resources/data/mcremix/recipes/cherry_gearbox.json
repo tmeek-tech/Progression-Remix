@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:cherry_shaft"
+    },
+    "B": [
+      {
+        "item": "minecraft:stripped_cherry_log"
+      },
+      {
+        "item": "minecraft:stripped_cherry_wood"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:cherry_gearbox"
+  }
+}

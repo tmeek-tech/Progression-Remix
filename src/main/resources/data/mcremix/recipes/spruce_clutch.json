@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:stripped_spruce_log"
+      },
+      {
+        "item": "minecraft:stripped_spruce_wood"
+      }
+    ],
+    {
+      "item": "mcremix:spruce_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:spruce_clutch"
+  }
+}

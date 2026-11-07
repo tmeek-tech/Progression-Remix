@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/encased_fan/item",
+  "textures": {
+    "2": "mcremix:block/aluminium_gearbox",
+    "fan_casing": "mcremix:block/machine/aluminium/fan_casing",
+    "particle": "mcremix:block/machine/aluminium/fan_side",
+    "fan_side": "mcremix:block/machine/aluminium/fan_side"
+  }
+}

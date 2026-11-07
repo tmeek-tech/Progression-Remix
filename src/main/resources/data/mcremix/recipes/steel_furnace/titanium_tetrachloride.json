@@ -1,0 +1,21 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "blazing",
+  "processingTime": 100,
+  "catalyst_lasts": 200,
+  "ingredients": [
+    {
+      "item": "mcremix:rutile_briquette"
+    },
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 200
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:titanium_tetrachloride",
+      "amount": 100
+    }
+  ]
+}

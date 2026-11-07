@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:lever"
+    },
+    {
+      "tag": "forge:plates/copper"
+    },
+    {
+      "item": "powergrid:conductive_casing"
+    },
+    {
+      "item": "mcremix:bakelite"
+    }
+  ],
+  "result": {
+    "item": "powergrid:mv_switch"
+  }
+}

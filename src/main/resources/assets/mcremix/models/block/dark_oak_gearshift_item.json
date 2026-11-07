@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearshift/item",
+  "textures": {
+    "0": "mcremix:block/dark_oak_gearshift_off",
+    "1": "mcremix:block/dark_oak_gearbox",
+    "particle": "mcremix:block/dark_oak_axis",
+    "1_0": "mcremix:block/dark_oak_axis",
+    "1_1": "mcremix:block/dark_oak_axis_top"
+  }
+}

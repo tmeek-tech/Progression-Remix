@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:anvil",
+    "mcremix:stone_anvil",
+    "mcremix:chipped_stone_anvil",
+    "mcremix:damaged_stone_anvil"
+  ]
+}

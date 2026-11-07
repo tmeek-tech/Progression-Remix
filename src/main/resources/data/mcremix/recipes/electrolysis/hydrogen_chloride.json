@@ -1,0 +1,20 @@
+{
+  "type": "mcremix:electrolysis",
+  "charge": 100,
+  "ingredients": [
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 125
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 125
+    }
+  ]
+}

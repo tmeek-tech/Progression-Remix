@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 1000
+    },
+    {
+      "fluid": "mcremix:ethylene",
+      "amount": 1000
+    },
+    {
+      "fluid": "mcremix:ferric_chloride",
+      "amount": 25
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:ethylene_dichloride",
+      "amount": 1000
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:oak_shaft",
+    "mcremix:spruce_shaft",
+    "mcremix:birch_shaft",
+    "mcremix:jungle_shaft",
+    "mcremix:acacia_shaft",
+    "mcremix:dark_oak_shaft",
+    "mcremix:mangrove_shaft",
+    "mcremix:cherry_shaft",
+    "mcremix:bamboo_shaft",
+    "mcremix:crimson_shaft",
+    "mcremix:warped_shaft"
+  ]
+}

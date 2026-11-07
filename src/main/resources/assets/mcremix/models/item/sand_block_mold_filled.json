@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcremix:item/sand_block_mold",
+    "layer1": "mcremix:item/sand_block_mold_metal"
+  }
+}

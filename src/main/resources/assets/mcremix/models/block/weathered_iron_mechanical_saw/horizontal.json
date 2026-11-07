@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_saw/horizontal",
+  "textures": {
+    "slit": "mcremix:block/machine/weathered_iron/mechanical_saw_top_no_slot",
+    "particle": "mcremix:block/weathered_iron_casing",
+    "gearbox_top": "mcremix:block/weathered_iron_casing",
+    "encased_belt": "mcremix:block/weathered_iron_chain_drive",
+    "gearbox": "mcremix:block/weathered_iron_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/weathered_iron/andesite_casing_short"
+  }
+}

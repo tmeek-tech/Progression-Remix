@@ -1,0 +1,6 @@
+{
+  "parent": "create:block/gantry_shaft_middle_powered",
+  "textures": {
+    "2": "mcremix:block/machine/spruce/gantry_shaft_powered"
+  }
+}

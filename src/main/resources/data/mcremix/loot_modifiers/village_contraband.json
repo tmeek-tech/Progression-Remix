@@ -1,0 +1,6 @@
+{
+  "type": "mcremix:remove_items",
+  "conditions": [],
+  "table_prefix": "minecraft:chests/village/",
+  "items": "mcremix:village_contraband"
+}

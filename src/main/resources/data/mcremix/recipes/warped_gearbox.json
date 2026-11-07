@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:warped_shaft"
+    },
+    "B": [
+      {
+        "item": "minecraft:stripped_warped_stem"
+      },
+      {
+        "item": "minecraft:stripped_warped_hyphae"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:warped_gearbox"
+  }
+}

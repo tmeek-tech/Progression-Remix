@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "powergrid:basin_heater",
+      "required": false
+    },
+    {
+      "id": "powergrid:heating_coil",
+      "required": false
+    }
+  ]
+}

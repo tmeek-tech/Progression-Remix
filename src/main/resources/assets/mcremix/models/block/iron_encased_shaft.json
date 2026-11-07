@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/encased_shaft/block",
+  "textures": {
+    "casing": "mcremix:block/iron_casing",
+    "opening": "mcremix:block/iron_gearbox"
+  }
+}

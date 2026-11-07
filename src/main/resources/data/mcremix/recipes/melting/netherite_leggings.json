@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "minecraft:netherite_leggings"
+  },
+  "result": {
+    "fluid": "mcremix:molten_netherite",
+    "amount": 45
+  }
+}

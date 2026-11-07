@@ -1,0 +1,184 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "down"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser"
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "anode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_anode"
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "cathode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_cathode"
+      }
+    },
+    {
+      "when": {
+        "facing": "up"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "up",
+        "anode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_anode",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "up",
+        "cathode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_cathode",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "anode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_anode",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "cathode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_cathode",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "anode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_anode",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "cathode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_cathode",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "anode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_anode",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "cathode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_cathode",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "anode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_anode",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "cathode": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/electrolyser_cathode",
+        "x": 90,
+        "y": 270
+      }
+    }
+  ]
+}

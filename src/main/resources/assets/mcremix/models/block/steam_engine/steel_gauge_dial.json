@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/steam_engine/gauge_dial",
+  "textures": {
+    "0": "mcremix:block/steel_boiler_gauge",
+    "particle": "mcremix:block/steel_boiler_gauge"
+  }
+}

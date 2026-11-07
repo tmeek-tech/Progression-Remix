@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/bracket/item",
+  "textures": {
+    "bracket": "mcremix:block/copper_bracket",
+    "plate": "mcremix:block/copper_bracket_plate"
+  }
+}

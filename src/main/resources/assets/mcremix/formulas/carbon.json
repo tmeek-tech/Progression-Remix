@@ -1,0 +1,15 @@
+{
+  "formula": "C",
+  "items": [
+    "minecraft:diamond",
+    "minecraft:diamond_block",
+    "mcremix:carbon_electrode"
+  ],
+  "atoms": [
+    {
+      "l": "C",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "axis=y,patina=none": {
+      "model": "mcremix:block/radiator"
+    },
+    "axis=y,patina=exposed": {
+      "model": "mcremix:block/radiator_exposed"
+    },
+    "axis=y,patina=weathered": {
+      "model": "mcremix:block/radiator_weathered"
+    },
+    "axis=y,patina=oxidized": {
+      "model": "mcremix:block/radiator_oxidized"
+    },
+    "axis=y,patina=waxed": {
+      "model": "mcremix:block/radiator"
+    },
+    "axis=y,patina=waxed_exposed": {
+      "model": "mcremix:block/radiator_exposed"
+    },
+    "axis=y,patina=waxed_weathered": {
+      "model": "mcremix:block/radiator_weathered"
+    },
+    "axis=y,patina=waxed_oxidized": {
+      "model": "mcremix:block/radiator_oxidized"
+    },
+    "axis=z,patina=none": {
+      "model": "mcremix:block/radiator",
+      "x": 90
+    },
+    "axis=z,patina=exposed": {
+      "model": "mcremix:block/radiator_exposed",
+      "x": 90
+    },
+    "axis=z,patina=weathered": {
+      "model": "mcremix:block/radiator_weathered",
+      "x": 90
+    },
+    "axis=z,patina=oxidized": {
+      "model": "mcremix:block/radiator_oxidized",
+      "x": 90
+    },
+    "axis=z,patina=waxed": {
+      "model": "mcremix:block/radiator",
+      "x": 90
+    },
+    "axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/radiator_exposed",
+      "x": 90
+    },
+    "axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/radiator_weathered",
+      "x": 90
+    },
+    "axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/radiator_oxidized",
+      "x": 90
+    },
+    "axis=x,patina=none": {
+      "model": "mcremix:block/radiator",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=exposed": {
+      "model": "mcremix:block/radiator_exposed",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=weathered": {
+      "model": "mcremix:block/radiator_weathered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=oxidized": {
+      "model": "mcremix:block/radiator_oxidized",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed": {
+      "model": "mcremix:block/radiator",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/radiator_exposed",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/radiator_weathered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/radiator_oxidized",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

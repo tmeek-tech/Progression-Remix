@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/gantry_carriage/vertical",
+  "textures": {
+    "0": "mcremix:block/jungle_axis",
+    "10": "mcremix:block/machine/jungle/pinion",
+    "6": "mcremix:block/machine/jungle/pinion_bottom",
+    "9": "mcremix:block/machine/jungle/windmill_bearing_side",
+    "opening": "mcremix:block/machine/jungle/gearbox",
+    "particle": "mcremix:block/machine/jungle/andesite_casing"
+  }
+}

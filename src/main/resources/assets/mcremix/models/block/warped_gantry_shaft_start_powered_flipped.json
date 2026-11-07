@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft_start_powered_flipped",
+  "textures": {
+    "0": "mcremix:block/warped_axis",
+    "1": "mcremix:block/warped_axis_top",
+    "2": "mcremix:block/machine/warped/gantry_shaft_powered_flipped",
+    "3": "mcremix:block/machine/warped/cogwheel"
+  }
+}

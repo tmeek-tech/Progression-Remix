@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mcremix:block/jungle_shaft",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "mcremix:block/jungle_shaft"
+    },
+    "axis=z": {
+      "model": "mcremix:block/jungle_shaft",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/shaft/ground",
+  "textures": {
+    "bracket": "mcremix:block/mangrove_bracket",
+    "plate": "mcremix:block/mangrove_bracket_plate",
+    "particle": "mcremix:block/mangrove_bracket_plate"
+  }
+}

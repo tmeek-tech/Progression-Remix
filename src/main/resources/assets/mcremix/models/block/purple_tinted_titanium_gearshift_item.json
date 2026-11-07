@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearshift/item",
+  "textures": {
+    "0": "mcremix:block/purple_tinted_titanium_gearshift_off",
+    "1": "mcremix:block/purple_tinted_titanium_gearbox",
+    "particle": "mcremix:block/titanium_axis",
+    "1_0": "mcremix:block/titanium_axis",
+    "1_1": "mcremix:block/titanium_axis_top"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "mcremix:boiling",
+  "heatRequirement": "heated",
+  "processingTime": 200,
+  "ingredients": [
+    {
+      "fluid": "mcremix:salt_water",
+      "amount": 500
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:salt"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/gantry_carriage/wheels",
+  "textures": {
+    "3": "mcremix:block/machine/dark_oak/cogwheel",
+    "particle": "mcremix:block/machine/dark_oak/andesite_casing"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "formula": "Na",
+  "fluids": [
+    "mcremix:molten_sodium"
+  ],
+  "atoms": [
+    {
+      "l": "Na",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

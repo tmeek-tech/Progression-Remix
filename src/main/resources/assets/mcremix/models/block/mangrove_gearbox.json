@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/gearbox/block",
+  "textures": {
+    "0": "mcremix:block/mangrove_casing",
+    "1": "mcremix:block/mangrove_gearbox",
+    "particle": "mcremix:block/mangrove_casing"
+  }
+}

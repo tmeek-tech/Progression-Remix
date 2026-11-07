@@ -1,0 +1,43 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "type": "forge:partial_nbt",
+        "item": "create:mechanical_pump",
+        "nbt": {
+          "BlockStateTag": {
+            "patina": "exposed"
+          }
+        }
+      },
+      {
+        "type": "forge:partial_nbt",
+        "item": "create:mechanical_pump",
+        "nbt": {
+          "BlockStateTag": {
+            "patina": "weathered"
+          }
+        }
+      },
+      {
+        "type": "forge:partial_nbt",
+        "item": "create:mechanical_pump",
+        "nbt": {
+          "BlockStateTag": {
+            "patina": "oxidized"
+          }
+        }
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "create:mechanical_pump"
+    }
+  ]
+}

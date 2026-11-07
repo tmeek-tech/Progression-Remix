@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "C": {
+      "tag": "forge:ingots/steel"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_fluid_pipe",
+    "count": 4
+  }
+}

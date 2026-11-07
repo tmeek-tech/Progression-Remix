@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:heat_sink"
+    },
+    {
+      "item": "create:fluid_pipe"
+    },
+    {
+      "item": "create:fluid_pipe"
+    },
+    {
+      "tag": "forge:plates/copper"
+    },
+    {
+      "tag": "forge:plates/copper"
+    }
+  ],
+  "result": {
+    "item": "mcremix:water_cooler"
+  }
+}

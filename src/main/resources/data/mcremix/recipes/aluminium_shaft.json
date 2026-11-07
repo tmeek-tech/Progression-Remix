@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "I",
+    "I"
+  ],
+  "key": {
+    "I": {
+      "item": "mcremix:aluminium_ingot"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_shaft",
+    "count": 6
+  }
+}

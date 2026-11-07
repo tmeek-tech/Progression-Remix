@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "mcremix:blister_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:steel_ingot"
+    }
+  ]
+}

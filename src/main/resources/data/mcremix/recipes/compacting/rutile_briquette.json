@@ -1,0 +1,20 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "tag": "mcremix:rutile"
+    },
+    {
+      "item": "mcremix:coal_coke"
+    },
+    {
+      "fluid": "mcremix:coal_tar",
+      "amount": 50
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:rutile_briquette"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:nuggets/aluminium"
+  },
+  "result": {
+    "fluid": "mcremix:molten_aluminium",
+    "amount": 10
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:unbaked_carbon_electrode"
+  },
+  "result": {
+    "item": "mcremix:carbon_electrode"
+  },
+  "heat": "hot",
+  "time": 300
+}

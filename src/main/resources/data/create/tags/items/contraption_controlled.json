@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:copper_mechanical_saw",
+    "mcremix:iron_mechanical_saw",
+    "mcremix:steel_mechanical_saw",
+    "mcremix:aluminium_mechanical_saw",
+    "mcremix:titanium_mechanical_saw",
+    "mcremix:copper_mechanical_drill",
+    "mcremix:iron_mechanical_drill",
+    "mcremix:steel_mechanical_drill",
+    "mcremix:aluminium_mechanical_drill",
+    "mcremix:titanium_mechanical_drill",
+    "mcremix:copper_deployer",
+    "mcremix:iron_deployer",
+    "mcremix:steel_deployer",
+    "mcremix:aluminium_deployer",
+    "mcremix:titanium_deployer"
+  ]
+}

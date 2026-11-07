@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:nuggets/iron"
+    },
+    "P": {
+      "tag": "forge:ingots/iron"
+    },
+    "C": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "result": {
+    "item": "mcremix:iron_bracket",
+    "count": 4
+  }
+}

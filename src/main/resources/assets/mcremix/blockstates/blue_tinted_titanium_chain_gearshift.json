@@ -1,0 +1,190 @@
+{
+  "variants": {
+    "axis=x,axis_along_first=false,part=start,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "x": 180
+    },
+    "axis=x,axis_along_first=false,part=start,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "x": 180
+    },
+    "axis=x,axis_along_first=false,part=middle,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal"
+    },
+    "axis=x,axis_along_first=false,part=middle,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal_powered"
+    },
+    "axis=x,axis_along_first=false,part=end,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal"
+    },
+    "axis=x,axis_along_first=false,part=end,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered"
+    },
+    "axis=x,axis_along_first=false,part=none,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single",
+      "y": 90
+    },
+    "axis=x,axis_along_first=false,part=none,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single_powered",
+      "y": 90
+    },
+    "axis=x,axis_along_first=true,part=start,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "x": 270
+    },
+    "axis=x,axis_along_first=true,part=start,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "x": 270
+    },
+    "axis=x,axis_along_first=true,part=middle,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal",
+      "x": 90
+    },
+    "axis=x,axis_along_first=true,part=middle,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal_powered",
+      "x": 90
+    },
+    "axis=x,axis_along_first=true,part=end,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "x": 90
+    },
+    "axis=x,axis_along_first=true,part=end,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "x": 90
+    },
+    "axis=x,axis_along_first=true,part=none,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single",
+      "y": 90
+    },
+    "axis=x,axis_along_first=true,part=none,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single_powered",
+      "y": 90
+    },
+    "axis=y,axis_along_first=false,part=start,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical"
+    },
+    "axis=y,axis_along_first=false,part=start,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical_powered"
+    },
+    "axis=y,axis_along_first=false,part=middle,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_vertical"
+    },
+    "axis=y,axis_along_first=false,part=middle,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_vertical_powered"
+    },
+    "axis=y,axis_along_first=false,part=end,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical",
+      "y": 180
+    },
+    "axis=y,axis_along_first=false,part=end,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical_powered",
+      "y": 180
+    },
+    "axis=y,axis_along_first=false,part=none,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single",
+      "x": 90
+    },
+    "axis=y,axis_along_first=false,part=none,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single_powered",
+      "x": 90
+    },
+    "axis=y,axis_along_first=true,part=start,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical",
+      "y": 270
+    },
+    "axis=y,axis_along_first=true,part=start,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical_powered",
+      "y": 270
+    },
+    "axis=y,axis_along_first=true,part=middle,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_vertical",
+      "y": 90
+    },
+    "axis=y,axis_along_first=true,part=middle,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_vertical_powered",
+      "y": 90
+    },
+    "axis=y,axis_along_first=true,part=end,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical",
+      "y": 90
+    },
+    "axis=y,axis_along_first=true,part=end,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_vertical_powered",
+      "y": 90
+    },
+    "axis=y,axis_along_first=true,part=none,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single",
+      "x": 90
+    },
+    "axis=y,axis_along_first=true,part=none,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single_powered",
+      "x": 90
+    },
+    "axis=z,axis_along_first=false,part=start,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis=z,axis_along_first=false,part=start,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "x": 270,
+      "y": 90
+    },
+    "axis=z,axis_along_first=false,part=middle,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,axis_along_first=false,part=middle,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal_powered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,axis_along_first=false,part=end,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,axis_along_first=false,part=end,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,axis_along_first=false,part=none,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single"
+    },
+    "axis=z,axis_along_first=false,part=none,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single_powered"
+    },
+    "axis=z,axis_along_first=true,part=start,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "y": 90
+    },
+    "axis=z,axis_along_first=true,part=start,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "y": 90
+    },
+    "axis=z,axis_along_first=true,part=middle,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal",
+      "y": 90
+    },
+    "axis=z,axis_along_first=true,part=middle,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/middle_horizontal_powered",
+      "y": 90
+    },
+    "axis=z,axis_along_first=true,part=end,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal",
+      "y": 270
+    },
+    "axis=z,axis_along_first=true,part=end,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/end_horizontal_powered",
+      "y": 270
+    },
+    "axis=z,axis_along_first=true,part=none,powered=false": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single"
+    },
+    "axis=z,axis_along_first=true,part=none,powered=true": {
+      "model": "mcremix:block/blue_tinted_titanium_chain_gearshift/single_powered"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "fluid": "mcremix:coal_tar",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:wood_spirit",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:bakelite"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "variants": {
+    "facing=up,patina=none": {
+      "model": "mcremix:block/iron_mechanical_drill/block"
+    },
+    "facing=up,patina=exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block"
+    },
+    "facing=up,patina=weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block"
+    },
+    "facing=up,patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block"
+    },
+    "facing=up,patina=waxed": {
+      "model": "mcremix:block/iron_mechanical_drill/block"
+    },
+    "facing=up,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block"
+    },
+    "facing=up,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block"
+    },
+    "facing=up,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block"
+    },
+    "facing=down,patina=none": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=waxed": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=down,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=north,patina=none": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=waxed": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=north,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=east,patina=none": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=waxed": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=south,patina=none": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=waxed": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,patina=none": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=waxed": {
+      "model": "mcremix:block/iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

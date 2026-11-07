@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "L",
+    "L"
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:crimson_stems"
+    }
+  },
+  "result": {
+    "item": "mcremix:crimson_shaft",
+    "count": 6
+  }
+}

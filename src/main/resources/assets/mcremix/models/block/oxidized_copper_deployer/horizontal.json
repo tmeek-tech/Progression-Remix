@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/horizontal",
+  "textures": {
+    "5": "mcremix:block/machine/oxidized_copper/andesite_casing_piston",
+    "6": "mcremix:block/machine/oxidized_copper/piston_bottom",
+    "7": "mcremix:block/machine/oxidized_copper/piston_inner",
+    "particle": "mcremix:block/oxidized_copper_casing",
+    "gearbox_top": "mcremix:block/oxidized_copper_casing",
+    "gearbox": "mcremix:block/oxidized_copper_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/oxidized_copper/andesite_casing_short"
+  }
+}

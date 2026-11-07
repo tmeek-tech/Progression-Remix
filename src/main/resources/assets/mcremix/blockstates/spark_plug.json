@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "mcremix:block/spark_plug"
+    },
+    "facing=up": {
+      "model": "mcremix:block/spark_plug",
+      "x": 180
+    },
+    "facing=south": {
+      "model": "mcremix:block/spark_plug",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "mcremix:block/spark_plug",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "mcremix:block/spark_plug",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east": {
+      "model": "mcremix:block/spark_plug",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

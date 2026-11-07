@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_copper_bracket"
+      },
+      {
+        "item": "mcremix:weathered_copper_bracket"
+      },
+      {
+        "item": "mcremix:oxidized_copper_bracket"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:copper_bracket"
+    }
+  ]
+}

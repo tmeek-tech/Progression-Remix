@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/cog/wall",
+  "textures": {
+    "bracket": "mcremix:block/iron_bracket",
+    "plate": "mcremix:block/iron_bracket_plate",
+    "particle": "mcremix:block/iron_bracket_plate"
+  }
+}

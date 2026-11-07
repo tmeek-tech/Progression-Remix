@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/encased_shaft/block",
+  "textures": {
+    "casing": "create:block/copper_casing",
+    "opening": "mcremix:block/copper_encased_opening"
+  }
+}

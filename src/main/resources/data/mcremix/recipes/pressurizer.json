@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "PTP",
+    " C "
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:steel_shaft"
+    },
+    "P": {
+      "tag": "forge:plates/steel"
+    },
+    "T": {
+      "item": "mcremix:steel_fluid_tank"
+    },
+    "C": {
+      "item": "mcremix:steel_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:pressurizer"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "powergrid:block/electric_pump",
+  "textures": {
+    "0": "mcremix:block/iron_electric_pump",
+    "particle": "mcremix:block/iron_electric_pump"
+  }
+}

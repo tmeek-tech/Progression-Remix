@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/water_cooler",
+  "textures": {
+    "top": "mcremix:block/water_cooler_top_weathered",
+    "side": "mcremix:block/water_cooler_side_weathered",
+    "particle": "mcremix:block/water_cooler_side_weathered"
+  }
+}

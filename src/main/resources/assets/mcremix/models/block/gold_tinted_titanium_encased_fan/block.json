@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/encased_fan/block",
+  "textures": {
+    "3": "mcremix:block/machine/gold_tinted_titanium/andesite_funnel_frame",
+    "back": "mcremix:block/gold_tinted_titanium_gearbox",
+    "fan_casing": "mcremix:block/machine/gold_tinted_titanium/fan_casing",
+    "particle": "mcremix:block/machine/gold_tinted_titanium/fan_side",
+    "fan_side": "mcremix:block/machine/gold_tinted_titanium/fan_side"
+  }
+}

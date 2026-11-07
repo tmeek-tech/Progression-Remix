@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "I",
+    "I"
+  ],
+  "key": {
+    "I": {
+      "item": "mcremix:steel_ingot"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_shaft",
+    "count": 6
+  }
+}

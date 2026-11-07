@@ -1,0 +1,20 @@
+{
+  "formula": "NaOH",
+  "fluids": [
+    "mcremix:caustic_soda"
+  ],
+  "atoms": [
+    {
+      "l": "Na",
+      "x": 0,
+      "y": 0,
+      "q": "+"
+    },
+    {
+      "l": "OH",
+      "x": 1.6,
+      "y": 0,
+      "q": "-"
+    }
+  ]
+}

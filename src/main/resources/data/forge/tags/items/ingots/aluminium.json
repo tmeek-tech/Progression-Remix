@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:aluminium_ingot",
+    {
+      "id": "#forge:ingots/aluminum",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_press/block",
+  "textures": {
+    "4": "mcremix:block/machine/weathered_copper/mechanical_press_side",
+    "particle": "mcremix:block/machine/weathered_copper/mechanical_press_side",
+    "gearbox_top": "mcremix:block/weathered_copper_casing",
+    "gearbox": "mcremix:block/weathered_copper_gearbox",
+    "mechanical_press_top": "mcremix:block/machine/weathered_copper/mechanical_press_top",
+    "mechanical_press_bottom": "mcremix:block/machine/weathered_copper/mechanical_press_bottom"
+  }
+}

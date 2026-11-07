@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/shaft",
+  "textures": {
+    "0": "mcremix:block/cherry_axis",
+    "1": "mcremix:block/cherry_axis_top",
+    "particle": "mcremix:block/cherry_axis"
+  }
+}

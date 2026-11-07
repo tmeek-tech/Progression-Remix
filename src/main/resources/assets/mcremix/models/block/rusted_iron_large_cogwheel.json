@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/large_cogwheel",
+  "textures": {
+    "0": "mcremix:block/rusted_iron_cogwheel_axis",
+    "3": "mcremix:block/rusted_iron_axis_top",
+    "4": "mcremix:block/rusted_iron_large_cogwheel",
+    "particle": "mcremix:block/rusted_iron_large_cogwheel"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "axis=x,powered=false": {
+      "model": "mcremix:block/weathered_steel_gearshift",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,powered=true": {
+      "model": "mcremix:block/weathered_steel_gearshift_powered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,powered=false": {
+      "model": "mcremix:block/weathered_steel_gearshift"
+    },
+    "axis=y,powered=true": {
+      "model": "mcremix:block/weathered_steel_gearshift_powered"
+    },
+    "axis=z,powered=false": {
+      "model": "mcremix:block/weathered_steel_gearshift",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,powered=true": {
+      "model": "mcremix:block/weathered_steel_gearshift_powered",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

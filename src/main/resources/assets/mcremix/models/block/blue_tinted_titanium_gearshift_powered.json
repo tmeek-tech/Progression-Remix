@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gearshift/block",
+  "textures": {
+    "0": "mcremix:block/blue_tinted_titanium_gearshift_on",
+    "1": "mcremix:block/blue_tinted_titanium_gearbox",
+    "2": "mcremix:block/blue_tinted_titanium_frame",
+    "particle": "mcremix:block/blue_tinted_titanium_gearshift_on"
+  }
+}

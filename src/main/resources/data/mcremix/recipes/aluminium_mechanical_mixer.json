@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "I"
+  ],
+  "key": {
+    "S": {
+      "item": "create:cogwheel"
+    },
+    "I": {
+      "item": "create:whisk"
+    },
+    "C": {
+      "item": "mcremix:aluminium_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_mechanical_mixer"
+  }
+}

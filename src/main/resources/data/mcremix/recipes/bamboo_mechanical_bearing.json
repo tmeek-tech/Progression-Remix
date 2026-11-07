@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bamboo_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_bamboo_block"
+      }
+    ],
+    "I": {
+      "item": "mcremix:bamboo_shaft"
+    }
+  },
+  "result": {
+    "item": "mcremix:bamboo_mechanical_bearing"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "L",
+    "L"
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:acacia_logs"
+    }
+  },
+  "result": {
+    "item": "mcremix:acacia_shaft",
+    "count": 6
+  }
+}

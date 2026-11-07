@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:nuggets/steel"
+  },
+  "result": {
+    "fluid": "mcremix:molten_steel",
+    "amount": 10
+  }
+}

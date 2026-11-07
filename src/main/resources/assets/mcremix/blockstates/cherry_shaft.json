@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mcremix:block/cherry_shaft",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "mcremix:block/cherry_shaft"
+    },
+    "axis=z": {
+      "model": "mcremix:block/cherry_shaft",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

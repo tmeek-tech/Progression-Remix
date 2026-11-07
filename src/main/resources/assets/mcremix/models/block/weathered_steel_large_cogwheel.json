@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/large_cogwheel",
+  "textures": {
+    "0": "mcremix:block/weathered_steel_cogwheel_axis",
+    "3": "mcremix:block/weathered_steel_axis_top",
+    "4": "mcremix:block/weathered_steel_large_cogwheel",
+    "particle": "mcremix:block/weathered_steel_large_cogwheel"
+  }
+}

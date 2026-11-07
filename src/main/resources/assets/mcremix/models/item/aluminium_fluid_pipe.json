@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/fluid_pipe/item",
+  "textures": {
+    "1": "mcremix:block/aluminium_pipes",
+    "particle": "mcremix:block/aluminium_block"
+  }
+}

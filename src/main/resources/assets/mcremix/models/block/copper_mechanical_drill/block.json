@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/mechanical_drill/block",
+  "textures": {
+    "4": "mcremix:block/machine/copper/mechanical_drill_top",
+    "10": "mcremix:block/machine/copper/andesite_casing_very_short",
+    "gearbox_top": "mcremix:block/copper_casing",
+    "particle": "mcremix:block/copper_gearbox",
+    "gearbox": "mcremix:block/copper_gearbox"
+  }
+}

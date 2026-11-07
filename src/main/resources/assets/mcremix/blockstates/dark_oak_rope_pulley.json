@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mcremix:block/dark_oak_rope_pulley/block",
+      "y": 90
+    },
+    "axis=z": {
+      "model": "mcremix:block/dark_oak_rope_pulley/block"
+    }
+  }
+}

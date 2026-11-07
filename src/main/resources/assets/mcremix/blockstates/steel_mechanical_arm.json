@@ -1,0 +1,60 @@
+{
+  "variants": {
+    "ceiling=false,patina=none": {
+      "model": "mcremix:block/steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=weathered": {
+      "model": "mcremix:block/weathered_steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=oxidized": {
+      "model": "mcremix:block/rusted_steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed": {
+      "model": "mcremix:block/steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_steel_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_steel_mechanical_arm/block"
+    },
+    "ceiling=true,patina=none": {
+      "model": "mcremix:block/steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=weathered": {
+      "model": "mcremix:block/weathered_steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=oxidized": {
+      "model": "mcremix:block/rusted_steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed": {
+      "model": "mcremix:block/steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_steel_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_steel_mechanical_arm/block",
+      "x": 180
+    }
+  }
+}

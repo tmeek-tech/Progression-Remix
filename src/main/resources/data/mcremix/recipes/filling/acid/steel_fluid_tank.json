@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "type": "forge:partial_nbt",
+        "item": "mcremix:steel_fluid_tank",
+        "nbt": {
+          "BlockStateTag": {
+            "patina": "exposed"
+          }
+        }
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:steel_fluid_tank"
+    }
+  ]
+}

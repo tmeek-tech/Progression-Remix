@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:molten_iron",
+    "mcremix:flowing_molten_iron",
+    "mcremix:molten_steel",
+    "mcremix:flowing_molten_steel",
+    "mcremix:molten_netherite",
+    "mcremix:flowing_molten_netherite"
+  ]
+}

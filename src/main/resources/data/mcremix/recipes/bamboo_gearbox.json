@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:bamboo_shaft"
+    },
+    "B": [
+      {
+        "item": "minecraft:stripped_bamboo_block"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:bamboo_gearbox"
+  }
+}

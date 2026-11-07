@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "minecraft:golden_hoe"
+  },
+  "result": {
+    "fluid": "mcremix:molten_gold",
+    "amount": 90
+  }
+}

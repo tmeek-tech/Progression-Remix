@@ -1,0 +1,25 @@
+{
+  "formula": "Cl2",
+  "fluids": [
+    "mcremix:chlorine"
+  ],
+  "atoms": [
+    {
+      "l": "Cl",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "l": "Cl",
+      "x": 1.5,
+      "y": 0.0
+    }
+  ],
+  "bonds": [
+    [
+      0,
+      1,
+      1
+    ]
+  ]
+}

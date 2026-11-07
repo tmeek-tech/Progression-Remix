@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "patina=none": {
+      "model": "mcremix:block/titanium_mechanical_mixer/block"
+    },
+    "patina=exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_mechanical_mixer/block"
+    },
+    "patina=weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_mechanical_mixer/block"
+    },
+    "patina=oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_mechanical_mixer/block"
+    },
+    "patina=waxed": {
+      "model": "mcremix:block/titanium_mechanical_mixer/block"
+    },
+    "patina=waxed_exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_mechanical_mixer/block"
+    },
+    "patina=waxed_weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_mechanical_mixer/block"
+    },
+    "patina=waxed_oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_mechanical_mixer/block"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/vertical",
+  "textures": {
+    "5": "mcremix:block/machine/iron/andesite_casing_piston",
+    "6": "mcremix:block/machine/iron/piston_bottom",
+    "7": "mcremix:block/machine/iron/piston_inner",
+    "particle": "mcremix:block/iron_casing",
+    "gearbox_top": "mcremix:block/iron_casing",
+    "gearbox": "mcremix:block/iron_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/iron/andesite_casing_short"
+  }
+}

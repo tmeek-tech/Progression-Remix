@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:ingots/brass"
+  },
+  "result": {
+    "fluid": "mcremix:molten_brass",
+    "amount": 90
+  }
+}

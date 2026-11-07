@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearbox/item",
+  "textures": {
+    "0": "mcremix:block/jungle_casing",
+    "1": "mcremix:block/jungle_gearbox",
+    "particle": "mcremix:block/jungle_casing",
+    "1_0": "mcremix:block/jungle_axis",
+    "1_1": "mcremix:block/jungle_axis_top"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gearshift/block",
+  "textures": {
+    "0": "mcremix:block/crimson_clutch_off",
+    "1": "mcremix:block/crimson_gearbox",
+    "2": "mcremix:block/crimson_frame",
+    "particle": "mcremix:block/crimson_clutch_off"
+  }
+}

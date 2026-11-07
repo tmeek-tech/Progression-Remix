@@ -1,0 +1,28 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "create:zinc_block"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:sand_block_mold"
+    },
+    {
+      "item": "create:zinc_block"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mcremix:block/steel_gearbox",
+      "x": 90,
+      "y": 90,
+      "uvlock": true
+    },
+    "axis=y": {
+      "model": "mcremix:block/steel_gearbox",
+      "uvlock": true
+    },
+    "axis=z": {
+      "model": "mcremix:block/steel_gearbox",
+      "x": 90,
+      "y": 180,
+      "uvlock": true
+    }
+  }
+}

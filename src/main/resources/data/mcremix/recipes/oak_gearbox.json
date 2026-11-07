@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:oak_shaft"
+    },
+    "B": [
+      {
+        "item": "minecraft:stripped_oak_log"
+      },
+      {
+        "item": "minecraft:stripped_oak_wood"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:oak_gearbox"
+  }
+}

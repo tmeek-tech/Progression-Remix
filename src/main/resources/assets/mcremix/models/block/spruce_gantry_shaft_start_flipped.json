@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft_start_flipped",
+  "textures": {
+    "0": "mcremix:block/spruce_axis",
+    "1": "mcremix:block/spruce_axis_top",
+    "2": "mcremix:block/machine/spruce/gantry_shaft_flipped",
+    "3": "mcremix:block/machine/spruce/cogwheel"
+  }
+}

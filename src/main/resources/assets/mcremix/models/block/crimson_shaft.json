@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/shaft",
+  "textures": {
+    "0": "mcremix:block/crimson_axis",
+    "1": "mcremix:block/crimson_axis_top",
+    "particle": "mcremix:block/crimson_axis"
+  }
+}

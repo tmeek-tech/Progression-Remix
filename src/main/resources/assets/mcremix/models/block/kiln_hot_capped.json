@@ -1,0 +1,6 @@
+{
+  "parent": "mcremix:block/kiln_capped",
+  "textures": {
+    "inside": "mcremix:block/kiln_inside_lit"
+  }
+}

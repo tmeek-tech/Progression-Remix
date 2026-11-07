@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:ingots/netherite"
+  },
+  "result": {
+    "fluid": "mcremix:molten_netherite",
+    "amount": 90
+  }
+}

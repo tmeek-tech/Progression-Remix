@@ -1,0 +1,55 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "forge:plates/steel"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": "powergrid:transformer_core",
+      "chance": 100.0
+    },
+    {
+      "item": "mcremix:steel_sheet",
+      "chance": 5.0
+    },
+    {
+      "item": "mcremix:steel_nugget",
+      "chance": 3.0
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_transformer_core"
+        },
+        {
+          "tag": "forge:plates/steel"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_transformer_core"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_transformer_core"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_transformer_core"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "powergrid:incomplete_transformer_core"
+  }
+}

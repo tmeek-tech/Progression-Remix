@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_piston/extended/block_rotated",
+  "textures": {
+    "0": "mcremix:block/machine/jungle/andesite_casing_piston",
+    "1": "mcremix:block/machine/jungle/piston_bottom",
+    "2": "mcremix:block/machine/jungle/gearbox",
+    "3": "mcremix:block/machine/jungle/piston_inner",
+    "4": "minecraft:block/jungle_planks",
+    "particle": "mcremix:block/machine/jungle/andesite_casing_piston"
+  }
+}

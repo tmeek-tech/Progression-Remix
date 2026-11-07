@@ -1,0 +1,13 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "mcremix:font/formula_small.png",
+      "height": 5,
+      "ascent": 5,
+      "chars": [
+        "0123456789+-n"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "create:exposed_copper_tile_stairs"
+      },
+      {
+        "item": "create:weathered_copper_tile_stairs"
+      },
+      {
+        "item": "create:oxidized_copper_tile_stairs"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "create:copper_tile_stairs"
+    }
+  ]
+}

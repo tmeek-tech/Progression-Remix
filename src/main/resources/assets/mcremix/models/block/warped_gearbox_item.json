@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearbox/item",
+  "textures": {
+    "0": "mcremix:block/warped_casing",
+    "1": "mcremix:block/warped_gearbox",
+    "particle": "mcremix:block/warped_casing",
+    "1_0": "mcremix:block/warped_axis",
+    "1_1": "mcremix:block/warped_axis_top"
+  }
+}

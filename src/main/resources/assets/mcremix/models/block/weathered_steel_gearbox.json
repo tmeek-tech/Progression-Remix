@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/gearbox/block",
+  "textures": {
+    "0": "mcremix:block/weathered_steel_casing",
+    "1": "mcremix:block/weathered_steel_gearbox",
+    "particle": "mcremix:block/weathered_steel_casing"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:stripped_warped_stem"
+      },
+      {
+        "item": "minecraft:stripped_warped_hyphae"
+      }
+    ],
+    {
+      "item": "mcremix:warped_shaft"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "mcremix:warped_clutch"
+  }
+}

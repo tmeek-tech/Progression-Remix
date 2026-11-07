@@ -1,0 +1,20 @@
+{
+  "formula": "NaCl",
+  "fluids": [
+    "mcremix:molten_salt"
+  ],
+  "atoms": [
+    {
+      "l": "Na",
+      "x": 0,
+      "y": 0,
+      "q": "+"
+    },
+    {
+      "l": "Cl",
+      "x": 1.6,
+      "y": 0,
+      "q": "-"
+    }
+  ]
+}

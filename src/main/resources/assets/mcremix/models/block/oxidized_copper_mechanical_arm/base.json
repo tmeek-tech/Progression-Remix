@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/mechanical_arm/base",
+  "textures": {
+    "3": "mcremix:block/machine/oxidized_copper/brass_block",
+    "5": "mcremix:block/machine/oxidized_copper/mechanical_arm"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "mcremix:polyethylene_pellets"
+    },
+    {
+      "item": "mcremix:polyethylene_pellets"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:polyethylene_bushing"
+    }
+  ]
+}

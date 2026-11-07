@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:alloying",
+  "fluids": [
+    {
+      "fluid": "mcremix:molten_gold",
+      "amount": 360
+    }
+  ],
+  "items": [
+    {
+      "ingredient": {
+        "item": "minecraft:netherite_scrap"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "fluid": "mcremix:molten_netherite",
+    "amount": 90
+  },
+  "heat": "blazing",
+  "time": 200
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CBC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:steel_cogwheel"
+    },
+    "B": {
+      "item": "mcremix:steel_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_gearbox"
+  }
+}

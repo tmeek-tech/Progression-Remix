@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "patina=none": {
+      "model": "mcremix:block/steel_mechanical_mixer/block"
+    },
+    "patina=exposed": {
+      "model": "mcremix:block/exposed_steel_mechanical_mixer/block"
+    },
+    "patina=weathered": {
+      "model": "mcremix:block/weathered_steel_mechanical_mixer/block"
+    },
+    "patina=oxidized": {
+      "model": "mcremix:block/rusted_steel_mechanical_mixer/block"
+    },
+    "patina=waxed": {
+      "model": "mcremix:block/steel_mechanical_mixer/block"
+    },
+    "patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_mechanical_mixer/block"
+    },
+    "patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_steel_mechanical_mixer/block"
+    },
+    "patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_steel_mechanical_mixer/block"
+    }
+  }
+}

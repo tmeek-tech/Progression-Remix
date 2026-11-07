@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "LAL",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "L": {
+      "tag": "forge:leather"
+    },
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "S": [
+      {
+        "tag": "mcremix:wooden_shafts"
+      },
+      {
+        "item": "create:shaft"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:bellows"
+  }
+}

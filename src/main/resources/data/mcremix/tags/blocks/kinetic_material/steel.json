@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mcremix:steel_mechanical_pump",
+      "required": false
+    },
+    {
+      "id": "mcremix:pressurizer",
+      "required": false
+    }
+  ]
+}

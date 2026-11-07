@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/radiator",
+  "textures": {
+    "panel": "mcremix:block/radiator_panel_exposed",
+    "tube": "mcremix:block/radiator_tube_exposed"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "parent": "create:block/gantry_carriage/item",
+  "textures": {
+    "0": "mcremix:block/crimson_axis",
+    "10": "mcremix:block/machine/crimson/pinion",
+    "11": "mcremix:block/crimson_axis_top",
+    "12": "mcremix:block/machine/crimson/pinion_bottom",
+    "3": "mcremix:block/machine/crimson/cogwheel",
+    "9": "mcremix:block/machine/crimson/windmill_bearing_side",
+    "opening": "mcremix:block/machine/crimson/gearbox",
+    "particle": "mcremix:block/machine/crimson/andesite_casing"
+  }
+}

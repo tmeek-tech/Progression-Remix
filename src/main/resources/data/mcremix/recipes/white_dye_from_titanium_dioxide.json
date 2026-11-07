@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "white_dye",
+  "ingredients": [
+    {
+      "item": "mcremix:titanium_dioxide"
+    }
+  ],
+  "result": {
+    "item": "minecraft:white_dye",
+    "count": 2
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "mcremix:pressurizing",
+  "heat": "hot",
+  "min_speed": 128,
+  "processingTime": 1,
+  "ingredients": [
+    {
+      "fluidTag": "minecraft:water",
+      "amount": 20
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:pressurized_steam",
+      "amount": 20
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/kiln",
+  "textures": {
+    "inside": "mcremix:block/kiln_inside_lit",
+    "embers": "mcremix:block/kiln_embers"
+  }
+}

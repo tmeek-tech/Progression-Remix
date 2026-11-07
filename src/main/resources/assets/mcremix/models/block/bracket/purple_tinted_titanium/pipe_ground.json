@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/pipe/ground",
+  "textures": {
+    "bracket": "mcremix:block/purple_tinted_titanium_bracket",
+    "plate": "mcremix:block/purple_tinted_titanium_bracket_plate",
+    "particle": "mcremix:block/purple_tinted_titanium_bracket_plate"
+  }
+}

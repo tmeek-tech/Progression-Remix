@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/bamboo_clutch_off",
+    "1": "mcremix:block/bamboo_gearbox",
+    "4": "mcremix:block/bamboo_frame",
+    "particle": "mcremix:block/bamboo_axis",
+    "1_0": "mcremix:block/bamboo_axis",
+    "1_1": "mcremix:block/bamboo_axis_top"
+  }
+}

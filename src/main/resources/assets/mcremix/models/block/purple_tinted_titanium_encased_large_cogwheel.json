@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/encased_large_cogwheel/block",
+  "textures": {
+    "1": "minecraft:block/stripped_spruce_log_top",
+    "4": "mcremix:block/purple_tinted_titanium_gearbox",
+    "casing": "mcremix:block/purple_tinted_titanium_casing",
+    "particle": "mcremix:block/purple_tinted_titanium_casing",
+    "side": "mcremix:block/purple_tinted_titanium_encased_cogwheel_side_connected"
+  }
+}

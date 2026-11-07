@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "mcremix:block/damaged_stone_anvil"
+    },
+    "facing=south": {
+      "model": "mcremix:block/damaged_stone_anvil",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "mcremix:block/damaged_stone_anvil",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "mcremix:block/damaged_stone_anvil",
+      "y": 270
+    }
+  }
+}

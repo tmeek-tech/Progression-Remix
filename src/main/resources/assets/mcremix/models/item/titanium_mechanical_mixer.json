@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_mixer/item",
+  "textures": {
+    "2": "mcremix:block/titanium_casing",
+    "4": "mcremix:block/machine/titanium/mixer_base_side",
+    "11": "mcremix:block/machine/titanium/mechanical_press_top",
+    "particle": "mcremix:block/machine/titanium/mixer_base_side"
+  }
+}

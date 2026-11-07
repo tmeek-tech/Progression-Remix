@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "mcremix:block/heat_sink"
+    },
+    "facing=up": {
+      "model": "mcremix:block/heat_sink",
+      "x": 180
+    },
+    "facing=south": {
+      "model": "mcremix:block/heat_sink",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "mcremix:block/heat_sink",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "mcremix:block/heat_sink",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east": {
+      "model": "mcremix:block/heat_sink",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

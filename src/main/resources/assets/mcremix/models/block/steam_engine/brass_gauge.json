@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/steam_engine/gauge",
+  "textures": {
+    "0": "mcremix:block/brass_boiler_gauge",
+    "particle": "mcremix:block/brass_boiler_gauge"
+  }
+}

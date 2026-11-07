@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "fluid": "mcremix:ethylene_dichloride",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:ethylene_glycol",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:salt_water",
+      "amount": 250
+    }
+  ]
+}

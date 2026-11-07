@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_crimson_stem"
+      },
+      {
+        "item": "minecraft:stripped_crimson_hyphae"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:crimson_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:crimson_rope_pulley"
+  }
+}

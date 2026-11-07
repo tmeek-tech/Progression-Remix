@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "G",
+    "C",
+    "I"
+  ],
+  "key": {
+    "G": {
+      "item": "create:cogwheel"
+    },
+    "I": {
+      "tag": "forge:stone"
+    },
+    "C": {
+      "item": "create:copper_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:copper_millstone"
+  }
+}

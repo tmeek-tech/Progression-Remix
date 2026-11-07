@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "minecraft:golden_leggings"
+  },
+  "result": {
+    "fluid": "mcremix:molten_gold",
+    "amount": 315
+  }
+}

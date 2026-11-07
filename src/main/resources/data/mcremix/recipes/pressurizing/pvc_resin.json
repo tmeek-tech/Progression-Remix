@@ -1,0 +1,17 @@
+{
+  "type": "mcremix:pressurizing",
+  "heat": "cold",
+  "min_speed": 256,
+  "processingTime": 80,
+  "ingredients": [
+    {
+      "fluid": "mcremix:vinyl_chloride",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:pvc_resin"
+    }
+  ]
+}

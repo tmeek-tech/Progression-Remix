@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/mangrove_clutch_off",
+    "1": "mcremix:block/mangrove_gearbox",
+    "4": "mcremix:block/mangrove_frame",
+    "particle": "mcremix:block/mangrove_axis",
+    "1_0": "mcremix:block/mangrove_axis",
+    "1_1": "mcremix:block/mangrove_axis_top"
+  }
+}

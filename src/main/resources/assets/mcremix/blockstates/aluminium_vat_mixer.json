@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mcremix:block/aluminium_vat_mixer"
+    },
+    "facing=east": {
+      "model": "mcremix:block/aluminium_vat_mixer",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mcremix:block/aluminium_vat_mixer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mcremix:block/aluminium_vat_mixer",
+      "y": 270
+    }
+  }
+}

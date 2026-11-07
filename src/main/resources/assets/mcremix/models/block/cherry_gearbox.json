@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/gearbox/block",
+  "textures": {
+    "0": "mcremix:block/cherry_casing",
+    "1": "mcremix:block/cherry_gearbox",
+    "particle": "mcremix:block/cherry_casing"
+  }
+}

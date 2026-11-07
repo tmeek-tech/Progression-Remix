@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "mcremix:aluminium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:sand_ingot_mold"
+    },
+    {
+      "item": "mcremix:aluminium_ingot"
+    }
+  ]
+}

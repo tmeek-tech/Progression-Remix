@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/mechanical_drill/item",
+  "textures": {
+    "8": "mcremix:block/machine/aluminium/mechanical_drill_top",
+    "10": "mcremix:block/machine/aluminium/andesite_casing_very_short",
+    "gearbox": "mcremix:block/aluminium_gearbox"
+  }
+}

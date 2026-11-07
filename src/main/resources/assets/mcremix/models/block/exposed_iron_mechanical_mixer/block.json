@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_mixer/block",
+  "textures": {
+    "2": "mcremix:block/exposed_iron_casing",
+    "4": "mcremix:block/machine/exposed_iron/mixer_base_side",
+    "11": "mcremix:block/machine/exposed_iron/mechanical_press_top",
+    "particle": "mcremix:block/machine/exposed_iron/mixer_base_side"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/horizontal",
+  "textures": {
+    "5": "mcremix:block/machine/gold_tinted_titanium/andesite_casing_piston",
+    "6": "mcremix:block/machine/gold_tinted_titanium/piston_bottom",
+    "7": "mcremix:block/machine/gold_tinted_titanium/piston_inner",
+    "particle": "mcremix:block/gold_tinted_titanium_casing",
+    "gearbox_top": "mcremix:block/gold_tinted_titanium_casing",
+    "gearbox": "mcremix:block/gold_tinted_titanium_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/gold_tinted_titanium/andesite_casing_short"
+  }
+}

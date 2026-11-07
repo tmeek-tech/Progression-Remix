@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/mechanical_piston/normal/block",
+  "textures": {
+    "0": "mcremix:block/machine/spruce/andesite_casing",
+    "1": "mcremix:block/machine/spruce/piston_bottom",
+    "2": "mcremix:block/machine/spruce/gearbox",
+    "4": "minecraft:block/spruce_planks",
+    "5": "minecraft:block/spruce_planks",
+    "6": "mcremix:block/machine/spruce/andesite_casing_piston",
+    "particle": "mcremix:block/machine/spruce/andesite_casing"
+  }
+}

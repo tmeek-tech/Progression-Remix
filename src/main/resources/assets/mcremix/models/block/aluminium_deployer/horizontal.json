@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/horizontal",
+  "textures": {
+    "5": "mcremix:block/machine/aluminium/andesite_casing_piston",
+    "6": "mcremix:block/machine/aluminium/piston_bottom",
+    "7": "mcremix:block/machine/aluminium/piston_inner",
+    "particle": "mcremix:block/aluminium_casing",
+    "gearbox_top": "mcremix:block/aluminium_casing",
+    "gearbox": "mcremix:block/aluminium_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/aluminium/andesite_casing_short"
+  }
+}

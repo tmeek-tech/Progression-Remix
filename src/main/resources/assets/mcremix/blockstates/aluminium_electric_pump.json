@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "mcremix:block/aluminium_electric_pump",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "mcremix:block/aluminium_electric_pump",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "mcremix:block/aluminium_electric_pump"
+    },
+    "facing=south": {
+      "model": "mcremix:block/aluminium_electric_pump",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "mcremix:block/aluminium_electric_pump",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "mcremix:block/aluminium_electric_pump",
+      "y": 270
+    }
+  }
+}

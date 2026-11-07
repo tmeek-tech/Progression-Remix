@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "patina=none": {
+      "model": "mcremix:block/copper_millstone/block"
+    },
+    "patina=exposed": {
+      "model": "mcremix:block/exposed_copper_millstone/block"
+    },
+    "patina=weathered": {
+      "model": "mcremix:block/weathered_copper_millstone/block"
+    },
+    "patina=oxidized": {
+      "model": "mcremix:block/oxidized_copper_millstone/block"
+    },
+    "patina=waxed": {
+      "model": "mcremix:block/copper_millstone/block"
+    },
+    "patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_copper_millstone/block"
+    },
+    "patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_copper_millstone/block"
+    },
+    "patina=waxed_oxidized": {
+      "model": "mcremix:block/oxidized_copper_millstone/block"
+    }
+  }
+}

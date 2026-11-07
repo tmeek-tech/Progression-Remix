@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "ceiling=false": {
+      "model": "mcremix:block/aluminium_mechanical_arm/block"
+    },
+    "ceiling=true": {
+      "model": "mcremix:block/aluminium_mechanical_arm/block",
+      "x": 180
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:molten_gold",
+    "mcremix:flowing_molten_gold",
+    "mcremix:molten_copper",
+    "mcremix:flowing_molten_copper",
+    "mcremix:molten_brass",
+    "mcremix:flowing_molten_brass"
+  ]
+}

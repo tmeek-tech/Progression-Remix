@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/mechanical_saw/vertical",
+  "textures": {
+    "gearbox_top": "mcremix:block/aluminium_casing",
+    "gearbox": "mcremix:block/aluminium_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/aluminium/andesite_casing_short",
+    "particle": "mcremix:block/machine/aluminium/mechanical_saw_top",
+    "mechanical_saw_top": "mcremix:block/machine/aluminium/mechanical_saw_top"
+  }
+}

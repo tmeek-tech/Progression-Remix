@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:storage_blocks/gold"
+  },
+  "result": {
+    "fluid": "mcremix:molten_gold",
+    "amount": 810
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/deployer/vertical",
+  "textures": {
+    "5": "mcremix:block/machine/weathered_steel/andesite_casing_piston",
+    "6": "mcremix:block/machine/weathered_steel/piston_bottom",
+    "7": "mcremix:block/machine/weathered_steel/piston_inner",
+    "particle": "mcremix:block/weathered_steel_casing",
+    "gearbox_top": "mcremix:block/weathered_steel_casing",
+    "gearbox": "mcremix:block/weathered_steel_gearbox",
+    "andesite_casing_short": "mcremix:block/machine/weathered_steel/andesite_casing_short"
+  }
+}

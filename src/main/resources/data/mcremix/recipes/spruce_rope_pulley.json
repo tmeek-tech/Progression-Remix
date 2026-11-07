@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:stripped_spruce_log"
+      },
+      {
+        "item": "minecraft:stripped_spruce_wood"
+      }
+    ],
+    "C": {
+      "tag": "minecraft:wool"
+    },
+    "I": {
+      "item": "minecraft:spruce_slab"
+    }
+  },
+  "result": {
+    "item": "mcremix:spruce_rope_pulley"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:storage_blocks/raw_zinc"
+  },
+  "result": {
+    "fluid": "mcremix:molten_zinc",
+    "amount": 810
+  }
+}

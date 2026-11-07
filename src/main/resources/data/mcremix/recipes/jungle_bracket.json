@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "item": "minecraft:jungle_planks"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_jungle_log"
+      },
+      {
+        "item": "minecraft:stripped_jungle_wood"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:jungle_bracket",
+    "count": 4
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearbox/item",
+  "textures": {
+    "0": "mcremix:block/copper_casing",
+    "1": "mcremix:block/copper_gearbox",
+    "particle": "mcremix:block/copper_casing",
+    "1_0": "mcremix:block/copper_axis",
+    "1_1": "mcremix:block/copper_axis_top"
+  }
+}

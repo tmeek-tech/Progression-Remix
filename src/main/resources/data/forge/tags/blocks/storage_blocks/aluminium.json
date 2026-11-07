@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:aluminium_block",
+    {
+      "id": "#forge:storage_blocks/aluminum",
+      "required": false
+    }
+  ]
+}

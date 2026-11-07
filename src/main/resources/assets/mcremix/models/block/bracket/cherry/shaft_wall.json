@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/shaft/wall",
+  "textures": {
+    "bracket": "mcremix:block/cherry_bracket",
+    "plate": "mcremix:block/cherry_bracket_plate",
+    "particle": "mcremix:block/cherry_bracket_plate"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearshift/item",
+  "textures": {
+    "0": "mcremix:block/oxidized_copper_gearshift_off",
+    "1": "mcremix:block/oxidized_copper_gearbox",
+    "particle": "mcremix:block/oxidized_copper_axis",
+    "1_0": "mcremix:block/oxidized_copper_axis",
+    "1_1": "mcremix:block/oxidized_copper_axis_top"
+  }
+}

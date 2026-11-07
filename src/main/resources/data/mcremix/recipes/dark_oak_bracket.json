@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_dark_oak_log"
+      },
+      {
+        "item": "minecraft:stripped_dark_oak_wood"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:dark_oak_bracket",
+    "count": 4
+  }
+}

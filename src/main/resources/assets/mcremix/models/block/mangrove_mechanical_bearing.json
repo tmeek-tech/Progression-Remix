@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/mechanical_bearing",
+  "textures": {
+    "back": "mcremix:block/machine/mangrove/gearbox",
+    "side": "mcremix:block/machine/mangrove/mechanical_bearing_side"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:titanium_plating"
+  },
+  "result": {
+    "item": "mcremix:purple_tinted_titanium_plating"
+  },
+  "heat": "searing",
+  "time": 200
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_piston/sticky/block",
+  "textures": {
+    "0": "mcremix:block/machine/crimson/andesite_casing",
+    "1": "mcremix:block/machine/crimson/piston_bottom",
+    "2": "mcremix:block/machine/crimson/gearbox",
+    "4": "minecraft:block/crimson_planks",
+    "6": "mcremix:block/machine/crimson/andesite_casing_piston",
+    "particle": "mcremix:block/machine/crimson/andesite_casing"
+  }
+}

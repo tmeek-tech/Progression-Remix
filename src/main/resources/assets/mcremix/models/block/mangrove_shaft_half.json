@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/shaft_half",
+  "textures": {
+    "0": "mcremix:block/mangrove_axis",
+    "1": "mcremix:block/mangrove_axis_top",
+    "particle": "mcremix:block/mangrove_axis"
+  }
+}

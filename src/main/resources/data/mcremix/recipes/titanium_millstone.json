@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "G",
+    "C",
+    "I"
+  ],
+  "key": {
+    "G": {
+      "item": "create:cogwheel"
+    },
+    "I": {
+      "tag": "forge:stone"
+    },
+    "C": {
+      "item": "mcremix:titanium_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:titanium_millstone"
+  }
+}

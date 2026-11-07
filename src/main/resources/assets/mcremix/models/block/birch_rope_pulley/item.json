@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/rope_pulley/item",
+  "textures": {
+    "0": "mcremix:block/birch_axis",
+    "1": "mcremix:block/machine/birch/rope_pulley",
+    "1_1": "mcremix:block/birch_axis_top"
+  }
+}

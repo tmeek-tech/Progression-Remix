@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_piston/sticky/block",
+  "textures": {
+    "0": "mcremix:block/machine/mangrove/andesite_casing",
+    "1": "mcremix:block/machine/mangrove/piston_bottom",
+    "2": "mcremix:block/machine/mangrove/gearbox",
+    "4": "minecraft:block/mangrove_planks",
+    "6": "mcremix:block/machine/mangrove/andesite_casing_piston",
+    "particle": "mcremix:block/machine/mangrove/andesite_casing"
+  }
+}

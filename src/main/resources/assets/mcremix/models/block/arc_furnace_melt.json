@@ -1,0 +1,37 @@
+{
+  "textures": {
+    "contents": "mcremix:block/arc_furnace_melt",
+    "particle": "mcremix:block/arc_furnace_melt"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        2,
+        3
+      ],
+      "to": [
+        13,
+        3,
+        13
+      ],
+      "faces": {
+        "up": {
+          "texture": "#contents"
+        },
+        "north": {
+          "texture": "#contents"
+        },
+        "south": {
+          "texture": "#contents"
+        },
+        "east": {
+          "texture": "#contents"
+        },
+        "west": {
+          "texture": "#contents"
+        }
+      }
+    }
+  ]
+}

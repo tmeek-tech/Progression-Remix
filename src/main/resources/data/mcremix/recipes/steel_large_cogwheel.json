@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:steel_shaft"
+    },
+    {
+      "item": "mcremix:steel_ingot"
+    },
+    {
+      "item": "mcremix:steel_ingot"
+    }
+  ],
+  "result": {
+    "item": "mcremix:steel_large_cogwheel"
+  }
+}

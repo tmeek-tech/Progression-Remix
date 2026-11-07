@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mcremix:block/aluminium_mechanical_press/block"
+    },
+    "facing=east": {
+      "model": "mcremix:block/aluminium_mechanical_press/block",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mcremix:block/aluminium_mechanical_press/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mcremix:block/aluminium_mechanical_press/block",
+      "y": 270
+    }
+  }
+}

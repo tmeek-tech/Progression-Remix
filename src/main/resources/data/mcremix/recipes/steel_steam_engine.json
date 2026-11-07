@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "P",
+    "A",
+    "B"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:plates/gold"
+    },
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "B": {
+      "tag": "forge:storage_blocks/steel"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_steam_engine"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/mechanical_drill/block",
+  "textures": {
+    "4": "mcremix:block/machine/gold_tinted_titanium/mechanical_drill_top",
+    "10": "mcremix:block/machine/gold_tinted_titanium/andesite_casing_very_short",
+    "gearbox_top": "mcremix:block/gold_tinted_titanium_casing",
+    "particle": "mcremix:block/gold_tinted_titanium_gearbox",
+    "gearbox": "mcremix:block/gold_tinted_titanium_gearbox"
+  }
+}

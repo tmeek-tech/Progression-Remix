@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/mechanical_bearing",
+  "textures": {
+    "back": "mcremix:block/machine/oak/gearbox",
+    "side": "mcremix:block/machine/oak/mechanical_bearing_side"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "I"
+  ],
+  "key": {
+    "S": {
+      "item": "create:shaft"
+    },
+    "I": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "C": {
+      "item": "mcremix:aluminium_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_mechanical_press"
+  }
+}

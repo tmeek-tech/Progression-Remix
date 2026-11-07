@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft_single_flipped",
+  "textures": {
+    "0": "mcremix:block/bamboo_axis",
+    "1": "mcremix:block/bamboo_axis_top",
+    "2": "mcremix:block/machine/bamboo/gantry_shaft_flipped",
+    "3": "mcremix:block/machine/bamboo/cogwheel"
+  }
+}

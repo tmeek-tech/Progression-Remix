@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/dark_oak_clutch_off",
+    "1": "mcremix:block/dark_oak_gearbox",
+    "4": "mcremix:block/dark_oak_frame",
+    "particle": "mcremix:block/dark_oak_axis",
+    "1_0": "mcremix:block/dark_oak_axis",
+    "1_1": "mcremix:block/dark_oak_axis_top"
+  }
+}

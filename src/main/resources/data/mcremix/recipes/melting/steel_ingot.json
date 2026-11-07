@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "tag": "forge:ingots/steel"
+  },
+  "result": {
+    "fluid": "mcremix:molten_steel",
+    "amount": 90
+  }
+}

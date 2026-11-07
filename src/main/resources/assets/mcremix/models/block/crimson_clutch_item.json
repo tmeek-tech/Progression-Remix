@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/clutch/item",
+  "textures": {
+    "0": "mcremix:block/crimson_clutch_off",
+    "1": "mcremix:block/crimson_gearbox",
+    "4": "mcremix:block/crimson_frame",
+    "particle": "mcremix:block/crimson_axis",
+    "1_0": "mcremix:block/crimson_axis",
+    "1_1": "mcremix:block/crimson_axis_top"
+  }
+}

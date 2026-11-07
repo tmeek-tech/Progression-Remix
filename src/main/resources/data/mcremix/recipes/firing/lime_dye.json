@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "minecraft:sea_pickle"
+  },
+  "result": {
+    "item": "minecraft:lime_dye"
+  },
+  "heat": "warm",
+  "time": 200
+}

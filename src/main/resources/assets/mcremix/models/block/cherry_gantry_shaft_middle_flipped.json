@@ -1,0 +1,6 @@
+{
+  "parent": "create:block/gantry_shaft_middle_flipped",
+  "textures": {
+    "2": "mcremix:block/machine/cherry/gantry_shaft_flipped"
+  }
+}

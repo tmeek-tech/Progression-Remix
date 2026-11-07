@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/steam_engine/block",
+  "textures": {
+    "1": "mcremix:block/iron_steam_engine",
+    "particle": "mcremix:block/iron_steam_engine"
+  }
+}

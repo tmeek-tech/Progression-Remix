@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/mechanical_press/block",
+  "textures": {
+    "4": "mcremix:block/machine/gold_tinted_titanium/mechanical_press_side",
+    "particle": "mcremix:block/machine/gold_tinted_titanium/mechanical_press_side",
+    "gearbox_top": "mcremix:block/gold_tinted_titanium_casing",
+    "gearbox": "mcremix:block/gold_tinted_titanium_gearbox",
+    "mechanical_press_top": "mcremix:block/machine/gold_tinted_titanium/mechanical_press_top",
+    "mechanical_press_bottom": "mcremix:block/machine/gold_tinted_titanium/mechanical_press_bottom"
+  }
+}

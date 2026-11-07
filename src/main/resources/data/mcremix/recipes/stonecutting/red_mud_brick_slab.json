@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "mcremix:red_mud_bricks"
+  },
+  "result": "mcremix:red_mud_brick_slab",
+  "count": 2
+}

@@ -1,0 +1,19 @@
+{
+  "formula": "Fe",
+  "items": [
+    "minecraft:iron_ingot",
+    "minecraft:iron_nugget",
+    "minecraft:iron_block",
+    "create:iron_sheet"
+  ],
+  "fluids": [
+    "mcremix:molten_iron"
+  ],
+  "atoms": [
+    {
+      "l": "Fe",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

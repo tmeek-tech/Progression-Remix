@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:birch_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_birch_log"
+      },
+      {
+        "item": "minecraft:stripped_birch_wood"
+      }
+    ],
+    "I": {
+      "item": "mcremix:birch_gearbox"
+    }
+  },
+  "result": {
+    "item": "mcremix:birch_gantry_carriage"
+  }
+}

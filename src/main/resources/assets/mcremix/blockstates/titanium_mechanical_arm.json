@@ -1,0 +1,60 @@
+{
+  "variants": {
+    "ceiling=false,patina=none": {
+      "model": "mcremix:block/titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed": {
+      "model": "mcremix:block/titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed_exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed_weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_mechanical_arm/block"
+    },
+    "ceiling=false,patina=waxed_oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_mechanical_arm/block"
+    },
+    "ceiling=true,patina=none": {
+      "model": "mcremix:block/titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed": {
+      "model": "mcremix:block/titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed_exposed": {
+      "model": "mcremix:block/gold_tinted_titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed_weathered": {
+      "model": "mcremix:block/purple_tinted_titanium_mechanical_arm/block",
+      "x": 180
+    },
+    "ceiling=true,patina=waxed_oxidized": {
+      "model": "mcremix:block/blue_tinted_titanium_mechanical_arm/block",
+      "x": 180
+    }
+  }
+}

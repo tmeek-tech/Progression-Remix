@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "PTP",
+    " C "
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:titanium_shaft"
+    },
+    "P": {
+      "tag": "forge:plates/titanium"
+    },
+    "T": {
+      "item": "mcremix:steel_fluid_tank"
+    },
+    "C": {
+      "item": "mcremix:titanium_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:titanium_pressurizer"
+  }
+}

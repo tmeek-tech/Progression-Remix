@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "P"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:slimeballs"
+    },
+    "P": {
+      "item": "mcremix:warped_mechanical_piston"
+    }
+  },
+  "result": {
+    "item": "mcremix:warped_sticky_mechanical_piston"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "L",
+    "L"
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:dark_oak_logs"
+    }
+  },
+  "result": {
+    "item": "mcremix:dark_oak_shaft",
+    "count": 6
+  }
+}

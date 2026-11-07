@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "mcremix:titanium_nugget"
+    }
+  },
+  "result": {
+    "item": "mcremix:titanium_ingot"
+  }
+}

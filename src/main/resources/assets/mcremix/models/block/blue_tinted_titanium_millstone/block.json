@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/millstone/block",
+  "textures": {
+    "0": "mcremix:block/blue_tinted_titanium_gearbox",
+    "5": "mcremix:block/machine/blue_tinted_titanium/millstone",
+    "particle": "mcremix:block/blue_tinted_titanium_casing"
+  }
+}

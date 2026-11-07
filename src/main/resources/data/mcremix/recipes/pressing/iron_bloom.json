@@ -1,0 +1,17 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "mcremix:iron_bloom"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "mcremix:slag",
+      "chance": 0.5
+    }
+  ]
+}

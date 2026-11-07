@@ -1,0 +1,11 @@
+{
+  "parent": "create:block/gantry_carriage/horizontal",
+  "textures": {
+    "0": "mcremix:block/mangrove_axis",
+    "10": "mcremix:block/machine/mangrove/pinion",
+    "6": "mcremix:block/machine/mangrove/pinion_bottom",
+    "9": "mcremix:block/machine/mangrove/windmill_bearing_side",
+    "opening": "mcremix:block/machine/mangrove/gearbox",
+    "particle": "mcremix:block/machine/mangrove/andesite_casing"
+  }
+}

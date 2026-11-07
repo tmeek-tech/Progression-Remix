@@ -1,0 +1,17 @@
+{
+  "formula": "Ti",
+  "items": [
+    "mcremix:titanium_ingot",
+    "mcremix:titanium_nugget",
+    "mcremix:titanium_sheet",
+    "mcremix:titanium_block",
+    "mcremix:titanium_sponge"
+  ],
+  "atoms": [
+    {
+      "l": "Ti",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

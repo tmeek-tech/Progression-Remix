@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "LLA",
+    "L  ",
+    "IC "
+  ],
+  "key": {
+    "L": {
+      "tag": "forge:plates/brass"
+    },
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "I": {
+      "item": "create:precision_mechanism"
+    },
+    "C": {
+      "item": "mcremix:iron_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:iron_mechanical_arm"
+  }
+}

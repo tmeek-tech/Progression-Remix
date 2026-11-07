@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/steel_furnace_capped",
+  "textures": {
+    "inside": "mcremix:block/kiln_inside_lit",
+    "embers": "mcremix:block/kiln_embers"
+  }
+}

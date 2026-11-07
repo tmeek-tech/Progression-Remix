@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:nuggets/titanium"
+    },
+    "P": {
+      "tag": "forge:ingots/titanium"
+    },
+    "C": {
+      "tag": "mcremix:polyethylene"
+    }
+  },
+  "result": {
+    "item": "mcremix:titanium_bracket",
+    "count": 4
+  }
+}

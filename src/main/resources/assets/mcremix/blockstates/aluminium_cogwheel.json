@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mcremix:block/aluminium_cogwheel",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "mcremix:block/aluminium_cogwheel"
+    },
+    "axis=z": {
+      "model": "mcremix:block/aluminium_cogwheel",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

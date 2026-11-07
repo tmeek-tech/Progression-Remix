@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " L ",
+    "LKL",
+    " L "
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:logs"
+    },
+    "K": [
+      {
+        "item": "mcremix:kiln"
+      },
+      {
+        "item": "minecraft:furnace"
+      }
+    ]
+  },
+  "result": {
+    "item": "minecraft:smoker"
+  }
+}

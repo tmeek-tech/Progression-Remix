@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "patina=none": {
+      "model": "mcremix:block/iron_millstone/block"
+    },
+    "patina=exposed": {
+      "model": "mcremix:block/exposed_iron_millstone/block"
+    },
+    "patina=weathered": {
+      "model": "mcremix:block/weathered_iron_millstone/block"
+    },
+    "patina=oxidized": {
+      "model": "mcremix:block/rusted_iron_millstone/block"
+    },
+    "patina=waxed": {
+      "model": "mcremix:block/iron_millstone/block"
+    },
+    "patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_iron_millstone/block"
+    },
+    "patina=waxed_weathered": {
+      "model": "mcremix:block/weathered_iron_millstone/block"
+    },
+    "patina=waxed_oxidized": {
+      "model": "mcremix:block/rusted_iron_millstone/block"
+    }
+  }
+}

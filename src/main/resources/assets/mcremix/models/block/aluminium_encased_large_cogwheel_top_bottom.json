@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/encased_large_cogwheel/block_top_bottom",
+  "textures": {
+    "1": "minecraft:block/stripped_spruce_log_top",
+    "4": "mcremix:block/aluminium_gearbox",
+    "casing": "mcremix:block/aluminium_casing",
+    "particle": "mcremix:block/aluminium_casing",
+    "side": "mcremix:block/aluminium_encased_cogwheel_side_connected"
+  }
+}

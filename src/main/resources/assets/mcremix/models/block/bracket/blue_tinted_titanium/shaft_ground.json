@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/shaft/ground",
+  "textures": {
+    "bracket": "mcremix:block/blue_tinted_titanium_bracket",
+    "plate": "mcremix:block/blue_tinted_titanium_bracket_plate",
+    "particle": "mcremix:block/blue_tinted_titanium_bracket_plate"
+  }
+}

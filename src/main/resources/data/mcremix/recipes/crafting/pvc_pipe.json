@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:pvc_sheet"
+    }
+  },
+  "result": {
+    "item": "mcremix:pvc_pipe",
+    "count": 8
+  }
+}

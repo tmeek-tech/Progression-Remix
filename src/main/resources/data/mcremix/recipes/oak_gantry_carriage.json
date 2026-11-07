@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:oak_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_oak_log"
+      },
+      {
+        "item": "minecraft:stripped_oak_wood"
+      }
+    ],
+    "I": {
+      "item": "mcremix:oak_gearbox"
+    }
+  },
+  "result": {
+    "item": "mcremix:oak_gantry_carriage"
+  }
+}

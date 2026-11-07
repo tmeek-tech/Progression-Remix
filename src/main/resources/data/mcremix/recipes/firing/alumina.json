@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:aluminium_hydroxide"
+  },
+  "result": {
+    "item": "mcremix:alumina"
+  },
+  "heat": "searing",
+  "time": 300
+}

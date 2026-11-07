@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:aluminium_ingot"
+    }
+  ],
+  "result": {
+    "item": "mcremix:aluminium_nugget",
+    "count": 9
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/millstone/block",
+  "textures": {
+    "0": "mcremix:block/exposed_iron_gearbox",
+    "5": "mcremix:block/machine/exposed_iron/millstone",
+    "particle": "mcremix:block/exposed_iron_casing"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/aluminium"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_block"
+  }
+}

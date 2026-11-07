@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "create:crushed_raw_iron"
+  },
+  "result": {
+    "fluid": "mcremix:molten_iron",
+    "amount": 90
+  }
+}

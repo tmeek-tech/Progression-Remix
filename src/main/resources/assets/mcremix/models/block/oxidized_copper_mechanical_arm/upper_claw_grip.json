@@ -1,0 +1,6 @@
+{
+  "parent": "create:block/mechanical_arm/upper_claw_grip",
+  "textures": {
+    "5": "mcremix:block/machine/oxidized_copper/mechanical_arm"
+  }
+}

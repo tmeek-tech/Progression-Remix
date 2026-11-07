@@ -1,0 +1,25 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    [
+      {
+        "item": "mcremix:exposed_copper_gearshift"
+      },
+      {
+        "item": "mcremix:weathered_copper_gearshift"
+      },
+      {
+        "item": "mcremix:oxidized_copper_gearshift"
+      }
+    ],
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:copper_gearshift"
+    }
+  ]
+}

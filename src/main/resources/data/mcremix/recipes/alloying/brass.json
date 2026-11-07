@@ -1,0 +1,20 @@
+{
+  "type": "mcremix:alloying",
+  "fluids": [
+    {
+      "fluid": "mcremix:molten_copper",
+      "amount": 90
+    },
+    {
+      "fluid": "mcremix:molten_zinc",
+      "amount": 90
+    }
+  ],
+  "items": [],
+  "result": {
+    "fluid": "mcremix:molten_brass",
+    "amount": 180
+  },
+  "heat": "searing",
+  "time": 40
+}

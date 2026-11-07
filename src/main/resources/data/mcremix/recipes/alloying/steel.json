@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:alloying",
+  "fluids": [
+    {
+      "fluid": "mcremix:molten_iron",
+      "amount": 360
+    }
+  ],
+  "items": [
+    {
+      "ingredient": {
+        "item": "mcremix:coal_coke"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "fluid": "mcremix:molten_steel",
+    "amount": 360
+  },
+  "heat": "blazing",
+  "time": 200
+}

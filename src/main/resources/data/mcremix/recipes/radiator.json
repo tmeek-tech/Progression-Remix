@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "SPS",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/aluminium"
+    },
+    "P": {
+      "item": "create:fluid_pipe"
+    }
+  },
+  "result": {
+    "item": "mcremix:radiator",
+    "count": 2
+  }
+}

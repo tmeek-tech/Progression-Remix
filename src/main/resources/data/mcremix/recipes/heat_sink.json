@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S S",
+    "S S",
+    "III"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/aluminium"
+    },
+    "I": {
+      "tag": "forge:ingots/aluminium"
+    }
+  },
+  "result": {
+    "item": "mcremix:heat_sink"
+  }
+}

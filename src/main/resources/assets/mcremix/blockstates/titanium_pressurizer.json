@@ -1,0 +1,244 @@
+{
+  "variants": {
+    "facing=north,patina=none,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer"
+    },
+    "facing=north,patina=exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer"
+    },
+    "facing=north,patina=weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer"
+    },
+    "facing=north,patina=oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer"
+    },
+    "facing=north,patina=waxed,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer"
+    },
+    "facing=north,patina=waxed_exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer"
+    },
+    "facing=north,patina=waxed_weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer"
+    },
+    "facing=north,patina=waxed_oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer"
+    },
+    "facing=north,patina=none,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open"
+    },
+    "facing=north,patina=exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open"
+    },
+    "facing=north,patina=weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open"
+    },
+    "facing=north,patina=oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open"
+    },
+    "facing=north,patina=waxed,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open"
+    },
+    "facing=north,patina=waxed_exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open"
+    },
+    "facing=north,patina=waxed_weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open"
+    },
+    "facing=north,patina=waxed_oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open"
+    },
+    "facing=east,patina=none,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=waxed,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=waxed_exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=waxed_weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=waxed_oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer",
+      "y": 90
+    },
+    "facing=east,patina=none,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=waxed,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=waxed_exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=waxed_weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=east,patina=waxed_oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open",
+      "y": 90
+    },
+    "facing=south,patina=none,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=waxed,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=waxed_exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=waxed_weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=waxed_oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer",
+      "y": 180
+    },
+    "facing=south,patina=none,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=waxed,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=waxed_exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=waxed_weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=south,patina=waxed_oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open",
+      "y": 180
+    },
+    "facing=west,patina=none,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=waxed,vessel=true": {
+      "model": "mcremix:block/titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=waxed_exposed,vessel=true": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=waxed_weathered,vessel=true": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=waxed_oxidized,vessel=true": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer",
+      "y": 270
+    },
+    "facing=west,patina=none,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=waxed,vessel=false": {
+      "model": "mcremix:block/titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=waxed_exposed,vessel=false": {
+      "model": "mcremix:block/gold_tinted_titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=waxed_weathered,vessel=false": {
+      "model": "mcremix:block/purple_tinted_titanium_pressurizer_open",
+      "y": 270
+    },
+    "facing=west,patina=waxed_oxidized,vessel=false": {
+      "model": "mcremix:block/blue_tinted_titanium_pressurizer_open",
+      "y": 270
+    }
+  }
+}

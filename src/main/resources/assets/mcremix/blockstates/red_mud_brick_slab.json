@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mcremix:block/red_mud_brick_slab"
+    },
+    "type=top": {
+      "model": "mcremix:block/red_mud_brick_slab_top"
+    },
+    "type=double": {
+      "model": "mcremix:block/red_mud_bricks"
+    }
+  }
+}

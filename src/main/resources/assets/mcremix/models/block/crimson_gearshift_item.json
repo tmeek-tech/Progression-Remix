@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearshift/item",
+  "textures": {
+    "0": "mcremix:block/crimson_gearshift_off",
+    "1": "mcremix:block/crimson_gearbox",
+    "particle": "mcremix:block/crimson_axis",
+    "1_0": "mcremix:block/crimson_axis",
+    "1_1": "mcremix:block/crimson_axis_top"
+  }
+}

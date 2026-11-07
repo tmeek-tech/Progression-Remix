@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "mcremix:block/bamboo_piston_extension_pole",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "mcremix:block/bamboo_piston_extension_pole",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "mcremix:block/bamboo_piston_extension_pole",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "mcremix:block/bamboo_piston_extension_pole",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "mcremix:block/bamboo_piston_extension_pole"
+    },
+    "facing=west": {
+      "model": "mcremix:block/bamboo_piston_extension_pole",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

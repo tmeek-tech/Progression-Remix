@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/gearbox/item",
+  "textures": {
+    "0": "mcremix:block/blue_tinted_titanium_casing",
+    "1": "mcremix:block/blue_tinted_titanium_gearbox",
+    "particle": "mcremix:block/blue_tinted_titanium_casing",
+    "1_0": "mcremix:block/titanium_axis",
+    "1_1": "mcremix:block/titanium_axis_top"
+  }
+}

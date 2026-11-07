@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/titanium"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:titanium_sheet"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "minecraft:ancient_debris"
+  },
+  "result": {
+    "item": "minecraft:netherite_scrap"
+  },
+  "heat": "blazing",
+  "time": 400
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/cherry_bearing/item",
+  "textures": {
+    "back": "mcremix:block/machine/cherry/gearbox",
+    "side": "mcremix:block/machine/cherry/mechanical_bearing_side",
+    "top": "create:block/bearing_top"
+  }
+}

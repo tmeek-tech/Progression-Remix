@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "result": {
+    "item": "mcremix:coal_coke"
+  },
+  "heat": "hot",
+  "time": 400,
+  "byproduct": {
+    "fluid": "mcremix:coal_tar",
+    "amount": 50
+  }
+}

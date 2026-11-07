@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:steel_fluid_pipe",
+    "mcremix:steel_mechanical_pump",
+    "mcremix:steel_electric_pump",
+    "mcremix:steel_fluid_tank"
+  ]
+}

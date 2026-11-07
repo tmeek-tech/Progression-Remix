@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/fluid_pipe/item",
+  "textures": {
+    "1": "mcremix:block/glass_pipes",
+    "particle": "minecraft:block/glass"
+  }
+}

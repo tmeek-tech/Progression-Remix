@@ -1,0 +1,13 @@
+{
+  "parent": "create:block/gantry_carriage/item",
+  "textures": {
+    "0": "mcremix:block/acacia_axis",
+    "10": "mcremix:block/machine/acacia/pinion",
+    "11": "mcremix:block/acacia_axis_top",
+    "12": "mcremix:block/machine/acacia/pinion_bottom",
+    "3": "mcremix:block/machine/acacia/cogwheel",
+    "9": "mcremix:block/machine/acacia/windmill_bearing_side",
+    "opening": "mcremix:block/machine/acacia/gearbox",
+    "particle": "mcremix:block/machine/acacia/andesite_casing"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "tag": "minecraft:logs_that_burn"
+  },
+  "result": {
+    "item": "minecraft:charcoal"
+  },
+  "heat": "warm",
+  "time": 300,
+  "byproduct": {
+    "fluid": "mcremix:wood_spirit",
+    "amount": 50
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/vat_mixer/block",
+  "textures": {
+    "tank": "mcremix:block/exposed_steel_fluid_tank",
+    "particle": "mcremix:block/exposed_steel_fluid_tank"
+  }
+}

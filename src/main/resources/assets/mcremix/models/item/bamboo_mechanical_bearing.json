@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/bamboo_bearing/item",
+  "textures": {
+    "back": "mcremix:block/machine/bamboo/gearbox",
+    "side": "mcremix:block/machine/bamboo/mechanical_bearing_side",
+    "top": "create:block/bearing_top"
+  }
+}

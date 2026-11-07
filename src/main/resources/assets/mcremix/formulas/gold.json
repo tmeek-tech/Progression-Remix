@@ -1,0 +1,19 @@
+{
+  "formula": "Au",
+  "items": [
+    "minecraft:gold_ingot",
+    "minecraft:gold_nugget",
+    "minecraft:gold_block",
+    "create:golden_sheet"
+  ],
+  "fluids": [
+    "mcremix:molten_gold"
+  ],
+  "atoms": [
+    {
+      "l": "Au",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

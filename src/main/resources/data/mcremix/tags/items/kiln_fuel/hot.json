@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:charcoal",
+    "minecraft:coal",
+    "minecraft:coal_block",
+    "minecraft:lava_bucket",
+    {
+      "id": "immersive_weathering:charred_log",
+      "required": false
+    },
+    {
+      "id": "immersive_weathering:charred_planks",
+      "required": false
+    },
+    {
+      "id": "immersive_weathering:charred_slab",
+      "required": false
+    },
+    {
+      "id": "immersive_weathering:charred_stairs",
+      "required": false
+    },
+    {
+      "id": "immersive_weathering:charred_fence",
+      "required": false
+    },
+    {
+      "id": "immersive_weathering:charred_fence_gate",
+      "required": false
+    }
+  ]
+}

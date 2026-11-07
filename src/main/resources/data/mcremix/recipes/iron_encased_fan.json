@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "P"
+  ],
+  "key": {
+    "S": {
+      "item": "create:shaft"
+    },
+    "P": {
+      "item": "create:propeller"
+    },
+    "C": {
+      "item": "mcremix:iron_casing"
+    }
+  },
+  "result": {
+    "item": "mcremix:iron_encased_fan"
+  }
+}

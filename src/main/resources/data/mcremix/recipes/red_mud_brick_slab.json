@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "mcremix:red_mud_bricks"
+    }
+  },
+  "result": {
+    "item": "mcremix:red_mud_brick_slab",
+    "count": 6
+  }
+}

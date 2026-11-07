@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:electrolysis",
+  "charge": 500,
+  "ingredients": [
+    {
+      "item": "mcremix:alumina"
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:molten_aluminium",
+      "amount": 90
+    }
+  ]
+}

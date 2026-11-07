@@ -1,0 +1,12 @@
+{
+  "parent": "create:block/mechanical_piston/normal/block",
+  "textures": {
+    "0": "mcremix:block/machine/acacia/andesite_casing",
+    "1": "mcremix:block/machine/acacia/piston_bottom",
+    "2": "mcremix:block/machine/acacia/gearbox",
+    "4": "minecraft:block/acacia_planks",
+    "5": "minecraft:block/acacia_planks",
+    "6": "mcremix:block/machine/acacia/andesite_casing_piston",
+    "particle": "mcremix:block/machine/acacia/andesite_casing"
+  }
+}

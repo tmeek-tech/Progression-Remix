@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "mcremix:block/aluminium_mechanical_drill/block"
+    },
+    "facing=down": {
+      "model": "mcremix:block/aluminium_mechanical_drill/block",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "mcremix:block/aluminium_mechanical_drill/block",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "mcremix:block/aluminium_mechanical_drill/block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mcremix:block/aluminium_mechanical_drill/block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mcremix:block/aluminium_mechanical_drill/block",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "mcremix:arc_furnace",
+  "energy": 16000,
+  "ingredients": [
+    {
+      "item": "mcremix:titanium_sponge"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:titanium_ingot"
+    }
+  ]
+}

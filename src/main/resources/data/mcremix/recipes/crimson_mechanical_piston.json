@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "B",
+    "C",
+    "I"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:crimson_slab"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_crimson_stem"
+      },
+      {
+        "item": "minecraft:stripped_crimson_hyphae"
+      }
+    ],
+    "I": {
+      "item": "mcremix:crimson_piston_extension_pole"
+    }
+  },
+  "result": {
+    "item": "mcremix:crimson_mechanical_piston"
+  }
+}

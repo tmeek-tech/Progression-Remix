@@ -1,0 +1,22 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "mcremix:slag"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:iron_nugget",
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:iron_nugget",
+      "chance": 0.25
+    },
+    {
+      "item": "minecraft:gravel",
+      "chance": 0.3
+    }
+  ]
+}

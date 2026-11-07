@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/gantry_shaft_end_flipped",
+  "textures": {
+    "0": "mcremix:block/oak_axis",
+    "1": "mcremix:block/oak_axis_top",
+    "2": "mcremix:block/machine/oak/gantry_shaft_flipped",
+    "3": "mcremix:block/machine/oak/cogwheel"
+  }
+}

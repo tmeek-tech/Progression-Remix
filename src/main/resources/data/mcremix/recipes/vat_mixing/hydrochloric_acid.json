@@ -1,0 +1,19 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 250
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 500
+    }
+  ]
+}

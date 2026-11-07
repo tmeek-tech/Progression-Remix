@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/cog/ground",
+  "textures": {
+    "bracket": "mcremix:block/titanium_bracket",
+    "plate": "mcremix:block/titanium_bracket_plate",
+    "particle": "mcremix:block/titanium_bracket_plate"
+  }
+}

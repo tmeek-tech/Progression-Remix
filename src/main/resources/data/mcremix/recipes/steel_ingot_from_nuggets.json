@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "mcremix:steel_nugget"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_ingot"
+  }
+}

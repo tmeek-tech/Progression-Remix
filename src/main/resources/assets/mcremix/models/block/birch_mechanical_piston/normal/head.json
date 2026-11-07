@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_piston/normal/head",
+  "textures": {
+    "0": "minecraft:block/birch_planks",
+    "1": "minecraft:block/birch_planks",
+    "2": "minecraft:block/birch_planks",
+    "particle": "minecraft:block/birch_planks"
+  }
+}

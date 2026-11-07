@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/pipe/wall",
+  "textures": {
+    "bracket": "mcremix:block/jungle_bracket",
+    "plate": "mcremix:block/jungle_bracket_plate",
+    "particle": "mcremix:block/jungle_bracket_plate"
+  }
+}

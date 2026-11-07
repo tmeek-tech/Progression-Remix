@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/bracket/cog/wall",
+  "textures": {
+    "bracket": "mcremix:block/acacia_bracket",
+    "plate": "mcremix:block/acacia_bracket_plate",
+    "particle": "mcremix:block/acacia_bracket_plate"
+  }
+}

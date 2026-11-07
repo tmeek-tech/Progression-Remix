@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "mcremix:block/pvc_pipe",
+    "pipe": "mcremix:block/pvc_pipe",
+    "fitting": "mcremix:block/pvc_fitting"
+  }
+}

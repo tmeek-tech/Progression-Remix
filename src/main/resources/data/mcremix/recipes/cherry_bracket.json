@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "PCP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "item": "minecraft:cherry_planks"
+    },
+    "C": [
+      {
+        "item": "minecraft:stripped_cherry_log"
+      },
+      {
+        "item": "minecraft:stripped_cherry_wood"
+      }
+    ]
+  },
+  "result": {
+    "item": "mcremix:cherry_bracket",
+    "count": 4
+  }
+}

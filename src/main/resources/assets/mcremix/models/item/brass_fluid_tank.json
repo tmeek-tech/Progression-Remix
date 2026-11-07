@@ -1,0 +1,10 @@
+{
+  "parent": "create:block/fluid_tank/block_single_window",
+  "textures": {
+    "0": "mcremix:block/brass_fluid_tank_top",
+    "1": "mcremix:block/brass_fluid_tank",
+    "4": "mcremix:block/brass_fluid_tank_inner",
+    "5": "mcremix:block/brass_fluid_tank_window_single",
+    "particle": "mcremix:block/brass_fluid_tank"
+  }
+}

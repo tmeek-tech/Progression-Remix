@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "mcremix:pvc_resin"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:pvc_sheet"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "textures": {
+    "rod": "mcremix:block/carbon_electrode",
+    "particle": "mcremix:block/carbon_electrode"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        -12,
+        7
+      ],
+      "to": [
+        6,
+        15,
+        9
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            4,
+            0,
+            6,
+            2
+          ],
+          "texture": "#rod"
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            6,
+            2
+          ],
+          "texture": "#rod"
+        },
+        "north": {
+          "uv": [
+            4,
+            2,
+            6,
+            16
+          ],
+          "texture": "#rod"
+        },
+        "south": {
+          "uv": [
+            4,
+            2,
+            6,
+            16
+          ],
+          "texture": "#rod"
+        },
+        "east": {
+          "uv": [
+            4,
+            2,
+            6,
+            16
+          ],
+          "texture": "#rod"
+        },
+        "west": {
+          "uv": [
+            4,
+            2,
+            6,
+            16
+          ],
+          "texture": "#rod"
+        }
+      }
+    }
+  ]
+}

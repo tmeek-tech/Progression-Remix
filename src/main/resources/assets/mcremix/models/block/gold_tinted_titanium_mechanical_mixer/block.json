@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/mechanical_mixer/block",
+  "textures": {
+    "2": "mcremix:block/gold_tinted_titanium_casing",
+    "4": "mcremix:block/machine/gold_tinted_titanium/mixer_base_side",
+    "11": "mcremix:block/machine/gold_tinted_titanium/mechanical_press_top",
+    "particle": "mcremix:block/machine/gold_tinted_titanium/mixer_base_side"
+  }
+}
