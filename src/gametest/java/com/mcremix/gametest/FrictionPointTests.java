@@ -552,7 +552,9 @@ public class FrictionPointTests {
 			GT.click(h, player, waxed, Direction.UP, 0, new ItemStack(Items.HONEYCOMB));
 			GT.assertIs(h, waxed, part("waxed_copper_shaft"));
 			BlockState bracket = GT.bracketOn(h, waxed);
-			h.assertTrue(bracket != null && bracket.is(part("copper_bracket")), "waxing should keep the bracket on, it has " + bracket);
+			// the copper bracket can weather a stage in the ticks before, at a random tick's odds
+			h.assertTrue(bracket != null && bracket.getBlock() instanceof TieredKinetic tiered
+				&& tiered.variant().material() == KineticMaterial.COPPER, "waxing should keep the bracket on, it has " + bracket);
 			h.assertTrue(held(h, waxed), "a waxed part should still count as held");
 			GT.click(h, player, waxed, Direction.UP, 0, new ItemStack(Items.IRON_AXE));
 			GT.assertIs(h, waxed, part("copper_shaft"));
@@ -799,8 +801,11 @@ public class FrictionPointTests {
 		});
 		h.runAtTickTime(200, () -> {
 			GT.assertIs(h, p(2, 2, 2), iron);
-			h.assertTrue(GT.bracketOn(h, p(2, 2, 2)) != null && GT.bracketOn(h, p(2, 2, 2)).is(part("copper_bracket")),
-				"the copper bracket should stay on under the load");
+			// copper weathers as it turns, so by now it may be exposed copper
+			BlockState bracket = GT.bracketOn(h, p(2, 2, 2));
+			h.assertTrue(bracket != null && bracket.getBlock() instanceof TieredKinetic tiered
+				&& tiered.variant().material() == KineticMaterial.COPPER, "the copper bracket should stay on under the load: "
+					+ bracket);
 			h.assertTrue(Math.abs(GT.kinetic(h, p(2, 2, 2)).getSpeed()) == 256, "the iron shaft in its bracket should turn on");
 			GT.assertIs(h, p(2, 2, 6), EncasedParts.encased(EncasingCasing.COPPER, KineticPart.SHAFT));
 			h.assertTrue(Math.abs(GT.kinetic(h, p(2, 2, 6)).getSpeed()) == 256, "the iron shaft in copper casing should turn on");

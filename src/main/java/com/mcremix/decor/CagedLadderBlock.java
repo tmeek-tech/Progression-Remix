@@ -46,9 +46,9 @@ public class CagedLadderBlock extends LadderBlock implements FluidPartMaterial.P
 	/** The most a climber under the cage is moved toward its middle in a tick, as fast as one can move on a ladder. */
 	private static final double STEER = 0.15;
 	/**
-	 * How far past a side bar's inner edge a climber is steered in a tick: more than a strafe key held toward that bar
-	 * takes back in the air (0.02 a tick, after the air's drag), so once steered, holding one does not take them back
-	 * under it.
+	 * How far past a side bar's inner edge a climber's speed across is set to take them in a tick, before drag takes some
+	 * of it: more than a strafe key held toward that bar takes back in the air (0.02 a tick), so holding one cannot keep
+	 * them under it. One far under the bar can be left just short of it by the first steer, and the next takes them in.
 	 */
 	private static final double CLEARANCE = 0.03;
 

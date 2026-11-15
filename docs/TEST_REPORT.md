@@ -1,15 +1,15 @@
 # Test reports
 
-Newest first: [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
 
 ## 0.31.0: The glass lab and the first chemistry
 
-This covers section 39 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 1 of the distillation build, the glass lab still and
+This covers section 40 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 1 of the distillation build, the glass lab still and
 bench glassware, wash, wood spirit and coal tar split into their cuts, Bakelite from phenol and formaldehyde, basin
-reflux, CO2 and vinegar, on top of 0.30.1, with the fixes two reviews of the stage found. The still's creosote now soaks
-0.30.0's creosote timber. Tested on 2026-11-15 against the same versions as 0.30.0.
+reflux, CO2 and vinegar, on top of 0.30.2, with the fixes two reviews of the stage found. The still's creosote now soaks
+0.30.0's creosote timber. Tested on 2026-11-15 against the same versions as 0.30.2.
 
 **Result:** 0.31.0 compiled with no errors. Every GameTest passes in a fresh test world: 380 of 380 plain and
 386 of 386 with `-Pcompanions`. The jar starts on a real Forge server and runs a still there. In a dev client, before
@@ -19,7 +19,7 @@ the review's fixes, a still distilled wood spirit and then coal tar into their c
 | --- | --- | --- |
 | Build | Pass | @@BUILD@@ |
 | Production server | Pass | @@SERVER@@ |
-| GameTests, plain | Pass | 380 of 380: 0.30.1's 349, the 30 in `GlassLabTests` and one new in `CoalTarTests` |
+| GameTests, plain | Pass | 380 of 380: 0.30.2's 349, the 30 in `GlassLabTests` and one new in `CoalTarTests` |
 | GameTests, with companions | Pass | 386 of 386 |
 | The still | Pass | `woodSpiritDistilsIntoItsCuts`: a bucket of wood spirit on a campfire, two column pieces and cold water gives 100 acetone and 300 methanol in two flasks of the cow receiver, which the still turns between cuts, and leaves 600 vinegar, warming the condenser's water; `aPipeFedStillWaitsForAWholeBatch` (fed 100 mB at a time it starts on the whole bucket; fed half a bucket at once it starts a second later, splitting it in the same proportions); `smallLotsGiveABucketsCutsInTheEnd` (two 25 mB lots give 5 acetone, 15 methanol and 30 vinegar between them, as 50 mB at once would: what the first lot's cuts fall short by in whole mB is carried to the second); `aFlaskJustLoadedWaitsForItsPipes` (loaded holding part of a batch, it waits a second for its pipes before it distils); `aWiredThermometerTurnsTheReceiverOnceACut` (the pulse after the still's own turn is taken as that turn, so each cut still gets its own flask); `washStillsIntoAQuarterEthanol` (a bucket of wash gives 250 ethanol and leaves 750 warm water); `aStillWithADryCondenserWaits`; `anIncompleteStillSaysWhatItLacks` (losing its condenser stops it, its thermometer reading nothing; four column pieces are one too many, as the flask's goggles and the head's both say); `aMixturePouredInAfterWaterStillDistils`; `aDistillingRecipeWithoutItsMixtureIsTurnedDown` (and one cutting 550 mB from 100); `aCowReceiverTurnsByHandOrPulse` |
 | Buckets | Pass | `bucketsTakeWholeBucketsAndSneakingTipsOut`: a bucket takes whole buckets, from behind a part-bucket too, out of a round flask and a settling flask, the cow receiver's from the flask on the side clicked (west) and the coil condenser's warm water, and a bucket of water fills the condenser; sneaking with an empty hand tips out the rest, just the east flask of the receiver when its east side is clicked, and marks each piece's chunk to be saved |
@@ -44,6 +44,35 @@ the review's fixes, a still distilled wood spirit and then coal tar into their c
 - The Ponder scenes are drawn at the usual 5 by 5 scale, so the one-block-wide still looks small.
 - The reflux flask only runs Create's heated mixing recipes that are fluids alone; glycol is the only one in the mod.
 - Argon tubes still wait for argon (stage 4).
+
+## 0.30.2: Fixes to the decor blocks
+
+This covers section 39 of [BUILD_NOTES.md](BUILD_NOTES.md): what a last check of 0.30.0 found, and what a check of
+those fixes found in turn, fixed on top of 0.30.1. Tested on 2026-11-15 against the same versions as 0.30.1.
+
+**Result:** 0.30.2 compiled with no errors. Every GameTest passes in a fresh test world: 349 of 349 plain and 355 of 355
+with `-Pcompanions`. Not checked: the jar on a real Forge server, and the fixes in a dev client.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.2.jar`, 5,279,512 bytes, SHA-256 `ff8269ac…0edc2d2`; `builds/mcremix-1.20.1-0.30.2.zip` holds the same jar. Its `mods.toml` says 0.30.2; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | Starting the downloaded Forge server was refused in this environment, as for 0.30.0 |
+| GameTests, plain | Pass | 349 of 349, first time: 0.30.1's 349, none new |
+| GameTests, with companions | Pass | 355 of 355, first time |
+| A broken wide flight | Pass | `catwalksAndStairsJoinTheirNeighbours` ends with a player standing across the join of a two-wide flight climbing east, on the north one's lower tread; the south stairs is broken, the north one rails its south side round them, and keeping them out of the rails leaves them where they are. Stood so on its upper tread, they jump and, moved as the game moves a player for 20 ticks, land on that tread again. |
+| Two flaky tests | Pass | `onlyShaftsAndCogsGiveWayUnderLoad` (0.27.0) failed in 4 of about 20 runs while 0.30.0 was tested: its copper bracket weathers as it turns, at a random tick's odds, and the test wanted it still bare (0.30.0's report took it for a timing fault). It now takes the copper bracket at any stage, and has passed in every full run since. `bracketsStayOnThroughWaxAxeAndWeather` failed once with companions here the same way, its copper bracket a stage on before it was waxed, and now takes copper at any stage too |
+
+### Known gaps
+
+- An argon tube held lit below 800 V goes dark if its supply is two chunks away or more and that chunk stops while the
+  tube's chunks still tick, as when a server restarts with the tube in the spawn chunks and its supply outside them
+  (0.30.0 had it go dark so while the tube's chunk was in view). Its hold while a chunk round it does not tick its block
+  entities is reasoned from how chunk tickets spread and from Power Grid's code, not tested: every GameTest chunk is
+  force-loaded, so it and the chunks beside it always tick.
+- One standing across the join of a two-wide flight of catwalk stairs can still be moved out over the gap when two
+  stairs of the other half, one above the other, are broken: the rail the stairs one lower gains is one of the stairs
+  under their feet, where a push goes either way. Left as a rare case for decorative blocks.
+- The rest of 0.30.0's gaps stand, but for `onlyShaftsAndCogsGiveWayUnderLoad`'s, found and fixed above.
 
 ## 0.30.1: Fixes to the new colours
 
