@@ -1,8 +1,38 @@
 # Test reports
 
-Newest first: [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.30.1: Fixes to the new colours
+
+This covers section 38 of [BUILD_NOTES.md](BUILD_NOTES.md): thirteen things a review of 0.29.0 found the new colours
+doing differently from vanilla's purple, fixed on top of 0.30.0. Tested on 2026-11-15 against the same versions as
+0.30.0.
+
+**Result:** 0.30.1 compiled with no errors. Every GameTest passes in a fresh test world: 349 of 349 plain and
+355 of 355 with `-Pcompanions`. The jar starts and runs on a real Forge server. Not checked: the fixes in a dev client.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.1.jar`, 5,278,851 bytes, SHA-256 `49dee9ba…e342e74e`; `builds/mcremix-1.20.1-0.30.1.zip` holds the same jar. Its `mods.toml` says 0.30.1; no PNG in it carries a `caBX` chunk; no GameTest class is in it; the refmap maps `PoiTypesMixin` to `forState` and `hasPoi`'s SRG names and `DispenserBlockAccessor` to `getDispenseMethod`'s |
+| Production server | Pass | The Forge 47.4.6 dedicated server set up for 0.29.0 (Create 6.0.8, Power Grid, Architectury API), with this jar in place of 0.29.0's, loaded 0.29.0's world and started in 3.7 seconds; `/setblock` placed mauve stained glass, a rose bed's head (which asks `PoiTypes.forState`) and an indigo shulker box, a sheep summoned with `Color:20b` read back `20b`, and it stopped and saved cleanly. Its log had nothing from the mod but Forge noting the 0.30.0 blocks' item ids, new to that world |
+| GameTests, plain | Pass | 349 of 349: 0.30.0's 345 and four new in `ColourTests` |
+| GameTests, with companions | Pass | 355 of 355, first time |
+| Glass | Pass | `theNewStainedGlassIsGlass`: no mob may spawn on the new stained glass, and it carries no redstone, suffocates nothing and blocks no view, as vanilla's |
+| Beds | Pass | `villagersTakeTheNewBedsAsHomes`: each new bed's head is a home point of interest and its foot none; a mauve bed placed in the test world shows mauve on maps at its foot and wool at its head, and becomes a home in the world's point of interest records |
+| Cauldrons and dispensers | Pass | `cauldronsAndDispensersTakeTheNewColours`: a full water cauldron washes a mauve shulker box to a plain one and the pattern off a mauve banner; each new carpet's dispenser behaviour is purple's, which puts it on a llama |
+| Recipe book | Pass | `theRecipeBookHasTheNewColoursAsItHasVanillas`: dyeing wool, carpets and beds red (vanilla's recipes, written again) and mauve is in the building tab; recipe-unlock advancements exist for mauve stained glass, mauve wool dyeing, the mauve bed and lilac dye, and for Create's mauve seat and valve handle |
+| Create | Pass | `createHasItsDyedBlocksInTheNewColours` now also finds each new shulker box in `create:simple_mounted_storage` |
+| Block entities | Pass | `bedsBannersAndShulkerBoxesKeepTheirBlockEntities` now asks vanilla's bed, banner and shulker box block entity types whether they take each new bed, banner, wall banner and shulker box, which fails without `BlockEntityTypeMixin` |
+| What 0.29.0's report overstated | Pass | `paleShadesMixWithWhiteAndTheFourDyesWaitForAniline` mixes all four pale dyes, two each; `aSheepTakesTheNewColoursFromDye` dyes a sheep each colour, saves and loads it, shears it for its wool, loads it shorn and dyes it back; `woolAndTheRestAreDyedAndMadeAsVanillasAre` dyes red wool mauve |
+| Generator | Pass | `gen_assets.py`, run again on the 0.30.1 tree, writes exactly the files committed |
+
+### Known gaps
+
+- The colour values and the eight glazed terracotta patterns are still the first draft, waiting on Taran.
+- Not looked at in a dev client: the pane items' translucency (the generator writes it into their models) and the recipe
+  book's new entries (the tests find their advancements).
 
 ## 0.30.0: Catwalks, railings and decor blocks
 
@@ -91,6 +121,8 @@ runs on a real Forge server.
   everything that was checked.
 - Another mod that counts sixteen colours for itself may leave the new ones out or fail on them. Only Create, Power
   Grid, JEI and the companion mods (Immersive Weathering, WWOO and Better Combat) were loaded with it.
+- Corrected in 0.30.1: the tests mixed only lilac and rose, saved, loaded and sheared only a malachite green sheep, and
+  dyed white wool (not red) mauve, and the block entity test could not fail. They check all of that now (0.30.1).
 
 ## 0.28.1: Ponder starts playing, and no valve lever
 

@@ -2554,7 +2554,7 @@ dyes; wool, carpets, glass, candles, banners, beds and shulker boxes are made an
 and mint, red wool mauve); beds, banners and shulker boxes keep their block entities; concrete powder sets and wool
 burns; a sheep keeps each colour through dyeing, saving, loading and shearing, is sheared for its wool and goes back to
 red cleanly; an indigo collar loads, rose leather is rose, mint sign text comes back mint and a mauve banner shows on
-maps as magenta.
+maps as magenta. (This says more than 0.29.0's tests checked; section 38 has what they did, and what they check now.)
 
 ## 37. Catwalks, railings and decor blocks (0.30.0)
 
@@ -2738,3 +2738,52 @@ keys bobbed, one strafing into a wall beside the foot was dropped, and one pushi
 left hanging; the argon tube's notes had the spawn chunks wrong; and the notes and the Build row were out of date. The
 GameTests then showed, through the server's own copy of a player, which steps up a whole block, that such a step under a
 catwalk misses the rail of the stairs the feet come down into. Looks were checked in a dev client (the test report).
+
+## 38. Fixes to the new colours (0.30.1)
+
+A review of 0.29.0 (section 36) read Forge's, vanilla's and Create's code for every place a dyed thing is handled, and a
+second reviewer checked each finding. Thirteen things the new colours did differently from vanilla's purple were
+confirmed; all are fixed, on top of 0.30.0 (section 37), whose files they do not touch.
+
+**Copied properties.** Forge 1.20.1's `Properties.copy` copies neither `isValidSpawn`, `isRedstoneConductor`,
+`isSuffocating` nor `isViewBlocking`, and keeps the source's map colour function. So the new stained glass let mobs
+spawn on it, carried redstone (and so stopped a chest under it opening), suffocated and blocked the view, and every new
+bed showed purple on maps. `ColourBlocks.glass` sets the four again, as vanilla sets them for its own glass, and a bed's
+foot shows its colour and its head wool, as vanilla's. Of the other blocks copied, only shulker boxes set any of the
+four in vanilla, and the default (a full, solid shape) gives the same answer while closed and open.
+
+**Lists vanilla keeps for its sixteen**, each now given the new colours' things:
+- Villagers' homes: the home point of interest lists vanilla's beds' states, made before any mod's blocks exist.
+  `PoiTypesMixin` answers `PoiTypes.forState` and `hasPoi` for the head of a new bed, which is where the world asks
+  (placing and breaking blocks, loading chunks). Widening the list in place does not work: a point of interest type is
+  a record, so changing its states changes its hash, and Forge's registry then loses it when it saves the world.
+- Water cauldrons wash the last pattern off a banner and the colour off a shulker box from a table by item;
+  `Colours.setup` adds the new banners and shulker boxes to it.
+- Dispensers put carpets on llamas from behaviours vanilla registers for its sixteen carpets; the new ones get the same
+  behaviour (`DispenserBlockAccessor`, an invoker on `getDispenseMethod`, finds purple's).
+
+**Generated files** (`tools/gen_colours.py`):
+- Where Create's tags list vanilla's purple shulker box, the new ones are now listed too, so they are in
+  `create:simple_mounted_storage` and `create:single_block_inventories` and work as storage on contraptions and
+  trains. Create's recipe-unlock advancements for its dyed blocks are written for the new colours (64 files).
+- Vanilla's recipe-unlock advancements for its purple recipes are written for the new colours, and one for each pale
+  dye like pink's from red and white (108 files), so the recipe book offers the recipes when you pick up their
+  ingredients, as it does vanilla's.
+- Carpet and bed dyeing (vanilla's 16 recipes for each, written again to take the new colours, and ours) had the
+  category "decorations", which crafting does not have, so they sat in the recipe book's misc tab; they are "building",
+  as vanilla's.
+- Item models of glass, panes and candles say their render type too: a pane's item is flat, with no block model to take
+  it from, and showed opaque.
+- The Minecraft, Forge and Create jars are found from the versions `gradle.properties` names, taking the newest build
+  when several are cached; before, they were named in the script and the first match taken. It works on Pillow before
+  12.1 (`getdata` where `get_flattened_data` is missing), and `gen_assets.py` imports it before wiping the generated
+  files, so a missing jar stops the run before anything is deleted.
+
+**Tests.** 349 GameTests plain and 355 with `-Pcompanions`, four of them new. `bedsBannersAndShulkerBoxesKeepTheirBlockEntities` passed with `BlockEntityTypeMixin` removed; it now asks
+each block entity type whether it takes each new bed, banner, wall banner and shulker box. Section 36 and the 0.29.0 test
+report said more was tested than was: the tests mixed only lilac and rose, saved and sheared only malachite green, and
+dyed white wool mauve. Now all four pale dyes are mixed (two each), every colour goes through dyeing, saving, loading,
+shearing and loading shorn, and red wool is dyed mauve. New in `ColourTests`: `theNewStainedGlassIsGlass`,
+`villagersTakeTheNewBedsAsHomes` (a placed bed's head becomes a home in the world's point of interest records),
+`cauldronsAndDispensersTakeTheNewColours` and `theRecipeBookHasTheNewColoursAsItHasVanillas`; and Create's mounted storage
+tag is checked with its dyed blocks.
