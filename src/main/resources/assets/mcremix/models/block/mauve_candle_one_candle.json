@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_candle",
+  "textures": {
+    "all": "mcremix:block/mauve_candle",
+    "particle": "mcremix:block/mauve_candle"
+  },
+  "render_type": "minecraft:cutout"
+}

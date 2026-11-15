@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "mcremix:mauve_terracotta"
+  },
+  "result": "mcremix:mauve_glazed_terracotta"
+}

@@ -1,6 +1,14 @@
 {
   "replace": false,
   "values": [
-    "mcremix:black_sand"
+    "mcremix:black_sand",
+    "mcremix:mauve_concrete_powder",
+    "mcremix:lilac_concrete_powder",
+    "mcremix:indigo_concrete_powder",
+    "mcremix:periwinkle_concrete_powder",
+    "mcremix:malachite_green_concrete_powder",
+    "mcremix:mint_concrete_powder",
+    "mcremix:maroon_concrete_powder",
+    "mcremix:rose_concrete_powder"
   ]
 }

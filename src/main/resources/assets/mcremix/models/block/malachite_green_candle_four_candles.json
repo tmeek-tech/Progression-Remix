@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_four_candles",
+  "textures": {
+    "all": "mcremix:block/malachite_green_candle",
+    "particle": "mcremix:block/malachite_green_candle"
+  },
+  "render_type": "minecraft:cutout"
+}

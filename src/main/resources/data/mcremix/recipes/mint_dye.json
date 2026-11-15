@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "mint_dye",
+  "ingredients": [
+    {
+      "item": "mcremix:malachite_green_dye"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "result": {
+    "item": "mcremix:mint_dye",
+    "count": 2
+  }
+}

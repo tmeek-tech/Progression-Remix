@@ -1,6 +1,8 @@
 package com.mcremix;
 
 import com.mcremix.client.McRemixClient;
+import com.mcremix.colour.ColourBlocks;
+import com.mcremix.colour.Colours;
 import com.mcremix.config.RemixConfig;
 import com.mcremix.fluids.MetalElectricPumpBlock;
 import com.mcremix.kinetics.Brackets;
@@ -56,6 +58,7 @@ public class McRemix {
 		ModFluids.register(modBus);
 		ModBlocks.register();
 		ModItems.register();
+		ColourBlocks.register();
 		ModBlockEntities.register();
 		ModEntities.register();
 		ModRecipes.register(modBus);
@@ -69,7 +72,9 @@ public class McRemix {
 			PressurizerVesselBlock.registerMovementChecks();
 			MetalElectricPumpBlock.registerResistance();
 			ModFluids.registerInteractions();
+			Colours.setup();
 		}));
+		modBus.addListener(Colours::fillTabs);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> McRemixClient.onCtorClient(modBus));
 	}

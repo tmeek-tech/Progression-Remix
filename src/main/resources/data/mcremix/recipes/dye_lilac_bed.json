@@ -1,0 +1,84 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "decorations",
+  "group": "bed",
+  "ingredients": [
+    {
+      "item": "mcremix:lilac_dye"
+    },
+    [
+      {
+        "item": "minecraft:white_bed"
+      },
+      {
+        "item": "minecraft:orange_bed"
+      },
+      {
+        "item": "minecraft:magenta_bed"
+      },
+      {
+        "item": "minecraft:light_blue_bed"
+      },
+      {
+        "item": "minecraft:yellow_bed"
+      },
+      {
+        "item": "minecraft:lime_bed"
+      },
+      {
+        "item": "minecraft:pink_bed"
+      },
+      {
+        "item": "minecraft:gray_bed"
+      },
+      {
+        "item": "minecraft:light_gray_bed"
+      },
+      {
+        "item": "minecraft:cyan_bed"
+      },
+      {
+        "item": "minecraft:purple_bed"
+      },
+      {
+        "item": "minecraft:blue_bed"
+      },
+      {
+        "item": "minecraft:brown_bed"
+      },
+      {
+        "item": "minecraft:green_bed"
+      },
+      {
+        "item": "minecraft:red_bed"
+      },
+      {
+        "item": "minecraft:black_bed"
+      },
+      {
+        "item": "mcremix:mauve_bed"
+      },
+      {
+        "item": "mcremix:indigo_bed"
+      },
+      {
+        "item": "mcremix:periwinkle_bed"
+      },
+      {
+        "item": "mcremix:malachite_green_bed"
+      },
+      {
+        "item": "mcremix:mint_bed"
+      },
+      {
+        "item": "mcremix:maroon_bed"
+      },
+      {
+        "item": "mcremix:rose_bed"
+      }
+    ]
+  ],
+  "result": {
+    "item": "mcremix:lilac_bed"
+  }
+}

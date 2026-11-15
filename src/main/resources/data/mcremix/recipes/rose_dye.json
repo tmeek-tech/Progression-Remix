@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rose_dye",
+  "ingredients": [
+    {
+      "item": "mcremix:maroon_dye"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "result": {
+    "item": "mcremix:rose_dye",
+    "count": 2
+  }
+}

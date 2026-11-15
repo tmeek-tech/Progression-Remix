@@ -8424,4 +8424,7 @@ if __name__ == '__main__':
     gen_titanium_chain()
     gen_titanium_ponder()
     gen_ponder_pause()
+    # last, as it adds to the lang file and to tags written above
+    import gen_colours
+    gen_colours.gen_colours()
     print('generated', len(VARIANTS), 'kinetic variants')

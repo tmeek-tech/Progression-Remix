@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "dyed_candle",
+  "ingredients": [
+    {
+      "item": "minecraft:candle"
+    },
+    {
+      "item": "mcremix:mauve_dye"
+    }
+  ],
+  "result": {
+    "item": "mcremix:mauve_candle"
+  }
+}

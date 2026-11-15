@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "mcremix:periwinkle_terracotta"
+  },
+  "result": "mcremix:periwinkle_glazed_terracotta"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "periwinkle_dye",
+  "ingredients": [
+    {
+      "item": "mcremix:indigo_dye"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "result": {
+    "item": "mcremix:periwinkle_dye",
+    "count": 2
+  }
+}

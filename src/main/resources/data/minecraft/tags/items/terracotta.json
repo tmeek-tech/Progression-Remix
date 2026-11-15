@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:mauve_terracotta",
+    "mcremix:lilac_terracotta",
+    "mcremix:indigo_terracotta",
+    "mcremix:periwinkle_terracotta",
+    "mcremix:malachite_green_terracotta",
+    "mcremix:mint_terracotta",
+    "mcremix:maroon_terracotta",
+    "mcremix:rose_terracotta"
+  ]
+}

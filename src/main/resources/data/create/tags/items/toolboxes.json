@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "create:mauve_toolbox",
+    "create:lilac_toolbox",
+    "create:indigo_toolbox",
+    "create:periwinkle_toolbox",
+    "create:malachite_green_toolbox",
+    "create:mint_toolbox",
+    "create:maroon_toolbox",
+    "create:rose_toolbox"
+  ]
+}
