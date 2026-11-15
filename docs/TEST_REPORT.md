@@ -1,15 +1,76 @@
 # Test reports
 
-Newest first: [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.30.2: Fixes to the decor blocks
+
+This covers section 39 of [BUILD_NOTES.md](BUILD_NOTES.md): what a last check of 0.30.0 found, and what a check of
+those fixes found in turn, fixed on top of 0.30.1. Tested on 2026-11-15 against the same versions as 0.30.1.
+
+**Result:** 0.30.2 compiled with no errors. Every GameTest passes in a fresh test world: 349 of 349 plain and 355 of 355
+with `-Pcompanions`. Not checked: the jar on a real Forge server, and the fixes in a dev client.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.2.jar`, 5,279,512 bytes, SHA-256 `ff8269ac…0edc2d2`; `builds/mcremix-1.20.1-0.30.2.zip` holds the same jar. Its `mods.toml` says 0.30.2; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | Starting the downloaded Forge server was refused in this environment, as for 0.30.0 |
+| GameTests, plain | Pass | 349 of 349, first time: 0.30.1's 349, none new |
+| GameTests, with companions | Pass | 355 of 355, first time |
+| A broken wide flight | Pass | `catwalksAndStairsJoinTheirNeighbours` ends with a player standing across the join of a two-wide flight climbing east, on the north one's lower tread; the south stairs is broken, the north one rails its south side round them, and keeping them out of the rails leaves them where they are. Stood so on its upper tread, they jump and, moved as the game moves a player for 20 ticks, land on that tread again. |
+| Two flaky tests | Pass | `onlyShaftsAndCogsGiveWayUnderLoad` (0.27.0) failed in 4 of about 20 runs while 0.30.0 was tested: its copper bracket weathers as it turns, at a random tick's odds, and the test wanted it still bare (0.30.0's report took it for a timing fault). It now takes the copper bracket at any stage, and has passed in every full run since. `bracketsStayOnThroughWaxAxeAndWeather` failed once with companions here the same way, its copper bracket a stage on before it was waxed, and now takes copper at any stage too |
+
+### Known gaps
+
+- An argon tube held lit below 800 V goes dark if its supply is two chunks away or more and that chunk stops while the
+  tube's chunks still tick, as when a server restarts with the tube in the spawn chunks and its supply outside them
+  (0.30.0 had it go dark so while the tube's chunk was in view). Its hold while a chunk round it does not tick its block
+  entities is reasoned from how chunk tickets spread and from Power Grid's code, not tested: every GameTest chunk is
+  force-loaded, so it and the chunks beside it always tick.
+- One standing across the join of a two-wide flight of catwalk stairs can still be moved out over the gap when two
+  stairs of the other half, one above the other, are broken: the rail the stairs one lower gains is one of the stairs
+  under their feet, where a push goes either way. Left as a rare case for decorative blocks.
+- The rest of 0.30.0's gaps stand, but for `onlyShaftsAndCogsGiveWayUnderLoad`'s, found and fixed above.
+
+## 0.30.1: Fixes to the new colours
+
+This covers section 38 of [BUILD_NOTES.md](BUILD_NOTES.md): thirteen things a review of 0.29.0 found the new colours
+doing differently from vanilla's purple, fixed on top of 0.30.0. Tested on 2026-11-15 against the same versions as
+0.30.0.
+
+**Result:** 0.30.1 compiled with no errors. Every GameTest passes in a fresh test world: 349 of 349 plain and
+355 of 355 with `-Pcompanions`. The jar starts and runs on a real Forge server. Not checked: the fixes in a dev client.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.1.jar`, 5,278,851 bytes, SHA-256 `49dee9ba…e342e74e`; `builds/mcremix-1.20.1-0.30.1.zip` holds the same jar. Its `mods.toml` says 0.30.1; no PNG in it carries a `caBX` chunk; no GameTest class is in it; the refmap maps `PoiTypesMixin` to `forState` and `hasPoi`'s SRG names and `DispenserBlockAccessor` to `getDispenseMethod`'s |
+| Production server | Pass | The Forge 47.4.6 dedicated server set up for 0.29.0 (Create 6.0.8, Power Grid, Architectury API), with this jar in place of 0.29.0's, loaded 0.29.0's world and started in 3.7 seconds; `/setblock` placed mauve stained glass, a rose bed's head (which asks `PoiTypes.forState`) and an indigo shulker box, a sheep summoned with `Color:20b` read back `20b`, and it stopped and saved cleanly. Its log had nothing from the mod but Forge noting the 0.30.0 blocks' item ids, new to that world |
+| GameTests, plain | Pass | 349 of 349: 0.30.0's 345 and four new in `ColourTests` |
+| GameTests, with companions | Pass | 355 of 355, first time |
+| Glass | Pass | `theNewStainedGlassIsGlass`: no mob may spawn on the new stained glass, and it carries no redstone, suffocates nothing and blocks no view, as vanilla's |
+| Beds | Pass | `villagersTakeTheNewBedsAsHomes`: each new bed's head is a home point of interest and its foot none; a mauve bed placed in the test world shows mauve on maps at its foot and wool at its head, and becomes a home in the world's point of interest records |
+| Cauldrons and dispensers | Pass | `cauldronsAndDispensersTakeTheNewColours`: a full water cauldron washes a mauve shulker box to a plain one and the pattern off a mauve banner; each new carpet's dispenser behaviour is purple's, which puts it on a llama |
+| Recipe book | Pass | `theRecipeBookHasTheNewColoursAsItHasVanillas`: dyeing wool, carpets and beds red (vanilla's recipes, written again) and mauve is in the building tab; recipe-unlock advancements exist for mauve stained glass, mauve wool dyeing, the mauve bed and lilac dye, and for Create's mauve seat and valve handle |
+| Create | Pass | `createHasItsDyedBlocksInTheNewColours` now also finds each new shulker box in `create:simple_mounted_storage` |
+| Block entities | Pass | `bedsBannersAndShulkerBoxesKeepTheirBlockEntities` now asks vanilla's bed, banner and shulker box block entity types whether they take each new bed, banner, wall banner and shulker box, which fails without `BlockEntityTypeMixin` |
+| What 0.29.0's report overstated | Pass | `paleShadesMixWithWhiteAndTheFourDyesWaitForAniline` mixes all four pale dyes, two each; `aSheepTakesTheNewColoursFromDye` dyes a sheep each colour, saves and loads it, shears it for its wool, loads it shorn and dyes it back; `woolAndTheRestAreDyedAndMadeAsVanillasAre` dyes red wool mauve |
+| Generator | Pass | `gen_assets.py`, run again on the 0.30.1 tree, writes exactly the files committed |
+
+### Known gaps
+
+- The colour values and the eight glazed terracotta patterns are still the first draft, waiting on Taran.
+- Not looked at in a dev client: the pane items' translucency (the generator writes it into their models) and the recipe
+  book's new entries (the tests find their advancements).
 
 ## 0.30.0: Catwalks, railings and decor blocks
 
 This covers section 37 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 6 of the distillation build, steel catwalks, catwalk
 stairs, railings and caged ladders, creosote timber and posts, and argon tubes, on top of 0.29.0. Tested on 2026-11-15
 against the same versions as 0.29.0, then reviewed area by area (steel walkways, creosote, argon tubes and Ponder, data
-and tests), each finding checked by a second reviewer, and tested again with what the review found fixed. Four more reviews and a last check followed, the last three reviews running vanilla's movement in models, the last two with the code itself ported in; what they found is fixed and tested the same way (the build notes list it).
+and tests), each finding checked by a second reviewer, and tested again with what the review found fixed. Four more
+reviews followed, the last three running vanilla's movement in models, the last two with the code itself ported in;
+what they found is fixed and tested the same way (the build notes list it).
 
 **Result:** 0.30.0 compiled with no errors. Every GameTest passes in a fresh test world: 345 of 345 plain and 351 of 351
 with `-Pcompanions`. A dev client shows every new block drawn and working. Not checked: the jar on a real Forge
@@ -17,15 +78,15 @@ server.
 
 | Check | Result | How |
 | --- | --- | --- |
-| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.0.jar`, 5,185,622 bytes, SHA-256 `378181f5…03651bee`; `builds/mcremix-1.20.1-0.30.0.zip` holds the same jar. Its `mods.toml` says 0.30.0; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.0.jar`, 5,185,353 bytes, SHA-256 `15ed5d44…5cb13f9d`; `builds/mcremix-1.20.1-0.30.0.zip` holds the same jar. Its `mods.toml` says 0.30.0; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
 | Production server | Not run | Forge's installer set up a server, but starting the downloaded server was refused in this environment, so the jar was not started outside the dev runs |
-| GameTests, plain | Pass | 345 of 345, 8 of them new in `DecorTests`. `onlyShaftsAndCogsGiveWayUnderLoad` (0.27.0) failed in 4 of about 20 runs here: its copper bracket weathers as it turns, at a random tick's odds, and the test wanted it still bare. It now takes copper at any stage, and passed since |
+| GameTests, plain | Pass | 345 of 345, 8 of them new in `DecorTests`, in two runs of the final code |
 | GameTests, with companions | Pass | 351 of 351, first time. Before the fixes, `wetSteelWalkwaysRustOnlyToTheirFirstStage` failed here alone: Immersive Weathering makes vanilla's iron bars always take random ticks, and the steel blocks copied their properties. Earlier runs also hit the two known flakes once each, Create's Registrate "Found unused register callbacks" at start and `gasLeaksOutOfRustedTanks` in a test world left over from an earlier run; each passed on a fresh start |
 | Railings | Pass | `railingsGoOnTheEdgeYouAimAt`: aimed near a catwalk's north edge it rails the north side; used on it near the east edge it adds the east side, taking one railing each; a schematicannon would spend two on it; a railing railed on its south, aimed at through the wall's face north of it, rails its north; of two railed on the east side by side, the first aimed at through its east face gives the second its west; set by a command it has one side, and placed fresh near an edge it has only that one; rusted, it takes a side from a bare railing aimed at the catwalk through its open side and stays rusted, while a waxed railing aimed the same way adds nothing and goes nowhere; broken it drops two |
 | Catwalks and stairs join | Pass | `catwalksAndStairsJoinTheirNeighbours`: two catwalks side by side join each other and nothing else; two flights side by side climbing east, the way the player faces, have rails only on their outer sides |
-| Stair rails | Pass | `catwalksAndStairsJoinTheirNeighbours`: a rail stands 2.75 blocks above its stairs' foot to collide with; on a flight of two climbing north, a player moved through `Entity.move` for 12 ticks from the upper one's lower tread, overhanging the lower one, down and west at a slant toward the rail, never rises above that tread and never gets past the rail (with the old two-block rail they stepped up onto it); a jump from there, or from a lower tread's edge, starts at 0.23 a tick, one from the floor at 0.42. One set in the rail of a flight of three, over the middle one and two blocks above its foot, is moved back out to the side they came from, inside or outside, and stops moving into it; one clear of the rails is left. Moved as the game moves a player (`travel`, stepping up 0.6 as a client does) and kept out of the rails as their client does, a jump down from the top one's upper tread at 15 degrees toward the rail, and a sprint with jump held from its lower tread at 30, stay inside the rail and are each moved out of it at least once; under a catwalk over the flight's foot, walks down from the middle one's lower tread at 30, 45 and 60 degrees stay inside, and are moved out, stepping up 0.6 and again stepping up a whole block. One standing on the lower tread of the two-wide flight climbing east, across its join, is not moved when the south stairs is broken and the north one gains a rail round them. Each part fails with its fix undone (below) |
+| Stair rails | Pass | `catwalksAndStairsJoinTheirNeighbours`: a rail stands 2.75 blocks above its stairs' foot to collide with; on a flight of two climbing north, a player moved through `Entity.move` for 12 ticks from the upper one's lower tread, overhanging the lower one, down and west at a slant toward the rail, never rises above that tread and never gets past the rail (with the old two-block rail they stepped up onto it); a jump from there, or from a lower tread's edge, starts at 0.23 a tick, one from the floor at 0.42. One set in the rail of a flight of three, over the middle one and two blocks above its foot, is moved back out to the side they came from, inside or outside, and stops moving into it; one clear of the rails is left. Moved as the game moves a player (`travel`, stepping up 0.6 as a client does) and kept out of the rails as their client does, a jump down from the top one's upper tread at 15 degrees toward the rail, and a sprint with jump held from its lower tread at 30, stay inside the rail and are each moved out of it at least once; under a catwalk over the flight's foot, walks down from the middle one's lower tread at 30, 45 and 60 degrees stay inside, and are moved out, stepping up 0.6 and again stepping up a whole block. Each part fails with its fix undone (below) |
 | Caged ladders | Pass | `aCagedLaddersCageStartsTwoBlocksUp`: of four ladders up a wall only the upper two are caged; a player-sized box from in front of the foot onto it, 1.8 high, touches nothing, and two blocks up the cage stops it; they are climbable; through `Entity.move`, a player jumping up from the foot 0.2 west of the middle is stopped by the cage's side bar and steered east by more than 0.085, one in the middle rises and keeps moving across at 0.03, one standing at the foot off to one side is left alone, and one jumping up a vanilla ladder beside the flight, with a shoulder under its cage, is not pulled across. Moved as the game moves a player, from 0.2 west of the middle: holding forward and left, toward the near bar, they climb past two blocks; with stone beside the foot, holding left into it they are not moved off it, nor on a flight facing east with stone on their left; holding left turned 10 degrees, so that the key pushes them a little into the ladder, which stops them, they are steered in and climb past two blocks. With the foot broken the cage moves up one; a lone ladder set as if two were under it, as a contraption sets one down, counts again and has no cage |
-| Fixes undone | Pass | Six more runs, each undoing a stairs fix and a ladder fix, each failed its GameTest: without the push back out of the rails, the jump down the flight of three ends 1.07 into the rail; looking only two blocks under the feet, the walk under a catwalk ends 0.44 in; not looking in the feet's own block, the whole-block step under it ends 0.07 in; looking half a block down for the tread-edge jump, and with no jump cap, a jump starts at 0.42; with rails two blocks up to collide with, the walker steps up onto one. At the ladder: with 0.01 of clearance a climber is steered 0.0725, and with that check gone one holding forward and left hangs at 0.2; with no check that they are under the bar, one in the middle stops moving across; with no keys rule, one strafing into a wall is moved 0.08 off it; with no exception for one the ladder has stopped, or with the strafe's turn with the view flipped, one strafing while turned 10 degrees hangs at 0.2. After the last check, a seventh run let the feet's own stairs push either way, and the player standing across the broken two-wide flight was moved out over the gap |
+| Fixes undone | Pass | Six more runs, each undoing a stairs fix and a ladder fix, each failed its GameTest: without the push back out of the rails, the jump down the flight of three ends 1.07 into the rail; looking only two blocks under the feet, the walk under a catwalk ends 0.44 in; not looking in the feet's own block, the whole-block step under it ends 0.07 in; looking half a block down for the tread-edge jump, and with no jump cap, a jump starts at 0.42; with rails two blocks up to collide with, the walker steps up onto one. At the ladder: with 0.01 of clearance a climber is steered 0.0725, and with that check gone one holding forward and left hangs at 0.2; with no check that they are under the bar, one in the middle stops moving across; with no keys rule, one strafing into a wall is moved 0.08 off it; with no exception for one the ladder has stopped, or with the strafe's turn with the view flipped, one strafing while turned 10 degrees hangs at 0.2. Three of the six runs also failed `onlyShaftsAndCogsGiveWayUnderLoad`, a friction test from 0.27.0 that none of this touches, in the first batch of tests, before any decor test ran: its copper bracket was gone at tick 200. It passed in every run of the unchanged code |
 | Steel's rust | Pass | `wetSteelWalkwaysRustOnlyToTheirFirstStage`: catwalk, stairs, railing and caged ladder take random ticks bare and not rusted or waxed; waterlogged, 4,000 random ticks each through the block state rust them to exposed and no further, while a dry catwalk stays bare |
 | Posts | Pass | `aCrossarmJoinsItsPoleAndHoldsALantern`: three posts make a pole; one placed on its top block's side lies along it and the pole grows a stub to it, and neither the pole nor a second pole standing beside it stubs toward the other; mobs path round it; no bracket bolts to the crossarm's underside; the crossarm has no chain until a lantern hangs under it, loses it when the lantern goes, and holds a bell on it too; a post laid across the pole's top joins it below, with no chain |
 | Creosote burns as wood | Pass | `creosoteBurnsAsWoodDoes`: planks, stairs, slab, fence and gate take fire as oak planks do (burn 20, spread 5), log and post as an oak log (5, 5); a waterlogged fence, slab or post does not burn; the log, post and planks each burn 300 ticks in a furnace |
@@ -52,10 +113,12 @@ server.
 - A climber holding jump and a strafe key toward the side they are off to, and no key into the ladder, hangs under a
   caged ladder's side bar until they press forward: the jump key cannot be read where the ladder steers them.
 - An argon tube held lit below 800 V goes dark if its supply is two chunks away or more and that chunk stops while the
-  tube's chunks still tick, as when a server restarts with the tube in the spawn chunks and its supply outside them. Its
-  hold while a chunk round it does not tick its block entities is reasoned from how chunk tickets spread, not tested:
-  every GameTest chunk is force-loaded, so it and the chunks beside it always tick.
+  tube's own is still in view, as when a server restarts with the tube in the spawn chunks and its supply outside them. Its hold while its chunk is out of view is reasoned from how chunk levels spread, not
+  tested: every GameTest chunk is force-loaded, so in view.
 - Creosote drips have not been seen in a dev client since they moved to the timber's underside.
+- `onlyShaftsAndCogsGiveWayUnderLoad` (0.27.0) failed in three of the six runs above, losing its copper bracket, while
+  passing in every full run of the unchanged code. It ran before any decor test each time, so it looks timing-dependent
+  rather than caused by this change; it was not looked into.
 
 ## 0.29.0: The new dye colours
 
@@ -87,6 +150,8 @@ runs on a real Forge server.
   everything that was checked.
 - Another mod that counts sixteen colours for itself may leave the new ones out or fail on them. Only Create, Power
   Grid, JEI and the companion mods (Immersive Weathering, WWOO and Better Combat) were loaded with it.
+- Corrected in 0.30.1: the tests mixed only lilac and rose, saved, loaded and sheared only a malachite green sheep, and
+  dyed white wool (not red) mauve, and the block entity test could not fail. They check all of that now (0.30.1).
 
 ## 0.28.1: Ponder starts playing, and no valve lever
 

@@ -552,7 +552,9 @@ public class FrictionPointTests {
 			GT.click(h, player, waxed, Direction.UP, 0, new ItemStack(Items.HONEYCOMB));
 			GT.assertIs(h, waxed, part("waxed_copper_shaft"));
 			BlockState bracket = GT.bracketOn(h, waxed);
-			h.assertTrue(bracket != null && bracket.is(part("copper_bracket")), "waxing should keep the bracket on, it has " + bracket);
+			// the copper bracket can weather a stage in the ticks before, at a random tick's odds
+			h.assertTrue(bracket != null && bracket.getBlock() instanceof TieredKinetic tiered
+				&& tiered.variant().material() == KineticMaterial.COPPER, "waxing should keep the bracket on, it has " + bracket);
 			h.assertTrue(held(h, waxed), "a waxed part should still count as held");
 			GT.click(h, player, waxed, Direction.UP, 0, new ItemStack(Items.IRON_AXE));
 			GT.assertIs(h, waxed, part("copper_shaft"));

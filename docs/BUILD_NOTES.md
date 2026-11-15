@@ -2554,7 +2554,7 @@ dyes; wool, carpets, glass, candles, banners, beds and shulker boxes are made an
 and mint, red wool mauve); beds, banners and shulker boxes keep their block entities; concrete powder sets and wool
 burns; a sheep keeps each colour through dyeing, saving, loading and shearing, is sheared for its wool and goes back to
 red cleanly; an indigo collar loads, rose leather is rose, mint sign text comes back mint and a mauve banner shows on
-maps as magenta.
+maps as magenta. (This says more than 0.29.0's tests checked; section 38 has what they did, and what they check now.)
 
 ## 37. Catwalks, railings and decor blocks (0.30.0)
 
@@ -2597,13 +2597,16 @@ up a whole block as a mount or a player with step-up gear does, in the block the
 in a shape the game lets it go on through. So `CatwalkStairsMovement` moves anything that lives back out of a rail it
 has got into, across the rail to the side its middle is on, and stops it moving on into it (`keepOutOfRails`, looking at
 the stairs in the feet's block and the two under it, and ignoring overlaps under a millionth of a block, as a box set
-against a rail can be in it by rounding). Out of a rail of the stairs in the feet's block it moves them only back into
-the flight: one standing across the join of a wide flight when the stairs beside goes, and the other gains a rail round
-them, still stands on its treads, and moving them out over the gap would drop them: a player on their own client as soon
-as they have moved (Forge's player tick, ending, which comes before the client sends the server where they are, so the
-server never sees them in a rail), and a mob, or a mount on its rider's client, before it moves again. In the model that
+against a rail can be in it by rounding): a player on their own client as soon as they have moved (Forge's player
+tick, ending, which comes before the client sends the server where they are, so the server never sees them in a rail),
+and a mob, or a mount on its rider's client, before it moves again. Out of a rail of the stairs in the feet's block it
+moves them only back into the flight: one standing across the join of a wide flight when the stairs beside goes, and
+the other gains a rail round them, still stands on its treads, and moving them out over the gap would drop them. If one
+so jumps, it first moves them through that rail into the flight (`intoFlight`, on Forge's jump event): from the upper
+tread their feet rise into the block above, where the rail is one of the stairs under them. In the model that
 leaves no run down a single-width flight going out through a rail, from those 12,866 and 1,091 of 65,520 down a flight
-of three, and none walking down under a catwalk; a push there is 0.14 of a block at most, and comes only while airborne.
+of three, and none walking down under a catwalk; on a single-width flight a push is 0.14 of a block at most, and comes
+almost only while airborne.
 Down a two-wide flight 12 of 140,400 runs still leave, every one a sprinting hop from its landing or its top stairs over
 the top of a rail lower down, as they did before. And a jump from catwalk stairs, or from a tread's edge with the feet
 already over the stairs below, starts at 0.23 a tick at most and rises 0.44 of a block, short of a rail's top beside it
@@ -2678,14 +2681,16 @@ line is wired in series with short jumpers. `ArgonTubeBlockEntity` puts a 40 kOh
 closes at 800 V and opens below 600 V; lit (`LIT`), the tube glows violet with light 10, and the goggles show its volts
 and, lit, its milliamps. Whether it is lit is saved. A loaded tube is left as saved until its circuit has volts across
 it again and for 5 ticks after, while it settles, and does so again whenever Power Grid takes it back into its circuit
-(`unpaused`) and all the while its chunk or one beside it does not tick its block entities (`Level.shouldTickBlocksAt`):
-its first ticks come before it has rejoined, and a supply that has not ticked since its chunk loaded is out of the
-circuit, so the tube reads no volts. Block entities tick within a player's simulation distance and a chunk beyond it,
-which can be less than their view distance, and round a force-loaded chunk and the spawn: a tube in a force-loaded
-chunk, or in the spawn chunks within nine chunks of the spawn's own, never holds, while one in the spawn's outer ring,
-ten chunks out, holds as it was until a player comes near. Power Grid takes a chunk's devices out of their circuits only
-when it stops block ticking, which is never nearer a player, so a supply in the tube's chunk or one beside it is in the
-circuit whenever the tube is not holding; one two chunks away or more need not be, and if it stops while the tube's
+(`unpaused`) and all the while its chunk or one beside it does not tick its block entities
+(`ServerChunkCache.isPositionTicking`): its first ticks come before it has rejoined, and a supply that has not ticked
+since its chunk loaded is out of the circuit, so the tube reads no volts. A chunk's block entities tick only while its
+tickets make it block ticking, which for a player is within their view distance and a chunk beyond, and while it is
+within their simulation distance and a chunk beyond, so within the nearer of the two; and round a force-loaded chunk and
+the spawn, where both hold: a tube in a force-loaded chunk, or in the spawn chunks within nine chunks of the spawn's own,
+never holds, while one in the spawn's outer ring, ten chunks out, holds as it was until a player comes near. Power Grid
+takes a chunk's devices out of their circuits as its tickets stop it block ticking (Forge's ticket level event), so a
+supply in the tube's chunk or one beside it is in the circuit whenever the tube is not holding; one two chunks away or
+more need not be, and if it stops while the tube's
 chunks still tick, as when a server restarts with the tube in the spawn chunks and its supply outside them, the tube has
 no volts and goes dark once it has waited. It waits 30 seconds at most, so one saved lit with no supply goes dark in the
 end. So a tube held lit between 600 and 800 V stays lit across a reload, and a lit one does not blink off as its chunk
@@ -2726,25 +2731,113 @@ rails, a gate's under its posts, lower in a wall) and `anArgonTubeStrikesAt800Vo
 clients are told; held lit at 700 V and saved lit, dark at 500 V; dark at 700 V from the start; one loaded lit with no
 supply still lit 40 ticks on, then lit by its supply at 700 V, drawing 17.5 mA, once wired up).
 
-Five reviews and a last check went over the change, area by area, each finding checked by a second reviewer. The first
-found the caged ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds the wrong way
-round and the argon scene's joins. The second found a tube loaded lit going dark before its supply's chunk ticked, a
-tube flickering every tick on a weak supply, railings of different rust or wax merging, a moved flight keeping its old
-cages, the off-centre climb, the stairs' jumpable rail, fence and gate drips from the air and the catwalk's tooltip
-saying water passes through. The third ran vanilla's movement in a model and found that a climber who jumps still caught
-the cage, that one on a ladder beside a flight was pulled into it, that walking down a flight at a slant stepped over
-the rail where two stairs meet (the two-block rail had always allowed it), that a bare railing could no longer join a
-rusted one, that a tube went dark when its supply's chunk stopped before its own, and two tests that did not check what
-they said. The fourth and fifth ran the code itself in those models: jumps and hops still carried a player through a
-rail where the game does not look for it, even with the jump held low, and so did a step up cut short by a catwalk
-overhead, through the rail one block lower; a climber holding a strafe key toward the near bar hung under it, one
-steered against their keys bobbed, one strafing into a wall beside the foot was dropped, and one pushing into the ladder
-at a slant was then left hanging; the argon tube's notes had the spawn chunks wrong; and the notes and the Build row
-were out of date. The GameTests then showed, through the server's own copy of a player, which steps up a whole block,
-that such a step under a catwalk misses the rail of the stairs the feet come down into. A last check found that the push
-for that case moved a player standing across the join of a wide flight, when one side was broken, out over the gap, that
-the argon tube's hold went by the view distance where block entities go by the simulation distance, so a tube at the
-view's edge could go dark on a supply in the next chunk, and that the caged ladder's notes left out the drag on the
-steer. `onlyShaftsAndCogsGiveWayUnderLoad` (section 33) failed in 4 of about 20 runs: the copper bracket it checks
-weathers as it turns (section 19), and the test wanted it bare, so it now takes copper at any stage. Looks were checked
-in a dev client (the test report).
+Five reviews went over the change, area by area, each finding checked by a second reviewer. The first found the caged
+ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds the wrong way round and the
+argon scene's joins. The second found a tube loaded lit going dark before its supply's chunk ticked, a tube flickering
+every tick on a weak supply, railings of different rust or wax merging, a moved flight keeping its old cages, the
+off-centre climb, the stairs' jumpable rail, fence and gate drips from the air and the catwalk's tooltip saying water
+passes through. The third ran vanilla's movement in a model and found that a climber who jumps still caught the cage,
+that one on a ladder beside a flight was pulled into it, that walking down a flight at a slant stepped over the rail
+where two stairs meet (the two-block rail had always allowed it), that a bare railing could no longer join a rusted one,
+that a tube went dark when its supply's chunk stopped before its own, and two tests that did not check what they said.
+The fourth and fifth ran the code itself in those models: jumps and hops still carried a player through a rail where the
+game does not look for it, even with the jump held low, and so did a step up cut short by a catwalk overhead, through
+the rail one block lower; a climber holding a strafe key toward the near bar hung under it, one steered against their
+keys bobbed, one strafing into a wall beside the foot was dropped, and one pushing into the ladder at a slant was then
+left hanging; the argon tube's notes had the spawn chunks wrong; and the notes and the Build row were out of date. The
+GameTests then showed, through the server's own copy of a player, which steps up a whole block, that such a step under a
+catwalk misses the rail of the stairs the feet come down into. Looks were checked in a dev client (the test report).
+
+## 38. Fixes to the new colours (0.30.1)
+
+A review of 0.29.0 (section 36) read Forge's, vanilla's and Create's code for every place a dyed thing is handled, and a
+second reviewer checked each finding. Thirteen things the new colours did differently from vanilla's purple were
+confirmed; all are fixed, on top of 0.30.0 (section 37), whose files they do not touch.
+
+**Copied properties.** Forge 1.20.1's `Properties.copy` copies neither `isValidSpawn`, `isRedstoneConductor`,
+`isSuffocating` nor `isViewBlocking`, and keeps the source's map colour function. So the new stained glass let mobs
+spawn on it, carried redstone (and so stopped a chest under it opening), suffocated and blocked the view, and every new
+bed showed purple on maps. `ColourBlocks.glass` sets the four again, as vanilla sets them for its own glass, and a bed's
+foot shows its colour and its head wool, as vanilla's. Of the other blocks copied, only shulker boxes set any of the
+four in vanilla, and the default (a full, solid shape) gives the same answer while closed and open.
+
+**Lists vanilla keeps for its sixteen**, each now given the new colours' things:
+- Villagers' homes: the home point of interest lists vanilla's beds' states, made before any mod's blocks exist.
+  `PoiTypesMixin` answers `PoiTypes.forState` and `hasPoi` for the head of a new bed, which is where the world asks
+  (placing and breaking blocks, loading chunks). Widening the list in place does not work: a point of interest type is
+  a record, so changing its states changes its hash, and Forge's registry then loses it when it saves the world.
+- Water cauldrons wash the last pattern off a banner and the colour off a shulker box from a table by item;
+  `Colours.setup` adds the new banners and shulker boxes to it.
+- Dispensers put carpets on llamas from behaviours vanilla registers for its sixteen carpets; the new ones get the same
+  behaviour (`DispenserBlockAccessor`, an invoker on `getDispenseMethod`, finds purple's).
+
+**Generated files** (`tools/gen_colours.py`):
+- Where Create's tags list vanilla's purple shulker box, the new ones are now listed too, so they are in
+  `create:simple_mounted_storage` and `create:single_block_inventories` and work as storage on contraptions and
+  trains. Create's recipe-unlock advancements for its dyed blocks are written for the new colours (64 files).
+- Vanilla's recipe-unlock advancements for its purple recipes are written for the new colours, and one for each pale
+  dye like pink's from red and white (108 files), so the recipe book offers the recipes when you pick up their
+  ingredients, as it does vanilla's.
+- Carpet and bed dyeing (vanilla's 16 recipes for each, written again to take the new colours, and ours) had the
+  category "decorations", which crafting does not have, so they sat in the recipe book's misc tab; they are "building",
+  as vanilla's.
+- Item models of glass, panes and candles say their render type too: a pane's item is flat, with no block model to take
+  it from, and showed opaque.
+- The Minecraft, Forge and Create jars are found from the versions `gradle.properties` names, taking the newest build
+  when several are cached; before, they were named in the script and the first match taken. It works on Pillow before
+  12.1 (`getdata` where `get_flattened_data` is missing), and `gen_assets.py` imports it before wiping the generated
+  files, so a missing jar stops the run before anything is deleted.
+
+**Tests.** 349 GameTests plain and 355 with `-Pcompanions`, four of them new. `bedsBannersAndShulkerBoxesKeepTheirBlockEntities` passed with `BlockEntityTypeMixin` removed; it now asks
+each block entity type whether it takes each new bed, banner, wall banner and shulker box. Section 36 and the 0.29.0 test
+report said more was tested than was: the tests mixed only lilac and rose, saved and sheared only malachite green, and
+dyed white wool mauve. Now all four pale dyes are mixed (two each), every colour goes through dyeing, saving, loading,
+shearing and loading shorn, and red wool is dyed mauve. New in `ColourTests`: `theNewStainedGlassIsGlass`,
+`villagersTakeTheNewBedsAsHomes` (a placed bed's head becomes a home in the world's point of interest records),
+`cauldronsAndDispensersTakeTheNewColours` and `theRecipeBookHasTheNewColoursAsItHasVanillas`; and Create's mounted storage
+tag is checked with its dyed blocks.
+
+## 39. Fixes to the decor blocks (0.30.2)
+
+A last check of 0.30.0 (section 37), each finding checked by a second reviewer, found two things the blocks did wrong and
+a note that said less than the code does, and a check of the two fixes found each one short; they are fixed on top of
+0.30.1 (section 38), sharing no code with it, but for one rare case below. Section 37 describes the blocks as they now
+are.
+
+**Stair rails in a broken wide flight.** One standing across the join of a two-wide flight stands on both stairs. Break
+one, and the other gains a rail on that side, round them; `CatwalkStairsMovement.keepOutOfRails` then moved them out
+through it, over the gap, and they fell. Out of a rail of the stairs in the feet's own block it now moves them only back
+toward that stairs' middle, where its treads still hold them up. The rails of stairs one and two blocks under the feet's
+block push either way, as before: one in those has come down onto them from above. But one standing so on the upper
+tread who jumped had their feet in the block above at once, and that rail then counted as a lower one's and moved them
+out over the gap all the same; so on a jump `intoFlight` first moves one in such a rail through it into the flight, by
+under two thirds of a block, and the jump goes on from there (on the side that moves them: a real player's copy on the
+server jumps again as it takes their move, which already has it). Not fixed, as a rare case for decor: when two stairs
+of the broken half, one above the other, are gone, the rail the stairs one lower in the remaining half gains can still
+move one standing across the join out over the gap, as it is one of the stairs under their feet (in a model, about 8% of
+such starts).
+
+**Argon tubes hold by both distances.** A loaded tube held as it was while its chunk was out of every player's view
+(below entity ticking), which goes by the view distance. Block entities, and so the supplies Power Grid ticks into
+their circuits, also go by the simulation distance, which can be less. So a supply in the chunk next to a tube that a
+player could see, past the simulation distance, loaded without ticking and stayed out of its circuit, and the tube went
+dark. Holding while a chunk round the tube is past the simulation distance alone (`Level.shouldTickBlocksAt`) was not
+enough either: with a simulation distance above the view distance, a tube a chunk past the view, next to a supply's
+chunk that Power Grid had paused, went dark. It now holds while its chunk or any beside it does not tick its block
+entities by both its tickets and the simulation distance (`ServerChunkCache.isPositionTicking`).
+
+**The caged ladder's steer.** Its notes and `CLEARANCE`'s left out that the steer sets the climber's speed across, which
+drag then takes some of: one far under the bar can be left just short of it by the first steer, and the next takes them
+in. Only the notes changed.
+
+**Two flaky tests.** `onlyShaftsAndCogsGiveWayUnderLoad` (section 33) failed in 4 of about 20 runs: the copper bracket it
+checks weathers as it turns, at a random tick's odds (section 19), and the test wanted it bare. It now takes copper at
+any stage. `bracketsStayOnThroughWaxAxeAndWeather` then failed once with companions the same way, its copper bracket
+weathered in the three ticks before it is waxed, and takes copper at any stage too. Any test that wants an exact copper
+block for more than a few ticks can fail so.
+
+**Tests.** 349 GameTests plain and 355 with `-Pcompanions`, as 0.30.1. `catwalksAndStairsJoinTheirNeighbours` now ends
+by standing a player across the join of a two-wide flight, breaking the stairs on one side and checking the other has
+railed round them and leaves them where they are, and then by standing them so on its upper tread and jumping, moved as
+the game moves a player, and checking they land on it again. The argon change is reasoned from how chunk tickets spread
+and from Power Grid's code, not tested: every GameTest chunk is force-loaded, so it and the chunks beside it always tick.

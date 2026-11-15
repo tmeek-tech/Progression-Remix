@@ -13,7 +13,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Optional | Immersive Weathering, JEI |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
-## What is in 0.30.0
+## What is in 0.30.2
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -423,7 +423,8 @@ Textures, models, blockstates, lang, loot tables, tags, recipes and Ponder schem
 `src/main/resources/data` and wipes them each run, so change the script rather than the files. Near the end it runs
 `tools/gen_colours.py`, which writes the new colours' files from vanilla's and Create's purple ones (Create's dyed
 blocks under `assets/create` and `data/create`, bed and shulker box textures under `assets/minecraft`); it reads the
-Minecraft, Forge and Create jars from Gradle's caches, so run `./gradlew compileJava` once before it. Ponder text is read
+Minecraft, Forge and Create jars `gradle.properties` names from Gradle's caches, so run `./gradlew compileJava` once
+before it. Ponder text is read
 straight from the `*Scenes.java` classes, so after editing scene text, rerun it:
 
 ```

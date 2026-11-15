@@ -13,6 +13,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,10 +25,12 @@ import net.minecraft.world.level.block.state.BlockState;
  * down to 600 volts, drawing about twenty milliamps. Tubes in series need that much for each, as real sign tubes do.
  * It never wears out. Whether it is lit is saved, so one held lit below the strike stays lit across a reload: after a
  * load, and while its chunk or one beside it does not tick its block entities, it holds as it was, and then waits until
- * its supply is back in its circuit. Block entities tick within a player's simulation distance and a chunk beyond it,
- * which can be less than their view, and round a force-loaded chunk and the spawn; so a tube in a force-loaded chunk,
- * or in the spawn chunks within nine chunks of the spawn's own, never holds, while one in the spawn's outer ring, ten
- * chunks out, holds as it was until a player comes near. A supply in the tube's chunk or one beside it is then in the
+ * its supply is back in its circuit. A chunk's block entities tick only while its tickets make it block ticking, which
+ * for a player is within their view distance and a chunk beyond, and while it is within their simulation distance and a
+ * chunk beyond, so within the nearer of the two; and round a force-loaded chunk and the spawn, where both hold. So a
+ * tube in a force-loaded chunk, or in the spawn chunks within nine chunks of the spawn's own, never holds, while one in
+ * the spawn's outer ring, ten chunks out, holds as it was until a player comes near. Power Grid takes a chunk's devices
+ * out of their circuits as its tickets stop it block ticking, so a supply in the tube's chunk or one beside it is in the
  * circuit whenever the tube is not holding. One two chunks away or more need not be: if it stops while the tube's
  * chunks still tick, as when a player walks off or the server restarts with the tube in the spawn chunks and its supply
  * outside them, the tube has no volts and goes dark, and one held below the strike then stays dark until its supply
@@ -80,15 +84,20 @@ public class ArgonTubeBlockEntity extends ElectricBlockEntity implements IHaveGo
 	}
 
 	/**
-	 * Whether its chunk and each chunk beside it tick their block entities: a device's first tick puts it in its circuit,
-	 * and Power Grid takes a chunk's devices out only as it stops block ticking, which is never nearer a player.
+	 * Whether its chunk and each chunk beside it tick their block entities, by both the chunk's own tickets (block
+	 * ticking, as Power Grid goes by) and the simulation distance ({@link ServerChunkCache#isPositionTicking}): a
+	 * device's first tick puts it in its circuit, and Power Grid takes a chunk's devices out as its tickets stop it block
+	 * ticking. The simulation distance alone would not do, as it can be more than the view distance.
 	 */
 	private boolean neighboursTick() {
+		if (!(level instanceof ServerLevel server))
+			return true;
+		ServerChunkCache chunks = server.getChunkSource();
 		int x = SectionPos.blockToSectionCoord(worldPosition.getX());
 		int z = SectionPos.blockToSectionCoord(worldPosition.getZ());
 		for (int dx = -1; dx <= 1; dx++)
 			for (int dz = -1; dz <= 1; dz++)
-				if (!level.shouldTickBlocksAt(ChunkPos.asLong(x + dx, z + dz)))
+				if (!chunks.isPositionTicking(ChunkPos.asLong(x + dx, z + dz)))
 					return false;
 		return true;
 	}

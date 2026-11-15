@@ -3,10 +3,12 @@ package com.mcremix.gametest;
 import static com.mcremix.gametest.GT.p;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mcremix.McRemix;
 import com.mcremix.colour.ColourBlocks;
 import com.mcremix.colour.NewColour;
+import com.mcremix.mixin.DispenserBlockAccessor;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.utility.DyeHelper;
 
@@ -18,28 +20,41 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CandleCakeBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.block.entity.BedBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.saveddata.maps.MapBanner;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.phys.AABB;
@@ -89,17 +104,24 @@ public class ColourTests {
 		// dyeing a seat, as Create's recipes do for vanilla's colours
 		ItemStack seat = GT.craft(h, mauve().dye.get(), AllBlocks.SEATS.get(DyeColor.WHITE).get());
 		h.assertTrue(seat.is(AllBlocks.SEATS.get(NewColour.MAUVE.dye()).get().asItem()), "a white seat dyed mauve is " + seat);
+		// on a contraption or a train a shulker box is storage, as Create lists vanilla's
+		TagKey<Block> mounted = BlockTags.create(new ResourceLocation("create", "simple_mounted_storage"));
+		for (NewColour c : NewColour.values())
+			h.assertTrue(ColourBlocks.of(c).shulkerBox.get().defaultBlockState().is(mounted),
+				"a " + c.id + " shulker box is not storage on a contraption");
 		h.succeed();
 	}
 
 	/** Pale shades mix from their dye and white, two at a time, as pink does; the four dyes have no recipe yet. */
 	@GameTest(template = GT.PLATFORM)
 	public static void paleShadesMixWithWhiteAndTheFourDyesWaitForAniline(GameTestHelper h) {
-		ItemStack lilac = GT.craft(h, mauve().dye.get(), Items.WHITE_DYE);
-		h.assertTrue(lilac.is(ColourBlocks.of(NewColour.LILAC).dye.get()) && lilac.getCount() == 2,
-			"mauve and white dye make " + lilac);
-		ItemStack rose = GT.craft(h, ColourBlocks.of(NewColour.MAROON).dye.get(), Items.WHITE_DYE);
-		h.assertTrue(rose.is(ColourBlocks.of(NewColour.ROSE).dye.get()), "maroon and white dye make " + rose);
+		Map<NewColour, NewColour> pale = Map.of(NewColour.MAUVE, NewColour.LILAC, NewColour.INDIGO, NewColour.PERIWINKLE,
+			NewColour.MALACHITE_GREEN, NewColour.MINT, NewColour.MAROON, NewColour.ROSE);
+		pale.forEach((base, shade) -> {
+			ItemStack made = GT.craft(h, ColourBlocks.of(base).dye.get(), Items.WHITE_DYE);
+			h.assertTrue(made.is(ColourBlocks.of(shade).dye.get()) && made.getCount() == 2,
+				base.id + " and white dye make " + made);
+		});
 		// Taran, 2026-11-15: no way to make the four until the distillation build's stage 5 makes them from aniline
 		for (NewColour c : List.of(NewColour.MAUVE, NewColour.INDIGO, NewColour.MALACHITE_GREEN, NewColour.MAROON)) {
 			Item dye = ColourBlocks.of(c).dye.get();
@@ -117,6 +139,8 @@ public class ColourTests {
 		h.assertTrue(wool.is(mauve().wool.get().asItem()), "white wool dyed mauve is " + wool);
 		ItemStack red = GT.craft(h, Items.RED_DYE, mauve().wool.get());
 		h.assertTrue(red.is(Items.RED_WOOL), "mauve wool dyed red is " + red);
+		ItemStack fromRed = GT.craft(h, mauveDye, Items.RED_WOOL);
+		h.assertTrue(fromRed.is(mauve().wool.get().asItem()), "red wool dyed mauve is " + fromRed);
 		ItemStack mint = GT.craft(h, ColourBlocks.of(NewColour.MINT).dye.get(), mauve().wool.get());
 		h.assertTrue(mint.is(ColourBlocks.of(NewColour.MINT).wool.get().asItem()), "mauve wool dyed mint is " + mint);
 		ItemStack carpet = GT.craft(h, mauve().wool.get(), mauve().wool.get());
@@ -145,9 +169,22 @@ public class ColourTests {
 		h.succeed();
 	}
 
-	/** Beds, banners and shulker boxes in the new colours keep their block entities, as vanilla's do. */
+	/**
+	 * Beds, banners and shulker boxes in the new colours keep their block entities, as vanilla's do, and the block
+	 * entities count them as their own (vanilla's types list their sixteen blocks; BlockEntityTypeMixin), so they tick
+	 * and are drawn.
+	 */
 	@GameTest(template = GT.PLATFORM)
 	public static void bedsBannersAndShulkerBoxesKeepTheirBlockEntities(GameTestHelper h) {
+		for (NewColour c : NewColour.values()) {
+			ColourBlocks.ColourSet s = ColourBlocks.of(c);
+			h.assertTrue(BlockEntityType.BED.isValid(s.bed.get().defaultBlockState()), c.id + "'s bed is not a bed's");
+			h.assertTrue(BlockEntityType.BANNER.isValid(s.banner.get().defaultBlockState()), c.id + "'s banner is not a banner's");
+			h.assertTrue(BlockEntityType.BANNER.isValid(s.wallBanner.get().defaultBlockState()),
+				c.id + "'s wall banner is not a banner's");
+			h.assertTrue(BlockEntityType.SHULKER_BOX.isValid(s.shulkerBox.get().defaultBlockState()),
+				c.id + "'s shulker box is not a shulker box's");
+		}
 		BlockPos foot = p(4, 2, 4);
 		BlockState bed = mauve().bed.get().defaultBlockState().setValue(BedBlock.FACING, Direction.NORTH);
 		h.setBlock(foot, bed);
@@ -183,30 +220,133 @@ public class ColourTests {
 	 */
 	@GameTest(template = GT.PLATFORM)
 	public static void aSheepTakesTheNewColoursFromDye(GameTestHelper h) {
-		Sheep sheep = h.spawn(EntityType.SHEEP, p(4, 2, 4));
+		Player player = h.makeMockSurvivalPlayer();
+		AABB around = new AABB(h.absolutePos(p(4, 2, 4))).inflate(4);
 		for (NewColour c : NewColour.values()) {
-			sheep.setColor(c.dye());
-			h.assertTrue(sheep.getColor() == c.dye(), "a sheep dyed " + c.id + " is " + sheep.getColor());
+			Sheep sheep = h.spawn(EntityType.SHEEP, p(4, 2, 4));
+			ItemStack dye = new ItemStack(ColourBlocks.of(c).dye.get());
+			dye.interactLivingEntity(player, sheep, InteractionHand.MAIN_HAND);
+			h.assertTrue(sheep.getColor() == c.dye() && dye.isEmpty(), "a sheep dyed " + c.id + " is " + sheep.getColor());
 			h.assertFalse(sheep.isSheared(), "dyeing a sheep " + c.id + " sheared it");
+			Sheep loaded = reload(h, sheep);
+			h.assertTrue(loaded.getColor() == c.dye() && !loaded.isSheared(), "a " + c.id + " sheep loads as " + loaded.getColor());
+			h.assertTrue(loaded.getDefaultLootTable().equals(McRemix.asResource("entities/sheep/" + c.id)),
+				"a " + c.id + " sheep's loot table is " + loaded.getDefaultLootTable());
+			loaded.shear(SoundSource.PLAYERS);
+			h.assertTrue(loaded.isSheared() && loaded.getColor() == c.dye(), "shearing a " + c.id + " sheep made it " + loaded.getColor());
+			Item wool = ColourBlocks.of(c).wool.get().asItem();
+			h.assertTrue(h.getLevel().getEntitiesOfClass(ItemEntity.class, around).stream().anyMatch(i -> i.getItem().is(wool)),
+				"shearing a " + c.id + " sheep gave no " + c.id + " wool");
+			Sheep shorn = reload(h, loaded);
+			h.assertTrue(shorn.isSheared() && shorn.getColor() == c.dye(), "a shorn " + c.id + " sheep loads as " + shorn.getColor());
+			h.assertTrue(shorn.getDefaultLootTable().equals(EntityType.SHEEP.getDefaultLootTable()),
+				"a shorn " + c.id + " sheep would drop wool");
+			h.getLevel().getEntitiesOfClass(ItemEntity.class, around).forEach(ItemEntity::discard);
+			if (c == NewColour.ROSE) {
+				shorn.setColor(DyeColor.RED);
+				h.assertTrue(shorn.getColor() == DyeColor.RED && shorn.isSheared(), "dyed red again it is " + shorn.getColor());
+			}
+			sheep.discard();
+			loaded.discard();
+			shorn.discard();
 		}
-		sheep.setColor(NewColour.MALACHITE_GREEN.dye());
+		h.succeed();
+	}
+
+	/** A sheep saved and loaded again, as a world does. */
+	private static Sheep reload(GameTestHelper h, Sheep sheep) {
 		CompoundTag saved = new CompoundTag();
 		sheep.saveWithoutId(saved);
 		saved.remove("UUID");
 		Sheep loaded = h.spawn(EntityType.SHEEP, p(6, 2, 4));
 		loaded.load(saved);
-		h.assertTrue(loaded.getColor() == NewColour.MALACHITE_GREEN.dye(), "a malachite green sheep loads as " + loaded.getColor());
-		h.assertTrue(loaded.getDefaultLootTable().equals(McRemix.asResource("entities/sheep/malachite_green")),
-			"a malachite green sheep's loot table is " + loaded.getDefaultLootTable());
-		loaded.shear(SoundSource.PLAYERS);
-		h.assertTrue(loaded.isSheared() && loaded.getColor() == NewColour.MALACHITE_GREEN.dye(),
-			"shearing a malachite green sheep made it " + loaded.getColor());
-		Item green = ColourBlocks.of(NewColour.MALACHITE_GREEN).wool.get().asItem();
-		AABB around = new AABB(h.absolutePos(p(6, 2, 4))).inflate(3);
-		h.assertTrue(h.getLevel().getEntitiesOfClass(ItemEntity.class, around).stream().anyMatch(i -> i.getItem().is(green)),
-			"shearing a malachite green sheep gave no malachite green wool");
-		loaded.setColor(DyeColor.RED);
-		h.assertTrue(loaded.getColor() == DyeColor.RED && loaded.isSheared(), "dyed red again it is " + loaded.getColor());
+		return loaded;
+	}
+
+	/** The new stained glass is glass: nothing spawns on it, it carries no redstone, and it neither suffocates nor blinds. */
+	@GameTest(template = GT.PLATFORM)
+	public static void theNewStainedGlassIsGlass(GameTestHelper h) {
+		BlockPos at = p(4, 2, 4);
+		BlockPos abs = h.absolutePos(at);
+		for (NewColour c : NewColour.values()) {
+			BlockState glass = ColourBlocks.of(c).stainedGlass.get().defaultBlockState();
+			h.setBlock(at, glass);
+			h.assertFalse(glass.isValidSpawn(h.getLevel(), abs, EntityType.ZOMBIE), "zombies spawn on " + c.id + " glass");
+			h.assertFalse(glass.isRedstoneConductor(h.getLevel(), abs), c.id + " glass carries redstone");
+			h.assertFalse(glass.isSuffocating(h.getLevel(), abs), c.id + " glass suffocates");
+			h.assertFalse(glass.isViewBlocking(h.getLevel(), abs), c.id + " glass blocks the view");
+		}
+		h.succeed();
+	}
+
+	/** Villagers take the new beds as homes, as they take any of vanilla's, and the beds show their colour on maps. */
+	@GameTest(template = GT.PLATFORM)
+	public static void villagersTakeTheNewBedsAsHomes(GameTestHelper h) {
+		for (NewColour c : NewColour.values()) {
+			BlockState head = ColourBlocks.of(c).bed.get().defaultBlockState().setValue(BedBlock.PART, BedPart.HEAD);
+			h.assertTrue(PoiTypes.forState(head).filter(t -> t.is(PoiTypes.HOME)).isPresent(), "a " + c.id + " bed is no home");
+			h.assertTrue(PoiTypes.hasPoi(head), "a " + c.id + " bed's head is not looked for as a point of interest");
+			h.assertFalse(PoiTypes.forState(head.setValue(BedBlock.PART, BedPart.FOOT)).isPresent(),
+				"the foot of a " + c.id + " bed is a point of interest");
+		}
+		BlockPos foot = p(4, 2, 4);
+		BlockState bed = mauve().bed.get().defaultBlockState().setValue(BedBlock.FACING, Direction.NORTH);
+		h.setBlock(foot, bed);
+		h.setBlock(foot.north(), bed.setValue(BedBlock.PART, BedPart.HEAD));
+		BlockPos head = h.absolutePos(foot.north());
+		MapColor footColour = h.getLevel().getBlockState(h.absolutePos(foot)).getMapColor(h.getLevel(), h.absolutePos(foot));
+		h.assertTrue(footColour == NewColour.MAUVE.mapColor, "a mauve bed shows on maps as " + footColour.id);
+		h.assertTrue(h.getLevel().getBlockState(head).getMapColor(h.getLevel(), head) == MapColor.WOOL,
+			"a mauve bed's pillow is not wool on maps");
+		h.succeedWhen(() -> h.assertTrue(h.getLevel().getPoiManager().existsAtPosition(PoiTypes.HOME, head),
+			"a placed mauve bed is no villager's home"));
+	}
+
+	/** A water cauldron washes the new banners and shulker boxes, and a dispenser puts the new carpets on llamas. */
+	@GameTest(template = GT.PLATFORM)
+	public static void cauldronsAndDispensersTakeTheNewColours(GameTestHelper h) {
+		BlockPos cauldron = p(4, 2, 4);
+		h.setBlock(cauldron, Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3));
+		Player player = h.makeMockSurvivalPlayer();
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(mauve().shulkerBox.get()));
+		h.useBlock(cauldron, player);
+		h.assertTrue(player.getMainHandItem().is(Items.SHULKER_BOX), "washing a mauve shulker box left " + player.getMainHandItem());
+		ItemStack banner = new ItemStack(mauve().banner.get());
+		CompoundTag patterns = new CompoundTag();
+		patterns.put("Patterns", new BannerPattern.Builder().addPattern(BannerPatterns.STRIPE_TOP, DyeColor.WHITE).toListTag());
+		BlockItem.setBlockEntityData(banner, BlockEntityType.BANNER, patterns);
+		player.setItemInHand(InteractionHand.MAIN_HAND, banner);
+		h.useBlock(cauldron, player);
+		ItemStack washed = player.getMainHandItem();
+		h.assertTrue(washed.is(mauve().banner.get().asItem()) && BannerBlockEntity.getPatternCount(washed) == 0,
+			"washing a mauve banner left " + washed + " " + washed.getTag());
+		DispenserBlockAccessor dispenser = (DispenserBlockAccessor) Blocks.DISPENSER;
+		var vanilla = dispenser.mcremix$getDispenseMethod(new ItemStack(Items.PURPLE_CARPET));
+		for (NewColour c : NewColour.values())
+			h.assertTrue(dispenser.mcremix$getDispenseMethod(new ItemStack(ColourBlocks.of(c).carpet.get())) == vanilla,
+				"a dispenser does not put " + c.id + " carpet on a llama");
+		h.succeed();
+	}
+
+	/**
+	 * The recipe book has the new colours' recipes where it has vanilla's and Create's, unlocked as theirs are, and
+	 * vanilla's own dyeing recipes, written again to take the new colours, stay in the building tab.
+	 */
+	@GameTest(template = GT.PLATFORM)
+	public static void theRecipeBookHasTheNewColoursAsItHasVanillas(GameTestHelper h) {
+		var recipes = h.getLevel().getRecipeManager();
+		for (String id : List.of("minecraft:dye_red_wool", "minecraft:dye_red_carpet", "minecraft:dye_red_bed",
+			"mcremix:dye_mauve_wool", "mcremix:dye_mauve_carpet", "mcremix:dye_mauve_bed")) {
+			var recipe = recipes.byKey(new ResourceLocation(id)).orElse(null);
+			h.assertTrue(recipe instanceof CraftingRecipe crafting && crafting.category() == CraftingBookCategory.BUILDING,
+				id + " is not in the recipe book's building tab");
+		}
+		var advancements = h.getLevel().getServer().getAdvancements();
+		for (String id : List.of("mcremix:recipes/building_blocks/mauve_stained_glass",
+			"mcremix:recipes/building_blocks/dye_mauve_wool", "mcremix:recipes/decorations/mauve_bed",
+			"mcremix:recipes/misc/lilac_dye", "create:recipes/building_blocks/crafting/kinetics/mauve_seat",
+			"create:recipes/misc/crafting/kinetics/mauve_valve_handle_from_other_valve_handle"))
+			h.assertTrue(advancements.getAdvancement(new ResourceLocation(id)) != null, id + " does not unlock its recipe");
 		h.succeed();
 	}
 

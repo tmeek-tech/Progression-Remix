@@ -9,8 +9,9 @@ the nearest vanilla colour in OKLab so they keep their shading, and only where t
 a bed's frame and pillow, a candle's wick and a postbox's metal stay as they are. The glazed terracotta patterns, after
 Victorian encaustic tiles, and the four coal tar dyes' crystals are drawn here.
 
-Reads the Minecraft 1.20.1 client jar, Forge's universal jar and Create's jar from Gradle's caches, so run
-./gradlew compileJava once before it.
+Reads the Minecraft client jar, Forge's universal jar and Create's jar from Gradle's caches, in the versions
+gradle.properties names, so run ./gradlew compileJava once before it. gen_assets.py imports this before it wipes
+anything, so a missing jar stops it there.
 """
 import glob
 import io
@@ -62,23 +63,48 @@ KINDS = ['wool', 'carpet', 'concrete', 'concrete_powder', 'terracotta', 'glazed_
          'stained_glass_pane', 'candle', 'candle_cake', 'bed', 'banner', 'wall_banner', 'shulker_box', 'dye']
 # vanilla's files for these that are not about a purple thing of ours
 SKIP_RECIPES = ('purple_dye.json', 'magenta_dye_from_purple_and_pink.json')
-# translucent and cutout blocks: vanilla's own are listed in code, so ours say it in their models
+# translucent and cutout blocks: vanilla's own are listed in code, so ours say it in their models, item models too
+# (a pane's item model is flat, with no block model above it to take the render type from)
 RENDER_TYPES = {'stained_glass': 'minecraft:translucent', 'stained_glass_pane': 'minecraft:translucent',
                 'candle': 'minecraft:cutout', 'candle_cake': 'minecraft:cutout'}
 
 
-def gradle_jar(*patterns):
+def gradle_properties():
+    props = {}
+    for line in open(os.path.join(ROOT, 'gradle.properties')):
+        line = line.strip()
+        if line and not line.startswith('#') and '=' in line:
+            key, value = line.split('=', 1)
+            props[key.strip()] = value.strip()
+    return props
+
+
+PROPS = gradle_properties()
+MC_VERSION, FORGE_VERSION = PROPS['minecraft_version'], PROPS['forge_version']
+CREATE_VERSION = PROPS['create_version'].rstrip('+')  # '6.0.8-+' is any 6.0.8 build, '6.0.7-281' just that one
+
+
+def build_number(path):
+    """A cached jar's version as numbers, from its file name, so the newest of several builds is the one taken."""
+    return [int(n) for n in re.findall(r'\d+', os.path.basename(path))]
+
+
+def gradle_jar(what, *patterns):
     home = os.path.expanduser('~/.gradle/caches')
     for p in patterns:
-        found = sorted(glob.glob(os.path.join(home, p), recursive=True))
+        found = glob.glob(os.path.join(home, p), recursive=True)
         if found:
-            return zipfile.ZipFile(found[0])
-    raise SystemExit('gen_colours: no jar in the Gradle cache matches ' + patterns[0] + '; run ./gradlew compileJava')
+            return zipfile.ZipFile(max(found, key=build_number))
+    raise SystemExit(f'gen_colours: no {what} jar in the Gradle cache (looked for {patterns[0]}); '
+                     'run ./gradlew compileJava first')
 
 
-MC = gradle_jar('neoformruntime/artifacts/minecraft_1.20.1_client.jar', '**/client-1.20.1*.jar')
-FORGE = gradle_jar('modules-2/files-2.1/net.minecraftforge/forge/1.20.1-47.4.6/**/forge-1.20.1-47.4.6-universal.jar')
-CREATE = gradle_jar('modules-2/files-2.1/com.simibubi.create/create-1.20.1/6.0.8*/**/create-1.20.1-6.0.8*-slim.jar')
+MC = gradle_jar(f'Minecraft {MC_VERSION} client', f'neoformruntime/artifacts/minecraft_{MC_VERSION}_client.jar',
+                f'**/client-{MC_VERSION}*.jar')
+FORGE = gradle_jar(f'Forge {FORGE_VERSION}', f'modules-2/files-2.1/net.minecraftforge/forge/{MC_VERSION}-{FORGE_VERSION}/'
+                   f'**/forge-{MC_VERSION}-{FORGE_VERSION}-universal.jar')
+CREATE = gradle_jar(f'Create {CREATE_VERSION}', f'modules-2/files-2.1/com.simibubi.create/create-{MC_VERSION}/'
+                    f'{CREATE_VERSION}*/**/create-{MC_VERSION}-{CREATE_VERSION}*-slim.jar')
 
 
 def jar_names(jar, prefix):
@@ -91,6 +117,11 @@ def jar_json(jar, name):
 
 def jar_png(jar, name):
     return Image.open(io.BytesIO(jar.read(name))).convert('RGBA')
+
+
+def pixels(img):
+    """An image's pixels in order: get_flattened_data from Pillow 12.1 on, getdata before it."""
+    return list(getattr(img, 'get_flattened_data', img.getdata)())
 
 
 def write_json(path, obj):
@@ -168,7 +199,7 @@ def shade(c, dl, k=1.0):
 def dyed_mask(variants):
     """The pixels that differ between vanilla's (or Create's) colours of one texture: the dyed part of it."""
     w, h = variants[0].size
-    data = [list(v.get_flattened_data()) for v in variants if v.size == (w, h)]
+    data = [pixels(v) for v in variants if v.size == (w, h)]
     mask = []
     for i in range(w * h):
         px = [d[i] for d in data]
@@ -184,7 +215,7 @@ def recolour(img, src, colour, mask=None):
     """Moves the dyed pixels of vanilla's texture in src's colour to the new colour, in OKLab: the texture's own
     offset from its dye colour (wool is lighter than its dye, terracotta duller) is carried over, and its shading
     kept, its chroma scaled to the new colour's."""
-    data = list(img.get_flattened_data())
+    data = pixels(img)
     pts = [i for i, p in enumerate(data) if p[3] > 0 and (mask is None or mask[i])]
     if not pts:
         return img.copy()
@@ -475,7 +506,7 @@ def gen_vanilla_assets():
             for c in NAMES:
                 model = json.loads(ours(MC.read(name).decode(), c))
                 kind = kind_of(base[:-5])
-                if folder == 'block' and kind in RENDER_TYPES:
+                if kind in RENDER_TYPES:
                     model['render_type'] = RENDER_TYPES[kind]
                 for t in model.get('textures', {}).values():
                     if t.startswith('mcremix:'):
@@ -529,8 +560,8 @@ def gen_vanilla_data():
                        json.loads(ours(MC.read(name).decode(), c)))
     # dyeing wool, carpets and beds: each colour's recipe takes any other colour's, so vanilla's are written again
     # (in vanilla's namespace, over its own) to take ours as well
-    for kind, category, group in (('wool', 'building', 'wool'), ('carpet', 'decorations', 'carpet'),
-                                  ('bed', 'decorations', 'bed')):
+    for kind, category, group in (('wool', 'building', 'wool'), ('carpet', 'building', 'carpet'),
+                                  ('bed', 'building', 'bed')):
         for c in ALL:
             recipe = {'type': 'minecraft:crafting_shapeless', 'category': category, 'group': group,
                       'ingredients': [{'item': dye_item(c)},
@@ -543,6 +574,22 @@ def gen_vanilla_data():
             'type': 'minecraft:crafting_shapeless', 'category': 'misc', 'group': f'{pale}_dye',
             'ingredients': [{'item': dye_item(base)}, {'item': 'minecraft:white_dye'}],
             'result': {'item': dye_item(pale), 'count': 2}})
+    # what unlocks each recipe in the recipe book: vanilla's advancements for its purple recipes, made ours, and one
+    # for each pale shade like vanilla's for pink from red and white
+    for name in jar_names(MC, 'data/minecraft/advancements/recipes/'):
+        base = os.path.basename(name)
+        if 'purple' not in base or base in SKIP_RECIPES:
+            continue
+        rel = name[len('data/minecraft/advancements/'):]
+        for c in NAMES:
+            text = MC.read(name).decode().replace('minecraft:dye_purple_', f'mcremix:dye_{c}_')
+            text = ours(text, c).replace('has_purple_', f'has_{c}_')
+            write_json(res('data', 'mcremix', 'advancements', *rel.replace('purple', c).split('/')), json.loads(text))
+    template = MC.read('data/minecraft/advancements/recipes/misc/pink_dye_from_red_white_dye.json').decode()
+    for pale, base in PALE.items():
+        text = (template.replace('minecraft:pink_dye_from_red_white_dye', f'mcremix:{pale}_dye')
+                .replace('minecraft:red_dye', dye_item(base)).replace('has_red_dye', f'has_{base}_dye'))
+        write_json(res('data', 'mcremix', 'advancements', 'recipes', 'misc', f'{pale}_dye.json'), json.loads(text))
     # tags: wherever vanilla or Forge lists a purple thing, ours go too
     for jar, ns_prefix in ((MC, 'data/minecraft/tags/'), (FORGE, 'data/forge/tags/')):
         for name in jar_names(jar, ns_prefix):
@@ -600,8 +647,9 @@ def gen_create():
                     open(out, 'wb').write(CREATE.read(name))
         elif name.endswith('.json') and (name.startswith('assets/create/') or
                                          name.startswith('data/create/loot_tables/') or
-                                         name.startswith('data/create/recipes/crafting/')):
-            if 'advancement' in name or 'compat' in name:
+                                         name.startswith('data/create/recipes/crafting/') or
+                                         name.startswith('data/create/advancements/recipes/')):
+            if 'compat' in name:
                 continue
             for c in NAMES:
                 write_json(res(*name.replace('purple', c).split('/')),
@@ -610,8 +658,12 @@ def gen_create():
         if '/tags/' not in name or not name.endswith('.json'):
             continue
         data = jar_json(CREATE, name)
-        vals = [v.replace('purple', c) for v in data['values'] if isinstance(v, str) and v.startswith('create:purple_')
-                for c in NAMES]
+        vals = []
+        for v in data['values']:
+            if isinstance(v, str) and v.startswith('create:purple_'):  # Create's own dyed blocks
+                vals += [v.replace('purple', c) for c in NAMES]
+            elif isinstance(v, str) and v.startswith('minecraft:purple_'):  # vanilla's, listed by Create (shulker boxes)
+                vals += [ours(v, c) for c in NAMES]
         if vals:
             merge_tag(res(*name.split('/')), vals)
 
