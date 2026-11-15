@@ -2566,36 +2566,79 @@ creative only, until creosote (stage 1) and argon (stage 4) exist. They are in p
 
 **Where it lives.** Everything is apart from the files the other stages edit, so the build threads can work at once:
 `registry/ModDecor.java` (registered from `McRemix` after `ModBlocks`), the `decor` package, `ponder/DecorPonderPlugin`
-and `DecorScenes` (added in `McRemixClient`), `tools/gen_decor.py` and the `DecorTests` GameTests. `gen_assets.py`
-calls `gen_decor.run` last, after `gen_colours` (section 36), passing itself; `gen_decor` uses its helpers and adds its lines to the lang file and tags
-`gen_assets` wrote rather than owning them. Thin faces have their UVs kept half a pixel inside the sprite (`inset`),
-since a face whose UVs sit on a sprite's edge picked up the next sprite on the atlas (orange specks from Create's seat).
+and `DecorScenes` (added in `McRemixClient`), `tools/gen_decor.py` and the `DecorTests` GameTests. `gen_assets.py` calls
+`gen_decor.run` last, after `gen_colours` (section 36), passing itself; `gen_decor` uses its helpers and adds its lines
+to the lang file and tags `gen_assets` wrote rather than owning them. Thin faces have their UVs kept half a pixel inside
+the sprite (`inset`), since a face whose UVs sit on a sprite's edge picked up the next sprite on the atlas (orange
+specks from Create's seat).
 
 **Steel catwalks.** `CatwalkBlock`: bar grating 2 px deep in the top of the block, so it lies flush with a floor beside
 it, banded by a 4 px flat bar along each side that does not run on into another catwalk, or into catwalk stairs
-climbing along that side. Waterloggable, and the sky shows through it. Its side flags turn and mirror with a structure,
-as worldgen places one without updating its shape. 3 from 3 steel sheets and 2 steel nuggets.
+climbing along that side. Waterloggable, and the sky shows through it, but rain does not: its collision is just big
+enough for the game to count it solid, so rain stops on it and what is under it stays dry, which its tooltip says
+rather than claiming water passes through. Its side flags turn and mirror with a structure, as worldgen places one
+without updating its shape. 3 from 3 steel sheets and 2 steel nuggets.
 
 **Catwalk stairs.** `CatwalkStairsBlock`: two grating treads on sloped flat-bar stringers, climbing the way you face.
 Each side with no flight beside it gets a handrail (`LEFT`, `RIGHT`: posts, a sloped rail and a knee rail), so stairs
-side by side make one wide flight railed only outside. To collide with, both halves of a rail stand two blocks above the
-stairs' foot, as high as a block's collision reaches: from the lower tread that cannot be jumped, and from the upper one
-it is a block high, as a wall is. 2 from 3 catwalks.
+side by side make one wide flight railed only outside. To collide with, both halves of a rail stand 2.75 blocks above
+the stairs' foot (`RAIL_COLLISION`), for where one stairs meets the next up: there the lower one's rail has to stand
+higher than a step up (0.6 of a block) from the upper one's lower tread, which is half a block above the lower one's top
+tread. When it stood two blocks up, half a block above that tread, a player walking down at a slant stepped onto it and
+off the side. 2 from 3 catwalks.
+
+**Keeping them inside the rails.** The game looks for a block's collision only for what stands less than two blocks
+above that block's foot, so a rail above that line stops a step but not a player who rises past it: one who jumps on the
+stairs, or runs off a tread over the stairs below, leaves where the game looks for that stairs' rail, and it would carry
+them into it and out through it (in a model of vanilla's movement, with the jump already held low, 12,866 of 102,960
+runs down a flight of seven, all jumping or hopping). A step up cut short by a catwalk overhead does it too: the game
+then tries the move again from the raised box, which looks for nothing one block under the feet, or, for one that steps
+up a whole block as a mount or a player with step-up gear does, in the block the feet come back down into. Once a box is
+in a shape the game lets it go on through. So `CatwalkStairsMovement` moves anything that lives back out of a rail it
+has got into, across the rail to the side its middle is on, and stops it moving on into it (`keepOutOfRails`, looking at
+the stairs in the feet's block and the two under it, and ignoring overlaps under a millionth of a block, as a box set
+against a rail can be in it by rounding): a player on their own client as soon as they have moved (Forge's player tick,
+ending, which comes before the client sends the server where they are, so the server never sees them in a rail), and a
+mob, or a mount on its rider's client, before it moves again. In the model that leaves no run down a single-width flight
+going out through a rail, from those 12,866 and 1,091 of 65,520 down a flight of three, and none walking down under a
+catwalk; a push there is 0.14 of a block at most, and comes only while airborne. Down a two-wide flight 12 of 140,400
+runs still leave, every one a sprinting hop from its landing or its top stairs over the top of a rail lower down, as
+they did before. And a jump from catwalk stairs, or from a tread's edge with the feet already over the stairs below,
+starts at 0.23 a tick at most and rises 0.44 of a block, short of a rail's top beside it (Forge's jump event). A block's
+jump factor would not do, as the game takes it from the block under the jumper's middle, which at a joint is the air
+over the lower stairs. A jump from anywhere else, such as a landing, is not held.
 
 **Railings.** `RailingBlock`: a railing for each side of the block (posts, handrail, knee rail, toe board), placed on
 the edge nearest where you aim (within 0.3 of a block of it, else the side you face); another used on it adds a side,
 and broken it drops one for each side, as many as a schematicannon spends printing it (`SpecialBlockItemRequirement`).
 A placement asks `canBeReplaced` of the railing aimed at and, if that says no, of a railing in front of the face aimed
-at, which takes the side against that face; the method tells which it is asked about by its state. Set by a command
-it is railed on the north, as a railing with no side draws nothing. Its collision is a block and a half high. Shapes
-for railings and stairs are worked out once, at class load, as the client and server threads both ask for them.
-2 from 5 steel nuggets.
+at, which takes the side against that face. The method tells which it is asked about by the context's clicked position,
+which is the block aimed at the first time and the block in front of the face the second, not by the railing's state,
+as two railings side by side can be in the same one. All the sides of a railing share their rust and wax, and a
+railing in hand that has rusted or been waxed would give the one it joins its own, so it adds a side only to a railing
+rusted and waxed as it is; a bare one, as railings are made, adds one to any, which keeps its own rust or wax. Refused,
+a railing aimed at through its open side (at the floor in front of it) takes nothing, and nothing is placed. Set by a
+command it is railed on the north, as a railing with no side draws nothing, and a railing placed fresh takes only the
+side aimed at. Its collision is a block and a half high. Shapes for railings and stairs are worked out once, at class
+load, as the client and server threads both ask for them. 2 from 5 steel nuggets.
 
 **Caged ladders.** `CagedLadderBlock`, a ladder: steel stiles and rungs, and a cage of hoops and bars that starts two
 blocks up, above a player's head, as a real one starts above head height (`LADDERS_BELOW`, the ladders of the same
 flight under it counted to two, each from the one under it, so a change at the foot runs up). A cage on the second
-ladder stood in the way of a player's head at the foot, so nobody could walk in. 3 from 2 steel sheets and 5 steel
-nuggets.
+ladder stood in the way of a player's head at the foot, so nobody could walk in. A ladder also counts again when it is
+placed (`onPlace`), as a contraption sets its blocks down without their neighbours updating them, which left a moved
+flight with its cages where they were. A climber off to one side of the second ladder would catch the bottom of the
+cage's side bars with their head, so there they are steered across into it (`entityInside`): one rising against the
+ladder, or whose head the bars have just stopped, as when they climb by jumping (the stop has already taken their upward
+speed when the block is told), with their feet in the flight's own column, so one on a ladder or vines beside it is not
+pulled across, and narrow enough to fit. Each tick they are moved as far as they are under the bar and 0.03 of a block
+more (`CLEARANCE`), up to 0.15: a strafe key held toward that bar takes back 0.02 a tick in the air, and with less they
+hung under it. One whose keys push toward the side they are off to more than twice as hard as into the ladder is left
+alone: steering them against their keys made them bob in and out, and one strafing into a wall beside the foot is lifted
+by the wall, so moving them off it dropped them. That is unless the ladder has stopped them this tick (a key into it,
+and no speed into it left), as it lifts them wherever they are across it. One who holds jump and a strafe key toward the
+side they are off, and no key into the ladder, hangs under the side bar until they press forward, as the jump key cannot
+be read there. 3 from 2 steel sheets and 5 steel nuggets.
 
 **Steel's rust.** All four are `FluidPartMaterial.Part`s of steel with `Patina`: they rust only while wet, to the
 exposed stage and no further, and wax and scrape as steel parts do. Their properties are set in `ModDecor.steel`, not
@@ -2605,13 +2648,14 @@ copy carried that over, so rusted or waxed steel kept ticking with nothing left 
 **Creosote timber.** `CreosoteBlocks`: a log (debarked, by axis), planks, stairs, slab, fence, fence gate and post, dark
 and oily like railway sleepers, with the log's sawn end soaked black outside and brown in the heart. They burn as wood:
 `CreosoteBlocks.setup` gives fire itself vanilla's odds for them (planks' for the sawn pieces, logs' for the log and
-post), so none burns waterlogged. In a hot biome (base temperature over 1.0), by day (from the level's clock: a
-client's `isDay` is worked out once, when it joins), under open sky and over air, each of them now and then drips a
-speck of creosote from its underside (`weep`, at a spot under the timber). Tags: planks, wooden stairs, slabs and
-fences, fence gates, `mineable/axe` and `mcremix:creosote_timber`; the log's item is in `logs_that_burn`, for fuel and
-charcoal (not the block, or Create's saw would fell a pile of logs as a tree), and the post's item burns as a log does.
-`forge:stripped_logs` gets the vanilla stripped logs, which the Spout will creosote. The crafting from creosote logs is
-there (4 planks a log; 4 posts from 2 logs; stairs, slabs, fence and gate from planks).
+post), so none burns waterlogged. In a hot biome (base temperature over 1.0), by day (from the level's clock: a client's
+`isDay` is worked out once, when it joins), under open sky and over air, each of them now and then drips a speck of
+creosote from its underside (`weep`, at a spot from `dripSpot` under the timber's occlusion shape: a fence's or gate's
+outline reaches the ground under its rails, so drips started in the air below them). Tags: planks, wooden stairs, slabs
+and fences, fence gates, `mineable/axe` and `mcremix:creosote_timber`; the log's item is in `logs_that_burn`, for fuel
+and charcoal (not the block, or Create's saw would fell a pile of logs as a tree), and the post's item burns as a log
+does. `forge:stripped_logs` gets the vanilla stripped logs, which the Spout will creosote. The crafting from creosote
+logs is there (4 planks a log; 4 posts from 2 logs; stairs, slabs, fence and gate from planks).
 
 **Posts.** `CreosoteBlocks.Post`: a 6 px pole, standing or lying along either way like a log, waterloggable, for jetty
 piles, telegraph poles and fence posts. Posts join where one points at another's side (`SIDES`): the one pointed at
@@ -2620,16 +2664,29 @@ under a standing post, and under a lying one on a short length of chain (`CHAIN`
 sign, ceiling bell, spore blossom or chain is below; `getBlockSupportShape` gives a lying post a centre hold
 underneath). A torch stands on a standing post only, as on a lying one it would float, and `Post.hookOnly` keeps
 brackets and PVC face pipes off the hold for the same reason. Mobs path round posts, as round fences. Rendered cutout
-for the chain.
+for the chain. Other mods' things that hang from a centre hold, such as Create's blueprints and Immersive Weathering's
+icicles, hang from a lying post too, but with no chain, 5 px under it: the chain is drawn only for the vanilla blocks
+listed, and keeping the rest off would take a mixin into each mod for a rare look.
 
 **Argon tubes.** `ArgonTubeBlock`, a Power Grid device: a glass tube lying along the face it is set against, with a
 nickel cap and terminal at each end (- at the low end, + at the high end). Tubes end to end join, thin collars taking
 the place of their caps, but each keeps its own two terminals, since Power Grid cannot link nodes across blocks, so a
 line is wired in series with short jumpers. `ArgonTubeBlockEntity` puts a 40 kOhm switch between the terminals that
 closes at 800 V and opens below 600 V; lit (`LIT`), the tube glows violet with light 10, and the goggles show its volts
-and, lit, its milliamps. Whether it is lit is saved, and a loaded tube is left as saved for its first 5 ticks while its
-circuit rejoins and settles: so one held lit between 600 and 800 V stays lit across a reload, and a lit one does not
-blink off as its chunk loads. The empty Glass Tube is an item.
+and, lit, its milliamps. Whether it is lit is saved. A loaded tube is left as saved until its circuit has volts across
+it again and for 5 ticks after, while it settles, and does so again whenever Power Grid takes it back into its circuit
+(`unpaused`) and all the while its chunk is out of every player's view (below entity ticking): its first ticks come
+before it has rejoined, and a supply in a chunk that has not started ticking, or has stopped as a player walked off, is
+out of the circuit, so the tube reads no volts. Power Grid stops a chunk's devices when it leaves block ticking, and
+every chunk beside one in a player's view is block ticking, so a supply in the tube's chunk or the next is never out
+while the tube can be seen; one two chunks away or more can be, and the tube then goes dark. Out of view means below
+entity ticking, so a force-loaded chunk, and the spawn chunks within nine chunks of the spawn's own, are always in view;
+the spawn's outer ring, ten chunks out, only block ticks, so a tube there holds as it was until a player comes near. A
+server that restarts with a tube in the spawn chunks and its supply outside them leaves it with no volts, and once it
+has waited it goes dark. It waits 30 seconds at most, so one saved lit with no supply goes dark in the end. So a tube
+held lit between 600 and 800 V stays lit across a reload, and a lit one does not blink off as its chunk loads. Once it
+changes it stays lit or dark for half a second (`DWELL_TICKS`), so one on a supply too weak to hold it, which sags under
+600 V as it strikes, blinks rather than flickering every tick. The empty Glass Tube is an item.
 
 **Recipes to come.** `gen_decor.CREOSOTE_FLUID` and `ARGON_FLUID` are `None`. When stage 1 adds creosote it sets the
 first to the fluid's id and regenerates: the Spout recipes for stripped logs (250 mB) and planks (100 mB) appear, for
@@ -2643,12 +2700,41 @@ Glass Tube. The tube is also under Power Grid's electric devices tag (`DecorPond
 scene's schematic updates every block's shape from its neighbours, which joined the three tubes before the first was
 shown, so the scene unjoins them first.
 
-**Tests.** 344 GameTests, plain, and 350 with `-Pcompanions`. New, in `DecorTests`: `railingsGoOnTheEdgeYouAimAt`
-(with a railing aimed at through the wall's face, and a schematicannon's cost), `catwalksAndStairsJoinTheirNeighbours`
-(a flight climbing east), `aCagedLaddersCageStartsTwoBlocksUp` (a player's height of room to walk in at the foot),
-`wetSteelWalkwaysRustOnlyToTheirFirstStage` (all four, through random ticks), `aCrossarmJoinsItsPoleAndHoldsALantern`
-(a pole beside it unjoined, the chain going with the lantern, a bell, no bracket on the hold), `creosoteBurnsAsWoodDoes`
-and `anArgonTubeStrikesAt800VoltsAndHoldsTo600` (25 mA at 1,000 V; held lit at 700 V, dark at 500 V; dark at 700 V
-from the start). A review of the change, area by area with each finding checked by a second reviewer, found what the
-first tests missed: the caged ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds
-the wrong way round, the argon scene's joins, and the rest above. Looks were checked in a dev client (the test report).
+**Tests.** 345 GameTests, plain, and 351 with `-Pcompanions`. New, in `DecorTests`: `railingsGoOnTheEdgeYouAimAt` (a
+railing aimed at through the wall's face, two side by side, a fresh one railed only where aimed, a rusted one taking a
+side from a bare one while a waxed one adds nothing, aimed at the floor as a player aims, and a schematicannon's cost),
+`catwalksAndStairsJoinTheirNeighbours` (a flight climbing east; a player walking down a flight of two at a slant over
+the joint, through `Entity.move`, stepping neither onto the rail nor past it; a jump from the stairs, and from a tread's
+edge, held to 0.23, one from the floor not; one in a rail moved back out to the side they came from, either way, and one
+clear of it left; and, moved as the game moves a player and then kept out of the rails as their client does, a jump down
+a flight of three, a sprint down it with jump held, and walks down it at a slant under a catwalk over its foot, stepping
+up 0.6 and a whole block, each kept inside the rail and each needing it), `aCagedLaddersCageStartsTwoBlocksUp` (a
+player's height of room to walk in at the foot; through `Entity.move`, a climber jumping up off to one side stopped by
+the cage and steered more than 0.085, one in the middle keeping its speed across, one standing at the foot and one on a
+vanilla ladder beside the flight left alone; moved as the game moves a player, one holding forward and a strafe key
+toward the near bar reaching the cage, one strafing into a wall beside the foot not moved off it, on a flight facing
+south and one facing east, and one strafing so while looking a little toward the ladder, which stops them, steered in
+and reaching the cage; a ladder set with a wrong count putting it right), `wetSteelWalkwaysRustOnlyToTheirFirstStage`
+(all four, through random ticks), `aCrossarmJoinsItsPoleAndHoldsALantern` (a pole beside it unjoined, the chain going
+with the lantern, a bell, no bracket on the hold), `creosoteBurnsAsWoodDoes`, `creosoteDripsFromUnderTheWood` (a fence's
+drips start under its post or its rails, a gate's under its posts, lower in a wall) and
+`anArgonTubeStrikesAt800VoltsAndHoldsTo600` (25 mA at 1,000 V, as clients are told; held lit at 700 V and saved lit,
+dark at 500 V; dark at 700 V from the start; one loaded lit with no supply still lit 40 ticks on, then lit by its supply
+at 700 V, drawing 17.5 mA, once wired up).
+
+Five reviews went over the change, area by area, each finding checked by a second reviewer. The first found the caged
+ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds the wrong way round and the
+argon scene's joins. The second found a tube loaded lit going dark before its supply's chunk ticked, a tube flickering
+every tick on a weak supply, railings of different rust or wax merging, a moved flight keeping its old cages, the
+off-centre climb, the stairs' jumpable rail, fence and gate drips from the air and the catwalk's tooltip saying water
+passes through. The third ran vanilla's movement in a model and found that a climber who jumps still caught the cage,
+that one on a ladder beside a flight was pulled into it, that walking down a flight at a slant stepped over the rail
+where two stairs meet (the two-block rail had always allowed it), that a bare railing could no longer join a rusted one,
+that a tube went dark when its supply's chunk stopped before its own, and two tests that did not check what they said.
+The fourth and fifth ran the code itself in those models: jumps and hops still carried a player through a rail where the
+game does not look for it, even with the jump held low, and so did a step up cut short by a catwalk overhead, through
+the rail one block lower; a climber holding a strafe key toward the near bar hung under it, one steered against their
+keys bobbed, one strafing into a wall beside the foot was dropped, and one pushing into the ladder at a slant was then
+left hanging; the argon tube's notes had the spawn chunks wrong; and the notes and the Build row were out of date. The
+GameTests then showed, through the server's own copy of a player, which steps up a whole block, that such a step under a
+catwalk misses the rail of the stairs the feet come down into. Looks were checked in a dev client (the test report).

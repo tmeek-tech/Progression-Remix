@@ -36,7 +36,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * A steel guard rail along one or more sides of its block: a post at each end, a handrail on top, a knee rail half way
  * and a toe board at the foot, as real platform railings have. It stands on a catwalk's edge or on anything else, and
- * using another railing on it adds a side, the one nearest where you aim ({@link #sideFor}). You cannot jump over it,
+ * using another railing on it adds a side, the one nearest where you aim ({@link #sideFor}); one that has rusted or
+ * been waxed adds a side only to a railing rusted and waxed as it is ({@link #canBeReplaced}). You cannot jump over it,
  * as you cannot a fence. It rusts as the catwalk does. A schematicannon prints it with a railing for each side, as many
  * as breaking it drops.
  */
@@ -121,11 +122,15 @@ public class RailingBlock extends Block implements SimpleWaterloggedBlock, Fluid
 	 * A placement asks this of the railing aimed at, and if that says no, of a railing in the space in front of the
 	 * face aimed at, which takes a side as a new railing there would. Which one is asked is told by the clicked
 	 * position, which is the block aimed at until it says no and the space in front after: not by the state, as two
-	 * railings side by side can be in the same one.
+	 * railings side by side can be in the same one. All the sides of a railing share their rust and wax, and the
+	 * railing in hand would give it its own if it had any: so one that has rusted or been waxed adds a side only to a
+	 * railing rusted and waxed as it is, while a bare one, as railings are made, adds one to any, which keeps its own.
 	 */
 	@Override
 	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-		if (context.isSecondaryUseActive() || !context.getItemInHand().is(asItem()))
+		Patina held = Patina.of(context.getItemInHand());
+		if (context.isSecondaryUseActive() || !context.getItemInHand().is(asItem())
+			|| held != Patina.NONE && held != state.getValue(Patina.PROPERTY))
 			return false;
 		boolean aimedAt = context.getClickedPos().equals(aimedAt(context));
 		return !state.getValue(SIDES.get(sideFor(context, aimedAt)));

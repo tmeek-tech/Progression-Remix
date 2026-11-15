@@ -47,6 +47,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -89,10 +90,22 @@ public class CreosoteBlocks {
 		BlockPos below = pos.below();
 		if (!level.getBlockState(below).isAir())
 			return;
-		VoxelShape shape = state.getShape(level, pos);
+		Vec3 spot = dripSpot(state, level, pos, random);
+		if (spot != null)
+			level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), pos.getX() + spot.x,
+				pos.getY() + spot.y - 0.05, pos.getZ() + spot.z, 0, 0, 0);
+	}
+
+	/**
+	 * Where in its block a drip starts: a box of the timber's shape picked by how much of the ground it covers, a spot
+	 * under it, and the underside of the timber there. The shape is the occlusion shape, which is the outline but for
+	 * fences and gates, whose outlines reach the ground under their rails. Null for an empty shape.
+	 */
+	@Nullable
+	public static Vec3 dripSpot(BlockState state, BlockGetter level, BlockPos pos, RandomSource random) {
+		VoxelShape shape = state.getOcclusionShape(level, pos);
 		if (shape.isEmpty())
-			return;
-		// a box of the shape, by how much of the ground it covers, then the underside of the timber at a spot under it
+			return null;
 		List<AABB> boxes = shape.toAabbs();
 		double pick = 0;
 		for (AABB b : boxes)
@@ -109,8 +122,7 @@ public class CreosoteBlocks {
 		for (AABB b : boxes)
 			if (x >= b.minX && x <= b.maxX && z >= b.minZ && z <= b.maxZ)
 				y = Math.min(y, b.minY);
-		level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), pos.getX() + x,
-			pos.getY() + y - 0.05, pos.getZ() + z, 0, 0, 0);
+		return new Vec3(x, y, z);
 	}
 
 	/** A creosoted log: a debarked round timber, as poles and piles are. */
@@ -140,6 +152,7 @@ public class CreosoteBlocks {
 		public Stairs(Supplier<BlockState> base, Properties properties) {
 			super(base, properties);
 		}
+
 		@Override
 		public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 			weep(state, level, pos, random);
@@ -150,6 +163,7 @@ public class CreosoteBlocks {
 		public Slab(Properties properties) {
 			super(properties);
 		}
+
 		@Override
 		public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 			weep(state, level, pos, random);
@@ -160,6 +174,7 @@ public class CreosoteBlocks {
 		public Fence(Properties properties) {
 			super(properties);
 		}
+
 		@Override
 		public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 			weep(state, level, pos, random);
@@ -170,6 +185,7 @@ public class CreosoteBlocks {
 		public Gate(Properties properties) {
 			super(properties, WoodType.OAK);
 		}
+
 		@Override
 		public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 			weep(state, level, pos, random);

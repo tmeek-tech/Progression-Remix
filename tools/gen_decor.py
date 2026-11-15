@@ -809,9 +809,9 @@ def lang():
     text = {
         'block.mcremix.steel_catwalk': 'Steel Catwalk',
         'block.mcremix.steel_catwalk.tooltip.summary': (
-            'Steel _bar grating_ in the top of its block, so it lies _flush_ with the floor beside it. Light and water '
-            'pass through. An edge band shows wherever it doesn\'t run on into another catwalk. Stand _railings_ on '
-            'its edges.' + rusts),
+            'Steel _bar grating_ in the top of its block, so it lies _flush_ with the floor beside it. Light passes '
+            'through, but rain doesn\'t. An edge band shows wherever it doesn\'t run on into another catwalk. Stand '
+            '_railings_ on its edges.' + rusts),
         'block.mcremix.steel_catwalk_stairs': 'Steel Catwalk Stairs',
         'block.mcremix.steel_catwalk_stairs.tooltip.summary': (
             'Grating treads on steel stringers, climbing the way you face to a catwalk ahead. Each open side has a '
@@ -819,7 +819,8 @@ def lang():
         'block.mcremix.steel_railing': 'Steel Railing',
         'block.mcremix.steel_railing.tooltip.summary': (
             'A guard rail with a handrail, knee rail and _toe board_. It goes on the edge you aim at, or in front of '
-            'you; use another on it to rail _another side_. Nothing can _jump_ it.' + rusts),
+            'you; use another on it to rail _another side_ (one that has rusted or been waxed joins only one like it). '
+            'Nothing can _jump_ it.' + rusts),
         'block.mcremix.steel_caged_ladder': 'Steel Caged Ladder',
         'block.mcremix.steel_caged_ladder.tooltip.summary': (
             'A steel ladder with a _safety cage_ around the climber, so you can\'t fall off it. The cage starts _two '

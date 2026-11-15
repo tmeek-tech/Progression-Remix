@@ -30,8 +30,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * A steel bar grating walkway in the top of its block, so it lies flush with a floor beside it and a railing stands on
  * it in the block above. Its edge frame shows on each side that does not run on into another catwalk or catwalk
- * stairs ({@link #NORTH} and the rest say which do). Water runs through it, so it can be waterlogged, and like the rest
- * of this mod's steel it rusts where it gets wet, only to its first stage ({@link Patina}).
+ * stairs ({@link #NORTH} and the rest say which do). Light passes through it, but rain stops on it, so what is under
+ * it stays dry. It can be waterlogged, and like the rest of this mod's steel it rusts where it gets wet, only to its
+ * first stage ({@link Patina}).
  */
 public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, FluidPartMaterial.Part {
 	public static final BooleanProperty NORTH = BlockStateProperties.NORTH, EAST = BlockStateProperties.EAST,

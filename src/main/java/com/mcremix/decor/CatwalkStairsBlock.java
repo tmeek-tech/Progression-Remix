@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -29,16 +30,21 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * Steel stairs between catwalks: two grating treads on steel stringers, climbing toward {@link #FACING}, so the top
  * tread lies flush with a catwalk ahead in the same layer. Each open side has a sloped handrail, which you cannot step
- * over; stairs set side by side with the same facing make one wide flight with the rails only on its outer sides
- * ({@link #LEFT} and {@link #RIGHT}). It rusts as the catwalk does.
+ * over or get through from the stairs ({@link #shape}, {@link CatwalkStairsMovement}); stairs set side by side with the same facing
+ * make one wide flight with the rails only on its outer sides ({@link #LEFT} and {@link #RIGHT}). It rusts as the
+ * catwalk does.
  */
 public class CatwalkStairsBlock extends Block implements SimpleWaterloggedBlock, FluidPartMaterial.Part {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	/** A handrail on the left and right, as you walk up. */
 	public static final BooleanProperty LEFT = BooleanProperty.create("left"), RIGHT = BooleanProperty.create("right");
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	/** How high a rail stands to collide with, in pixels above the stairs' foot ({@link #shape}). */
+	static final int RAIL_COLLISION = 44;
 	/** Outlines and collision boxes by facing and rails ({@link #index}). */
 	private static final VoxelShape[] SHAPES = new VoxelShape[16], COLLISIONS = new VoxelShape[16];
+	/** The rails' boxes to collide with, by facing and rails, in the block ({@link #railBoxes}). */
+	private static final AABB[][] RAILS = new AABB[16][];
 
 	static {
 		for (Direction facing : Direction.Plane.HORIZONTAL)
@@ -46,6 +52,8 @@ public class CatwalkStairsBlock extends Block implements SimpleWaterloggedBlock,
 				boolean left = (rails & 1) != 0, right = (rails & 2) != 0;
 				SHAPES[index(facing, left, right)] = shape(facing, left, right, false);
 				COLLISIONS[index(facing, left, right)] = shape(facing, left, right, true);
+				RAILS[index(facing, left, right)] = rails(facing, left, right, RAIL_COLLISION, RAIL_COLLISION).optimize()
+					.toAabbs().toArray(AABB[]::new);
 			}
 	}
 
@@ -105,19 +113,35 @@ public class CatwalkStairsBlock extends Block implements SimpleWaterloggedBlock,
 	}
 
 	/**
-	 * The treads, and each rail as two steps following its slope. To collide with, both steps of a rail stand two
-	 * blocks above the stairs' foot, as high as a block's collision reaches: from the lower tread that cannot be jumped,
-	 * and from the upper one it is a block high, as a wall is.
+	 * The treads, and each rail as two steps following its slope. To collide with, both steps of a rail stand 2.75
+	 * blocks above the stairs' foot, for where one stairs meets the next up: there the lower one's rail must stand
+	 * higher than a step up (0.6 of a block) from the upper one's lower tread, half a block above the lower one's top
+	 * tread, or a player walking down at a slant steps onto it and off the side, as they could when it stood two blocks
+	 * up. The game looks for a block's collision only for what stands less than two blocks above that block's foot, so
+	 * the rail above two blocks stops a step, but one who rises or runs off a tread over the lower stairs leaves where
+	 * the game looks for its rail, as does a step up cut short by a ceiling: {@link CatwalkStairsMovement} keeps them out
+	 * of it.
 	 */
 	private static VoxelShape shape(Direction f, boolean left, boolean right, boolean collision) {
-		VoxelShape shape = Shapes.or(HorizontalShapes.box(f, 0, 5, 8, 16, 8, 16), HorizontalShapes.box(f, 0, 13, 0, 16, 16, 8));
-		double low = collision ? 32 : 20, high = collision ? 32 : 28;
+		VoxelShape treads = Shapes.or(HorizontalShapes.box(f, 0, 5, 8, 16, 8, 16), HorizontalShapes.box(f, 0, 13, 0, 16, 16, 8));
+		return collision ? Shapes.or(treads, rails(f, left, right, RAIL_COLLISION, RAIL_COLLISION)).optimize()
+			: Shapes.or(treads, rails(f, left, right, 20, 28)).optimize();
+	}
+
+	/** The rails, each as two steps, {@code low} over the lower tread and {@code high} over the upper, in pixels. */
+	private static VoxelShape rails(Direction f, boolean left, boolean right, double low, double high) {
+		VoxelShape rails = Shapes.empty();
 		if (left)
-			shape = Shapes.or(shape, HorizontalShapes.box(f, 0, 5, 8, 1, low, 16), HorizontalShapes.box(f, 0, 13, 0, 1, high, 8));
+			rails = Shapes.or(rails, HorizontalShapes.box(f, 0, 5, 8, 1, low, 16), HorizontalShapes.box(f, 0, 13, 0, 1, high, 8));
 		if (right)
-			shape = Shapes.or(shape, HorizontalShapes.box(f, 15, 5, 8, 16, low, 16),
+			rails = Shapes.or(rails, HorizontalShapes.box(f, 15, 5, 8, 16, low, 16),
 				HorizontalShapes.box(f, 15, 13, 0, 16, high, 8));
-		return shape.optimize();
+		return rails;
+	}
+
+	/** The boxes a stairs as {@code state} collides with by its rails, from its block's corner. */
+	static AABB[] railBoxes(BlockState state) {
+		return RAILS[index(state)];
 	}
 
 	private static int index(BlockState state) {
