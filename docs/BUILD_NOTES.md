@@ -2481,3 +2481,77 @@ each pipe leaves from, which only the lever used (nor the `LIGHT` skin). The out
 inventory are unchanged; with nothing to empty into, the cone is still closed at the bottom.
 
 **Tests.** No new GameTests: both are client-only, checked in a dev client (the test report).
+
+## 36. The new dye colours (0.29.0)
+
+Taran's colours of 2026-11-14 (design/new-colours.md in the shared folder, from the distillation design's cards): the
+coal tar dyes add colours vanilla lacks, **mauve, indigo, malachite green and maroon**, and a pale shade of each mixed
+with white, **lilac, periwinkle, mint and rose**, on everything vanilla and Create dye, with glazed terracotta after
+Victorian encaustic tiles. The four dyes' own recipes (aniline and the rest) belong to the distillation build's stage 5;
+until it adds them they have **no way to be made** and are in creative only (Taran's card, 2026-11-15). The pale shades
+mix from them with white dye, two at a time, as pink does from red.
+
+**Eight more DyeColors.** Minecraft's sixteen colours are an enum, and vanilla and Create build their tables from it, so
+the eight are added to it: `DyeColorMixin`, at the end of DyeColor's static initialiser, makes eight more constants
+through its constructor (`DyeColorAccessor`, an invoker on `<init>`), with ids 16 to 23, puts them into the enum's own
+array of values (found by type, as its name differs between mappings, and set through `Unsafe`, as it is final), and
+makes `BY_ID`, `BY_FIREWORK_COLOR` and `CODEC` again from all 24. Each constant is named as its colour is
+(`MALACHITE_GREEN`, serialised `malachite_green`), since Create names some models by the constant. Their values are in
+`colour/NewColour.java`: the dye colour (what fleece, leather, banners, beacons and fireworks take), a map colour, a
+firework colour, a sign text colour, and the vanilla colour each is nearest.
+
+Because everything made from DyeColor after it starts has them, most of vanilla and Create needs nothing more: beds'
+textures (`Sheets.BED_TEXTURES`), item-rendered shulker boxes, fleece colours, collars (wolves and cats), leather dyeing,
+firework stars, sign text, banner patterns and the loom, the beacon, and Create's `DyedBlockList`s. Create registers its
+seats, sails, valve handles, toolboxes, postboxes, table cloths and nixie tubes for every colour there is, so
+`create:mauve_seat` and the rest exist with no code here; their files (below) are in Create's namespace.
+
+**The places that hard-code sixteen**, each patched:
+- `SheepMixin`: a sheep keeps its colour in the low four bits of a byte beside its sheared bit (16); a new colour also
+  sets bit 32. Its loot table is `mcremix:entities/sheep/<colour>`. `SheepAccessor` adds each wool to the table of what a
+  sheep is sheared for (`Colours.setup`). Sheep never spawn in the new colours.
+- `ShulkerBoxBlockMixin`: `getBlockByColor`, for dyeing a shulker box. Vanilla asks it for every colour while it starts,
+  before mods register blocks (dispenser behaviours), so then it gives the plain box, and `Colours.setup` registers the
+  dispenser behaviour for ours.
+- `BlockEntityTypeMixin`: beds, banners and shulker boxes in the new colours may hold vanilla's block entities.
+- `SheetsMixin` (client): shulker boxes' textures are listed by name for sixteen; the list is made again from DyeColor.
+- `LlamaDecorLayerMixin` (client): a llama's carpet texture, by colour id.
+- `MapBannerMixin`: a banner on a map shows as the flag of its nearest vanilla colour.
+- `TropicalFishMixin`: the one fish in ten that spawns in random colours picks from vanilla's sixteen, so nothing
+  living has the new colours unless dyed.
+- `FireBlockAccessor`: wool and carpets burn as vanilla's do. `DyeHelper.addDye` gives Create a light and dark of each.
+
+**Blocks and items** (`colour/ColourBlocks.java`), for each colour, from vanilla's own classes and with properties
+copied from vanilla's purple ones: dye (`DyeItem`), wool, carpet, concrete, concrete powder, terracotta, glazed
+terracotta, stained glass and pane, candle and candle cake, bed, banner and wall banner, shulker box. They are in this
+mod's tab and in vanilla's Colored Blocks, Functional Blocks and Ingredients tabs after pink's (`Colours.fillTabs`).
+
+**Files** (`tools/gen_colours.py`, run last by `gen_assets.py`). It reads the Minecraft client jar, Forge's universal jar
+and Create's jar from Gradle's caches, so `./gradlew compileJava` must have run first. Vanilla's and Create's purple
+files are the templates: every blockstate, model, loot table, recipe, tag and name either has for purple is written
+again for each colour, vanilla's in our namespace and Create's in its own. Glass, panes, candles and candle cakes say
+their render type in their models. Wool, carpet and bed dyeing take any colour, so vanilla's 16 recipes for each are
+written again (over vanilla's, in its namespace) to take ours too. Bed and shulker textures go in vanilla's namespace,
+where `Sheets` looks them up by colour name.
+
+Textures are vanilla's and Create's own, recoloured: each colour has a source (mauve and lilac from magenta, indigo from
+blue, periwinkle from light blue, malachite green from cyan, mint from lime, maroon from red, rose from pink); the
+pixels that differ between the vanilla colours of a texture (white left out, as its bed's pillow differs) are the dyed
+ones, and each is moved in OKLab by the new colour's offset from the source's, keeping vanilla's shading, so a bed's
+frame, a candle's wick and a postbox's metal stay as they are. Drawn here instead:
+- the four coal tar dyes, as a heap of crystals with a lustre (aniline dyes crystallise), and the pale shades in
+  vanilla's mixed-dye shape (pink's, lime's);
+- the glazed terracotta, after Victorian encaustic tiles: each is a 32x32 figure symmetric under quarter turns, and the
+  tile is its top left quarter, so four tiles turned as vanilla's (facing north, east / west, south) make the figure, and
+  four figures' corners meet in a smaller one. Mauve a quatrefoil, lilac fleurs-de-lis, indigo an eight-pointed star,
+  periwinkle interlaced rings, malachite green a Greek key, mint a four-petalled flower, maroon nested lozenges, rose a
+  roundel; the ground is the colour, the inlays cream and a dark of the colour.
+
+**Tests.** 337 GameTests, plain, and 343 with `-Pcompanions`. New, in `ColourTests`: the eight join DyeColor and are
+found by id, name, firework colour, codec and `valueOf`, and each dye is its colour's `DyeItem`; Create has its seven
+dyed blocks in each and dyes a white seat mauve; pale shades mix from their dye and white, and no recipe makes the four
+dyes; wool, carpets, glass, candles, banners, beds and shulker boxes are made and dyed as vanilla's (mauve wool dyes red
+and mint, red wool mauve); beds, banners and shulker boxes keep their block entities; concrete powder sets and wool
+burns; a sheep keeps each colour through dyeing, saving, loading and shearing, is sheared for its wool and goes back to
+red cleanly; an indigo collar loads, rose leather is rose, mint sign text comes back mint and a mauve banner shows on
+maps as magenta.

@@ -310,6 +310,26 @@ Taran's list: the tooltip of every compound draws its structural formula, with i
 - **Elements on their own** (Taran, 0.26.0): a material of one element shows just its symbol, in its colour, with nothing written out under it: the ingots, nuggets, sheets and blocks of iron, copper, gold, zinc, aluminium and titanium, their melts and the buckets of them, molten sodium, and diamond as carbon. Copper is drawn copper, gold gold and zinc lavender.
 - **Resource packs** can change any drawing or add one for another mod's item or fluid: each is a file under `assets/<namespace>/formulas`.
 
+### New colours (0.29.0)
+
+Taran, 2026-11-14: more colours to play with give another good reason to climb the tech tree. The coal tar dyes add four colours and a pale shade of each (Taran), with names of their own as vanilla calls pale red pink (Taran); the full design is `design/new-colours.md` in the project folder.
+
+| Colour | Hex | Made from |
+|---|---|---|
+| Mauve | `9B5FA0` | mauve dye, from aniline (distillation stage 5) |
+| Lilac | `C9A6D4` | mauve and white dye (two from the pair) |
+| Indigo | `2B3F7E` | indigo dye, by Heumann's route (stage 5) |
+| Periwinkle | `8E9AE0` | indigo and white dye |
+| Malachite green | `1E9E6A` | malachite green dye (stage 5) |
+| Mint | `8FDDB4` | malachite green and white dye |
+| Maroon | `7E2033` | naphthylamine claret dye, which needs sulfuric acid (stage 5) |
+| Rose | `C98394` | maroon and white dye |
+
+- **Until stage 5** (Taran, 2026-11-15) the four base dyes have no recipe at all, so they are creative-only; the pale shades still mix from them.
+- **Where they go** (Taran: everything vanilla and Create dye): wool, carpet, concrete and powder, terracotta and glazed terracotta, stained glass and panes, candles and candle cakes, beds, banners and their loom patterns, shulker boxes, sheep, collars, llama carpets, leather armour, firework stars, sign text, and Create's seats, sails, valve handles, toolboxes, postboxes, table cloths and nixie tubes. The colours are vanilla's own dye colours (ids 16 to 23), so anything built on vanilla's list of colours takes them as it takes purple. Sheep never spawn in them, and tropical fish keep vanilla's sixteen (reading); a banner on a map shows as its nearest vanilla colour's flag, as maps have only sixteen.
+- **Glazed terracotta** (Taran): each pattern after a Victorian encaustic tile, joining into a bigger figure when four are placed facing round, as vanilla's do: mauve a quatrefoil, lilac fleurs-de-lis, indigo an eight-pointed star, periwinkle interlaced rings, malachite green a Greek key, mint a four-petalled flower, maroon nested lozenges, rose a roundel, each cream and a dark of the colour inlaid in the colour (reading; awaiting Taran).
+- **Looks** (reading; the hex values await Taran): every texture is vanilla's or Create's own, its dyed pixels moved in OKLab from the nearest vanilla colour's to the new one, so the shading and the undyed parts stay vanilla's. The four base dyes are drawn as a heap of crystals with a lustre, as aniline dyes crystallise; the pale shades take vanilla's mixed-dye shape.
+
 ## Progression outline
 
 1. **Hearth age.** Campfires cook food (the only early cooking). The **Furnace** (crafted exactly like vanilla's, from eight cobblestone) replaces vanilla's: it has vanilla's furnace textures, but its front is cut open and it has no menu. Click things into its upper chamber and fuel into its low firebox; you see them sit on the grate, glow, and wait to be taken out. Wood fuel only reaches Warm: enough for charcoal from logs, bricks from clay, terracotta, drying sponges, cactus and sea pickle dyes.

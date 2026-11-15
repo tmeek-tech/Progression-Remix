@@ -67,7 +67,7 @@ public class ColourTests {
 			h.assertTrue(DyeColor.byName(c.id, null) == d, c.id + " is not found by name");
 			h.assertTrue(DyeColor.byFireworkColor(c.firework) == d, c.id + " is not found by firework colour");
 			h.assertTrue(DyeColor.CODEC.byName(c.id) == d, c.id + " is not in the codec");
-			h.assertTrue(DyeColor.valueOf("MCREMIX_" + c.name()) == d, c.id + " is not found by valueOf");
+			h.assertTrue(DyeColor.valueOf(c.name()) == d, c.id + " is not found by valueOf");
 			h.assertTrue(DyeItem.byColor(d) == ColourBlocks.of(c).dye.get(), c.id + "'s dye is not its DyeItem");
 		}
 		h.assertTrue(DyeColor.byId(3) == DyeColor.LIGHT_BLUE, "vanilla's ids moved");

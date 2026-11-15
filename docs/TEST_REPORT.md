@@ -1,8 +1,39 @@
 # Test reports
 
-Newest first: [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.29.0: The new dye colours
+
+This covers section 36 of [BUILD_NOTES.md](BUILD_NOTES.md): the eight coal tar colours of Taran's design of
+2026-11-14 (mauve, indigo, malachite green and maroon, and the pale lilac, periwinkle, mint and rose), added to
+vanilla's dye colours and made in everything vanilla and Create dye. Tested on 2026-11-15 against the same versions as
+0.28.1.
+
+**Result:** 0.29.0 compiled with no errors. Every GameTest passes in a fresh test world: 337 of 337 plain and 343 of 343
+with `-Pcompanions`. A dev client shows the colours on every block, item and mob they go on, and the jar starts and
+runs on a real Forge server.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.29.0.jar`, 5,075,411 bytes, SHA-256 `c043bd0b…d60b9c57`; `builds/mcremix-1.20.1-0.29.0.zip` holds the same jar. Its `mods.toml` says 0.29.0; no PNG in it carries a `caBX` chunk; the refmap maps the sheep, shulker box, block entity type, map banner, tropical fish and fire block mixins to their SRG names, and `DyeColorMixin`'s shadowed fields are reobfuscated to theirs (`f_41032_` and the rest) |
+| Production server | Pass | Forge 47.4.6's installer set up a dedicated server with Create 6.0.8, Power Grid, Architectury API and this jar. It started in 3.1 seconds with nothing from the mod in the log but its server config being written; `/setblock` placed `mcremix:mauve_shulker_box`, a sheep summoned with `Color:16b` read back `16b`, and it stopped and saved cleanly |
+| GameTests, plain | Pass | 337 of 337, 8 of them new in `ColourTests` |
+| GameTests, with companions | Pass | 343 of 343 |
+| The colours join vanilla's | Pass | `theEightColoursJoinVanillasList`: ids 16 to 23 after vanilla's sixteen, each found by id, name, firework colour, codec and `valueOf`, each dye its colour's `DyeItem`, and vanilla's ids unmoved |
+| Made and dyed as vanilla's | Pass | `woolAndTheRestAreDyedAndMadeAsVanillasAre`; `paleShadesMixWithWhiteAndTheFourDyesWaitForAniline` (lilac, periwinkle, mint and rose mix two at a time from their dye and white, and no recipe makes the four base dyes); `concretePowderSetsAndWoolBurns`; `bedsBannersAndShulkerBoxesKeepTheirBlockEntities` |
+| Create's dyed blocks | Pass | `createHasItsDyedBlocksInTheNewColours`: seats, sails, valve handles, toolboxes, postboxes, table cloths and nixie tubes in each colour, and a white seat dyes mauve |
+| Mobs, leather, signs and maps | Pass | `aSheepTakesTheNewColoursFromDye` (each colour kept through dyeing, saving, loading and shearing, its own wool sheared, and back to red cleanly); `collarsLeatherSignsAndMapsTakeTheNewColours` (an indigo wolf collar, rose leather, mint sign text, and a mauve banner on a map as magenta's flag) |
+| Dev client | Pass | Wool, carpet, concrete, powder, terracotta, glazed terracotta, glass and panes in each colour; beds, candle cakes and shulker boxes; banners plain and with patterns in the new colours; glazed floors joining into their figures; sheep in each colour, wolf collars and llama carpets; Create's seats, toolboxes, postboxes, table cloths, valve handles, nixie tubes and sails; sign text; the Colored Blocks tab with the new colours after pink's, JEI finding them, and every item's name. Nothing from the mod in the log but the usual dev refmap warning. Screenshots in `builds/screenshots/0.29.0` |
+
+### Known gaps
+
+- The colour values and the eight glazed terracotta patterns are a first draft, waiting on Taran.
+- Not tried by hand: the loom, firework stars and cats' collars, which take their colours from the same list as
+  everything that was checked.
+- Another mod that counts sixteen colours for itself may leave the new ones out or fail on them. Only Create, Power
+  Grid, JEI and the companion mods (Immersive Weathering, WWOO and Better Combat) were loaded with it.
 
 ## 0.28.1: Ponder starts playing, and no valve lever
 

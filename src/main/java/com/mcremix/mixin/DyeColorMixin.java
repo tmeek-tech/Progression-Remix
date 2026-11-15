@@ -24,7 +24,8 @@ import net.minecraft.world.item.DyeColor;
 /**
  * Adds the eight coal tar colours to vanilla's list of dye colours, after its sixteen (ids 16 to 23), as soon as the
  * list is made, so that everything built from the list afterwards (vanilla's bed and shulker box textures, sheep fleece
- * colours, Create's dyed seats, valve handles, toolboxes and the rest) has them as it has vanilla's.
+ * colours, Create's dyed seats, valve handles, toolboxes and the rest) has them as it has vanilla's. Each constant is
+ * named as its colour is (MALACHITE_GREEN is malachite_green), as Create names some of its models by the constant.
  */
 @Mixin(DyeColor.class)
 public abstract class DyeColorMixin {
@@ -39,7 +40,7 @@ public abstract class DyeColorMixin {
 		DyeColor[] all = Arrays.copyOf(old, old.length + added.length);
 		for (int i = 0; i < added.length; i++) {
 			NewColour c = added[i];
-			all[old.length + i] = DyeColorAccessor.mcremix$create("MCREMIX_" + c.name(), old.length + i,
+			all[old.length + i] = DyeColorAccessor.mcremix$create(c.name(), old.length + i,
 				old.length + i, c.id, c.diffuse, c.mapColor, c.firework, c.text);
 		}
 		setValues(all);
