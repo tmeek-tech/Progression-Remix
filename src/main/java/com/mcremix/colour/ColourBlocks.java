@@ -26,11 +26,14 @@ import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraft.world.level.block.WallBannerBlock;
 import net.minecraft.world.level.block.WoolCarpetBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BedPart;
+import net.minecraft.world.level.material.MapColor;
 
 /**
  * Everything vanilla dyes, in each of the eight new colours: made as vanilla makes its purple ones, from vanilla's own
- * block classes, so they behave as vanilla's do. Their models, textures, recipes, loot and tags come from vanilla's
- * purple ones (tools/gen_colours.py).
+ * block classes, so they behave as vanilla's do. Their properties are copied from the purple ones, with what copying
+ * leaves out or keeps purple set again (glass's four "never"s, a bed's map colour). Their models, textures, recipes,
+ * loot and tags come from vanilla's purple ones (tools/gen_colours.py).
  */
 public class ColourBlocks {
 	public static final Map<NewColour, ColourSet> SETS = new EnumMap<>(NewColour.class);
@@ -90,7 +93,7 @@ public class ColourBlocks {
 				.properties(p -> copy(Blocks.PURPLE_GLAZED_TERRACOTTA).mapColor(c.mapColor))
 				.simpleItem().register();
 			stainedGlass = REGISTRATE.block(n + "_stained_glass", p -> new StainedGlassBlock(c.dye(), p))
-				.properties(p -> copy(Blocks.PURPLE_STAINED_GLASS).mapColor(c.mapColor))
+				.properties(p -> glass(copy(Blocks.PURPLE_STAINED_GLASS).mapColor(c.mapColor)))
 				.simpleItem().register();
 			stainedGlassPane = REGISTRATE.block(n + "_stained_glass_pane", p -> new StainedGlassPaneBlock(c.dye(), p))
 				.properties(p -> copy(Blocks.PURPLE_STAINED_GLASS_PANE).mapColor(c.mapColor))
@@ -103,7 +106,8 @@ public class ColourBlocks {
 				.properties(p -> copy(Blocks.PURPLE_CANDLE_CAKE))
 				.register();
 			bed = REGISTRATE.block(n + "_bed", p -> new BedBlock(c.dye(), p))
-				.properties(p -> copy(Blocks.PURPLE_BED))
+				.properties(p -> copy(Blocks.PURPLE_BED)
+					.mapColor(s -> s.getValue(BedBlock.PART) == BedPart.FOOT ? c.mapColor : MapColor.WOOL))
 				.item(BedItem::new).properties(p -> p.stacksTo(1)).build()
 				.register();
 			banner = REGISTRATE.block(n + "_banner", p -> new BannerBlock(c.dye(), p))
@@ -128,5 +132,14 @@ public class ColourBlocks {
 
 	private static BlockBehaviour.Properties copy(Block block) {
 		return BlockBehaviour.Properties.copy(block);
+	}
+
+	/**
+	 * Vanilla's stained glass never lets a mob spawn on it, carries redstone, suffocates or blocks the view, but copying
+	 * its properties does not copy those four, so they are set again, as vanilla sets them again for tinted glass.
+	 */
+	private static BlockBehaviour.Properties glass(BlockBehaviour.Properties p) {
+		return p.isValidSpawn((state, level, pos, type) -> false).isRedstoneConductor((state, level, pos) -> false)
+			.isSuffocating((state, level, pos) -> false).isViewBlocking((state, level, pos) -> false);
 	}
 }

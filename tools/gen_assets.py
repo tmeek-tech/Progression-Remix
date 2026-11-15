@@ -8383,6 +8383,8 @@ def gen_ponder_pause():
 
 
 if __name__ == '__main__':
+    # the colour pass reads jars from Gradle's caches when imported, so a missing one stops it before anything is wiped
+    import gen_colours
     clean()
     gen_textures()
     gen_fluid_textures()
@@ -8426,7 +8428,6 @@ if __name__ == '__main__':
     gen_titanium_ponder()
     gen_ponder_pause()
     # last, as it adds to the lang file and to tags written above
-    import gen_colours
     gen_colours.gen_colours()
     # the distillation build's decorative blocks (stage 6) add to what is written above, so they go last
     import gen_decor
