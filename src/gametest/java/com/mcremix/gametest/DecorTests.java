@@ -263,6 +263,16 @@ public class DecorTests {
 				false, 0, inner, southEnd);
 		h.assertTrue(moved > 0, "stepping up a whole block under a catwalk should reach a rail the game misses");
 		h.setBlock(ceiling, Blocks.AIR);
+		// one standing across the join of the two-wide flight climbing east, when the south one goes and the north one
+		// gains a rail round them, still stands on the north one's lower tread, and is not moved out over the gap
+		BlockPos s1Abs = h.absolutePos(s1);
+		walker.moveTo(s1Abs.getX() + 0.2, s1Abs.getY() + 0.5, s1Abs.getZ() + 1.0, 0, 0);
+		walker.setDeltaMovement(Vec3.ZERO);
+		h.setBlock(s2, Blocks.AIR);
+		h.assertTrue(h.getBlockState(s1).getValue(CatwalkStairsBlock.RIGHT), "with the south one gone the north one should "
+			+ "have a rail on its south side: " + h.getBlockState(s1));
+		h.assertFalse(CatwalkStairsMovement.keepOutOfRails(walker), "one standing on the stairs inside a rail that has "
+			+ "just appeared should not be moved off them: moved to " + (walker.getZ() - s1Abs.getZ()));
 		h.succeed();
 	}
 

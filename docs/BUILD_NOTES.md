@@ -2597,16 +2597,18 @@ up a whole block as a mount or a player with step-up gear does, in the block the
 in a shape the game lets it go on through. So `CatwalkStairsMovement` moves anything that lives back out of a rail it
 has got into, across the rail to the side its middle is on, and stops it moving on into it (`keepOutOfRails`, looking at
 the stairs in the feet's block and the two under it, and ignoring overlaps under a millionth of a block, as a box set
-against a rail can be in it by rounding): a player on their own client as soon as they have moved (Forge's player tick,
-ending, which comes before the client sends the server where they are, so the server never sees them in a rail), and a
-mob, or a mount on its rider's client, before it moves again. In the model that leaves no run down a single-width flight
-going out through a rail, from those 12,866 and 1,091 of 65,520 down a flight of three, and none walking down under a
-catwalk; a push there is 0.14 of a block at most, and comes only while airborne. Down a two-wide flight 12 of 140,400
-runs still leave, every one a sprinting hop from its landing or its top stairs over the top of a rail lower down, as
-they did before. And a jump from catwalk stairs, or from a tread's edge with the feet already over the stairs below,
-starts at 0.23 a tick at most and rises 0.44 of a block, short of a rail's top beside it (Forge's jump event). A block's
-jump factor would not do, as the game takes it from the block under the jumper's middle, which at a joint is the air
-over the lower stairs. A jump from anywhere else, such as a landing, is not held.
+against a rail can be in it by rounding). Out of a rail of the stairs in the feet's block it moves them only back into
+the flight: one standing across the join of a wide flight when the stairs beside goes, and the other gains a rail round
+them, still stands on its treads, and moving them out over the gap would drop them: a player on their own client as soon
+as they have moved (Forge's player tick, ending, which comes before the client sends the server where they are, so the
+server never sees them in a rail), and a mob, or a mount on its rider's client, before it moves again. In the model that
+leaves no run down a single-width flight going out through a rail, from those 12,866 and 1,091 of 65,520 down a flight
+of three, and none walking down under a catwalk; a push there is 0.14 of a block at most, and comes only while airborne.
+Down a two-wide flight 12 of 140,400 runs still leave, every one a sprinting hop from its landing or its top stairs over
+the top of a rail lower down, as they did before. And a jump from catwalk stairs, or from a tread's edge with the feet
+already over the stairs below, starts at 0.23 a tick at most and rises 0.44 of a block, short of a rail's top beside it
+(Forge's jump event). A block's jump factor would not do, as the game takes it from the block under the jumper's middle,
+which at a joint is the air over the lower stairs. A jump from anywhere else, such as a landing, is not held.
 
 **Railings.** `RailingBlock`: a railing for each side of the block (posts, handrail, knee rail, toe board), placed on
 the edge nearest where you aim (within 0.3 of a block of it, else the side you face); another used on it adds a side,
@@ -2631,14 +2633,15 @@ flight with its cages where they were. A climber off to one side of the second l
 cage's side bars with their head, so there they are steered across into it (`entityInside`): one rising against the
 ladder, or whose head the bars have just stopped, as when they climb by jumping (the stop has already taken their upward
 speed when the block is told), with their feet in the flight's own column, so one on a ladder or vines beside it is not
-pulled across, and narrow enough to fit. Each tick they are moved as far as they are under the bar and 0.03 of a block
-more (`CLEARANCE`), up to 0.15: a strafe key held toward that bar takes back 0.02 a tick in the air, and with less they
-hung under it. One whose keys push toward the side they are off to more than twice as hard as into the ladder is left
-alone: steering them against their keys made them bob in and out, and one strafing into a wall beside the foot is lifted
-by the wall, so moving them off it dropped them. That is unless the ladder has stopped them this tick (a key into it,
-and no speed into it left), as it lifts them wherever they are across it. One who holds jump and a strafe key toward the
-side they are off, and no key into the ladder, hangs under the side bar until they press forward, as the jump key cannot
-be read there. 3 from 2 steel sheets and 5 steel nuggets.
+pulled across, and narrow enough to fit. Each tick their speed across is set to how far they are under the bar and 0.03
+of a block more (`CLEARANCE`), up to 0.15, before drag takes some of it: a strafe key held toward that bar takes back
+0.02 a tick in the air, and with less clearance they hung under it; now one far under the bar can be left just short of
+it by the first steer, and the next takes them in. One whose keys push toward the side they are off to more than twice
+as hard as into the ladder is left alone: steering them against their keys made them bob in and out, and one strafing
+into a wall beside the foot is lifted by the wall, so moving them off it dropped them. That is unless the ladder has
+stopped them this tick (a key into it, and no speed into it left), as it lifts them wherever they are across it. One who
+holds jump and a strafe key toward the side they are off, and no key into the ladder, hangs under the side bar until
+they press forward, as the jump key cannot be read there. 3 from 2 steel sheets and 5 steel nuggets.
 
 **Steel's rust.** All four are `FluidPartMaterial.Part`s of steel with `Patina`: they rust only while wet, to the
 exposed stage and no further, and wax and scrape as steel parts do. Their properties are set in `ModDecor.steel`, not
@@ -2675,18 +2678,19 @@ line is wired in series with short jumpers. `ArgonTubeBlockEntity` puts a 40 kOh
 closes at 800 V and opens below 600 V; lit (`LIT`), the tube glows violet with light 10, and the goggles show its volts
 and, lit, its milliamps. Whether it is lit is saved. A loaded tube is left as saved until its circuit has volts across
 it again and for 5 ticks after, while it settles, and does so again whenever Power Grid takes it back into its circuit
-(`unpaused`) and all the while its chunk is out of every player's view (below entity ticking): its first ticks come
-before it has rejoined, and a supply in a chunk that has not started ticking, or has stopped as a player walked off, is
-out of the circuit, so the tube reads no volts. Power Grid stops a chunk's devices when it leaves block ticking, and
-every chunk beside one in a player's view is block ticking, so a supply in the tube's chunk or the next is never out
-while the tube can be seen; one two chunks away or more can be, and the tube then goes dark. Out of view means below
-entity ticking, so a force-loaded chunk, and the spawn chunks within nine chunks of the spawn's own, are always in view;
-the spawn's outer ring, ten chunks out, only block ticks, so a tube there holds as it was until a player comes near. A
-server that restarts with a tube in the spawn chunks and its supply outside them leaves it with no volts, and once it
-has waited it goes dark. It waits 30 seconds at most, so one saved lit with no supply goes dark in the end. So a tube
-held lit between 600 and 800 V stays lit across a reload, and a lit one does not blink off as its chunk loads. Once it
-changes it stays lit or dark for half a second (`DWELL_TICKS`), so one on a supply too weak to hold it, which sags under
-600 V as it strikes, blinks rather than flickering every tick. The empty Glass Tube is an item.
+(`unpaused`) and all the while its chunk or one beside it does not tick its block entities (`Level.shouldTickBlocksAt`):
+its first ticks come before it has rejoined, and a supply that has not ticked since its chunk loaded is out of the
+circuit, so the tube reads no volts. Block entities tick within a player's simulation distance and a chunk beyond it,
+which can be less than their view distance, and round a force-loaded chunk and the spawn: a tube in a force-loaded
+chunk, or in the spawn chunks within nine chunks of the spawn's own, never holds, while one in the spawn's outer ring,
+ten chunks out, holds as it was until a player comes near. Power Grid takes a chunk's devices out of their circuits only
+when it stops block ticking, which is never nearer a player, so a supply in the tube's chunk or one beside it is in the
+circuit whenever the tube is not holding; one two chunks away or more need not be, and if it stops while the tube's
+chunks still tick, as when a server restarts with the tube in the spawn chunks and its supply outside them, the tube has
+no volts and goes dark once it has waited. It waits 30 seconds at most, so one saved lit with no supply goes dark in the
+end. So a tube held lit between 600 and 800 V stays lit across a reload, and a lit one does not blink off as its chunk
+loads. Once it changes it stays lit or dark for half a second (`DWELL_TICKS`), so one on a supply too weak to hold it,
+which sags under 600 V as it strikes, blinks rather than flickering every tick. The empty Glass Tube is an item.
 
 **Recipes to come.** `gen_decor.CREOSOTE_FLUID` and `ARGON_FLUID` are `None`. When stage 1 adds creosote it sets the
 first to the fluid's id and regenerates: the Spout recipes for stripped logs (250 mB) and planks (100 mB) appear, for
@@ -2708,33 +2712,39 @@ the joint, through `Entity.move`, stepping neither onto the rail nor past it; a 
 edge, held to 0.23, one from the floor not; one in a rail moved back out to the side they came from, either way, and one
 clear of it left; and, moved as the game moves a player and then kept out of the rails as their client does, a jump down
 a flight of three, a sprint down it with jump held, and walks down it at a slant under a catwalk over its foot, stepping
-up 0.6 and a whole block, each kept inside the rail and each needing it), `aCagedLaddersCageStartsTwoBlocksUp` (a
-player's height of room to walk in at the foot; through `Entity.move`, a climber jumping up off to one side stopped by
-the cage and steered more than 0.085, one in the middle keeping its speed across, one standing at the foot and one on a
-vanilla ladder beside the flight left alone; moved as the game moves a player, one holding forward and a strafe key
-toward the near bar reaching the cage, one strafing into a wall beside the foot not moved off it, on a flight facing
-south and one facing east, and one strafing so while looking a little toward the ladder, which stops them, steered in
-and reaching the cage; a ladder set with a wrong count putting it right), `wetSteelWalkwaysRustOnlyToTheirFirstStage`
-(all four, through random ticks), `aCrossarmJoinsItsPoleAndHoldsALantern` (a pole beside it unjoined, the chain going
-with the lantern, a bell, no bracket on the hold), `creosoteBurnsAsWoodDoes`, `creosoteDripsFromUnderTheWood` (a fence's
-drips start under its post or its rails, a gate's under its posts, lower in a wall) and
-`anArgonTubeStrikesAt800VoltsAndHoldsTo600` (25 mA at 1,000 V, as clients are told; held lit at 700 V and saved lit,
-dark at 500 V; dark at 700 V from the start; one loaded lit with no supply still lit 40 ticks on, then lit by its supply
-at 700 V, drawing 17.5 mA, once wired up).
+up 0.6 and a whole block, each kept inside the rail and each needing it; and one standing across the join of a two-wide
+flight when one side is broken, left on the other), `aCagedLaddersCageStartsTwoBlocksUp` (a player's height of room to
+walk in at the foot; through `Entity.move`, a climber jumping up off to one side stopped by the cage and steered more
+than 0.085, one in the middle keeping its speed across, one standing at the foot and one on a vanilla ladder beside the
+flight left alone; moved as the game moves a player, one holding forward and a strafe key toward the near bar reaching
+the cage, one strafing into a wall beside the foot not moved off it, on a flight facing south and one facing east, and
+one strafing so while looking a little toward the ladder, which stops them, steered in and reaching the cage; a ladder
+set with a wrong count putting it right), `wetSteelWalkwaysRustOnlyToTheirFirstStage` (all four, through random ticks),
+`aCrossarmJoinsItsPoleAndHoldsALantern` (a pole beside it unjoined, the chain going with the lantern, a bell, no bracket
+on the hold), `creosoteBurnsAsWoodDoes`, `creosoteDripsFromUnderTheWood` (a fence's drips start under its post or its
+rails, a gate's under its posts, lower in a wall) and `anArgonTubeStrikesAt800VoltsAndHoldsTo600` (25 mA at 1,000 V, as
+clients are told; held lit at 700 V and saved lit, dark at 500 V; dark at 700 V from the start; one loaded lit with no
+supply still lit 40 ticks on, then lit by its supply at 700 V, drawing 17.5 mA, once wired up).
 
-Five reviews went over the change, area by area, each finding checked by a second reviewer. The first found the caged
-ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds the wrong way round and the
-argon scene's joins. The second found a tube loaded lit going dark before its supply's chunk ticked, a tube flickering
-every tick on a weak supply, railings of different rust or wax merging, a moved flight keeping its old cages, the
-off-centre climb, the stairs' jumpable rail, fence and gate drips from the air and the catwalk's tooltip saying water
-passes through. The third ran vanilla's movement in a model and found that a climber who jumps still caught the cage,
-that one on a ladder beside a flight was pulled into it, that walking down a flight at a slant stepped over the rail
-where two stairs meet (the two-block rail had always allowed it), that a bare railing could no longer join a rusted one,
-that a tube went dark when its supply's chunk stopped before its own, and two tests that did not check what they said.
-The fourth and fifth ran the code itself in those models: jumps and hops still carried a player through a rail where the
-game does not look for it, even with the jump held low, and so did a step up cut short by a catwalk overhead, through
-the rail one block lower; a climber holding a strafe key toward the near bar hung under it, one steered against their
-keys bobbed, one strafing into a wall beside the foot was dropped, and one pushing into the ladder at a slant was then
-left hanging; the argon tube's notes had the spawn chunks wrong; and the notes and the Build row were out of date. The
-GameTests then showed, through the server's own copy of a player, which steps up a whole block, that such a step under a
-catwalk misses the rail of the stairs the feet come down into. Looks were checked in a dev client (the test report).
+Five reviews and a last check went over the change, area by area, each finding checked by a second reviewer. The first
+found the caged ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds the wrong way
+round and the argon scene's joins. The second found a tube loaded lit going dark before its supply's chunk ticked, a
+tube flickering every tick on a weak supply, railings of different rust or wax merging, a moved flight keeping its old
+cages, the off-centre climb, the stairs' jumpable rail, fence and gate drips from the air and the catwalk's tooltip
+saying water passes through. The third ran vanilla's movement in a model and found that a climber who jumps still caught
+the cage, that one on a ladder beside a flight was pulled into it, that walking down a flight at a slant stepped over
+the rail where two stairs meet (the two-block rail had always allowed it), that a bare railing could no longer join a
+rusted one, that a tube went dark when its supply's chunk stopped before its own, and two tests that did not check what
+they said. The fourth and fifth ran the code itself in those models: jumps and hops still carried a player through a
+rail where the game does not look for it, even with the jump held low, and so did a step up cut short by a catwalk
+overhead, through the rail one block lower; a climber holding a strafe key toward the near bar hung under it, one
+steered against their keys bobbed, one strafing into a wall beside the foot was dropped, and one pushing into the ladder
+at a slant was then left hanging; the argon tube's notes had the spawn chunks wrong; and the notes and the Build row
+were out of date. The GameTests then showed, through the server's own copy of a player, which steps up a whole block,
+that such a step under a catwalk misses the rail of the stairs the feet come down into. A last check found that the push
+for that case moved a player standing across the join of a wide flight, when one side was broken, out over the gap, that
+the argon tube's hold went by the view distance where block entities go by the simulation distance, so a tube at the
+view's edge could go dark on a supply in the next chunk, and that the caged ladder's notes left out the drag on the
+steer. `onlyShaftsAndCogsGiveWayUnderLoad` (section 33) failed in 4 of about 20 runs: the copper bracket it checks
+weathers as it turns (section 19), and the test wanted it bare, so it now takes copper at any stage. Looks were checked
+in a dev client (the test report).

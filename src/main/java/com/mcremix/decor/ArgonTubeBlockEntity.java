@@ -10,9 +10,10 @@ import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.FullChunkStatus;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -21,13 +22,15 @@ import net.minecraft.world.level.block.state.BlockState;
  * across it, which a transformer stepping up the voltage gives; then the gas strikes and glows, and goes on glowing
  * down to 600 volts, drawing about twenty milliamps. Tubes in series need that much for each, as real sign tubes do.
  * It never wears out. Whether it is lit is saved, so one held lit below the strike stays lit across a reload: after a
- * load, and while its chunk is out of every player's view, it holds as it was, and then waits until its supply is back
- * in its circuit. Out of view means its chunk has dropped below entity ticking, so a force-loaded chunk, and the spawn
- * chunks within nine chunks of the spawn's own, are always in view; the spawn's outer ring, ten chunks out, only block
- * ticks, so a tube there holds as it was until a player comes near. A supply two chunks away or more that stops while the tube is still in view, as when a player
- * walks off or the server restarts with the tube in the spawn chunks and its supply outside them, leaves it with no
- * volts, and it goes dark; one held below the strike then stays dark until its supply reaches 800 volts. On a supply
- * too weak to hold it, which sags below the hold as it strikes, it blinks.
+ * load, and while its chunk or one beside it does not tick its block entities, it holds as it was, and then waits until
+ * its supply is back in its circuit. Block entities tick within a player's simulation distance and a chunk beyond it,
+ * which can be less than their view, and round a force-loaded chunk and the spawn; so a tube in a force-loaded chunk,
+ * or in the spawn chunks within nine chunks of the spawn's own, never holds, while one in the spawn's outer ring, ten
+ * chunks out, holds as it was until a player comes near. A supply in the tube's chunk or one beside it is then in the
+ * circuit whenever the tube is not holding. One two chunks away or more need not be: if it stops while the tube's
+ * chunks still tick, as when a player walks off or the server restarts with the tube in the spawn chunks and its supply
+ * outside them, the tube has no volts and goes dark, and one held below the strike then stays dark until its supply
+ * reaches 800 volts. On a supply too weak to hold it, which sags below the hold as it strikes, it blinks.
  */
 public class ArgonTubeBlockEntity extends ElectricBlockEntity implements IHaveGoggleInformation {
 	/** Volts across it that strike the gas. */
@@ -76,14 +79,27 @@ public class ArgonTubeBlockEntity extends ElectricBlockEntity implements IHaveGo
 		patience = PATIENCE_TICKS;
 	}
 
+	/**
+	 * Whether its chunk and each chunk beside it tick their block entities: a device's first tick puts it in its circuit,
+	 * and Power Grid takes a chunk's devices out only as it stops block ticking, which is never nearer a player.
+	 */
+	private boolean neighboursTick() {
+		int x = SectionPos.blockToSectionCoord(worldPosition.getX());
+		int z = SectionPos.blockToSectionCoord(worldPosition.getZ());
+		for (int dx = -1; dx <= 1; dx++)
+			for (int dz = -1; dz <= 1; dz++)
+				if (!level.shouldTickBlocksAt(ChunkPos.asLong(x + dx, z + dz)))
+					return false;
+		return true;
+	}
+
 	@Override
 	public void electricalTick() {
 		if (level == null || level.isClientSide || electricBehaviour.isPaused())
 			return;
-		// out of every player's view (below entity ticking) its chunk still ticks while the chunks beside it, its
-		// supply's maybe, have stopped and left the circuit, so it would read no volts: it holds as it was, and waits for
-		// its supply once in view
-		if (level.getChunkAt(worldPosition).getFullStatus() != FullChunkStatus.ENTITY_TICKING) {
+		// a supply beside it whose block entity does not tick may be out of the circuit, so it would read no volts: it
+		// holds as it was, and waits for its supply once they tick
+		if (!neighboursTick()) {
 			settling = SETTLE_TICKS;
 			patience = PATIENCE_TICKS;
 		}

@@ -82,9 +82,11 @@ public class CatwalkStairsMovement {
 	 * it moving on into the rail. Only stairs at most two blocks under the block its feet are in can have let it in: the
 	 * game looks for the collision of stairs two under only below two blocks above their foot, and when something
 	 * overhead cuts a step up short it tries the move again from the raised box, which leaves out stairs one under too,
-	 * and for one that steps up a whole block, the stairs its feet are in once it is let back down. It is left where it
-	 * is if moving it would put it in something else, or if it is in a rail by less than {@link #OVERLAP}, as a box set
-	 * against one can be by rounding.
+	 * and for one that steps up a whole block, the stairs its feet are in once it is let back down. Out of a rail of the
+	 * stairs its feet are in it is moved only back into the flight: one standing on stairs whose rail has just appeared
+	 * round them, as when the stairs beside them in a wide flight is broken, still stands on its treads, and moving them
+	 * out over the gap would drop them. It is left where it is if moving it would put it in something else, or if it is
+	 * in a rail by less than {@link #OVERLAP}, as a box set against one can be by rounding.
 	 *
 	 * @return whether it was moved
 	 */
@@ -112,6 +114,10 @@ public class CatwalkStairsMovement {
 							? box.getCenter().x < rail.getCenter().x ? rail.minX - box.maxX : rail.maxX - box.minX
 							: box.getCenter().z < rail.getCenter().z ? rail.minZ - box.maxZ : rail.maxZ - box.minZ;
 						if (Math.abs(move) < OVERLAP)
+							continue;
+						// in the block its feet are in, only back toward the stairs' middle
+						double inward = acrossX ? x + 0.5 - rail.getCenter().x : z + 0.5 - rail.getCenter().z;
+						if (y == feet && move * inward < 0)
 							continue;
 						if (acrossX)
 							dx = farther(dx, move);
