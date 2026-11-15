@@ -1,0 +1,98 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "patina": "none|waxed"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_grating"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "north": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_edge"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "east": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_edge",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "south": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_edge",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "west": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_edge",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_grating"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "north": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_edge"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "east": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_edge",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "south": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_edge",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "west": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_edge",
+        "y": 270
+      }
+    }
+  ]
+}

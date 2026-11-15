@@ -1,0 +1,302 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "catwalk_grating": "mcremix:block/exposed_steel_catwalk_grating",
+    "catwalk_grating_side": "mcremix:block/exposed_steel_catwalk_grating_side",
+    "catwalk_frame": "mcremix:block/exposed_steel_catwalk_frame",
+    "rail": "mcremix:block/exposed_steel_rail",
+    "particle": "mcremix:block/exposed_steel_catwalk_frame"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        6,
+        8
+      ],
+      "to": [
+        15,
+        8,
+        16
+      ],
+      "faces": {
+        "up": {
+          "texture": "#catwalk_grating",
+          "uv": [
+            1,
+            4,
+            15,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#catwalk_grating",
+          "uv": [
+            1,
+            4,
+            15,
+            12
+          ]
+        },
+        "north": {
+          "texture": "#catwalk_grating_side",
+          "uv": [
+            1,
+            1,
+            15,
+            3
+          ]
+        },
+        "south": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            1,
+            1,
+            15,
+            3
+          ]
+        },
+        "east": {
+          "texture": "#catwalk_grating_side",
+          "uv": [
+            8,
+            1,
+            16,
+            3
+          ]
+        },
+        "west": {
+          "texture": "#catwalk_grating_side",
+          "uv": [
+            8,
+            1,
+            16,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        14,
+        0
+      ],
+      "to": [
+        15,
+        16,
+        8
+      ],
+      "faces": {
+        "up": {
+          "texture": "#catwalk_grating",
+          "uv": [
+            1,
+            4,
+            15,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#catwalk_grating",
+          "uv": [
+            1,
+            4,
+            15,
+            12
+          ]
+        },
+        "north": {
+          "texture": "#catwalk_grating_side",
+          "uv": [
+            1,
+            1,
+            15,
+            3
+          ]
+        },
+        "south": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            1,
+            1,
+            15,
+            3
+          ]
+        },
+        "east": {
+          "texture": "#catwalk_grating_side",
+          "uv": [
+            0,
+            1,
+            8,
+            3
+          ]
+        },
+        "west": {
+          "texture": "#catwalk_grating_side",
+          "uv": [
+            0,
+            1,
+            8,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        5.0,
+        -3.3000000000000007
+      ],
+      "to": [
+        1,
+        9.0,
+        19.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            15,
+            7.0,
+            15.5,
+            11.0
+          ]
+        },
+        "south": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            7.0,
+            1,
+            11.0
+          ]
+        },
+        "west": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            7.0,
+            15.5,
+            11.0
+          ]
+        },
+        "east": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            7.0,
+            15.5,
+            11.0
+          ]
+        },
+        "up": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            15.5
+          ]
+        },
+        "down": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            15.5
+          ]
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "x",
+        "origin": [
+          8,
+          7,
+          8
+        ]
+      }
+    },
+    {
+      "from": [
+        15,
+        5.0,
+        -3.3000000000000007
+      ],
+      "to": [
+        16,
+        9.0,
+        19.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            7.0,
+            1,
+            11.0
+          ]
+        },
+        "south": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            15,
+            7.0,
+            15.5,
+            11.0
+          ]
+        },
+        "west": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            7.0,
+            15.5,
+            11.0
+          ]
+        },
+        "east": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0.5,
+            7.0,
+            15.5,
+            11.0
+          ]
+        },
+        "up": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            15,
+            0.5,
+            15.5,
+            15.5
+          ]
+        },
+        "down": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            15,
+            0.5,
+            15.5,
+            15.5
+          ]
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "x",
+        "origin": [
+          8,
+          7,
+          8
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "axis": "y"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post"
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "up": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_stub"
+      }
+    },
+    {
+      "when": {
+        "down": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_stub",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_stub",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_stub",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_stub",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_stub",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "chain": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/creosote_post_chain"
+      }
+    }
+  ]
+}

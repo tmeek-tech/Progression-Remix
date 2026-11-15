@@ -1,8 +1,40 @@
 # Test reports
 
-Newest first: [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.30.0: Catwalks, railings and decor blocks
+
+This covers section 37 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 6 of the distillation build, steel catwalks, catwalk
+stairs, railings and caged ladders, creosote timber and posts, and argon tubes, on top of 0.29.0. Tested on 2026-11-15
+against the same versions as 0.29.0.
+
+**Result:** 0.30.0 compiled with no errors. Every GameTest passes in a fresh test world: 343 of 343 plain and 349 of 349
+with `-Pcompanions` (on its second start; see below). A dev client shows every new block drawn and working. Not
+checked: the jar on a real Forge server.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.30.0.jar`, 5,175,818 bytes, SHA-256 `2607d16b…5c4d23bf`; `builds/mcremix-1.20.1-0.30.0.zip` holds the same jar. Its `mods.toml` says 0.30.0; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | Forge's installer set up a server, but starting the downloaded server was refused in this environment, so the jar was not started outside the dev runs |
+| GameTests, plain | Pass | 343 of 343, 6 of them new in `DecorTests` |
+| GameTests, with companions | Pass | 349 of 349. The first start stopped at Create's Registrate "Found unused register callbacks" (the dev-only flake in the build routing notes); the next start ran them all |
+| Railings | Pass | `railingsGoOnTheEdgeYouAimAt`: aimed near a catwalk's north edge it rails the north side; used on it near the east edge it adds the east side, taking one railing each; broken it drops two |
+| Catwalks and stairs join | Pass | `catwalksAndStairsJoinTheirNeighbours`: two catwalks side by side join each other and nothing else; two flights side by side climbing north have rails only on their outer sides |
+| Caged ladders | Pass | `aCagedLaddersCageStartsOneBlockUp`: of three ladders up a wall only the upper two are caged, they are climbable, and with the foot broken the next one up opens |
+| Steel's rust | Pass | `wetCatwalksRustOnlyToTheirFirstStage`: after 4,000 random ticks a waterlogged catwalk is exposed and no further, a dry one still bare |
+| Posts | Pass | `aCrossarmJoinsItsPoleAndHoldsALantern`: three posts make a pole; one placed on its top block's side lies along it and the pole grows a stub to it, on that side only; a lantern placed under the crossarm hangs there on its chain; a post laid across the pole's top joins it below |
+| Argon tubes | Pass | `anArgonTubeGlowsOnHighVoltage`: wired to 1,000 V a tube lights and lights the block by it, at 500 V it stays dark, and two tubes end to end join |
+| Dev client | Pass | A showcase world: a ring of catwalks round a steel column with railings, a caged ladder and a flight of stairs, a strip of rusty (exposed) catwalk, a creosote jetty on posts in water with fence, gate, stairs and a log pile, a telegraph pole with a crossarm and a lantern hung under each end, and argon tubes on a black board. Every block draws with no missing model or texture in the log; the 13 new items show in JEI. Two looks were fixed there: thin rails picked up orange specks from the next sprite on the atlas (their UVs now sit half a pixel in), and a lit tube read almost white through its glass (the gas now fills the bore in violet). Ponder's argon scene shows one tube and then a line of three lit. Screenshots in `builds/screenshots/0.30.0` |
+
+### Known gaps
+
+- The jar has not been started on a real Forge server.
+- Creosote timber and argon tubes have no recipes until creosote and argon exist (Taran's card); their Spout recipes are
+  written by `tools/gen_decor.py` once `CREOSOTE_FLUID` and `ARGON_FLUID` are set, and have not been tried.
+- A lit argon tube in a world needs a Power Grid circuit at 800 V; the dev client checked the lit look only in Ponder,
+  the GameTest the lighting.
 
 ## 0.29.0: The new dye colours
 

@@ -11,6 +11,7 @@ import com.mcremix.pressurizer.PressurizerVesselBlock;
 import com.mcremix.registry.ModArmPoints;
 import com.mcremix.registry.ModBlockEntities;
 import com.mcremix.registry.ModBlocks;
+import com.mcremix.registry.ModDecor;
 import com.mcremix.registry.ModEntities;
 import com.mcremix.registry.ModCreativeTab;
 import com.mcremix.registry.ModFluids;
@@ -57,6 +58,7 @@ public class McRemix {
 		ModCreativeTab.register(modBus);
 		ModFluids.register(modBus);
 		ModBlocks.register();
+		ModDecor.register();
 		ModItems.register();
 		ColourBlocks.register();
 		ModBlockEntities.register();

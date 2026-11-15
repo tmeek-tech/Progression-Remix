@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mcremix:block/creosote_slab"
+    },
+    "type=top": {
+      "model": "mcremix:block/creosote_slab_top"
+    },
+    "type=double": {
+      "model": "mcremix:block/creosote_planks"
+    }
+  }
+}

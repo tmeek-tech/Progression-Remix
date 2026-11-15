@@ -1,0 +1,254 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "north",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_left"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "north",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_right"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "east",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "east",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "south",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "south",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "west",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "facing": "west",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_catwalk_stairs_rail_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "north",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_left"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "north",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_right"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "east",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "east",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "south",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "south",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "west",
+        "left": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "facing": "west",
+        "right": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_catwalk_stairs_rail_right",
+        "y": 270
+      }
+    }
+  ]
+}

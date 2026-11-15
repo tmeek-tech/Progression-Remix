@@ -20,6 +20,7 @@ import os
 import random
 import re
 import struct
+import sys
 
 from PIL import Image
 
@@ -8427,4 +8428,7 @@ if __name__ == '__main__':
     # last, as it adds to the lang file and to tags written above
     import gen_colours
     gen_colours.gen_colours()
+    # the distillation build's decorative blocks (stage 6) add to what is written above, so they go last
+    import gen_decor
+    gen_decor.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

@@ -2555,3 +2555,72 @@ and mint, red wool mauve); beds, banners and shulker boxes keep their block enti
 burns; a sheep keeps each colour through dyeing, saving, loading and shearing, is sheared for its wool and goes back to
 red cleanly; an indigo collar loads, rose leather is rose, mint sign text comes back mint and a mauve banner shows on
 maps as magenta.
+
+## 37. Catwalks, railings and decor blocks (0.30.0)
+
+Stage 6 of the distillation build (`design/distillation.md`, "How the build splits", Taran, 2026-11-15): catwalks,
+railings, caged ladders, creosote timber and argon tubes, decorative blocks that should feel real the way Immersive
+Weathering's do. Taran answered three cards: catwalks, railings and caged ladders are steel only; a Spout pours creosote
+on timber (250 mB a stripped log, 100 mB a plank); and creosote timber and argon tubes are built now with no recipes,
+creative only, until creosote (stage 1) and argon (stage 4) exist. They are in project memory (`decor-blocks-build.md`).
+
+**Where it lives.** Everything is apart from the files the other stages edit, so the build threads can work at once:
+`registry/ModDecor.java` (registered from `McRemix` after `ModBlocks`), the `decor` package, `ponder/DecorPonderPlugin`
+and `DecorScenes` (added in `McRemixClient`), `tools/gen_decor.py` and the `DecorTests` GameTests. `gen_assets.py`
+calls `gen_decor.run` last, after `gen_colours` (section 36), passing itself; `gen_decor` uses its helpers and adds its lines to the lang file and tags
+`gen_assets` wrote rather than owning them. Thin faces have their UVs kept half a pixel inside the sprite (`inset`),
+since a face whose UVs sit on a sprite's edge picked up the next sprite on the atlas (orange specks from Create's seat).
+
+**Steel catwalks.** `CatwalkBlock`: bar grating 2 px deep in the top of the block, so it lies flush with a floor beside
+it, banded by a 4 px flat bar along each side that does not run on into another catwalk, or into catwalk stairs
+climbing along that side. Waterloggable, and the sky shows through it. 3 from 3 steel sheets and 2 steel nuggets.
+
+**Catwalk stairs.** `CatwalkStairsBlock`: two grating treads on sloped flat-bar stringers, climbing the way you face.
+Each side with no flight beside it gets a handrail (`LEFT`, `RIGHT`: posts, a sloped rail and a knee rail), so stairs
+side by side make one wide flight railed only outside. 2 from 3 catwalks.
+
+**Railings.** `RailingBlock`: a railing for each side of the block (posts, handrail, knee rail, toe board), placed on
+the edge nearest where you aim (within 0.3 of a block of it, else the side you face); another used on it adds a side,
+and broken it drops one for each side. Its collision is a block and a half high. 2 from 5 steel nuggets.
+
+**Caged ladders.** `CagedLadderBlock`, a ladder: steel stiles and rungs, and a cage of hoops and bars that starts one
+block up (`CAGED`, set when the ladder below is a caged ladder facing the same way), so the foot is open to step in.
+3 from 2 steel sheets and 5 steel nuggets.
+
+**Steel's rust.** All four are `FluidPartMaterial.Part`s of steel with `Patina`: they rust only while wet, to the
+exposed stage and no further, and wax and scrape as steel parts do.
+
+**Creosote timber.** `CreosoteBlocks`: a log (debarked, by axis), planks, stairs, slab, fence, fence gate and post, dark
+and oily like railway sleepers, with the log's sawn end soaked black outside and brown in the heart. They burn as wood.
+In a hot biome (base temperature over 1.0), by day, under open sky and over air, they now and then drip a speck of
+creosote from their underside (`weep`). Tags: planks, wooden stairs, slabs and fences, fence gates, `mineable/axe` and
+`mcremix:creosote_timber`; `forge:stripped_logs` gets the vanilla stripped logs, which the Spout will creosote. The
+crafting from creosote logs is there (4 planks a log; 4 posts from 2 logs; stairs, slabs, fence and gate from planks).
+
+**Posts.** `CreosoteBlocks.Post`: a 6 px pole, standing or lying along either way like a log, waterloggable, for jetty
+piles, telegraph poles and fence posts. Posts join where one points at another's side (`SIDES`): the one pointed at
+grows a stub of the same pole out to it, so a crossarm meets its pole and a beam sits on a pole's top. A lantern hangs
+under a standing post, and under a lying one on a short length of chain (`CHAIN`, set when a hanging lantern or a chain
+is below; `getBlockSupportShape` gives a lying post a centre hold underneath). A torch stands on a standing post only,
+as on a lying one it would float. Rendered cutout for the chain.
+
+**Argon tubes.** `ArgonTubeBlock`, a Power Grid device: a glass tube lying along the face it is set against, with a
+nickel cap and terminal at each end (- at the low end, + at the high end). Tubes end to end join, thin collars taking
+the place of their caps, but each keeps its own two terminals, since Power Grid cannot link nodes across blocks, so a
+line is wired in series with short jumpers. `ArgonTubeBlockEntity` puts a 40 kOhm switch between the terminals that
+closes at 800 V and opens below 600 V; lit (`LIT`), the tube glows violet with light 10, and the goggles show its volts
+and milliamps. The empty Glass Tube is an item.
+
+**Recipes to come.** `gen_decor.CREOSOTE_FLUID` and `ARGON_FLUID` are `None`. When stage 1 adds creosote it sets the
+first to the fluid's id and regenerates: the Spout recipes for stripped logs (250 mB) and planks (100 mB) appear, for
+any not already creosote timber. When stage 4 adds argon it sets the second: the Glass Tube's crafting (a glass pane
+between 2 iron nuggets, 2 tubes) and the Spout's 50 mB of argon into a tube appear.
+
+**Ponder.** `catwalk/intro` (a ring of catwalks round a steel column, railings, a caged ladder and a flight of stairs,
+rusting when wet) on the four steel blocks; `argon_tube/intro` (one tube struck from a voltage source, then three
+joined and wired in series) on the tube and the Glass Tube, which are also under Power Grid's electric devices tag.
+
+**Tests.** 343 GameTests, plain, and 349 with `-Pcompanions`. New, in `DecorTests`: `railingsGoOnTheEdgeYouAimAt`,
+`catwalksAndStairsJoinTheirNeighbours`, `aCagedLaddersCageStartsOneBlockUp`, `wetCatwalksRustOnlyToTheirFirstStage`
+(4,000 random ticks), `aCrossarmJoinsItsPoleAndHoldsALantern` and `anArgonTubeGlowsOnHighVoltage` (lit at 1,000 V and
+lighting the block by it, dark at 500 V). Looks were checked in a dev client (the test report).

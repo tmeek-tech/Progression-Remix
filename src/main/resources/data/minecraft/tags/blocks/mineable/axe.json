@@ -241,6 +241,13 @@
     "create:malachite_green_seat",
     "create:mint_seat",
     "create:maroon_seat",
-    "create:rose_seat"
+    "create:rose_seat",
+    "mcremix:creosote_log",
+    "mcremix:creosote_planks",
+    "mcremix:creosote_stairs",
+    "mcremix:creosote_slab",
+    "mcremix:creosote_fence",
+    "mcremix:creosote_fence_gate",
+    "mcremix:creosote_post"
   ]
 }

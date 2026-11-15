@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:creosote_log",
+    "mcremix:creosote_planks",
+    "mcremix:creosote_stairs",
+    "mcremix:creosote_slab",
+    "mcremix:creosote_fence",
+    "mcremix:creosote_fence_gate",
+    "mcremix:creosote_post"
+  ]
+}

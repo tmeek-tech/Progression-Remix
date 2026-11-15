@@ -431,6 +431,10 @@
     "create:malachite_green_nixie_tube",
     "create:mint_nixie_tube",
     "create:maroon_nixie_tube",
-    "create:rose_nixie_tube"
+    "create:rose_nixie_tube",
+    "mcremix:steel_catwalk",
+    "mcremix:steel_catwalk_stairs",
+    "mcremix:steel_railing",
+    "mcremix:steel_caged_ladder"
   ]
 }
