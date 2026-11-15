@@ -1,0 +1,23 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "type": "forge:difference",
+      "base": {
+        "tag": "forge:stripped_logs"
+      },
+      "subtracted": {
+        "tag": "mcremix:creosote_timber"
+      }
+    },
+    {
+      "fluid": "mcremix:creosote",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:creosote_log"
+    }
+  ]
+}

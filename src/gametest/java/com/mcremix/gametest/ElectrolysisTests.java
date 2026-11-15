@@ -529,7 +529,7 @@ public class ElectrolysisTests {
 			"an unbaked electrode should take two coal coke");
 		FluidIngredient pitch = recipe.getFluidIngredients().get(0);
 		h.assertTrue(pitch.test(Chemical.PITCH.stack(100)) && pitch.getRequiredAmount() == 100,
-			"an unbaked electrode should take 100 mB of pitch, the coal tar still's residue (0.29.0)");
+			"an unbaked electrode should take 100 mB of pitch, the coal tar still's residue (0.31.0)");
 		h.assertTrue(recipe.getResultItem(h.getLevel().registryAccess()).is(ModItems.UNBAKED_CARBON_ELECTRODE.get()),
 			"the press should make an unbaked electrode");
 		KilnTests.expect(h, ModItems.UNBAKED_CARBON_ELECTRODE.get(), ModItems.CARBON_ELECTRODE.get(), HeatLevel.HOT);

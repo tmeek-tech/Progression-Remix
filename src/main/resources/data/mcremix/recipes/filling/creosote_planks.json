@@ -1,0 +1,23 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "type": "forge:difference",
+      "base": {
+        "tag": "minecraft:planks"
+      },
+      "subtracted": {
+        "tag": "mcremix:creosote_timber"
+      }
+    },
+    {
+      "fluid": "mcremix:creosote",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:creosote_planks"
+    }
+  ]
+}

@@ -112,7 +112,7 @@ public class CoalTarTests {
 
 	/**
 	 * Phenol and formaldehyde, 50 mB of each, in a basin on a lit blaze burner, under a running press, set into Bakelite
-	 * (0.29.0: Baekeland's way, in place of coal tar and wood spirit).
+	 * (0.31.0: Baekeland's way, in place of coal tar and wood spirit).
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 400)
 	public static void phenolAndFormaldehydePressIntoBakelite(GameTestHelper h) {

@@ -19,9 +19,11 @@ import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -42,7 +44,7 @@ import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
 
 /**
- * The glass lab (stage 1 of the distillation design, 0.29.0): the still splits wood spirit into its cuts a flask each,
+ * The glass lab (stage 1 of the distillation design, 0.31.0): the still splits wood spirit into its cuts a flask each,
  * leaving vinegar; the bench's hot tube, settling flask, separating funnel and reflux flask each do their step; glass
  * cracks past Hot or wet; a heated basin loses what boils easily without a condenser; CO2 smothers; vinegar takes the
  * patina off copper.
@@ -376,6 +378,27 @@ public class GlassLabTests {
 			&& p.getFluidIngredients().stream().anyMatch(f -> f.test(Chemical.PHENOL.stack(50)))
 			&& p.getFluidIngredients().stream().anyMatch(f -> f.test(Chemical.FORMALDEHYDE.stack(50)))).orElse(false),
 			"Bakelite should be pressed from phenol and formaldehyde");
+		h.succeed();
+	}
+
+	/** The still's creosote soaks bare timber into creosote timber by Spout: the decor build's recipes, waiting on it. */
+	@GameTest(template = GT.PLATFORM)
+	public static void creosoteFromTheStillSoaksTimber(GameTestHelper h) {
+		record Soak(String name, ItemStack bare, int amount) {}
+		var recipes = h.getLevel().getRecipeManager();
+		for (Soak soak : List.of(new Soak("creosote_log", new ItemStack(Items.STRIPPED_OAK_LOG), 250),
+			new Soak("creosote_planks", new ItemStack(Items.OAK_PLANKS), 100))) {
+			var found = recipes.byKey(McRemix.asResource("filling/" + soak.name()));
+			h.assertTrue(found.isPresent() && found.get() instanceof ProcessingRecipe<?>,
+				soak.name() + " should be soaked by a Spout");
+			ProcessingRecipe<?> recipe = (ProcessingRecipe<?>) found.get();
+			h.assertTrue(recipe.getIngredients().get(0).test(soak.bare()), soak.name() + " should take bare timber");
+			h.assertTrue(recipe.getFluidIngredients().get(0).test(Chemical.CREOSOTE.stack(soak.amount())),
+				soak.name() + " should take " + soak.amount() + " mB of creosote");
+			h.assertTrue(McRemix.asResource(soak.name()).equals(
+				BuiltInRegistries.ITEM.getKey(recipe.getRollableResults().get(0).getStack().getItem())),
+				soak.name() + " should come out");
+		}
 		h.succeed();
 	}
 }

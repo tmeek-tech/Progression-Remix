@@ -55,7 +55,7 @@ public class PlasticsTests {
 
 	/**
 	 * Two sugar in a bucket of water in a basin left alone ferment into a bucket of wash in 30 seconds, the CO2 going off
-	 * into the air (0.29.0). Under a mixer, the same basin keeps its sugar and water.
+	 * into the air (0.31.0). Under a mixer, the same basin keeps its sugar and water.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 800)
 	public static void sugarFermentsInABasinLeftAlone(GameTestHelper h) {

@@ -1,8 +1,45 @@
 # Test reports
 
-Newest first: [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.31.0: The glass lab and the first chemistry
+
+This covers section 39 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 1 of the distillation build, the glass lab still and
+bench glassware, wash, wood spirit and coal tar split into their cuts, Bakelite from phenol and formaldehyde, basin
+reflux, CO2 and vinegar, on top of 0.30.1. The still's creosote now soaks 0.30.0's creosote timber. Tested on
+2026-11-15 against the same versions as 0.30.0.
+
+**Result:** 0.31.0 compiled with no errors. Every GameTest passes in a fresh test world: 358 of 358 plain and
+364 of 364 with `-Pcompanions`. In a dev client a still distilled wood spirit and then coal tar into their cuts, and
+every bench piece did its job. The jar starts on a real Forge server and runs a still there.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | @@BUILD@@ |
+| Production server | Pass | Forge 47.4.6's installer set up a dedicated server with Create 6.0.8, Power Grid, Architectury API and this jar. It started in about 3 seconds with nothing from the mod in the log but its server config being written. A still placed there by `/setblock` (campfire, round flask, two column pieces, still head, coil condenser with water, cow receiver) split a bucket of wood spirit into 100 acetone and 300 methanol in two of the receiver's flasks and left 600 vinegar, and the server stopped and saved cleanly. Its chunk was force-loaded: an empty 1.20.1 server stops ticking block entities 15 seconds after the last player leaves, which first made the still look stalled |
+| GameTests, plain | Pass | 358 of 358, 15 of them new in `GlassLabTests` |
+| GameTests, with companions | Pass | 364 of 364 |
+| The still | Pass | `woodSpiritDistilsIntoItsCuts`: a bucket of wood spirit on a campfire, two column pieces and cold water gives 100 acetone and 300 methanol in two flasks of the cow receiver, which the still turns between cuts, and leaves 600 vinegar, warming the condenser's water; `washGivesAQuarterEthanol` (fermented wash stills into 250 ethanol); `aStillWithADryCondenserWaits`; `aCowReceiverTurnsByHandOrPulse` |
+| Lab glass | Pass | `labGlassCracksPastHotOrWet` (a flask on a Searing blaze burner cracks and shatters, spilling its wash; one on a campfire beside water cracks too); `coolGlassTakesWater` |
+| The bench | Pass | `aHotTubeTurnsMethanolIntoFormaldehyde` (over a fire, with copper mesh, 250 mB in 5 seconds); `carbolicOilSettlesNaphthalene`; `aSeparatingFunnelSplitsThePhenolWash` (sodium phenolate out of the tap, creosote out of the neck); `aRefluxFlaskCooksWhatAHeatedBasinMixes` (glycol and salt water, losing no dichloride) |
+| Basin reflux | Pass | `aHeatedBasinLosesWhatBoilsUnlessCondensed`: of two heated basins making glycol, the bare one loses a quarter as much dichloride again as vapour and the one with a coil condenser on its side loses none |
+| CO2 and vinegar | Pass | `carbonDioxideSinksAndSmothers` (let loose over a pit, it sinks in and a pig there runs out of air); `vinegarTakesThePatinaOffCopper` (weathered copper beside poured vinegar goes bare, and iron beside it stays as it is) |
+| Recipes | Pass | `labGlassHasRecipes` (every piece and copper mesh crafted, Bakelite pressed from phenol and formaldehyde); `creosoteFromTheStillSoaksTimber` (a Spout soaks a stripped log with 250 mB and planks with 100); the fermenting, Bakelite, electrode and briquette tests changed to wash, phenol and pitch |
+| Dev client | Pass | A still on a magma block distilled wood spirit (acetone and methanol in the receiver's flasks, vinegar left) and then, over fire, coal tar (light oil, carbolic oil and creosote in three flasks, pitch left), the goggles reading each flask; a hot tube made formaldehyde from methanol over copper mesh, a settling flask grew naphthalene, a separating funnel split the phenol wash and a reflux flask made glycol. JEI's Distilling tab shows coal tar's cuts with their boiling points and formulas; both Ponder scenes play through. Nothing from the mod in the log but the usual dev warnings. The bench scene first showed the hot tube and reflux flask on campfires, too cool for them; they now sit over fire. Screenshots in `builds/screenshots/0.31.0` |
+
+### Known gaps
+
+- Checked by GameTest only, not by hand: CO2 smothering, lab glass cracking in rain or beside water, basin reflux, and
+  vinegar from a Spout.
+- The glassware's models are a first pass: thin glass on iron retort stands, hard to see against the sky from far off,
+  and the still head's stand stands on the far side from the flask's.
+- JEI lists a still's cuts as Create lists a basin's results, bottom up: the lightest cut bottom left and what is left
+  top right. Each slot's tooltip numbers its cut and gives its boiling point.
+- The Ponder scenes are drawn at the usual 5 by 5 scale, so the one-block-wide still looks small.
+- The reflux flask only runs Create's heated mixing recipes that are fluids alone; glycol is the only one in the mod.
+- Argon tubes still wait for argon (stage 4).
 
 ## 0.30.1: Fixes to the new colours
 

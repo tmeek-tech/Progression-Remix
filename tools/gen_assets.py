@@ -4298,7 +4298,7 @@ CHEMICALS = {
     'molten_sodium': ((0x70, 0x76, 0x80), (0xC0, 0xC4, 0xCA), (0xF4, 0xF6, 0xFA), 255),
     # titanium tetrachloride: a colourless vapour with the faintest yellow in it
     'titanium_tetrachloride': ((0xD0, 0xCC, 0xB8), (0xF4, 0xF2, 0xE4), (0xFF, 0xFF, 0xFF), 90),
-    # the glass lab's (0.29.0). wash: sugar water fermented, cloudy and pale as unfiltered beer
+    # the glass lab's (0.31.0). wash: sugar water fermented, cloudy and pale as unfiltered beer
     'wash': ((0x9C, 0x8C, 0x5C), (0xDC, 0xD2, 0xA4), (0xF8, 0xF2, 0xD8), 215),
     # carbon dioxide: a heavy haze, all but invisible
     'carbon_dioxide': ((0xCC, 0xD0, 0xD4), (0xEE, 0xF0, 0xF2), (0xFF, 0xFF, 0xFF), 70),
@@ -8389,7 +8389,7 @@ def gen_formulas():
     f.stub(ring[5], 150, 0.8)
     f.bracket(sub='n', x0=-1.25, x1=2.1)
 
-    # the glass lab's chemistry (0.29.0). Solutions are written "X in H2O" and drawn with their water, as salt water is;
+    # the glass lab's chemistry (0.31.0). Solutions are written "X in H2O" and drawn with their water, as salt water is;
     # oils that are mixtures show what matters in them
     f = formula('wood_spirit', 'CH3OH in H2O', fluids=mr('wood_spirit'))
     methanol_molecule(f, 0, 0)
@@ -8851,8 +8851,9 @@ def vinegar_cleaning():
 def gen_lab_ponder():
     """The lab still: a round flask on a campfire with a glass column piece and a still head on it, the coil condenser
     on the head's arm (east) sloping down to a cow receiver, and the condenser's water piped from a tank behind it.
-    The bench: a hot tube on a campfire, a settling flask, a separating funnel over a tank, and a reflux flask on a
-    campfire with a coil condenser standing on it."""
+    The bench: a hot tube over a fire, a settling flask, a separating funnel over a tank, and a reflux flask over a
+    fire with a coil condenser standing on it: both need Hot, which a campfire is not, so their fires burn on
+    netherrack set into the plate."""
     b = {}
     plate(b)
     b[(1, 1, 2)] = ('minecraft:campfire', {'facing': 'north', 'lit': 'true', 'signal_fire': 'false',
@@ -8866,14 +8867,14 @@ def gen_lab_ponder():
 
     b = {}
     plate(b)
-    b[(0, 1, 2)] = ('minecraft:campfire', {'facing': 'north', 'lit': 'true', 'signal_fire': 'false',
-                                          'waterlogged': 'false'})
+    fire = ('minecraft:fire', {'age': '0', 'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false',
+                               'up': 'false'})
+    b[(0, 0, 2)], b[(0, 1, 2)] = ('minecraft:netherrack', {}), fire
     b[(0, 2, 2)] = ('mcremix:hot_tube', {'cracked': 'false', 'axis': 'z'})
     b[(1, 1, 2)] = ('mcremix:settling_flask', {'cracked': 'false'})
     b[(2, 2, 2)] = ('mcremix:separating_funnel', {'cracked': 'false'})
     b[(2, 1, 2)] = ('create:fluid_tank', {'top': 'true', 'bottom': 'true', 'shape': 'window'}, lone_tank_nbt((2, 1, 2)))
-    b[(4, 1, 2)] = ('minecraft:campfire', {'facing': 'north', 'lit': 'true', 'signal_fire': 'false',
-                                          'waterlogged': 'false'})
+    b[(4, 0, 2)], b[(4, 1, 2)] = ('minecraft:netherrack', {}), fire
     b[(4, 2, 2)] = ('mcremix:round_flask', {'cracked': 'false'})
     b[(4, 3, 2)] = ('mcremix:coil_condenser', {'cracked': 'false', 'facing': 'down', 'shape': 'upright'})
     save_structure('lab/bench', (5, 5, 5), b)

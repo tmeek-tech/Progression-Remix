@@ -192,14 +192,23 @@ public class LabScenes {
 
 		scene.world().showSection(util.select().fromTo(4, 1, 2, 4, 3, 2), Direction.DOWN);
 		scene.idle(15);
-		scene.world().modifyBlockEntityNBT(util.select().position(reflux), RoundFlaskBlockEntity.class,
-			nbt -> nbt.put("In0", Chemical.ETHYLENE_DICHLORIDE.stack(500).writeToNBT(new CompoundTag())));
+		scene.world().modifyBlockEntityNBT(util.select().position(reflux), RoundFlaskBlockEntity.class, nbt -> {
+			nbt.put("In0", Chemical.ETHYLENE_DICHLORIDE.stack(250).writeToNBT(new CompoundTag()));
+			nbt.put("In1", Chemical.CAUSTIC_SODA.stack(250).writeToNBT(new CompoundTag()));
+		});
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.text("A round flask with a coil condenser standing on it is a reflux flask: what Create mixes in a heated basin from fluids alone, it cooks a bucket at a time over a fire, losing nothing")
 			.pointAt(util.vector().blockSurface(reflux, Direction.EAST))
 			.placeNearTarget();
-		scene.idle(110);
+		scene.idle(60);
+		scene.world().modifyBlockEntityNBT(util.select().position(reflux), RoundFlaskBlockEntity.class, nbt -> {
+			nbt.put("In0", new CompoundTag());
+			nbt.put("In1", new CompoundTag());
+			nbt.put("Out0", Chemical.ETHYLENE_GLYCOL.stack(250).writeToNBT(new CompoundTag()));
+			nbt.put("Out1", Chemical.SALT_WATER.stack(250).writeToNBT(new CompoundTag()));
+		});
+		scene.idle(50);
 		scene.markAsFinished();
 	}
 
