@@ -1,15 +1,18 @@
 package com.mcremix.colour;
 
+import com.mcremix.mixin.DispenserBlockAccessor;
 import com.mcremix.mixin.FireBlockAccessor;
 import com.mcremix.mixin.SheepAccessor;
 import com.simibubi.create.foundation.utility.DyeHelper;
 
+import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.core.dispenser.ShulkerBoxDispenseBehavior;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.core.dispenser.ShulkerBoxDispenseBehavior;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -17,9 +20,15 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 /** The eight new colours' hooks into vanilla and Create that are not blocks of their own. */
 public class Colours {
 
-	/** On the common setup's main-thread work. */
+	/**
+	 * On the common setup's main-thread work. Vanilla gives these to its sixteen colours' things one by one, so the new
+	 * colours' are given the same. (Beds as villagers' homes: PoiTypesMixin.)
+	 */
 	public static void setup() {
 		FireBlockAccessor fire = (FireBlockAccessor) Blocks.FIRE;
+		// what a dispenser does with a carpet: puts it on a llama in front of it
+		DispenseItemBehavior carpet = ((DispenserBlockAccessor) Blocks.DISPENSER)
+			.mcremix$getDispenseMethod(new ItemStack(Items.PURPLE_CARPET));
 		for (ColourBlocks.ColourSet set : ColourBlocks.SETS.values()) {
 			NewColour c = set.colour;
 			// wool and carpets burn as vanilla's do
@@ -29,8 +38,12 @@ public class Colours {
 			SheepAccessor.mcremix$woolByColour().put(c.dye(), set.wool.get());
 			// Create's colours for it (nixie tubes, sails): a light and a dark
 			DyeHelper.addDye(c.dye(), c.diffuse, darker(c.diffuse), () -> set.wool.get());
-			// dispensers place shulker boxes, as vanilla's (see ShulkerBoxBlockMixin)
+			// dispensers place shulker boxes, as vanilla's (see ShulkerBoxBlockMixin), and put carpets on llamas
 			DispenserBlock.registerBehavior(set.shulkerBox.get(), new ShulkerBoxDispenseBehavior());
+			DispenserBlock.registerBehavior(set.carpet.get(), carpet);
+			// a water cauldron washes a banner's last pattern off, and a shulker box's colour
+			CauldronInteraction.WATER.put(set.banner.get().asItem(), CauldronInteraction.BANNER);
+			CauldronInteraction.WATER.put(set.shulkerBox.get().asItem(), CauldronInteraction.SHULKER_BOX);
 		}
 	}
 

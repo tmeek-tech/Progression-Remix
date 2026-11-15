@@ -2,5 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "mcremix:block/mint_stained_glass"
-  }
+  },
+  "render_type": "minecraft:translucent"
 }
