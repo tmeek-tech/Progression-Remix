@@ -13,7 +13,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Optional | Immersive Weathering, JEI |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
-## What is in 0.30.1
+## What is in 0.30.2
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace

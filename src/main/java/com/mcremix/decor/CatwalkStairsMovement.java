@@ -3,6 +3,7 @@ package com.mcremix.decor;
 import com.mcremix.McRemix;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,25 +12,27 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Keeps players and mobs inside the handrails of catwalk stairs where the game's own collision cannot. The game looks for
- * a block's collision only for what stands less than two blocks above that block's foot, and a rail stands 2.75 blocks
- * up ({@link CatwalkStairsBlock#shape}). Where one stairs meets the next down, a player on the upper one stands two
- * blocks above the lower one's foot, and one running down stands two and a half above the foot of the stairs two
+ * Keeps players and mobs inside the handrails of catwalk stairs where the game's own collision cannot. The game looks
+ * for a block's collision only for what stands less than two blocks above that block's foot, and a rail stands 2.75
+ * blocks up ({@link CatwalkStairsBlock#shape}). Where one stairs meets the next down, a player on the upper one stands
+ * two blocks above the lower one's foot, and one running down stands two and a half above the foot of the stairs two
  * below; once they rise or run off a tread over that stairs the game no longer sees its rail. And when a catwalk or
  * anything else overhead cuts a step up short, the game tries the move again from the raised box, and misses the rail
  * of the stairs one block under them, or, for one that steps up a whole block, as a mount or a player with step-up gear
  * does, the rail of the stairs they come back down into. Either way it would carry them into the rail and out through
  * it. So each tick anything that lives is moved back out of a rail it has got into ({@link #keepOutOfRails}): a player
- * as soon as they have moved, a mob before it moves again. And a jump from the stairs rises 0.44 of a block at most
- * ({@link #MAX_JUMP}), short of a rail's top beside it. Done on the jump rather than by the block's jump factor, which
- * the game takes from the block under the jumper's middle, and at a joint that is the air over the lower stairs. A jump
- * from anywhere else is not changed.
+ * as soon as they have moved, a mob before it moves again; and one a rail has appeared round, as when the stairs beside
+ * them in a wide flight is broken, is moved into the flight as it jumps ({@link #intoFlight}). And a jump from the
+ * stairs rises 0.44 of a block at most ({@link #MAX_JUMP}), short of a rail's top beside it. Done on the jump rather
+ * than by the block's jump factor, which the game takes from the block under the jumper's middle, and at a joint that
+ * is the air over the lower stairs. A jump from anywhere else is not changed.
  */
 @Mod.EventBusSubscriber(modid = McRemix.ID)
 public class CatwalkStairsMovement {
@@ -46,6 +49,9 @@ public class CatwalkStairsMovement {
 		Vec3 motion = jumper.getDeltaMovement();
 		if (motion.y > MAX_JUMP && onStairs(jumper))
 			jumper.setDeltaMovement(motion.x, MAX_JUMP, motion.z);
+		// on the side that moves it: a real player's server copy jumps again as it takes their move, which already has it
+		if (!(jumper instanceof ServerPlayer) || jumper instanceof FakePlayer)
+			intoFlight(jumper);
 	}
 
 	/**
@@ -82,19 +88,37 @@ public class CatwalkStairsMovement {
 	 * it moving on into the rail. Only stairs at most two blocks under the block its feet are in can have let it in: the
 	 * game looks for the collision of stairs two under only below two blocks above their foot, and when something
 	 * overhead cuts a step up short it tries the move again from the raised box, which leaves out stairs one under too,
-	 * and for one that steps up a whole block, the stairs its feet are in once it is let back down. It is left where it
-	 * is if moving it would put it in something else, or if it is in a rail by less than {@link #OVERLAP}, as a box set
-	 * against one can be by rounding.
+	 * and for one that steps up a whole block, the stairs its feet are in once it is let back down. Out of a rail of the
+	 * stairs its feet are in it is moved only back into the flight: one standing on stairs whose rail has just appeared
+	 * round them, as when the stairs beside them in a wide flight is broken, still stands on its treads, and moving them
+	 * out over the gap would drop them; a jump would (see {@link #intoFlight}). It is left where it is if moving it would
+	 * put it in something else, or if it is in a rail by less than {@link #OVERLAP}, as a box set against one can be by
+	 * rounding.
 	 *
 	 * @return whether it was moved
 	 */
 	public static boolean keepOutOfRails(Entity entity) {
+		return moveOutOfRails(entity, false);
+	}
+
+	/**
+	 * On a jump, moves one that {@link #keepOutOfRails} leaves in a rail of the stairs its feet are in, the stairs' middle
+	 * across the rail from its own, through the rail into the flight. Once it rose from the upper tread its feet would be
+	 * in the block above, where the rail is one of the stairs under them and would move it out over the gap.
+	 *
+	 * @return whether it was moved
+	 */
+	public static boolean intoFlight(Entity entity) {
+		return moveOutOfRails(entity, true);
+	}
+
+	private static boolean moveOutOfRails(Entity entity, boolean jumping) {
 		AABB box = entity.getBoundingBox();
 		int feet = Mth.floor(box.minY - 1e-7);
 		Level level = entity.level();
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 		double dx = 0, dz = 0;
-		for (int y = feet - 2; y <= feet; y++) {
+		for (int y = jumping ? feet : feet - 2; y <= feet; y++) {
 			if (box.minY >= y + RAIL_TOP)
 				continue;
 			for (int x = Mth.floor(box.minX); x <= Mth.floor(box.maxX); x++)
@@ -113,6 +137,14 @@ public class CatwalkStairsMovement {
 							: box.getCenter().z < rail.getCenter().z ? rail.minZ - box.maxZ : rail.maxZ - box.minZ;
 						if (Math.abs(move) < OVERLAP)
 							continue;
+						// in the block its feet are in, only back toward the stairs' middle, and on a jump through the rail
+						double inward = acrossX ? x + 0.5 - rail.getCenter().x : z + 0.5 - rail.getCenter().z;
+						boolean outward = y == feet && move * inward < 0;
+						if (outward != jumping)
+							continue;
+						if (jumping)
+							move = acrossX ? inward > 0 ? rail.maxX - box.minX : rail.minX - box.maxX
+								: inward > 0 ? rail.maxZ - box.minZ : rail.minZ - box.maxZ;
 						if (acrossX)
 							dx = farther(dx, move);
 						else
