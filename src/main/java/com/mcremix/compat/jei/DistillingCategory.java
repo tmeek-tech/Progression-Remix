@@ -3,6 +3,7 @@ package com.mcremix.compat.jei;
 import java.util.List;
 
 import com.mcremix.McRemix;
+import com.mcremix.column.ColumnLayout;
 import com.mcremix.lab.DistillingRecipe;
 import com.mcremix.registry.ModBlocks;
 
@@ -47,6 +48,9 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 				.withStyle(ChatFormatting.GOLD));
 			if (recipe.close(i))
 				tooltip.add(Component.translatable("mcremix.jei.distilling.close").withStyle(ChatFormatting.GRAY));
+			if (ColumnLayout.paired(recipe, i))
+				tooltip.add(Component.translatable("mcremix.jei.distilling.close_column", ColumnLayout.EXTRA_FOR_CLOSE)
+					.withStyle(ChatFormatting.GRAY));
 		});
 		Page.heatSources(builder, recipe.heat());
 	}
@@ -66,7 +70,14 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 	@Override
 	public void getTooltip(ITooltipBuilder tooltip, DistillingRecipe recipe, IRecipeSlotsView slots, double mouseX,
 		double mouseY) {
-		if (Page.overBar(mouseX, mouseY))
-			tooltip.add(Component.translatable("mcremix.jei.distilling.time"));
+		if (!Page.overBar(mouseX, mouseY))
+			return;
+		tooltip.add(Component.translatable("mcremix.jei.distilling.time"));
+		// in a steel column: a section for every cut and the residue, and more for a close pair, which reflux covers
+		int bare = ColumnLayout.needed(recipe, 0), refluxed = ColumnLayout.needed(recipe, 1);
+		tooltip.add(Component.translatable("mcremix.jei.distilling.column", bare).withStyle(ChatFormatting.GOLD));
+		if (refluxed < bare)
+			tooltip.add(Component.translatable("mcremix.jei.distilling.column_reflux", refluxed)
+				.withStyle(ChatFormatting.GRAY));
 	}
 }

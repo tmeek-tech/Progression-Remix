@@ -684,7 +684,8 @@ def recipes():
         for name, ingredient, amount in (('creosote_log', untreated({'tag': 'forge:stripped_logs'}), 250),
                                          ('creosote_planks', untreated({'tag': 'minecraft:planks'}), 100)):
             G.recipe(f'filling/{name}', {'type': 'create:filling',
-                                         'ingredients': [ingredient, {'fluid': CREOSOTE_FLUID, 'amount': amount}],
+                                         # creosote or hot creosote from a steel column (gen_column.py)
+                                         'ingredients': [ingredient, {'fluidTag': CREOSOTE_FLUID, 'amount': amount}],
                                          'results': [G.item(f'mcremix:{name}')]})
     planks, log = G.item('mcremix:creosote_planks'), G.item('mcremix:creosote_log')
     shaped('creosote_planks', ['#'], {'#': log}, 4)

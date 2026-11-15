@@ -14,6 +14,7 @@ import com.mcremix.kiln.SteelFurnaceFuels;
 import com.mcremix.kiln.FiringRecipe;
 import com.mcremix.machines.MachineKind;
 import com.mcremix.registry.ModBlocks;
+import com.mcremix.registry.ModColumn;
 import com.mcremix.registry.ModFluidBlocks;
 import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
@@ -83,7 +84,7 @@ public class RemixJeiPlugin implements IModPlugin {
 			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui),
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
 			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
-			new DistillingCategory(gui));
+			new DistillingCategory(gui), new CoolingCategory(gui));
 	}
 
 	@Override
@@ -113,6 +114,7 @@ public class RemixJeiPlugin implements IModPlugin {
 				heat.add(KilnHeatCategory.Display.of(h));
 		registration.addRecipes(KilnHeatCategory.TYPE, heat);
 		registration.addRecipes(SteelFurnaceFuelCategory.TYPE, SteelFurnaceFuels.FUELS);
+		registration.addRecipes(CoolingCategory.TYPE, CoolingCategory.Cooling.all());
 		registration.addRecipes(BloomCategory.TYPE, List.of(BloomCategory.Display.INSTANCE));
 		registration.addRecipes(CastingCategory.TYPE, CastingCategory.Display.all());
 
@@ -194,6 +196,10 @@ public class RemixJeiPlugin implements IModPlugin {
 			new ItemStack(ModBlocks.STILL_HEAD.get()), new ItemStack(ModBlocks.COIL_CONDENSER.get()),
 			new ItemStack(ModBlocks.COW_RECEIVER.get())))
 			registration.addRecipeCatalyst(piece, DistillingCategory.TYPE);
+		// the steel column splits the same mixtures, every cut at once; its condenser also cools warm cuts inline
+		registration.addRecipeCatalyst(new ItemStack(ModColumn.COLUMN_SECTION.get()), DistillingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(ModColumn.STEEL_CONDENSER.get()), DistillingCategory.TYPE,
+			CoolingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.HOT_TUBE.get()), SteelFurnaceCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.SETTLING_FLASK.get()), SettlingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.SEPARATING_FUNNEL.get()), VatMixingCategory.TYPE);

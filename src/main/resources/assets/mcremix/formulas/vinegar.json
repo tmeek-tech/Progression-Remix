@@ -1,7 +1,8 @@
 {
   "formula": "CH3COOH in H2O",
   "fluids": [
-    "mcremix:vinegar"
+    "mcremix:vinegar",
+    "mcremix:hot_vinegar"
   ],
   "atoms": [
     {

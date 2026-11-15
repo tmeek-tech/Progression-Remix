@@ -31,7 +31,7 @@
       }
     ],
     {
-      "fluid": "mcremix:vinegar",
+      "fluidTag": "mcremix:vinegar",
       "amount": 100
     }
   ],

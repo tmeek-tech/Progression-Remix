@@ -61,6 +61,8 @@ public final class SteelFurnaceFuels {
 		new Fuel(Chemical.ACETONE::fluid, 1, HeatLevel.SEARING),
 		new Fuel(Chemical.LIGHT_OIL::fluid, 2, HeatLevel.SEARING),
 		new Fuel(Chemical.CREOSOTE::fluid, 2, HeatLevel.SEARING),
+		// creosote drawn hot from a steel column burns as it does cold
+		new Fuel(Chemical.HOT_CREOSOTE::fluid, 2, HeatLevel.SEARING),
 		new Fuel(Chemical.HYDROGEN::fluid, 1, HeatLevel.BLAZING),
 		new Fuel(Chemical.ETHYLENE::fluid, 2, HeatLevel.BLAZING));
 

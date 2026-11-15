@@ -6,6 +6,7 @@ import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
+import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.fluids.VinylChlorideHaze;
 import com.tterrag.registrate.util.entry.EntityEntry;
 
@@ -21,6 +22,12 @@ public class ModEntities {
 		.register();
 	public static final EntityEntry<EthyleneCloud> ETHYLENE_CLOUD = REGISTRATE
 		.<EthyleneCloud>entity("ethylene_cloud", EthyleneCloud::new, MobCategory.MISC)
+		.properties(b -> b.sized(0.5f, 0.5f).clientTrackingRange(10).updateInterval(5).fireImmune())
+		.renderer(() -> NoopRenderer::new)
+		.register();
+	/** Solvent vapour escaping a steel column or its condenser: it flashes into flame at a fire. */
+	public static final EntityEntry<SolventVapourCloud> SOLVENT_VAPOUR = REGISTRATE
+		.<SolventVapourCloud>entity("solvent_vapour", SolventVapourCloud::new, MobCategory.MISC)
 		.properties(b -> b.sized(0.5f, 0.5f).clientTrackingRange(10).updateInterval(5).fireImmune())
 		.renderer(() -> NoopRenderer::new)
 		.register();

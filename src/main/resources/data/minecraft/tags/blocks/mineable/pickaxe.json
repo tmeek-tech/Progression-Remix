@@ -435,6 +435,8 @@
     "mcremix:steel_catwalk",
     "mcremix:steel_catwalk_stairs",
     "mcremix:steel_railing",
-    "mcremix:steel_caged_ladder"
+    "mcremix:steel_caged_ladder",
+    "mcremix:steel_column_section",
+    "mcremix:steel_condenser"
   ]
 }

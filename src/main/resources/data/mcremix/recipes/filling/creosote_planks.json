@@ -11,7 +11,7 @@
       }
     },
     {
-      "fluid": "mcremix:creosote",
+      "fluidTag": "mcremix:creosote",
       "amount": 100
     }
   ],

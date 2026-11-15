@@ -1,8 +1,49 @@
 # Test reports
 
-Newest first: [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.32.0: The steel column
+
+This covers section 41 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 2 of the distillation build, the steel
+fractionating column and its steel condenser, splitting the wash, wood spirit and coal tar nonstop, with hot cuts, the
+condenser inline on a pipe and solvent vapour, on top of 0.31.0, with the fixes a review of the stage found. Tested on
+2026-11-15 against the same versions as 0.31.0.
+
+**Result:** 0.32.0 compiled with no errors. Every GameTest passes in a fresh test world: 396 of 396 plain and
+402 of 402 with `-Pcompanions`. In a dev client the columns, their condensers and vapour lines and an inline condenser
+draw, and all three Ponder scenes play. Not checked: the jar on a real Forge server.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.32.0.jar`, 5,880,196 bytes, SHA-256 `a65e29ce…9f99ed58`; `builds/mcremix-1.20.1-0.32.0.zip` holds the same jar. Its `mods.toml` says 0.32.0; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | Running the downloaded Forge installer was refused in this environment, as for 0.30.0 and 0.30.2 |
+| GameTests, plain | Pass | 396 of 396: 0.31.0's 380 and the 16 in `ColumnTests` |
+| GameTests, with companions | Pass | 402 of 402 |
+| Splitting | Pass | `aColumnSplitsWashIntoEthanolAndWarmWater` (one across and two high on a campfire: 250 ethanol out of the condenser's end, 750 warm water out of the bottom section, 62 mB of the condenser's water warmed, nothing vented; only the bottom section takes feed); `aColumnFourHighSplitsCoalTarIntoFourCuts` (on a fire: 150 light oil in the condenser, and 250 hot carbolic oil, 250 hot creosote and 350 pitch from their sections' sides, the top section holding none); `eachHeaterUnderAColumnAddsToItsPace` (two across over two campfires and two fires: wash counts four heaters at a pace of 6, boiling 30 mB a tick, and coal tar only the two fires; the column holds four times the feed) |
+| Sections and reflux | Pass | `aColumnTooShortLetsPartOfItsLightCutEscape` (wood spirit three high: two sections short, as the goggles say with the reflux hint; 33 or 34 of its 100 acetone comes over, the rest escapes as a cloud over the top; 300 methanol and 600 hot vinegar); `refluxStandsInForTheSectionsAColumnLacks` (the condenser's acetone piped back into the top: past a ratio of 1 nothing escapes and it boils 2.5 mB a tick, half its pace; the top section takes back nothing but its own cut); `refluxReboilsOnlyWhatTheCondenserCanTake` (on four fires, pace 8, a bucket of acetone sent back re-boils at 20 mB a tick with coolant in the condenser and about 8 with water, the rest waiting in the top section); `closeCutsNeedTwoMoreSectionsOrReflux` (the layout at each height and reflux ratio, spare sections under the top, coal tar too short losing its two lightest cuts, and JEI's extra-sections line only on a close pair, not on a cut flagged close alone) |
+| Holding up and waiting | Pass | `aCutNobodyDrawsHoldsTheColumnUp` (a full bottom section, and a full condenser, each hold a column up, boiling nothing, and the goggles name which; drawn off, both run again); `aColumnWaitsForItsCondenser` (with none it waits and says so, and starts once one is placed beside it; a condenser beside an empty column serves it) |
+| The condenser and vapour | Pass | `aCondenserOnItsOwnCoolsHotCutsForPvcPipe` (10, 20 and 30 mB a tick with water, cold water and coolant; its ends refuse pitch, creosote and water; 500 hot creosote comes out as creosote, warming 125 mB of water; PVC refuses hot creosote; beside a column its ends take nothing in); `vapourADryCondenserCannotTakeEscapesBesideIt` (the goggles say it is dry); `solventVapourFlashesAtAFlame` (a torch or campfire sets it off, a lit argon tube or redstone lamp doesn't; the cloud over a campfire flashes, setting the armour stand in it alight and lighting fires on the planks under it, while the same cloud with no flame hangs on) |
+| Keeping what it holds | Pass | `whatAColumnHoldsStaysAsItGrowsOrLosesItsBottom` (its bottom broken, the blocks left join again on the next tick, keeping its methanol a section lower; grown on top it keeps it; given a new bottom, each section's cut moves up; two across and grown on top, it keeps all four buckets of feed); `aColumnSavedWithOtherResultsStartsAfresh` |
+| Parts and recipes | Pass | `columnPartsAreSteelAndGrowNozzlesWherePipesJoin` (rust to the first stage only, honeycomb wax, a nozzle that comes and goes with a pipe); `columnPartsAreCraftedAndHotCutsWorkAsTheirPlainForms` (both recipes; hot vinegar cleans copper, hot creosote soaks timber and burns in a Steel Furnace, and each poured out turns into its plain form) |
+| Dev client | Pass | A column one across and four high over a fire and one two across and three high over campfires, each with a condenser beside its bottom section, and a condenser inline between two pipes: the riveted, flanged sections, the condensers and both vapour lines (up the column's side and over into its top) draw. The pipe nozzle first drew 12 pixels across and 1 deep, wholly inside the rim Create draws where its pipe joins, so it was widened to 14 across and 2 deep, and now shows as a steel flange round the rim. The column's Ponder scenes (coal tar, reflux) and the condenser's (inline) play. Nothing from the mod in the log but the usual dev warnings. Screenshots in `builds/screenshots/0.32.0` |
+
+### Known gaps
+
+- Taran has not answered the six cards on the stage yet, so every rule above that they cover is Claude's pick: each
+  heater adding pace, any pipe drawing a cut, two sections for a close pair, one condenser to a column, warm cuts
+  cooled only in a condenser, and vapour that burns.
+- The goggles, the JEI pages and a column running (feed, cuts drawn, venting, the vapour haze and its flash) were
+  checked by GameTest only, not seen in the dev client.
+- A column broken, or re-formed, keeps only what fits the column its heir forms; two columns with different feeds
+  joined into one keep one feed. The blocks left when a block is broken join again on their next tick, as Create's
+  tanks do.
+- The vapour line is drawn by the condenser's renderer and passes through any block in its way.
+- Only Create's pipes were tried on a section; PVC pipes were not checked for nozzles.
+- A second condenser beside a column's bottom section may take turns serving it.
+- A slow leak's haze lasts only a moment, and a column one section high can vent onto its own heater.
+- The condenser's water jacket repeats the glass coil condenser's accounting rather than sharing it.
 
 ## 0.31.0: The glass lab and the first chemistry
 
