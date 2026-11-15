@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.mcremix.cooling.CoolantTanks;
 import com.mcremix.cooling.Coolants;
+import com.mcremix.heat.HeatLevel;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -67,10 +68,22 @@ public class CoilCondenserBlockEntity extends SmartBlockEntity implements IHaveG
 	@Override
 	public void tick() {
 		super.tick();
-		if (level != null && !level.isClientSide && syncQueued && level.getGameTime() % 10 == 0) {
+		if (level == null || level.isClientSide)
+			return;
+		// lab glass: over heat, it cracks past Hot, and hot, if water meets it
+		if (level.getGameTime() % LabGlass.CHECK_EVERY == 0) {
+			HeatLevel heat = LabGlass.heatUnder(level, worldPosition);
+			LabGlass.check(level, worldPosition, heat.isAtLeast(HeatLevel.WARM), LabGlass.tooHot(heat));
+		}
+		if (syncQueued && level.getGameTime() % 10 == 0) {
 			syncQueued = false;
 			sendData();
 		}
+	}
+
+	/** What its jacket holds, to spill when it shatters. */
+	public List<FluidStack> contents() {
+		return List.of(tanks.feed.getFluid().copy(), tanks.output.getFluid().copy());
 	}
 
 	/** How much faster than plain water what it holds condenses: cold water twice, coolant three times; 0 if dry. */

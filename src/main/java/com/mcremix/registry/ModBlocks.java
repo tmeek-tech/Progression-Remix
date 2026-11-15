@@ -359,7 +359,8 @@ public class ModBlocks {
 	private static <T extends Block> BlockEntry<T> labGlass(String name, NonNullFunction<BlockBehaviour.Properties, T> factory) {
 		return REGISTRATE.block(name, factory)
 			.initialProperties(() -> Blocks.GLASS)
-			.properties(p -> p.mapColor(MapColor.NONE).sound(SoundType.GLASS).strength(0.5f).noOcclusion()
+			// solid to fluids: water or lava running into the hot tube, thin as it is, would wash it away like a torch
+			.properties(p -> p.mapColor(MapColor.NONE).sound(SoundType.GLASS).strength(0.5f).noOcclusion().forceSolidOn()
 				.isRedstoneConductor((state, level, pos) -> false).isSuffocating((state, level, pos) -> false)
 				.isViewBlocking((state, level, pos) -> false))
 			.addLayer(() -> RenderType::translucent)

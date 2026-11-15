@@ -1,4 +1,5 @@
 {
+  "parent": "minecraft:block/block",
   "textures": {
     "glass": "mcremix:block/lab_glass",
     "particle": "mcremix:block/lab_glass"

@@ -1,6 +1,7 @@
 package com.mcremix.lab;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * The lab's glass coil condenser: a glass coil in a water jacket, water piped in and warm water out, like a water
@@ -53,11 +56,16 @@ public class CoilCondenserBlock extends LabGlassBlock implements IBE<CoilCondens
 	}
 
 	private static final Map<Direction, VoxelShape> SLOPED = new EnumMap<>(Direction.class);
-	private static final VoxelShape UPRIGHT = Block.box(4, 0, 4, 12, 16, 12);
+	private static final Map<Direction, VoxelShape> BESIDE_BASIN = new EnumMap<>(Direction.class);
+	/** Upright, its model never turned: the jacket and its stand's rod. */
+	private static final VoxelShape UPRIGHT = Shapes.or(Block.box(4, 0, 4, 12, 16, 12), rod(Direction.NORTH));
 
 	static {
-		for (Direction side : Direction.Plane.HORIZONTAL)
+		for (Direction side : Direction.Plane.HORIZONTAL) {
 			SLOPED.put(side, Shapes.or(rotated(side, 4, 3, 0, 12, 13, 16), rotated(side, 6, 0, 6, 10, 4, 10)));
+			// beside a basin: upright, its arm over the rim, the model drawn facing north and turned with it
+			BESIDE_BASIN.put(side, Shapes.or(Block.box(4, 0, 4, 12, 16, 12), turned(side, 6, 2, 0, 10, 5, 5), rod(side)));
+		}
 	}
 
 	/** A box drawn for a condenser facing south, turned to face {@code side}. */
@@ -107,10 +115,18 @@ public class CoilCondenserBlock extends LabGlassBlock implements IBE<CoilCondens
 	}
 
 	@Override
+	protected List<FluidStack> held(Level level, BlockPos pos) {
+		CoilCondenserBlockEntity condenser = getBlockEntity(level, pos);
+		return condenser == null ? List.of() : condenser.contents();
+	}
+
+	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		Direction facing = state.getValue(FACING);
-		if (state.getValue(SHAPE) == Shape.STILL && facing.getAxis().isHorizontal())
+		if (facing.getAxis().isHorizontal() && state.getValue(SHAPE) == Shape.STILL)
 			return SLOPED.get(facing);
+		if (facing.getAxis().isHorizontal() && state.getValue(SHAPE) == Shape.BASIN)
+			return BESIDE_BASIN.get(facing);
 		return UPRIGHT;
 	}
 

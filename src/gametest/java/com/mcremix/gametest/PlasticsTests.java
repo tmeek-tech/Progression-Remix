@@ -80,36 +80,44 @@ public class PlasticsTests {
 	}
 
 	/**
-	 * Three buckets of water and four sugar in a vat ferment as two batches at once, into two buckets of wash (as much as
-	 * a one-tank vat holds of what it makes), and the vat keeps their CO2. Its pipes can draw the wash off, but not the
-	 * water it could still ferment sugar in.
+	 * Four buckets of water and ten sugar in a two-tank vat ferment as four batches at once, one for every bucket, into
+	 * four buckets of wash (all a two-tank vat holds of what it makes), using eight of the sugar, and the vat keeps their
+	 * CO2. Its pipes can draw the wash off, but not the sugar it could still ferment.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 800)
 	public static void aVatFermentsABatchForEveryBucket(GameTestHelper h) {
 		BlockPos tank = p(4, 3, 4);
 		smallVat(h, tank.below());
+		h.setBlock(tank.above(), AllBlocks.FLUID_TANK.getDefaultState());
+		long[] started = { 0 };
 		h.startSequence()
 			.thenWaitUntil(() -> h.assertTrue(vat(h, tank) != null, "the vat should form"))
 			.thenExecute(() -> {
-				fluids(h.getBlockEntity(tank)).fill(water(3000), FluidAction.EXECUTE);
+				fluids(h.getBlockEntity(tank)).fill(water(4000), FluidAction.EXECUTE);
 				IItemHandler slots = h.getBlockEntity(tank).getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP)
 					.orElseThrow(IllegalStateException::new);
-				ItemStack left = new ItemStack(Items.SUGAR, 4);
+				ItemStack left = new ItemStack(Items.SUGAR, 10);
 				for (int slot = 0; slot < slots.getSlots() && !left.isEmpty(); slot++)
 					left = slots.insertItem(slot, left, false);
-				h.assertTrue(left.isEmpty(), "a funnel should put four sugar into the vat");
+				h.assertTrue(left.isEmpty(), "a funnel should put ten sugar into the vat");
+				started[0] = h.getTick();
 			})
-			.thenWaitUntil(() -> h.assertTrue(amount(fluids(h.getBlockEntity(tank)), Chemical.WASH) == 2000,
-				"two batches should ferment at once into 2000 mB of wash, made "
+			.thenWaitUntil(() -> h.assertTrue(amount(fluids(h.getBlockEntity(tank)), Chemical.WASH) == 4000,
+				"four batches should ferment at once into 4000 mB of wash, made "
 					+ amount(fluids(h.getBlockEntity(tank)), Chemical.WASH)))
 			.thenExecute(() -> {
+				h.assertTrue(h.getTick() - started[0] < 700, "the four batches should ferment together, in one 30 seconds");
 				IFluidHandler pipes = fluids(h.getBlockEntity(tank));
-				h.assertTrue(amount(pipes, water(1)) == 1000, "the two batches should take 2000 mB of water");
-				h.assertTrue(amount(pipes, Chemical.CARBON_DIOXIDE) == 100, "the vat should keep the batches' 100 mB of CO2");
-				FluidStack drawn = pipes.drain(Chemical.WASH.stack(2000), FluidAction.EXECUTE);
-				h.assertTrue(drawn.getAmount() == 2000, "the pipes should draw off the wash, drew " + drawn.getAmount());
-				h.assertTrue(pipes.drain(water(1000), FluidAction.EXECUTE).isEmpty(),
-					"the pipes should not draw off the water the vat could still ferment sugar in");
+				h.assertTrue(amount(pipes, water(1)) == 0, "the four batches should take all 4000 mB of water");
+				h.assertTrue(amount(pipes, Chemical.CARBON_DIOXIDE) == 200, "the vat should keep the batches' 200 mB of CO2");
+				int sugar = 0;
+				IItemHandler slots = h.getBlockEntity(tank).getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP)
+					.orElseThrow(IllegalStateException::new);
+				for (int slot = 0; slot < slots.getSlots(); slot++)
+					sugar += slots.getStackInSlot(slot).is(Items.SUGAR) ? slots.getStackInSlot(slot).getCount() : 0;
+				h.assertTrue(sugar == 2, "four batches should use eight sugar and leave two, left " + sugar);
+				FluidStack drawn = pipes.drain(Chemical.WASH.stack(4000), FluidAction.EXECUTE);
+				h.assertTrue(drawn.getAmount() == 4000, "the pipes should draw off the wash, drew " + drawn.getAmount());
 			})
 			.thenSucceed();
 	}

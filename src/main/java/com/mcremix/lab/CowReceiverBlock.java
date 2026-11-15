@@ -1,5 +1,7 @@
 package com.mcremix.lab;
 
+import java.util.List;
+
 import com.mcremix.registry.ModBlockEntities;
 import com.simibubi.create.foundation.block.IBE;
 
@@ -26,13 +28,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
 /**
  * The cow receiver at a lab still's end, under the coil condenser's low end: a glass body with four receiving flasks
- * round it (the distillation design). Each cut runs into the flask turned under the drip ({@link #TURN}); turning it,
- * with an empty hand or a redstone pulse such as the still head's thermometer gives when a cut ends, brings the next
- * flask round. See {@link CowReceiverBlockEntity}.
+ * round it (the distillation design). Each cut runs into the flask turned under the drip ({@link #TURN}). The still
+ * turns it on to the next flask as each cut ends; an empty hand or a redstone pulse turns it too, but not a pulse that
+ * comes close behind the still's own turn (the still head's, wired to it), so it turns once a cut whichever way it is
+ * built. Sneaking with an empty hand tips out the flask on the side clicked. See {@link CowReceiverBlockEntity}.
  */
 public class CowReceiverBlock extends LabGlassBlock implements IBE<CowReceiverBlockEntity> {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -65,8 +69,12 @@ public class CowReceiverBlock extends LabGlassBlock implements IBE<CowReceiverBl
 		if (receiver == null)
 			return InteractionResult.PASS;
 		if (held.isEmpty()) {
-			if (!level.isClientSide)
-				receiver.turn();
+			if (!level.isClientSide) {
+				if (player.isShiftKeyDown())
+					receiver.tipOut(hit.getDirection());
+				else
+					receiver.turn();
+			}
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 		if (held.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
@@ -77,7 +85,7 @@ public class CowReceiverBlock extends LabGlassBlock implements IBE<CowReceiverBl
 		return InteractionResult.PASS;
 	}
 
-	/** A redstone pulse turns it on to the next flask. */
+	/** A redstone pulse turns it on to the next flask, unless the still has just turned it. */
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos from, boolean moving) {
 		if (level.isClientSide)
@@ -88,9 +96,15 @@ public class CowReceiverBlock extends LabGlassBlock implements IBE<CowReceiverBl
 		level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
 		if (powered) {
 			CowReceiverBlockEntity receiver = getBlockEntity(level, pos);
-			if (receiver != null)
+			if (receiver != null && !receiver.justTurnedByStill())
 				receiver.turn();
 		}
+	}
+
+	@Override
+	protected List<FluidStack> held(Level level, BlockPos pos) {
+		CowReceiverBlockEntity receiver = getBlockEntity(level, pos);
+		return receiver == null ? List.of() : receiver.contents();
 	}
 
 	@Override

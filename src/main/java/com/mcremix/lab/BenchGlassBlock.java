@@ -18,11 +18,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 
 /**
- * A piece of bench glassware ({@link BenchGlassBlockEntity}): filled and emptied with a bucket or by pipe, and what
- * else a right-click does is the piece's own. What items it holds drop when it is broken or shatters.
+ * A piece of bench glassware ({@link BenchGlassBlockEntity}): filled and emptied with a bucket or by pipe, and tipped
+ * out by sneaking with an empty hand; what else a right-click does is the piece's own. What items it holds drop when it
+ * is broken or shatters.
  */
 public abstract class BenchGlassBlock<T extends BenchGlassBlockEntity> extends LabGlassBlock implements IBE<T> {
 	private final VoxelShape shape;
@@ -40,9 +40,14 @@ public abstract class BenchGlassBlock<T extends BenchGlassBlockEntity> extends L
 		T glass = getBlockEntity(level, pos);
 		if (glass == null)
 			return InteractionResult.PASS;
+		if (held.isEmpty() && player.isShiftKeyDown()) {
+			if (!level.isClientSide)
+				glass.tipOut();
+			return InteractionResult.sidedSuccess(level.isClientSide);
+		}
 		if (held.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
 			if (!level.isClientSide)
-				FluidUtil.interactWithFluidHandler(player, hand, glass.handler());
+				LabGlass.useContainer(player, hand, glass.handler(), glass.handTanks());
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 		return glass.use(player, hand, held);

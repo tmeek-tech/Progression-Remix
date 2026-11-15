@@ -8,31 +8,34 @@ Newest first: [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.1](#0
 
 This covers section 39 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 1 of the distillation build, the glass lab still and
 bench glassware, wash, wood spirit and coal tar split into their cuts, Bakelite from phenol and formaldehyde, basin
-reflux, CO2 and vinegar, on top of 0.30.1. The still's creosote now soaks 0.30.0's creosote timber. Tested on
-2026-11-15 against the same versions as 0.30.0.
+reflux, CO2 and vinegar, on top of 0.30.1, with the fixes a review of the stage found. The still's creosote now soaks
+0.30.0's creosote timber. Tested on 2026-11-15 against the same versions as 0.30.0.
 
-**Result:** 0.31.0 compiled with no errors. Every GameTest passes in a fresh test world: 358 of 358 plain and
-364 of 364 with `-Pcompanions`. In a dev client a still distilled wood spirit and then coal tar into their cuts, and
-every bench piece did its job. The jar starts on a real Forge server and runs a still there.
+**Result:** 0.31.0 compiled with no errors. Every GameTest passes in a fresh test world: 377 of 377 plain and
+383 of 383 with `-Pcompanions`. The jar starts on a real Forge server and runs a still there. In a dev client, before
+the review's fixes, a still distilled wood spirit and then coal tar into their cuts, and every bench piece did its job.
 
 | Check | Result | How |
 | --- | --- | --- |
 | Build | Pass | @@BUILD@@ |
-| Production server | Pass | Forge 47.4.6's installer set up a dedicated server with Create 6.0.8, Power Grid, Architectury API and this jar. It started in about 3 seconds with nothing from the mod in the log but its server config being written. A still placed there by `/setblock` (campfire, round flask, two column pieces, still head, coil condenser with water, cow receiver) split a bucket of wood spirit into 100 acetone and 300 methanol in two of the receiver's flasks and left 600 vinegar, and the server stopped and saved cleanly. Its chunk was force-loaded: an empty 1.20.1 server stops ticking block entities 15 seconds after the last player leaves, which first made the still look stalled |
-| GameTests, plain | Pass | 358 of 358, 15 of them new in `GlassLabTests` |
-| GameTests, with companions | Pass | 364 of 364 |
-| The still | Pass | `woodSpiritDistilsIntoItsCuts`: a bucket of wood spirit on a campfire, two column pieces and cold water gives 100 acetone and 300 methanol in two flasks of the cow receiver, which the still turns between cuts, and leaves 600 vinegar, warming the condenser's water; `washGivesAQuarterEthanol` (fermented wash stills into 250 ethanol); `aStillWithADryCondenserWaits`; `aCowReceiverTurnsByHandOrPulse` |
-| Lab glass | Pass | `labGlassCracksPastHotOrWet` (a flask on a Searing blaze burner cracks and shatters, spilling its wash; one on a campfire beside water cracks too); `coolGlassTakesWater` |
-| The bench | Pass | `aHotTubeTurnsMethanolIntoFormaldehyde` (over a fire, with copper mesh, 250 mB in 5 seconds); `carbolicOilSettlesNaphthalene`; `aSeparatingFunnelSplitsThePhenolWash` (sodium phenolate out of the tap, creosote out of the neck); `aRefluxFlaskCooksWhatAHeatedBasinMixes` (glycol and salt water, losing no dichloride) |
+| Production server | Pass | @@SERVER@@ |
+| GameTests, plain | Pass | 377 of 377: 0.30.1's 349, the 27 in `GlassLabTests` and one new in `CoalTarTests` |
+| GameTests, with companions | Pass | 383 of 383 |
+| The still | Pass | `woodSpiritDistilsIntoItsCuts`: a bucket of wood spirit on a campfire, two column pieces and cold water gives 100 acetone and 300 methanol in two flasks of the cow receiver, which the still turns between cuts, and leaves 600 vinegar, warming the condenser's water; `aPipeFedStillWaitsForAWholeBatch` (fed 100 mB at a time it starts on the whole bucket; fed half a bucket at once it starts a second later, splitting it in the same proportions); `aWiredThermometerTurnsTheReceiverOnceACut` (the pulse after the still's own turn is taken as that turn, so each cut still gets its own flask); `washStillsIntoAQuarterEthanol` (a bucket of wash gives 250 ethanol and leaves 750 warm water); `aStillWithADryCondenserWaits`; `anIncompleteStillSaysWhatItLacks` (losing its condenser stops it, its thermometer reading nothing; four column pieces are one too many); `aMixturePouredInAfterWaterStillDistils`; `aDistillingRecipeWithoutItsMixtureIsTurnedDown`; `aCowReceiverTurnsByHandOrPulse` |
+| Buckets | Pass | `bucketsTakeWholeBucketsAndSneakingTipsOut`: a bucket takes whole buckets, from behind a part-bucket too, out of a round flask, a settling flask and a cow receiver's flask, and sneaking with an empty hand tips the rest out |
+| Lab glass | Pass | `labGlassCracksPastHotOrWet` (a flask on a Searing blaze burner cracks and shatters, leaving a source of its wash where it stood; one on a campfire beside water cracks too); `theCondenserAndReceiverCrackPastHotToo` (the receiver spills what its flasks held); `aCrackedPieceSetDownStillShatters` (set down as a piston sets one down; a cracked still head's pulse doesn't put it off); `rainCracksHotGlassUnlessItIsRoofedEvenWithGlass` (a hot flask under open sky, or under a still head the rain falls on, cracks; one roofed with glass or stone stays whole); `runningWaterDoesNotWashLabGlassAway`; `coolGlassTakesWater` |
+| The bench | Pass | `aHotTubeTurnsMethanolIntoFormaldehyde` (over a fire, with copper mesh, 250 mB in 5 seconds); `carbolicOilSettlesNaphthalene`; `aSeparatingFunnelSplitsThePhenolWash` (sodium phenolate out of the tap, creosote out of the neck); `aRefluxFlaskCooksWhatAHeatedBasinMixes` (glycol and salt water, keeping the dichloride the batch didn't take); `aFullRefluxFlaskWaits` (it says it is full and keeps what went in) |
 | Basin reflux | Pass | `aHeatedBasinLosesWhatBoilsUnlessCondensed`: of two heated basins making glycol, the bare one loses a quarter as much dichloride again as vapour and the one with a coil condenser on its side loses none |
-| CO2 and vinegar | Pass | `carbonDioxideSinksAndSmothers` (let loose over a pit, it sinks in and a pig there runs out of air); `vinegarTakesThePatinaOffCopper` (weathered copper beside poured vinegar goes bare, and iron beside it stays as it is) |
-| Recipes | Pass | `labGlassHasRecipes` (every piece and copper mesh crafted, Bakelite pressed from phenol and formaldehyde); `creosoteFromTheStillSoaksTimber` (a Spout soaks a stripped log with 250 mB and planks with 100); the fermenting, Bakelite, electrode and briquette tests changed to wash, phenol and pitch |
-| Dev client | Pass | A still on a magma block distilled wood spirit (acetone and methanol in the receiver's flasks, vinegar left) and then, over fire, coal tar (light oil, carbolic oil and creosote in three flasks, pitch left), the goggles reading each flask; a hot tube made formaldehyde from methanol over copper mesh, a settling flask grew naphthalene, a separating funnel split the phenol wash and a reflux flask made glycol. JEI's Distilling tab shows coal tar's cuts with their boiling points and formulas; both Ponder scenes play through. Nothing from the mod in the log but the usual dev warnings. The bench scene first showed the hot tube and reflux flask on campfires, too cool for them; they now sit over fire. Screenshots in `builds/screenshots/0.31.0` |
+| CO2 and vinegar | Pass | `carbonDioxideSinksAndSmothers` (let loose over a pit, it sinks in, and a pig walled in there runs out of air and is hurt by the CO2); `carbonDioxideWaitingGivesWayToTar` (CO2 held in a Furnace makes way for a coal's tar, none of it burnt off); `vinegarTakesThePatinaOffCopper` (weathered copper beside poured vinegar goes bare, and iron beside it stays as it is); `spoutsOfVinegarAndCreosoteDoTheirWork` (a Spout of vinegar takes weathered copper on a depot bare for 100 mB) |
+| Recipes | Pass | `labGlassHasRecipes` (every piece crafted; copper mesh by hand only, so a press can't pack nuggets into it; Bakelite pressed from 50 phenol and 50 formaldehyde); `creosoteFromTheStillSoaksTimber` and `spoutsOfVinegarAndCreosoteDoTheirWork` (a Spout soaks a stripped log with 250 mB and planks with 100); `aVatFermentsABatchForEveryBucket` (a two-tank vat ferments four buckets as four batches at once); the fermenting, Bakelite, electrode and briquette tests changed to wash, phenol and pitch, and now check the amounts |
+| Dev client | Pass | Before the review's fixes: a still on a magma block distilled wood spirit (acetone and methanol in the receiver's flasks, vinegar left) and then, over fire, coal tar (light oil, carbolic oil and creosote in three flasks, pitch left), the goggles reading each flask; a hot tube made formaldehyde from methanol over copper mesh, a settling flask grew naphthalene, a separating funnel split the phenol wash and a reflux flask made glycol. JEI's Distilling tab shows coal tar's cuts with their boiling points and formulas; both Ponder scenes play through. Nothing from the mod in the log but the usual dev warnings. The bench scene first showed the hot tube and reflux flask on campfires, too cool for them; they now sit over fire. Screenshots in `builds/screenshots/0.31.0` |
 
 ### Known gaps
 
-- Checked by GameTest only, not by hand: CO2 smothering, lab glass cracking in rain or beside water, basin reflux, and
-  vinegar from a Spout.
+- The dev client check and its screenshots come from before the review's fixes, so these were checked by GameTest only,
+  not by hand: a wired thermometer, pipe-fed batches, buckets and tipping out, the full reflux flask, rain under a
+  roof and pieces set down by a piston. So were CO2 smothering, basin reflux and vinegar from a Spout. The goggles'
+  new lines (a still filling, a full reflux flask, too many column pieces) have not been seen in game.
 - The glassware's models are a first pass: thin glass on iron retort stands, hard to see against the sky from far off,
   and the still head's stand stands on the far side from the flask's.
 - JEI lists a still's cuts as Create lists a basin's results, bottom up: the lightest cut bottom left and what is left

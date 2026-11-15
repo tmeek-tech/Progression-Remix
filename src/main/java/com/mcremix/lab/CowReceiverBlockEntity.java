@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import com.mcremix.electrolysis.Gases;
 import com.mcremix.fluids.Chemical;
+import com.mcremix.heat.HeatLevel;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -52,9 +53,14 @@ public class CowReceiverBlockEntity extends SmartBlockEntity implements IHaveGog
 			changed();
 		}
 	};
+	/** How long after the still turns it a redstone pulse is taken to be the still head's, for the same cut. */
+	public static final int STILL_TURN_HOLDS = 20;
+
 	private final LazyOptional<IFluidHandler> pipes = LazyOptional.of(Outlets::new);
 	/** Something ran in during the last few ticks: drawn as a drip into the flask under it. */
 	private long lastPoured = -100;
+	/** When the still last turned it, as a cut ended. */
+	private long stillTurned = -100;
 	private FluidStack dripping = FluidStack.EMPTY;
 	private boolean syncQueued;
 
@@ -83,6 +89,11 @@ public class CowReceiverBlockEntity extends SmartBlockEntity implements IHaveGog
 		super.tick();
 		if (level == null || level.isClientSide)
 			return;
+		// lab glass: over heat, it cracks past Hot, and hot, if water meets it
+		if (level.getGameTime() % LabGlass.CHECK_EVERY == 0) {
+			HeatLevel heat = LabGlass.heatUnder(level, worldPosition);
+			LabGlass.check(level, worldPosition, heat.isAtLeast(HeatLevel.WARM), LabGlass.tooHot(heat));
+		}
 		if (syncQueued && level.getGameTime() % 5 == 0) {
 			syncQueued = false;
 			sendData();
@@ -147,6 +158,27 @@ public class CowReceiverBlockEntity extends SmartBlockEntity implements IHaveGog
 			dripping = new FluidStack(cut, 1);
 		}
 		return poured;
+	}
+
+	/** The still turns it as a cut ends: a pulse close behind (the still head's, if wired to it) is the same turn. */
+	public void turnByStill() {
+		turn();
+		if (level != null)
+			stillTurned = level.getGameTime();
+	}
+
+	/** Whether the still turned it in the last {@link #STILL_TURN_HOLDS} ticks. */
+	public boolean justTurnedByStill() {
+		return level != null && level.getGameTime() - stillTurned <= STILL_TURN_HOLDS;
+	}
+
+	/** Sneaking with an empty hand: the flask on {@code side} tipped out, what it held poured away. */
+	public void tipOut(Direction side) {
+		if (level instanceof ServerLevel server) {
+			List<FluidStack> poured = LabGlass.empty(List.of(flask(flaskOn(side))));
+			if (!poured.isEmpty())
+				LabGlass.pourAway(server, worldPosition, poured);
+		}
 	}
 
 	/** Brings the next flask round under the drip. */

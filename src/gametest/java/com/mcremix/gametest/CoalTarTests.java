@@ -77,6 +77,30 @@ public class CoalTarTests {
 	}
 
 	/**
+	 * CO2 left waiting in a Furnace from lime it fired gives way to the tar a coal gives off: the gas goes up the chimney
+	 * and the tar is kept for a pipe, none of it burnt off.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 700)
+	public static void carbonDioxideWaitingGivesWayToTar(GameTestHelper h) {
+		BlockPos pos = p(4, 3, 4);
+		KilnTests.walledLava(h, p(4, 2, 4));
+		h.setBlock(pos, ModBlocks.KILN.getDefaultState());
+		KilnBlockEntity kiln = KilnTests.kiln(h, pos);
+		CompoundTag saved = kiln.saveWithoutMetadata();
+		saved.put("Byproducts", Chemical.CARBON_DIOXIDE.stack(50).writeToNBT(new CompoundTag()));
+		kiln.load(saved);
+		kiln.insertIntoChamber(new ItemStack(Items.COAL));
+		h.succeedWhen(() -> {
+			h.assertTrue(KilnTests.trayCount(kiln, ModItems.COAL_COKE.get()) == 1, "the coal should coke");
+			FluidStack held = kiln.getByproducts();
+			h.assertTrue(held.getFluid() == Chemical.COAL_TAR.fluid() && held.getAmount() == 50,
+				"the Furnace should hold the coal's 50 mB of tar in place of the CO2, holds " + held.getAmount()
+					+ " mB of " + held.getDisplayName().getString());
+			h.assertFalse(kiln.isBurningOff(), "none of the tar should burn off");
+		});
+	}
+
+	/**
 	 * Two Furnaces on lava char a log each. The empty one keeps the log's wood spirit for a pipe; the one already holding
 	 * tar burns the spirit off, since the two don't share a tank, and keeps its tar.
 	 */

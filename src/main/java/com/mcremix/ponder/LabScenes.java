@@ -88,7 +88,7 @@ public class LabScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("As each cut ends, the thermometer climbs and gives a redstone pulse, and the cow receiver turns the next flask under the drip, so two cuts never mix")
+			.text("As each cut ends, the thermometer climbs and gives a redstone pulse, and the still turns the cow receiver's next flask under the drip, so two cuts never mix")
 			.pointAt(util.vector().topOf(head))
 			.placeNearTarget();
 		scene.idle(10);
@@ -102,14 +102,14 @@ public class LabScenes {
 			.rightClick();
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Right-click the receiver with an empty hand to turn it yourself. A bucket takes from the flask on the side you click, and pipes draw from them all")
+			.text("Right-click the receiver with an empty hand to turn it yourself. A bucket takes from the flask on the side you click, sneaking with an empty hand tips that flask out, and pipes draw from them all")
 			.pointAt(util.vector().blockSurface(receiver, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("What is left, here vinegar, stays in the round flask to be drained before the next batch")
+			.text("What is left, here vinegar, stays in the round flask. Pipe it off, or sneak with an empty hand to tip it out, before the next batch")
 			.pointAt(util.vector().blockSurface(flask, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);

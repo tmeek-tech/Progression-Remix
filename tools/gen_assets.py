@@ -2112,7 +2112,7 @@ def gen_lang():
         'block.mcremix.kiln.tooltip.condition3': 'Under a boiler or basin',
         'block.mcremix.kiln.tooltip.behaviour3': 'Heats it like a Blaze Burner: a _Searing_ fire boils a _steam boiler_ and is hot enough for _heated_ mixing and compacting; a _Warm_ or _Hot_ one only keeps a boiler simmering.',
         'block.mcremix.kiln.tooltip.condition4': 'Coking coal, charring logs',
-        'block.mcremix.kiln.tooltip.behaviour4': 'Coal gives off _coal tar_ as it cokes, logs _wood spirit_ as they char, and limestone _carbon dioxide_ as it burns to lime. Draw it off with a _pump_ and pipe, or a _bucket_; once a bucket\'s worth waits in the Furnace, the rest goes up the chimney, the tar and spirit _burning off_.',
+        'block.mcremix.kiln.tooltip.behaviour4': 'Coal gives off _coal tar_ as it cokes, logs _wood spirit_ as they char, and limestone _carbon dioxide_ as it burns to lime. Draw it off with a _pump_ and pipe, or a _bucket_ (the gas only by pipe); once a bucket\'s worth waits in the Furnace, the rest goes up the chimney, the tar and spirit _burning off_. Carbon dioxide waiting in it goes up the chimney when tar or spirit comes.',
         'block.mcremix.bellows': 'Bellows',
         'block.mcremix.bellows.tooltip.summary': 'Blows air into the block its _nozzle_ faces while its shaft turns. Feeds fires: _one heat level hotter_, up to _Searing_.',
         'block.mcremix.bellows.tooltip.condition1': 'Facing a furnace, or a fire with a furnace on it',
@@ -8714,7 +8714,9 @@ def gen_glass_lab():
     for name, elements in lab_models().items():
         used = {k: v for k, v in textures.items()
                 if k == 'particle' or any(f'#{k}' in json.dumps(e) for e in elements)}
-        write_json(asset('models', 'block', name + '.json'), {'textures': used, 'elements': elements})
+        # block/block gives the items held, dropped, framed and in slots the display every block item has
+        write_json(asset('models', 'block', name + '.json'),
+                   {'parent': 'minecraft:block/block', 'textures': used, 'elements': elements})
         write_json(asset('models', 'block', name + '_cracked.json'),
                    {'parent': f'mcremix:block/{name}', 'textures': {'glass': 'mcremix:block/lab_glass_cracked',
                                                                     'particle': 'mcremix:block/lab_glass_cracked'}})
@@ -8753,9 +8755,10 @@ def gen_glass_lab():
     glass, pane, pipe = {'tag': 'forge:glass/colorless'}, {'tag': 'forge:glass_panes/colorless'}, item('mcremix:glass_pipe')
     nugget, flask = {'tag': 'forge:nuggets/iron'}, item('mcremix:round_flask')
 
-    def shaped(name, pattern, key, count=1):
-        recipe('crafting/' + name, {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': pattern,
-                                    'key': key, 'result': {'item': f'mcremix:{name}', 'count': count}})
+    def shaped(name, pattern, key, count=1, rid=None):
+        recipe('crafting/' + (rid or name), {'type': 'minecraft:crafting_shaped', 'category': 'misc',
+                                             'pattern': pattern, 'key': key,
+                                             'result': {'item': f'mcremix:{name}', 'count': count}})
 
     def shapeless(name, ingredients):
         recipe('crafting/' + name, {'type': 'minecraft:crafting_shapeless', 'category': 'misc',
@@ -8768,7 +8771,9 @@ def gen_glass_lab():
     shapeless('hot_tube', [pipe, pipe, nugget])
     shapeless('settling_flask', [glass, glass, glass, pane, nugget])
     shaped('separating_funnel', ['F', 'T'], {'F': flask, 'T': pipe})
-    shaped('copper_mesh', ['NN', 'NN'], {'N': {'tag': 'forge:nuggets/copper'}})
+    # Create's presses pack any square recipe of one ingredient; an id ending _manual_only keeps them from pressing
+    # loose copper nuggets into mesh
+    shaped('copper_mesh', ['NN', 'NN'], {'N': {'tag': 'forge:nuggets/copper'}}, rid='copper_mesh_manual_only')
 
     # the still: each mixture a bucket at a time, its cuts lightest first and what is left last; 30 seconds at its own
     # heat, half that for each level hotter
@@ -8899,15 +8904,21 @@ def lab_lang():
         'block.mcremix.round_flask.tooltip.behaviour3': (
             'Nothing past _Hot_: over _Searing_ heat it _cracks_. Hot glass also cracks if _rain_ falls on it or '
             '_water_ stands beside it. A cracked piece _shatters_ five seconds later, spilling what it held.'),
+        'block.mcremix.round_flask.tooltip.condition4': 'By hand',
+        'block.mcremix.round_flask.tooltip.behaviour4': (
+            'A _bucket_ takes back a bucket of what it made, or of what went in while nothing is working it. _Sneak_ '
+            'with an _empty hand_ to tip out what a bucket could take, part-buckets and all. Piped in a little at a '
+            'time, it starts a second after the last of it comes.'),
         'block.mcremix.glass_column': 'Glass Column Piece',
         'block.mcremix.glass_column.tooltip.summary': (
             'Goes between a _round flask_ and its _still head_, up to three. Cuts that boil _close together_, as '
-            'acetone and methanol do, come over at a quarter of the pace in a bare still, and _twice as fast_ for '
-            'each piece.'),
+            'acetone and methanol do, come over at a quarter of the pace in a bare still, _half_ with one piece and '
+            '_full pace_ with two; a third adds nothing.'),
         'block.mcremix.still_head': 'Still Head',
         'block.mcremix.still_head.tooltip.summary': (
             'Tops a _lab still_, its arm toward where it is placed facing. Its _thermometer_ shows the vapour\'s '
-            'temperature through goggles, and gives a short _redstone pulse_ each time a cut ends.'),
+            'temperature through goggles, and gives a short _redstone pulse_ each time a cut ends. The still turns '
+            'its _cow receiver_ itself.'),
         'block.mcremix.coil_condenser': 'Coil Condenser',
         'block.mcremix.coil_condenser.tooltip.summary': (
             'Turns vapour back into liquid. Place it against a _still head\'s arm_, on a _round flask_, or on a '
@@ -8923,24 +8934,37 @@ def lab_lang():
             'empty or holds the same, so two cuts never mix.'),
         'block.mcremix.cow_receiver.tooltip.condition1': 'Turning it',
         'block.mcremix.cow_receiver.tooltip.behaviour1': (
-            'Right-click with an _empty hand_, or give it a _redstone pulse_, to turn the next flask under the drip: '
-            'the still head\'s pulse does it as each cut ends. A _bucket_ takes from the flask on the side you click; '
-            '_pipes_ draw from them all.'),
+            'The still turns the next flask under the drip as each cut ends. Right-click with an _empty hand_, or give '
+            'it a _redstone pulse_, to turn it yourself; a pulse just after the still\'s own turn, as the still '
+            'head\'s is, counts as that same turn. A _bucket_ takes from the flask on the side you click, and '
+            '_sneaking_ with an empty hand tips that flask out; _pipes_ draw from them all.'),
         'block.mcremix.hot_tube': 'Hot Tube',
         'block.mcremix.hot_tube.tooltip.summary': (
             'A glass tube over a _fire_ with a _catalyst_ inside: the _Steel Furnace\'s_ catalyst jobs that need no '
             'more than _Hot_, 250 mB at a time. _Methanol_ over _copper mesh_ gives _formaldehyde_, _ethanol_ over '
             '_alumina_ gives _ethylene_. Right-click with the catalyst to put it in, with an empty hand to take it '
             'out.'),
+        'block.mcremix.hot_tube.tooltip.condition1': 'By hand',
+        'block.mcremix.hot_tube.tooltip.behaviour1': (
+            'A _bucket_ fills it, and takes back a bucket of what it made or of what went in. _Sneak_ with an _empty '
+            'hand_ to tip it out, part-buckets and all.'),
         'block.mcremix.settling_flask': 'Settling Flask',
         'block.mcremix.settling_flask.tooltip.summary': (
             'What settles out of a fluid left to stand _cool_ settles here, a batch at a time, with no heat under it: '
             '_naphthalene_ out of _carbolic oil_. Take what settled with an _empty hand_, or a _funnel_ or _chute_.'),
+        'block.mcremix.settling_flask.tooltip.condition1': 'By hand',
+        'block.mcremix.settling_flask.tooltip.behaviour1': (
+            'A _bucket_ fills it, and takes back a bucket of what it made or of what went in. _Sneak_ with an _empty '
+            'hand_ to tip it out, part-buckets and all; what settled stays.'),
         'block.mcremix.separating_funnel': 'Separating Funnel',
         'block.mcremix.separating_funnel.tooltip.summary': (
             'Two liquids shaken together settle into two layers: what a _vat_ mixes from liquids alone, a batch at a '
             'time. The _heavier_ layer comes out of the _tap_ to a pipe _under_ it, the _lighter_ to a pipe on its '
             '_top_ or _sides_. _Strained carbolic oil_ and _caustic soda_ give _sodium phenolate_ under _creosote_.'),
+        'block.mcremix.separating_funnel.tooltip.condition1': 'By hand',
+        'block.mcremix.separating_funnel.tooltip.behaviour1': (
+            'A _bucket_ fills it, and takes back a bucket of a layer or of what went in. _Sneak_ with an _empty hand_ '
+            'to tip it out, part-buckets and all.'),
         'item.mcremix.copper_mesh': 'Copper Mesh',
         'item.mcremix.copper_mesh.tooltip.summary': (
             'The catalyst _methanol_ runs over to become _formaldehyde_, in a _hot tube_ or a _Steel Furnace\'s_ '
@@ -8964,18 +8988,21 @@ def lab_lang():
         'fluid.mcremix.light_oil': 'Light Oil',
         'item.mcremix.bakelite.tooltip.summary': (
             'The first plastic: _phenol_ set hard with _formaldehyde_ by a _press_ over a _heated_ basin.'),
+        'entity.mcremix.carbon_dioxide_cloud': 'Carbon Dioxide Cloud',
         'death.attack.mcremix.carbon_dioxide': '%1$s suffocated in a pool of carbon dioxide',
         'death.attack.mcremix.carbon_dioxide.player': '%1$s suffocated in a pool of carbon dioxide whilst fighting %2$s',
         'mcremix.jei.distilling': 'Distilling',
         'mcremix.jei.distilling.cut': 'Cut %s: comes over at %s °C',
-        'mcremix.jei.distilling.close': 'Boils close to its neighbour: a quarter of the pace in a bare still, twice as '
-                                        'fast for each glass column piece',
+        'mcremix.jei.distilling.close': 'Boils close to its neighbour: a quarter of the pace in a bare still, half with '
+                                        'one glass column piece, and full pace with two',
         'mcremix.jei.distilling.residue': 'Left in the flask, to be drained',
         'mcremix.jei.distilling.time': 'A bucket at a time. Each level hotter halves the time, cold water in the '
                                        'condenser halves it again, and coolant takes a third',
         'mcremix.goggles.still.idle': 'Idle',
+        'mcremix.goggles.still.filling': 'Filling: it starts once nothing more comes',
         'mcremix.goggles.still.wont_distil': 'That does not distil',
         'mcremix.goggles.still.incomplete.head': 'Needs a still head on it',
+        'mcremix.goggles.still.incomplete.columns': 'Too many glass column pieces: three at most',
         'mcremix.goggles.still.incomplete.condenser': 'Needs a coil condenser on the still head\'s arm',
         'mcremix.goggles.still.incomplete.receiver': 'Needs a cow receiver under the condenser',
         'mcremix.goggles.still.too_cold': 'Too cold to boil: %s',
@@ -8984,6 +9011,7 @@ def lab_lang():
         'mcremix.goggles.still.distilling': 'Distilling',
         'mcremix.goggles.still.done': 'Done: drain what is left',
         'mcremix.goggles.still.refluxing': 'Refluxing',
+        'mcremix.goggles.still.full': 'Full: drain what it made',
         'mcremix.goggles.still.cracked': 'Cracked!',
         'mcremix.goggles.still.vapour': 'Thermometer: %s °C, %s coming over',
         'mcremix.goggles.still.cut': 'Cut %s of %s',

@@ -25,6 +25,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.crafting.Recipe;
@@ -45,11 +46,15 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  * condenser on the head's side arm, and a cow receiver under the condenser's low end. A bucket of a mixture that
  * distils ({@link DistillingRecipe}), over at least its heat, comes over a cut at a time, lightest first, through the
  * condenser into the flask turned under the cow receiver's drip, while the thermometer reads that cut's boiling point.
- * When a cut ends, the reading climbs, and the thermometer pulses and turns the receiver to its next flask; the next cut
- * waits until the flask under the drip will take it, so two cuts never mix. When the last has come over, what is left (pitch, vinegar, warm water) stays in
- * the round flask, to be drained before the next batch. The whole batch takes the recipe's time at its own heat, half
- * as long for each level hotter, half again with cold water in the condenser and a third with coolant. A cut that boils
- * close to its neighbour comes over at a quarter of the pace in a bare still, twice as fast for each column piece.
+ * When a cut ends, the reading climbs, the still turns the receiver to its next flask, and the thermometer pulses; the
+ * next cut waits until the flask under the drip will take it, so two cuts never mix. When the last has come over, what
+ * is left (pitch, vinegar, warm water) stays in the round flask, to be drained before the next batch. The whole batch
+ * takes the recipe's time at its own heat, half as long for each level hotter, half again with cold water in the
+ * condenser and a third with coolant. A cut that boils close to its neighbour comes over at a quarter of the pace in a
+ * bare still, half with one column piece, and full pace with two; a third adds nothing.
+ * <p>
+ * A batch starts on a full bucket ({@link DistillingRecipe#batch()}), or on what there is once nothing has been put in
+ * for {@link #SETTLE} ticks, so a pipe filling it a little at a time gives whole batches.
  * <p>
  * <b>A reflux flask</b>, with a coil condenser standing on it: what Create mixes in a heated basin, fluids only, it
  * cooks here a bucket at a time over a fire, the condenser running everything that boils back down so nothing is lost.
@@ -63,13 +68,16 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 	public static final int REFLUX_TIME = 100;
 	/** The least heat a reflux flask cooks at: a fire. */
 	public static final HeatLevel REFLUX_HEAT = HeatLevel.HOT;
+	/** How long nothing must have been put in before a flask holding less than a batch starts on what it has. */
+	public static final int SETTLE = 20;
 
 	/** What it is doing, for the goggles. */
 	public enum Job {
-		IDLE(ChatFormatting.GRAY), WONT_DISTIL(ChatFormatting.GOLD), INCOMPLETE(ChatFormatting.GOLD),
+		IDLE(ChatFormatting.GRAY), FILLING(ChatFormatting.GRAY), WONT_DISTIL(ChatFormatting.GOLD),
+		INCOMPLETE(ChatFormatting.GOLD),
 		TOO_COLD(ChatFormatting.GOLD), NO_WATER(ChatFormatting.GOLD), WAITING_FLASK(ChatFormatting.GOLD),
 		DISTILLING(ChatFormatting.GREEN), DONE(ChatFormatting.AQUA), REFLUXING(ChatFormatting.GREEN),
-		CRACKED(ChatFormatting.RED);
+		FULL(ChatFormatting.GOLD), CRACKED(ChatFormatting.RED);
 
 		final ChatFormatting color;
 
@@ -109,6 +117,8 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 	private int refluxed;
 
 	private Job job = Job.IDLE;
+	/** When something was last put in, for {@link #SETTLE}. */
+	private long lastFilled = -100;
 	/** What is missing from the still, when it is incomplete. */
 	private String missing = "";
 	private HeatLevel heat = HeatLevel.COLD;
@@ -141,6 +151,11 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 
 	public Job job() {
 		return job;
+	}
+
+	/** What the still lacks while it is {@link Job#INCOMPLETE}: head, columns (too many), condenser or receiver. */
+	public String missing() {
+		return missing;
 	}
 
 	public HeatLevel heat() {
@@ -234,11 +249,14 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 			job = Job.CRACKED;
 		else {
 			CoilCondenserBlockEntity reflux = refluxCondenser();
+			if (reflux == null && refluxId != null) {
+				refluxId = null; // the condenser is gone: what was cooking is only what went in again
+				refluxed = 0;
+			}
 			job = reflux != null ? reflux(reflux) : distil();
 		}
-		if (job != Job.DISTILLING && job != Job.WAITING_FLASK && job != Job.NO_WATER && job != Job.TOO_COLD
-			&& job != Job.INCOMPLETE)
-			vapour = 0;
+		if (!job.boiling())
+			vapour = 0; // the thermometer reads only while something boils
 		if (job != before || heat != heatBefore || vapour != vapourBefore)
 			syncQueued = true;
 		if (syncQueued && level.getGameTime() % 5 == 0) {
@@ -282,6 +300,13 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 		if (batchId != null && recipe == null)
 			batchId = null; // the recipe is gone, by a data pack change: what is left stays as it is
 		if (recipe == null) {
+			if (in[0].isEmpty() && !in[1].isEmpty()) {
+				// what went in is kept in the first tank, so a mixture is found wherever it was poured
+				in[0].setFluid(in[1].getFluid());
+				in[1].setFluid(FluidStack.EMPTY);
+				setChanged();
+				syncQueued = true;
+			}
 			if (in[0].isEmpty() && in[1].isEmpty())
 				return out[0].isEmpty() && out[1].isEmpty() ? Job.IDLE : Job.DONE;
 			if (!out[0].isEmpty() || !out[1].isEmpty())
@@ -291,7 +316,9 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 				return still == null ? Job.IDLE : Job.WONT_DISTIL;
 			recipe = found.get();
 			if (!ready(still, recipe))
-				return job == Job.INCOMPLETE || job == Job.TOO_COLD ? job : Job.IDLE;
+				return job;
+			if (in[0].getFluidAmount() < recipe.batch() && level.getGameTime() - lastFilled < SETTLE)
+				return Job.FILLING;
 			start(recipe, in[0].getFluidAmount());
 		}
 		List<FluidStack> cuts = recipe.cuts();
@@ -345,13 +372,23 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 	private boolean ready(@Nullable Still still, DistillingRecipe recipe) {
 		if (still == null || !still.complete()) {
 			job = Job.INCOMPLETE;
-			missing = still == null ? "head" : still.condenser() == null ? "condenser" : "receiver";
+			missing = still == null ? (tooManyColumns() ? "columns" : "head")
+				: still.condenser() == null ? "condenser" : "receiver";
 			return false;
 		}
 		if (!heat.isAtLeast(recipe.heat())) {
 			job = Job.TOO_COLD;
 			return false;
 		}
+		return true;
+	}
+
+	/** More glass column pieces stacked on it than a still takes. */
+	private boolean tooManyColumns() {
+		BlockPos at = worldPosition.above();
+		for (int i = 0; i <= MAX_COLUMNS; i++, at = at.above())
+			if (!(level.getBlockState(at).getBlock() instanceof GlassColumnBlock))
+				return false;
 		return true;
 	}
 
@@ -368,17 +405,18 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 	}
 
 	/**
-	 * A cut has all come over: the reading climbs to the next, and the thermometer pulses and turns the cow receiver to
-	 * its next flask (not for a gas, which takes no flask).
+	 * A cut has all come over: the reading climbs to the next, the still turns the cow receiver to its next flask, and
+	 * the thermometer pulses (not for a gas, which takes no flask). The turn comes first, so the receiver knows a pulse
+	 * that reaches it by wire is this same turn.
 	 */
 	private void endCut(Still still, DistillingRecipe recipe, boolean gas) {
 		cut++;
 		done = 0;
 		carry = 0;
 		if (!gas) {
-			StillHeadBlock.pulse(level, still.head());
 			if (still.receiver() != null)
-				still.receiver().turn();
+				still.receiver().turnByStill();
+			StillHeadBlock.pulse(level, still.head());
 		}
 		level.playSound(null, still.head(), SoundEvents.GLASS_HIT, SoundSource.BLOCKS, 0.3f, 2f);
 		if (cut >= targets.length)
@@ -411,9 +449,20 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 			return null;
 		RecipeType<MixingRecipe> mixing = AllRecipeTypes.MIXING.getType();
 		for (MixingRecipe recipe : level.getRecipeManager().getAllRecipesFor(mixing))
-			if (refluxes(recipe) && matches(recipe) && fits(recipe))
+			if (refluxes(recipe) && inputsFor(recipe) != null && outputsFor(recipe) != null)
 				return recipe;
 		return null;
+	}
+
+	/** Whether what went in would cook, but what it made leaves no room for what it would make. */
+	private boolean refluxFull() {
+		if (level == null || (in[0].isEmpty() && in[1].isEmpty()))
+			return false;
+		RecipeType<MixingRecipe> mixing = AllRecipeTypes.MIXING.getType();
+		for (MixingRecipe recipe : level.getRecipeManager().getAllRecipesFor(mixing))
+			if (refluxes(recipe) && inputsFor(recipe) != null)
+				return true;
+		return false;
 	}
 
 	/** Heated (not superheated) mixing that takes fluids and gives fluids only, two of each at most. */
@@ -424,32 +473,51 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 			&& recipe.getFluidResults().size() <= 2;
 	}
 
-	private boolean matches(ProcessingRecipe<?> recipe) {
+	/** For each of the recipe's fluids, the tank of what went in it is taken from; null if the flask lacks one. */
+	@Nullable
+	private int[] inputsFor(ProcessingRecipe<?> recipe) {
+		List<FluidIngredient> ingredients = recipe.getFluidIngredients();
+		int[] from = new int[ingredients.size()];
 		boolean[] used = new boolean[in.length];
-		for (FluidIngredient ingredient : recipe.getFluidIngredients()) {
-			boolean found = false;
-			for (int i = 0; i < in.length && !found; i++)
+		for (int k = 0; k < ingredients.size(); k++) {
+			FluidIngredient ingredient = ingredients.get(k);
+			int found = -1;
+			for (int i = 0; i < in.length && found < 0; i++)
 				if (!used[i] && ingredient.test(in[i].getFluid())
 					&& in[i].getFluidAmount() >= ingredient.getRequiredAmount())
-					found = used[i] = true;
-			if (!found)
-				return false;
+					found = i;
+			if (found < 0)
+				return null;
+			used[found] = true;
+			from[k] = found;
 		}
-		return true;
+		return from;
 	}
 
-	private boolean fits(ProcessingRecipe<?> recipe) {
+	/**
+	 * For each result, the tank of what it made it goes into: one already holding it with room for it, or else an empty
+	 * one; null if one finds no room, so a result is never poured into a tank that cannot take it all.
+	 */
+	@Nullable
+	private int[] outputsFor(ProcessingRecipe<?> recipe) {
+		List<FluidStack> results = recipe.getFluidResults();
+		int[] into = new int[results.size()];
 		boolean[] used = new boolean[out.length];
-		for (FluidStack result : recipe.getFluidResults()) {
-			boolean found = false;
-			for (int i = 0; i < out.length && !found; i++)
-				if (!used[i] && (out[i].isEmpty() || out[i].getFluid().isFluidEqual(result))
-					&& out[i].getSpace() >= result.getAmount())
-					found = used[i] = true;
-			if (!found)
-				return false;
+		for (int k = 0; k < results.size(); k++) {
+			FluidStack result = results.get(k);
+			int found = -1;
+			for (int i = 0; i < out.length && found < 0; i++)
+				if (!used[i] && out[i].getFluid().isFluidEqual(result) && out[i].getSpace() >= result.getAmount())
+					found = i;
+			for (int i = 0; i < out.length && found < 0; i++)
+				if (!used[i] && out[i].isEmpty() && out[i].getCapacity() >= result.getAmount())
+					found = i;
+			if (found < 0)
+				return null;
+			used[found] = true;
+			into[k] = found;
 		}
-		return true;
+		return into;
 	}
 
 	private Job reflux(CoilCondenserBlockEntity condenser) {
@@ -457,7 +525,7 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 		if (recipe == null) {
 			refluxId = null;
 			refluxed = 0;
-			return Job.IDLE;
+			return refluxFull() ? Job.FULL : Job.IDLE;
 		}
 		if (!heat.isAtLeast(REFLUX_HEAT))
 			return Job.TOO_COLD;
@@ -474,18 +542,15 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 		if (++refluxed < time)
 			return Job.REFLUXING;
 		refluxed = 0;
-		for (FluidIngredient ingredient : recipe.getFluidIngredients())
-			for (FluidTank tank : in)
-				if (ingredient.test(tank.getFluid()) && tank.getFluidAmount() >= ingredient.getRequiredAmount()) {
-					tank.drain(ingredient.getRequiredAmount(), IFluidHandler.FluidAction.EXECUTE);
-					break;
-				}
-		for (FluidStack result : recipe.getFluidResults())
-			for (FluidTank tank : out)
-				if (tank.isEmpty() || tank.getFluid().isFluidEqual(result)) {
-					tank.fill(result.copy(), IFluidHandler.FluidAction.EXECUTE);
-					break;
-				}
+		int[] from = inputsFor(recipe), into = outputsFor(recipe);
+		if (from == null || into == null)
+			return Job.IDLE;
+		List<FluidIngredient> ingredients = recipe.getFluidIngredients();
+		for (int k = 0; k < ingredients.size(); k++)
+			in[from[k]].drain(ingredients.get(k).getRequiredAmount(), IFluidHandler.FluidAction.EXECUTE);
+		List<FluidStack> results = recipe.getFluidResults();
+		for (int k = 0; k < results.size(); k++)
+			out[into[k]].fill(results.get(k).copy(), IFluidHandler.FluidAction.EXECUTE);
 		condenser.condense(boiled);
 		level.playSound(null, worldPosition, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 0.3f, 1.4f);
 		return Job.REFLUXING;
@@ -495,7 +560,7 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 
 	/**
 	 * Filled into its inputs, one fluid to a tank, while it is not distilling; drained from what it made, and by a
-	 * bucket from its inputs too, when it has made nothing and is not working them.
+	 * bucket from its inputs too, while it is neither distilling nor cooking them.
 	 */
 	private class Pipes implements IFluidHandler {
 		private final boolean hand;
@@ -505,7 +570,7 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 		}
 
 		private boolean inputsOut() {
-			return hand && batchId == null && refluxId == null;
+			return hand && inputsFree();
 		}
 		@Override
 		public int getTanks() {
@@ -536,13 +601,28 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 		public int fill(FluidStack resource, FluidAction action) {
 			if (resource.isEmpty() || batchId != null)
 				return 0;
+			int filled = 0;
+			for (FluidTank tank : in)
+				if (!tank.isEmpty() && tank.getFluid().isFluidEqual(resource)) {
+					filled = tank.fill(resource, action);
+					break;
+				}
+			if (filled == 0 && !holds(resource))
+				for (FluidTank tank : in)
+					if (tank.isEmpty()) {
+						filled = tank.fill(resource, action);
+						break;
+					}
+			if (filled > 0 && action.execute() && level != null)
+				lastFilled = level.getGameTime();
+			return filled;
+		}
+
+		private boolean holds(FluidStack resource) {
 			for (FluidTank tank : in)
 				if (!tank.isEmpty() && tank.getFluid().isFluidEqual(resource))
-					return tank.fill(resource, action);
-			for (FluidTank tank : in)
-				if (tank.isEmpty())
-					return tank.fill(resource, action);
-			return 0;
+					return true;
+			return false;
 		}
 
 		@Nonnull
@@ -569,6 +649,31 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 					if (!tank.isEmpty())
 						return tank.drain(maxDrain, action);
 			return FluidStack.EMPTY;
+		}
+	}
+
+	/** Whether what went in may be taken back: nothing is distilling or cooking it. */
+	private boolean inputsFree() {
+		return batchId == null && job != Job.REFLUXING;
+	}
+
+	/** The tanks a bucket takes from, in turn: what it made, then what went in while that is free. */
+	List<FluidTank> handTanks() {
+		List<FluidTank> tanks = new ArrayList<>(List.of(out));
+		if (inputsFree())
+			tanks.addAll(List.of(in));
+		return tanks;
+	}
+
+	/** Sneaking with an empty hand: what a bucket could take, poured away. */
+	void tipOut() {
+		if (level instanceof ServerLevel server) {
+			List<FluidStack> poured = LabGlass.empty(handTanks());
+			if (!poured.isEmpty()) {
+				LabGlass.pourAway(server, worldPosition, poured);
+				setChanged();
+				syncQueued = true;
+			}
 		}
 	}
 
@@ -658,16 +763,16 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 			: job == Job.TOO_COLD ? Component.translatable(key, heat.displayName())
 			: Component.translatable(key);
 		tooltip.add(CoilCondenserBlockEntity.line(line.copy().withStyle(job.color)));
+		DistillingRecipe recipe = batchRecipe();
 		if (vapour > 0) {
-			DistillingRecipe recipe = batchRecipe();
 			Component what = recipe != null && cut < recipe.cuts().size() ? recipe.cuts().get(cut).getDisplayName()
 				: Component.literal("?");
 			tooltip.add(CoilCondenserBlockEntity.line(Component.translatable("mcremix.goggles.still.vapour", vapour,
 				what).withStyle(ChatFormatting.YELLOW)));
-			if (recipe != null)
-				tooltip.add(CoilCondenserBlockEntity.line(Component.translatable("mcremix.goggles.still.cut",
-					Math.min(cut + 1, recipe.cuts().size()), recipe.cuts().size()).withStyle(ChatFormatting.GRAY)));
 		}
+		if (recipe != null)
+			tooltip.add(CoilCondenserBlockEntity.line(Component.translatable("mcremix.goggles.still.cut",
+				Math.min(cut + 1, recipe.cuts().size()), recipe.cuts().size()).withStyle(ChatFormatting.GRAY)));
 		for (FluidStack fluid : contents())
 			if (!fluid.isEmpty())
 				tooltip.add(CoilCondenserBlockEntity.line(Component.translatable("mcremix.goggles.still.holds",

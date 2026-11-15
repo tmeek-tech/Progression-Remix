@@ -201,14 +201,17 @@ heated basin sets 50 mB of each hard into Bakelite, about five to a bucket of co
 
 **The glass lab.** Glassware on iron retort stands, early enough for a campfire: lab glass takes its heat from what
 is under it, as a basin does, but cracks over Searing heat, and hot glass cracks in rain or beside water, so a lab needs
-a roof; cracked glass shatters five seconds later and spills what it held. A **still** is a **round flask** over heat,
+a roof (glass will do); cracked glass shatters five seconds later and spills what it held. A **still** is a **round flask** over heat,
 up to three **glass column** pieces, a **still head** with a thermometer, a **coil condenser** on its side arm with
 water through it (cold water twice as fast, coolant three times, coming out warm) and a **cow receiver** under the
 drip. A bucket in the flask comes over cut by cut, lightest first, each into a fresh flask of the cow receiver: wash at
 Warm gives 250 ethanol and leaves warm water; wood spirit at Warm gives 100 acetone and 300 methanol and leaves 600
 vinegar; coal tar at Hot gives 150 light oil, 250 carbolic oil and 250 creosote and leaves 350 **pitch**. As each cut
 ends the thermometer gives a redstone pulse and the still turns the receiver to its next flask; acetone and methanol
-boil close together, so they come over slowly in a bare still and faster with each column piece. On the bench, a
+boil close together, so they come over at a quarter of the pace in a bare still, half with one column piece and full
+pace with two. A pipe filling the flask a little at a time still gives whole batches: it starts on a full bucket, or a
+second after the last of a smaller one comes in. A bucket takes back a whole bucket of anything, and sneaking with an
+empty hand tips out what is left, so a still runs by hand alone. On the bench, a
 **hot tube** with **copper mesh** inside turns methanol into **formaldehyde** over a fire (and ethanol into ethylene
 over alumina); a **settling flask** settles **naphthalene** out of carbolic oil; a **separating funnel** shakes the
 strained oil with caustic soda into sodium phenolate under creosote, the heavy layer out of its tap and the light out of

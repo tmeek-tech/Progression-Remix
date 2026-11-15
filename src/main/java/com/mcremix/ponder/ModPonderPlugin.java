@@ -100,7 +100,8 @@ public class ModPonderPlugin implements PonderPlugin {
 		ItemProviderEntry<?> spirit = ModFluids.chemical(Chemical.WOOD_SPIRIT).bucket();
 		entries.forComponents(ModBlocks.KILN, tar, spirit)
 			.addStoryBoard("kiln/byproducts", TarScenes::byproducts, HEAT);
-		entries.forComponents(ModItems.BAKELITE, tar, spirit)
+		entries.forComponents(ModItems.BAKELITE, ModFluids.chemical(Chemical.PHENOL).bucket(),
+				ModFluids.chemical(Chemical.FORMALDEHYDE).bucket())
 			.addStoryBoard("kiln/bakelite", TarScenes::bakelite);
 		// the glass lab
 		entries.forComponents(ModBlocks.ROUND_FLASK, ModBlocks.GLASS_COLUMN, ModBlocks.STILL_HEAD,

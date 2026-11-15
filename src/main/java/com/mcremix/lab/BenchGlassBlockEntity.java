@@ -17,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -33,9 +34,10 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 /**
  * A piece of bench glassware that works what it holds a batch at a time: a hot tube, a settling flask or a separating
  * funnel (the distillation design's bench). Each holds a bucket of each thing that goes in and of each thing it makes.
- * Buckets and pipes fill what goes in; pipes draw off only what it made, and a bucket takes what it made first, then
- * what went in, so a wrong fluid can be taken back out by hand. It is lab glass ({@link LabGlass}): it takes its heat
- * from what is under it, cracks past Hot, and cracks hot if water meets it.
+ * Buckets and pipes fill what goes in; pipes draw off only what it made, and a bucket takes a whole bucket of what it
+ * made first, then of what went in, so a wrong fluid can be taken back out by hand. Sneaking with an empty hand tips it
+ * out, part-buckets and all. It is lab glass ({@link LabGlass}): it takes its heat from what is under it, cracks past
+ * Hot, and cracks hot if water meets it.
  */
 public abstract class BenchGlassBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
 	public static final int CAPACITY = 1000;
@@ -86,6 +88,22 @@ public abstract class BenchGlassBlockEntity extends SmartBlockEntity implements 
 	/** The handler a bucket uses. */
 	public IFluidHandler handler() {
 		return byHand;
+	}
+
+	/** The tanks a bucket takes from, in turn: what it made, then what went in. */
+	public List<FluidTank> handTanks() {
+		List<FluidTank> tanks = new ArrayList<>(drains(null));
+		tanks.addAll(List.of(in));
+		return tanks;
+	}
+
+	/** Sneaking with an empty hand: everything it holds poured away. Items it holds stay. */
+	public void tipOut() {
+		if (level instanceof ServerLevel server) {
+			List<FluidStack> poured = LabGlass.empty(handTanks());
+			if (!poured.isEmpty())
+				LabGlass.pourAway(server, worldPosition, poured);
+		}
 	}
 
 	public String job() {
@@ -194,7 +212,7 @@ public abstract class BenchGlassBlockEntity extends SmartBlockEntity implements 
 				if (!used[i] && out[i].getFluid().isFluidEqual(result) && out[i].getSpace() >= result.getAmount())
 					found = i;
 			for (int i = 0; i < out.length && found < 0; i++)
-				if (!used[i] && out[i].isEmpty())
+				if (!used[i] && out[i].isEmpty() && out[i].getCapacity() >= result.getAmount())
 					found = i;
 			if (found < 0)
 				return false;
@@ -256,10 +274,7 @@ public abstract class BenchGlassBlockEntity extends SmartBlockEntity implements 
 		}
 
 		private List<FluidTank> from() {
-			List<FluidTank> tanks = new ArrayList<>(drains(hand ? null : side));
-			if (hand)
-				tanks.addAll(List.of(in));
-			return tanks;
+			return hand ? handTanks() : drains(side);
 		}
 
 		@Nonnull

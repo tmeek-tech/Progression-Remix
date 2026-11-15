@@ -10,17 +10,38 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** A still head shows, through goggles, what the round flask it stands on is doing: the thermometer's reading. */
+/**
+ * A still head shows, through goggles, what the round flask it stands on is doing: the thermometer's reading. It also
+ * times the thermometer's pulse ({@link StillHeadBlock#pulse}), turning it off when it is over.
+ */
 public class StillHeadBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
+	/** The game time the pulse ends. */
+	private long pulseEnds;
+
 	public StillHeadBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 
 	@Override
 	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	}
+
+	void pulseUntil(long time) {
+		pulseEnds = time;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		if (level == null || level.isClientSide)
+			return;
+		BlockState state = getBlockState();
+		if (state.getValue(StillHeadBlock.POWERED) && level.getGameTime() >= pulseEnds)
+			level.setBlock(worldPosition, state.setValue(StillHeadBlock.POWERED, false), Block.UPDATE_ALL);
 	}
 
 	/** The round flask under it, through any column pieces, or null. */

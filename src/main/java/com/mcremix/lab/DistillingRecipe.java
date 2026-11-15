@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.mcremix.heat.HeatLevel;
 import com.mcremix.registry.ModRecipes;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
@@ -35,6 +36,8 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
  *   "processingTime": 600                 // ticks the whole batch takes at its own heat
  * }
  * </pre>
+ * A recipe without exactly one fluid to split, or without a result, is turned down as it loads (the game logs why), so
+ * a broken data pack recipe never reaches a still.
  */
 public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	private HeatLevel heat = HeatLevel.WARM;
@@ -50,7 +53,13 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		if (level == null || fluid.isEmpty())
 			return Optional.empty();
 		return level.getRecipeManager().getAllRecipesFor(ModRecipes.DISTILLING_TYPE.get()).stream()
-			.filter(r -> r.feed().test(fluid)).findFirst();
+			.filter(r -> r.valid() && r.feed().test(fluid)).findFirst();
+	}
+
+	/** One fluid to split, in an amount, and at least a residue. */
+	public boolean valid() {
+		return getFluidIngredients().size() == 1 && getFluidIngredients().get(0).getRequiredAmount() > 0
+			&& !getFluidResults().isEmpty();
 	}
 
 	public FluidIngredient feed() {
@@ -122,6 +131,9 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 
 	@Override
 	public void readAdditional(JsonObject json) {
+		if (!valid())
+			throw new JsonSyntaxException("Distilling recipe " + getId()
+				+ " needs exactly one fluid ingredient with an amount, and at least one fluid result");
 		heat = HeatLevel.byName(GsonHelper.getAsString(json, "heat", "warm"));
 		JsonArray points = GsonHelper.getAsJsonArray(json, "boiling_points", new JsonArray());
 		boilingPoints = new int[points.size()];
