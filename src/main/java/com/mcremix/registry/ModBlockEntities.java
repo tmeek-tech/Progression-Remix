@@ -9,6 +9,14 @@ import java.util.stream.Stream;
 
 import org.patryk3211.powergrid.collections.ModdedBlocks;
 
+import com.mcremix.client.LabGlassRenderer;
+import com.mcremix.lab.CoilCondenserBlockEntity;
+import com.mcremix.lab.CowReceiverBlockEntity;
+import com.mcremix.lab.HotTubeBlockEntity;
+import com.mcremix.lab.RoundFlaskBlockEntity;
+import com.mcremix.lab.SeparatingFunnelBlockEntity;
+import com.mcremix.lab.SettlingFlaskBlockEntity;
+import com.mcremix.lab.StillHeadBlockEntity;
 import com.mcremix.arcfurnace.ArcFurnaceBlockEntity;
 import com.mcremix.bellows.BellowsBlockEntity;
 import com.mcremix.client.BellowsRenderer;
@@ -408,6 +416,47 @@ public class ModBlockEntities {
 			});
 		}
 	}
+
+	// the glass lab: what each piece holds is drawn inside its glass
+	public static final BlockEntityEntry<RoundFlaskBlockEntity> ROUND_FLASK = REGISTRATE
+		.blockEntity("round_flask", RoundFlaskBlockEntity::new)
+		.validBlocks(ModBlocks.ROUND_FLASK)
+		.renderer(() -> LabGlassRenderer.RoundFlask::new)
+		.register();
+
+	public static final BlockEntityEntry<StillHeadBlockEntity> STILL_HEAD = REGISTRATE
+		.blockEntity("still_head", StillHeadBlockEntity::new)
+		.validBlocks(ModBlocks.STILL_HEAD)
+		.register();
+
+	public static final BlockEntityEntry<CoilCondenserBlockEntity> COIL_CONDENSER = REGISTRATE
+		.blockEntity("coil_condenser", CoilCondenserBlockEntity::new)
+		.validBlocks(ModBlocks.COIL_CONDENSER)
+		.register();
+
+	public static final BlockEntityEntry<CowReceiverBlockEntity> COW_RECEIVER = REGISTRATE
+		.blockEntity("cow_receiver", CowReceiverBlockEntity::new)
+		.validBlocks(ModBlocks.COW_RECEIVER)
+		.renderer(() -> LabGlassRenderer.CowReceiver::new)
+		.register();
+
+	public static final BlockEntityEntry<HotTubeBlockEntity> HOT_TUBE = REGISTRATE
+		.blockEntity("hot_tube", HotTubeBlockEntity::new)
+		.validBlocks(ModBlocks.HOT_TUBE)
+		.renderer(() -> LabGlassRenderer.HotTube::new)
+		.register();
+
+	public static final BlockEntityEntry<SettlingFlaskBlockEntity> SETTLING_FLASK = REGISTRATE
+		.blockEntity("settling_flask", SettlingFlaskBlockEntity::new)
+		.validBlocks(ModBlocks.SETTLING_FLASK)
+		.renderer(() -> LabGlassRenderer.SettlingFlask::new)
+		.register();
+
+	public static final BlockEntityEntry<SeparatingFunnelBlockEntity> SEPARATING_FUNNEL = REGISTRATE
+		.blockEntity("separating_funnel", SeparatingFunnelBlockEntity::new)
+		.validBlocks(ModBlocks.SEPARATING_FUNNEL)
+		.renderer(() -> LabGlassRenderer.SeparatingFunnel::new)
+		.register();
 
 	private static <T extends FluidTankBlockEntity> BlockEntityEntry<T> tank(FluidPartMaterial material,
 		BlockEntityBuilder.BlockEntityFactory<T> factory) {

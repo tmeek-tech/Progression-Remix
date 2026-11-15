@@ -2,6 +2,7 @@ package com.mcremix.electrolysis;
 
 import java.util.List;
 
+import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
@@ -18,7 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Gas let out of something open, such as a basin or an open pipe end, goes into the air: chlorine as a poison cloud,
  * ethylene as a brief haze that ripens crops, vinyl chloride as a haze that makes you dizzy, hydrogen chloride as a
- * mist that rusts the metal under it, titanium tetrachloride fuming into white smoke and that same mist, and the others
+ * mist that rusts the metal under it, CO2 as a sinking haze that smothers, titanium tetrachloride fuming into white smoke and that same mist, and the others
  * with a hiss and nothing more. A vat is closed and keeps its gases for pipes to draw off.
  */
 public class Gases {
@@ -33,6 +34,8 @@ public class Gases {
 				VinylChlorideHaze.release(level, at, gas.getAmount());
 			else if (chemical == Chemical.HYDROGEN_CHLORIDE)
 				HydrogenChlorideMist.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.CARBON_DIOXIDE)
+				CarbonDioxideCloud.release(level, at, gas.getAmount());
 			else if (chemical == Chemical.TITANIUM_TETRACHLORIDE)
 				fume(level, at, gas.getAmount());
 			else if (chemical != null && chemical.gas)

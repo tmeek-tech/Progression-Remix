@@ -54,33 +54,35 @@ public class PlasticsTests {
 	}
 
 	/**
-	 * Two sugar in a basin of water left alone ferment into 250 mB of ethanol in 30 seconds. Under a mixer, the same
-	 * basin keeps its sugar and water.
+	 * Two sugar in a bucket of water in a basin left alone ferment into a bucket of wash in 30 seconds, the CO2 going off
+	 * into the air (0.29.0). Under a mixer, the same basin keeps its sugar and water.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 800)
 	public static void sugarFermentsInABasinLeftAlone(GameTestHelper h) {
-		BasinBlockEntity alone = basin(h, p(2, 2, 4), water(250));
-		BasinBlockEntity stirred = basin(h, p(8, 2, 4), water(250));
+		BasinBlockEntity alone = basin(h, p(2, 2, 4), water(1000));
+		BasinBlockEntity stirred = basin(h, p(8, 2, 4), water(1000));
 		h.setBlock(p(8, 4, 4), AllBlocks.MECHANICAL_MIXER.getDefaultState());
 		for (BasinBlockEntity basin : new BasinBlockEntity[] { alone, stirred })
 			basin.getInputInventory().insertItem(0, new ItemStack(Items.SUGAR, 2), false);
-		h.runAtTickTime(500, () -> h.assertTrue(amount(fluids(alone), Chemical.ETHANOL) == 0,
+		h.runAtTickTime(500, () -> h.assertTrue(amount(fluids(alone), Chemical.WASH) == 0,
 			"sugar should take 30 seconds to ferment, not 25"));
 		h.runAtTickTime(700, () -> {
-			h.assertTrue(amount(fluids(alone), Chemical.ETHANOL) == 250,
-				"two sugar in 250 mB of water should ferment into 250 mB of ethanol, made "
-					+ amount(fluids(alone), Chemical.ETHANOL));
+			h.assertTrue(amount(fluids(alone), Chemical.WASH) == 1000,
+				"two sugar in a bucket of water should ferment into a bucket of wash, made "
+					+ amount(fluids(alone), Chemical.WASH));
+			h.assertTrue(amount(fluids(alone), Chemical.CARBON_DIOXIDE) == 0, "an open basin should let its CO2 go");
 			h.assertTrue(amount(fluids(alone), water(1)) == 0, "the water should be used up");
 			h.assertTrue(alone.getInputInventory().getStackInSlot(0).isEmpty(), "the sugar should be used up");
-			h.assertTrue(amount(fluids(stirred), water(1)) == 250 && stirred.getInputInventory().getStackInSlot(0)
+			h.assertTrue(amount(fluids(stirred), water(1)) == 1000 && stirred.getInputInventory().getStackInSlot(0)
 				.getCount() == 2, "a basin under a mixer should keep its sugar and water");
 			h.succeed();
 		});
 	}
 
 	/**
-	 * Four buckets of water and eight sugar in a vat ferment as four batches at once, into a bucket of ethanol. Its pipes
-	 * can draw the ethanol off, but not the water it is still working on.
+	 * Three buckets of water and four sugar in a vat ferment as two batches at once, into two buckets of wash (as much as
+	 * a one-tank vat holds of what it makes), and the vat keeps their CO2. Its pipes can draw the wash off, but not the
+	 * water it could still ferment sugar in.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 800)
 	public static void aVatFermentsABatchForEveryBucket(GameTestHelper h) {
@@ -89,25 +91,24 @@ public class PlasticsTests {
 		h.startSequence()
 			.thenWaitUntil(() -> h.assertTrue(vat(h, tank) != null, "the vat should form"))
 			.thenExecute(() -> {
-				fluids(h.getBlockEntity(tank)).fill(water(4000), FluidAction.EXECUTE);
+				fluids(h.getBlockEntity(tank)).fill(water(3000), FluidAction.EXECUTE);
 				IItemHandler slots = h.getBlockEntity(tank).getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP)
 					.orElseThrow(IllegalStateException::new);
-				ItemStack left = new ItemStack(Items.SUGAR, 8);
+				ItemStack left = new ItemStack(Items.SUGAR, 4);
 				for (int slot = 0; slot < slots.getSlots() && !left.isEmpty(); slot++)
 					left = slots.insertItem(slot, left, false);
-				h.assertTrue(left.isEmpty(), "a funnel should put eight sugar into the vat");
+				h.assertTrue(left.isEmpty(), "a funnel should put four sugar into the vat");
 			})
-			.thenWaitUntil(() -> h.assertTrue(amount(fluids(h.getBlockEntity(tank)), Chemical.ETHANOL) == 1000,
-				"four batches should ferment at once into 1000 mB of ethanol, made "
-					+ amount(fluids(h.getBlockEntity(tank)), Chemical.ETHANOL)))
+			.thenWaitUntil(() -> h.assertTrue(amount(fluids(h.getBlockEntity(tank)), Chemical.WASH) == 2000,
+				"two batches should ferment at once into 2000 mB of wash, made "
+					+ amount(fluids(h.getBlockEntity(tank)), Chemical.WASH)))
 			.thenExecute(() -> {
 				IFluidHandler pipes = fluids(h.getBlockEntity(tank));
-				h.assertTrue(amount(pipes, water(1)) == 3000, "the four batches should take 1000 mB of water");
-				FluidStack drawn = pipes.drain(2000, FluidAction.EXECUTE);
-				h.assertTrue(drawn.isFluidEqual(Chemical.ETHANOL.stack(1)) && drawn.getAmount() == 1000,
-					"the pipes should draw off the ethanol, drew " + drawn.getAmount() + " mB of "
-						+ drawn.getDisplayName().getString());
-				h.assertTrue(pipes.drain(1000, FluidAction.EXECUTE).isEmpty(),
+				h.assertTrue(amount(pipes, water(1)) == 1000, "the two batches should take 2000 mB of water");
+				h.assertTrue(amount(pipes, Chemical.CARBON_DIOXIDE) == 100, "the vat should keep the batches' 100 mB of CO2");
+				FluidStack drawn = pipes.drain(Chemical.WASH.stack(2000), FluidAction.EXECUTE);
+				h.assertTrue(drawn.getAmount() == 2000, "the pipes should draw off the wash, drew " + drawn.getAmount());
+				h.assertTrue(pipes.drain(water(1000), FluidAction.EXECUTE).isEmpty(),
 					"the pipes should not draw off the water the vat could still ferment sugar in");
 			})
 			.thenSucceed();

@@ -52,10 +52,38 @@ public class ModItems {
 		.register();
 
 	/**
-	 * The first plastic: coal tar set hard with wood spirit under a press over a heated basin. Only ever an ingredient,
-	 * never a material parts are made of.
+	 * The first plastic: phenol set hard with formaldehyde under a press over a heated basin, as Baekeland first made it.
+	 * Only ever an ingredient, never a material parts are made of.
 	 */
 	public static final ItemEntry<Item> BAKELITE = REGISTRATE.item("bakelite", Item::new)
+		.register();
+
+	/** Four copper nuggets drawn into a mesh: the catalyst methanol runs over to become formaldehyde. */
+	public static final ItemEntry<Item> COPPER_MESH = REGISTRATE.item("copper_mesh", Item::new)
+		.register();
+
+	/** White flakes that grow in carbolic oil left to stand cool. */
+	public static final ItemEntry<Item> NAPHTHALENE = REGISTRATE.item("naphthalene", Item::new)
+		.register();
+
+	/** Kelp burnt in the Furnace: the old source of soda, washed out with water. */
+	public static final ItemEntry<Item> KELP_ASH = REGISTRATE.item("kelp_ash", Item::new)
+		.register();
+
+	/** Sodium carbonate, washed out of kelp ash or left when CO2 springs phenol; made into caustic soda with lime. */
+	public static final ItemEntry<Item> SODA_ASH = REGISTRATE.item("soda_ash", Item::new)
+		.register();
+
+	/** Limestone or chalk burnt Searing in the Furnace, its CO2 driven off into the Furnace's tank. */
+	public static final ItemEntry<Item> QUICKLIME = REGISTRATE.item("quicklime", Item::new)
+		.register();
+
+	/** Quicklime washed with water. */
+	public static final ItemEntry<Item> SLAKED_LIME = REGISTRATE.item("slaked_lime", Item::new)
+		.register();
+
+	/** What slaked lime becomes when it makes caustic soda of soda ash; it burns back into quicklime. */
+	public static final ItemEntry<Item> CHALK = REGISTRATE.item("chalk", Item::new)
 		.register();
 
 	/** Aluminium's ore: red-brown pebbles washed out of red sand with a fan. */

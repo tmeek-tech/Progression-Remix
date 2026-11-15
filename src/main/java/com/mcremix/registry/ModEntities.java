@@ -2,6 +2,7 @@ package com.mcremix.registry;
 
 import static com.mcremix.McRemix.REGISTRATE;
 
+import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
@@ -30,6 +31,12 @@ public class ModEntities {
 		.register();
 	public static final EntityEntry<HydrogenChlorideMist> HYDROGEN_CHLORIDE_MIST = REGISTRATE
 		.<HydrogenChlorideMist>entity("hydrogen_chloride_mist", HydrogenChlorideMist::new, MobCategory.MISC)
+		.properties(b -> b.sized(0.5f, 0.5f).clientTrackingRange(10).updateInterval(5).fireImmune())
+		.renderer(() -> NoopRenderer::new)
+		.register();
+
+	public static final EntityEntry<CarbonDioxideCloud> CARBON_DIOXIDE_CLOUD = REGISTRATE
+		.<CarbonDioxideCloud>entity("carbon_dioxide_cloud", CarbonDioxideCloud::new, MobCategory.MISC)
 		.properties(b -> b.sized(0.5f, 0.5f).clientTrackingRange(10).updateInterval(5).fireImmune())
 		.renderer(() -> NoopRenderer::new)
 		.register();

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "mcremix:chlorine"
+    "mcremix:chlorine",
+    "mcremix:carbon_dioxide"
   ]
 }

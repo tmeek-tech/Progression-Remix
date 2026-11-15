@@ -4,7 +4,8 @@
     "minecraft:copper_ingot",
     "minecraft:copper_block",
     "create:copper_nugget",
-    "create:copper_sheet"
+    "create:copper_sheet",
+    "mcremix:copper_mesh"
   ],
   "fluids": [
     "mcremix:molten_copper"

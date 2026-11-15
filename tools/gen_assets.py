@@ -2112,7 +2112,7 @@ def gen_lang():
         'block.mcremix.kiln.tooltip.condition3': 'Under a boiler or basin',
         'block.mcremix.kiln.tooltip.behaviour3': 'Heats it like a Blaze Burner: a _Searing_ fire boils a _steam boiler_ and is hot enough for _heated_ mixing and compacting; a _Warm_ or _Hot_ one only keeps a boiler simmering.',
         'block.mcremix.kiln.tooltip.condition4': 'Coking coal, charring logs',
-        'block.mcremix.kiln.tooltip.behaviour4': 'Coal gives off _coal tar_ as it cokes, and logs _wood spirit_ as they char. Draw it off with a _pump_ and pipe, or a _bucket_; once a bucket\'s worth waits in the Furnace, the rest _burns off_ up the chimney.',
+        'block.mcremix.kiln.tooltip.behaviour4': 'Coal gives off _coal tar_ as it cokes, logs _wood spirit_ as they char, and limestone _carbon dioxide_ as it burns to lime. Draw it off with a _pump_ and pipe, or a _bucket_; once a bucket\'s worth waits in the Furnace, the rest goes up the chimney, the tar and spirit _burning off_.',
         'block.mcremix.bellows': 'Bellows',
         'block.mcremix.bellows.tooltip.summary': 'Blows air into the block its _nozzle_ faces while its shaft turns. Feeds fires: _one heat level hotter_, up to _Searing_.',
         'block.mcremix.bellows.tooltip.condition1': 'Facing a furnace, or a fire with a furnace on it',
@@ -2449,6 +2449,7 @@ def gen_lang():
     lang.update(titanium_lang())
     lang.update(titanium_plating_lang())
     lang.update(titanium_chain_lang())
+    lang.update(lab_lang())
     write_json(asset('lang', 'en_us.json'), lang)
     # Vanilla's furnace no longer works, so it is the Cold Furnace. This has to go in the minecraft namespace's file:
     # the game reads each namespace's lang files in turn, in no fixed order, so a vanilla key in ours could lose to
@@ -2738,7 +2739,7 @@ def gen_recipes():
                     {'item': 'minecraft:dead_bush', 'chance': 0.05}]})
     recipe('compacting/bakelite', {
         'type': 'create:compacting', 'heatRequirement': 'heated',
-        'ingredients': [{'fluid': 'mcremix:coal_tar', 'amount': 100}, {'fluid': 'mcremix:wood_spirit', 'amount': 100}],
+        'ingredients': [{'fluid': 'mcremix:phenol', 'amount': 50}, {'fluid': 'mcremix:formaldehyde', 'amount': 50}],
         'results': [item('mcremix:bakelite')]})
     firing('popped_chorus_fruit', item('minecraft:chorus_fruit'), 'minecraft:popped_chorus_fruit', 'hot', 200)
     # Searing: iron blooms
@@ -4297,10 +4298,36 @@ CHEMICALS = {
     'molten_sodium': ((0x70, 0x76, 0x80), (0xC0, 0xC4, 0xCA), (0xF4, 0xF6, 0xFA), 255),
     # titanium tetrachloride: a colourless vapour with the faintest yellow in it
     'titanium_tetrachloride': ((0xD0, 0xCC, 0xB8), (0xF4, 0xF2, 0xE4), (0xFF, 0xFF, 0xFF), 90),
+    # the glass lab's (0.29.0). wash: sugar water fermented, cloudy and pale as unfiltered beer
+    'wash': ((0x9C, 0x8C, 0x5C), (0xDC, 0xD2, 0xA4), (0xF8, 0xF2, 0xD8), 215),
+    # carbon dioxide: a heavy haze, all but invisible
+    'carbon_dioxide': ((0xCC, 0xD0, 0xD4), (0xEE, 0xF0, 0xF2), (0xFF, 0xFF, 0xFF), 70),
+    # acetone: water-clear and thin, with a cold tint
+    'acetone': ((0xB8, 0xC8, 0xD4), (0xEA, 0xF2, 0xF6), (0xFF, 0xFF, 0xFF), 100),
+    # methanol: clear as ethanol, a touch bluer
+    'methanol': ((0xB4, 0xC4, 0xD0), (0xE4, 0xEE, 0xF4), (0xFF, 0xFF, 0xFF), 105),
+    # vinegar: wood vinegar, clear pale amber
+    'vinegar': ((0x9C, 0x7C, 0x40), (0xE0, 0xC8, 0x90), (0xFC, 0xF0, 0xD4), 150),
+    # formaldehyde: formalin, clear with the faintest green-grey
+    'formaldehyde': ((0xBC, 0xC8, 0xB4), (0xF0, 0xF4, 0xEC), (0xFF, 0xFF, 0xFF), 110),
+    # light oil: benzol, a pale yellow oil
+    'light_oil': ((0x9C, 0x88, 0x3C), (0xD8, 0xC4, 0x7C), (0xFC, 0xF4, 0xC8), 170),
+    # carbolic oil: dark red-brown, nearly opaque
+    'carbolic_oil': ((0x34, 0x1C, 0x0C), (0x7A, 0x4A, 0x24), (0xC8, 0x98, 0x60), 240),
+    # strained carbolic oil: the same, a little lighter with its naphthalene gone
+    'strained_carbolic_oil': ((0x48, 0x2C, 0x14), (0x94, 0x60, 0x38), (0xD8, 0xAC, 0x78), 230),
+    # creosote: very dark brown, oily
+    'creosote': ((0x14, 0x0E, 0x08), (0x3A, 0x2A, 0x18), (0x8C, 0x7C, 0x50), 255),
+    # pitch: black and glossy
+    'pitch': ((0x06, 0x05, 0x05), (0x12, 0x10, 0x10), (0x50, 0x4C, 0x4C), 255),
+    # sodium phenolate: a pale tan solution
+    'sodium_phenolate': ((0xA8, 0x94, 0x7C), (0xE2, 0xD2, 0xBC), (0xFC, 0xF4, 0xEA), 170),
+    # phenol: colourless, pinking a little as it stands, oily
+    'phenol': ((0xC0, 0xA8, 0xA0), (0xF2, 0xE2, 0xDC), (0xFF, 0xFA, 0xF8), 180),
 }
 # gases have no bucket (Chemical.gas)
 GASES = {'chlorine', 'hydrogen', 'ethylene', 'vinyl_chloride', 'hydrogen_chloride', 'pressurized_steam',
-         'titanium_tetrachloride'}
+         'titanium_tetrachloride', 'carbon_dioxide'}
 
 
 def liquid_frame(size, phase, waves, palette, shift=0):
@@ -5221,7 +5248,11 @@ def gen_fluid_data():
     # chlorine choking whoever is in its cloud (ChlorineCloud); armour does nothing for it
     write_json(data('mcremix', 'damage_type', 'chlorine.json'),
                {'message_id': 'mcremix.chlorine', 'scaling': 'when_caused_by_living_non_player', 'exhaustion': 0.0})
-    write_json(data('minecraft', 'tags', 'damage_type', 'bypasses_armor.json'), tag(['mcremix:chlorine']))
+    write_json(data('minecraft', 'tags', 'damage_type', 'bypasses_armor.json'),
+               tag(['mcremix:chlorine', 'mcremix:carbon_dioxide']))
+    # running out of air in a pool of CO2 (CarbonDioxideCloud), as drowning does
+    write_json(data('mcremix', 'damage_type', 'carbon_dioxide.json'),
+               {'message_id': 'mcremix.carbon_dioxide', 'scaling': 'when_caused_by_living_non_player', 'exhaustion': 0.0})
     # where water taken by bucket, pump or hose pulley is salt water, and where it is cold water (WildWater)
     write_json(data('mcremix', 'tags', 'worldgen', 'biome', 'salt_water.json'),
                tag(['#minecraft:is_ocean', '#minecraft:is_beach']))
@@ -5666,11 +5697,11 @@ def gen_electrolysis():
     write_json(asset('blockstates', 'electrolyser.json'), {'multipart': parts})
     write_json(data('mcremix', 'loot_tables', 'blocks', 'electrolyser.json'), loot_self('electrolyser'))
 
-    # coke bound with tar by a press, then baked hard in the Furnace
+    # coke bound with pitch by a press, then baked hard in the Furnace
     recipe('compacting/unbaked_carbon_electrode', {
         'type': 'create:compacting',
         'ingredients': [item('mcremix:coal_coke'), item('mcremix:coal_coke'),
-                        {'fluid': 'mcremix:coal_tar', 'amount': 100}],
+                        {'fluid': 'mcremix:pitch', 'amount': 100}],
         'results': [item('mcremix:unbaked_carbon_electrode')]})
     firing('carbon_electrode', item('mcremix:unbaked_carbon_electrode'), 'mcremix:carbon_electrode', 'hot', 300)
     # copper terminals on a Bakelite head, on a steel plate
@@ -5721,7 +5752,7 @@ def electrolysis_lang():
         'item.mcremix.carbon_electrode.left': '%s%% left',
         'item.mcremix.unbaked_carbon_electrode': 'Unbaked Carbon Electrode',
         'item.mcremix.unbaked_carbon_electrode.tooltip.summary': (
-            '_Coal coke_ bound with _coal tar_ by a _press_. _Fire_ it _Hot_ in the Furnace to bake it into a '
+            '_Coal coke_ bound with _pitch_ by a _press_. _Fire_ it _Hot_ in the Furnace to bake it into a '
             '_Carbon Electrode_.'),
         'mcremix.goggles.electrolyser.anode': 'Anode (+): %s%% left',
         'mcremix.goggles.electrolyser.cathode': 'Cathode (-): %s%% left',
@@ -5875,11 +5906,12 @@ def gen_plastics():
         'type': 'create:compacting', 'heatRequirement': 'heated',
         'ingredients': [item('mcremix:polyethylene_pellets'), item('mcremix:polyethylene_pellets')],
         'results': [item('mcremix:polyethylene_bushing')]})
-    # sugar in water, left to stand in a basin nothing is working or in a vat, ferments into ethanol
-    recipe('fermenting/ethanol', {
+    # sugar in water, left to stand in a basin nothing is working or in a vat, ferments into a weak wash, giving off
+    # CO2 (which a vat keeps); a still makes ethanol of the wash
+    recipe('fermenting/wash', {
         'type': 'mcremix:fermenting', 'processingTime': 600,
-        'ingredients': [item('minecraft:sugar'), item('minecraft:sugar'), {'fluid': 'minecraft:water', 'amount': 250}],
-        'results': [{'fluid': 'mcremix:ethanol', 'amount': 250}]})
+        'ingredients': [item('minecraft:sugar'), item('minecraft:sugar'), {'fluid': 'minecraft:water', 'amount': 1000}],
+        'results': [{'fluid': 'mcremix:wash', 'amount': 1000}, {'fluid': 'mcremix:carbon_dioxide', 'amount': 50}]})
     # PVC: resin pressed into sheets, sheets made into pipes that lie flat on block faces
     edge, dark, base, light = PVC
     save_png(powder_texture(1302, dark, base, light), asset('textures', 'item', 'pvc_resin.png'))
@@ -5993,7 +6025,7 @@ def plastics_lang():
         'block.mcremix.steel_furnace.tooltip.condition1': 'Fluid jobs',
         'block.mcremix.steel_furnace.tooltip.behaviour1': 'Pipe or pour a fluid it works into its _front_, _sides_ or _top_ and it waits in the _feed tank_; what it gives waits there for a _pipe_ to draw it off. _Ethanol_ over _alumina_ in the chamber gives _ethylene_ at _Hot_; _ethylene dichloride_ cracks into _vinyl chloride_ and _hydrogen chloride_ at _Searing_.',
         'block.mcremix.steel_furnace.tooltip.condition2': 'Fuel',
-        'block.mcremix.steel_furnace.tooltip.behaviour2': 'Pump _wood spirit_, _ethanol_, _coal tar_, _hydrogen_ or _ethylene_ in from _underneath_ and _light_ it: the faster the pump, the _hotter_ it burns, up to what that fuel can reach, and anything faster is _lost_. Only _hydrogen_ and _ethylene_ reach _Blazing_. Unlit, gas fuel _escapes_ out of the front and liquid fuel _spills_ out. It takes no solid fuel, no heat from below and no bellows.',
+        'block.mcremix.steel_furnace.tooltip.behaviour2': 'Pump _wood spirit_, _ethanol_, _acetone_, _light oil_, _creosote_, _coal tar_, _hydrogen_ or _ethylene_ in from _underneath_ and _light_ it: the faster the pump, the _hotter_ it burns, up to what that fuel can reach, and anything faster is _lost_. Only _hydrogen_ and _ethylene_ reach _Blazing_. Unlit, gas fuel _escapes_ out of the front and liquid fuel _spills_ out. It takes no solid fuel, no heat from below and no bellows.',
         'mcremix.goggles.steel_furnace.no_fuel': 'No fuel coming in from underneath',
         'mcremix.goggles.steel_furnace.burning': 'Burning %s, %s mB a tick: %s',
         'mcremix.goggles.steel_furnace.hotter': '%s mB a tick would burn %s',
@@ -7556,7 +7588,7 @@ def titanium_lang():
             '_electromagnet_ pulls the iron out and leaves the rutile.'),
         'item.mcremix.rutile': 'Rutile',
         'item.mcremix.rutile.tooltip.summary': (
-            "Titanium's ore, red-black crystals of _titanium dioxide_. Pressed with _coal coke_ and _coal tar_ into "
+            "Titanium's ore, red-black crystals of _titanium dioxide_. Pressed with _coal coke_ and _pitch_ into "
             '_briquettes_, which _chlorine_ run over in a _Steel Furnace_ at _Blazing_ heat turns into _titanium '
             'tetrachloride_.'),
         'item.mcremix.salt': 'Salt',
@@ -7820,10 +7852,10 @@ def gen_titanium_chain():
         'type': 'mcremix:electrolysis', 'charge': 100,
         'ingredients': [{'fluid': 'mcremix:molten_salt', 'amount': 100}],
         'results': [{'fluid': 'mcremix:molten_sodium', 'amount': 50}, {'fluid': 'mcremix:chlorine', 'amount': 50}]})
-    # rutile and coke bound with tar by a press, as the Carbon Electrode's coke is
+    # rutile and coke bound with pitch by a press, as the Carbon Electrode's coke is
     recipe('compacting/rutile_briquette', {
         'type': 'create:compacting',
-        'ingredients': [{'tag': 'mcremix:rutile'}, item('mcremix:coal_coke'), {'fluid': 'mcremix:coal_tar', 'amount': 50}],
+        'ingredients': [{'tag': 'mcremix:rutile'}, item('mcremix:coal_coke'), {'fluid': 'mcremix:pitch', 'amount': 50}],
         'results': [item('mcremix:rutile_briquette')]})
     # chlorine over a briquette at Blazing: the coke takes the rutile's oxygen and the chlorine its titanium; one
     # briquette for each batch
@@ -7875,7 +7907,7 @@ def titanium_chain_lang():
     return {
         'item.mcremix.rutile_briquette': 'Rutile Briquette',
         'item.mcremix.rutile_briquette.tooltip.summary': (
-            '_Rutile_ and _coal coke_ bound with _coal tar_ by a press. _Chlorine_ run over it in a _Steel Furnace_ at '
+            '_Rutile_ and _coal coke_ bound with _pitch_ by a press. _Chlorine_ run over it in a _Steel Furnace_ at '
             '_Blazing_ heat comes off as _titanium tetrachloride_, the coke taking the rutile\'s oxygen; one wears away '
             'for each batch.'),
         'block.mcremix.arc_furnace': 'Arc Furnace',
@@ -8035,6 +8067,54 @@ def water_molecule(f, x, y):
         f.branch(o, 'H', angle)
 
 
+def methanol_molecule(f, x, y):
+    """Methanol written out in full, its carbon at (x, y) and its OH east."""
+    c = f.atom('C', x, y)
+    for angle in (90, 180, 270):
+        f.branch(c, 'H', angle)
+    f.branch(f.branch(c, 'O', 0, 1.1), 'H', 0)
+
+
+def ethanol_molecule(f, x, y):
+    """Ethanol written out in full, its carbons from (x, y) east."""
+    c1 = f.atom('C', x, y)
+    for angle in (90, 180, 270):
+        f.branch(c1, 'H', angle)
+    c2 = f.branch(c1, 'C', 0, 1.2)
+    for angle in (90, 270):
+        f.branch(c2, 'H', angle)
+    f.branch(f.branch(c2, 'O', 0, 1.1), 'H', 0)
+
+
+def benzene_ring(f, cx, cy, substituted=()):
+    """A benzene ring round (cx, cy), skeletal, its corners from the top clockwise; those in `substituted` bear
+    something else in place of their hydrogen. Gives the corners."""
+    ring = [f.atom('C', cx + math.cos(math.radians(a)), cy - math.sin(math.radians(a)), h=0 if i in substituted else 1,
+                   hide=True) for i, a in enumerate((90, 30, -30, -90, -150, 150))]
+    for i in range(6):
+        f.bond(ring[i], ring[(i + 1) % 6], *((2, (cx, cy)) if i % 2 else (1,)))
+    return ring
+
+
+def naphthalene_rings(f, cx, cy, substituted=()):
+    """Naphthalene: two benzene rings sharing a side, the first round (cx, cy) and the second east of it, skeletal.
+    Gives its ten corners, the first ring's six from the top clockwise and then the second's other four the same way;
+    those in `substituted` bear something else in place of their hydrogen."""
+    r3 = math.sqrt(3)
+    corners = [(cx, cy, a) for a in (90, 30, -30, -90, -150, 150)] + [(cx + r3, cy, a) for a in (90, 30, -30, -90)]
+    atoms = [f.atom('C', x + math.cos(math.radians(a)), y - math.sin(math.radians(a)),
+                    h=0 if i in substituted or i in (1, 2) else 1, hide=True) for i, (x, y, a) in enumerate(corners)]
+    a, b = atoms[:6], atoms[6:]
+    east = (cx + r3, cy)
+    # one way of drawing its double bonds: each carbon has one
+    for i, j, order, toward in ((0, 1, 1, None), (1, 2, 2, (cx, cy)), (2, 3, 1, None), (3, 4, 2, (cx, cy)),
+                                (4, 5, 1, None), (5, 0, 2, (cx, cy))):
+        f.bond(a[i], a[j], order, toward)
+    for p, q, order in ((a[1], b[0], 1), (b[0], b[1], 2), (b[1], b[2], 1), (b[2], b[3], 2), (b[3], a[2], 1)):
+        f.bond(p, q, order, east if order == 2 else None)
+    return atoms
+
+
 def glycol_molecule(f, x, y):
     """Ethylene glycol written out in full, its carbons from (x, y) east."""
     c1 = f.atom('C', x, y)
@@ -8119,8 +8199,7 @@ def gen_formulas():
         for angle in (90, 270):
             f.branch(c, 'H', angle)
 
-    # wood spirit is methanol
-    f = formula('methanol', 'CH3OH', fluids=mr('wood_spirit'))
+    f = formula('methanol', 'CH3OH', fluids=mr('methanol'))
     c = f.atom('C', 0, 0)
     for angle in (90, 180, 270):
         f.branch(c, 'H', angle)
@@ -8209,7 +8288,7 @@ def gen_formulas():
     # calcite, dripstone and limestone are calcium carbonate
     f = formula('calcium_carbonate', 'CaCO3',
                 mc('calcite', 'dripstone_block', 'pointed_dripstone')
-                + cr('limestone', *create_palette('limestone'), *create_palette('calcite')))
+                + cr('limestone', *create_palette('limestone'), *create_palette('calcite')) + mr('chalk'))
     f.atom('Ca', 0, 0, charge='2+')
     c = f.atom('C', 2.8, 0.2)
     f.branch(c, 'O', 90, order=2)
@@ -8310,11 +8389,93 @@ def gen_formulas():
     f.stub(ring[5], 150, 0.8)
     f.bracket(sub='n', x0=-1.25, x1=2.1)
 
+    # the glass lab's chemistry (0.29.0). Solutions are written "X in H2O" and drawn with their water, as salt water is;
+    # oils that are mixtures show what matters in them
+    f = formula('wood_spirit', 'CH3OH in H2O', fluids=mr('wood_spirit'))
+    methanol_molecule(f, 0, 0)
+    f.sign('+', 3.1, 0)
+    water_molecule(f, 4.6, -0.3)
+
+    f = formula('wash', 'C2H5OH in H2O', fluids=mr('wash'))
+    ethanol_molecule(f, 0, 0)
+    f.sign('+', 4.3, 0)
+    water_molecule(f, 5.8, -0.3)
+
+    f = formula('carbon_dioxide', 'CO2', fluids=mr('carbon_dioxide'))
+    c = f.atom('C', 0, 0)
+    for angle in (0, 180):
+        f.branch(c, 'O', angle, 1.2, order=2)
+
+    f = formula('acetone', 'C3H6O', fluids=mr('acetone'))
+    c = f.atom('C', 0, 0)
+    f.branch(c, 'O', 90, order=2)
+    f.branch(c, 'H3C', 210, 1.2, end=True)
+    f.branch(c, 'CH3', 330, 1.2)
+
+    f = formula('vinegar', 'CH3COOH in H2O', fluids=mr('vinegar'))
+    c = f.branch(f.atom('H3C', 0, 0, end=True), 'C', 0, 1.3)
+    f.branch(c, 'O', 60, order=2)
+    f.branch(c, 'OH', 300)
+    f.sign('+', 3.4, 0)
+    water_molecule(f, 4.9, -0.3)
+
+    f = formula('formaldehyde', 'CH2O in H2O', fluids=mr('formaldehyde'))
+    c = f.atom('C', 0, 0)
+    f.branch(c, 'O', 0, 1.2, order=2)
+    for angle in (150, 210):
+        f.branch(c, 'H', angle)
+    f.sign('+', 2.6, 0)
+    water_molecule(f, 4.1, -0.3)
+
+    f = formula('benzene', 'C6H6', fluids=mr('light_oil'))
+    benzene_ring(f, 0, 0)
+
+    f = formula('phenol', 'C6H5OH', fluids=mr('phenol'))
+    f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'OH', 90)
+
+    f = formula('sodium_phenolate', 'C6H5ONa in H2O', fluids=mr('sodium_phenolate'))
+    f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'O', 90, charge='-')
+    f.atom('Na', 1.6, -2.0, charge='+')
+    f.sign('+', 2.6, 0)
+    water_molecule(f, 4.1, -0.3)
+
+    f = formula('carbolic_oil', 'C6H5OH + C10H8', fluids=mr('carbolic_oil'))
+    f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'OH', 90)
+    f.sign('+', 2.1, 0)
+    naphthalene_rings(f, 3.4, 0)
+
+    f = formula('strained_carbolic_oil', 'C6H5OH + C11H10', fluids=mr('strained_carbolic_oil'))
+    f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'OH', 90)
+    f.sign('+', 2.1, 0)
+    f.branch(naphthalene_rings(f, 3.4, 0, substituted=(6,))[6], 'CH3', 90)
+
+    # creosote's neutral oil is mostly methylnaphthalenes
+    f = formula('methylnaphthalene', 'C11H10', fluids=mr('creosote'))
+    f.branch(naphthalene_rings(f, 0, 0, substituted=(6,))[6], 'CH3', 90)
+
+    f = formula('naphthalene', 'C10H8', mr('naphthalene'))
+    naphthalene_rings(f, 0, 0)
+
+    f = formula('sodium_carbonate', 'Na2CO3', mr('soda_ash'))
+    f.atom('Na', 0, 0, charge='+', count='2')
+    c = f.atom('C', 2.8, 0.2)
+    f.branch(c, 'O', 90, order=2)
+    for angle in (210, 330):
+        f.branch(c, 'O', angle, charge='-')
+
+    f = formula('calcium_oxide', 'CaO', mr('quicklime'))
+    f.bond(f.atom('Ca', 0, 0, charge='2+'), f.atom('O', 1.8, 0, charge='2-'), 0)
+
+    f = formula('calcium_hydroxide', 'Ca(OH)2', mr('slaked_lime'))
+    f.atom('Ca', 0, 0, charge='2+')
+    f.atom('HO', -1.8, 0, charge='-', end=True)
+    f.atom('OH', 1.8, 0, charge='-')
+
     # materials of one element (Taran, 0.26.0): the symbol alone, in its colour, on the metal's ingots, nuggets, sheets
     # and blocks, on its melt and that melt's bucket; and carbon on diamond and on a baked carbon electrode's graphite
     elements = {
         'Fe': ('iron', mc('iron_ingot', 'iron_nugget', 'iron_block') + cr('iron_sheet'), mr('molten_iron')),
-        'Cu': ('copper', mc('copper_ingot', 'copper_block') + cr('copper_nugget', 'copper_sheet'),
+        'Cu': ('copper', mc('copper_ingot', 'copper_block') + cr('copper_nugget', 'copper_sheet') + mr('copper_mesh'),
                mr('molten_copper')),
         'Au': ('gold', mc('gold_ingot', 'gold_nugget', 'gold_block') + cr('golden_sheet'), mr('molten_gold')),
         'Zn': ('zinc', cr('zinc_ingot', 'zinc_nugget', 'zinc_block'), mr('molten_zinc')),
@@ -8382,6 +8543,477 @@ def gen_ponder_pause():
     save_png(img, asset('textures', 'gui', 'ponder_pause.png'))
 
 
+# ------------------------------------------------------------------------------------------------ the glass lab
+# Stage 1 of the distillation design (/mnt/project-files/design/distillation.md): the glass lab still and bench, the
+# wash, wood spirit and coal tar split by boiling point, and Bakelite from phenol and formaldehyde.
+
+LAB_PIECES = ['round_flask', 'glass_column', 'still_head', 'coil_condenser', 'cow_receiver', 'hot_tube',
+              'settling_flask', 'separating_funnel']
+# the new powders and flakes: dark, base, light
+LAB_POWDERS = {
+    'naphthalene': ((0xB8, 0xBC, 0xC0), (0xEC, 0xEE, 0xF0), (0xFF, 0xFF, 0xFF)),
+    'kelp_ash': ((0x30, 0x34, 0x2C), (0x5C, 0x62, 0x56), (0x90, 0x96, 0x88)),
+    'soda_ash': ((0xC8, 0xC8, 0xC4), (0xF0, 0xF0, 0xEC), (0xFF, 0xFF, 0xFF)),
+    'quicklime': ((0xC0, 0xBC, 0xB0), (0xEC, 0xE8, 0xDC), (0xFF, 0xFE, 0xF8)),
+    'slaked_lime': ((0xC4, 0xC4, 0xC0), (0xF4, 0xF4, 0xF0), (0xFF, 0xFF, 0xFF)),
+    'chalk': ((0xC8, 0xC0, 0xAC), (0xEE, 0xE8, 0xD8), (0xFF, 0xFC, 0xF0)),
+}
+
+
+def lab_glass_texture(seed, cracked=False):
+    """Clear lab glass: barely there, a cool tint, bright along its top and left edges where it catches the light and
+    a soft streak of reflection across it. Cracked, white fractures run out from a point near the middle."""
+    rnd = random.Random(seed)
+    img = Image.new('RGBA', (16, 16))
+    for y in range(16):
+        for x in range(16):
+            col, a = (0xDC, 0xEC, 0xF4), 44
+            if x == 0 or y == 0:
+                col, a = (0xFF, 0xFF, 0xFF), 150
+            elif x == 15 or y == 15:
+                col, a = (0xB0, 0xC4, 0xD0), 105
+            elif abs(x + y - 9) < 1.1 or abs(x + y - 12) < 0.6:
+                col, a = (0xF4, 0xFA, 0xFF), 92
+            img.putpixel((x, y), col + (a,))
+    if cracked:
+        cx, cy = 7 + rnd.uniform(-1, 1), 8 + rnd.uniform(-1, 1)
+        for k in range(7):
+            angle = 2 * math.pi * k / 7 + rnd.uniform(-0.3, 0.3)
+            x, y = cx, cy
+            for _ in range(rnd.randint(5, 9)):
+                angle += rnd.uniform(-0.45, 0.45)
+                x, y = x + math.cos(angle), y + math.sin(angle)
+                if 0 <= x < 16 and 0 <= y < 16:
+                    img.putpixel((int(x), int(y)), (0xFF, 0xFF, 0xFF, 225))
+    return img
+
+
+def retort_stand_texture(seed):
+    """A retort stand's black-painted cast iron, a little worn."""
+    rnd = random.Random(seed)
+    img = Image.new('RGBA', (16, 16))
+    for y in range(16):
+        for x in range(16):
+            g = clamp(46 + rnd.uniform(-7, 7) - (x + y) * 0.6)
+            if rnd.random() < 0.04:
+                g = clamp(g + 30)
+            img.putpixel((x, y), (g, g, clamp(g + 3), 255))
+    return img
+
+
+def lab_coil_texture():
+    """The glass coil inside a condenser, seen through its water jacket: turns running round it."""
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    for y in range(16):
+        for x in range(16):
+            if (y + x // 4) % 4 == 0:
+                img.putpixel((x, y), (0xE6, 0xF2, 0xFA, 175))
+            elif (y + x // 4) % 4 == 1:
+                img.putpixel((x, y), (0xA8, 0xBC, 0xC8, 120))
+    return img
+
+
+def thermometer_texture():
+    """A thermometer: a glass tube with its red column up the middle."""
+    img = Image.new('RGBA', (16, 16), (0xEC, 0xF4, 0xF8, 120))
+    for y in range(16):
+        for x in (7, 8):
+            img.putpixel((x, y), (0xC8, 0x1E, 0x1E, 255) if y >= 3 else (0xF4, 0xF8, 0xFA, 150))
+    return img
+
+
+def copper_mesh_texture():
+    """Copper nuggets drawn into wire and woven into a small square of mesh."""
+    base, dark, light = (0xC8, 0x6C, 0x44), (0x7C, 0x3C, 0x24), (0xF4, 0xB0, 0x88)
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    for y in range(2, 14):
+        for x in range(2, 14):
+            on_x, on_y = (x - 2) % 3 == 0, (y - 2) % 3 == 0
+            if on_x or on_y:
+                col = light if (on_x and on_y and (x + y) % 2 == 0) else base
+                if x == 13 or y == 13:
+                    col = dark
+                img.putpixel((x, y), col + (255,))
+    return img
+
+
+def lab_box(frm, to, tex, skip=()):
+    return box(frm, to, all_faces(tex, skip))
+
+
+def retort_rod(clamp_y):
+    """The stand's rod up the back corner, and a clamp arm out to the glass at clamp_y."""
+    return [lab_box([13.5, 0, 13.5], [15, 16, 15], '#stand'),
+            lab_box([10, clamp_y, 13.75], [13.5, clamp_y + 1, 14.75], '#stand')]
+
+
+def lab_models():
+    """Each piece of lab glass as elements, in #glass (and #stand for its iron), facing north where it faces."""
+    g = '#glass'
+    m = {}
+    m['round_flask'] = [lab_box([4, 0.5, 4], [12, 9.5, 12], g), lab_box([3, 2.5, 3], [13, 7.5, 13], g),
+                        lab_box([6.5, 9.5, 6.5], [9.5, 16, 9.5], g)] + retort_rod(12)
+    m['glass_column'] = [lab_box([6, 0, 6], [10, 16, 10], g), lab_box([5.5, 4, 5.5], [10.5, 5, 10.5], g),
+                         lab_box([5.5, 11, 5.5], [10.5, 12, 10.5], g)] + retort_rod(8)
+    m['still_head'] = [lab_box([5, 0, 5], [11, 10, 11], g), lab_box([6.5, 10, 6.5], [9.5, 13, 9.5], g),
+                       lab_box([7.5, 10, 7.5], [8.5, 16, 8.5], '#thermometer'),
+                       lab_box([6.5, 5, 0], [9.5, 8, 5], g)] + retort_rod(6)
+    jacket = [lab_box([5, 4, 0], [11, 10, 16], g), lab_box([6.5, 5.5, 0], [9.5, 8.5, 16], '#coil')]
+    m['coil_condenser_still'] = (
+        [dict(e, rotation={'origin': [8, 7, 8], 'axis': 'x', 'angle': 22.5}) for e in jacket]
+        + [lab_box([7, 0, 12.5], [9, 4, 14.5], g), lab_box([7, 10, 2], [9, 13, 4], g),
+           lab_box([7, 1, 9.5], [9, 3.5, 11.5], g)])
+    upright = [lab_box([5, 0, 5], [11, 16, 11], g), lab_box([6.5, 0, 6.5], [9.5, 16, 9.5], '#coil'),
+               lab_box([11, 2, 7], [13, 4, 9], g), lab_box([3, 12, 7], [5, 14, 9], g)]
+    m['coil_condenser_upright'] = upright + retort_rod(9)
+    m['coil_condenser_basin'] = upright + [lab_box([6.5, 2, 0], [9.5, 5, 5], g)] + retort_rod(9)
+    flasks = []
+    for dx, dz in ((0, -1), (1, 0), (0, 1), (-1, 0)):
+        cx, cz = 8 + 4.5 * dx, 8 + 4.5 * dz
+        flasks += [lab_box([cx - 2.5, 0.5, cz - 2.5], [cx + 2.5, 7, cz + 2.5], g),
+                   lab_box([min(8, cx) - 1, 7, min(8, cz) - 1], [max(8, cx) + 1, 9, max(8, cz) + 1], g)]
+    m['cow_receiver'] = flasks + [lab_box([5, 8, 5], [11, 11, 11], g), lab_box([6.5, 11, 6.5], [9.5, 16, 9.5], g),
+                                  lab_box([7.25, 7, 7.25], [8.75, 8, 8.75], g)]
+    m['hot_tube'] = [lab_box([0, 6, 5], [16, 12, 11], g), lab_box([7, 0, 7], [9, 6, 9], '#stand'),
+                     lab_box([5, 5, 6], [11, 6, 10], '#stand')]
+    m['settling_flask'] = [lab_box([2, 0.5, 2], [14, 6.5, 14], g), lab_box([4, 6.5, 4], [12, 10, 12], g),
+                           lab_box([6, 10, 6], [10, 16, 10], g)] + retort_rod(12)
+    m['separating_funnel'] = [lab_box([4, 5, 4], [12, 13, 12], g), lab_box([5, 4, 5], [11, 14, 11], g),
+                              lab_box([7.5, 0, 7.5], [8.5, 4, 8.5], g), lab_box([6, 1.5, 7.5], [10, 2.5, 8.5], '#stand'),
+                              lab_box([6.5, 14, 6.5], [9.5, 16, 9.5], '#stand'),
+                              lab_box([3.5, 9, 3.5], [12.5, 9.5, 12.5], '#stand', skip=('up', 'down'))] \
+        + retort_rod(9)
+    return m
+
+
+def loot_unless_cracked(name):
+    """Lab glass drops itself, unless it was cracked: then it shatters to nothing."""
+    loot = loot_self(name)
+    loot['pools'][0]['conditions'].append({'condition': 'minecraft:block_state_property', 'block': f'mcremix:{name}',
+                                           'properties': {'cracked': 'false'}})
+    return loot
+
+
+def gen_glass_lab():
+    save_png(lab_glass_texture(1700), asset('textures', 'block', 'lab_glass.png'))
+    save_png(lab_glass_texture(1700, cracked=True), asset('textures', 'block', 'lab_glass_cracked.png'))
+    save_png(retort_stand_texture(1701), asset('textures', 'block', 'retort_stand.png'))
+    save_png(lab_coil_texture(), asset('textures', 'block', 'lab_coil.png'))
+    save_png(thermometer_texture(), asset('textures', 'block', 'thermometer.png'))
+    save_png(copper_mesh_texture(), asset('textures', 'item', 'copper_mesh.png'))
+    for n, (name, (dark, base, light)) in enumerate(LAB_POWDERS.items()):
+        save_png(powder_texture(1710 + n, dark, base, light, clumps=0.08 if name in ('quicklime', 'chalk') else 0.0),
+                 asset('textures', 'item', name + '.png'))
+    for name in ['copper_mesh'] + list(LAB_POWDERS):
+        write_json(asset('models', 'item', name + '.json'),
+                   {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'mcremix:item/{name}'}})
+
+    textures = {'glass': 'mcremix:block/lab_glass', 'stand': 'mcremix:block/retort_stand',
+                'coil': 'mcremix:block/lab_coil', 'thermometer': 'mcremix:block/thermometer',
+                'particle': 'mcremix:block/lab_glass'}
+    for name, elements in lab_models().items():
+        used = {k: v for k, v in textures.items()
+                if k == 'particle' or any(f'#{k}' in json.dumps(e) for e in elements)}
+        write_json(asset('models', 'block', name + '.json'), {'textures': used, 'elements': elements})
+        write_json(asset('models', 'block', name + '_cracked.json'),
+                   {'parent': f'mcremix:block/{name}', 'textures': {'glass': 'mcremix:block/lab_glass_cracked',
+                                                                    'particle': 'mcremix:block/lab_glass_cracked'}})
+
+    def model(name, cracked):
+        return f'mcremix:block/{name}' + ('_cracked' if cracked else '')
+
+    turns = {'north': 0, 'east': 90, 'south': 180, 'west': 270}
+    for name in ('round_flask', 'glass_column', 'settling_flask', 'separating_funnel'):
+        write_json(asset('blockstates', name + '.json'), {'variants': {
+            f'cracked={str(c).lower()}': {'model': model(name, c)} for c in (False, True)}})
+    for name in ('still_head', 'cow_receiver'):
+        write_json(asset('blockstates', name + '.json'), {'variants': {
+            f'cracked={str(c).lower()},facing={f}': dict({'model': model(name, c)}, **({'y': y} if y else {}))
+            for c in (False, True) for f, y in turns.items()}})
+    write_json(asset('blockstates', 'hot_tube.json'), {'variants': {
+        f'axis={a},cracked={str(c).lower()}': dict({'model': model('hot_tube', c)}, **({'y': 90} if a == 'z' else {}))
+        for c in (False, True) for a in ('x', 'z')}})
+    variants = {}
+    for c in (False, True):
+        for f in ('down', 'up'):
+            variants[f'cracked={str(c).lower()},facing={f}'] = {'model': model('coil_condenser_upright', c)}
+        for f, y in turns.items():
+            for shape in ('still', 'upright', 'basin'):
+                v = {'model': model(f'coil_condenser_{shape}', c)}
+                if y and shape != 'upright':
+                    v['y'] = y
+                variants[f'cracked={str(c).lower()},facing={f},shape={shape}'] = v
+    write_json(asset('blockstates', 'coil_condenser.json'), {'variants': variants})
+    for name in LAB_PIECES:
+        write_json(asset('models', 'item', name + '.json'),
+                   {'parent': f'mcremix:block/{name}_upright' if name == 'coil_condenser' else f'mcremix:block/{name}'})
+        write_json(data('mcremix', 'loot_tables', 'blocks', name + '.json'), loot_unless_cracked(name))
+
+    # every piece stands on an iron retort stand, so each takes an iron nugget
+    glass, pane, pipe = {'tag': 'forge:glass/colorless'}, {'tag': 'forge:glass_panes/colorless'}, item('mcremix:glass_pipe')
+    nugget, flask = {'tag': 'forge:nuggets/iron'}, item('mcremix:round_flask')
+
+    def shaped(name, pattern, key, count=1):
+        recipe('crafting/' + name, {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': pattern,
+                                    'key': key, 'result': {'item': f'mcremix:{name}', 'count': count}})
+
+    def shapeless(name, ingredients):
+        recipe('crafting/' + name, {'type': 'minecraft:crafting_shapeless', 'category': 'misc',
+                                    'ingredients': ingredients, 'result': item(f'mcremix:{name}')})
+    shaped('round_flask', [' N ', 'G G', 'GGG'], {'N': nugget, 'G': glass})
+    shapeless('glass_column', [pane, pane, pipe, nugget])
+    shapeless('still_head', [flask, pipe, {'tag': 'forge:dusts/redstone'}])
+    shaped('coil_condenser', ['PNP', 'PTP'], {'P': pane, 'N': nugget, 'T': pipe})
+    shaped('cow_receiver', ['BNB', 'BTB'], {'B': item('minecraft:glass_bottle'), 'N': nugget, 'T': pipe})
+    shapeless('hot_tube', [pipe, pipe, nugget])
+    shapeless('settling_flask', [glass, glass, glass, pane, nugget])
+    shaped('separating_funnel', ['F', 'T'], {'F': flask, 'T': pipe})
+    shaped('copper_mesh', ['NN', 'NN'], {'N': {'tag': 'forge:nuggets/copper'}})
+
+    # the still: each mixture a bucket at a time, its cuts lightest first and what is left last; 30 seconds at its own
+    # heat, half that for each level hotter
+    def distilling(name, heat, feed, cuts, residue, points, close=()):
+        recipe('distilling/' + name, {
+            'type': 'mcremix:distilling', 'heat': heat, 'processingTime': 600,
+            'ingredients': [{'fluid': f'mcremix:{feed}', 'amount': 1000}],
+            'results': [{'fluid': f, 'amount': a} for f, a in cuts + [residue]],
+            'boiling_points': points, 'close': [c in close for c, _ in cuts]})
+    distilling('wash', 'warm', 'wash', [('mcremix:ethanol', 250)], ('mcremix:warm_water', 750), [78, 100])
+    distilling('wood_spirit', 'warm', 'wood_spirit', [('mcremix:acetone', 100), ('mcremix:methanol', 300)],
+               ('mcremix:vinegar', 600), [56, 65, 100], close=('mcremix:acetone', 'mcremix:methanol'))
+    distilling('coal_tar', 'hot', 'coal_tar', [('mcremix:light_oil', 150), ('mcremix:carbolic_oil', 250),
+                                               ('mcremix:creosote', 250)], ('mcremix:pitch', 350), [120, 200, 250, 360])
+
+    # methanol over hot copper loses hydrogen and comes off as formaldehyde, in a Steel Furnace or a hot tube
+    recipe('steel_furnace/formaldehyde', {
+        'type': 'mcremix:steel_furnace', 'heat': 'hot', 'processingTime': 100, 'catalyst_lasts': 16000,
+        'ingredients': [item('mcremix:copper_mesh'), {'fluid': 'mcremix:methanol', 'amount': 250}],
+        'results': [{'fluid': 'mcremix:formaldehyde', 'amount': 250}]})
+    # carbolic oil left to stand cool grows naphthalene; the oil strained off it still has the phenol in it
+    recipe('settling/naphthalene', {
+        'type': 'mcremix:settling', 'processingTime': 200,
+        'ingredients': [{'fluid': 'mcremix:carbolic_oil', 'amount': 250}],
+        'results': [item('mcremix:naphthalene', 2), {'fluid': 'mcremix:strained_carbolic_oil', 'amount': 250}]})
+    # washed with caustic soda, its phenol goes into the watery layer and the neutral oil floats off as creosote
+    recipe('vat_mixing/sodium_phenolate', {
+        'type': 'mcremix:vat_mixing', 'processingTime': 100,
+        'ingredients': [{'fluid': 'mcremix:strained_carbolic_oil', 'amount': 250},
+                        {'fluid': 'mcremix:caustic_soda', 'amount': 250}],
+        'results': [{'fluid': 'mcremix:sodium_phenolate', 'amount': 250}, {'fluid': 'mcremix:creosote', 'amount': 250}]})
+    # CO2 bubbled through it springs the phenol, leaving soda ash; a gas, so only a vat does it
+    recipe('vat_mixing/phenol', {
+        'type': 'mcremix:vat_mixing', 'processingTime': 100,
+        'ingredients': [{'fluid': 'mcremix:sodium_phenolate', 'amount': 250},
+                        {'fluid': 'mcremix:carbon_dioxide', 'amount': 250}],
+        'results': [item('mcremix:soda_ash'), {'fluid': 'mcremix:phenol', 'amount': 250}]})
+    # caustic soda the old way: kelp ash washed into soda ash, lime burnt and slaked, and the two mixed
+    firing('kelp_ash', item('minecraft:kelp'), 'mcremix:kelp_ash', 'warm', 100)
+    recipe('splashing/soda_ash', {'type': 'create:splashing', 'ingredients': [item('mcremix:kelp_ash')],
+                                  'results': [{'item': 'mcremix:soda_ash', 'chance': 0.5}]})
+    firing('quicklime', item('create:limestone'), 'mcremix:quicklime', 'searing', 200,
+           byproduct=('mcremix:carbon_dioxide', 50))
+    firing('quicklime_from_chalk', item('mcremix:chalk'), 'mcremix:quicklime', 'searing', 200,
+           byproduct=('mcremix:carbon_dioxide', 50))
+    recipe('splashing/slaked_lime', {'type': 'create:splashing', 'ingredients': [item('mcremix:quicklime')],
+                                     'results': [item('mcremix:slaked_lime')]})
+    recipe('mixing/caustic_soda_from_soda_ash', {
+        'type': 'create:mixing',
+        'ingredients': [item('mcremix:soda_ash'), item('mcremix:slaked_lime'), {'fluid': 'minecraft:water', 'amount': 250}],
+        'results': [item('mcremix:chalk'), {'fluid': 'mcremix:caustic_soda', 'amount': 250}]})
+
+    # a Spout of vinegar takes the patina off copper, as acid takes rust off iron; it leaves iron as it is
+    for bare, weathered in vinegar_cleaning():
+        ns, name = bare.split(':')
+        recipe(f'filling/vinegar/{name if ns == "mcremix" else ns + "_" + name}', {
+            'type': 'create:filling',
+            'ingredients': [weathered, {'fluid': 'mcremix:vinegar', 'amount': ACID_PER_ITEM}],
+            'results': [item(bare)]})
+
+
+def vinegar_cleaning():
+    """(bare copper item, its weathered forms as one ingredient) for all a Spout of vinegar cleans."""
+    out = []
+    stages = STAGES[1:]
+    for part in PARTS:
+        out.append((f'mcremix:copper_{part}', [item(f'mcremix:{stage_prefix("copper", s)}copper_{part}') for s in stages]))
+    for part in ('create:fluid_pipe', 'create:mechanical_pump', 'create:fluid_tank'):
+        out.append((part, [{'type': 'forge:partial_nbt', 'item': part, 'nbt': {'BlockStateTag': {'patina': s}}}
+                           for s in stages]))
+    for bare, form in (('copper_block', 'copper'), ('cut_copper', 'cut_copper'),
+                       ('cut_copper_stairs', 'cut_copper_stairs'), ('cut_copper_slab', 'cut_copper_slab')):
+        out.append((f'minecraft:{bare}', [item(f'minecraft:{s}_{form}') for s in stages]))
+    for form in ('copper_shingles', 'copper_shingle_slab', 'copper_shingle_stairs',
+                 'copper_tiles', 'copper_tile_slab', 'copper_tile_stairs'):
+        out.append((f'create:{form}', [item(f'create:{s}_{form}') for s in stages]))
+    return out
+
+
+def gen_lab_ponder():
+    """The lab still: a round flask on a campfire with a glass column piece and a still head on it, the coil condenser
+    on the head's arm (east) sloping down to a cow receiver, and the condenser's water piped from a tank behind it.
+    The bench: a hot tube on a campfire, a settling flask, a separating funnel over a tank, and a reflux flask on a
+    campfire with a coil condenser standing on it."""
+    b = {}
+    plate(b)
+    b[(1, 1, 2)] = ('minecraft:campfire', {'facing': 'north', 'lit': 'true', 'signal_fire': 'false',
+                                          'waterlogged': 'false'})
+    b[(1, 2, 2)] = ('mcremix:round_flask', {'cracked': 'false'})
+    b[(1, 3, 2)] = ('mcremix:glass_column', {'cracked': 'false'})
+    b[(1, 4, 2)] = ('mcremix:still_head', {'cracked': 'false', 'facing': 'east', 'powered': 'false'})
+    b[(2, 4, 2)] = ('mcremix:coil_condenser', {'cracked': 'false', 'facing': 'west', 'shape': 'still'})
+    b[(2, 3, 2)] = ('mcremix:cow_receiver', {'cracked': 'false', 'facing': 'east', 'turn': '0', 'powered': 'false'})
+    save_structure('lab/still', (5, 6, 5), b)
+
+    b = {}
+    plate(b)
+    b[(0, 1, 2)] = ('minecraft:campfire', {'facing': 'north', 'lit': 'true', 'signal_fire': 'false',
+                                          'waterlogged': 'false'})
+    b[(0, 2, 2)] = ('mcremix:hot_tube', {'cracked': 'false', 'axis': 'z'})
+    b[(1, 1, 2)] = ('mcremix:settling_flask', {'cracked': 'false'})
+    b[(2, 2, 2)] = ('mcremix:separating_funnel', {'cracked': 'false'})
+    b[(2, 1, 2)] = ('create:fluid_tank', {'top': 'true', 'bottom': 'true', 'shape': 'window'}, lone_tank_nbt((2, 1, 2)))
+    b[(4, 1, 2)] = ('minecraft:campfire', {'facing': 'north', 'lit': 'true', 'signal_fire': 'false',
+                                          'waterlogged': 'false'})
+    b[(4, 2, 2)] = ('mcremix:round_flask', {'cracked': 'false'})
+    b[(4, 3, 2)] = ('mcremix:coil_condenser', {'cracked': 'false', 'facing': 'down', 'shape': 'upright'})
+    save_structure('lab/bench', (5, 5, 5), b)
+
+
+def lab_lang():
+    lang = {
+        'block.mcremix.round_flask': 'Round Flask',
+        'block.mcremix.round_flask.tooltip.summary': (
+            'The bottom of a _lab still_, standing on a _heat source_ like a basin: fill it with a _bucket_ or pipe. '
+            'With a _coil condenser_ standing on it instead, it is a _reflux flask_.'),
+        'block.mcremix.round_flask.tooltip.condition1': 'As a still',
+        'block.mcremix.round_flask.tooltip.behaviour1': (
+            'Put a _still head_ on it, up to three _glass column pieces_ between, a _coil condenser_ on the head\'s arm '
+            'and a _cow receiver_ under the condenser. A bucket of _wash_, _wood spirit_ or _coal tar_ comes over a '
+            '_cut_ at a time, lightest first; what is left stays in the flask, to be drained.'),
+        'block.mcremix.round_flask.tooltip.condition2': 'As a reflux flask',
+        'block.mcremix.round_flask.tooltip.behaviour2': (
+            'Cooks what Create mixes in a _heated_ basin from _fluids_ alone, a bucket at a time over a _fire_, losing '
+            'nothing: the condenser runs what boils back down.'),
+        'block.mcremix.round_flask.tooltip.condition3': 'Lab glass',
+        'block.mcremix.round_flask.tooltip.behaviour3': (
+            'Nothing past _Hot_: over _Searing_ heat it _cracks_. Hot glass also cracks if _rain_ falls on it or '
+            '_water_ stands beside it. A cracked piece _shatters_ five seconds later, spilling what it held.'),
+        'block.mcremix.glass_column': 'Glass Column Piece',
+        'block.mcremix.glass_column.tooltip.summary': (
+            'Goes between a _round flask_ and its _still head_, up to three. Cuts that boil _close together_, as '
+            'acetone and methanol do, come over at a quarter of the pace in a bare still, and _twice as fast_ for '
+            'each piece.'),
+        'block.mcremix.still_head': 'Still Head',
+        'block.mcremix.still_head.tooltip.summary': (
+            'Tops a _lab still_, its arm toward where it is placed facing. Its _thermometer_ shows the vapour\'s '
+            'temperature through goggles, and gives a short _redstone pulse_ each time a cut ends.'),
+        'block.mcremix.coil_condenser': 'Coil Condenser',
+        'block.mcremix.coil_condenser.tooltip.summary': (
+            'Turns vapour back into liquid. Place it against a _still head\'s arm_, on a _round flask_, or on a '
+            '_basin\'s side_. Pipe _water_ in: it comes out _warm_. _Cold water_ runs a still twice as fast, '
+            '_coolant_ three times. With nothing to cool with, the still waits.'),
+        'block.mcremix.coil_condenser.tooltip.condition1': 'On a heated basin',
+        'block.mcremix.coil_condenser.tooltip.behaviour1': (
+            'A heated basin recipe loses a _quarter as much again_ of the _ethanol_, _methanol_ or _ethylene '
+            'dichloride_ it takes as vapour. A condenser on its side runs it back, and nothing is lost.'),
+        'block.mcremix.cow_receiver': 'Cow Receiver',
+        'block.mcremix.cow_receiver.tooltip.summary': (
+            'Four flasks under a still\'s condenser, a bucket each. A cut waits until the flask under the drip is '
+            'empty or holds the same, so two cuts never mix.'),
+        'block.mcremix.cow_receiver.tooltip.condition1': 'Turning it',
+        'block.mcremix.cow_receiver.tooltip.behaviour1': (
+            'Right-click with an _empty hand_, or give it a _redstone pulse_, to turn the next flask under the drip: '
+            'the still head\'s pulse does it as each cut ends. A _bucket_ takes from the flask on the side you click; '
+            '_pipes_ draw from them all.'),
+        'block.mcremix.hot_tube': 'Hot Tube',
+        'block.mcremix.hot_tube.tooltip.summary': (
+            'A glass tube over a _fire_ with a _catalyst_ inside: the _Steel Furnace\'s_ catalyst jobs that need no '
+            'more than _Hot_, 250 mB at a time. _Methanol_ over _copper mesh_ gives _formaldehyde_, _ethanol_ over '
+            '_alumina_ gives _ethylene_. Right-click with the catalyst to put it in, with an empty hand to take it '
+            'out.'),
+        'block.mcremix.settling_flask': 'Settling Flask',
+        'block.mcremix.settling_flask.tooltip.summary': (
+            'What settles out of a fluid left to stand _cool_ settles here, a batch at a time, with no heat under it: '
+            '_naphthalene_ out of _carbolic oil_. Take what settled with an _empty hand_, or a _funnel_ or _chute_.'),
+        'block.mcremix.separating_funnel': 'Separating Funnel',
+        'block.mcremix.separating_funnel.tooltip.summary': (
+            'Two liquids shaken together settle into two layers: what a _vat_ mixes from liquids alone, a batch at a '
+            'time. The _heavier_ layer comes out of the _tap_ to a pipe _under_ it, the _lighter_ to a pipe on its '
+            '_top_ or _sides_. _Strained carbolic oil_ and _caustic soda_ give _sodium phenolate_ under _creosote_.'),
+        'item.mcremix.copper_mesh': 'Copper Mesh',
+        'item.mcremix.copper_mesh.tooltip.summary': (
+            'The catalyst _methanol_ runs over to become _formaldehyde_, in a _hot tube_ or a _Steel Furnace\'s_ '
+            'chamber, at _Hot_. Wears away slowly.'),
+        'item.mcremix.naphthalene': 'Naphthalene',
+        'item.mcremix.naphthalene.tooltip.summary': 'White flakes that grow in _carbolic oil_ left to stand cool.',
+        'item.mcremix.kelp_ash': 'Kelp Ash',
+        'item.mcremix.kelp_ash.tooltip.summary': (
+            '_Kelp_ burnt _Warm_ in the Furnace. _Washed_ with a fan through water, it gives _soda ash_.'),
+        'item.mcremix.soda_ash': 'Soda Ash',
+        'item.mcremix.soda_ash.tooltip.summary': (
+            'Mixed with _slaked lime_ and _water_ in a basin, it makes _caustic soda_, leaving _chalk_.'),
+        'item.mcremix.quicklime': 'Quicklime',
+        'item.mcremix.quicklime.tooltip.summary': (
+            '_Limestone_ or _chalk_ burnt _Searing_ in the Furnace, its _CO2_ going into the Furnace\'s tank. '
+            '_Washed_ with a fan through water, it slakes.'),
+        'item.mcremix.slaked_lime': 'Slaked Lime',
+        'item.mcremix.slaked_lime.tooltip.summary': 'Quicklime washed with water. Makes _caustic soda_ of _soda ash_.',
+        'item.mcremix.chalk': 'Chalk',
+        'item.mcremix.chalk.tooltip.summary': 'Left when lime makes caustic soda. Burns back into _quicklime_.',
+        'fluid.mcremix.light_oil': 'Light Oil',
+        'item.mcremix.bakelite.tooltip.summary': (
+            'The first plastic: _phenol_ set hard with _formaldehyde_ by a _press_ over a _heated_ basin.'),
+        'death.attack.mcremix.carbon_dioxide': '%1$s suffocated in a pool of carbon dioxide',
+        'death.attack.mcremix.carbon_dioxide.player': '%1$s suffocated in a pool of carbon dioxide whilst fighting %2$s',
+        'mcremix.jei.distilling': 'Distilling',
+        'mcremix.jei.distilling.cut': 'Cut %s: comes over at %s °C',
+        'mcremix.jei.distilling.close': 'Boils close to its neighbour: a quarter of the pace in a bare still, twice as '
+                                        'fast for each glass column piece',
+        'mcremix.jei.distilling.residue': 'Left in the flask, to be drained',
+        'mcremix.jei.distilling.time': 'A bucket at a time. Each level hotter halves the time, cold water in the '
+                                       'condenser halves it again, and coolant takes a third',
+        'mcremix.goggles.still.idle': 'Idle',
+        'mcremix.goggles.still.wont_distil': 'That does not distil',
+        'mcremix.goggles.still.incomplete.head': 'Needs a still head on it',
+        'mcremix.goggles.still.incomplete.condenser': 'Needs a coil condenser on the still head\'s arm',
+        'mcremix.goggles.still.incomplete.receiver': 'Needs a cow receiver under the condenser',
+        'mcremix.goggles.still.too_cold': 'Too cold to boil: %s',
+        'mcremix.goggles.still.no_water': 'The condenser needs water',
+        'mcremix.goggles.still.waiting_flask': 'Waiting for a flask: turn the cow receiver',
+        'mcremix.goggles.still.distilling': 'Distilling',
+        'mcremix.goggles.still.done': 'Done: drain what is left',
+        'mcremix.goggles.still.refluxing': 'Refluxing',
+        'mcremix.goggles.still.cracked': 'Cracked!',
+        'mcremix.goggles.still.vapour': 'Thermometer: %s °C, %s coming over',
+        'mcremix.goggles.still.cut': 'Cut %s of %s',
+        'mcremix.goggles.still.holds': '%s: %s mB',
+        'mcremix.goggles.still.reflux_flask': 'Reflux Flask',
+        'mcremix.goggles.still.no_flask': 'Needs a round flask under it',
+        'mcremix.goggles.coil_condenser.dry': 'Needs water piped in',
+        'mcremix.goggles.coil_condenser.full': 'Its warm water has nowhere to go',
+        'mcremix.goggles.coil_condenser.condensing': 'Condensing',
+        'mcremix.goggles.coil_condenser.ready': 'Ready',
+        'mcremix.goggles.cow_receiver.empty': 'empty',
+        'mcremix.goggles.cow_receiver.holds': '%s, %s mB',
+        'mcremix.goggles.cow_receiver.under_drip': 'Under the drip (%s): %s',
+        'mcremix.goggles.cow_receiver.flask': '%s: %s',
+        'mcremix.goggles.cow_receiver.vent': 'Venting %s: %s mB',
+        'mcremix.goggles.bench.idle': 'Idle',
+        'mcremix.goggles.bench.waiting': 'Waiting for enough to work',
+        'mcremix.goggles.bench.working': 'Working: %s%%',
+        'mcremix.goggles.bench.too_cold': 'Too cold: %s',
+        'mcremix.goggles.bench.warm': 'Too warm to settle: take it off the heat',
+        'mcremix.goggles.bench.no_catalyst': 'Needs its catalyst inside',
+        'mcremix.goggles.bench.needs': 'Needs %s',
+        'mcremix.goggles.bench.full': 'Full: drain what it made',
+        'mcremix.goggles.bench.cracked': 'Cracked!',
+        'mcremix.goggles.bench.item': '%s × %s',
+    }
+    for side in ('north', 'east', 'south', 'west'):
+        lang[f'mcremix.goggles.cow_receiver.side.{side}'] = side
+    return lang
+
+
 if __name__ == '__main__':
     # the colour pass reads jars from Gradle's caches when imported, so a missing one stops it before anything is wiped
     import gen_colours
@@ -8426,6 +9058,8 @@ if __name__ == '__main__':
     gen_titanium_plating()
     gen_titanium_chain()
     gen_titanium_ponder()
+    gen_glass_lab()
+    gen_lab_ponder()
     gen_ponder_pause()
     # last, as it adds to the lang file and to tags written above
     gen_colours.gen_colours()

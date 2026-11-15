@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BNB",
+    "BTB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "N": {
+      "tag": "forge:nuggets/iron"
+    },
+    "T": {
+      "item": "mcremix:glass_pipe"
+    }
+  },
+  "result": {
+    "item": "mcremix:cow_receiver",
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "mcremix:kelp_ash"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:soda_ash",
+      "chance": 0.5
+    }
+  ]
+}

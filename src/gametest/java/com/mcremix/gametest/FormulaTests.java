@@ -113,8 +113,8 @@ public class FormulaTests {
 	public static void compoundsShowTheirFormulas(GameTestHelper h) {
 		Formulas.Index index = Formulas.Index.of(formulas().values());
 		for (Chemical chemical : Chemical.values()) {
-			// coal tar is a mixture of many things; molten sodium shows sodium's symbol alone (0.26.0)
-			boolean compound = chemical != Chemical.COAL_TAR;
+			// coal tar and pitch are mixtures of many things; molten sodium shows sodium's symbol alone (0.26.0)
+			boolean compound = chemical != Chemical.COAL_TAR && chemical != Chemical.PITCH;
 			h.assertTrue((index.of(chemical.fluid()) != null) == compound,
 				chemical.id + (compound ? " should show its formula" : " should show none"));
 			if (!chemical.gas)
@@ -126,7 +126,9 @@ public class FormulaTests {
 		}
 		for (Item item : List.of(ModItems.SALT.get(), ModItems.ALUMINA.get(), ModItems.ALUMINIUM_HYDROXIDE.get(),
 			ModItems.RUTILE.get(), ModItems.TITANIUM_DIOXIDE.get(), ModItems.POLYETHYLENE_PELLETS.get(),
-			ModItems.PVC_RESIN.get(), ModItems.PVC_SHEET.get(), ModItems.BAKELITE.get(), Items.WATER_BUCKET, Items.ICE,
+			ModItems.PVC_RESIN.get(), ModItems.PVC_SHEET.get(), ModItems.BAKELITE.get(), ModItems.NAPHTHALENE.get(),
+			ModItems.SODA_ASH.get(), ModItems.QUICKLIME.get(), ModItems.SLAKED_LIME.get(), ModItems.CHALK.get(),
+			Items.WATER_BUCKET, Items.ICE,
 			Items.SNOWBALL, Items.SUGAR, Items.QUARTZ, Items.CALCITE, Items.CLAY_BALL, Items.BONE_MEAL,
 			ForgeRegistries.ITEMS.getValue(new ResourceLocation("create", "limestone")),
 			ForgeRegistries.ITEMS.getValue(new ResourceLocation("create", "rose_quartz"))))

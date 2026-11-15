@@ -102,6 +102,13 @@ public class ModPonderPlugin implements PonderPlugin {
 			.addStoryBoard("kiln/byproducts", TarScenes::byproducts, HEAT);
 		entries.forComponents(ModItems.BAKELITE, tar, spirit)
 			.addStoryBoard("kiln/bakelite", TarScenes::bakelite);
+		// the glass lab
+		entries.forComponents(ModBlocks.ROUND_FLASK, ModBlocks.GLASS_COLUMN, ModBlocks.STILL_HEAD,
+			ModBlocks.COIL_CONDENSER, ModBlocks.COW_RECEIVER, tar, spirit)
+			.addStoryBoard("lab/still", LabScenes::still, HEAT);
+		entries.forComponents(ModBlocks.HOT_TUBE, ModBlocks.SETTLING_FLASK, ModBlocks.SEPARATING_FUNNEL,
+			ModBlocks.ROUND_FLASK, ModBlocks.COIL_CONDENSER)
+			.addStoryBoard("lab/bench", LabScenes::bench, HEAT);
 		entries.forComponents(ModBlocks.HEAT_SINK)
 			.addStoryBoard("heat_sink/intro", HeatSinkScenes::intro, HEAT)
 			.addStoryBoard("friction_heat/intro", FrictionHeatScenes::intro, HEAT);

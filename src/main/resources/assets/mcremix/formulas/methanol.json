@@ -1,7 +1,7 @@
 {
   "formula": "CH3OH",
   "fluids": [
-    "mcremix:wood_spirit"
+    "mcremix:methanol"
   ],
   "atoms": [
     {

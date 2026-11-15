@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "cracked=false": {
+      "model": "mcremix:block/settling_flask"
+    },
+    "cracked=true": {
+      "model": "mcremix:block/settling_flask_cracked"
+    }
+  }
+}

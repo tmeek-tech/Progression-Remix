@@ -518,7 +518,7 @@ public class ElectrolysisTests {
 	 * crafting recipe.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 20)
-	public static void carbonElectrodesAreBakedFromCokeAndTar(GameTestHelper h) {
+	public static void carbonElectrodesAreBakedFromCokeAndPitch(GameTestHelper h) {
 		Recipe<?> pressing = h.getLevel().getRecipeManager()
 			.byKey(McRemix.asResource("compacting/unbaked_carbon_electrode")).orElse(null);
 		h.assertTrue(pressing instanceof BasinRecipe && pressing.getType() == AllRecipeTypes.COMPACTING.getType(),
@@ -527,9 +527,9 @@ public class ElectrolysisTests {
 		h.assertTrue(recipe.getIngredients().size() == 2
 			&& recipe.getIngredients().stream().allMatch(i -> i.test(ModItems.COAL_COKE.asStack())),
 			"an unbaked electrode should take two coal coke");
-		FluidIngredient tar = recipe.getFluidIngredients().get(0);
-		h.assertTrue(tar.test(Chemical.COAL_TAR.stack(100)) && tar.getRequiredAmount() == 100,
-			"an unbaked electrode should take 100 mB of coal tar");
+		FluidIngredient pitch = recipe.getFluidIngredients().get(0);
+		h.assertTrue(pitch.test(Chemical.PITCH.stack(100)) && pitch.getRequiredAmount() == 100,
+			"an unbaked electrode should take 100 mB of pitch, the coal tar still's residue (0.29.0)");
 		h.assertTrue(recipe.getResultItem(h.getLevel().registryAccess()).is(ModItems.UNBAKED_CARBON_ELECTRODE.get()),
 			"the press should make an unbaked electrode");
 		KilnTests.expect(h, ModItems.UNBAKED_CARBON_ELECTRODE.get(), ModItems.CARBON_ELECTRODE.get(), HeatLevel.HOT);

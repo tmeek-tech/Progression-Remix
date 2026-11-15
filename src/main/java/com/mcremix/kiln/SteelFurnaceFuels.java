@@ -57,6 +57,10 @@ public final class SteelFurnaceFuels {
 		new Fuel(Chemical.WOOD_SPIRIT::fluid, 1, HeatLevel.HOT),
 		new Fuel(Chemical.ETHANOL::fluid, 1, HeatLevel.SEARING),
 		new Fuel(Chemical.COAL_TAR::fluid, 2, HeatLevel.SEARING),
+		// coal tar's and wood spirit's cuts: benzol, as early cars burned it, acetone, and creosote
+		new Fuel(Chemical.ACETONE::fluid, 1, HeatLevel.SEARING),
+		new Fuel(Chemical.LIGHT_OIL::fluid, 2, HeatLevel.SEARING),
+		new Fuel(Chemical.CREOSOTE::fluid, 2, HeatLevel.SEARING),
 		new Fuel(Chemical.HYDROGEN::fluid, 1, HeatLevel.BLAZING),
 		new Fuel(Chemical.ETHYLENE::fluid, 2, HeatLevel.BLAZING));
 

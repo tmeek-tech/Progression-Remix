@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/separating_funnel",
+  "textures": {
+    "glass": "mcremix:block/lab_glass_cracked",
+    "particle": "mcremix:block/lab_glass_cracked"
+  }
+}

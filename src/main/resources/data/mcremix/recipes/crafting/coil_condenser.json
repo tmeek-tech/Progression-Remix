@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PNP",
+    "PTP"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:glass_panes/colorless"
+    },
+    "N": {
+      "tag": "forge:nuggets/iron"
+    },
+    "T": {
+      "item": "mcremix:glass_pipe"
+    }
+  },
+  "result": {
+    "item": "mcremix:coil_condenser",
+    "count": 1
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "mcremix:quicklime"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:slaked_lime"
+    }
+  ]
+}

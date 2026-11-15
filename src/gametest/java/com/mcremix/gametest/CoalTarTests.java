@@ -110,16 +110,19 @@ public class CoalTarTests {
 		});
 	}
 
-	/** Coal tar and wood spirit in a basin on a lit blaze burner, under a running press, set into Bakelite. */
+	/**
+	 * Phenol and formaldehyde, 50 mB of each, in a basin on a lit blaze burner, under a running press, set into Bakelite
+	 * (0.29.0: Baekeland's way, in place of coal tar and wood spirit).
+	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 400)
-	public static void tarAndWoodSpiritPressIntoBakelite(GameTestHelper h) {
+	public static void phenolAndFormaldehydePressIntoBakelite(GameTestHelper h) {
 		BlockPos pos = p(4, 3, 4);
 		KilnTests.fedBurner(h, pos.below(), new ItemStack(Items.COAL));
 		h.setBlock(pos, AllBlocks.BASIN.getDefaultState());
 		BasinBlockEntity basin = (BasinBlockEntity) h.getBlockEntity(pos);
 		IFluidHandler tanks = basin.getCapability(ForgeCapabilities.FLUID_HANDLER).orElseThrow(IllegalStateException::new);
-		tanks.fill(Chemical.COAL_TAR.stack(100), FluidAction.EXECUTE);
-		tanks.fill(Chemical.WOOD_SPIRIT.stack(100), FluidAction.EXECUTE);
+		tanks.fill(Chemical.PHENOL.stack(50), FluidAction.EXECUTE);
+		tanks.fill(Chemical.FORMALDEHYDE.stack(50), FluidAction.EXECUTE);
 		// the press two above the basin, on a creative motor
 		h.setBlock(pos.above(2), AllBlocks.MECHANICAL_PRESS.getDefaultState()
 			.setValue(HorizontalKineticBlock.HORIZONTAL_FACING, Direction.EAST));
@@ -127,7 +130,7 @@ public class CoalTarTests {
 		h.succeedWhen(() -> {
 			int bakelite = KilnBasinTests.count(basin.getOutputInventory(), ModItems.BAKELITE.get());
 			h.assertTrue(bakelite == 1, "the basin should end up with one Bakelite, has " + bakelite);
-			h.assertTrue(tanks.drain(1000, FluidAction.SIMULATE).isEmpty(), "the tar and spirit should be used up");
+			h.assertTrue(tanks.drain(1000, FluidAction.SIMULATE).isEmpty(), "the phenol and formaldehyde should be used up");
 		});
 	}
 }

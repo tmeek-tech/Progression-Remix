@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:chalk"
+  },
+  "result": {
+    "item": "mcremix:quicklime"
+  },
+  "heat": "searing",
+  "time": 200,
+  "byproduct": {
+    "fluid": "mcremix:carbon_dioxide",
+    "amount": 50
+  }
+}

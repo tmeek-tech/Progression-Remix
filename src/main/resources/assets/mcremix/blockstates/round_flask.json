@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "cracked=false": {
+      "model": "mcremix:block/round_flask"
+    },
+    "cracked=true": {
+      "model": "mcremix:block/round_flask_cracked"
+    }
+  }
+}

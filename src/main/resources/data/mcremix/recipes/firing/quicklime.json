@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "create:limestone"
+  },
+  "result": {
+    "item": "mcremix:quicklime"
+  },
+  "heat": "searing",
+  "time": 200,
+  "byproduct": {
+    "fluid": "mcremix:carbon_dioxide",
+    "amount": 50
+  }
+}

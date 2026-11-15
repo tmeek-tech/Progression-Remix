@@ -1,0 +1,21 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "hot",
+  "processingTime": 100,
+  "catalyst_lasts": 16000,
+  "ingredients": [
+    {
+      "item": "mcremix:copper_mesh"
+    },
+    {
+      "fluid": "mcremix:methanol",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:formaldehyde",
+      "amount": 250
+    }
+  ]
+}

@@ -103,8 +103,8 @@ public class TitaniumChainTests {
 			&& briquette.getIngredients().stream().anyMatch(i -> i.test(ModItems.TITANIUM_DIOXIDE.asStack()))
 			&& briquette.getIngredients().stream().anyMatch(i -> i.test(ModItems.COAL_COKE.asStack())),
 			"a briquette should take rutile, or titanium dioxide, and coal coke");
-		h.assertTrue(briquette.getFluidIngredients().stream().anyMatch(f -> f.test(Chemical.COAL_TAR.stack(50))),
-			"a briquette should be bound with 50 mB of coal tar");
+		h.assertTrue(briquette.getFluidIngredients().stream().anyMatch(f -> f.test(Chemical.PITCH.stack(50))),
+			"a briquette should be bound with 50 mB of pitch, as electrodes are (0.29.0)");
 		h.succeed();
 	}
 

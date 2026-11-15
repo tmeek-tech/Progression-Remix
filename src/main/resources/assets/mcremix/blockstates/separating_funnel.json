@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "cracked=false": {
+      "model": "mcremix:block/separating_funnel"
+    },
+    "cracked=true": {
+      "model": "mcremix:block/separating_funnel_cracked"
+    }
+  }
+}
