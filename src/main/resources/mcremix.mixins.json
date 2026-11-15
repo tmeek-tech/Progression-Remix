@@ -9,6 +9,7 @@
     "AirCurrentMixin",
     "BasinBlockEntityAccessor",
     "BasinBlockEntityMixin",
+    "BasinRecipeMixin",
     "BlockBreakingKineticBlockEntityMixin",
     "BlockBreakingMovementBehaviourMixin",
     "BlockEntityTypeMixin",

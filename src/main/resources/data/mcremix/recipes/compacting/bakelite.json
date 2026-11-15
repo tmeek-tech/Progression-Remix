@@ -3,12 +3,12 @@
   "heatRequirement": "heated",
   "ingredients": [
     {
-      "fluid": "mcremix:coal_tar",
-      "amount": 100
+      "fluid": "mcremix:phenol",
+      "amount": 50
     },
     {
-      "fluid": "mcremix:wood_spirit",
-      "amount": 100
+      "fluid": "mcremix:formaldehyde",
+      "amount": 50
     }
   ],
   "results": [

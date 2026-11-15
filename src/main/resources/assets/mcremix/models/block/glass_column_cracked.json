@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/glass_column",
+  "textures": {
+    "glass": "mcremix:block/lab_glass_cracked",
+    "particle": "mcremix:block/lab_glass_cracked"
+  }
+}

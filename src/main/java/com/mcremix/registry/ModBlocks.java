@@ -1,5 +1,13 @@
 package com.mcremix.registry;
 
+import com.mcremix.lab.CoilCondenserBlock;
+import com.mcremix.lab.CowReceiverBlock;
+import com.mcremix.lab.GlassColumnBlock;
+import com.mcremix.lab.HotTubeBlock;
+import com.mcremix.lab.RoundFlaskBlock;
+import com.mcremix.lab.SeparatingFunnelBlock;
+import com.mcremix.lab.SettlingFlaskBlock;
+import com.mcremix.lab.StillHeadBlock;
 import static com.mcremix.McRemix.REGISTRATE;
 
 import java.util.function.Supplier;
@@ -37,6 +45,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
@@ -335,6 +345,28 @@ public class ModBlocks {
 		.onRegister(block -> BlockStressValues.IMPACTS.register(block, () -> 2.0))
 		.simpleItem()
 		.register();
+
+	// The glass lab (the distillation design): lab glass on iron retort stands. See com.mcremix.lab.
+	public static final BlockEntry<RoundFlaskBlock> ROUND_FLASK = labGlass("round_flask", RoundFlaskBlock::new);
+	public static final BlockEntry<GlassColumnBlock> GLASS_COLUMN = labGlass("glass_column", GlassColumnBlock::new);
+	public static final BlockEntry<StillHeadBlock> STILL_HEAD = labGlass("still_head", StillHeadBlock::new);
+	public static final BlockEntry<CoilCondenserBlock> COIL_CONDENSER = labGlass("coil_condenser", CoilCondenserBlock::new);
+	public static final BlockEntry<CowReceiverBlock> COW_RECEIVER = labGlass("cow_receiver", CowReceiverBlock::new);
+	public static final BlockEntry<HotTubeBlock> HOT_TUBE = labGlass("hot_tube", HotTubeBlock::new);
+	public static final BlockEntry<SettlingFlaskBlock> SETTLING_FLASK = labGlass("settling_flask", SettlingFlaskBlock::new);
+	public static final BlockEntry<SeparatingFunnelBlock> SEPARATING_FUNNEL = labGlass("separating_funnel", SeparatingFunnelBlock::new);
+
+	private static <T extends Block> BlockEntry<T> labGlass(String name, NonNullFunction<BlockBehaviour.Properties, T> factory) {
+		return REGISTRATE.block(name, factory)
+			.initialProperties(() -> Blocks.GLASS)
+			// solid to fluids: water or lava running into the hot tube, thin as it is, would wash it away like a torch
+			.properties(p -> p.mapColor(MapColor.NONE).sound(SoundType.GLASS).strength(0.5f).noOcclusion().forceSolidOn()
+				.isRedstoneConductor((state, level, pos) -> false).isSuffocating((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos) -> false))
+			.addLayer(() -> RenderType::translucent)
+			.simpleItem()
+			.register();
+	}
 
 	public static void register() {
 		KineticFamilies.register();

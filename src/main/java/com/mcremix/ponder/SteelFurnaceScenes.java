@@ -91,7 +91,7 @@ public class SteelFurnaceScenes {
 		setTank(scene, util, tank, Chemical.COAL_TAR.stack(8000));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("It burns fuel pumped up into it from underneath: wood spirit, ethanol, coal tar, hydrogen or ethylene")
+			.text("It burns fuel pumped up into it from underneath: wood spirit, ethanol, acetone, coal tar, light oil, creosote, hydrogen or ethylene")
 			.pointAt(util.vector().blockSurface(elbow, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -148,7 +148,7 @@ public class SteelFurnaceScenes {
 
 		scene.overlay().showText(90)
 			.colored(PonderPalette.GREEN)
-			.text("Coal tar goes the furthest. Only hydrogen and ethylene burn Blazing")
+			.text("Coal tar, light oil, creosote and ethylene go the furthest. Only hydrogen and ethylene burn Blazing")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);

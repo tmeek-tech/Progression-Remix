@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "minecraft:kelp"
+  },
+  "result": {
+    "item": "mcremix:kelp_ash"
+  },
+  "heat": "warm",
+  "time": 100
+}

@@ -1,5 +1,6 @@
 package com.mcremix.kiln;
 
+import com.mcremix.fluids.Chemical;
 import java.util.List;
 import java.util.Optional;
 
@@ -519,11 +520,22 @@ public class KilnBlockEntity extends SmartBlockEntity implements IHaveGoggleInfo
 
 	/**
 	 * Keeps what an item gave off as it fired. Whatever does not fit, because the tank is full or holds something
-	 * else, burns away at the chimney.
+	 * else, burns away at the chimney, or, if it is CO2, goes up it. CO2 kept in the tank gives way to anything else
+	 * given off: it goes up the chimney and the new byproduct is kept, so lime fired earlier never stops tar being
+	 * collected.
 	 */
 	private void giveOff(FluidStack given) {
+		FluidStack held = byproducts.getFluid();
+		if (!held.isEmpty() && Chemical.of(held.getFluid()) == Chemical.CARBON_DIOXIDE && !held.isFluidEqual(given)) {
+			byproducts.setFluid(FluidStack.EMPTY);
+			setChanged();
+			syncQueued = true;
+		}
 		int kept = byproducts.fill(given.copy(), FluidAction.EXECUTE);
 		if (kept >= given.getAmount())
+			return;
+		// CO2 from lime doesn't burn: what has no room just goes up the chimney unseen, as a lime kiln's does
+		if (Chemical.of(given.getFluid()) == Chemical.CARBON_DIOXIDE)
 			return;
 		lastBurntOff = level.getGameTime();
 		syncQueued = true;

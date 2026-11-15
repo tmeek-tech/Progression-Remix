@@ -1,0 +1,34 @@
+{
+  "type": "mcremix:distilling",
+  "heat": "warm",
+  "processingTime": 600,
+  "ingredients": [
+    {
+      "fluid": "mcremix:wood_spirit",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:acetone",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:methanol",
+      "amount": 300
+    },
+    {
+      "fluid": "mcremix:vinegar",
+      "amount": 600
+    }
+  ],
+  "boiling_points": [
+    56,
+    65,
+    100
+  ],
+  "close": [
+    true,
+    true
+  ]
+}

@@ -22,7 +22,10 @@ import net.minecraftforge.fluids.FluidStack;
 public enum Chemical {
 	/** Drawn off a Furnace coking coal: black, sticky and slow. Burns off up the chimney when nothing takes it. */
 	COAL_TAR("coal_tar", 0xFF1C1814, MapColor.COLOR_BLACK, 1150, 6000, 300, false),
-	/** Wood alcohol, given off as the Furnace fires logs into charcoal: thin, pale and clear. */
+	/**
+	 * Given off as the Furnace fires logs into charcoal: thin, pale and clear, methanol, acetone and acetic acid in
+	 * water. Distilled, it gives acetone and methanol and leaves vinegar in the flask.
+	 */
 	WOOD_SPIRIT("wood_spirit", 0xFFD8CCA8, MapColor.SAND, 790, 600, 300, true),
 	/** Iron dissolved in chlorine: dark and rusty. Etches the copper off Power Grid's circuit boards. */
 	FERRIC_CHLORIDE("ferric_chloride", 0xFF5C3010, MapColor.COLOR_BROWN, 1400, 1200, 300, false),
@@ -36,7 +39,7 @@ public enum Chemical {
 	SALT_WATER("salt_water", 0xFF3A6EA8, MapColor.WATER, 1025, 1000, 300, true),
 	/** Electrolysis's other gas, lighter than air: fuel piped into a Furnace, and let loose, it hisses away harmlessly. */
 	HYDROGEN("hydrogen", 0xFFE4ECF8, MapColor.NONE, 0, 9, 300, true, true),
-	/** Sugar water left to stand ferments into it: clear, with a cool tint. Over hot alumina in a Steel Furnace it gives ethylene. */
+	/** Distilled from wash: clear, with a cool tint. Over hot alumina in a Steel Furnace it gives ethylene. */
 	ETHANOL("ethanol", 0xFFE0EAEE, MapColor.SNOW, 789, 1200, 300, true),
 	/** The gas ethanol gives off over hot alumina, about as heavy as air. Squeezed in steel, it sets into polyethylene. */
 	ETHYLENE("ethylene", 0xFFF0E6D6, MapColor.NONE, 1, 10, 300, true, true),
@@ -97,7 +100,42 @@ public enum Chemical {
 	 * Given off by chlorine run over hot rutile and coke: a heavy, colourless vapour. Let loose, it fumes in damp air
 	 * into white smoke and hydrogen chloride; stirred with molten sodium in a vat, it gives up its titanium as sponge.
 	 */
-	TITANIUM_TETRACHLORIDE("titanium_tetrachloride", 0xFFF4F2E4, MapColor.NONE, 7, 12, 300, true, true);
+	TITANIUM_TETRACHLORIDE("titanium_tetrachloride", 0xFFF4F2E4, MapColor.NONE, 7, 12, 300, true, true),
+	/**
+	 * What sugar in water ferments into: a cloudy, pale yellow beer with a little ethanol in it. Distilled, it gives the
+	 * ethanol and leaves warm water in the flask.
+	 */
+	WASH("wash", 0xFFDCD2A4, MapColor.SAND, 1010, 1100, 300, true),
+	/**
+	 * Given off by fermenting and by lime fired in a Furnace: an all but invisible gas, heavier than air. Let loose, it
+	 * sinks and pools in low places, and smothers what breathes it ({@link CarbonDioxideCloud}).
+	 */
+	CARBON_DIOXIDE("carbon_dioxide", 0xFFEEF0F2, MapColor.NONE, 2, 15, 300, true, true),
+	/** Wood spirit's lightest cut: thin, clear and quick to boil. Burns in a Steel Furnace. */
+	ACETONE("acetone", 0xFFEAF2F6, MapColor.SNOW, 784, 320, 300, true),
+	/** Wood alcohol, wood spirit's second cut. Run over hot copper, it gives formaldehyde. */
+	METHANOL("methanol", 0xFFE4EEF4, MapColor.SNOW, 792, 590, 300, true),
+	/** What wood spirit leaves in the flask: acetic acid in water, a pale amber. Strips copper's patina. */
+	VINEGAR("vinegar", 0xFFE0C890, MapColor.SAND, 1010, 1100, 300, true),
+	/** Formalin: formaldehyde, really a gas, held dissolved in water. Pressed with phenol, it sets into Bakelite. */
+	FORMALDEHYDE("formaldehyde", 0xFFF0F4EC, MapColor.SNOW, 1090, 2000, 300, true),
+	/** Coal tar's lightest cut, benzol: a pale yellow oil that smells sweet. Burns in a Steel Furnace. */
+	LIGHT_OIL("light_oil", 0xFFD8C47C, MapColor.COLOR_YELLOW, 870, 650, 300, true),
+	/** Coal tar's middle cut, reddish brown. Left to stand cool, it grows naphthalene crystals. */
+	CARBOLIC_OIL("carbolic_oil", 0xFF7A4A24, MapColor.COLOR_BROWN, 1030, 2500, 300, false),
+	/** Carbolic oil with its naphthalene strained off: its phenol is still in it, for caustic soda to wash out. */
+	STRAINED_CARBOLIC_OIL("strained_carbolic_oil", 0xFF946038, MapColor.COLOR_BROWN, 1020, 2400, 300, false),
+	/** Coal tar's heavy cut, dark brown and oily, that railway sleepers are soaked in. Burns in a Steel Furnace. */
+	CREOSOTE("creosote", 0xFF3A2A18, MapColor.COLOR_BROWN, 1080, 2800, 300, false),
+	/**
+	 * What coal tar leaves in the flask: black, glossy and so thick it barely runs, kept warm, as it sets hard when
+	 * cold. Binds Carbon Electrodes and Rutile Briquettes.
+	 */
+	PITCH("pitch", 0xFF121010, MapColor.COLOR_BLACK, 1250, 20000, 450, false),
+	/** Phenol taken into caustic soda: a clear, pale brown watery layer. CO2 bubbled through it frees the phenol. */
+	SODIUM_PHENOLATE("sodium_phenolate", 0xFFE2D2BC, MapColor.TERRACOTTA_WHITE, 1100, 1400, 300, true),
+	/** Carbolic acid: a clear oil with a faint pink cast, sharp-smelling. Pressed with formaldehyde, it sets into Bakelite. */
+	PHENOL("phenol", 0xFFF2E2DC, MapColor.TERRACOTTA_WHITE, 1070, 2800, 300, true);
 
 	public final String id;
 	/** Its colour as seen through it, from inside. */

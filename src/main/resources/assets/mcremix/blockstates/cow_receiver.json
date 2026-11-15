@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "cracked=false,facing=north": {
+      "model": "mcremix:block/cow_receiver"
+    },
+    "cracked=false,facing=east": {
+      "model": "mcremix:block/cow_receiver",
+      "y": 90
+    },
+    "cracked=false,facing=south": {
+      "model": "mcremix:block/cow_receiver",
+      "y": 180
+    },
+    "cracked=false,facing=west": {
+      "model": "mcremix:block/cow_receiver",
+      "y": 270
+    },
+    "cracked=true,facing=north": {
+      "model": "mcremix:block/cow_receiver_cracked"
+    },
+    "cracked=true,facing=east": {
+      "model": "mcremix:block/cow_receiver_cracked",
+      "y": 90
+    },
+    "cracked=true,facing=south": {
+      "model": "mcremix:block/cow_receiver_cracked",
+      "y": 180
+    },
+    "cracked=true,facing=west": {
+      "model": "mcremix:block/cow_receiver_cracked",
+      "y": 270
+    }
+  }
+}

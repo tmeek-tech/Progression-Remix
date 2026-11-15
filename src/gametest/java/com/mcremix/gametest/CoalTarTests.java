@@ -77,6 +77,30 @@ public class CoalTarTests {
 	}
 
 	/**
+	 * CO2 left waiting in a Furnace from lime it fired gives way to the tar a coal gives off: the gas goes up the chimney
+	 * and the tar is kept for a pipe, none of it burnt off.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 700)
+	public static void carbonDioxideWaitingGivesWayToTar(GameTestHelper h) {
+		BlockPos pos = p(4, 3, 4);
+		KilnTests.walledLava(h, p(4, 2, 4));
+		h.setBlock(pos, ModBlocks.KILN.getDefaultState());
+		KilnBlockEntity kiln = KilnTests.kiln(h, pos);
+		CompoundTag saved = kiln.saveWithoutMetadata();
+		saved.put("Byproducts", Chemical.CARBON_DIOXIDE.stack(50).writeToNBT(new CompoundTag()));
+		kiln.load(saved);
+		kiln.insertIntoChamber(new ItemStack(Items.COAL));
+		h.succeedWhen(() -> {
+			h.assertTrue(KilnTests.trayCount(kiln, ModItems.COAL_COKE.get()) == 1, "the coal should coke");
+			FluidStack held = kiln.getByproducts();
+			h.assertTrue(held.getFluid() == Chemical.COAL_TAR.fluid() && held.getAmount() == 50,
+				"the Furnace should hold the coal's 50 mB of tar in place of the CO2, holds " + held.getAmount()
+					+ " mB of " + held.getDisplayName().getString());
+			h.assertFalse(kiln.isBurningOff(), "none of the tar should burn off");
+		});
+	}
+
+	/**
 	 * Two Furnaces on lava char a log each. The empty one keeps the log's wood spirit for a pipe; the one already holding
 	 * tar burns the spirit off, since the two don't share a tank, and keeps its tar.
 	 */
@@ -110,16 +134,19 @@ public class CoalTarTests {
 		});
 	}
 
-	/** Coal tar and wood spirit in a basin on a lit blaze burner, under a running press, set into Bakelite. */
+	/**
+	 * Phenol and formaldehyde, 50 mB of each, in a basin on a lit blaze burner, under a running press, set into Bakelite
+	 * (0.31.0: Baekeland's way, in place of coal tar and wood spirit).
+	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 400)
-	public static void tarAndWoodSpiritPressIntoBakelite(GameTestHelper h) {
+	public static void phenolAndFormaldehydePressIntoBakelite(GameTestHelper h) {
 		BlockPos pos = p(4, 3, 4);
 		KilnTests.fedBurner(h, pos.below(), new ItemStack(Items.COAL));
 		h.setBlock(pos, AllBlocks.BASIN.getDefaultState());
 		BasinBlockEntity basin = (BasinBlockEntity) h.getBlockEntity(pos);
 		IFluidHandler tanks = basin.getCapability(ForgeCapabilities.FLUID_HANDLER).orElseThrow(IllegalStateException::new);
-		tanks.fill(Chemical.COAL_TAR.stack(100), FluidAction.EXECUTE);
-		tanks.fill(Chemical.WOOD_SPIRIT.stack(100), FluidAction.EXECUTE);
+		tanks.fill(Chemical.PHENOL.stack(50), FluidAction.EXECUTE);
+		tanks.fill(Chemical.FORMALDEHYDE.stack(50), FluidAction.EXECUTE);
 		// the press two above the basin, on a creative motor
 		h.setBlock(pos.above(2), AllBlocks.MECHANICAL_PRESS.getDefaultState()
 			.setValue(HorizontalKineticBlock.HORIZONTAL_FACING, Direction.EAST));
@@ -127,7 +154,7 @@ public class CoalTarTests {
 		h.succeedWhen(() -> {
 			int bakelite = KilnBasinTests.count(basin.getOutputInventory(), ModItems.BAKELITE.get());
 			h.assertTrue(bakelite == 1, "the basin should end up with one Bakelite, has " + bakelite);
-			h.assertTrue(tanks.drain(1000, FluidAction.SIMULATE).isEmpty(), "the tar and spirit should be used up");
+			h.assertTrue(tanks.drain(1000, FluidAction.SIMULATE).isEmpty(), "the phenol and formaldehyde should be used up");
 		});
 	}
 }

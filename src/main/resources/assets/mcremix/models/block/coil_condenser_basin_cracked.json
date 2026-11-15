@@ -1,0 +1,7 @@
+{
+  "parent": "mcremix:block/coil_condenser_basin",
+  "textures": {
+    "glass": "mcremix:block/lab_glass_cracked",
+    "particle": "mcremix:block/lab_glass_cracked"
+  }
+}

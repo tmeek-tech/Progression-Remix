@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "cracked=false,facing=down": {
+      "model": "mcremix:block/coil_condenser_upright"
+    },
+    "cracked=false,facing=up": {
+      "model": "mcremix:block/coil_condenser_upright"
+    },
+    "cracked=false,facing=north,shape=still": {
+      "model": "mcremix:block/coil_condenser_still"
+    },
+    "cracked=false,facing=north,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright"
+    },
+    "cracked=false,facing=north,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin"
+    },
+    "cracked=false,facing=east,shape=still": {
+      "model": "mcremix:block/coil_condenser_still",
+      "y": 90
+    },
+    "cracked=false,facing=east,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright"
+    },
+    "cracked=false,facing=east,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin",
+      "y": 90
+    },
+    "cracked=false,facing=south,shape=still": {
+      "model": "mcremix:block/coil_condenser_still",
+      "y": 180
+    },
+    "cracked=false,facing=south,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright"
+    },
+    "cracked=false,facing=south,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin",
+      "y": 180
+    },
+    "cracked=false,facing=west,shape=still": {
+      "model": "mcremix:block/coil_condenser_still",
+      "y": 270
+    },
+    "cracked=false,facing=west,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright"
+    },
+    "cracked=false,facing=west,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin",
+      "y": 270
+    },
+    "cracked=true,facing=down": {
+      "model": "mcremix:block/coil_condenser_upright_cracked"
+    },
+    "cracked=true,facing=up": {
+      "model": "mcremix:block/coil_condenser_upright_cracked"
+    },
+    "cracked=true,facing=north,shape=still": {
+      "model": "mcremix:block/coil_condenser_still_cracked"
+    },
+    "cracked=true,facing=north,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright_cracked"
+    },
+    "cracked=true,facing=north,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin_cracked"
+    },
+    "cracked=true,facing=east,shape=still": {
+      "model": "mcremix:block/coil_condenser_still_cracked",
+      "y": 90
+    },
+    "cracked=true,facing=east,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright_cracked"
+    },
+    "cracked=true,facing=east,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin_cracked",
+      "y": 90
+    },
+    "cracked=true,facing=south,shape=still": {
+      "model": "mcremix:block/coil_condenser_still_cracked",
+      "y": 180
+    },
+    "cracked=true,facing=south,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright_cracked"
+    },
+    "cracked=true,facing=south,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin_cracked",
+      "y": 180
+    },
+    "cracked=true,facing=west,shape=still": {
+      "model": "mcremix:block/coil_condenser_still_cracked",
+      "y": 270
+    },
+    "cracked=true,facing=west,shape=upright": {
+      "model": "mcremix:block/coil_condenser_upright_cracked"
+    },
+    "cracked=true,facing=west,shape=basin": {
+      "model": "mcremix:block/coil_condenser_basin_cracked",
+      "y": 270
+    }
+  }
+}

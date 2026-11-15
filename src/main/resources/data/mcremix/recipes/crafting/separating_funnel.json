@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "F",
+    "T"
+  ],
+  "key": {
+    "F": {
+      "item": "mcremix:round_flask"
+    },
+    "T": {
+      "item": "mcremix:glass_pipe"
+    }
+  },
+  "result": {
+    "item": "mcremix:separating_funnel",
+    "count": 1
+  }
+}

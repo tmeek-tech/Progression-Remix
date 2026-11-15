@@ -13,6 +13,7 @@ import com.mcremix.electrolysis.SettlingRecipe;
 import com.mcremix.electrolysis.VatMixingRecipe;
 import com.mcremix.kiln.FiringRecipe;
 import com.mcremix.kiln.SteelFurnaceRecipe;
+import com.mcremix.lab.DistillingRecipe;
 import com.mcremix.pressurizer.PressurizingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
@@ -106,6 +107,13 @@ public class ModRecipes {
 		SERIALIZERS.register("arc_furnace", () -> new ProcessingRecipeSerializer<>(ArcFurnaceRecipe::new));
 	public static final IRecipeTypeInfo ARC_FURNACE =
 		new TypeInfo("arc_furnace", ARC_FURNACE_TYPE, ARC_FURNACE_SERIALIZER);
+
+	/** What a still splits by boiling point, a cut at a time: wash, wood spirit and coal tar. */
+	public static final RegistryObject<RecipeType<DistillingRecipe>> DISTILLING_TYPE =
+		TYPES.register("distilling", () -> RecipeType.simple(McRemix.asResource("distilling")));
+	public static final RegistryObject<ProcessingRecipeSerializer<DistillingRecipe>> DISTILLING_SERIALIZER =
+		SERIALIZERS.register("distilling", () -> new ProcessingRecipeSerializer<>(DistillingRecipe::new));
+	public static final IRecipeTypeInfo DISTILLING = new TypeInfo("distilling", DISTILLING_TYPE, DISTILLING_SERIALIZER);
 
 	/** How Create's processing recipes find their type and serializer. */
 	private record TypeInfo(String name, Supplier<? extends RecipeType<?>> type,

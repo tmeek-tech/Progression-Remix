@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "processingTime": 100,
+  "ingredients": [
+    {
+      "fluid": "mcremix:sodium_phenolate",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:carbon_dioxide",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:soda_ash"
+    },
+    {
+      "fluid": "mcremix:phenol",
+      "amount": 250
+    }
+  ]
+}

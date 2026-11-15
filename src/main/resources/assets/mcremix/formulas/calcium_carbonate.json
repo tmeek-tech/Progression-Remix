@@ -40,7 +40,8 @@
     "create:small_calcite_bricks",
     "create:small_calcite_brick_slab",
     "create:small_calcite_brick_stairs",
-    "create:small_calcite_brick_wall"
+    "create:small_calcite_brick_wall",
+    "mcremix:chalk"
   ],
   "atoms": [
     {

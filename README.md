@@ -3,7 +3,7 @@
 A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
-electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
+electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab that distils coal tar and wood spirit, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Optional | Immersive Weathering, JEI |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
-## What is in 0.30.2
+## What is in 0.31.0
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -196,7 +196,32 @@ nine times as fast.
 **Power Grid and Bakelite.** Create: Power Grid is required now: its motor and transformer core take steel, and its
 circuit boards, switches, buttons and sockets take **Bakelite**. Coking coal in the Furnace gives off **coal tar**, and
 charring logs gives off **wood spirit**; pipes draw them off the Furnace, and what nothing takes burns away at the
-chimney. A press over a heated basin sets 100 mB of each hard into Bakelite.
+chimney. The glass lab (below) distils them into, among other things, phenol and formaldehyde, and a press over a
+heated basin sets 50 mB of each hard into Bakelite, about five to a bucket of coal tar.
+
+**The glass lab.** Glassware on iron retort stands, early enough for a campfire: lab glass takes its heat from what is
+under it, as a basin does, but cracks over Searing heat, and hot glass cracks in rain or beside water, so a lab needs a
+roof (glass will do); cracked glass shatters five seconds later and spills what it held. A **still** is a **round
+flask** over heat, up to three **glass column** pieces, a **still head** with a thermometer, a **coil condenser** on its
+side arm with water through it (cold water twice as fast, coolant three times, coming out warm) and a **cow receiver**
+under the drip. A bucket in the flask comes over cut by cut, lightest first, each into a fresh flask of the cow
+receiver: wash at Warm gives 250 ethanol and leaves warm water; wood spirit at Warm gives 100 acetone and 300 methanol
+and leaves 600 vinegar; coal tar at Hot gives 150 light oil, 250 carbolic oil and 250 creosote and leaves 350 **pitch**.
+As each cut ends the thermometer gives a redstone pulse and the still turns the receiver to its next flask; acetone and
+methanol boil close together, so they come over at a quarter of the pace in a bare still, half with one column piece and
+full pace with two. A pipe filling the flask a little at a time still gives whole batches: it starts on a full bucket,
+or a second after the last of a smaller one comes in, and a smaller batch's cuts come out in proportion over time. A
+bucket takes back a whole bucket of anything, and pours water into the condenser, and sneaking with an empty hand tips
+out what is left, so a still runs by hand alone. On the bench, a **hot tube** with **copper mesh** inside turns methanol
+into **formaldehyde** over a fire (and ethanol into ethylene over alumina); a **settling flask** settles **naphthalene**
+out of carbolic oil; a **separating funnel** shakes the strained oil with caustic soda into sodium phenolate under
+creosote, the heavy layer out of its tap and the light out of its neck; and a coil condenser standing on a round flask
+makes a **reflux flask**, which cooks what a heated basin mixes from fluids alone. Sodium phenolate stirred with CO2 in
+a vat gives **phenol**. CO2 comes from fermenting and from limestone fired at Searing into **quicklime** (slaked in
+water, it mixes with soda ash from kelp ash into caustic soda and chalk); let loose, it sinks into low places and
+smothers what breathes there. Vinegar takes the patina off copper, poured or from a Spout. A heated basin working
+ethanol, methanol or ethylene dichloride loses a quarter as much again as vapour unless a coil condenser is fitted to
+its side.
 
 **Salt water, chlorine and hydrogen.** Water taken from the sea, by bucket, pump or hose pulley, is **salt water**.
 Split by an Electrolyser it gives **chlorine**, **hydrogen** and **caustic soda**. Chlorine let loose sinks into a low
@@ -205,7 +230,7 @@ green cloud that hurts whoever breathes it and kills the plants under it; mixed 
 faster it comes, up to Blazing, and let loose it just hisses away.
 
 **The Electrolyser.** A Power Grid device that sits on the side of a basin or a vat, a black Bakelite head with two
-**Carbon Electrodes** (coke and tar, pressed and baked) reaching into it from its + and - terminals, so you can see what
+**Carbon Electrodes** (coke and pitch, pressed and baked) reaching into it from its + and - terminals, so you can see what
 is fitted. Wire its + and - across a source: nothing flows until
 about 4 V, then the current, and how fast it splits, climb steeply, so a generator straight across one cooks it. Step
 the voltage down with a transformer, or wire several in series. The anode burns away by the power through it, the
@@ -228,10 +253,10 @@ through its fins makes it shed far more. Aluminium supports run hot too (see Fri
 
 **The Steel Furnace.** Steel casing used on a Furnace cases it in steel; it keeps what it held, but its solid fuel
 pops out. A Steel Furnace fires what a Furnace fires and heats a boiler or basin on top the same way, but it burns
-only fuel pumped up into it from underneath (wood spirit, ethanol, coal tar, hydrogen or ethylene): no solid fuel, no
+only fuel pumped up into it from underneath (wood spirit, ethanol, coal tar, light oil, acetone, creosote, hydrogen or ethylene): no solid fuel, no
 heat from below, no bellows. Lit, it burns the fuel as it comes, hotter the faster it comes, so the pump's speed sets
-its heat (a pump moves 1 mB a tick for every 2 RPM), up to each fuel's own ceiling: wood spirit Hot, ethanol and coal
-tar Searing, hydrogen and ethylene Blazing. Fuel that comes faster than burns at the ceiling is lost up the chimney in
+its heat (a pump moves 1 mB a tick for every 2 RPM), up to each fuel's own ceiling: wood spirit Hot, ethanol, coal
+tar, light oil, acetone and creosote Searing, hydrogen and ethylene Blazing. Fuel that comes faster than burns at the ceiling is lost up the chimney in
 black smoke, and a second after the fuel stops the fire goes out. Fuel pumped into it unlit escapes out of the front:
 liquids pour out as puddles to clean up, gases vent. It works fluids too, piped or poured in at its front, sides or
 top: ethanol run over alumina in its chamber at Hot becomes ethylene (an alumina lasts 16 buckets), and at Searing it
@@ -242,7 +267,7 @@ Furnace (never its front). On a Power Grid circuit it sparks at about 1,000 V (f
 drawing about 10 mA, and lights the furnace whenever there is fuel in it to catch. It sparks the whole time it is
 powered, so a switch or relay decides when, and it never wears out.
 
-**Plastics.** Sugar left in water in a basin or vat ferments into **ethanol**. The Steel Furnace turns ethanol into
+**Plastics.** Sugar left in water in a basin or vat ferments into **wash**, which the still distils into **ethanol**. The Steel Furnace turns ethanol into
 **ethylene**, and the **Pressurizer**, a steel machine on a shaft, sets ethylene into **Polyethylene Pellets** at 512 RPM
 over Warm heat or hotter. A press over a heated basin makes two pellets into a **Polyethylene Bushing**, which
 aluminium brackets and casings need. Power Grid's integrated circuit takes pellets too. In a vat, chlorine and
@@ -317,7 +342,7 @@ Hot, purple at Searing, blue at Blazing.
 **Making titanium.** Basalt crushed or milled is **black sand**, and Power Grid's electromagnet pulls the iron out of it,
 leaving **rutile**. Salt water in a heated basin with nothing working it boils down to **salt**; melted in a crucible,
 an Electrolyser splits it into **molten sodium** and chlorine (sodium meeting water goes off with a bang and a burst of
-fire). Rutile and coal coke pressed with coal tar make **Rutile Briquettes**, and chlorine run over one in a Steel
+fire). Rutile and coal coke pressed with pitch make **Rutile Briquettes**, and chlorine run over one in a Steel
 Furnace at Blazing gives **titanium tetrachloride**, which fumes into white smoke and acid mist if it escapes. Stirred
 with molten sodium in a steel vat it leaves **titanium sponge** and salt. The **Arc Furnace**, a Power Grid device,
 strikes an arc between two Carbon Electrodes through the sponge in its copper hearth and melts it into **titanium
@@ -343,14 +368,15 @@ they end), **catwalk stairs** railed on their open sides, **railings** that go o
 ladders** whose cage starts two blocks up, above your head, all rusting a little where they get wet. **Creosote timber**, dark and oily
 like railway sleepers (logs, planks, stairs, slabs, fences, gates and **posts** that join into crossarms and hold
 lanterns), weeps a little in hot sun. **Argon tubes** glow violet on a Power Grid circuit at 800 V and join end to
-end. Creosote timber and argon tubes are creative only until creosote and argon can be made.
+end. A Spout soaks bare timber in creosote from the glass lab's still (250 mB a stripped log, 100 a plank) into
+creosote timber; argon tubes are creative only until argon can be made.
 
 **Enchanting and XP** are left vanilla for now, while they are redesigned together.
 
 **Ponder.** Every new interaction has a Ponder scene (hold W over the item): furnace basics, heating from below,
 fanning fires with bellows, bloom iron and anvils, blister steel, furnace-heated steam boilers and basins,
 supports, speed controllers as supports, brackets, casings in every material, wood as a fuse, kinetic materials, steel parts, wooden parts in
-every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit,
+every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit, the glass lab still and bench,
 pressing Bakelite, the heat sink, the Electrolyser on a basin and on a vat, lighting a furnace with a Spark Plug, the
 Steel Furnace, mixing in a vat, the Pressurizer, steam engines in every boiler metal, friction heat in aluminium, cooling with water and coolant, titanium's
 heat, colours and burning, and the Arc Furnace. Every metal's machines and every wood's movers also get Create's
@@ -360,8 +386,8 @@ opened by holding W starts playing.
 **JEI.** A Furnace tab lists everything a furnace fires with the heat and time it needs, a Furnace Heat tab shows
 which fuels and which blocks underneath give each heat level, a Striking Blooms tab shows the anvil recipe, and
 Melting and Alloying tabs show what a crucible melts and makes. Settling and Electrolysis tabs show what settles out
-and what an Electrolyser splits, with the charge each takes and its time at a given current. Fermenting, Steel
-Furnace, Steel Furnace Fuel, Vat Mixing and Pressurizing tabs show what ferments, what the Steel Furnace works and how
+and what an Electrolyser splits, with the charge each takes and its time at a given current. Distilling, Fermenting, Steel
+Furnace, Steel Furnace Fuel, Vat Mixing and Pressurizing tabs show what a still splits into which cuts, what ferments, what the Steel Furnace works and how
 many mB a tick of each fuel give each heat, what stirs together in a vat, and what the Pressurizer squeezes at what
 speed and heat. Boiling and Arc Furnace tabs show what a heated basin boils down and what the Arc Furnace melts,
 with the energy it takes, and a Casting tab every molten metal poured into a sand mold. Every one of these tabs is laid out like Create's basin pages, with the machine drawn at
@@ -459,6 +485,7 @@ src/main/java/com/mcremix/
                 hydrogen, glycol and coolant), salt water from the sea and cold water where it snows, the chlorine
                 cloud, and warm water and hot coolant poured out turning to water and coolant
   crucible/     The crucible, its melting and alloying recipes, and sand molds
+  lab/          The glass lab: lab glass, the still's pieces, the bench glassware and basin reflux
   electrolysis/ The Electrolyser and Carbon Electrodes, vats, settling and electrolysis recipes, and gases let loose
   heatsink/     The aluminium heat sink and its share of Power Grid's heat model
   cooling/      Water coolers, radiator panels and what each works with

@@ -26,7 +26,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.ItemStackHandler;
 
-/** Ponder scenes for what a Furnace gives off while it fires, and the Bakelite pressed from it. */
+/**
+ * Ponder scenes for what a Furnace gives off while it fires, and the Bakelite pressed from what the glass lab makes of
+ * it (phenol from coal tar, formaldehyde from wood spirit's methanol).
+ */
 public class TarScenes {
 
 	public static void byproducts(SceneBuilder builder, SceneBuildingUtil util) {
@@ -125,12 +128,12 @@ public class TarScenes {
 
 		scene.world().modifyBlockEntity(basin, BasinBlockEntity.class,
 			be -> be.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(tanks -> {
-				tanks.fill(Chemical.COAL_TAR.stack(100), FluidAction.EXECUTE);
-				tanks.fill(Chemical.WOOD_SPIRIT.stack(100), FluidAction.EXECUTE);
+				tanks.fill(Chemical.PHENOL.stack(50), FluidAction.EXECUTE);
+				tanks.fill(Chemical.FORMALDEHYDE.stack(50), FluidAction.EXECUTE);
 			}));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Coal tar and wood spirit, 100 mB of each, set hard into Bakelite when pressed together in a heated basin")
+			.text("Phenol and formaldehyde, 50 mB of each, set hard into Bakelite when pressed together in a heated basin")
 			.pointAt(util.vector().blockSurface(basin, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(30);
@@ -139,8 +142,8 @@ public class TarScenes {
 		scene.idle(30);
 		scene.world().modifyBlockEntity(basin, BasinBlockEntity.class,
 			be -> be.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(tanks -> {
-				tanks.drain(Chemical.COAL_TAR.stack(100), FluidAction.EXECUTE);
-				tanks.drain(Chemical.WOOD_SPIRIT.stack(100), FluidAction.EXECUTE);
+				tanks.drain(Chemical.PHENOL.stack(50), FluidAction.EXECUTE);
+				tanks.drain(Chemical.FORMALDEHYDE.stack(50), FluidAction.EXECUTE);
 			}));
 		scene.world().modifyBlockEntityNBT(util.select().position(basin), BasinBlockEntity.class, nbt -> {
 			ItemStackHandler output = new ItemStackHandler(9);

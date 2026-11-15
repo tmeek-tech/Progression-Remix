@@ -82,7 +82,8 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addRecipeCategories(new KilnCategory(gui), new KilnHeatCategory(gui), new BloomCategory(gui),
 			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui),
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
-			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui));
+			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
+			new DistillingCategory(gui));
 	}
 
 	@Override
@@ -104,6 +105,7 @@ public class RemixJeiPlugin implements IModPlugin {
 				recipes.getAllRecipesFor(ModRecipes.PRESSURIZING_TYPE.get()));
 			registration.addRecipes(VatMixingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.VAT_MIXING_TYPE.get()));
 			registration.addRecipes(ArcFurnaceCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.ARC_FURNACE_TYPE.get()));
+			registration.addRecipes(DistillingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.DISTILLING_TYPE.get()));
 		}
 		List<KilnHeatCategory.Display> heat = new ArrayList<>();
 		for (HeatLevel h : HeatLevel.VALUES)
@@ -186,6 +188,15 @@ public class RemixJeiPlugin implements IModPlugin {
 		for (BlockEntry<RatedTankBlock> tank : ModFluidBlocks.tanks())
 			if (VatMixerBlock.Kind.stirred(tank.getDefaultState()))
 				registration.addRecipeCatalyst(tank.asStack(), VatMixingCategory.TYPE);
+
+		// the glass lab: the still's pieces split mixtures, and the bench does small batches of other machines' work
+		for (ItemStack piece : List.of(new ItemStack(ModBlocks.ROUND_FLASK.get()), new ItemStack(ModBlocks.GLASS_COLUMN.get()),
+			new ItemStack(ModBlocks.STILL_HEAD.get()), new ItemStack(ModBlocks.COIL_CONDENSER.get()),
+			new ItemStack(ModBlocks.COW_RECEIVER.get())))
+			registration.addRecipeCatalyst(piece, DistillingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.HOT_TUBE.get()), SteelFurnaceCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.SETTLING_FLASK.get()), SettlingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.SEPARATING_FUNNEL.get()), VatMixingCategory.TYPE);
 
 		// Create's categories are registered by now, by type id: every tier of a machine works its machine's tabs, and
 		// blades go on sawing, and on block cutting unless they are too soft for stone

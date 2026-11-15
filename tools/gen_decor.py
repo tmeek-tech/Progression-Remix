@@ -23,10 +23,10 @@ STEEL_BLOCKS = ['steel_catwalk', 'steel_catwalk_stairs', 'steel_railing', 'steel
 CREOSOTE_BLOCKS = ['creosote_log', 'creosote_planks', 'creosote_stairs', 'creosote_slab', 'creosote_fence',
                    'creosote_fence_gate', 'creosote_post']
 # The fluids that make creosote timber and argon tubes, which later stages of the distillation build add: creosote from
-# coal tar in the glass lab (stage 1) and argon from the air column (stage 4). Until then the blocks are creative only
-# (Taran's card, 2026-11-15: no stand-in recipes), so these are None and their Spout recipes, and the empty glass tube's
+# coal tar in the glass lab (stage 1, 0.31.0) and argon from the air column (stage 4). Until then a block is creative only
+# (Taran's card, 2026-11-15: no stand-in recipes), so its fluid is None and its Spout recipes, and the empty glass tube's
 # own, are left out. The stage that adds each fluid sets its id here, and the recipes below appear.
-CREOSOTE_FLUID = None
+CREOSOTE_FLUID = 'mcremix:creosote'
 ARGON_FLUID = None
 
 

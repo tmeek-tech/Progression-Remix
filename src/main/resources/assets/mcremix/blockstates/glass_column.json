@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "cracked=false": {
+      "model": "mcremix:block/glass_column"
+    },
+    "cracked=true": {
+      "model": "mcremix:block/glass_column_cracked"
+    }
+  }
+}

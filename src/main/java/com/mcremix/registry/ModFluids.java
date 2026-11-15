@@ -17,6 +17,7 @@ import com.mcremix.fluids.MoltenMetalFluid;
 import com.mcremix.fluids.MoltenMetalType;
 import com.mcremix.fluids.RoughMetalBlock;
 import com.mcremix.fluids.SodiumBlock;
+import com.mcremix.fluids.VinegarBlock;
 import com.mcremix.fluids.Spills;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -88,6 +89,7 @@ public class ModFluids {
 		BlockEntry<LiquidBlock> block = REGISTRATE.<LiquidBlock>block(name,
 				p -> chemical.gas ? new GasBlock(source, p, chemical)
 					: chemical == Chemical.HYDROCHLORIC_ACID ? new AcidBlock(source, p)
+					: chemical == Chemical.VINEGAR ? new VinegarBlock(source, p)
 					: chemical == Chemical.MOLTEN_SODIUM ? new SodiumBlock(source, p)
 					: chemical.poursAs() != null ? new AmbientLiquidBlock(source, chemical.poursAs(), p)
 					: new LiquidBlock(source, p))
