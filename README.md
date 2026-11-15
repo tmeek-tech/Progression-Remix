@@ -340,7 +340,7 @@ way to get one is to cure a zombie villager met out in the world.
 
 **Walkways and decor.** Steel **catwalks** (bar grating in the top of the block, flush with a floor beside it, banded where
 they end), **catwalk stairs** railed on their open sides, **railings** that go on the edge you aim at, and **caged
-ladders** whose cage starts a block up, all rusting a little where they get wet. **Creosote timber**, dark and oily
+ladders** whose cage starts two blocks up, above your head, all rusting a little where they get wet. **Creosote timber**, dark and oily
 like railway sleepers (logs, planks, stairs, slabs, fences, gates and **posts** that join into crossarms and hold
 lanterns), weeps a little in hot sun. **Argon tubes** glow violet on a Power Grid circuit at 800 V and join end to
 end. Creosote timber and argon tubes are creative only until creosote and argon can be made.

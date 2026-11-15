@@ -27,6 +27,10 @@ import net.minecraft.world.level.material.MapColor;
  * come from tools/gen_decor.py.
  */
 public class ModDecor {
+	/**
+	 * Iron bars' properties, set here rather than copied: Immersive Weathering swaps vanilla's iron bars for a block
+	 * that always takes random ticks, which a copy would carry over to steel that has finished rusting.
+	 */
 	private static BlockBehaviour.Properties steel(BlockBehaviour.Properties p) {
 		return p.mapColor(MapColor.COLOR_GRAY).sound(SoundType.METAL).requiresCorrectToolForDrops().strength(3f, 6f)
 			.noOcclusion();
@@ -34,7 +38,6 @@ public class ModDecor {
 
 	public static final BlockEntry<CatwalkBlock> STEEL_CATWALK = REGISTRATE
 		.block("steel_catwalk", p -> new CatwalkBlock(p, FluidPartMaterial.STEEL))
-		.initialProperties(() -> Blocks.IRON_BARS)
 		.properties(ModDecor::steel)
 		.addLayer(() -> RenderType::cutoutMipped)
 		.simpleItem()
@@ -42,7 +45,6 @@ public class ModDecor {
 
 	public static final BlockEntry<CatwalkStairsBlock> STEEL_CATWALK_STAIRS = REGISTRATE
 		.block("steel_catwalk_stairs", p -> new CatwalkStairsBlock(p, FluidPartMaterial.STEEL))
-		.initialProperties(() -> Blocks.IRON_BARS)
 		.properties(ModDecor::steel)
 		.addLayer(() -> RenderType::cutoutMipped)
 		.simpleItem()
@@ -50,7 +52,6 @@ public class ModDecor {
 
 	public static final BlockEntry<RailingBlock> STEEL_RAILING = REGISTRATE
 		.block("steel_railing", p -> new RailingBlock(p, FluidPartMaterial.STEEL))
-		.initialProperties(() -> Blocks.IRON_BARS)
 		.properties(ModDecor::steel)
 		.addLayer(() -> RenderType::cutoutMipped)
 		.simpleItem()
@@ -58,7 +59,6 @@ public class ModDecor {
 
 	public static final BlockEntry<CagedLadderBlock> STEEL_CAGED_LADDER = REGISTRATE
 		.block("steel_caged_ladder", p -> new CagedLadderBlock(p, FluidPartMaterial.STEEL))
-		.initialProperties(() -> Blocks.IRON_BARS)
 		.properties(ModDecor::steel)
 		.addLayer(() -> RenderType::cutoutMipped)
 		.simpleItem()
@@ -115,7 +115,8 @@ public class ModDecor {
 		.initialProperties(() -> Blocks.STRIPPED_OAK_LOG)
 		.properties(p -> creosoted(p).noOcclusion())
 		.addLayer(() -> RenderType::cutoutMipped)
-		.simpleItem()
+		.item(CreosoteBlocks.PostItem::new)
+		.build()
 		.register();
 
 	/** An empty glass tube with an electrode sealed into each end, for a Spout to fill with argon. */

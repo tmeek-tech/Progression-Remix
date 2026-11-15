@@ -8,7 +8,8 @@ Newest first: [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290
 
 This covers section 37 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 6 of the distillation build, steel catwalks, catwalk
 stairs, railings and caged ladders, creosote timber and posts, and argon tubes, on top of 0.29.0. Tested on 2026-11-15
-against the same versions as 0.29.0.
+against the same versions as 0.29.0, then reviewed area by area (steel walkways, creosote, argon tubes and Ponder, data
+and tests), each finding checked by a second reviewer, and tested again with what the review found fixed.
 
 **Result:** 0.30.0 compiled with no errors. Every GameTest passes in a fresh test world: 343 of 343 plain and 349 of 349
 with `-Pcompanions` (on its second start; see below). A dev client shows every new block drawn and working. Not
@@ -20,12 +21,13 @@ checked: the jar on a real Forge server.
 | Production server | Not run | Forge's installer set up a server, but starting the downloaded server was refused in this environment, so the jar was not started outside the dev runs |
 | GameTests, plain | Pass | 343 of 343, 6 of them new in `DecorTests` |
 | GameTests, with companions | Pass | 349 of 349. The first start stopped at Create's Registrate "Found unused register callbacks" (the dev-only flake in the build routing notes); the next start ran them all |
-| Railings | Pass | `railingsGoOnTheEdgeYouAimAt`: aimed near a catwalk's north edge it rails the north side; used on it near the east edge it adds the east side, taking one railing each; broken it drops two |
-| Catwalks and stairs join | Pass | `catwalksAndStairsJoinTheirNeighbours`: two catwalks side by side join each other and nothing else; two flights side by side climbing north have rails only on their outer sides |
-| Caged ladders | Pass | `aCagedLaddersCageStartsOneBlockUp`: of three ladders up a wall only the upper two are caged, they are climbable, and with the foot broken the next one up opens |
-| Steel's rust | Pass | `wetCatwalksRustOnlyToTheirFirstStage`: after 4,000 random ticks a waterlogged catwalk is exposed and no further, a dry one still bare |
-| Posts | Pass | `aCrossarmJoinsItsPoleAndHoldsALantern`: three posts make a pole; one placed on its top block's side lies along it and the pole grows a stub to it, on that side only; a lantern placed under the crossarm hangs there on its chain; a post laid across the pole's top joins it below |
-| Argon tubes | Pass | `anArgonTubeGlowsOnHighVoltage`: wired to 1,000 V a tube lights and lights the block by it, at 500 V it stays dark, and two tubes end to end join |
+| Railings | Pass | `railingsGoOnTheEdgeYouAimAt`: aimed near a catwalk's north edge it rails the north side; used on it near the east edge it adds the east side, taking one railing each; a schematicannon would spend two on it; a railing railed on its south, aimed at through the wall's face north of it, rails its north; set by a command it has one side; broken it drops two |
+| Catwalks and stairs join | Pass | `catwalksAndStairsJoinTheirNeighbours`: two catwalks side by side join each other and nothing else; two flights side by side climbing east, the way the player faces, have rails only on their outer sides |
+| Caged ladders | Pass | `aCagedLaddersCageStartsTwoBlocksUp`: of four ladders up a wall only the upper two are caged; a player-sized box from in front of the foot onto it, 1.8 high, touches nothing, and two blocks up the cage stops it; they are climbable; with the foot broken the cage moves up one |
+| Steel's rust | Pass | `wetSteelWalkwaysRustOnlyToTheirFirstStage`: catwalk, stairs, railing and caged ladder take random ticks bare and not rusted or waxed; waterlogged, 4,000 random ticks each through the block state rust them to exposed and no further, while a dry catwalk stays bare |
+| Posts | Pass | `aCrossarmJoinsItsPoleAndHoldsALantern`: three posts make a pole; one placed on its top block's side lies along it and the pole grows a stub to it, and neither the pole nor a second pole standing beside it stubs toward the other; mobs path round it; no bracket bolts to the crossarm's underside; the crossarm has no chain until a lantern hangs under it, loses it when the lantern goes, and holds a bell on it too; a post laid across the pole's top joins it below, with no chain |
+| Creosote burns as wood | Pass | `creosoteBurnsAsWoodDoes`: planks, stairs, slab, fence and gate take fire as oak planks do (burn 20, spread 5), log and post as an oak log (5, 5); a waterlogged fence, slab or post does not burn; the log, post and planks each burn 300 ticks in a furnace |
+| Argon tubes | Pass | `anArgonTubeStrikesAt800VoltsAndHoldsTo600`: wired to 1,000 V a tube lights, draws between 20 and 26 mA, and lights the block by it; turned down to 700 V it stays lit, and at 500 V it goes dark; a tube at 700 V from the start never strikes; two tubes end to end join |
 | Dev client | Pass | A showcase world: a ring of catwalks round a steel column with railings, a caged ladder and a flight of stairs, a strip of rusty (exposed) catwalk, a creosote jetty on posts in water with fence, gate, stairs and a log pile, a telegraph pole with a crossarm and a lantern hung under each end, and argon tubes on a black board. Every block draws with no missing model or texture in the log; the 13 new items show in JEI. Two looks were fixed there: thin rails picked up orange specks from the next sprite on the atlas (their UVs now sit half a pixel in), and a lit tube read almost white through its glass (the gas now fills the bore in violet). Ponder's argon scene shows one tube and then a line of three lit. Screenshots in `builds/screenshots/0.30.0` |
 
 ### Known gaps

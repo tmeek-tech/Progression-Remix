@@ -4,6 +4,7 @@ import com.mcremix.client.McRemixClient;
 import com.mcremix.colour.ColourBlocks;
 import com.mcremix.colour.Colours;
 import com.mcremix.config.RemixConfig;
+import com.mcremix.decor.CreosoteBlocks;
 import com.mcremix.fluids.MetalElectricPumpBlock;
 import com.mcremix.kinetics.Brackets;
 import com.mcremix.kinetics.EncasedParts;
@@ -75,6 +76,7 @@ public class McRemix {
 			MetalElectricPumpBlock.registerResistance();
 			ModFluids.registerInteractions();
 			Colours.setup();
+			CreosoteBlocks.setup();
 		}));
 		modBus.addListener(Colours::fillTabs);
 

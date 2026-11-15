@@ -17,19 +17,23 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * A steel ladder with a safety cage of hoops and straps around the climber, as on real columns and tanks. The cage
- * begins one block up, as a real one starts above head height so you can step in at the foot ({@link #CAGED} is set
- * on every ladder with another under it), and you cannot fall out of it sideways or backwards. It hangs on a wall as
- * a vanilla ladder does, and rusts as the catwalk does.
+ * begins two blocks up, above a player's head, as a real one starts above head height so you can step in at the foot
+ * and out again ({@link #LADDERS_BELOW}), and you cannot fall out of it sideways or backwards. It hangs on a wall as a
+ * vanilla ladder does, and rusts as the catwalk does.
  */
 public class CagedLadderBlock extends LadderBlock implements FluidPartMaterial.Part {
-	public static final BooleanProperty CAGED = BooleanProperty.create("caged");
+	/**
+	 * Ladders of the same flight under this one, counted to two: the foot has none, the one above it one, and every
+	 * ladder from the third up is caged. Each ladder counts from the one under it, so a change at the foot runs up.
+	 */
+	public static final IntegerProperty LADDERS_BELOW = IntegerProperty.create("ladders_below", 0, 2);
 	private static final Map<Direction, VoxelShape> LADDER = new EnumMap<>(Direction.class),
 		CAGE = new EnumMap<>(Direction.class);
 
@@ -47,7 +51,7 @@ public class CagedLadderBlock extends LadderBlock implements FluidPartMaterial.P
 	public CagedLadderBlock(Properties properties, FluidPartMaterial material) {
 		super(properties);
 		this.material = material;
-		registerDefaultState(defaultBlockState().setValue(CAGED, false).setValue(Patina.PROPERTY, Patina.NONE));
+		registerDefaultState(defaultBlockState().setValue(LADDERS_BELOW, 0).setValue(Patina.PROPERTY, Patina.NONE));
 	}
 
 	@Override
@@ -58,11 +62,19 @@ public class CagedLadderBlock extends LadderBlock implements FluidPartMaterial.P
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
-		builder.add(CAGED, Patina.PROPERTY);
+		builder.add(LADDERS_BELOW, Patina.PROPERTY);
 	}
 
-	private static boolean ladderUnder(BlockState state, BlockState below) {
-		return below.getBlock() instanceof CagedLadderBlock && below.getValue(FACING) == state.getValue(FACING);
+	/** Whether the ladder is caged: the third of its flight or higher. */
+	public static boolean caged(BlockState state) {
+		return state.getValue(LADDERS_BELOW) == 2;
+	}
+
+	/** {@link #LADDERS_BELOW} for a ladder as {@code state} with {@code below} under it. */
+	private static int laddersUnder(BlockState state, BlockState below) {
+		if (!(below.getBlock() instanceof CagedLadderBlock) || below.getValue(FACING) != state.getValue(FACING))
+			return 0;
+		return Math.min(2, below.getValue(LADDERS_BELOW) + 1);
 	}
 
 	@Nullable
@@ -71,7 +83,8 @@ public class CagedLadderBlock extends LadderBlock implements FluidPartMaterial.P
 		BlockState state = super.getStateForPlacement(context);
 		if (state == null)
 			return null;
-		return state.setValue(CAGED, ladderUnder(state, context.getLevel().getBlockState(context.getClickedPos().below())));
+		return state.setValue(LADDERS_BELOW,
+			laddersUnder(state, context.getLevel().getBlockState(context.getClickedPos().below())));
 	}
 
 	@Override
@@ -79,12 +92,12 @@ public class CagedLadderBlock extends LadderBlock implements FluidPartMaterial.P
 		BlockPos pos, BlockPos neighbourPos) {
 		BlockState updated = super.updateShape(state, direction, neighbour, level, pos, neighbourPos);
 		if (direction == Direction.DOWN && updated.getBlock() == this)
-			return updated.setValue(CAGED, ladderUnder(updated, neighbour));
+			return updated.setValue(LADDERS_BELOW, laddersUnder(updated, neighbour));
 		return updated;
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return (state.getValue(CAGED) ? CAGE : LADDER).get(state.getValue(FACING));
+		return (caged(state) ? CAGE : LADDER).get(state.getValue(FACING));
 	}
 }

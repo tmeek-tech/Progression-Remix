@@ -414,7 +414,7 @@ def caged_ladder():
     for stage in STAGES:
         prefix = stage[0]
         for facing, y in (('north', 0), ('east', 90), ('south', 180), ('west', 270)):
-            for name, when in (('', {}), ('_cage', {'caged': 'true'})):
+            for name, when in (('', {}), ('_cage', {'ladders_below': '2'})):
                 apply = {'model': f'mcremix:block/{prefix}steel_caged_ladder{name}'}
                 if y:
                     apply['y'] = y
@@ -726,6 +726,9 @@ def loot_and_tags():
     add_tag('minecraft', 'blocks', 'mineable/pickaxe', m(STEEL_BLOCKS))
     add_tag('minecraft', 'blocks', 'mineable/axe', m(CREOSOTE_BLOCKS))
     add_tag('minecraft', 'blocks', 'climbable', m(['steel_caged_ladder']))
+    # a log burns in a furnace and chars to charcoal as any log does (a post's item has its own burn time). Only the
+    # item: as a block in minecraft:logs, Create's saw would fell a pile of them as a tree, and leaves would keep by it
+    add_tag('minecraft', 'items', 'logs_that_burn', m(['creosote_log']))
     for kind in ('blocks', 'items'):
         add_tag('minecraft', kind, 'planks', m(['creosote_planks']))
         add_tag('minecraft', kind, 'wooden_stairs', m(['creosote_stairs']))
@@ -754,16 +757,18 @@ def catwalk_state(walks, stairs, pos):
 
 def ponder_schematics():
     """
-    catwalk/intro: a steel column four high in the middle of a 7x7 plate, a ring of catwalks round it a block up with a
-    gap on the north for a caged ladder up the column's north face, railings on the ring's open edges, and a flight of
-    catwalk stairs climbing west onto it from the east. argon_tube/intro: a black board along the back of a 5x5 plate,
-    three tubes lying east-west in front of it, and a creative voltage source at the front right.
+    catwalk/intro: a steel column six high in the middle of a 7x7 plate, a ring of catwalks round it a block up,
+    railings on the ring's open edges, a flight of catwalk stairs climbing west onto it from the east, and a caged ladder
+    from the ring up the column's north face to its top, caged from its third rung block up. argon_tube/intro: a black
+    board along the back of a 5x5 plate, three tubes lying east-west in front of it, and a creative voltage source at
+    the front right.
     """
     b = {}
     G.plate(b, 7)
-    for y in range(1, 5):
+    for y in range(1, 7):
         b[(3, y, 3)] = ('mcremix:steel_block', {})
-    walks = {(x, 2, z) for x in range(2, 5) for z in range(2, 5)} - {(3, 2, 3), (3, 2, 2)}
+    ladder = [(3, y, 2) for y in range(3, 7)]
+    walks = {(x, 2, z) for x in range(2, 5) for z in range(2, 5)} - {(3, 2, 3)}
     stairs = {(5, 2, 3): 'west', (6, 1, 3): 'west'}
     for pos in walks:
         b[pos] = catwalk_state(walks, stairs, pos)
@@ -774,17 +779,16 @@ def ponder_schematics():
     for x, _, z in walks:
         for side, (dx, dz) in (('north', (0, -1)), ('south', (0, 1)), ('west', (-1, 0)), ('east', (1, 0))):
             n = (x + dx, 2, z + dz)
-            if n not in walks and n not in stairs and n != (3, 2, 3) and n != (3, 2, 2):
+            if n not in walks and n not in stairs and n != (3, 2, 3) and (x, 3, z) not in ladder:
                 rails.setdefault((x, 3, z), set()).add(side)
     for pos, sides in rails.items():
         b[pos] = ('mcremix:steel_railing', {**{s: 'true' if s in sides else 'false'
                                                for s in ('north', 'east', 'south', 'west')},
                                             'patina': 'none', 'waterlogged': 'false'})
-    b[(3, 1, 2)] = ('mcremix:steel_caged_ladder', {'facing': 'north', 'caged': 'false', 'patina': 'none',
-                                                    'waterlogged': 'false'})
-    b[(3, 2, 2)] = ('mcremix:steel_caged_ladder', {'facing': 'north', 'caged': 'true', 'patina': 'none',
-                                                    'waterlogged': 'false'})
-    G.save_structure('catwalk/intro', (7, 5, 7), b)
+    for i, pos in enumerate(ladder):
+        b[pos] = ('mcremix:steel_caged_ladder', {'facing': 'north', 'ladders_below': str(min(i, 2)), 'patina': 'none',
+                                                  'waterlogged': 'false'})
+    G.save_structure('catwalk/intro', (7, 7, 7), b)
 
     b = {}
     G.plate(b)
@@ -818,8 +822,8 @@ def lang():
             'you; use another on it to rail _another side_. Nothing can _jump_ it.' + rusts),
         'block.mcremix.steel_caged_ladder': 'Steel Caged Ladder',
         'block.mcremix.steel_caged_ladder.tooltip.summary': (
-            'A steel ladder with a _safety cage_ around the climber, so you can\'t fall off it. The cage starts _one '
-            'block up_, leaving the foot open to step in.' + rusts),
+            'A steel ladder with a _safety cage_ around the climber, so you can\'t fall off it. The cage starts _two '
+            'blocks up_, above your head, so you can step in at the foot.' + rusts),
         'block.mcremix.creosote_log': 'Creosote Log',
         'block.mcremix.creosote_log.tooltip.summary': (
             'A peeled log soaked in _creosote_ by a _Spout_, dark and oily like a telegraph pole. Its end shows the '
@@ -835,8 +839,8 @@ def lang():
         'block.mcremix.creosote_post': 'Creosote Post',
         'block.mcremix.creosote_post.tooltip.summary': (
             'A creosoted pole, standing or lying like a log, for _jetties_, _telegraph poles_ and posts. Posts _join_ '
-            'where one meets another\'s side, so a crossarm meets its pole. _Lanterns_ hang from it, and _torches_ '
-            'stand on a standing one.'),
+            'where one meets another\'s side, so a crossarm meets its pole. _Lanterns_, _bells_ and _hanging signs_ '
+            'hang from it, and _torches_ stand on a standing one.'),
         'item.mcremix.glass_tube': 'Glass Tube',
         'item.mcremix.glass_tube.tooltip.summary': (
             'A glass tube with an electrode sealed into each end. A _Spout_ fills it with _argon_.'),
@@ -846,7 +850,7 @@ def lang():
             'gives, and stays lit down to _600 V_. Tubes set end to end _join_ into one line; wire them _in series_ '
             'with short jumpers between the ends, each needing its 800 V, or feed each on its own.'),
         'mcremix.goggles.argon_tube.volts': 'Across it: %s V',
-        'mcremix.goggles.argon_tube.lit': 'Glowing',
+        'mcremix.goggles.argon_tube.lit': 'Glowing, %s mA',
         'mcremix.goggles.argon_tube.too_low': 'Dark: needs %s V to strike',
     }
     G_lang = G.asset('lang', 'en_us.json')

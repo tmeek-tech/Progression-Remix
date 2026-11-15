@@ -1,8 +1,5 @@
 package com.mcremix.decor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nullable;
 
 import com.mcremix.fluids.FluidPartMaterial;
@@ -40,7 +37,17 @@ public class CatwalkStairsBlock extends Block implements SimpleWaterloggedBlock,
 	/** A handrail on the left and right, as you walk up. */
 	public static final BooleanProperty LEFT = BooleanProperty.create("left"), RIGHT = BooleanProperty.create("right");
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	private static final Map<BlockState, VoxelShape> SHAPES = new HashMap<>(), COLLISIONS = new HashMap<>();
+	/** Outlines and collision boxes by facing and rails ({@link #index}). */
+	private static final VoxelShape[] SHAPES = new VoxelShape[16], COLLISIONS = new VoxelShape[16];
+
+	static {
+		for (Direction facing : Direction.Plane.HORIZONTAL)
+			for (int rails = 0; rails < 4; rails++) {
+				boolean left = (rails & 1) != 0, right = (rails & 2) != 0;
+				SHAPES[index(facing, left, right)] = shape(facing, left, right, false);
+				COLLISIONS[index(facing, left, right)] = shape(facing, left, right, true);
+			}
+	}
 
 	private final FluidPartMaterial material;
 
@@ -93,28 +100,38 @@ public class CatwalkStairsBlock extends Block implements SimpleWaterloggedBlock,
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	/** The treads, and each rail as two steps following its slope, tall enough that it cannot be jumped. */
-	private static VoxelShape shape(BlockState state, boolean collision) {
-		Direction f = state.getValue(FACING);
+	private static int index(Direction facing, boolean left, boolean right) {
+		return facing.get2DDataValue() * 4 + (left ? 1 : 0) + (right ? 2 : 0);
+	}
+
+	/**
+	 * The treads, and each rail as two steps following its slope. To collide with, both steps of a rail stand two
+	 * blocks above the stairs' foot, as high as a block's collision reaches: from the lower tread that cannot be jumped,
+	 * and from the upper one it is a block high, as a wall is.
+	 */
+	private static VoxelShape shape(Direction f, boolean left, boolean right, boolean collision) {
 		VoxelShape shape = Shapes.or(HorizontalShapes.box(f, 0, 5, 8, 16, 8, 16), HorizontalShapes.box(f, 0, 13, 0, 16, 16, 8));
-		double top = collision ? 24 : 0;
-		if (state.getValue(LEFT))
-			shape = Shapes.or(shape, HorizontalShapes.box(f, 0, 5, 8, 1, Math.max(top, 20), 16),
-				HorizontalShapes.box(f, 0, 13, 0, 1, Math.max(top, 28), 8));
-		if (state.getValue(RIGHT))
-			shape = Shapes.or(shape, HorizontalShapes.box(f, 15, 5, 8, 16, Math.max(top, 20), 16),
-				HorizontalShapes.box(f, 15, 13, 0, 16, Math.max(top, 28), 8));
+		double low = collision ? 32 : 20, high = collision ? 32 : 28;
+		if (left)
+			shape = Shapes.or(shape, HorizontalShapes.box(f, 0, 5, 8, 1, low, 16), HorizontalShapes.box(f, 0, 13, 0, 1, high, 8));
+		if (right)
+			shape = Shapes.or(shape, HorizontalShapes.box(f, 15, 5, 8, 16, low, 16),
+				HorizontalShapes.box(f, 15, 13, 0, 16, high, 8));
 		return shape.optimize();
+	}
+
+	private static int index(BlockState state) {
+		return index(state.getValue(FACING), state.getValue(LEFT), state.getValue(RIGHT));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return SHAPES.computeIfAbsent(state, s -> shape(s, false));
+		return SHAPES[index(state)];
 	}
 
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return COLLISIONS.computeIfAbsent(state, s -> shape(s, true));
+		return COLLISIONS[index(state)];
 	}
 
 	@Override

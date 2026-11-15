@@ -13,7 +13,7 @@
       "when": {
         "patina": "none|waxed",
         "facing": "north",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/steel_caged_ladder_cage"
@@ -33,7 +33,7 @@
       "when": {
         "patina": "none|waxed",
         "facing": "east",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/steel_caged_ladder_cage",
@@ -54,7 +54,7 @@
       "when": {
         "patina": "none|waxed",
         "facing": "south",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/steel_caged_ladder_cage",
@@ -75,7 +75,7 @@
       "when": {
         "patina": "none|waxed",
         "facing": "west",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/steel_caged_ladder_cage",
@@ -95,7 +95,7 @@
       "when": {
         "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
         "facing": "north",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/exposed_steel_caged_ladder_cage"
@@ -115,7 +115,7 @@
       "when": {
         "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
         "facing": "east",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/exposed_steel_caged_ladder_cage",
@@ -136,7 +136,7 @@
       "when": {
         "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
         "facing": "south",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/exposed_steel_caged_ladder_cage",
@@ -157,7 +157,7 @@
       "when": {
         "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
         "facing": "west",
-        "caged": "true"
+        "ladders_below": "2"
       },
       "apply": {
         "model": "mcremix:block/exposed_steel_caged_ladder_cage",

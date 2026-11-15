@@ -34,12 +34,13 @@ public class DecorScenes {
 		scene.idle(5);
 
 		BlockPos column = util.grid().at(3, 1, 3);
-		Selection columnSel = util.select().fromTo(3, 1, 3, 3, 4, 3);
-		Selection walk = util.select().fromTo(2, 2, 2, 4, 2, 4).substract(util.select().position(3, 2, 3))
-			.substract(util.select().position(3, 2, 2));
+		Selection columnSel = util.select().fromTo(3, 1, 3, 3, 6, 3);
+		Selection walk = util.select().fromTo(2, 2, 2, 4, 2, 4).substract(util.select().position(3, 2, 3));
 		Selection stairs = util.select().fromTo(5, 1, 3, 6, 2, 3);
-		Selection rails = util.select().fromTo(2, 3, 2, 4, 3, 4);
-		Selection ladder = util.select().fromTo(3, 1, 2, 3, 2, 2);
+		// the railings' layer, but for the column through it and the ladder's foot, where the ring is left open
+		Selection rails = util.select().fromTo(2, 3, 2, 4, 3, 4).substract(util.select().position(3, 3, 3))
+			.substract(util.select().position(3, 3, 2));
+		Selection ladder = util.select().fromTo(3, 3, 2, 3, 6, 2);
 
 		scene.world().showSection(columnSel, Direction.DOWN);
 		scene.idle(15);
@@ -83,8 +84,8 @@ public class DecorScenes {
 		scene.idle(15);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A Steel Caged Ladder's cage starts one block up, leaving the foot open to step in. Once in, you can't fall off it")
-			.pointAt(util.vector().of(3.5, 2.5, 2.2))
+			.text("A Steel Caged Ladder's cage starts two blocks up, above your head, so you can step in at the foot. Once in, you can't fall off it")
+			.pointAt(util.vector().of(3.5, 5.5, 2.1))
 			.placeNearTarget();
 		scene.idle(110);
 
@@ -112,6 +113,9 @@ public class DecorScenes {
 		BlockPos left = util.grid().at(1, 2, 2), middle = util.grid().at(2, 2, 2), right = util.grid().at(3, 2, 2);
 		BlockPos source = util.grid().at(4, 1, 1);
 		Vec3 glow = util.vector().centerOf(middle);
+		// loading the schematic joins the three tubes to each other, though only the middle one shows at first
+		scene.world().modifyBlocks(util.select().fromTo(left, right),
+			s -> s.setValue(ArgonTubeBlock.JOINS_NEG, false).setValue(ArgonTubeBlock.JOINS_POS, false), false);
 
 		scene.world().showSection(util.select().fromTo(0, 1, 3, 4, 3, 3), Direction.DOWN);
 		scene.idle(10);

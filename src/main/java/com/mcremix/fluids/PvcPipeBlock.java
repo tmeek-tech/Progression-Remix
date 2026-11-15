@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
+import com.mcremix.decor.CreosoteBlocks;
 import com.mcremix.fluids.FluidPartMaterial.Failure;
 import com.mcremix.fluids.PvcPipes.Arm;
 import com.mcremix.registry.ModBlockEntities;
@@ -121,7 +122,9 @@ public class PvcPipeBlock extends Block implements IBE<PvcPipeBlockEntity>, Simp
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		Direction face = state.getValue(FACE);
-		return Block.canSupportCenter(level, pos.relative(face), face.getOpposite());
+		BlockPos on = pos.relative(face);
+		return !CreosoteBlocks.Post.hookOnly(level.getBlockState(on), face.getOpposite())
+			&& Block.canSupportCenter(level, on, face.getOpposite());
 	}
 
 	@Override

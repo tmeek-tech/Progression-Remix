@@ -13,7 +13,9 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -104,5 +106,21 @@ public class CatwalkBlock extends Block implements SimpleWaterloggedBlock, Fluid
 	@Override
 	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
 		return false;
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, Rotation rotation) {
+		BlockState turned = state;
+		for (Direction side : Direction.Plane.HORIZONTAL)
+			turned = turned.setValue(SIDES.get(rotation.rotate(side)), state.getValue(SIDES.get(side)));
+		return turned;
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirror) {
+		BlockState turned = state;
+		for (Direction side : Direction.Plane.HORIZONTAL)
+			turned = turned.setValue(SIDES.get(mirror.mirror(side)), state.getValue(SIDES.get(side)));
+		return turned;
 	}
 }

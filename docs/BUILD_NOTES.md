@@ -2573,54 +2573,82 @@ since a face whose UVs sit on a sprite's edge picked up the next sprite on the a
 
 **Steel catwalks.** `CatwalkBlock`: bar grating 2 px deep in the top of the block, so it lies flush with a floor beside
 it, banded by a 4 px flat bar along each side that does not run on into another catwalk, or into catwalk stairs
-climbing along that side. Waterloggable, and the sky shows through it. 3 from 3 steel sheets and 2 steel nuggets.
+climbing along that side. Waterloggable, and the sky shows through it. Its side flags turn and mirror with a structure,
+as worldgen places one without updating its shape. 3 from 3 steel sheets and 2 steel nuggets.
 
 **Catwalk stairs.** `CatwalkStairsBlock`: two grating treads on sloped flat-bar stringers, climbing the way you face.
 Each side with no flight beside it gets a handrail (`LEFT`, `RIGHT`: posts, a sloped rail and a knee rail), so stairs
-side by side make one wide flight railed only outside. 2 from 3 catwalks.
+side by side make one wide flight railed only outside. To collide with, both halves of a rail stand two blocks above the
+stairs' foot, as high as a block's collision reaches: from the lower tread that cannot be jumped, and from the upper one
+it is a block high, as a wall is. 2 from 3 catwalks.
 
 **Railings.** `RailingBlock`: a railing for each side of the block (posts, handrail, knee rail, toe board), placed on
 the edge nearest where you aim (within 0.3 of a block of it, else the side you face); another used on it adds a side,
-and broken it drops one for each side. Its collision is a block and a half high. 2 from 5 steel nuggets.
+and broken it drops one for each side, as many as a schematicannon spends printing it (`SpecialBlockItemRequirement`).
+A placement asks `canBeReplaced` of the railing aimed at and, if that says no, of a railing in front of the face aimed
+at, which takes the side against that face; the method tells which it is asked about by its state. Set by a command
+it is railed on the north, as a railing with no side draws nothing. Its collision is a block and a half high. Shapes
+for railings and stairs are worked out once, at class load, as the client and server threads both ask for them.
+2 from 5 steel nuggets.
 
-**Caged ladders.** `CagedLadderBlock`, a ladder: steel stiles and rungs, and a cage of hoops and bars that starts one
-block up (`CAGED`, set when the ladder below is a caged ladder facing the same way), so the foot is open to step in.
-3 from 2 steel sheets and 5 steel nuggets.
+**Caged ladders.** `CagedLadderBlock`, a ladder: steel stiles and rungs, and a cage of hoops and bars that starts two
+blocks up, above a player's head, as a real one starts above head height (`LADDERS_BELOW`, the ladders of the same
+flight under it counted to two, each from the one under it, so a change at the foot runs up). A cage on the second
+ladder stood in the way of a player's head at the foot, so nobody could walk in. 3 from 2 steel sheets and 5 steel
+nuggets.
 
 **Steel's rust.** All four are `FluidPartMaterial.Part`s of steel with `Patina`: they rust only while wet, to the
-exposed stage and no further, and wax and scrape as steel parts do.
+exposed stage and no further, and wax and scrape as steel parts do. Their properties are set in `ModDecor.steel`, not
+copied from iron bars: Immersive Weathering swaps vanilla's iron bars for a block that always takes random ticks, and a
+copy carried that over, so rusted or waxed steel kept ticking with nothing left to do.
 
 **Creosote timber.** `CreosoteBlocks`: a log (debarked, by axis), planks, stairs, slab, fence, fence gate and post, dark
-and oily like railway sleepers, with the log's sawn end soaked black outside and brown in the heart. They burn as wood.
-In a hot biome (base temperature over 1.0), by day, under open sky and over air, they now and then drip a speck of
-creosote from their underside (`weep`). Tags: planks, wooden stairs, slabs and fences, fence gates, `mineable/axe` and
-`mcremix:creosote_timber`; `forge:stripped_logs` gets the vanilla stripped logs, which the Spout will creosote. The
-crafting from creosote logs is there (4 planks a log; 4 posts from 2 logs; stairs, slabs, fence and gate from planks).
+and oily like railway sleepers, with the log's sawn end soaked black outside and brown in the heart. They burn as wood:
+`CreosoteBlocks.setup` gives fire itself vanilla's odds for them (planks' for the sawn pieces, logs' for the log and
+post), so none burns waterlogged. In a hot biome (base temperature over 1.0), by day (from the level's clock: a
+client's `isDay` is worked out once, when it joins), under open sky and over air, each of them now and then drips a
+speck of creosote from its underside (`weep`, at a spot under the timber). Tags: planks, wooden stairs, slabs and
+fences, fence gates, `mineable/axe` and `mcremix:creosote_timber`; the log's item is in `logs_that_burn`, for fuel and
+charcoal (not the block, or Create's saw would fell a pile of logs as a tree), and the post's item burns as a log does.
+`forge:stripped_logs` gets the vanilla stripped logs, which the Spout will creosote. The crafting from creosote logs is
+there (4 planks a log; 4 posts from 2 logs; stairs, slabs, fence and gate from planks).
 
 **Posts.** `CreosoteBlocks.Post`: a 6 px pole, standing or lying along either way like a log, waterloggable, for jetty
 piles, telegraph poles and fence posts. Posts join where one points at another's side (`SIDES`): the one pointed at
 grows a stub of the same pole out to it, so a crossarm meets its pole and a beam sits on a pole's top. A lantern hangs
-under a standing post, and under a lying one on a short length of chain (`CHAIN`, set when a hanging lantern or a chain
-is below; `getBlockSupportShape` gives a lying post a centre hold underneath). A torch stands on a standing post only,
-as on a lying one it would float. Rendered cutout for the chain.
+under a standing post, and under a lying one on a short length of chain (`CHAIN`, set when a hanging lantern, hanging
+sign, ceiling bell, spore blossom or chain is below; `getBlockSupportShape` gives a lying post a centre hold
+underneath). A torch stands on a standing post only, as on a lying one it would float, and `Post.hookOnly` keeps
+brackets and PVC face pipes off the hold for the same reason. Mobs path round posts, as round fences. Rendered cutout
+for the chain.
 
 **Argon tubes.** `ArgonTubeBlock`, a Power Grid device: a glass tube lying along the face it is set against, with a
 nickel cap and terminal at each end (- at the low end, + at the high end). Tubes end to end join, thin collars taking
 the place of their caps, but each keeps its own two terminals, since Power Grid cannot link nodes across blocks, so a
 line is wired in series with short jumpers. `ArgonTubeBlockEntity` puts a 40 kOhm switch between the terminals that
 closes at 800 V and opens below 600 V; lit (`LIT`), the tube glows violet with light 10, and the goggles show its volts
-and milliamps. The empty Glass Tube is an item.
+and, lit, its milliamps. Whether it is lit is saved, and a loaded tube is left as saved for its first 5 ticks while its
+circuit rejoins and settles: so one held lit between 600 and 800 V stays lit across a reload, and a lit one does not
+blink off as its chunk loads. The empty Glass Tube is an item.
 
 **Recipes to come.** `gen_decor.CREOSOTE_FLUID` and `ARGON_FLUID` are `None`. When stage 1 adds creosote it sets the
 first to the fluid's id and regenerates: the Spout recipes for stripped logs (250 mB) and planks (100 mB) appear, for
 any not already creosote timber. When stage 4 adds argon it sets the second: the Glass Tube's crafting (a glass pane
 between 2 iron nuggets, 2 tubes) and the Spout's 50 mB of argon into a tube appear.
 
-**Ponder.** `catwalk/intro` (a ring of catwalks round a steel column, railings, a caged ladder and a flight of stairs,
-rusting when wet) on the four steel blocks; `argon_tube/intro` (one tube struck from a voltage source, then three
-joined and wired in series) on the tube and the Glass Tube, which are also under Power Grid's electric devices tag.
+**Ponder.** `catwalk/intro` (a ring of catwalks round a steel column six high, railings, a flight of stairs onto the
+ring, and a caged ladder from the ring to the column's top, rusting when wet) on the four steel blocks;
+`argon_tube/intro` (one tube struck from a voltage source, then three joined and wired in series) on the tube and the
+Glass Tube. The tube is also under Power Grid's electric devices tag (`DecorPonderPlugin.registerTags`). Loading a
+scene's schematic updates every block's shape from its neighbours, which joined the three tubes before the first was
+shown, so the scene unjoins them first.
 
-**Tests.** 343 GameTests, plain, and 349 with `-Pcompanions`. New, in `DecorTests`: `railingsGoOnTheEdgeYouAimAt`,
-`catwalksAndStairsJoinTheirNeighbours`, `aCagedLaddersCageStartsOneBlockUp`, `wetCatwalksRustOnlyToTheirFirstStage`
-(4,000 random ticks), `aCrossarmJoinsItsPoleAndHoldsALantern` and `anArgonTubeGlowsOnHighVoltage` (lit at 1,000 V and
-lighting the block by it, dark at 500 V). Looks were checked in a dev client (the test report).
+**Tests.** 344 GameTests, plain, and 350 with `-Pcompanions`. New, in `DecorTests`: `railingsGoOnTheEdgeYouAimAt`
+(with a railing aimed at through the wall's face, and a schematicannon's cost), `catwalksAndStairsJoinTheirNeighbours`
+(a flight climbing east), `aCagedLaddersCageStartsTwoBlocksUp` (a player's height of room to walk in at the foot),
+`wetSteelWalkwaysRustOnlyToTheirFirstStage` (all four, through random ticks), `aCrossarmJoinsItsPoleAndHoldsALantern`
+(a pole beside it unjoined, the chain going with the lantern, a bell, no bracket on the hold), `creosoteBurnsAsWoodDoes`
+and `anArgonTubeStrikesAt800VoltsAndHoldsTo600` (25 mA at 1,000 V; held lit at 700 V, dark at 500 V; dark at 700 V
+from the start). A review of the change, area by area with each finding checked by a second reviewer, found what the
+first tests missed: the caged ladder's cage, the railing's schematic cost and side-face placement, creosote's fire odds
+the wrong way round, the argon scene's joins, and the rest above. Looks were checked in a dev client (the test report).
