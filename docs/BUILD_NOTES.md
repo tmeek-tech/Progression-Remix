@@ -2800,20 +2800,21 @@ the same ethanol per sugar as before. The steel column and crude oil are later s
 
 **Lab glass** (`lab/LabGlass`, `LabGlassBlock`). Eight blocks, each glass on an iron retort stand: round flask, glass
 column, still head, coil condenser, cow receiver, hot tube, settling flask and separating funnel. Each takes its heat
-from what is under it, as a basin does (`LabGlass.heatUnder`), but nothing past Hot: over Searing or hotter it cracks.
-A hot piece (over Warm or hotter, or a column or head over a boiling flask) cracks when rain falls on it or water
-stands beside it, so a lab needs a roof. Rain falls as vanilla's does (`Level.isRainingAt`), on the top of the stack
-of glassware a piece is in: under open sky, through nothing that stops it, so a roof of glass, panes or iron bars keeps
-it off as well as stone. Every piece is checked every `CHECK_EVERY` (10) ticks, the condenser and cow receiver
-included. A cracked piece (`cracked` block state, its own cracked texture) hisses, and `SHATTERS_AFTER` (100 ticks)
-later breaks, dropping nothing, and what it held spills as a broken tank's does (gases escape): a bucket's worth or
-more makes a source block, so the receiver's flasks and the condenser's water spill too. A cracked piece set down
-somewhere else, as a piston or contraption does, has its shatter scheduled again (`LabGlassBlock.onPlace`), and the
-still head's pulse is timed by its block entity, so the block's one scheduled tick is only ever its shatter. Every
-piece is solid to fluids (`forceSolidOn`), so running water or lava flows round it rather than washing it away. Cool
-glass is safe, and glass pipes never crack. Each piece's crafting recipe takes an iron nugget for its stand; its block
-model has `minecraft:block/block` as parent, for the display every block item has in hand, in frames and in slots, and
-its collision box takes in its stand's rod, turned with the piece.
+from what is under it, as a basin does (`LabGlass.heatUnder`), but nothing past Hot: over Searing or hotter it cracks. A
+hot piece (over Warm or hotter, or a column or head over a boiling flask) cracks when rain falls on it or water stands
+beside it, so a lab needs a roof. Rain falls as vanilla's does (`Level.isRainingAt`), on the top of the stack of
+glassware a piece is in: under open sky, through nothing that stops it, so a roof of glass, panes or iron bars keeps it
+off as well as stone. The round flask, the bench pieces, the condenser and the cow receiver check themselves every
+`CHECK_EVERY` (10) ticks; a glass column or still head stands on its flask, which checks them for water while it boils,
+so set straight on heat neither works nor cracks. A cracked piece (`cracked` block state, its own cracked texture)
+hisses, and `SHATTERS_AFTER` (100 ticks) later breaks, dropping nothing, and what it held spills as a broken tank's does
+(gases escape): a bucket's worth or more makes a source block, so the receiver's flasks and the condenser's water spill
+too. A cracked piece set down somewhere else, as a piston or contraption does, has its shatter scheduled again
+(`LabGlassBlock.onPlace`), and the still head's pulse is timed by its block entity, so the block's one scheduled tick is
+only ever its shatter. Every piece is solid to fluids (`forceSolidOn`), so running water or lava flows round it rather
+than washing it away. Cool glass is safe, and glass pipes never crack. Each piece's crafting recipe takes an iron nugget
+for its stand; its block model has `minecraft:block/block` as parent, for the display every block item has in hand, in
+frames and in slots, and its collision box takes in its stand's rod, turned with the piece.
 
 **The still** (`RoundFlaskBlockEntity`, `StillHeadBlockEntity`, `GlassColumnBlock`, `CoilCondenserBlockEntity`,
 `CowReceiverBlockEntity`). A round flask over heat, up to three glass column pieces on it, a still head with its
@@ -2822,26 +2823,30 @@ end. A bucket of a mixture with a `mcremix:distilling` recipe (`DistillingRecipe
 cut at a time, lightest first, into the receiver's flask under the drip; the next cut waits until that flask will take
 it (empty, or holding that cut with room), so two cuts never mix. A batch starts on a full bucket (`batch()`, the
 recipe's mixture amount), or on what there is once nothing has come in for `SETTLE` (20) ticks, so a pipe filling the
-flask a little at a time gives whole batches and the cuts of a smaller one stay in proportion; the goggles say
-Filling meanwhile. A mixture poured in after something else, so in the flask's second tank, moves to the first once
-that is empty, and distils. As each cut ends the thermometer's reading climbs, the still turns the receiver to its next
-flask itself, and then the head gives a redstone pulse (`StillHeadBlock.POWERED`, 4 ticks, timed by
+flask a little at a time gives whole batches; the goggles say Filling meanwhile. A flask just placed or loaded waits
+`SETTLE` ticks too (`initialize`), for its pipes to start again. A smaller batch's cuts are whole mB, and what each
+falls short is carried to the next batch of that mixture (`owed`, saved with the flask), so lots of any size give a
+bucket's cuts in the end. A mixture poured in after something else, so in the flask's second tank, moves to the first
+once that is empty, and distils. As each cut ends the thermometer's reading climbs, the still turns the receiver to its
+next flask itself, and then the head gives a redstone pulse (`StillHeadBlock.POWERED`, 4 ticks, timed by
 `StillHeadBlockEntity`). The receiver takes no notice of a pulse within `STILL_TURN_HOLDS` (20) ticks of the still's own
 turn, so a thermometer wired to it by redstone still turns it once a cut. What is left stays in the round flask. The
-batch takes the recipe's time (600 ticks) at its own heat, half for each level hotter, half again with cold water in
-the condenser and a third with coolant. Cuts marked `close` (acetone and methanol) come over at a quarter of the pace
-in a bare still, half with one column piece and full pace with two; a third fits but adds nothing, as the design's
-numbers say. The condenser warms a mB of water (or cold water) into warm water, or of coolant into hot coolant, for
-every 4 mB of vapour; dry, or with nowhere for that to go, the still waits. The goggles show the thermometer only
-while something boils, and an incomplete still names what it lacks: a head, a condenser, a receiver, or fewer column
-pieces when four are stacked. The receiver turns by hand (empty hand) or a redstone pulse; a bucket on a side takes
-from the flask on that side, sneaking with an empty hand tips that flask out, and pipes on any side draw from every
-flask and the vent, so smart pipes can sort the cuts. Pipes never draw a flask's input back out, only what it made. A
-bucket (`LabGlass.useContainer`) takes a whole bucket from the first tank that has one, what it made first, then what
-went in while nothing is distilling or cooking it; sneaking with an empty hand (`tipOut`) pours out everything a
-bucket could take, part-buckets and all, so a still runs by hand alone. A distilling recipe without exactly one fluid
-ingredient with an amount, or without a result, is turned down as it loads (`DistillingRecipe.valid`, a
-`JsonSyntaxException` the recipe manager logs), so a broken data pack never reaches a still.
+batch takes the recipe's time (600 ticks) at its own heat, half for each level hotter, half again with cold water in the
+condenser and a third with coolant. Cuts marked `close` (acetone and methanol) come over at a quarter of the pace in a
+bare still, half with one column piece and full pace with two; a third fits but adds nothing, as the design's numbers
+say. The condenser warms a mB of water (or cold water) into warm water, or of coolant into hot coolant, for every 4 mB
+of vapour; dry, or with nowhere for that to go, the still waits. The goggles show the thermometer only while something
+boils, and an incomplete still names what it lacks: a head, a condenser, a receiver, or fewer column pieces when four
+are stacked, which the head's goggles say too. The receiver turns by hand (empty hand) or a redstone pulse; a bucket on
+a side takes from the flask on that side, sneaking with an empty hand tips that flask out, and pipes on any side draw
+from every flask and the vent, so smart pipes can sort the cuts. Pipes never draw a flask's input back out, only what it
+made. A bucket (`LabGlass.useContainer`) takes a whole bucket from the first tank that has one, what it made first, then
+what went in while nothing is distilling or cooking it; a bucket of water fills the coil condenser, and an empty one
+takes its warm water, then its water; sneaking with an empty hand (`tipOut`) pours out everything a bucket could take,
+part-buckets and all, and marks the piece changed, so it is saved and every client sees it. So a still runs by hand
+alone. A distilling recipe without exactly one fluid ingredient with an amount, without a result, or whose cuts come to
+more than that amount is turned down as it loads (`DistillingRecipe.valid`, a `JsonSyntaxException` the recipe manager
+logs), so a broken data pack never reaches a still, and a cut never pours more than the flask gave up.
 
 | A bucket of | At | Cuts, lightest first (°C) | Left in the flask |
 |---|---|---|---|
@@ -2924,23 +2929,27 @@ and the separating funnel the Vat Mixing tab. Ponder scenes `lab/still` (the sti
 hot tube, reflux flask, settling flask and separating funnel). The Bakelite scene (`kiln/bakelite`) now presses phenol
 and formaldehyde and shows on their buckets, and the Steel Furnace's lists the new fuels.
 
-**Tests.** 27 GameTests in `GlassLabTests`, 13 of them added for what a review of the stage found, and one new in
+**Tests.** 30 GameTests in `GlassLabTests`, 16 of them added for what two reviews of the stage found, and one new in
 `CoalTarTests`. The still: wood spirit distils into its cuts, the still turning the receiver between them and warming
-the condenser's water; a pipe-fed still waits for a whole batch, and splits a half batch in the same proportions; a
-thermometer wired to the receiver doesn't turn it twice a cut; a dry condenser waits; a still that loses its condenser,
-or has four column pieces, says what it lacks; a mixture poured in after water still distils; buckets take whole
-buckets, and sneaking with an empty hand tips glass out; wash stills into a quarter ethanol; a distilling recipe without
-its one mixture is turned down as it loads; a cow receiver turns by hand or pulse. Lab glass: it cracks past Hot and
-when wet while hot, leaving a source of what it held; the condenser and receiver crack too; a cracked piece set down as
-a piston sets one down still shatters, and a cracked still head's pulse doesn't put that off; rain cracks hot glass
-unless it is roofed, with glass as well as stone (in a batch of its own, `labGlassRain`, which turns the rain on and
-off); running water doesn't wash lab glass away; cool glass takes water. The bench: the hot tube makes formaldehyde;
-carbolic oil settles naphthalene; the funnel splits the phenol wash; a reflux flask cooks what a heated basin mixes,
-keeping the dichloride the batch didn't take, and a full one waits; a heated basin loses what boils off unless
+the condenser's water; a pipe-fed still waits for a whole batch, and splits a half batch in the same proportions; two
+25 mB lots give what 50 mB at once would, what the first lot's cuts fell short by carried to the second; a flask loaded
+holding part of a batch waits for its pipes; a thermometer wired to the receiver doesn't turn it twice a cut; a dry
+condenser waits; a still that loses its condenser, or has four column pieces, says what it lacks, on its head too; a
+mixture poured in after water still distils; buckets take whole buckets, the receiver's from the flask on the side
+clicked and the condenser's too, and sneaking with an empty hand tips glass out and marks it to be saved; wash stills
+into a quarter ethanol; a distilling recipe without its one mixture, or cutting more than it holds, is turned down as it
+loads; a cow receiver turns by hand or pulse. Lab glass: it cracks past Hot and when wet while hot, leaving a source of
+what it held; the condenser and receiver crack too; a cracked piece set down as a piston sets one down still shatters,
+and a cracked still head's pulse doesn't put that off; rain cracks hot glass unless it is roofed, with glass as well as
+stone (in a batch of its own, `labGlassRain`, which turns the rain on and off); running water doesn't wash lab glass
+away; cool glass takes water. The bench: the hot tube makes formaldehyde; carbolic oil settles naphthalene; the funnel
+splits the phenol wash; a reflux flask cooks what a heated basin mixes, keeping the dichloride the batch didn't take,
+puts each result in a tank that takes it all, and waits when none does; a heated basin loses what boils off unless
 condensed. CO2 sinks into a pit and hurts a pig there as drowning does; vinegar takes the patina off copper; Spouts of
 vinegar and of the still's creosote do their work on depots; every piece has its recipe, copper mesh by hand only; the
 still's creosote soaks timber. `carbonDioxideWaitingGivesWayToTar` (`CoalTarTests`): CO2 a Furnace holds gives way to a
 coal's tar, none of it burnt off.
 Changed: the vat and basin fermenting tests (wash; a two-tank vat holds 4,000 mB of what it makes, so four buckets and
-ten sugar ferment as four batches at once and leave two sugar), Bakelite from phenol and formaldehyde, and electrodes
-and briquettes bound with pitch, each now checking the amounts too, since a fluid ingredient's test ignores them.
+ten sugar ferment as four batches at once and leave two sugar, which a funnel can't take out), Bakelite from phenol and
+formaldehyde, and electrodes and briquettes bound with pitch, each now checking the amounts too, since a fluid
+ingredient's test ignores them.

@@ -101,8 +101,10 @@ public abstract class BenchGlassBlockEntity extends SmartBlockEntity implements 
 	public void tipOut() {
 		if (level instanceof ServerLevel server) {
 			List<FluidStack> poured = LabGlass.empty(handTanks());
-			if (!poured.isEmpty())
+			if (!poured.isEmpty()) {
 				LabGlass.pourAway(server, worldPosition, poured);
+				changed();
+			}
 		}
 	}
 

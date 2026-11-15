@@ -12,6 +12,10 @@ import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,9 +29,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -35,7 +41,8 @@ import net.minecraftforge.fluids.FluidStack;
  * cooler (the distillation design). It serves the block it faces ({@link #FACING}), and is drawn three ways for it
  * ({@link #SHAPE}): sloping down from a still head's side arm, with the cow receiver under its low end; standing on a
  * round flask as a reflux condenser; or upright beside a basin with an arm over its rim, as the basin's reflux
- * condenser. Pipes join it on any face but the one it serves.
+ * condenser. Pipes join it on any face but the one it serves. A bucket pours water in, or takes a bucket back out,
+ * what it warmed first; sneaking with an empty hand tips it out.
  */
 public class CoilCondenserBlock extends LabGlassBlock implements IBE<CoilCondenserBlockEntity> {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -112,6 +119,25 @@ public class CoilCondenserBlock extends LabGlassBlock implements IBE<CoilCondens
 		if (direction == facing)
 			return state.setValue(SHAPE, shapeFor(level, pos, facing));
 		return state;
+	}
+
+	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+		BlockHitResult hit) {
+		ItemStack held = player.getItemInHand(hand);
+		CoilCondenserBlockEntity condenser = getBlockEntity(level, pos);
+		if (condenser == null)
+			return InteractionResult.PASS;
+		if (held.isEmpty() && player.isShiftKeyDown()) {
+			if (!level.isClientSide)
+				condenser.tipOut();
+			return InteractionResult.sidedSuccess(level.isClientSide);
+		}
+		if (!held.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent())
+			return InteractionResult.PASS;
+		if (!level.isClientSide)
+			LabGlass.useContainer(player, hand, condenser.tanks(), condenser.handTanks());
+		return InteractionResult.sidedSuccess(level.isClientSide);
 	}
 
 	@Override

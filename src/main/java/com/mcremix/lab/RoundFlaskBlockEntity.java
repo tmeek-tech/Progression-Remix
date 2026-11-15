@@ -110,6 +110,14 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 	private int cut;
 	private int done;
 	private float carry;
+	/**
+	 * What each cut's share of a part batch came to past its whole mB, in mB times the batch, carried to the next part
+	 * batch of the same mixture: a still fed in small lots loses none of its light cuts to the residue over time.
+	 */
+	private int[] owed = new int[0];
+	/** The mixture {@link #owed} is kept for. */
+	@Nullable
+	private ResourceLocation owedFor;
 
 	// a batch cooking under reflux
 	@Nullable
@@ -142,6 +150,14 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 
 	@Override
 	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	}
+
+	/** Just placed or loaded: what came in before waits {@link #SETTLE} ticks, for pipes that may still be filling it. */
+	@Override
+	public void initialize() {
+		super.initialize();
+		if (level != null)
+			lastFilled = level.getGameTime();
 	}
 
 	/** The handler a bucket uses, which can take back what went in. */
@@ -357,7 +373,11 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 			want = Math.min(want, condenser.condensable(Math.min(want, receiver.roomFor(cutFluid))));
 		if (want <= 0)
 			return receiver.roomFor(cutFluid) <= 0 ? Job.WAITING_FLASK : Job.NO_WATER;
-		in[0].drain(want, IFluidHandler.FluidAction.EXECUTE);
+		want = in[0].drain(want, IFluidHandler.FluidAction.EXECUTE).getAmount();
+		if (want <= 0) { // nothing left to boil, which a valid recipe never comes to: the cut ends short
+			endCut(still, recipe, gas);
+			return Job.DISTILLING;
+		}
 		receiver.pour(new FluidStack(cutFluid, want));
 		if (!gas)
 			condenser.condense(want);
@@ -395,9 +415,23 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 	private void start(DistillingRecipe recipe, int amount) {
 		batchId = recipe.getId();
 		List<FluidStack> cuts = recipe.cuts();
+		if (!batchId.equals(owedFor) || owed.length != cuts.size()) {
+			owed = new int[cuts.size()];
+			owedFor = batchId;
+		}
+		int batch = Math.max(1, recipe.batch()), total = 0;
 		targets = new int[cuts.size()];
-		for (int i = 0; i < cuts.size(); i++)
-			targets[i] = cuts.get(i).getAmount() * amount / Math.max(1, recipe.batch());
+		for (int i = 0; i < cuts.size(); i++) {
+			long share = (long) cuts.get(i).getAmount() * amount + owed[i];
+			targets[i] = (int) (share / batch);
+			owed[i] = (int) (share % batch);
+			total += targets[i];
+		}
+		for (int i = cuts.size() - 1; i >= 0 && total > amount; i--) { // never more cuts than went in
+			int less = Math.min(targets[i], total - amount);
+			targets[i] -= less;
+			total -= less;
+		}
 		cut = 0;
 		done = 0;
 		carry = 0;
@@ -713,6 +747,10 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 			tag.putString("Reflux", refluxId.toString());
 			tag.putInt("Refluxed", refluxed);
 		}
+		if (owedFor != null && !clientPacket) {
+			tag.putString("OwedFor", owedFor.toString());
+			tag.putIntArray("Owed", owed);
+		}
 		tag.putString("Job", job.name());
 		tag.putString("Missing", missing);
 		tag.putInt("Heat", heat.ordinal());
@@ -741,6 +779,10 @@ public class RoundFlaskBlockEntity extends SmartBlockEntity implements IHaveGogg
 		}
 		refluxId = tag.contains("Reflux") ? ResourceLocation.tryParse(tag.getString("Reflux")) : null;
 		refluxed = tag.getInt("Refluxed");
+		if (!clientPacket) {
+			owedFor = tag.contains("OwedFor") ? ResourceLocation.tryParse(tag.getString("OwedFor")) : null;
+			owed = owedFor == null ? new int[0] : tag.getIntArray("Owed");
+		}
 		try {
 			job = Job.valueOf(tag.getString("Job"));
 		} catch (IllegalArgumentException e) {

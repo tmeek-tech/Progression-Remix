@@ -116,6 +116,9 @@ public class PlasticsTests {
 				for (int slot = 0; slot < slots.getSlots(); slot++)
 					sugar += slots.getStackInSlot(slot).is(Items.SUGAR) ? slots.getStackInSlot(slot).getCount() : 0;
 				h.assertTrue(sugar == 2, "four batches should use eight sugar and leave two, left " + sugar);
+				for (int slot = 0; slot < slots.getSlots(); slot++)
+					h.assertTrue(slots.extractItem(slot, 64, true).isEmpty(),
+						"a funnel should not take out the sugar the vat could still ferment");
 				FluidStack drawn = pipes.drain(Chemical.WASH.stack(4000), FluidAction.EXECUTE);
 				h.assertTrue(drawn.getAmount() == 4000, "the pipes should draw off the wash, drew " + drawn.getAmount());
 			})

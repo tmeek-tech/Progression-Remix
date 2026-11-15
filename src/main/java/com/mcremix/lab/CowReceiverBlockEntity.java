@@ -176,8 +176,10 @@ public class CowReceiverBlockEntity extends SmartBlockEntity implements IHaveGog
 	public void tipOut(Direction side) {
 		if (level instanceof ServerLevel server) {
 			List<FluidStack> poured = LabGlass.empty(List.of(flask(flaskOn(side))));
-			if (!poured.isEmpty())
+			if (!poured.isEmpty()) {
 				LabGlass.pourAway(server, worldPosition, poured);
+				changed();
+			}
 		}
 	}
 

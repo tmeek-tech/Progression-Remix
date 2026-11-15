@@ -8922,12 +8922,16 @@ def lab_lang():
         'block.mcremix.coil_condenser': 'Coil Condenser',
         'block.mcremix.coil_condenser.tooltip.summary': (
             'Turns vapour back into liquid. Place it against a _still head\'s arm_, on a _round flask_, or on a '
-            '_basin\'s side_. Pipe _water_ in: it comes out _warm_. _Cold water_ runs a still twice as fast, '
+            '_basin\'s side_. Pipe or pour _water_ in: it comes out _warm_. _Cold water_ runs a still twice as fast, '
             '_coolant_ three times. With nothing to cool with, the still waits.'),
         'block.mcremix.coil_condenser.tooltip.condition1': 'On a heated basin',
         'block.mcremix.coil_condenser.tooltip.behaviour1': (
             'A heated basin recipe loses a _quarter as much again_ of the _ethanol_, _methanol_ or _ethylene '
             'dichloride_ it takes as vapour. A condenser on its side runs it back, and nothing is lost.'),
+        'block.mcremix.coil_condenser.tooltip.condition2': 'By hand',
+        'block.mcremix.coil_condenser.tooltip.behaviour2': (
+            'A _bucket_ of water fills it, and takes back a bucket of its _warm water_ or of its water. _Sneak_ with '
+            'an _empty hand_ to tip it out, part-buckets and all.'),
         'block.mcremix.cow_receiver': 'Cow Receiver',
         'block.mcremix.cow_receiver.tooltip.summary': (
             'Four flasks under a still\'s condenser, a bucket each. A cut waits until the flask under the drip is '
@@ -9018,7 +9022,7 @@ def lab_lang():
         'mcremix.goggles.still.holds': '%s: %s mB',
         'mcremix.goggles.still.reflux_flask': 'Reflux Flask',
         'mcremix.goggles.still.no_flask': 'Needs a round flask under it',
-        'mcremix.goggles.coil_condenser.dry': 'Needs water piped in',
+        'mcremix.goggles.coil_condenser.dry': 'Needs water piped or poured in',
         'mcremix.goggles.coil_condenser.full': 'Its warm water has nowhere to go',
         'mcremix.goggles.coil_condenser.condensing': 'Condensing',
         'mcremix.goggles.coil_condenser.ready': 'Ready',

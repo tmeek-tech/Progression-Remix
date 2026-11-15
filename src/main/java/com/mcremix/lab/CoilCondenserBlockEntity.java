@@ -17,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -24,6 +25,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 /**
  * A coil condenser's water jacket (the distillation design: water in, warm water out). Every {@link #VAPOUR_PER_MB}
@@ -84,6 +86,23 @@ public class CoilCondenserBlockEntity extends SmartBlockEntity implements IHaveG
 	/** What its jacket holds, to spill when it shatters. */
 	public List<FluidStack> contents() {
 		return List.of(tanks.feed.getFluid().copy(), tanks.output.getFluid().copy());
+	}
+
+	/** The tanks a bucket takes from, in turn: what it warmed, then what it cools with. */
+	public List<FluidTank> handTanks() {
+		return List.of(tanks.output, tanks.feed);
+	}
+
+	/** Sneaking with an empty hand: its jacket emptied, what it held poured away. */
+	public void tipOut() {
+		if (level instanceof ServerLevel server) {
+			List<FluidStack> poured = LabGlass.empty(handTanks());
+			if (!poured.isEmpty()) {
+				LabGlass.pourAway(server, worldPosition, poured);
+				owed = 0;
+				changed();
+			}
+		}
 	}
 
 	/** How much faster than plain water what it holds condenses: cold water twice, coolant three times; 0 if dry. */

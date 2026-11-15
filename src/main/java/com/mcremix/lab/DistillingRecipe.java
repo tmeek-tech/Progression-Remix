@@ -36,8 +36,8 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
  *   "processingTime": 600                 // ticks the whole batch takes at its own heat
  * }
  * </pre>
- * A recipe without exactly one fluid to split, or without a result, is turned down as it loads (the game logs why), so
- * a broken data pack recipe never reaches a still.
+ * A recipe without exactly one fluid to split, without a result, or whose cuts come to more than the mixture they are
+ * cut from, is turned down as it loads (the game logs why), so a broken data pack recipe never reaches a still.
  */
 public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	private HeatLevel heat = HeatLevel.WARM;
@@ -56,10 +56,15 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 			.filter(r -> r.valid() && r.feed().test(fluid)).findFirst();
 	}
 
-	/** One fluid to split, in an amount, and at least a residue. */
+	/** One fluid to split, in an amount, at least a residue, and cuts that come to no more than the mixture. */
 	public boolean valid() {
-		return getFluidIngredients().size() == 1 && getFluidIngredients().get(0).getRequiredAmount() > 0
-			&& !getFluidResults().isEmpty();
+		if (getFluidIngredients().size() != 1 || getFluidIngredients().get(0).getRequiredAmount() <= 0
+			|| getFluidResults().isEmpty())
+			return false;
+		long cut = 0;
+		for (FluidStack each : cuts())
+			cut += each.getAmount();
+		return cut <= batch();
 	}
 
 	public FluidIngredient feed() {
@@ -132,8 +137,9 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	@Override
 	public void readAdditional(JsonObject json) {
 		if (!valid())
-			throw new JsonSyntaxException("Distilling recipe " + getId()
-				+ " needs exactly one fluid ingredient with an amount, and at least one fluid result");
+			throw new JsonSyntaxException("Distilling recipe " + getId() + " needs exactly one fluid ingredient with an "
+				+ "amount, at least one fluid result, and its cuts (every result but the last) to come to no more than "
+				+ "that amount");
 		heat = HeatLevel.byName(GsonHelper.getAsString(json, "heat", "warm"));
 		JsonArray points = GsonHelper.getAsJsonArray(json, "boiling_points", new JsonArray());
 		boilingPoints = new int[points.size()];

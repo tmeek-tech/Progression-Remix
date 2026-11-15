@@ -60,12 +60,23 @@ public class StillHeadBlockEntity extends SmartBlockEntity implements IHaveGoggl
 		return null;
 	}
 
+	/** More glass column pieces under it than a still takes, so no flask is found through them. */
+	private boolean tooManyColumns() {
+		BlockPos at = worldPosition.below();
+		for (int i = 0; i <= RoundFlaskBlockEntity.MAX_COLUMNS; i++, at = at.below())
+			if (!(level.getBlockState(at).getBlock() instanceof GlassColumnBlock))
+				return false;
+		return true;
+	}
+
 	@Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
 		RoundFlaskBlockEntity flask = flask();
 		if (flask == null) {
 			tooltip.add(CoilCondenserBlockEntity.line(getBlockState().getBlock().getName()));
-			tooltip.add(CoilCondenserBlockEntity.line(Component.translatable("mcremix.goggles.still.no_flask")
+			String why = level != null && tooManyColumns() ? "mcremix.goggles.still.incomplete.columns"
+				: "mcremix.goggles.still.no_flask";
+			tooltip.add(CoilCondenserBlockEntity.line(Component.translatable(why)
 				.withStyle(net.minecraft.ChatFormatting.GOLD)));
 			return true;
 		}

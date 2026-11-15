@@ -35,7 +35,9 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  * What the lab's glassware shares (the distillation design, 2026-11-11 to 13): it takes its heat from whatever is under
  * it, as a basin does, but nothing past Hot, and hot glass cracks when water meets it.
  * <ul>
- * <li>A piece over Searing heat or hotter cracks: lab glass softens near 820 °C.</li>
+ * <li>A piece over Searing heat or hotter cracks: lab glass softens near 820 °C. A glass column or still head stands
+ * on its round flask, which checks them while it boils, for water only: set straight on heat, neither works or
+ * cracks.</li>
  * <li>A hot piece cracks when rain falls on it or water stands beside it (Taran: a lab needs a roof). Rain falls on it
  * where it would put out a fire: on the top of its stack of glassware, under open sky, so a roof of glass keeps it
  * off as well as one of stone. A piece is hot over any heat from Warm up, and the column and still head above a flask

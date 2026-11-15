@@ -2,6 +2,7 @@ package com.mcremix.gametest;
 
 import static com.mcremix.gametest.GT.p;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -11,6 +12,7 @@ import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.lab.BenchGlassBlockEntity;
 import com.mcremix.lab.CoilCondenserBlock;
+import com.mcremix.lab.CoilCondenserBlockEntity;
 import com.mcremix.lab.CowReceiverBlock;
 import com.mcremix.lab.CowReceiverBlockEntity;
 import com.mcremix.lab.DistillingRecipe;
@@ -19,6 +21,7 @@ import com.mcremix.lab.LabGlass;
 import com.mcremix.lab.RoundFlaskBlockEntity;
 import com.mcremix.lab.RoundFlaskBlockEntity.Job;
 import com.mcremix.lab.StillHeadBlock;
+import com.mcremix.lab.StillHeadBlockEntity;
 import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
@@ -27,6 +30,7 @@ import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.logistics.depot.DepotBlockEntity;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -36,6 +40,8 @@ import net.minecraft.gametest.framework.BeforeBatch;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -47,6 +53,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -176,6 +183,23 @@ public class GlassLabTests {
 		return held.stream().allMatch(FluidStack::isEmpty);
 	}
 
+	/** Whether {@code line}, or any part of it, is the translation {@code key}. */
+	static boolean says(Component line, String key) {
+		if (line.getContents() instanceof TranslatableContents text && text.getKey().equals(key))
+			return true;
+		return line.getSiblings().stream().anyMatch(part -> says(part, key));
+	}
+
+	/** Right-clicks {@code rel} sneaking with an empty hand, and checks the piece is marked to be saved after. */
+	static void tipOut(GameTestHelper h, TestPlayer player, BlockPos rel, Direction face, String piece) {
+		LevelChunk chunk = h.getLevel().getChunkAt(h.absolutePos(rel));
+		chunk.setUnsaved(false);
+		player.setShiftKeyDown(true);
+		GT.click(h, player, rel, face, 0.5, ItemStack.EMPTY);
+		player.setShiftKeyDown(false);
+		h.assertTrue(chunk.isUnsaved(), "tipping out the " + piece + " should mark it changed, to be saved and sent");
+	}
+
 	/**
 	 * A still on a campfire, two column pieces tall, with cold water in its condenser: a bucket of wood spirit comes over
 	 * as acetone into one flask of the cow receiver and methanol into the next, the receiver turning between, and
@@ -216,6 +240,60 @@ public class GlassLabTests {
 			assertWoodSpiritCut(h, whole, cow(h, receiverOf(wholeAt, 2)), 1000);
 			assertWoodSpiritCut(h, half, cow(h, receiverOf(halfAt, 2)), 500);
 		});
+	}
+
+	/**
+	 * Wood spirit piped into a still 25 mB at a time, a lot every so often, distils each lot as a batch of its own. A
+	 * lot's cuts come to whole mB, and what they fall short by is carried to the next: two lots give 5 mB of acetone
+	 * and 15 of methanol between them, and leave 30 of vinegar, as 50 mB poured in at once would.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 300)
+	public static void smallLotsGiveABucketsCutsInTheEnd(GameTestHelper h) {
+		BlockPos flaskAt = p(4, 3, 4);
+		RoundFlaskBlockEntity still = still(h, flaskAt, 2);
+		CowReceiverBlockEntity cow = cow(h, receiverOf(flaskAt, 2));
+		IFluidHandler pipes = fluids(still, Direction.NORTH);
+		int[] firstVinegar = { 0 };
+		h.startSequence()
+			.thenExecute(() -> pipes.fill(Chemical.WOOD_SPIRIT.stack(25), FluidAction.EXECUTE))
+			.thenWaitUntil(() -> h.assertTrue(still.job() == Job.DONE && cow.current() == 2,
+				"the first lot should distil into two cuts, the still is " + still.job()))
+			.thenExecute(() -> {
+				firstVinegar[0] = pipes.drain(Chemical.VINEGAR.stack(1000), FluidAction.EXECUTE).getAmount();
+				pipes.fill(Chemical.WOOD_SPIRIT.stack(25), FluidAction.EXECUTE);
+			})
+			.thenWaitUntil(() -> h.assertTrue(still.job() == Job.DONE && cow.current() == 0,
+				"the second lot should distil into two more cuts, the still is " + still.job()))
+			.thenExecute(() -> {
+				int acetone = 0, methanol = 0;
+				for (int i = 0; i < 4; i++) {
+					FluidStack held = cow.flask(i).getFluid();
+					acetone += held.getFluid().isSame(Chemical.ACETONE.fluid()) ? held.getAmount() : 0;
+					methanol += held.getFluid().isSame(Chemical.METHANOL.fluid()) ? held.getAmount() : 0;
+				}
+				int vinegar = firstVinegar[0] + still.output(0).getAmount();
+				h.assertTrue(acetone == 5 && methanol == 15 && vinegar == 30, "two lots of 25 mB should give 5 mB of "
+					+ "acetone, 15 of methanol and 30 of vinegar, as 50 at once would; they gave " + acetone + ", "
+					+ methanol + " and " + vinegar + " (" + firstVinegar[0] + " of the vinegar from the first)");
+			})
+			.thenSucceed();
+	}
+
+	/**
+	 * A flask that loads holding part of a batch, as when its chunk loads while a pipe was filling it, waits a second
+	 * for the pipe to start again, then distils what it has.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
+	public static void aFlaskJustLoadedWaitsForItsPipes(GameTestHelper h) {
+		BlockPos flaskAt = p(4, 3, 4);
+		RoundFlaskBlockEntity still = still(h, flaskAt, 2);
+		saved(still, "In0", Chemical.WOOD_SPIRIT.stack(100));
+		h.startSequence()
+			.thenExecuteAfter(10, () -> h.assertTrue(still.job() == Job.FILLING,
+				"a flask just loaded with part of a batch should wait for its pipes, it is " + still.job()))
+			.thenWaitUntil(() -> h.assertTrue(still.job() == Job.DONE, "it should then distil, it is " + still.job()))
+			.thenExecute(() -> assertWoodSpiritCut(h, still, cow(h, receiverOf(flaskAt, 2)), 100))
+			.thenSucceed();
 	}
 
 	/**
@@ -265,7 +343,8 @@ public class GlassLabTests {
 
 	/**
 	 * A still that loses its condenser while it distils stops and says so, its thermometer reading nothing once nothing
-	 * boils; a flask with four column pieces on it, one more than a still takes, says that is what is wrong.
+	 * boils; a flask with four column pieces on it, one more than a still takes, says that is what is wrong, and so does
+	 * the still head on top.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
 	public static void anIncompleteStillSaysWhatItLacks(GameTestHelper h) {
@@ -289,6 +368,10 @@ public class GlassLabTests {
 					+ still.vapour());
 				h.assertTrue(tooTall.job() == Job.INCOMPLETE && tooTall.missing().equals("columns"),
 					"four column pieces should be one too many, it is " + tooTall.job() + " " + tooTall.missing());
+				List<Component> lines = new ArrayList<>();
+				((StillHeadBlockEntity) h.getBlockEntity(tall.above(5))).addToGoggleTooltip(lines, false);
+				h.assertTrue(lines.stream().anyMatch(l -> says(l, "mcremix.goggles.still.incomplete.columns")),
+					"the still head on four column pieces should say there are too many, not that it needs a flask");
 			})
 			.thenSucceed();
 	}
@@ -320,13 +403,14 @@ public class GlassLabTests {
 	}
 
 	/**
-	 * A bucket takes whole buckets, from behind a part-bucket too, and sneaking with an empty hand tips the rest out: a
-	 * round flask holding the 600 mB of vinegar a batch left and a bucket of wood spirit poured in after it, a settling
-	 * flask holding the strained oil it made and a bucket of water, and a cow receiver's flask on the side clicked.
+	 * A bucket takes whole buckets, from behind a part-bucket too, and sneaking with an empty hand tips the rest out,
+	 * marking the piece changed: a round flask holding the 600 mB of vinegar a batch left and a bucket of wood spirit
+	 * poured in after it, a settling flask holding the strained oil it made and a bucket of water, a cow receiver's
+	 * flasks by the side clicked, and a coil condenser, which a bucket of water fills.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 40)
 	public static void bucketsTakeWholeBucketsAndSneakingTipsOut(GameTestHelper h) {
-		BlockPos flaskAt = p(3, 2, 4), settlingAt = p(6, 2, 4), receiverAt = p(9, 2, 4);
+		BlockPos flaskAt = p(3, 2, 4), settlingAt = p(6, 2, 4), receiverAt = p(9, 2, 4), condenserAt = p(12, 2, 4);
 		h.setBlock(flaskAt, ModBlocks.ROUND_FLASK.getDefaultState());
 		RoundFlaskBlockEntity flask = (RoundFlaskBlockEntity) h.getBlockEntity(flaskAt);
 		saved(flask, "Out0", Chemical.VINEGAR.stack(600));
@@ -337,10 +421,15 @@ public class GlassLabTests {
 		fluids(settling, Direction.UP).fill(new FluidStack(Fluids.WATER, 1000), FluidAction.EXECUTE);
 		h.setBlock(receiverAt, ModBlocks.COW_RECEIVER.getDefaultState());
 		CowReceiverBlockEntity receiver = cow(h, receiverAt);
-		for (int i = 0; i < 4; i++)
-			receiver.flask(i).fill(Chemical.METHANOL.stack(300), FluidAction.EXECUTE);
+		for (int i = 0; i < 4; i++) // its front, north, is flask 0, and the rest go clockwise: east 1, south 2, west 3
+			receiver.flask(i).fill(Chemical.METHANOL.stack(i == 3 ? 1000 : 300), FluidAction.EXECUTE);
+		h.setBlock(condenserAt, ModBlocks.COIL_CONDENSER.getDefaultState());
+		CoilCondenserBlockEntity condenser = (CoilCondenserBlockEntity) h.getBlockEntity(condenserAt);
+		saved(condenser, "Output", Chemical.WARM_WATER.stack(1000));
 		TestPlayer player = GT.player(h, p(6, 2, 2));
 		Item spiritBucket = ModFluids.chemical(Chemical.WOOD_SPIRIT).bucket().asItem();
+		Item methanolBucket = ModFluids.chemical(Chemical.METHANOL).bucket().asItem();
+		Item warmBucket = ModFluids.chemical(Chemical.WARM_WATER).bucket().asItem();
 		h.runAtTickTime(2, () -> {
 			GT.click(h, player, flaskAt, Direction.NORTH, 0.5, new ItemStack(Items.BUCKET));
 			h.assertTrue(player.getMainHandItem().is(spiritBucket),
@@ -351,21 +440,29 @@ public class GlassLabTests {
 			GT.click(h, player, settlingAt, Direction.NORTH, 0.5, new ItemStack(Items.BUCKET));
 			h.assertTrue(player.getMainHandItem().is(Items.WATER_BUCKET),
 				"a bucket should take the water from behind the strained oil, got " + player.getMainHandItem());
+			GT.click(h, player, receiverAt, Direction.WEST, 0.5, new ItemStack(Items.BUCKET));
+			h.assertTrue(player.getMainHandItem().is(methanolBucket) && receiver.flask(3).isEmpty(),
+				"a bucket on the receiver's west side should take the west flask's bucket of methanol, got "
+					+ player.getMainHandItem());
+			GT.click(h, player, condenserAt, Direction.NORTH, 0.5, new ItemStack(Items.BUCKET));
+			h.assertTrue(player.getMainHandItem().is(warmBucket),
+				"a bucket should take the condenser's warm water, got " + player.getMainHandItem());
+			GT.click(h, player, condenserAt, Direction.NORTH, 0.5, new ItemStack(Items.WATER_BUCKET));
+			h.assertTrue(player.getMainHandItem().is(Items.BUCKET) && condenser.tanks().feed.getFluidAmount() == 1000,
+				"a bucket of water should fill the condenser, it holds " + condenser.tanks().feed.getFluidAmount() + " mB");
 
-			player.setShiftKeyDown(true);
-			GT.click(h, player, flaskAt, Direction.NORTH, 0.5, ItemStack.EMPTY);
-			GT.click(h, player, settlingAt, Direction.NORTH, 0.5, ItemStack.EMPTY);
-			GT.click(h, player, receiverAt, Direction.NORTH, 0.5, ItemStack.EMPTY);
-			player.setShiftKeyDown(false);
+			tipOut(h, player, flaskAt, Direction.NORTH, "round flask");
+			tipOut(h, player, settlingAt, Direction.NORTH, "settling flask");
+			tipOut(h, player, receiverAt, Direction.EAST, "cow receiver");
+			tipOut(h, player, condenserAt, Direction.NORTH, "coil condenser");
 			h.assertTrue(emptied(flask.contents()), "sneaking should tip out the flask's vinegar");
 			h.assertTrue(emptied(settling.contents()), "sneaking should tip out the settling flask's strained oil");
-			int left = 0, empty = 0;
-			for (int i = 0; i < 4; i++) {
-				left += receiver.flask(i).getFluidAmount();
-				empty += receiver.flask(i).isEmpty() ? 1 : 0;
-			}
-			h.assertTrue(left == 900 && empty == 1, "sneaking should tip out just the receiver's flask on the side "
-				+ "clicked, " + left + " mB are left with " + empty + " flasks empty");
+			h.assertTrue(receiver.flask(0).getFluidAmount() == 300 && receiver.flask(1).isEmpty()
+				&& receiver.flask(2).getFluidAmount() == 300 && receiver.flask(3).isEmpty(),
+				"sneaking on the receiver's east side should tip out just its east flask; the flasks hold "
+					+ receiver.flask(0).getFluidAmount() + ", " + receiver.flask(1).getFluidAmount() + ", "
+					+ receiver.flask(2).getFluidAmount() + " and " + receiver.flask(3).getFluidAmount() + " mB");
+			h.assertTrue(emptied(condenser.contents()), "sneaking should tip out the condenser's water");
 			h.succeed();
 		});
 	}
@@ -448,18 +545,20 @@ public class GlassLabTests {
 	 */
 	@GameTest(template = GT.PLATFORM, batch = RAIN, timeoutTicks = 60)
 	public static void rainCracksHotGlassUnlessItIsRoofedEvenWithGlass(GameTestHelper h) {
-		BlockPos open = p(3, 3, 4), stacked = p(7, 3, 4), roofed = p(11, 3, 4);
-		for (BlockPos at : new BlockPos[] { open, stacked, roofed }) {
+		BlockPos open = p(2, 3, 4), stacked = p(6, 3, 4), roofed = p(10, 3, 4), stone = p(14, 3, 4);
+		for (BlockPos at : new BlockPos[] { open, stacked, roofed, stone }) {
 			campfire(h, at.below());
 			h.setBlock(at, ModBlocks.ROUND_FLASK.getDefaultState());
 		}
 		h.setBlock(stacked.above(), ModBlocks.STILL_HEAD.getDefaultState());
 		h.setBlock(roofed.above(), Blocks.GLASS);
+		h.setBlock(stone.above(), Blocks.STONE);
 		h.runAtTickTime(35, () -> {
 			h.assertTrue(h.getLevel().isRaining(), "it should be raining for this test");
 			h.assertTrue(LabGlass.cracked(h.getBlockState(open)), "hot glass in the rain should crack");
 			h.assertTrue(LabGlass.cracked(h.getBlockState(stacked)), "rain on the still head should crack the hot flask under it");
 			h.assertFalse(LabGlass.cracked(h.getBlockState(roofed)), "a glass roof should keep the rain off");
+			h.assertFalse(LabGlass.cracked(h.getBlockState(stone)), "a stone roof should keep the rain off");
 			h.succeed();
 		});
 	}
@@ -588,8 +687,8 @@ public class GlassLabTests {
 	}
 
 	/**
-	 * A reflux flask whose glycol tank has no room for another batch waits and says it is full, keeping what went in,
-	 * rather than cooking a batch and pouring what it made away.
+	 * A reflux flask whose glycol tank has no room for another batch, and whose other tank could not take the glycol and
+	 * the salt water both, waits and says it is full, keeping what went in uncooked.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
 	public static void aFullRefluxFlaskWaits(GameTestHelper h) {
@@ -609,6 +708,33 @@ public class GlassLabTests {
 			h.assertTrue(reflux.output(0).getAmount() == 900 && reflux.output(1).isEmpty(),
 				"nothing should be made, or poured away");
 			h.succeed();
+		});
+	}
+
+	/**
+	 * A reflux flask holding 250 mB of glycol from an earlier batch in its second tank puts the next batch's glycol with
+	 * it and the salt water in the empty tank, rather than the glycol in the empty tank and the salt water nowhere.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 300)
+	public static void aRefluxFlaskPutsEachResultWhereItFits(GameTestHelper h) {
+		BlockPos flask = p(4, 3, 4);
+		fire(h, flask.below());
+		h.setBlock(flask, ModBlocks.ROUND_FLASK.getDefaultState());
+		condenser(h, flask.above(), Direction.DOWN, CoilCondenserBlock.Shape.UPRIGHT, new FluidStack(Fluids.WATER, 1000));
+		roof(h, flask.above());
+		RoundFlaskBlockEntity reflux = (RoundFlaskBlockEntity) h.getBlockEntity(flask);
+		saved(reflux, "Out1", Chemical.ETHYLENE_GLYCOL.stack(250));
+		reflux.handler().fill(Chemical.ETHYLENE_DICHLORIDE.stack(250), FluidAction.EXECUTE);
+		reflux.handler().fill(Chemical.CAUSTIC_SODA.stack(250), FluidAction.EXECUTE);
+		h.succeedWhen(() -> {
+			h.assertTrue(reflux.input(0).isEmpty() && reflux.input(1).isEmpty(), "the batch should cook");
+			FluidStack glycol = reflux.output(1), salt = reflux.output(0);
+			h.assertTrue(glycol.getFluid().isSame(Chemical.ETHYLENE_GLYCOL.fluid()) && glycol.getAmount() == 500,
+				"the glycol should join the 250 mB already made, the tank holds " + glycol.getAmount() + " mB of "
+					+ glycol.getDisplayName().getString());
+			h.assertTrue(salt.getFluid().isSame(Chemical.SALT_WATER.fluid()) && salt.getAmount() == 250,
+				"the salt water should go into the empty tank, it holds " + salt.getAmount() + " mB of "
+					+ salt.getDisplayName().getString());
 		});
 	}
 
@@ -732,7 +858,10 @@ public class GlassLabTests {
 		});
 	}
 
-	/** A distilling recipe without exactly one fluid to split is turned down as it loads, so no still ever meets it. */
+	/**
+	 * A distilling recipe without exactly one fluid to split, or whose cuts come to more than the mixture they are cut
+	 * from, is turned down as it loads, so no still ever meets it.
+	 */
 	@GameTest(template = GT.PLATFORM)
 	public static void aDistillingRecipeWithoutItsMixtureIsTurnedDown(GameTestHelper h) {
 		DistillingRecipe broken = new ProcessingRecipeBuilder<>(DistillingRecipe::new, McRemix.asResource("broken"))
@@ -745,6 +874,11 @@ public class GlassLabTests {
 			refused = true;
 		}
 		h.assertTrue(refused, "loading a recipe with no mixture should fail, as a bad data pack recipe does");
+		DistillingRecipe tooMuch = new ProcessingRecipeBuilder<>(DistillingRecipe::new, McRemix.asResource("too_much"))
+			.withFluidIngredients(FluidIngredient.fromFluidStack(Chemical.WOOD_SPIRIT.stack(100)))
+			.withFluidOutputs(Chemical.ACETONE.stack(250), Chemical.METHANOL.stack(300), Chemical.VINEGAR.stack(450))
+			.build();
+		h.assertFalse(tooMuch.valid(), "a recipe cutting 550 mB from 100 mB of mixture should not be valid");
 		h.assertTrue(DistillingRecipe.find(h.getLevel(), Chemical.WOOD_SPIRIT.stack(1000)).map(DistillingRecipe::valid)
 			.orElse(false), "the real recipes should load");
 		h.succeed();
