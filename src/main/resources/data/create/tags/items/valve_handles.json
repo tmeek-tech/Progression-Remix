@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "create:mauve_valve_handle",
+    "create:lilac_valve_handle",
+    "create:indigo_valve_handle",
+    "create:periwinkle_valve_handle",
+    "create:malachite_green_valve_handle",
+    "create:mint_valve_handle",
+    "create:maroon_valve_handle",
+    "create:rose_valve_handle"
+  ]
+}

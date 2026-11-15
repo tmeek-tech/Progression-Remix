@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:mauve_banner",
+    "mcremix:lilac_banner",
+    "mcremix:indigo_banner",
+    "mcremix:periwinkle_banner",
+    "mcremix:malachite_green_banner",
+    "mcremix:mint_banner",
+    "mcremix:maroon_banner",
+    "mcremix:rose_banner",
+    "mcremix:mauve_wall_banner",
+    "mcremix:lilac_wall_banner",
+    "mcremix:indigo_wall_banner",
+    "mcremix:periwinkle_wall_banner",
+    "mcremix:malachite_green_wall_banner",
+    "mcremix:mint_wall_banner",
+    "mcremix:maroon_wall_banner",
+    "mcremix:rose_wall_banner"
+  ]
+}

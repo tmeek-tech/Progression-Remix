@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "NNN",
+    "N N"
+  ],
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/steel"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_railing",
+    "count": 2
+  }
+}

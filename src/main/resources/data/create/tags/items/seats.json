@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "create:mauve_seat",
+    "create:lilac_seat",
+    "create:indigo_seat",
+    "create:periwinkle_seat",
+    "create:malachite_green_seat",
+    "create:mint_seat",
+    "create:maroon_seat",
+    "create:rose_seat"
+  ]
+}

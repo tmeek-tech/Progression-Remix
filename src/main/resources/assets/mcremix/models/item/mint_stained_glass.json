@@ -1,0 +1,4 @@
+{
+  "parent": "mcremix:block/mint_stained_glass",
+  "render_type": "minecraft:translucent"
+}

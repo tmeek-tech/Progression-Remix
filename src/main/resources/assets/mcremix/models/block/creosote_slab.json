@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "mcremix:block/creosote_planks",
+    "top": "mcremix:block/creosote_planks",
+    "side": "mcremix:block/creosote_planks"
+  }
+}

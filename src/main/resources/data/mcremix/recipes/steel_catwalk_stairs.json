@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "C  ",
+    "CC "
+  ],
+  "key": {
+    "C": {
+      "item": "mcremix:steel_catwalk"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_catwalk_stairs",
+    "count": 2
+  }
+}

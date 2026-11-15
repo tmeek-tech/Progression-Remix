@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_four_candles",
+  "textures": {
+    "all": "mcremix:block/indigo_candle_lit",
+    "particle": "mcremix:block/indigo_candle_lit"
+  },
+  "render_type": "minecraft:cutout"
+}

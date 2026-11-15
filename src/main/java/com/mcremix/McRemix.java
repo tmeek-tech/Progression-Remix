@@ -1,7 +1,10 @@
 package com.mcremix;
 
 import com.mcremix.client.McRemixClient;
+import com.mcremix.colour.ColourBlocks;
+import com.mcremix.colour.Colours;
 import com.mcremix.config.RemixConfig;
+import com.mcremix.decor.CreosoteBlocks;
 import com.mcremix.fluids.MetalElectricPumpBlock;
 import com.mcremix.kinetics.Brackets;
 import com.mcremix.kinetics.EncasedParts;
@@ -9,6 +12,7 @@ import com.mcremix.pressurizer.PressurizerVesselBlock;
 import com.mcremix.registry.ModArmPoints;
 import com.mcremix.registry.ModBlockEntities;
 import com.mcremix.registry.ModBlocks;
+import com.mcremix.registry.ModDecor;
 import com.mcremix.registry.ModEntities;
 import com.mcremix.registry.ModCreativeTab;
 import com.mcremix.registry.ModFluids;
@@ -55,7 +59,9 @@ public class McRemix {
 		ModCreativeTab.register(modBus);
 		ModFluids.register(modBus);
 		ModBlocks.register();
+		ModDecor.register();
 		ModItems.register();
+		ColourBlocks.register();
 		ModBlockEntities.register();
 		ModEntities.register();
 		ModRecipes.register(modBus);
@@ -69,7 +75,10 @@ public class McRemix {
 			PressurizerVesselBlock.registerMovementChecks();
 			MetalElectricPumpBlock.registerResistance();
 			ModFluids.registerInteractions();
+			Colours.setup();
+			CreosoteBlocks.setup();
 		}));
+		modBus.addListener(Colours::fillTabs);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> McRemixClient.onCtorClient(modBus));
 	}

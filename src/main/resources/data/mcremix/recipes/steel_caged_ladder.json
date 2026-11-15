@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "N N",
+    "SNS",
+    "N N"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "N": {
+      "tag": "forge:nuggets/steel"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_caged_ladder",
+    "count": 3
+  }
+}

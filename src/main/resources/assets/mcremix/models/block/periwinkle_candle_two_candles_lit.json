@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_two_candles",
+  "textures": {
+    "all": "mcremix:block/periwinkle_candle_lit",
+    "particle": "mcremix:block/periwinkle_candle_lit"
+  },
+  "render_type": "minecraft:cutout"
+}

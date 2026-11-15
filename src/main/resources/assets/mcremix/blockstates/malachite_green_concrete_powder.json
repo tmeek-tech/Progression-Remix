@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "mcremix:block/malachite_green_concrete_powder"
+      },
+      {
+        "model": "mcremix:block/malachite_green_concrete_powder",
+        "y": 90
+      },
+      {
+        "model": "mcremix:block/malachite_green_concrete_powder",
+        "y": 180
+      },
+      {
+        "model": "mcremix:block/malachite_green_concrete_powder",
+        "y": 270
+      }
+    ]
+  }
+}

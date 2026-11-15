@@ -1,0 +1,61 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "glass": "mcremix:block/argon_tube_glass",
+    "glow": "mcremix:block/argon_tube_glow",
+    "cap": "mcremix:block/argon_tube_cap",
+    "particle": "mcremix:block/argon_tube_glass"
+  },
+  "elements": [
+    {
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        16,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#glass",
+          "uv": [
+            6,
+            0,
+            10,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#glass",
+          "uv": [
+            6,
+            0,
+            10,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#glass",
+          "uv": [
+            6,
+            0,
+            10,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#glass",
+          "uv": [
+            6,
+            0,
+            10,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}

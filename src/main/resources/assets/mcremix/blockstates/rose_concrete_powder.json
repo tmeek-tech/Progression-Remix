@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "mcremix:block/rose_concrete_powder"
+      },
+      {
+        "model": "mcremix:block/rose_concrete_powder",
+        "y": 90
+      },
+      {
+        "model": "mcremix:block/rose_concrete_powder",
+        "y": 180
+      },
+      {
+        "model": "mcremix:block/rose_concrete_powder",
+        "y": 270
+      }
+    ]
+  }
+}

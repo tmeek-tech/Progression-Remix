@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "lilac_dye",
+  "ingredients": [
+    {
+      "item": "mcremix:mauve_dye"
+    },
+    {
+      "item": "minecraft:white_dye"
+    }
+  ],
+  "result": {
+    "item": "mcremix:lilac_dye",
+    "count": 2
+  }
+}

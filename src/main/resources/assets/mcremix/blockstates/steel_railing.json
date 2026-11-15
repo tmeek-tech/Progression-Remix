@@ -1,0 +1,82 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "patina": "none|waxed",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_railing_side"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_railing_side",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_railing_side",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_railing_side",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_railing_side"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_railing_side",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_railing_side",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_railing_side",
+        "y": 270
+      }
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import com.mcremix.McRemix;
 import com.mcremix.crucible.SandMoldItem;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.MoltenMetal;
+import com.mcremix.ponder.DecorPonderPlugin;
 import com.mcremix.ponder.ModPonderPlugin;
 import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModFluids;
@@ -34,6 +35,7 @@ public class McRemixClient {
 		modBus.addListener(FormulaTooltips::onRegisterTooltipFactories);
 		modBus.addListener(FormulaTooltips::onRegisterReloadListeners);
 		PonderIndex.addPlugin(new ModPonderPlugin());
+		PonderIndex.addPlugin(new DecorPonderPlugin());
 	}
 
 	/**

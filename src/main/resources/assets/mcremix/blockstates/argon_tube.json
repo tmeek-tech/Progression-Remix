@@ -1,0 +1,211 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "axis": "y"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_glass"
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_lit"
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_unlit"
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "joins_pos": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_cap_top"
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "joins_pos": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_collar_top"
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "joins_neg": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_cap_bottom"
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "joins_neg": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_collar_bottom"
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_glass",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_lit",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_unlit",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "joins_neg": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_cap_top",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "joins_neg": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_collar_top",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "joins_pos": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_cap_bottom",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "joins_pos": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_collar_bottom",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_glass",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_lit",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_unlit",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "joins_pos": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_cap_top",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "joins_pos": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_collar_top",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "joins_neg": "false"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_cap_bottom",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "joins_neg": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/argon_tube_collar_bottom",
+        "x": 90,
+        "y": 90
+      }
+    }
+  ]
+}

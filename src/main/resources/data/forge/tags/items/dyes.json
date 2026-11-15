@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:dyes/mauve",
+    "#forge:dyes/lilac",
+    "#forge:dyes/indigo",
+    "#forge:dyes/periwinkle",
+    "#forge:dyes/malachite_green",
+    "#forge:dyes/mint",
+    "#forge:dyes/maroon",
+    "#forge:dyes/rose"
+  ]
+}

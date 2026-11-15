@@ -3,7 +3,7 @@
 A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
-electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, and abandoned villages. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
+electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Optional | Immersive Weathering, JEI |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
-## What is in 0.28.1
+## What is in 0.30.1
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -323,10 +323,27 @@ with molten sodium in a steel vat it leaves **titanium sponge** and salt. The **
 strikes an arc between two Carbon Electrodes through the sponge in its copper hearth and melts it into **titanium
 ingots**: a quarter-ohm load, 20 V for 1.6 kW, melting only from 400 W, and its hearth needs a water cooler.
 
+**New colours.** Eight dye colours join vanilla's sixteen, the coal tar colours: **mauve**, **indigo**, **malachite
+green** and **maroon**, and a pale shade of each, mixed with white dye as vanilla mixes pink: **lilac**, **periwinkle**,
+**mint** and **rose**. Each comes in everything vanilla dyes (wool, carpet, concrete and its powder, terracotta and
+glazed terracotta, stained glass and panes, candles, beds, banners and their patterns from the loom, shulker boxes,
+sheep, wolves' and cats' collars, llamas' carpets, leather armour, firework stars and sign text) and in Create's dyed
+blocks (seats, sails, valve handles, toolboxes, postboxes, table cloths and nixie tubes). Each glazed terracotta is
+drawn after a Victorian encaustic tile, and four of them placed facing round, as vanilla's are, join into a bigger figure. The four base dyes have
+no recipe yet: they will be made from coal tar once distillation is built, and until then they are in the
+creative menu only. Sheep never spawn in the new colours, but take them from dye.
+
 **Villages.** Villages are abandoned: no villagers, zombie villagers or iron golems, and no progression loot in their
 chests. They generate as ruins, with mossy stone, broken windows, burnt-out torches, cold campfires, cobwebs and weedy
 fields; with Immersive Weathering, some houses have burned down to charred shells. Villagers cannot breed; the only
 way to get one is to cure a zombie villager met out in the world.
+
+**Walkways and decor.** Steel **catwalks** (bar grating in the top of the block, flush with a floor beside it, banded where
+they end), **catwalk stairs** railed on their open sides, **railings** that go on the edge you aim at, and **caged
+ladders** whose cage starts two blocks up, above your head, all rusting a little where they get wet. **Creosote timber**, dark and oily
+like railway sleepers (logs, planks, stairs, slabs, fences, gates and **posts** that join into crossarms and hold
+lanterns), weeps a little in hot sun. **Argon tubes** glow violet on a Power Grid circuit at 800 V and join end to
+end. Creosote timber and argon tubes are creative only until creosote and argon can be made.
 
 **Enchanting and XP** are left vanilla for now, while they are redesigned together.
 
@@ -403,7 +420,11 @@ If `create_version=6.0.8-+` in `gradle.properties` does not resolve, set it to `
 
 Textures, models, blockstates, lang, loot tables, tags, recipes and Ponder schematics are written by
 `tools/gen_assets.py` (needs Python 3 and Pillow). The script owns `src/main/resources/assets/mcremix` and
-`src/main/resources/data` and wipes them each run, so change the script rather than the files. Ponder text is read
+`src/main/resources/data` and wipes them each run, so change the script rather than the files. Near the end it runs
+`tools/gen_colours.py`, which writes the new colours' files from vanilla's and Create's purple ones (Create's dyed
+blocks under `assets/create` and `data/create`, bed and shulker box textures under `assets/minecraft`); it reads the
+Minecraft, Forge and Create jars `gradle.properties` names from Gradle's caches, so run `./gradlew compileJava` once
+before it. Ponder text is read
 straight from the `*Scenes.java` classes, so after editing scene text, rerun it:
 
 ```
@@ -416,6 +437,9 @@ Most textures are drawn procedurally. The shaft and cog textures only reuse the 
 gearshift casings are drawn from scratch to fit Create's models of them. The brass, iron, glass, steel and aluminium
 pipes, pumps and tanks, and the weathered copper and rusted iron ones, are Create's own copper textures recoloured: they are kept as palettes in
 `tools/create_fluid_textures.json` (Create is MIT licensed).
+
+The decorative blocks (catwalks to argon tubes) are written by `tools/gen_decor.py`, which `gen_assets.py` runs last,
+after `gen_colours.py`, adding its lines to the lang file and tags written before it.
 
 ## Layout
 
@@ -438,10 +462,12 @@ src/main/java/com/mcremix/
   electrolysis/ The Electrolyser and Carbon Electrodes, vats, settling and electrolysis recipes, and gases let loose
   heatsink/     The aluminium heat sink and its share of Power Grid's heat model
   cooling/      Water coolers, radiator panels and what each works with
+  decor/        Steel catwalks, catwalk stairs, railings and caged ladders, creosote timber and posts, argon tubes
   kinetics/     Shaft, cog, gearbox, clutch, gearshift and chain drive materials, supports, brackets and
                 casings, speed/load limits, friction heat and melting aluminium, and how copper and iron weather,
                 whichever mod adds them
   village/      Empty and ruined villages, no breeding, village loot filter
+  colour/       The eight new colours, their blocks and items, and what joins them to vanilla's and Create's
   compat/       Immersive Weathering soot, Power Grid heater temperatures (looked up at runtime, no compile dependency),
                 JEI tabs (compiled against JEI's API, loaded only when JEI is installed)
   ponder/       Ponder scenes and plugin
@@ -450,8 +476,10 @@ src/main/java/com/mcremix/
                 tiers and wooden movers for its own and drawing them, the drill and
                 saw goggle lines, the random tick every block's weathering passes through, and the hooks into Create's
                 pipes, tanks, boilers and whistles, and basins settling, tanks holding a vat, open pipe ends letting
-                gas go, and Power Grid's fans cooling the support they blow on
+                gas go, Power Grid's fans cooling the support they blow on, and the new colours joining vanilla's
+                dye colours (and the places vanilla counts sixteen)
 src/gametest/   GameTests for the gameplay checklist (never packaged into the jar)
 docs/           DESIGN.md (the plan), BUILD_NOTES.md (what to check on the first compile), TEST_REPORT.md
-tools/          gen_assets.py, the UV masks it uses and Create's fluid textures it recolours
+tools/          gen_assets.py, the UV masks it uses and Create's fluid textures it recolours, and gen_colours.py and
+                gen_decor.py
 ```

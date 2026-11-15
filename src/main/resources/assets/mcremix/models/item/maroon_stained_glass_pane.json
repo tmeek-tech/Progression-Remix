@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcremix:block/maroon_stained_glass"
+  },
+  "render_type": "minecraft:translucent"
+}

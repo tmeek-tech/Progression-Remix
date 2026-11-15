@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import com.mcremix.config.RemixConfig;
+import com.mcremix.decor.CreosoteBlocks;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.api.contraption.BlockMovementChecks;
 import com.simibubi.create.api.contraption.BlockMovementChecks.CheckResult;
@@ -73,7 +74,9 @@ public final class Brackets {
 	/** Whether a bracket on the part at {@code pos} could bolt to the block on its {@code foot} side. */
 	public static boolean canBolt(BlockGetter level, BlockPos pos, Direction foot) {
 		BlockPos at = pos.relative(foot);
-		return level.getBlockState(at).isFaceSturdy(level, at, foot.getOpposite(), SupportType.CENTER);
+		BlockState state = level.getBlockState(at);
+		return !CreosoteBlocks.Post.hookOnly(state, foot.getOpposite())
+			&& state.isFaceSturdy(level, at, foot.getOpposite(), SupportType.CENTER);
 	}
 
 	/** The axis of the shaft or cog a bracket holds, or would hold if it stands on its own: Create's state, read back. */

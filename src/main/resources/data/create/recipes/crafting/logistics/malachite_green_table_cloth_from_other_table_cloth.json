@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "forge:dyes/malachite_green"
+    },
+    {
+      "tag": "create:dyed_table_cloths"
+    }
+  ],
+  "result": {
+    "item": "create:malachite_green_table_cloth"
+  }
+}

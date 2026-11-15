@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcremix:item/mauve_candle"
+  },
+  "render_type": "minecraft:cutout"
+}

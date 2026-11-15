@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "mcremix:creosote_log"
+    }
+  },
+  "result": {
+    "item": "mcremix:creosote_post",
+    "count": 4
+  }
+}

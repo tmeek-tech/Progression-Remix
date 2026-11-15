@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:mauve_stained_glass",
+    "mcremix:lilac_stained_glass",
+    "mcremix:indigo_stained_glass",
+    "mcremix:periwinkle_stained_glass",
+    "mcremix:malachite_green_stained_glass",
+    "mcremix:mint_stained_glass",
+    "mcremix:maroon_stained_glass",
+    "mcremix:rose_stained_glass"
+  ]
+}

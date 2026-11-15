@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:mauve_bed",
+    "mcremix:lilac_bed",
+    "mcremix:indigo_bed",
+    "mcremix:periwinkle_bed",
+    "mcremix:malachite_green_bed",
+    "mcremix:mint_bed",
+    "mcremix:maroon_bed",
+    "mcremix:rose_bed"
+  ]
+}

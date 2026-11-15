@@ -1,0 +1,80 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "catwalk_grating": "mcremix:block/exposed_steel_catwalk_grating",
+    "catwalk_grating_side": "mcremix:block/exposed_steel_catwalk_grating_side",
+    "catwalk_frame": "mcremix:block/exposed_steel_catwalk_frame",
+    "particle": "mcremix:block/exposed_steel_catwalk_frame"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        12,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        1
+      ],
+      "faces": {
+        "north": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0,
+            4,
+            16,
+            8
+          ],
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0,
+            4,
+            16,
+            8
+          ]
+        },
+        "up": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0,
+            1,
+            16,
+            2
+          ]
+        },
+        "down": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            0,
+            14,
+            16,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            7,
+            4,
+            8,
+            8
+          ]
+        },
+        "west": {
+          "texture": "#catwalk_frame",
+          "uv": [
+            8,
+            4,
+            9,
+            8
+          ]
+        }
+      }
+    }
+  ]
+}

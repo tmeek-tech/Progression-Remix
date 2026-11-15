@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "create:mauve_postbox",
+    "create:lilac_postbox",
+    "create:indigo_postbox",
+    "create:periwinkle_postbox",
+    "create:malachite_green_postbox",
+    "create:mint_postbox",
+    "create:maroon_postbox",
+    "create:rose_postbox"
+  ]
+}

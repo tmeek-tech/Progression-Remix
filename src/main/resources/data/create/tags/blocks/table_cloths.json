@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "create:mauve_table_cloth",
+    "create:lilac_table_cloth",
+    "create:indigo_table_cloth",
+    "create:periwinkle_table_cloth",
+    "create:malachite_green_table_cloth",
+    "create:mint_table_cloth",
+    "create:maroon_table_cloth",
+    "create:rose_table_cloth"
+  ]
+}

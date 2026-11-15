@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "mcremix:creosote_planks"
+    }
+  },
+  "result": {
+    "item": "mcremix:creosote_slab",
+    "count": 6
+  }
+}
