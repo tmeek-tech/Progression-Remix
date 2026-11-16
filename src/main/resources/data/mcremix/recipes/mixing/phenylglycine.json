@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:aniline",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:chloroacetic_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:phenylglycine",
+      "count": 4
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated"
+}

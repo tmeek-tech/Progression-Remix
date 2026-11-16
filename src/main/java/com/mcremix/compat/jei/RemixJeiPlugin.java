@@ -8,6 +8,7 @@ import com.mcremix.McRemix;
 import com.mcremix.air.Liquefying;
 import com.mcremix.config.RemixConfig;
 import com.mcremix.electrolysis.VatMixerBlock;
+import com.mcremix.fluids.DiazoSalts;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.RatedTankBlock;
 import com.mcremix.heat.HeatLevel;
@@ -31,6 +32,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -84,7 +86,7 @@ public class RemixJeiPlugin implements IModPlugin {
 	public void registerCategories(IRecipeCategoryRegistration registration) {
 		IGuiHelper gui = registration.getJeiHelpers().getGuiHelper();
 		registration.addRecipeCategories(new KilnCategory(gui), new KilnHeatCategory(gui), new BloomCategory(gui),
-			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui),
+			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui), new AiringCategory(gui),
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
 			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
 			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui), new LiquefyingCategory(gui));
@@ -100,6 +102,7 @@ public class RemixJeiPlugin implements IModPlugin {
 			registration.addRecipes(AlloyingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.ALLOYING_TYPE.get()));
 			registration.addRecipes(SettlingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.SETTLING_TYPE.get()));
 			registration.addRecipes(FermentingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.FERMENTING_TYPE.get()));
+			registration.addRecipes(AiringCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.AIRING_TYPE.get()));
 			registration.addRecipes(BoilingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.BOILING_TYPE.get()));
 			registration.addRecipes(SteelFurnaceCategory.TYPE,
 				recipes.getAllRecipesFor(ModRecipes.STEEL_FURNACE_TYPE.get()));
@@ -138,6 +141,17 @@ public class RemixJeiPlugin implements IModPlugin {
 		for (Chemical chemical : new Chemical[] { Chemical.WARM_WATER, Chemical.COLD_WATER, Chemical.COOLANT,
 			Chemical.HOT_COOLANT, Chemical.LIQUID_NITROGEN, Chemical.LIQUID_AIR })
 			registration.addItemStackInfo(List.of(ModFluids.chemical(chemical).bucket().asStack()),
+				Component.translatable("mcremix.jei.info." + chemical.id));
+		// the sulfur works and dye works (stage 5): the diazo salts keep only cold, and two gases that no recipe shows
+		// the harm of
+		for (Chemical chemical : DiazoSalts.SALTS) {
+			registration.addItemStackInfo(List.of(ModFluids.chemical(chemical).bucket().asStack()),
+				Component.translatable("mcremix.jei.info.diazo_salt"));
+			registration.addIngredientInfo(List.of(chemical.stack(1000)), ForgeTypes.FLUID_STACK,
+				Component.translatable("mcremix.jei.info.diazo_salt"));
+		}
+		for (Chemical chemical : new Chemical[] { Chemical.HYDROGEN_SULFIDE, Chemical.SULFUR_TRIOXIDE })
+			registration.addIngredientInfo(List.of(chemical.stack(1000)), ForgeTypes.FLUID_STACK,
 				Component.translatable("mcremix.jei.info." + chemical.id));
 	}
 
@@ -181,13 +195,13 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ELECTROLYSER.get()), ElectrolysisCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ARC_FURNACE.get()), ArcFurnaceCategory.TYPE);
 		registration.addRecipeCatalyst(AllBlocks.BASIN.asStack(), SettlingCategory.TYPE, FermentingCategory.TYPE,
-			BoilingCategory.TYPE, ElectrolysisCategory.TYPE);
+			AiringCategory.TYPE, BoilingCategory.TYPE, ElectrolysisCategory.TYPE);
 		registration.addRecipeCatalyst(AllBlocks.BLAZE_BURNER.asStack(), BoilingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.KILN.get()), BoilingCategory.TYPE);
 		registration.addRecipeCatalyst(AllBlocks.FLUID_TANK.asStack(), SettlingCategory.TYPE, FermentingCategory.TYPE,
-			ElectrolysisCategory.TYPE);
+			AiringCategory.TYPE, ElectrolysisCategory.TYPE);
 		registration.addRecipeCatalyst(AllBlocks.ANDESITE_SCAFFOLD.asStack(), SettlingCategory.TYPE,
-			FermentingCategory.TYPE, ElectrolysisCategory.TYPE, VatMixingCategory.TYPE);
+			FermentingCategory.TYPE, AiringCategory.TYPE, ElectrolysisCategory.TYPE, VatMixingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.PRESSURIZER.get()), PressurizingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.TITANIUM_PRESSURIZER.get()), PressurizingCategory.TYPE);
 		// the mixers that have a vat form, and the tanks of the vats they stir: Create's copper one and this mod's

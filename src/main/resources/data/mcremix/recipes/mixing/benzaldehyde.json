@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:benzal_chloride",
+      "amount": 250
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:benzaldehyde",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated"
+}

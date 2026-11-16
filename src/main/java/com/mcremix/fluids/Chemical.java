@@ -221,7 +221,66 @@ public enum Chemical {
 	 */
 	NITROGEN_DIOXIDE("nitrogen_dioxide", 0xFF8E4C1E, MapColor.COLOR_BROWN, 2, 10, 300, true, true),
 	/** Nitrogen dioxide taken up in water: a clear, pale yellow, fuming acid. */
-	NITRIC_ACID("nitric_acid", 0xFFF2EEC6, MapColor.COLOR_YELLOW, 1410, 900, 300, true);
+	NITRIC_ACID("nitric_acid", 0xFFF2EEC6, MapColor.COLOR_YELLOW, 1410, 900, 300, true),
+	// the dyes and sulfur (the distillation design, stage 5)
+	/** Light oil nitrated: a pale yellow oil that smells of bitter almonds. Iron and a little vinegar make it aniline. */
+	NITROBENZENE("nitrobenzene", 0xFFEED890, MapColor.COLOR_YELLOW, 1199, 2000, 300, true),
+	/** Nitrobenzene reduced over iron: a clear oil that browns as it stands, the start of the coal tar dyes. */
+	ANILINE("aniline", 0xFFE2CCAA, MapColor.TERRACOTTA_WHITE, 1022, 2600, 300, true),
+	/** Chlorine taken up in caustic soda: a clear, faintly green-yellow liquid. Turns aniline mauve. */
+	BLEACH("bleach", 0xFFEEF2CC, MapColor.COLOR_LIGHT_GREEN, 1100, 1100, 300, true),
+	/** Vinegar with chlorine stirred in: clear and biting. With aniline it gives phenylglycine, for indigo. */
+	CHLOROACETIC_ACID("chloroacetic_acid", 0xFFEAEEE0, MapColor.SNOW, 1400, 1500, 300, true),
+	/**
+	 * Phenylglycine melted with caustic soda: a thick, glowing yellow melt, kept Warm. Left in the open air it turns
+	 * blue into indigo, and the caustic soda is given back.
+	 */
+	INDIGO_MELT("indigo_melt", 0xFFE8C02C, MapColor.GOLD, 1500, 2800, 420, false),
+	/**
+	 * Aniline diazotised on ice: a pale yellow solution that keeps only cold. Warm, it breaks down into phenol and
+	 * nitrogen ({@link DiazoSalts}). Joined to aniline it is aniline yellow; to phenol, orange.
+	 */
+	DIAZO_SALT("diazo_salt", 0xFFF2EAB0, MapColor.COLOR_YELLOW, 1050, 1100, 275, true),
+	/** Nitroaniline diazotised on ice, for para red: a deeper yellow, and it keeps only cold too. */
+	NITRO_DIAZO_SALT("nitro_diazo_salt", 0xFFF0D47C, MapColor.COLOR_YELLOW, 1060, 1100, 275, true),
+	/** Naphthylamine diazotised on ice, for maroon: a pinkish brown, and it keeps only cold too. */
+	NAPHTHYL_DIAZO_SALT("naphthyl_diazo_salt", 0xFFD8B0A0, MapColor.TERRACOTTA_PINK, 1070, 1100, 275, true),
+	/** Light oil with chlorine stirred in, in a vat: a clear, oily, tear-stinging liquid. Water makes it benzaldehyde. */
+	BENZAL_CHLORIDE("benzal_chloride", 0xFFE4ECDC, MapColor.SNOW, 1254, 1800, 300, true),
+	/** The oil of bitter almonds, from benzal chloride and water: half of malachite green. */
+	BENZALDEHYDE("benzaldehyde", 0xFFF2EED0, MapColor.SAND, 1044, 1400, 300, true),
+	/** Aniline and methanol over hot alumina: a pale yellow oil, the other half of malachite green. */
+	DIMETHYLANILINE("dimethylaniline", 0xFFEEE2B4, MapColor.SAND, 956, 1300, 300, true),
+	/**
+	 * Oil of vitriol: sulfur trioxide taken up in water or in more of itself. Clear, heavy and oily; poured out, it strips
+	 * rust and patina as hydrochloric acid does.
+	 */
+	SULFURIC_ACID("sulfuric_acid", 0xFFF0F0E4, MapColor.SNOW, 1830, 2600, 300, true),
+	/**
+	 * Burnt sulfur: a choking gas, heavier than air, that kills plants ({@link SulfurDioxideCloud}). Over the platinum
+	 * gauze it becomes sulfur trioxide.
+	 */
+	SULFUR_DIOXIDE("sulfur_dioxide", 0xFFE4E2DA, MapColor.NONE, 3, 12, 300, true, true),
+	/** Sulfur dioxide over hot platinum: a white, fuming gas that water takes up as sulfuric acid, fogging as it does. */
+	SULFUR_TRIOXIDE("sulfur_trioxide", 0xFFF4F2EC, MapColor.NONE, 3, 12, 300, true, true),
+	/**
+	 * What sour gas carries and the Claus wash strips out: a deadly gas, heavier than air, that smells of rotten eggs
+	 * and numbs the sense of smell when it is strong ({@link HydrogenSulfideCloud}). Burnt over alumina it gives sulfur.
+	 */
+	HYDROGEN_SULFIDE("hydrogen_sulfide", 0xFFECEAD2, MapColor.NONE, 2, 11, 300, true, true),
+	/** Soda ash solution that has soaked up sour gas's hydrogen sulfide: murky and yellow-green. A still strips it. */
+	FOUL_SODA("foul_soda", 0xFFC8CC8C, MapColor.COLOR_LIGHT_GREEN, 1110, 1200, 300, false),
+	/** Soda ash in water: clear and faintly milky. In a vat it soaks the hydrogen sulfide out of sour gas. */
+	SODA_ASH_SOLUTION("soda_ash_solution", 0xFFE8EEEC, MapColor.SNOW, 1100, 1100, 300, true),
+	/**
+	 * What hydrogen sulfide burnt over alumina gives: a clear, orange-yellow melt, Warm, so no PVC carries it. It sets
+	 * into sulfur as it cools, in a basin or vat, and poured out into a block of sulfur ({@link MoltenSulfurBlock}).
+	 */
+	MOLTEN_SULFUR("molten_sulfur", 0xFFF0A818, MapColor.COLOR_ORANGE, 1800, 1500, 403, false),
+	/** Nitric and sulfuric acid together: nitrates four times as fast, and the sulfuric acid comes back after. */
+	MIXED_ACID("mixed_acid", 0xFFF2EED2, MapColor.COLOR_YELLOW, 1600, 2000, 300, true),
+	/** Naphthalene heated in sulfuric acid: a brown, syrupy acid that melts with caustic soda into naphthol. */
+	NAPHTHALENESULFONIC_ACID("naphthalenesulfonic_acid", 0xFFB48A5A, MapColor.COLOR_BROWN, 1440, 2400, 300, false);
 
 	public final String id;
 	/** Its colour as seen through it, from inside. */
@@ -269,7 +328,14 @@ public enum Chemical {
 
 	/** The light it gives, poured out or seen in a tank: molten salt glows as lava does, if a little dimmer. */
 	public int light() {
+		if (this == MOLTEN_SULFUR || this == INDIGO_MELT)
+			return 6;
 		return FluidHeat.fromKelvin(temperature).ordinal() >= HeatLevel.HOT.ordinal() ? 12 : 0;
+	}
+
+	/** An acid that strips rust and patina where it is poured, and soaks away ({@link AcidBlock}). */
+	public boolean acid() {
+		return this == HYDROCHLORIC_ACID || this == NITRIC_ACID || this == SULFURIC_ACID || this == MIXED_ACID;
 	}
 
 	/**

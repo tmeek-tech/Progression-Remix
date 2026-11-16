@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:light_oil",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 500
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:benzal_chloride",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 500
+    }
+  ]
+}

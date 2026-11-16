@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:sulfur_trioxide",
+      "amount": 250
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 750
+    }
+  ]
+}

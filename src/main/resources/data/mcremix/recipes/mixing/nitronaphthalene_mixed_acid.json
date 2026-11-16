@@ -1,0 +1,26 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:naphthalene"
+    },
+    {
+      "item": "mcremix:naphthalene"
+    },
+    {
+      "fluid": "mcremix:mixed_acid",
+      "amount": 500
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:nitronaphthalene",
+      "count": 2
+    },
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 250
+    }
+  ],
+  "processingTime": 100
+}

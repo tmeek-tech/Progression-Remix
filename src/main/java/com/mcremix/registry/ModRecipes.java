@@ -6,6 +6,7 @@ import com.mcremix.McRemix;
 import com.mcremix.arcfurnace.ArcFurnaceRecipe;
 import com.mcremix.crucible.AlloyingRecipe;
 import com.mcremix.crucible.MeltingRecipe;
+import com.mcremix.electrolysis.AiringRecipe;
 import com.mcremix.electrolysis.BoilingRecipe;
 import com.mcremix.electrolysis.ElectrolysisRecipe;
 import com.mcremix.electrolysis.FermentingRecipe;
@@ -54,6 +55,13 @@ public class ModRecipes {
 	public static final RegistryObject<ProcessingRecipeSerializer<SettlingRecipe>> SETTLING_SERIALIZER =
 		SERIALIZERS.register("settling", () -> new ProcessingRecipeSerializer<>(SettlingRecipe::new));
 	public static final IRecipeTypeInfo SETTLING = new TypeInfo("settling", SETTLING_TYPE, SETTLING_SERIALIZER);
+
+	/** What turns in the air, in an open basin or a vat with oxygen piped in: foul red mud, indigo melt. */
+	public static final RegistryObject<RecipeType<AiringRecipe>> AIRING_TYPE =
+		TYPES.register("airing", () -> RecipeType.simple(McRemix.asResource("airing")));
+	public static final RegistryObject<ProcessingRecipeSerializer<AiringRecipe>> AIRING_SERIALIZER =
+		SERIALIZERS.register("airing", () -> new ProcessingRecipeSerializer<>(AiringRecipe::new));
+	public static final IRecipeTypeInfo AIRING = new TypeInfo("airing", AIRING_TYPE, AIRING_SERIALIZER);
 
 	/** What ferments in a basin or a vat left to stand, as sugar in water does into ethanol. */
 	public static final RegistryObject<RecipeType<FermentingRecipe>> FERMENTING_TYPE =

@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:sour_gas",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:soda_ash_solution",
+      "amount": 150
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:fuel_gas",
+      "amount": 150
+    },
+    {
+      "fluid": "mcremix:foul_soda",
+      "amount": 250
+    }
+  ]
+}

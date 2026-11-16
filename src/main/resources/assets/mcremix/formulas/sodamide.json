@@ -1,0 +1,20 @@
+{
+  "formula": "NaNH2",
+  "items": [
+    "mcremix:sodamide"
+  ],
+  "atoms": [
+    {
+      "l": "Na",
+      "x": 0,
+      "y": 0,
+      "q": "+"
+    },
+    {
+      "l": "NH2",
+      "x": 1.7,
+      "y": 0,
+      "q": "-"
+    }
+  ]
+}

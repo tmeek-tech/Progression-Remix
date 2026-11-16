@@ -1,0 +1,19 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:diazo_salt",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:aniline",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:yellow_dye",
+      "count": 16
+    }
+  ]
+}

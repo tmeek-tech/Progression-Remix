@@ -64,8 +64,12 @@ public class VatMixingCategory extends AbstractRecipeCategory<VatMixingRecipe> {
 		scene.part(ModPartialModels.shaftlessCog(KineticMaterial.STEEL, WeatherState.UNAFFECTED), 0, Scene.ABOVE, 1,
 			90, AnimatedKinetics.getCurrentAngle(), 0);
 		scene.close();
-		Page.bar(graphics, false, Component.translatable("mcremix.jei.vat_mixing.time",
-			JeiText.seconds(VatMixerBlockEntity.stirTicks(recipe, RPM)), RPM), null, false);
+		Component time = Component.translatable("mcremix.jei.vat_mixing.time",
+			JeiText.seconds(VatMixerBlockEntity.stirTicks(recipe, RPM)), RPM);
+		// what fogs off each batch into the air over it, where there is room to say so; the bar's tooltip says it too
+		Component fumes = recipe.fumes().isEmpty() ? null
+			: Component.translatable("mcremix.jei.vat_mixing.fumes", recipe.fumes().getAmount());
+		Page.bar(graphics, false, time, fumes != null && Page.fits(time, fumes, false) ? fumes : null, false);
 	}
 
 	/** The steel mixer's vat form. */
@@ -84,5 +88,7 @@ public class VatMixingCategory extends AbstractRecipeCategory<VatMixingRecipe> {
 		tooltip.add(Component.translatable("mcremix.jei.vat_mixing.vat"));
 		tooltip.add(Component.translatable("mcremix.jei.vat_mixing.mixer"));
 		tooltip.add(Component.translatable("mcremix.jei.vat_mixing.batches"));
+		if (!recipe.fumes().isEmpty())
+			tooltip.add(Component.translatable("mcremix.jei.vat_mixing.fumes.note", recipe.fumes().getDisplayName()));
 	}
 }

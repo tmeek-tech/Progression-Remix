@@ -1,0 +1,32 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:nitroacetanilide"
+    },
+    {
+      "item": "mcremix:nitroacetanilide"
+    },
+    {
+      "item": "mcremix:nitroacetanilide"
+    },
+    {
+      "item": "mcremix:nitroacetanilide"
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:nitroaniline",
+      "count": 4
+    },
+    {
+      "fluid": "mcremix:vinegar",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated"
+}

@@ -10,12 +10,14 @@ import com.mcremix.fluids.EthyleneCloud;
 import com.mcremix.fluids.FuelGasCloud;
 import com.mcremix.fluids.GasCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
+import com.mcremix.fluids.HydrogenSulfideCloud;
 import com.mcremix.fluids.NitrogenCloud;
 import com.mcremix.fluids.NitrogenDioxideCloud;
 import com.mcremix.fluids.OxygenCloud;
 import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.fluids.SourGasCloud;
 import com.mcremix.fluids.SulfurDioxideCloud;
+import com.mcremix.fluids.SulfurTrioxideFog;
 import com.mcremix.fluids.VinylChlorideHaze;
 import com.tterrag.registrate.util.entry.EntityEntry;
 
@@ -73,6 +75,12 @@ public class ModEntities {
 	public static final EntityEntry<AmmoniaCloud> AMMONIA_CLOUD = cloud("ammonia_cloud", AmmoniaCloud::new);
 	public static final EntityEntry<NitrogenDioxideCloud> NITROGEN_DIOXIDE_CLOUD = cloud("nitrogen_dioxide_cloud",
 		NitrogenDioxideCloud::new);
+
+	// the sulfur works' gases (stage 5): hydrogen sulfide poisons hard, unseen when thick, and flashes into sulfur
+	// dioxide; sulfur trioxide is a stinging acid fog that eats into metal
+	public static final EntityEntry<HydrogenSulfideCloud> HYDROGEN_SULFIDE_CLOUD = cloud("hydrogen_sulfide_cloud",
+		HydrogenSulfideCloud::new);
+	public static final EntityEntry<SulfurTrioxideFog> ACID_FOG = cloud("acid_fog", SulfurTrioxideFog::new);
 
 	private static <T extends GasCloud> EntityEntry<T> cloud(String name, EntityType.EntityFactory<T> factory) {
 		return REGISTRATE.<T>entity(name, factory, MobCategory.MISC)

@@ -1,0 +1,17 @@
+{
+  "formula": "S",
+  "items": [
+    "mcremix:sulfur",
+    "mcremix:sulfur_block"
+  ],
+  "fluids": [
+    "mcremix:molten_sulfur"
+  ],
+  "atoms": [
+    {
+      "l": "S",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

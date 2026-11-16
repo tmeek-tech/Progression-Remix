@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:settling",
+  "processingTime": 20,
+  "ingredients": [
+    {
+      "fluid": "mcremix:molten_sulfur",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:sulfur"
+    }
+  ]
+}

@@ -440,6 +440,7 @@
     "mcremix:steel_condenser",
     "mcremix:diesel_engine",
     "mcremix:aluminium_column_section",
-    "mcremix:expansion_valve"
+    "mcremix:expansion_valve",
+    "mcremix:sulfur_block"
   ]
 }

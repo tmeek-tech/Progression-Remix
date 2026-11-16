@@ -8,6 +8,7 @@ import com.mcremix.ponder.ColumnPonderPlugin;
 import com.mcremix.ponder.AirPonderPlugin;
 import com.mcremix.ponder.OilPonderPlugin;
 import com.mcremix.ponder.DecorPonderPlugin;
+import com.mcremix.ponder.DyePonderPlugin;
 import com.mcremix.ponder.ModPonderPlugin;
 import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModFluids;
@@ -42,6 +43,7 @@ public class McRemixClient {
 		PonderIndex.addPlugin(new ColumnPonderPlugin());
 		PonderIndex.addPlugin(new OilPonderPlugin());
 		PonderIndex.addPlugin(new AirPonderPlugin());
+		PonderIndex.addPlugin(new DyePonderPlugin());
 	}
 
 	/**

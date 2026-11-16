@@ -1,0 +1,25 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:naphthol"
+    },
+    {
+      "item": "mcremix:naphthol"
+    },
+    {
+      "fluid": "mcremix:naphthyl_diazo_salt",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:maroon_dye",
+      "count": 8
+    }
+  ]
+}

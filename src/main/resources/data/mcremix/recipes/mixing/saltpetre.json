@@ -1,0 +1,26 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:soda_ash"
+    },
+    {
+      "fluid": "mcremix:nitric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:saltpetre",
+      "count": 2
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 125
+    },
+    {
+      "fluid": "mcremix:carbon_dioxide",
+      "amount": 125
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "fluid": "mcremix:nitrobenzene",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:magenta_dye",
+      "count": 8
+    }
+  ],
+  "heatRequirement": "heated"
+}

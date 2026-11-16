@@ -1,0 +1,27 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:benzaldehyde",
+      "amount": 125
+    },
+    {
+      "fluid": "mcremix:dimethylaniline",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 50
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:leuco_malachite_green",
+      "count": 4
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 125
+    }
+  ]
+}

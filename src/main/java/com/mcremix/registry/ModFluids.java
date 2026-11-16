@@ -17,6 +17,7 @@ import com.mcremix.fluids.MoltenMetal;
 import com.mcremix.fluids.MoltenMetalBlock;
 import com.mcremix.fluids.MoltenMetalFluid;
 import com.mcremix.fluids.MoltenMetalType;
+import com.mcremix.fluids.MoltenSulfurBlock;
 import com.mcremix.fluids.RoughMetalBlock;
 import com.mcremix.fluids.SodiumBlock;
 import com.mcremix.fluids.VinegarBlock;
@@ -90,7 +91,9 @@ public class ModFluids {
 			() -> new ForgeFlowingFluid.Flowing(props));
 		BlockEntry<LiquidBlock> block = REGISTRATE.<LiquidBlock>block(name,
 				p -> chemical.gas ? new GasBlock(source, p, chemical)
-					: chemical == Chemical.HYDROCHLORIC_ACID ? new AcidBlock(source, p)
+					// hydrochloric acid, and since stage 5 nitric, sulfuric and mixed acid, strip rust and patina
+					: chemical.acid() ? new AcidBlock(source, p)
+					: chemical == Chemical.MOLTEN_SULFUR ? new MoltenSulfurBlock(source, p)
 					: chemical == Chemical.VINEGAR ? new VinegarBlock(source, p)
 					: chemical == Chemical.MOLTEN_SODIUM ? new SodiumBlock(source, p)
 					: chemical == Chemical.CRUDE_OIL ? new CrudeOilBlock(source, p)

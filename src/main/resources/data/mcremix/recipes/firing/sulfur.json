@@ -1,0 +1,12 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:sulfur"
+  },
+  "heat": "warm",
+  "time": 100,
+  "byproduct": {
+    "fluid": "mcremix:sulfur_dioxide",
+    "amount": 100
+  }
+}

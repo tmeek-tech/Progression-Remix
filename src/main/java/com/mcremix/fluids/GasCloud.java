@@ -30,7 +30,7 @@ import net.minecraftforge.fluids.FluidType;
  * worth, one and a half blocks across at a bucket's worth and wider the more gas there is, and shrinks as it thins out.
  * More of the same gas let loose close by joins it rather than starting another. Once a second each gas does its own
  * thing to what is inside: {@link ChlorineCloud}, {@link EthyleneCloud}, {@link VinylChlorideHaze},
- * {@link HydrogenChlorideMist}.
+ * {@link HydrogenChlorideMist}, {@link HydrogenSulfideCloud}, {@link SulfurTrioxideFog} and the rest.
  */
 public abstract class GasCloud extends Entity {
 	private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(GasCloud.class,
@@ -73,6 +73,11 @@ public abstract class GasCloud extends Entity {
 	/** The particle it is drawn with. */
 	protected abstract ParticleOptions haze();
 
+	/** Whether it can be seen at all at its radius now: every gas can but hydrogen sulfide, which shows only thin. */
+	protected boolean shows(float radius) {
+		return true;
+	}
+
 	public void feed(int amount) {
 		// ten buckets' worth at most: past that, more gas only keeps it topped up
 		life = Math.min(ticksPerBucket() * 10, life + amount * ticksPerBucket() / FluidType.BUCKET_VOLUME);
@@ -101,7 +106,8 @@ public abstract class GasCloud extends Entity {
 	public void tick() {
 		super.tick();
 		if (level().isClientSide) {
-			drawHaze(radius());
+			if (shows(radius()))
+				drawHaze(radius());
 			return;
 		}
 		if (--life <= 0) {

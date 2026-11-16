@@ -1,0 +1,26 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:naphthalene"
+    },
+    {
+      "item": "mcremix:naphthalene"
+    },
+    {
+      "fluid": "mcremix:nitric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:nitronaphthalene",
+      "count": 2
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ],
+  "processingTime": 400
+}

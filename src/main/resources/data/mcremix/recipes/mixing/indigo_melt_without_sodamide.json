@@ -1,0 +1,52 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "item": "mcremix:phenylglycine"
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:indigo_melt",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated"
+}

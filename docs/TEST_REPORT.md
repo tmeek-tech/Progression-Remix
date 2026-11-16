@@ -1,8 +1,49 @@
 # Test reports
 
-Newest first: [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.35.0: The sulfur works and the dye works
+
+This covers section 44 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 5 of the distillation build, the last, with sour gas
+cleaned by red mud or the Claus works, airing, molten sulfur, sulfuric acid and its fog, the amines, the diazo salts, the
+coal tar dyes and gunpowder, on top of 0.34.0, with the fixes a review of the stage found. Tested on 2026-11-16 against
+the same versions as 0.34.0. Taran answered the stage's nine cards on 2026-11-16 before the build was tested, all nine
+as picked, so everything here tests the answers.
+
+**Result:** 0.35.0 compiled with no errors. Every GameTest passes in a fresh test world: 440 of 440 plain and
+446 of 446 with `-Pcompanions`. In a dev client the sulfur block and the new items draw, poured molten sulfur sets into
+a block of sulfur, and the sour gas, sulfuric acid and dye works Ponder scenes play to their last step, with no errors
+from the mod in the log. Not checked: the jar on a real Forge server, the JEI tabs in a client, and a
+working sulfur or dye works built by hand in a world.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.35.0.jar`, 7,020,929 bytes, SHA-256 `c2d020ce…7d44ca9c6020`; `builds/mcremix-1.20.1-0.35.0.zip` holds the same jar. Its `mods.toml` says 0.35.0; none of its 1,754 PNGs carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | As for 0.34.0 |
+| GameTests, plain | Pass | 440 of 440: 0.34.0's 426 and the 14 in `DyesSulfurTests` |
+| GameTests, with companions | Pass | 446 of 446 |
+| Recipes | Pass | `everyNewRecipeLoads` (all 53 new recipes load by id; nine sulfur craft a block and back; a batch makes 4 gunpowder; foul soda boils Warm into 400 hydrogen sulfide and 600 soda ash solution) |
+| Red mud and airing | Pass | `redMudCleansSourGasInAVat` (two lumps clean 500 of a bucket of sour gas into 300 fuel gas and go foul; the sour gas is kept while red mud is in, and passes to a pipe after); `foulRedMudAirsOnlyInAnOpenBasin` (red mud and a sulfur after 20 seconds in the open, nothing under a block); `oxygenAirsFoulRedMudInAVat` (50 mB of oxygen a lump); `oxygenWaitsOnlyWhereThereIsSomethingToAir` (the review fix); `indigoMeltAirsIntoIndigo` (8 indigo dye and the caustic soda back) |
+| Sulfur and its acid | Pass | `moltenSulfurSets` (a poured source sets into a block of sulfur and what ran from it into nothing; 300 mB in a basin into 3 sulfur); `sulfurBurnsIntoSulfurDioxide` (two sulfur in a Furnace on lava give 200 mB of sulfur dioxide and nothing in the tray); `theSteelFurnaceMakesMoltenSulfurAndSulfurTrioxide` (300 hydrogen sulfide over alumina into 300 molten sulfur and 300 water; 300 sulfur dioxide over the gauze into 300 trioxide); `sulfurTrioxideFogsOffWaterButSoaksIntoAcid` (250 acid and a fog over the vat; with acid piped in, 750 and no fog) |
+| Diazo salts | Pass | `diazoSaltKeepsOnlyOnIce` (a tenth gone from a warm tank after ten seconds, none from one touching packed ice; goggles warn of the first only); `aHeatedBasinBreaksDiazoSaltsDown` (500 plain salt in a heated basin's input into 250 phenol, 500 nitro salt in its output into nothing) |
+| Hydrogen sulfide | Pass | `hydrogenSulfideBurnsSearingAndPuffsSulfurDioxide` (as hot as sour gas, Searing at most, twice its sulfur; a furnace on 4 mB a tick burns Searing and puffs sulfur dioxide); `hydrogenSulfideIsDeadly` (a pig poisoned with nausea; it and the acid fog hurt through armour; a cloud flashes at a campfire into sulfur dioxide; 250 mB shows, 2 buckets don't) |
+| The four dyes | Pass | `paleShadesMixWithWhiteAndTheFourDyesComeFromTheDyeWorks`, which until now checked that nothing made them: mauve, indigo, malachite green and maroon each come from their dye works recipe, and only from it |
+| Review fixes | Pass | The one that changes play, oxygen stuck in any vat, has a test, `oxygenWaitsOnlyWhereThereIsSomethingToAir` (checked by undoing the fix: the test failed). The fog and fizz over a vat's middle, creative tanks left alone and the shared tenth were checked by reading |
+| Formulas | Pass | `FormulaTests`: the 34 new formulas draw, sulfur coloured yellow |
+| Dev client | Pass | A superflat world: the sulfur block and the new items draw; a bucket of molten sulfur poured out sets into a block of sulfur and the rest goes; `/ponder` plays the sour gas cleaning, sulfuric acid and dye works scenes to their last step |
+
+### Known gaps
+
+- Acid a vat has made doesn't soak up the fog, only acid piped in, since what a vat makes is kept apart from what it was
+  filled with: a plant pipes some acid back in, as the Ponder scene and the bucket's tooltip say.
+- Death in molten sulfur reads as the floor being lava (vanilla's hot floor damage), as death in molten metal reads as lava's.
+- Whether ice touches a tank checks every block of it, inside ones too: at most 288 for Create's tanks, every ten seconds
+  and on each look through goggles.
+- No GameTest runs the basin recipes from nitrating to the dyes, saltpetre and gunpowder, the vat recipes for the Claus
+  wash, bleach, chloroacetic acid, sodamide, benzal chloride and the leuco base, or dimethylaniline in the Steel Furnace;
+  they load with no errors and use the basin, vat and furnace as the earlier recipes do.
 
 ## 0.34.0: The liquid air plant
 

@@ -1,0 +1,27 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:leuco_malachite_green"
+    },
+    {
+      "item": "mcremix:leuco_malachite_green"
+    },
+    {
+      "item": "mcremix:leuco_malachite_green"
+    },
+    {
+      "item": "mcremix:leuco_malachite_green"
+    },
+    {
+      "fluid": "mcremix:ferric_chloride",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:malachite_green_dye",
+      "count": 8
+    }
+  ]
+}

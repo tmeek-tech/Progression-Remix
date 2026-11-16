@@ -1,0 +1,17 @@
+{
+  "type": "mcremix:airing",
+  "processingTime": 400,
+  "ingredients": [
+    {
+      "item": "mcremix:foul_red_mud"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:red_mud"
+    },
+    {
+      "item": "mcremix:sulfur"
+    }
+  ]
+}
