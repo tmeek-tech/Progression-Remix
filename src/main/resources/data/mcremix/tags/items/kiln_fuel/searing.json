@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "mcremix:coal_coke",
+    "mcremix:petroleum_coke",
     "minecraft:blaze_rod"
   ]
 }

@@ -5,6 +5,7 @@ import com.mcremix.crucible.SandMoldItem;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.MoltenMetal;
 import com.mcremix.ponder.ColumnPonderPlugin;
+import com.mcremix.ponder.OilPonderPlugin;
 import com.mcremix.ponder.DecorPonderPlugin;
 import com.mcremix.ponder.ModPonderPlugin;
 import com.mcremix.registry.ModBlocks;
@@ -38,6 +39,7 @@ public class McRemixClient {
 		PonderIndex.addPlugin(new ModPonderPlugin());
 		PonderIndex.addPlugin(new DecorPonderPlugin());
 		PonderIndex.addPlugin(new ColumnPonderPlugin());
+		PonderIndex.addPlugin(new OilPonderPlugin());
 	}
 
 	/**

@@ -7,6 +7,8 @@ import javax.annotation.Nullable;
 
 import com.mcremix.cooling.CoolantTanks;
 import com.mcremix.cooling.Coolants;
+import com.mcremix.electrolysis.Gases;
+import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.fluids.WarmCuts;
 import com.mcremix.lab.CoilCondenserBlockEntity;
@@ -42,7 +44,9 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  * <li>Beside a steel column's bottom section it is that column's condenser ({@link #column}): the column's top cut comes
  * over the vapour line into it and out of either end, cold. It holds {@link #CAPACITY} mB of it; full, it holds the
  * column up. Vapour past what it can condense, or with nothing to cool it, escapes there as a flammable vapour
- * ({@link SolventVapourCloud}).</li>
+ * ({@link SolventVapourCloud}). A gas that comes over with it, sour gas off crude oil, never condenses: it waits in a
+ * gas tank of its own, {@link #CAPACITY} mB, for the same pipes to draw off, and what has no room escapes there as
+ * itself ({@link Gases#escape}), never holding the column up.</li>
  * <li>Anywhere else it is inline: a warm cut piped into either end ({@link WarmCuts}) comes out of either end as its
  * plain form, so a cut drawn hot from a column can go on into a PVC pipe. It takes nothing else, pitch least of all,
  * which would set solid in its tubes.</li>
@@ -68,6 +72,17 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 			changed();
 		}
 	};
+	/** Gas that came over from its column with the top cut, which never condenses, for pipes on its ends to draw. */
+	private final FluidTank gas = new FluidTank(CAPACITY, Chemical::isGas) {
+		@Override
+		protected void onContentsChanged() {
+			changed();
+		}
+	};
+	/** Gas it had no room for, let loose every {@link Column#VENT_EVERY} ticks. */
+	private FluidStack gasPending = FluidStack.EMPTY;
+	/** mB of gas let loose, or to be, since it last let gas go, for the goggles. */
+	private int gasLost;
 	private final LazyOptional<IFluidHandler> jacket = LazyOptional.of(() -> cooling);
 	private final LazyOptional<IFluidHandler> ends = LazyOptional.of(Ends::new);
 
@@ -80,6 +95,8 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 	private int ventPending;
 	/** mB that escaped in the last {@link Column#VENT_EVERY} ticks, for the goggles. */
 	private int vented;
+	/** mB of gas that escaped in the last {@link Column#VENT_EVERY} ticks, its outlet full, for the goggles. */
+	private int gasVented;
 	private long lastWorked = -100;
 	private boolean syncQueued;
 
@@ -106,6 +123,10 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 
 	public FluidTank product() {
 		return product;
+	}
+
+	public FluidTank gas() {
+		return gas;
 	}
 
 	/** Its axis: what goes along it to its ends is the process side. */
@@ -225,15 +246,43 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 		return amount;
 	}
 
+	/**
+	 * Gas come over from its column: it waits in the gas tank, and what has no room there escapes here as itself.
+	 */
+	public void takeGas(FluidStack stack) {
+		int kept = gas.fill(stack, IFluidHandler.FluidAction.EXECUTE);
+		int left = stack.getAmount() - kept;
+		if (left <= 0)
+			return;
+		if (!gasPending.isEmpty() && !gasPending.isFluidEqual(stack))
+			letGasGo();
+		if (gasPending.isEmpty())
+			gasPending = new FluidStack(stack, left);
+		else
+			gasPending.grow(left);
+		gasLost += left;
+	}
+
+	private void letGasGo() {
+		if (level instanceof ServerLevel server && !gasPending.isEmpty())
+			Gases.escape(server, ventAt(), List.of(gasPending));
+		gasPending = FluidStack.EMPTY;
+	}
+
 	/** {@code amount} mB of vapour it could not take: it escapes here. */
 	public void vent(int amount) {
 		if (amount > 0)
 			ventPending += amount;
 	}
 
-	/** mB that escaped here in the last {@link Column#VENT_EVERY} ticks. */
+	/** mB of vapour that escaped here in the last {@link Column#VENT_EVERY} ticks. */
 	public int vented() {
 		return vented;
+	}
+
+	/** mB of gas that escaped here in the last {@link Column#VENT_EVERY} ticks, its gas outlet full. */
+	public int gasVented() {
+		return gasVented;
 	}
 
 	/** Over its top, where what it cannot take escapes. */
@@ -248,12 +297,14 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 			return;
 		coolInline();
 		if (level.getGameTime() % Column.VENT_EVERY == 0) {
-			if (vented != ventPending)
+			if (vented != ventPending || gasVented != gasLost)
 				changed();
 			vented = ventPending;
+			gasVented = gasLost;
 			if (ventPending > 0)
 				SolventVapourCloud.release(server, ventAt(), ventPending);
-			ventPending = 0;
+			letGasGo();
+			ventPending = gasLost = 0;
 		}
 		if (syncQueued && level.getGameTime() % 10 == 0) {
 			syncQueued = false;
@@ -295,13 +346,13 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 	private class Ends implements IFluidHandler {
 		@Override
 		public int getTanks() {
-			return 2;
+			return 3;
 		}
 
 		@Nonnull
 		@Override
 		public FluidStack getFluidInTank(int tank) {
-			return (tank == 0 ? input : product).getFluid();
+			return (tank == 0 ? input : tank == 1 ? product : gas).getFluid();
 		}
 
 		@Override
@@ -321,16 +372,18 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 			return input.fill(resource, action);
 		}
 
+		/** What it condensed or cooled, and the gas that came over with it, both drawn off at its ends. */
 		@Nonnull
 		@Override
 		public FluidStack drain(FluidStack resource, FluidAction action) {
-			return product.drain(resource, action);
+			return gas.getFluid().isFluidEqual(resource) ? gas.drain(resource, action) : product.drain(resource, action);
 		}
 
 		@Nonnull
 		@Override
 		public FluidStack drain(int maxDrain, FluidAction action) {
-			return product.drain(maxDrain, action);
+			// the liquid first: it holds the column up if it is not drawn, and the gas never does
+			return product.isEmpty() ? gas.drain(maxDrain, action) : product.drain(maxDrain, action);
 		}
 	}
 
@@ -348,9 +401,13 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 		cooling.write(tag);
 		tag.put("Input", input.writeToNBT(new CompoundTag()));
 		tag.put("Product", product.writeToNBT(new CompoundTag()));
+		tag.put("Gas", gas.writeToNBT(new CompoundTag()));
+		tag.put("GasPending", gasPending.writeToNBT(new CompoundTag()));
+		tag.putInt("GasLost", gasLost);
 		tag.putFloat("Owed", owed);
 		tag.putInt("VentPending", ventPending);
 		tag.putInt("Vented", vented);
+		tag.putInt("GasVented", gasVented);
 		tag.putLong("LastWorked", lastWorked);
 	}
 
@@ -360,9 +417,13 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 		cooling.read(tag);
 		input.readFromNBT(tag.getCompound("Input"));
 		product.readFromNBT(tag.getCompound("Product"));
+		gas.readFromNBT(tag.getCompound("Gas"));
+		gasPending = FluidStack.loadFluidStackFromNBT(tag.getCompound("GasPending"));
+		gasLost = tag.getInt("GasLost");
 		owed = tag.getFloat("Owed");
 		ventPending = tag.getInt("VentPending");
 		vented = tag.getInt("Vented");
+		gasVented = tag.getInt("GasVented");
 		lastWorked = tag.getLong("LastWorked");
 	}
 
@@ -394,8 +455,10 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 			tooltip.add(Column.line(lang("rate", rate()).withStyle(ChatFormatting.GRAY)));
 		if (vented > 0)
 			tooltip.add(Column.line(lang("venting", vented).withStyle(ChatFormatting.RED)));
+		if (gasVented > 0)
+			tooltip.add(Column.line(lang("gas_venting", gasVented).withStyle(ChatFormatting.RED)));
 		cooling.addGoggleLines(tooltip);
-		for (FluidTank tank : new FluidTank[] { input, product })
+		for (FluidTank tank : new FluidTank[] { input, product, gas })
 			if (!tank.isEmpty())
 				tooltip.add(Column.line(lang("holding", tank.getFluid().getDisplayName(), tank.getFluidAmount(),
 					tank.getCapacity()).withStyle(ChatFormatting.GRAY)));

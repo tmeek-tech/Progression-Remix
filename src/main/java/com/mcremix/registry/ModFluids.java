@@ -10,6 +10,7 @@ import com.mcremix.fluids.AcidBlock;
 import com.mcremix.fluids.AmbientLiquidBlock;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.ChemicalFluidType;
+import com.mcremix.fluids.CrudeOilBlock;
 import com.mcremix.fluids.GasBlock;
 import com.mcremix.fluids.MoltenMetal;
 import com.mcremix.fluids.MoltenMetalBlock;
@@ -91,6 +92,7 @@ public class ModFluids {
 					: chemical == Chemical.HYDROCHLORIC_ACID ? new AcidBlock(source, p)
 					: chemical == Chemical.VINEGAR ? new VinegarBlock(source, p)
 					: chemical == Chemical.MOLTEN_SODIUM ? new SodiumBlock(source, p)
+					: chemical == Chemical.CRUDE_OIL ? new CrudeOilBlock(source, p)
 					: chemical.poursAs() != null ? new AmbientLiquidBlock(source, chemical.poursAs(), p)
 					: new LiquidBlock(source, p))
 			.initialProperties(() -> Blocks.WATER)
@@ -152,8 +154,15 @@ public class ModFluids {
 		FLUIDS.register(modBus);
 	}
 
-	/** Molten metal that meets water sets at once, with a hiss, the whole spill with it. */
+	/**
+	 * Molten metal that meets water sets at once, with a hiss, the whole spill with it. Crude oil that meets lava goes up
+	 * in flame where they touch.
+	 */
 	public static void registerInteractions() {
+		FluidInteractionRegistry.addInteraction(chemical(Chemical.CRUDE_OIL).type().get(),
+			new FluidInteractionRegistry.InteractionInformation(
+				(level, pos, relative, fluid) -> CrudeOilBlock.meetsLava(level, relative),
+				(level, pos, relative, fluid) -> CrudeOilBlock.burnBy(level, pos)));
 		for (MoltenMetal metal : MoltenMetal.values())
 			FluidInteractionRegistry.addInteraction(molten(metal).type().get(),
 				new FluidInteractionRegistry.InteractionInformation(

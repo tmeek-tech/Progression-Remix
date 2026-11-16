@@ -3,7 +3,7 @@
 A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
-electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar and wood spirit, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
+electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar, wood spirit and crude oil, a cranked diesel engine, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Optional | Immersive Weathering, JEI |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
-## What is in 0.32.0
+## What is in 0.33.0
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -237,6 +237,25 @@ condenser set inline on a pipe cools them (hot creosote soaks timber and burns a
 copper). What a column too short for its mixture has no room for escapes over the top as **solvent vapour**, a low haze
 that flashes into flame at a fire, a torch or anything else warm or hotter, and sets alight what stands in it.
 
+**Crude oil.** Pockets of **crude oil**, ten to sixteen blocks across, lie sealed in the deepslate between y -40 and
+-16, about one in every six by six chunks, with no sign of them until you dig in. Spilt, it creeps out slowly, is as
+sticky as a cobweb, and burns: fire, lava or anything alight wading in sets it going, and a lit spill burns itself out.
+A hose pulley never runs a pocket dry, but the oil is thick and comes up a bucket every ten seconds, however fast the
+pump turns. A still or a column five sections high splits it into **sour gas** (out of the still's vent or the
+condenser's gas outlet), **naphtha**, **kerosene**, **diesel**, **heavy oil** and **bitumen**, the middle three drawn
+hot from a column. Naphtha and pressurised steam in a Steel Furnace at Searing crack into **ethylene** and **fuel gas**
+(the Steel Furnace now takes a second fluid). Heavy oil left to settle drops **paraffin wax**, which does everything
+honeycomb does and makes candles, and leaves **fuel oil**. Bitumen boiled down in a basin over Searing heat gives
+**petroleum coke**, which works wherever Coal Coke does. Fuel gas (up to Blazing), fuel oil and sour gas (up to
+Searing) burn in the Steel Furnace, but sour gas burns dirty: its **sulfur dioxide** sinks round the furnace, killing
+plants and choking what breathes it. Let loose, sour gas poisons and fuel gas is harmless, and both flash at a flame.
+
+**The diesel engine.** An old stationary engine in one block, with a spoked flywheel on its side and a smoking stack.
+Fill it with diesel or kerosene (piped in or by bucket), crank its shaft at 8 RPM or more for two seconds, and it
+catches, turning the way it was cranked at 32 RPM with 16,384 su, a whole steam engine's worth, for a bucket every
+fifty seconds; kerosene gives three quarters of that. It stalls when it runs dry or is overloaded, and must be cranked
+again.
+
 **Salt water, chlorine and hydrogen.** Water taken from the sea, by bucket, pump or hose pulley, is **salt water**.
 Split by an Electrolyser it gives **chlorine**, **hydrogen** and **caustic soda**. Chlorine let loose sinks into a low
 green cloud that hurts whoever breathes it and kills the plants under it; mixed with water and an iron nugget it makes
@@ -390,7 +409,7 @@ creosote timber; argon tubes are creative only until argon can be made.
 **Ponder.** Every new interaction has a Ponder scene (hold W over the item): furnace basics, heating from below,
 fanning fires with bellows, bloom iron and anvils, blister steel, furnace-heated steam boilers and basins,
 supports, speed controllers as supports, brackets, casings in every material, wood as a fuse, kinetic materials, steel parts, wooden parts in
-every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit, the glass lab still and bench, the steel column, reflux and the inline condenser,
+every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit, the glass lab still and bench, the steel column, reflux and the inline condenser, oil pockets, the diesel engine, cracking naphtha,
 pressing Bakelite, the heat sink, the Electrolyser on a basin and on a vat, lighting a furnace with a Spark Plug, the
 Steel Furnace, mixing in a vat, the Pressurizer, steam engines in every boiler metal, friction heat in aluminium, cooling with water and coolant, titanium's
 heat, colours and burning, and the Arc Furnace. Every metal's machines and every wood's movers also get Create's
@@ -401,8 +420,8 @@ opened by holding W starts playing.
 which fuels and which blocks underneath give each heat level, a Striking Blooms tab shows the anvil recipe, and
 Melting and Alloying tabs show what a crucible melts and makes. Settling and Electrolysis tabs show what settles out
 and what an Electrolyser splits, with the charge each takes and its time at a given current. Distilling, Fermenting, Steel
-Furnace, Steel Furnace Fuel, Vat Mixing and Pressurizing tabs show what a still splits into which cuts (and how many sections a steel column needs for them), what ferments, what the Steel Furnace works and how
-many mB a tick of each fuel give each heat, what stirs together in a vat, and what the Pressurizer squeezes at what
+Furnace, Steel Furnace Fuel, Diesel Engine, Vat Mixing and Pressurizing tabs show what a still splits into which cuts (and how many sections a steel column needs for them), what ferments, what the Steel Furnace works and how
+many mB a tick of each fuel give each heat, what the diesel engine runs on and how strongly, what stirs together in a vat, and what the Pressurizer squeezes at what
 speed and heat. Boiling and Arc Furnace tabs show what a heated basin boils down and what the Arc Furnace melts,
 with the energy it takes, a Casting tab every molten metal poured into a sand mold, and a Cooling Hot Cuts tab what a steel condenser cools at what rate. Every one of these tabs is laid out like Create's basin pages, with the machine drawn at
 work in the middle, over a campfire, lava or a blaze burner when it needs heat, and a bar giving the heat, time, speed,
@@ -497,11 +516,12 @@ src/main/java/com/mcremix/
   fluids/       Fluid heat and part ratings, overheating, brass, iron, glass, steel and aluminium pipes, pumps and
                 tanks, copper patina and iron rust, rusted iron leaking, steel pressure boilers, molten metal, rough metal and spills, the chemicals (coal tar to
                 hydrogen, glycol and coolant), salt water from the sea and cold water where it snows, the chlorine
-                cloud and solvent vapour, the steel column's hot cuts, and warm water and hot coolant poured out
+                cloud, solvent vapour, sour gas, fuel gas and sulfur dioxide, crude oil and its cuts, the steel column's hot cuts, and warm water and hot coolant poured out
                 turning to water and coolant
   crucible/     The crucible, its melting and alloying recipes, and sand molds
   lab/          The glass lab: lab glass, the still's pieces, the bench glassware and basin reflux
   column/       The steel fractionating column, where its cuts go, and the steel condenser
+  oil/          Oil pockets and the diesel engine
   electrolysis/ The Electrolyser and Carbon Electrodes, vats, settling and electrolysis recipes, and gases let loose
   heatsink/     The aluminium heat sink and its share of Power Grid's heat model
   cooling/      Water coolers, radiator panels and what each works with

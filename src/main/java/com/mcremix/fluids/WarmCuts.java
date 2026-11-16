@@ -14,8 +14,8 @@ import net.minecraftforge.fluids.FluidStack;
  * the mod's fluid scale, and a Forge fluid has only one temperature, so the cut leaves as a warm form of itself, which
  * no PVC pipe carries. A steel condenser cools a warm form back into the plain one, water in and warm water out, and
  * poured out into the world it cools at once ({@link Chemical#poursAs}). What comes through a condenser leaves cold
- * already, and methanol (65 °C) and the wash's warm water are cool enough as they are. Pitch is always kept warm, as
- * it sets hard when cold, so it has no plain form to cool into.
+ * already, and methanol (65 °C) and the wash's warm water are cool enough as they are. Pitch and bitumen are always
+ * kept warm, as they set hard when cold, so they have no plain form to cool into.
  */
 public final class WarmCuts {
 	/** The hottest a fluid can be and still be Cold on the mod's scale ({@link FluidHeat#fromKelvin}, 350 K). */
@@ -28,6 +28,10 @@ public final class WarmCuts {
 		warm(Chemical.CARBOLIC_OIL, Chemical.HOT_CARBOLIC_OIL);
 		warm(Chemical.CREOSOTE, Chemical.HOT_CREOSOTE);
 		warm(Chemical.VINEGAR, Chemical.HOT_VINEGAR);
+		// crude oil's side cuts (stage 3); bitumen, like pitch, is always kept warm
+		warm(Chemical.KEROSENE, Chemical.HOT_KEROSENE);
+		warm(Chemical.DIESEL, Chemical.HOT_DIESEL);
+		warm(Chemical.HEAVY_OIL, Chemical.HOT_HEAVY_OIL);
 	}
 
 	private WarmCuts() {}

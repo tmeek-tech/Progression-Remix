@@ -84,7 +84,7 @@ public class RemixJeiPlugin implements IModPlugin {
 			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui),
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
 			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
-			new DistillingCategory(gui), new CoolingCategory(gui));
+			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui));
 	}
 
 	@Override
@@ -114,6 +114,7 @@ public class RemixJeiPlugin implements IModPlugin {
 				heat.add(KilnHeatCategory.Display.of(h));
 		registration.addRecipes(KilnHeatCategory.TYPE, heat);
 		registration.addRecipes(SteelFurnaceFuelCategory.TYPE, SteelFurnaceFuels.FUELS);
+		registration.addRecipes(DieselEngineCategory.TYPE, DieselEngineCategory.Fuel.all());
 		registration.addRecipes(CoolingCategory.TYPE, CoolingCategory.Cooling.all());
 		registration.addRecipes(BloomCategory.TYPE, List.of(BloomCategory.Display.INSTANCE));
 		registration.addRecipes(CastingCategory.TYPE, CastingCategory.Display.all());
@@ -163,6 +164,8 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.STEEL_FURNACE.get()), SteelFurnaceCategory.TYPE,
 			SteelFurnaceFuelCategory.TYPE, KilnCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.BELLOWS.get()), KilnHeatCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(com.mcremix.registry.ModOil.DIESEL_ENGINE.get()),
+			DieselEngineCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.STONE_ANVIL.get()), BloomCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(Items.ANVIL), BloomCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.CRUCIBLE.get()), MeltingCategory.TYPE,

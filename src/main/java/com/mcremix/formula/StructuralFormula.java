@@ -37,7 +37,7 @@ public record StructuralFormula(String formula, List<ResourceLocation> items, Li
 		Map.entry("C", 0xFF909090), Map.entry("O", 0xFFFF4A4A), Map.entry("Cl", 0xFF3FE03F), Map.entry("Na", 0xFFAB5CF2),
 		Map.entry("Fe", 0xFFE06633), Map.entry("Ti", 0xFFC8CCD2), Map.entry("Al", 0xFFF0A8C0), Map.entry("Si", 0xFFF0C8A0),
 		Map.entry("Ca", 0xFFA8E6A0), Map.entry("P", 0xFFFF8000), Map.entry("Cu", 0xFFE08A48),
-		Map.entry("Au", 0xFFFFD123), Map.entry("Zn", 0xFFA8ACD8));
+		Map.entry("Au", 0xFFFFD123), Map.entry("Zn", 0xFFA8ACD8), Map.entry("S", 0xFFE8D838));
 
 	/**
 	 * An atom or group written as its label ("" for a point a bond runs out of the drawing to), centred on its first

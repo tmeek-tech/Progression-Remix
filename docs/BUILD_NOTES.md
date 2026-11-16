@@ -3131,3 +3131,143 @@ alight and the planks under it, and hangs harmless with no flame; reflux re-boil
 column saved with other results starts afresh; what a column holds stays as it grows, loses its bottom or gains a new
 one; close cuts need two more sections or reflux; parts are steel and grow nozzles where pipes join; and every part
 is crafted, and the hot cuts work as their plain forms.
+
+## 42. Crude oil (0.33.0)
+
+Stage 3 of Taran's distillation design (design/distillation.md in the shared folder; the numbers it left to the build
+are in design/crude-oil-build-numbers.md): crude oil found only by digging, drawn slowly by a hose pulley that never
+runs it dry, split into six cuts in the glass still and the steel column, and what those cuts become: ethylene and fuel
+gas from naphtha cracked with steam, paraffin wax and fuel oil from heavy oil, petroleum coke from bitumen, three new
+Steel Furnace fuels, and a diesel engine. Six cards went to Taran on 2026-11-16, and Taran chose every one as it was
+built: medium pockets, one in about every 6 by 6 chunks; a hose pulley drawing a bucket every 10 seconds; an engine
+worth a whole steam engine; an engine that stalls dry or overloaded and must be cranked again; sour gas that poisons
+and flashes at a flame; and bitumen boiled down to coke in a basin over Searing heat. Cleaning sour gas is stage 5;
+the liquid air column (stage 4) comes later.
+
+**Oil pockets** (`oil/OilPocketFeature`, `registry/ModFeatures`, worldgen data). A rough blob 10 to 16 blocks across
+and 6 to 9 tall, three ellipsoids run together, filled with crude oil where it was rock (stone, deepslate, tuff, and
+ores in them). It is sealed: a block of oil goes in only where everything beside it is solid rock or more oil, so
+where the blob would open onto a cave, water or anything else, the stone is left as a skin round it and there is no
+sign of it until you dig in. Placed in the `underground_decoration` step under every Overworld biome (a Forge biome
+modifier), one chunk in 36 (`rarity_filter`), between y -40 and -16.
+
+**Crude oil in the world** (`fluids/CrudeOilBlock`). It creeps out as slowly as lava does outside the Nether. Standing
+or wading in it slows you and mobs as a cobweb does (`makeStuckInBlock`), and it can't be swum in. It burns: it counts
+as a burning block to fire, so fire beside it eats into it a block at a time and a lit spill burns itself out; lava
+touching it sets it alight (`ModFluids.registerInteractions`), and so does anything on fire wading into it. It never
+puts out what is alight in it.
+
+**The hose pulley** (`fluids/OilWells`, `mixin/FluidDrainingBehaviourMixin`, `mixin/HosePulleyFluidHandlerMixin`). To
+a hose pulley a pocket is endless however small it is, as a sea is, so drawing never takes a block away and several
+pulleys can share one. Create decides a pool is endless in two places, the search and the check it makes again every
+8 seconds (`continueSearch` and `continueValidation`, each testing the pool's size and `canDrainInfinitely`), and the
+mixin answers yes for crude oil in both. The oil comes up 5 mB a tick however fast the pump turns
+(`DRAW_PER_TICK`), a bucket every 10 seconds, one heater's worth for a steel column; what it could draw saves up while
+nothing pulls on it, up to a second's worth (`SAVED_UP_TO`, 100 mB). Every other fluid comes as fast as before.
+
+**The six cuts** (`fluids/Chemical`, `recipes/distilling/crude_oil.json`). A bucket of crude oil, Hot as coal tar is,
+gives 50 sour gas (boiling at 20 °C), 250 naphtha (100), 150 kerosene (210), 200 diesel (300), 200 heavy oil (375) and
+150 bitumen, the residue (400). In the glass still it takes 30 seconds; the sour gas leaves by the cow receiver's vent
+and the bitumen stays in the flask. A steel column needs five sections for it, four cuts and the residue: sour gas
+never condenses, so it takes no section and goes over the top with the naphtha (`ColumnLayout.gases`); there is no
+close pair, so no reflux. Drawn from a section, kerosene, diesel and heavy oil leave hot (`WarmCuts`): hot kerosene
+(210 °C), hot diesel (300 °C) and hot heavy oil (375 °C), which no PVC pipe carries until a steel condenser inline cools
+them. Hot kerosene and hot diesel run the engine as they are (the fluid tags `mcremix:kerosene` and `mcremix:diesel`
+hold both forms); hot heavy oil must be cooled before its wax settles out. Bitumen is always warm, as pitch is, and
+goes into neither PVC nor a condenser. Crude oil, heavy oil, fuel oil and bitumen are mixtures and have no structural
+formula; the rest do (sour gas as hydrogen sulfide, fuel gas as methane, naphtha as octane, kerosene as dodecane,
+diesel as cetane), with sulfur drawn yellow.
+
+**The condenser's gas outlet** (`column/SteelCondenserBlockEntity`). Beside a column, the condenser holds up to
+1,000 mB of gas as well as what it condensed, and pipes on its ends draw both: a pipe that names no fluid gets the
+condensed cut first and the gas once that is drawn off, and smart pipes can sort them. Gas with nowhere to go escapes
+beside the condenser as a cloud rather than holding the column up, as the still's vent lets it go, and the goggles say
+how much gas is escaping, apart from any vapour.
+
+**Naphtha cracking** (`kiln/SteelFurnaceBlockEntity`, `SteelFurnaceRecipe`, `recipes/steel_furnace/naphtha_cracking.json`).
+The Steel Furnace gains a second feed tank, so any of its recipes can now take a second fluid (`coFeed`). 250 naphtha
+and 100 pressurised steam at Searing give 150 ethylene and 100 fuel gas in 5 seconds. Without its second fluid the
+furnace waits and its goggles say for what. A second fluid that no longer fits the recipe its feed is for (steam left
+in after the feed changed) can be pumped back out, so it never blocks the furnace.
+
+**Paraffin wax and fuel oil** (`item/ParaffinWaxItem`, `recipes/settling/paraffin_wax.json`). 250 heavy oil left to
+stand cool (a basin, vat or settling flask) drops 1 paraffin wax in 10 seconds and leaves 225 fuel oil. Paraffin wax
+does what honeycomb does: used on a block it waxes whatever honeycomb waxes (vanilla's copper, Create's copper parts,
+the mod's copper, iron and steel parts), it takes honeycomb's place in every waxing recipe (they now take the item tag
+`mcremix:waxes`, which holds both, and vanilla's waxed copper recipes get paraffin wax twins), and string on paraffin
+wax makes a candle.
+
+**Petroleum coke** (`recipes/boiling/petroleum_coke.json`). 250 bitumen boiled down in a basin over Searing heat gives
+2 petroleum coke in 10 seconds, as a coker drum works. It works wherever Coal Coke does: the item tag `mcremix:coke`
+holds both, and steel alloying, cementation packs, Rutile Briquettes and Carbon Electrodes take the tag; it burns as
+long as Coal Coke and is Searing furnace fuel.
+
+**Steel Furnace fuels** (`kiln/SteelFurnaceFuels`). Fuel gas burns 2 heat a mB up to Blazing, as ethylene does; fuel oil
+3 up to Searing, the thriftiest liquid fuel; sour gas 1 up to Searing, and it burns dirty, puffing out 1 mB of sulfur
+dioxide from the chimney for every 2 mB burnt (`SULFUR_PER_SOUR_GAS`). Diesel and kerosene burn only in the engine, and
+naphtha, heavy oil and bitumen aren't fuels.
+
+**Gases let loose** (`fluids/FlammableGasCloud`, `SourGasCloud`, `FuelGasCloud`, `SulfurDioxideCloud`). Solvent vapour,
+sour gas and fuel gas now share a base: at a flame, lava or anything Warm or hotter they flash into flame, setting alight
+what stands in them and lighting fires on what burns under them. Sour gas is a faint yellowish haze as heavy as air,
+about 20 seconds a bucket, whose hydrogen sulfide poisons what breathes it, 1 damage a second and nausea, with its own
+death message. Fuel gas is lighter than air and hangs where it was let go, about 10 seconds a bucket, harmless to
+breathe. Sulfur dioxide is a grey haze heavier than air, about 30 seconds a bucket, that never burns: plants under it
+die as they do under chlorine (grass, mycelium, podzol and moss to dirt; leaves, flowers, crops, saplings, vines, cacti
+and cane gone), and what breathes it chokes, 1 damage every 2 seconds and slowness. Both poisons go through armour
+(`damage_type/sour_gas`, `sulfur_dioxide`).
+
+**The diesel engine** (`oil/DieselEngineBlock`, `DieselEngineBlockEntity`, `DieselFuels`, `client/DieselEngineRenderer`).
+An old stationary engine in one block: a horizontal cylinder out of its front, the crankcase at the back, an exhaust
+stack that puffs smoke as it runs, and a heavy spoked flywheel on its right-hand side, on a shaft that comes out of both
+sides. It holds 1,000 mB of one fuel, diesel or kerosene, hot or cold, piped into its back or bottom or poured in by
+bucket. With fuel in it, its shaft turned at 8 RPM or more for 2 seconds, by a hand crank or any turning shaft, makes it
+catch, and it runs the way it was cranked, so it never fights the crank. Running, it burns 1 mB a tick (a bucket every
+50 seconds) and turns at 32 RPM with 512 su a RPM, 16,384 su, a whole steam engine's worth; on kerosene three quarters
+of that, 12,288 su (`KEROSENE_POWER`), worked out from each mB it burns, so a tank changed from one fuel to the other
+changes the power. It stalls when it runs dry, or when what it drives is too much for it for a second (`STALL_TICKS`),
+and must be cranked again. Create's flywheel, a mechanical piston, a steel fluid tank and four steel plates make one.
+
+**Goggles.** The engine's say whether it is running, stalled dry or overloaded, or waiting on fuel or a crank and how
+far through the crank it is, its fuel and how long it lasts, its speed and power, and when kerosene runs it weaker. The
+Steel Furnace's name the second fluid it waits for; the condenser's, the gas escaping.
+
+**JEI and Ponder.** The Distilling tab has crude oil, its sour gas marked as leaving by the vent or the condenser's gas
+outlet. The Steel Furnace tab shows a recipe's second fluid, the Steel Furnace Fuel tab the three new fuels (sour gas
+with a line on its sulfur dioxide), and a new Diesel Engine tab (`DieselEngineCategory`) each fuel with its speed,
+power, how long a bucket lasts and how it starts; the Settling and Boiling tabs show the wax and the coke. Ponder scenes
+`oil/pocket` (finding a pocket, the hose pulley, the sticky spill and setting it alight), `diesel_engine/intro` (fuel,
+cranking, running, kerosene and stalling) and `steel_furnace/cracking`.
+
+**Models and textures** (`tools/gen_oil.py`, called last from `gen_assets.py`): the engine's body, cylinder, stack,
+tank and flywheel (a partial model, `ModPartialModels`, turned by its renderer and Flywheel visual), the eleven new
+fluids, paraffin wax and petroleum coke, and the five structural formulas.
+
+**Review.** A review of the stage found ten things; five are fixed, each with a test that fails without it: Create's
+check of a pool every 8 seconds took the endless flag off a small pocket, so a hose pulley's draw stalled and started
+over (fixed by answering for crude in the check too); a pipe on the condenser locked onto the sour gas and never drew
+the naphtha, holding the column up; an engine whose tank went from diesel to kerosene without running dry kept the old
+power; steam left in the Steel Furnace's second tank after its feed changed blocked it for good; and the condenser's
+goggles called escaping sour gas vapour. In a dev client, the flywheel sat on the left of the engine for some facings
+(now always on its right) and the pocket's Ponder scene was cut off at the edges (now drawn at three quarters). Known
+gaps: features placed after the pockets (a lava spring, or a dungeon or geode from a neighbouring chunk decorated later)
+can rarely open one, as can a lush cave's clay pools; each fill of a Steel Furnace scans its recipes more than once; the
+hose pulley mixin looks up the pool's fluid once more than Create does; the column works out a recipe's gases several
+times a tick; the gas clouds each build their damage source the same way; and the Steel Furnace's first feed tank still
+can't be pumped back out.
+
+**Tests.** 14 GameTests in `CrudeOilTests`. A pocket placed in a stone box with a tunnel, water and planks in it fills
+more than 60 blocks, every one sealed. A hose pulley draws crude oil at 5 mB a tick for 260 ticks, the pool untouched
+and still endless after Create checks it again, saves up 100 mB while idle, and water still comes a bucket at once.
+Crude oil slows an armour stand that stone doesn't, lava sets it alight, and a burning stand lights it. A bucket in the
+glass still on a fire gives 250 naphtha, 150 kerosene, 200 diesel and 200 heavy oil in its flasks, 50 sour gas at the
+vent and 150 bitumen left; the column's layout needs five sections, three for a too-short column, one for gas alone; a
+column five high gives the cuts in its sections and 250 naphtha with 50 gas in the condenser, a plain drain taking the
+naphtha first, and a full gas outlet lets sour gas loose with the goggles saying so. Naphtha and steam crack into 300
+ethylene and 200 fuel gas, the furnace waits for steam without it, and stale steam drains back out. Heavy oil settles
+into wax and 225 fuel oil, and bitumen over a fed blaze burner into 2 petroleum coke. Paraffin wax waxes copper and
+makes waxed parts and candles, petroleum coke stands in for Coal Coke, and the engine is crafted. Sour gas puffs sulfur
+dioxide from a burning Steel Furnace, which kills grass and leaves; sour gas poisons and flashes, fuel gas only
+flashes. An engine catches after 2 seconds of cranking at 32 RPM and 16,384 su, runs about 100 ticks on 100 mB, stalls
+dry, stays stalled, and catches again once refuelled; on kerosene it gives 12,288 su and says so, a 4 RPM crank never
+starts it, one with no fuel says so, and a tank switched to diesel gives full power again; and overloaded, it stalls.

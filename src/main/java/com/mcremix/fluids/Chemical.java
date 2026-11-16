@@ -144,7 +144,45 @@ public enum Chemical {
 	/** Creosote as the steel column draws it, at 250 °C: soaks timber and burns as creosote does, but no PVC carries it. */
 	HOT_CREOSOTE("hot_creosote", 0xFF4C361E, MapColor.COLOR_BROWN, 1030, 1400, 523, false),
 	/** Vinegar as it leaves the bottom of a steel column running wood spirit, at 100 °C, steaming a little. */
-	HOT_VINEGAR("hot_vinegar", 0xFFE8D098, MapColor.SAND, 960, 700, 373, true);
+	HOT_VINEGAR("hot_vinegar", 0xFFE8D098, MapColor.SAND, 960, 700, 373, true),
+	/**
+	 * Crude oil, from pockets deep in the deepslate (the distillation design, stage 3): black-brown, thick and sticky,
+	 * slowing whatever wades through it, and it burns ({@link CrudeOilBlock}). Distilled at Hot, it gives sour gas,
+	 * naphtha, kerosene, diesel and heavy oil, and leaves bitumen.
+	 */
+	CRUDE_OIL("crude_oil", 0xFF241C12, MapColor.COLOR_BLACK, 870, 4000, 300, false),
+	/**
+	 * Crude oil's gas, which won't condense: fuel gas carrying hydrogen sulfide, which smells of rotten eggs and is
+	 * deadly. Let loose, it poisons what breathes it and flashes at a flame ({@link SourGasCloud}); burnt in a Steel
+	 * Furnace, it puffs out sulfur dioxide ({@link SulfurDioxideCloud}).
+	 */
+	SOUR_GAS("sour_gas", 0xFFE6E2BC, MapColor.NONE, 1, 10, 300, true, true),
+	/** Crude oil's lightest cut, a clear, pale straw spirit. Cracked with steam in a Steel Furnace, it gives ethylene. */
+	NAPHTHA("naphtha", 0xFFF0E8C8, MapColor.SAND, 720, 450, 300, true),
+	/** Paraffin, crude oil's second cut: clear with a faint yellow cast. A diesel engine runs on it, a little weaker. */
+	KEROSENE("kerosene", 0xFFEEE8C4, MapColor.SAND, 800, 900, 300, true),
+	/** Crude oil's third cut, a clear amber oil: the diesel engine's fuel. */
+	DIESEL("diesel", 0xFFD8BC60, MapColor.COLOR_YELLOW, 840, 1500, 300, true),
+	/** Crude oil's heaviest cut, a dark brown oil. Left to stand cool, it drops paraffin wax and leaves fuel oil. */
+	HEAVY_OIL("heavy_oil", 0xFF40301A, MapColor.COLOR_BROWN, 920, 2800, 300, false),
+	/**
+	 * What crude oil leaves in the flask: black and so thick it barely runs, kept warm, as it sets hard when cold.
+	 * Boiled down in a basin over Searing heat, it cokes into petroleum coke.
+	 */
+	BITUMEN("bitumen", 0xFF0E0C0A, MapColor.COLOR_BLACK, 1030, 20000, 473, false),
+	/** Methane and hydrogen, cracked from naphtha: a clean gas that burns in a Steel Furnace as hot as ethylene. */
+	FUEL_GAS("fuel_gas", 0xFFECEEF0, MapColor.NONE, 0, 10, 300, true, true),
+	/** What heavy oil leaves when its wax has settled out: a dark, heavy oil, the Steel Furnace's thriftiest fuel. */
+	FUEL_OIL("fuel_oil", 0xFF2C2012, MapColor.COLOR_BROWN, 960, 2600, 300, false),
+	/** Kerosene as the steel column draws it, at 210 °C: it runs a diesel engine as kerosene does, but no PVC carries it. */
+	HOT_KEROSENE("hot_kerosene", 0xFFF2E8B8, MapColor.SAND, 740, 500, 483, true),
+	/** Diesel as the steel column draws it, at 300 °C: it runs a diesel engine as diesel does, but no PVC carries it. */
+	HOT_DIESEL("hot_diesel", 0xFFE0C468, MapColor.COLOR_YELLOW, 760, 700, 573, true),
+	/**
+	 * Heavy oil as the steel column draws it, at 375 °C. A steel condenser cools it into heavy oil, which it has to be
+	 * before its wax settles out ({@link WarmCuts}).
+	 */
+	HOT_HEAVY_OIL("hot_heavy_oil", 0xFF54401E, MapColor.COLOR_BROWN, 860, 1200, 648, false);
 
 	public final String id;
 	/** Its colour as seen through it, from inside. */
@@ -177,6 +215,11 @@ public enum Chemical {
 		return viscosity >= 3000;
 	}
 
+	/** Whether it burns where it stands in the world, rather than putting out what is alight in it: crude oil. */
+	public boolean flammable() {
+		return this == CRUDE_OIL;
+	}
+
 	/** The light it gives, poured out or seen in a tank: molten salt glows as lava does, if a little dimmer. */
 	public int light() {
 		return FluidHeat.fromKelvin(temperature).ordinal() >= HeatLevel.HOT.ordinal() ? 12 : 0;
@@ -195,6 +238,9 @@ public enum Chemical {
 			case HOT_CARBOLIC_OIL -> () -> ModFluids.chemical(CARBOLIC_OIL).source().get();
 			case HOT_CREOSOTE -> () -> ModFluids.chemical(CREOSOTE).source().get();
 			case HOT_VINEGAR -> () -> ModFluids.chemical(VINEGAR).source().get();
+			case HOT_KEROSENE -> () -> ModFluids.chemical(KEROSENE).source().get();
+			case HOT_DIESEL -> () -> ModFluids.chemical(DIESEL).source().get();
+			case HOT_HEAVY_OIL -> () -> ModFluids.chemical(HEAVY_OIL).source().get();
 			default -> null;
 		};
 	}

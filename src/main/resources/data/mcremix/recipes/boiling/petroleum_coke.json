@@ -1,0 +1,17 @@
+{
+  "type": "mcremix:boiling",
+  "heatRequirement": "heated",
+  "processingTime": 200,
+  "ingredients": [
+    {
+      "fluid": "mcremix:bitumen",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:petroleum_coke",
+      "count": 2
+    }
+  ]
+}

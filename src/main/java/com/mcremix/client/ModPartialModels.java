@@ -70,6 +70,8 @@ public class ModPartialModels {
 
 	/** The needle of a Pressurizer's dial, on a dial facing south, pointing straight up from the middle of the face. */
 	public static final PartialModel PRESSURIZER_NEEDLE = PartialModel.of(McRemix.asResource("block/pressurizer/needle"));
+	/** The diesel engine's shaft and flywheel, modelled upright with the flywheel at the top. */
+	public static final PartialModel DIESEL_FLYWHEEL = PartialModel.of(McRemix.asResource("block/diesel_engine/flywheel"));
 
 	/** Create's drill head with other bits; iron bits are Create's own head. */
 	private static final Map<DrillBits, PartialModel> DRILL_HEADS = new EnumMap<>(DrillBits.class);

@@ -16,7 +16,8 @@ import net.minecraftforge.fluids.FluidStack;
  * heat for every mB it burns a tick and burns no hotter than its ceiling, and each level takes twice the heat of the
  * one below it. Create's pumps move 1 mB a tick for every 2 RPM, so the speed of the pump feeding a lit Steel Furnace
  * sets how hot it burns: coal tar is the thrifty fuel, and hydrogen and ethylene the only ones that reach Blazing. Fuel
- * that comes faster than burns at its ceiling is lost.
+ * that comes faster than burns at its ceiling is lost. Sour gas burns dirty: for every 2 mB of it burnt, 1 mB of
+ * sulfur dioxide goes up the chimney ({@link #SULFUR_PER_SOUR_GAS}).
  */
 public final class SteelFurnaceFuels {
 	/** {@code heatPerMb} is the heat a mB gives when burnt; {@code ceiling} is as hot as it ever burns. */
@@ -46,6 +47,11 @@ public final class SteelFurnaceFuels {
 			return new FluidStack(fluid.get(), amount);
 		}
 
+		/** Sour gas, which gives off sulfur dioxide as it burns. */
+		public boolean sour() {
+			return Chemical.of(fluid.get()) == Chemical.SOUR_GAS;
+		}
+
 		/** A gas, which escapes into the air from an unlit Steel Furnace, where a liquid spills. */
 		public boolean gas() {
 			Chemical chemical = Chemical.of(fluid.get());
@@ -64,7 +70,15 @@ public final class SteelFurnaceFuels {
 		// creosote drawn hot from a steel column burns as it does cold
 		new Fuel(Chemical.HOT_CREOSOTE::fluid, 2, HeatLevel.SEARING),
 		new Fuel(Chemical.HYDROGEN::fluid, 1, HeatLevel.BLAZING),
-		new Fuel(Chemical.ETHYLENE::fluid, 2, HeatLevel.BLAZING));
+		new Fuel(Chemical.ETHYLENE::fluid, 2, HeatLevel.BLAZING),
+		// crude oil's (stage 3): fuel gas as hot as ethylene, fuel oil the thriftiest liquid, and sour gas, which puffs
+		// out sulfur dioxide as it burns
+		new Fuel(Chemical.FUEL_GAS::fluid, 2, HeatLevel.BLAZING),
+		new Fuel(Chemical.FUEL_OIL::fluid, 3, HeatLevel.SEARING),
+		new Fuel(Chemical.SOUR_GAS::fluid, 1, HeatLevel.SEARING));
+
+	/** mB of sour gas burnt for each mB of sulfur dioxide it gives off. */
+	public static final int SULFUR_PER_SOUR_GAS = 2;
 
 	private SteelFurnaceFuels() {}
 

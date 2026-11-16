@@ -5,8 +5,10 @@ import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
@@ -109,12 +111,17 @@ public class FormulaTests {
 		h.succeed();
 	}
 
+	/** What is too many things at once to show a formula for. */
+	static final Set<Chemical> MIXTURES = EnumSet.of(Chemical.COAL_TAR, Chemical.PITCH, Chemical.CRUDE_OIL,
+		Chemical.HEAVY_OIL, Chemical.HOT_HEAVY_OIL, Chemical.FUEL_OIL, Chemical.BITUMEN);
+
 	@GameTest(template = GT.PLATFORM)
 	public static void compoundsShowTheirFormulas(GameTestHelper h) {
 		Formulas.Index index = Formulas.Index.of(formulas().values());
 		for (Chemical chemical : Chemical.values()) {
-			// coal tar and pitch are mixtures of many things; molten sodium shows sodium's symbol alone (0.26.0)
-			boolean compound = chemical != Chemical.COAL_TAR && chemical != Chemical.PITCH;
+			// coal tar and pitch are mixtures of many things, and so are crude oil and its heavy cuts (0.33.0); molten
+			// sodium shows sodium's symbol alone (0.26.0)
+			boolean compound = !MIXTURES.contains(chemical);
 			h.assertTrue((index.of(chemical.fluid()) != null) == compound,
 				chemical.id + (compound ? " should show its formula" : " should show none"));
 			if (!chemical.gas)

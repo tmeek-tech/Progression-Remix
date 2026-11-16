@@ -74,21 +74,25 @@ public class ChlorineCloud extends GasCloud {
 		for (LivingEntity e : breathing(radius))
 			e.hurt(source, DAMAGE);
 		for (BlockPos pos : under(radius))
-			kill(pos);
+			killPlant(level(), pos);
 	}
 
-	private void kill(BlockPos pos) {
-		BlockState state = level().getBlockState(pos);
+	/**
+	 * A choking gas kills the plant at {@code pos}: grass, mycelium, podzol and moss go to dirt, and flowers, grass,
+	 * crops, saplings, leaves, vines, cacti and cane die away. Sulfur dioxide does the same ({@link SulfurDioxideCloud}).
+	 */
+	public static void killPlant(Level level, BlockPos pos) {
+		BlockState state = level.getBlockState(pos);
 		// the gas doesn't reach under water
 		if (!state.getFluidState().isEmpty())
 			return;
 		Block block = state.getBlock();
 		if (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.MYCELIUM) || state.is(Blocks.PODZOL)
 			|| state.is(Blocks.MOSS_BLOCK))
-			level().setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
+			level.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
 		else if (block instanceof BushBlock && !(block instanceof DeadBushBlock) || state.is(BlockTags.LEAVES)
 			|| block instanceof VineBlock || block instanceof CactusBlock || block instanceof SugarCaneBlock
 			|| state.is(Blocks.MOSS_CARPET))
-			level().destroyBlock(pos, false);
+			level.destroyBlock(pos, false);
 	}
 }
