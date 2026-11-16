@@ -201,12 +201,27 @@ def polished_plate():
     return img
 
 
+def weld(px, cells, along):
+    """
+    A weld bead over the given pixels, which run in a line: its ripples catch the light every other pixel along it,
+    and a shadow falls beside it, under it or to its right, as the plate's light falls.
+    """
+    for n, (x, y) in enumerate(cells):
+        px[x, y] = D.shade(POLISHED, 6 if n % 2 == 0 else 5)
+        sx, sy = (x, y + 1) if along == 'x' else (x + 1, y)
+        if 0 <= sx < 16 and 0 <= sy < 16:
+            px[sx, sy] = D.shade(POLISHED, 3)
+
+
 def section_side(left=False, right=False, up=False, down=False):
     """
     An aluminium column section's side, polished, as the connected texture draws it on a formed column: a brushed
     plate running on across the column, a crisp seam under the slim flange round its top and over the one round its
     bottom, a lit band under the column's top flange for its cap and a darker skirt at its foot, and a lit edge and a
-    shaded one where its plates turn the column's corners. A lone section is all of these.
+    shaded one where its plates turn the column's corners. A lone section is all of these. Welded (Taran, 0.36.1): a
+    girth weld round the section's middle, where its upper ring of plate meets its lower, and the plates' upright
+    seams staggered as plating is, the upper ring's in the middle of each block and the lower ring's where blocks of
+    the column meet, so the seams run on across a formed column a block apart.
     """
     img = polished_plate()
     px = img.load()
@@ -225,6 +240,10 @@ def section_side(left=False, right=False, up=False, down=False):
         row(12, 2)
         row(13, 3)
         row(14, 3)
+    weld(px, [(x, 7) for x in range(16)], 'x')
+    weld(px, [(7, y) for y in range(2 if up else 4, 7)], 'y')
+    if left:
+        weld(px, [(0, y) for y in range(9, 15 if down else 12)], 'y')
     for y in range(16):
         if not left:
             px[0, y] = D.shade(POLISHED, 6)
@@ -237,7 +256,8 @@ def section_top(left=False, right=False, up=False, down=False):
     """
     A section's top or bottom, polished, as the connected texture draws it across a formed column: one brushed plate,
     edged where the column ends, lit along its top and left and shaded along its bottom and right, and a crisp groove
-    round it two pixels in from those edges, lit just inside along its top and left.
+    round it two pixels in from those edges, lit just inside along its top and left. Bolted (Taran, 0.36.1): a bolt
+    head every four pixels along the groove, a row running on across the column as the steel column's rivets do.
     """
     img = Image.new('RGBA', (16, 16))
     px = img.load()
@@ -269,6 +289,20 @@ def section_top(left=False, right=False, up=False, down=False):
             px[i, 15] = D.shade(POLISHED, 2)
         if not right:
             px[15, i] = D.shade(POLISHED, 2)
+    def bolt(x, y):
+        px[x, y] = D.shade(POLISHED, 6)
+        if x < 15 and y < 15:
+            px[x + 1, y + 1] = D.shade(POLISHED, 1)
+    for i in C.ring(right):
+        if not up:
+            bolt(i, 2)
+        if not down:
+            bolt(i, 13)
+    for i in C.ring(down):
+        if not left:
+            bolt(2, i)
+        if not right:
+            bolt(13, i)
     return img
 
 
@@ -341,12 +375,14 @@ def column_textures():
 
 # ------------------------------------------------------------------------------------------------ column models
 
-# icicles hanging off each side's bottom flange: the left edge of each, as seen from outside that side, and its whole
-# length, uneven, its last pixel a thinner tip
-ICICLES = {'north': ((2.5, 3), (6, 5), (9, 2), (12.5, 4)),
-           'east': ((1.5, 2), (4.5, 4), (8.5, 3), (13, 5)),
-           'south': ((3, 4), (7, 2.5), (10.5, 5), (13.5, 2)),
-           'west': ((2, 5), (5.5, 2), (9.5, 3.5), (12, 2.5))}
+# icicles hanging off each side's top flange: the left edge of each, as seen from outside that side, and its whole
+# length, uneven, its last pixel a thinner tip; each between two of the flange's bolt heads
+ICICLES = {'north': ((3, 3), (7.5, 5), (11, 2), (12.5, 4)),
+           'east': ((0.5, 2), (4, 4), (8.5, 3), (12, 5)),
+           'south': ((3.5, 4), (7, 2.5), (11.5, 5), (14.5, 2)),
+           'west': ((2.5, 5), (4.5, 2), (8, 3.5), (12, 2.5))}
+# where the bolt heads stand along each flange: every four pixels, so a row runs on across a formed column
+BOLTS = (2, 6, 10, 14)
 SIDES = ['north', 'east', 'south', 'west']
 
 
@@ -363,9 +399,10 @@ def turned(frm, to, faces, side):
 
 def icicles():
     """
-    The frozen section's icicles: about a pixel square, hanging from the bottom flange's lip a pixel out from the side,
-    rooted on the lip's face and reaching below the block, each ending in a half pixel tip. They are culled with their
-    side, as the lips are, so they show only on the column's outside.
+    The frozen section's icicles: about a pixel square, hanging from the top flange's lip a pixel out from the side,
+    rooted on the lip's face and reaching down the section's side, each ending in a half pixel tip. Hung from the top
+    flange (0.36.1), they stay inside the block, and every joint of a stack has them, its flange being the top one of
+    the section under it. They are culled with their side, as the lips are, so they show only on the column's outside.
     """
     els = []
     for side, hanging in ICICLES.items():
@@ -373,20 +410,37 @@ def icicles():
             u = (n * 5) % 16
             body = {d: D.face('#ice', [u, 0, u + 1, length - 1], cull=side) for d in ('north', 'east', 'west')}
             body['down'] = D.face('#ice', [u, length - 2, u + 1, length - 1], cull=side)
-            els.append(turned((x, 2 - length, -1), (x + 1, 1, 0), body, side))
+            els.append(turned((x, 17 - length, -1), (x + 1, 16, 0), body, side))
             tip = {d: D.face('#ice', [u, length - 1, u + 0.5, length], cull=side)
                    for d in ('north', 'east', 'west', 'south')}
             tip['down'] = D.face('#ice', [u, length - 1, u + 0.5, length - 0.5], cull=side)
-            els.append(turned((x + 0.25, 1 - length, -0.75), (x + 0.75, 2 - length, -0.25), tip, side))
+            els.append(turned((x + 0.25, 16 - length, -0.75), (x + 0.75, 17 - length, -0.25), tip, side))
+    return els
+
+
+def bolts(y0, y1):
+    """
+    The bolt heads round a flange from y0 to y1 (Taran, 0.36.1: bolted flanges): a pixel square standing half a pixel
+    proud of the lip, lit on top and shaded under, every four pixels along each side. Culled with their side, as the
+    lip is.
+    """
+    els = []
+    for side in SIDES:
+        for x in BOLTS:
+            faces = {d: D.face('#flange', [x - 0.5, 4, x + 0.5, 5], cull=side) for d in ('north', 'east', 'west')}
+            faces['up'] = D.face('#flange', [x - 0.5, 4, x + 0.5, 4.5], cull=side)
+            faces['down'] = D.face('#flange', [x - 0.5, 3, x + 0.5, 3.5], cull=side)
+            els.append(turned((x - 0.5, y0, -1), (x + 0.5, y1, -0.5), faces, side))
     return els
 
 
 def column_section():
     """
     As steel's section: a full cube with a flange lip half a pixel proud round its top and bottom on each outer side,
-    a pixel deep where steel's is a pixel and a half, and a flanged nozzle drawn on the north side, turned by the
-    blockstate to each side a pipe joins. Each frost level has its own section and nozzle; the frozen section has
-    icicles too.
+    a pixel deep where steel's is a pixel and a half, bolt heads round each flange, and a flanged nozzle drawn on the
+    north side, turned by the blockstate to each side a pipe joins. Each frost level has its own section and nozzle;
+    the frozen section has icicles too. As steel's, each has a second model for a section standing on another, its
+    bottom flange left off (Taran, 0.36.1).
     """
     for prefix, _ in FROSTS:
         tex = {'side': f'mcremix:block/{prefix}aluminium_column_section',
@@ -396,16 +450,16 @@ def column_section():
         cube = D.el((0, 0, 0), (16, 16, 16), {
             d: D.face('#top' if d in ('up', 'down') else '#side', [0, 0, 16, 16], cull=d)
             for d in ('north', 'east', 'south', 'west', 'up', 'down')})
-        elements = [cube]
         # aluminium's flange is slimmer than steel's: a pixel round its top and bottom (Taran, 0.36.0)
-        for side in SIDES:
-            elements.append(C.lip(side, 0, 1))
-            elements.append(C.lip(side, 15, 16))
+        top = [C.lip(side, 15, 16) for side in SIDES] + bolts(15, 16)
+        foot = [C.lip(side, 0, 1) for side in SIDES] + bolts(0, 1)
         if prefix == 'frozen_':
             tex['ice'] = 'mcremix:block/aluminium_column_icicle'
-            elements += icicles()
+            top += icicles()
         model(f'{prefix}aluminium_column_section', {'parent': 'minecraft:block/block', 'textures': tex,
-                                                    'elements': elements})
+                                                    'elements': [cube] + foot + top})
+        model(f'{prefix}aluminium_column_section_stacked', {'parent': 'minecraft:block/block', 'textures': tex,
+                                                            'elements': [cube] + top})
         model(f'{prefix}aluminium_column_nozzle', {
             'textures': {'nozzle': f'mcremix:block/{prefix}aluminium_column_nozzle',
                          'flange': f'mcremix:block/{prefix}aluminium_column_flange',
@@ -417,7 +471,10 @@ def column_section():
     parts = []
     for prefix, level in FROSTS:
         when = {'frost': str(level)}
-        parts.append({'when': when, 'apply': {'model': f'mcremix:block/{prefix}aluminium_column_section'}})
+        parts.append({'when': {**when, 'down': 'false'},
+                      'apply': {'model': f'mcremix:block/{prefix}aluminium_column_section'}})
+        parts.append({'when': {**when, 'down': 'true'},
+                      'apply': {'model': f'mcremix:block/{prefix}aluminium_column_section_stacked'}})
         for side, y in TURN.items():
             apply = {'model': f'mcremix:block/{prefix}aluminium_column_nozzle'}
             if y:

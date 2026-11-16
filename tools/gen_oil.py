@@ -16,10 +16,8 @@ import gen_decor as D
 
 G = None  # gen_assets, set by run()
 
-# the engine is bare dark steel, as the mod's steel is (Taran, 0.36.0: no green), with brass for its tank and fittings
+# the engine is bare dark steel all over, as the mod's steel is (Taran, 0.36.0: no green; 0.36.1: no yellow brass)
 STEEL = D.STEEL
-BRASS = [(0x5C, 0x3E, 0x14), (0x7E, 0x58, 0x1E), (0xA0, 0x74, 0x2A), (0xC0, 0x90, 0x3A), (0xDA, 0xAC, 0x50),
-         (0xEC, 0xC8, 0x70), (0xF8, 0xE4, 0x9C)]
 
 
 def run(gen):
@@ -63,20 +61,18 @@ def body(seed):
 
 def base(seed):
     """
-    The base plate's underside: bare dark steel, and in its middle a brass ring round a dark bore, where a pipe from
-    below feeds the engine.
+    The base plate's underside: bare dark steel, and in its middle a raised steel ring round a dark bore, where a pipe
+    from below feeds the engine.
     """
     img = body(seed)
     px = img.load()
     for y in range(16):
         for x in range(16):
             r = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
-            if r < 1:
+            if r < 2.2:
                 px[x, y] = D.shade(STEEL, 0)
-            elif r < 2.2:
-                px[x, y] = D.shade(BRASS, 1)
             elif r < 3.6:
-                px[x, y] = D.shade(BRASS, 5 if x + y < 15 else 3)
+                px[x, y] = D.shade(STEEL, 6 if x + y < 15 else 2)
     return img
 
 
@@ -95,7 +91,7 @@ def cylinder(seed):
 
 
 def flywheel(seed):
-    """The flywheel's steel: dark, the rim's machined face bright where it turns."""
+    """The flywheel's steel: dark, the rim's machined tread bright where it turns, along the texture's top two rows."""
     img = mottled(seed, STEEL, base=2, speckle=0.15)
     px = img.load()
     for x in range(16):
@@ -119,44 +115,47 @@ def stack(seed):
 
 
 def tank(seed):
-    """The fuel tank: brass, a seam round it and a filler cap."""
-    img = mottled(seed, BRASS)
+    """The fuel tank: dark steel, a lit seam round it where its two halves are welded."""
+    img = mottled(seed, STEEL, base=4, speckle=0.15)
     px = img.load()
     for x in range(16):
-        px[x, 7] = D.shade(BRASS, 1)
-        px[x, 8] = D.shade(BRASS, 5)
+        px[x, 7] = D.shade(STEEL, 1)
+        px[x, 8] = D.shade(STEEL, 6)
     return img
 
 
 def fitting(seed):
-    """The brass fittings, the fuel inlet's neck and the line up to the tank: brass bar, lit along its top."""
-    img = mottled(seed, BRASS, base=4, speckle=0.1)
+    """
+    The fittings, the fuel inlet's neck and the line up to the tank: steel bar, lighter than the body and lit along
+    its top, so the fuel's way in stands out by its shape and its light, not its colour.
+    """
+    img = mottled(seed, STEEL, base=5, speckle=0.1)
     px = img.load()
     for x in range(16):
-        px[x, 0] = px[x, 5] = px[x, 10] = D.shade(BRASS, 6)
+        px[x, 0] = px[x, 5] = px[x, 10] = D.shade(STEEL, 6)
     return img
 
 
 def inlet(seed):
     """
-    The fuel inlet seen end on, in its middle six pixels: a brass flange lit along its top and left edges and shaded
+    The fuel inlet seen end on, in its middle six pixels: a steel flange lit along its top and left edges and shaded
     along its bottom and right, a bolt at each corner, and in its middle a dark ring round a black bore, where a pipe
     joins the engine's back.
     """
-    img = mottled(seed, BRASS, base=4, speckle=0.1)
+    img = mottled(seed, STEEL, base=5, speckle=0.1)
     px = img.load()
     for y in range(5, 11):
         for x in range(5, 11):
             if x == 5 or y == 5:
-                px[x, y] = D.shade(BRASS, 6)
+                px[x, y] = D.shade(STEEL, 6)
             elif x == 10 or y == 10:
-                px[x, y] = D.shade(BRASS, 2)
+                px[x, y] = D.shade(STEEL, 2)
             elif x in (7, 8) and y in (7, 8):
                 px[x, y] = D.shade(STEEL, 0)
             elif x in (6, 9) and y in (6, 9):
-                px[x, y] = D.shade(BRASS, 6)
+                px[x, y] = D.shade(STEEL, 6)
             else:
-                px[x, y] = D.shade(BRASS, 1)
+                px[x, y] = D.shade(STEEL, 1)
     return img
 
 
@@ -207,44 +206,66 @@ def box(tex, frm, to, skip=()):
     return D.el(frm, to, D.box_faces(tex, frm, to, skip=skip))
 
 
-def flywheel_elements(axis='y'):
+def wheel_faces(frm, to, axis):
     """
-    The shaft and the spoked flywheel on it, modelled upright with the flywheel at the top (axis 'y', the partial the
-    engine turns), or lying along x with the flywheel at its east end (axis 'x', for the item). The rim is eight bars,
-    four square to the axes and four turned 45 degrees.
+    A flywheel part's faces. The wheel reaches past the block, where a face's place on the texture, taken from where
+    it lies, would run off the texture: each part takes the texture as if it stood in the block's middle across the
+    shaft, its place along the shaft kept, so the bright rows of its tread stay along the rim's outer edge.
     """
-    els = []
-    a, t, y0, y1 = 6.5, 1.5, 13.25, 15.25  # the rim's outer apothem, its thickness and its span along the shaft
-    half = a * math.tan(math.pi / 8)
+    shift = [8 - (f + t) / 2 for f, t in zip(frm, to)]
+    shift['xyz'.index(axis)] = 0
+    return D.box_faces('#flywheel', [f + d for f, d in zip(frm, shift)], [t + d for t, d in zip(to, shift)])
+
+
+def flywheel_elements(axis='y', spokes=8):
+    """
+    The shaft and the one heavy flywheel on it, modelled upright with the flywheel at the top (axis 'y', the partial
+    the engine turns), or lying along x with the flywheel at its east end (axis 'x', for the item). The wheel is 24
+    pixels across, half again the block (Taran, 0.36.1: one flywheel bigger than the block), so it reaches a quarter
+    block past the engine on every side but the shaft's; its rim is sixteen bars, each turned to its place by
+    Minecraft's 22.5 degree steps, and every other one a little thinner along the shaft, so where two overlap their
+    faces never meet in one plane and flicker. Spokes, four square ones and with eight four more turned 45 degrees,
+    and a hub hold it to the shaft.
+    """
+    a, t = 11.75, 2.25  # the rim's outer apothem and its depth
+    length = 2 * a * math.tan(math.pi / 16) + 0.05  # a side of the rim's outer sixteen-gon, and a hair to close it
+    reach, w = a - t + 0.25, 0.75 if spokes == 8 else 1  # how far a spoke reaches, into the rim, and its half width
+    along_x = ((8 - reach, 13.5, 8 - w), (8 + reach, 15.25, 8 + w))
+    along_z = ((8 - w, 13.5, 8 - reach), (8 + w, 15.25, 8 + reach))
     parts = [('#shaft', (6, 0, 6), (10, 16, 10), None),
-             ('#flywheel', (5.5, 12.5, 5.5), (10.5, 16, 10.5), None),
-             ('#flywheel', (7.25, 13.75, 2.5), (8.75, 14.75, 13.5), None),
-             ('#flywheel', (2.5, 13.75, 7.25), (13.5, 14.75, 8.75), None),
-             ('#flywheel', (8 - half, y0, 8 - a), (8 + half, y1, 8 - a + t), None),
-             ('#flywheel', (8 - half, y0, 8 + a - t), (8 + half, y1, 8 + a), None),
-             ('#flywheel', (8 - a, y0, 8 - half), (8 - a + t, y1, 8 + half), None),
-             ('#flywheel', (8 + a - t, y0, 8 - half), (8 + a, y1, 8 + half), None)]
-    d = (a - t / 2) / math.sqrt(2)
-    for sx, sz in ((1, 1), (-1, -1), (1, -1), (-1, 1)):
-        cx, cz = 8 + sx * d, 8 + sz * d
-        # a bar long in x turned +45 about y lies along (1, -1): the tangent where the corner is (+,+) or (-,-)
-        if sx == sz:
-            frm, to = (cx - half, y0, cz - t / 2), (cx + half, y1, cz + t / 2)
+             ('#flywheel', (5, 13, 5), (11, 15.75, 11), None),
+             ('#flywheel', *along_x, None), ('#flywheel', *along_z, None)]
+    if spokes == 8:
+        parts += [('#flywheel', *along_x, ((8, 14.375, 8), turn)) for turn in (45, -45)]
+    r = a - t / 2
+    for k in range(16):
+        theta = k * 22.5
+        y0, y1 = (12.75, 15.75) if k % 2 == 0 else (12.85, 15.65)
+        cx, cz = 8 + r * math.cos(math.radians(theta)), 8 + r * math.sin(math.radians(theta))
+        # a box long in x turned by phi about y lies along (cos phi, -sin phi): along the rim here when phi is
+        # 90 - theta, or a box long in z turned by phi - 90
+        phi = (90 - theta + 90) % 180 - 90
+        if abs(phi) <= 45:
+            frm, to = (cx - length / 2, y0, cz - t / 2), (cx + length / 2, y1, cz + t / 2)
         else:
-            frm, to = (cx - t / 2, y0, cz - half), (cx + t / 2, y1, cz + half)
-        parts.append(('#flywheel', frm, to, (cx, (y0 + y1) / 2, cz)))
+            phi = (phi + 180) % 180 - 90
+            frm, to = (cx - t / 2, y0, cz - length / 2), (cx + t / 2, y1, cz + length / 2)
+        parts.append(('#flywheel', frm, to, ((cx, (y0 + y1) / 2, cz), phi) if phi else None))
+    els = []
     for tex, frm, to, turn in parts:
         if axis == 'x':
             # lying along x: y and x trade places, and a turn about y becomes one about x the other way
             frm, to = (frm[1], frm[0], frm[2]), (to[1], to[0], to[2])
-            turn = turn and (turn[1], turn[0], turn[2])
-        e = box(tex, frm, to)
+            turn = turn and ((turn[0][1], turn[0][0], turn[0][2]), -turn[1])
         if tex == '#shaft':
+            e = box(tex, frm, to)
             ends = ('up', 'down') if axis == 'y' else ('east', 'west')
             for f in ends:
                 e['faces'][f] = D.face('#shaft_end', [6, 6, 10, 10])
+        else:
+            e = D.el(frm, to, wheel_faces(frm, to, axis))
         if turn:
-            e['rotation'] = {'origin': [round(v, 3) for v in turn], 'axis': axis, 'angle': 45 if axis == 'y' else -45}
+            e['rotation'] = {'origin': [round(v, 3) for v in turn[0]], 'axis': axis, 'angle': turn[1]}
         e['from'] = [round(v, 3) for v in e['from']]
         e['to'] = [round(v, 3) for v in e['to']]
         els.append(e)
@@ -253,36 +274,42 @@ def flywheel_elements(axis='y'):
 
 def engine_elements():
     """
-    The engine's body facing north: a base plate, the crankcase the shaft runs through, the finned cylinder pointing
-    out of its front with its head, the exhaust stack rising off the head, the brass fuel tank on the crankcase with
-    its filler cap, and a bearing housing each side where the shaft comes out. On its back, where fuel comes in, a
-    brass inlet flange flush with the block's face, a pipe's rim covering it, on a neck out of the crankcase, and a
-    brass line from it up the back and into the tank (Taran, 0.36.0: show where the pipe goes); under it, a brass ring
-    round the bore a pipe from below feeds. The shaft and flywheel are the partial.
+    The engine's body facing north, filling the block but for the flywheel's side: a base plate bolted down at its
+    corners, a broad crankcase the shaft runs through, a bearing housing each side where the shaft comes out, the big
+    finned cylinder pointing out of its front on the shaft's line with its head, the exhaust stack rising off the
+    head, and the fuel tank on the crankcase with its filler cap, all dark steel (Taran, 0.36.1: no yellow). On its
+    back, where fuel comes in, a steel inlet flange in the face's middle, flush with it, where a pipe's rim covers it,
+    on a neck out of the crankcase, and a steel line from it up the back and into the tank (Taran, 0.36.0: show where
+    the pipe goes); under it, a steel ring round the bore a pipe from below feeds. The shaft and flywheel are the
+    partial.
     """
-    plate = box('#body', (3.5, 0, 1), (12.5, 1.5, 15))
-    plate['faces']['down'] = D.face('#base', [3.5, 1, 12.5, 15])
-    flange = D.el((5, 4, 15), (11, 10, 16), {
+    plate = box('#body', (1.5, 0, 1), (12.5, 2, 15))
+    # the base's ring under the block's middle, where a pipe below meets it
+    plate['faces']['down'] = D.face('#base', [1, 0.5, 12, 14.5])
+    flange = D.el((5, 5, 15), (11, 11, 16), {
         'south': D.face('#inlet', [5, 5, 11, 11], cull='south'), 'north': D.face('#fitting', [5, 5, 11, 11]),
         **{d: D.face('#fitting', [5, 5, 11, 6]) for d in ('east', 'west', 'up', 'down')}})
+    bolts = [box('#fitting', (x, 2, z), (x + 1, 2.75, z + 1), skip=('down',))
+             for x in (2.25, 10.75) for z in (1.75, 14)]
     return [
         plate,
-        box('#body', (4, 1.5, 5), (12, 12, 14)),
-        box('#body', (3, 5, 5), (4, 11, 11)),
-        box('#body', (12, 5, 5), (13, 11, 11)),
-        box('#cylinder', (5, 5, 0.5), (11, 11, 5)),
-        box('#cylinder', (4.5, 4.5, 1), (11.5, 11.5, 1.75)),
-        box('#cylinder', (4.5, 4.5, 2.5), (11.5, 11.5, 3.25)),
-        box('#cylinder', (4.5, 4.5, 4), (11.5, 11.5, 4.75)),
-        box('#body', (5.5, 5.5, 0), (10.5, 10.5, 0.5)),
-        box('#stack', (7, 11, 1.5), (9, 15.5, 3.5)),
-        box('#stack', (6.5, 15.5, 1), (9.5, 16, 4)),
-        box('#tank', (5, 12, 8), (11, 14.5, 13)),
-        box('#fitting', (7.5, 14.5, 9.5), (8.5, 15, 10.5)),
-        box('#fitting', (6, 5, 14), (10, 9, 15), skip=('north', 'south')),
+        *bolts,
+        box('#body', (2, 2, 4.5), (12, 13, 14)),
+        box('#body', (1, 4.5, 4.5), (2, 11.5, 11.5)),
+        box('#body', (12, 4.5, 4.5), (13, 11.5, 11.5)),
+        box('#cylinder', (3.5, 4.5, 0.5), (10.5, 11.5, 4.5)),
+        box('#cylinder', (2.5, 3.5, 1), (11.5, 12.5, 1.75)),
+        box('#cylinder', (2.5, 3.5, 2.25), (11.5, 12.5, 3)),
+        box('#cylinder', (2.5, 3.5, 3.5), (11.5, 12.5, 4.25)),
+        box('#body', (4, 5, 0), (10, 11, 0.5)),
+        box('#stack', (6, 11.5, 1.25), (8, 15, 3.25)),
+        box('#stack', (5.5, 15, 0.75), (8.5, 15.75, 3.75)),
+        box('#tank', (3, 13, 6), (11, 15.5, 12.5)),
+        box('#fitting', (6.5, 15.5, 8.5), (7.5, 16, 9.5)),
+        box('#fitting', (6, 6, 14), (10, 10, 15), skip=('north', 'south')),
         flange,
-        box('#fitting', (7.5, 9, 14), (8.5, 13.5, 15), skip=('north', 'down')),
-        box('#fitting', (7.5, 12.5, 13), (8.5, 13.5, 14), skip=('north', 'south')),
+        box('#fitting', (7.5, 10, 14), (8.5, 14, 15), skip=('north', 'down')),
+        box('#fitting', (7.5, 13, 12.5), (8.5, 14, 14), skip=('north', 'south', 'down')),
     ]
 
 
@@ -299,10 +326,12 @@ def diesel_engine():
     D.model('diesel_engine', {'parent': 'minecraft:block/block', 'textures': ENGINE_TEXTURES,
                               'elements': engine_elements()})
     D.model('diesel_engine/flywheel', {'textures': FLYWHEEL_TEXTURES, 'elements': flywheel_elements('y')})
-    # the item shows the flywheel on its shaft, lying across the engine
+    # the item shows the flywheel on its shaft, lying across the engine; smaller than a block's, as the wheel is bigger
     D.item_model('diesel_engine', {'parent': 'minecraft:block/block', 'textures': {**ENGINE_TEXTURES,
                                                                                    **FLYWHEEL_TEXTURES},
-                                   'elements': engine_elements() + flywheel_elements('x')})
+                                   'elements': engine_elements() + flywheel_elements('x'),
+                                   'display': {'gui': {'rotation': [30, 225, 0], 'scale': [0.5, 0.5, 0.5]},
+                                               'fixed': {'rotation': [0, 0, 0], 'scale': [0.4, 0.4, 0.4]}}})
     turn = {'north': 0, 'east': 90, 'south': 180, 'west': 270}
     variants = {}
     for facing, y in turn.items():

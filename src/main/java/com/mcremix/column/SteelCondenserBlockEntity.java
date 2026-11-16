@@ -36,11 +36,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 /**
- * A steel condenser (the distillation design, stage 2): a shell of copper tubes lying on its side, its two ends the
- * process side and its top, bottom and other two sides the water jacket, which takes water, cold water or coolant and
- * gives back warm water or hot coolant, every {@link CoilCondenserBlockEntity#VAPOUR_PER_MB} mB of what it condenses or
- * cools warming a mB, as the glass coil condenser does. It condenses or cools {@link #RATE} mB a tick with water, twice
- * that with cold water and three times with coolant. One block, two jobs:
+ * A steel condenser (the distillation design, stage 2): a shell of copper tubes, upright against a column or lying on
+ * its side anywhere else ({@link SteelCondenserBlock}), its two ends the process side and its other four sides the
+ * water jacket, which takes water, cold water or coolant and gives back warm water or hot coolant, every
+ * {@link CoilCondenserBlockEntity#VAPOUR_PER_MB} mB of what it condenses or cools warming a mB, as the glass coil
+ * condenser does. It condenses or cools {@link #RATE} mB a tick with water, twice that with cold water and three times
+ * with coolant. One block, two jobs:
  * <ul>
  * <li>Beside a steel column's bottom section it is that column's condenser ({@link #column}): the column's top cut comes
  * over the vapour line into it and out of either end, cold. It holds {@link #CAPACITY} mB of it; full, it holds the

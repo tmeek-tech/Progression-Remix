@@ -3630,3 +3630,66 @@ craft a steel flywheel; it rusts as steel does, only to its first stage; honeyco
 given no rating; and a creative motor at 32 RPM turns it at 32. `paraffinWaxAndPetroleumCokeStandInForHoneycombAndCoke`
 now crafts the diesel engine from a steel flywheel. The rest is art and a client-side texture rule, checked in a dev
 client.
+
+## 46. A bigger engine, stacked columns, detailed aluminium and an upright condenser (0.36.1)
+
+Taran's asks of 2026-11-16, after 0.36.0: the diesel engine still looked too small and weak, perhaps with a bigger
+flywheel, and its yellow had to go; the aluminium column needed more detail; a steel or aluminium column section placed
+on another should lose its bottom flange, so a stack looks joined up the column without losing the flange at each
+section; the steel condenser should stand upright rather than on its side; and the part under its flange was
+see-through. Three cards went to Taran that evening: one flywheel bigger than the block (it reaches into the ground
+unless the engine stands a block up), dark steel all over where the brass was, and welds and bolted flanges on
+aluminium. On the condenser Taran asked for it to stand upright only when placed against a column, with no gap between
+the two.
+
+**The diesel engine** (`tools/gen_oil.py`, `oil/DieselEngineBlockEntity`). A chunkier body that fills the block but for
+its flywheel's side: a crankcase 10 pixels wide and 11 high, a bearing housing each side where the shaft comes out, a
+bigger cylinder with three fins on the shaft's line and its head, the stack on the cylinder, the tank on the crankcase,
+and a base plate bolted down at its corners. One heavy flywheel, 24 pixels across, turns on its right: a rim of sixteen
+bars, each set at its angle by Minecraft's 22.5 degree turns and every other one a little thinner along the shaft, so
+that where two overlap their faces never meet in one plane and flicker; eight spokes; and a hub. The wheel reaches a
+quarter block past the engine on every side but the shaft's, so the engine's render box is that much bigger, and its
+parts take the texture as if they stood in the block's middle, since a face's place on the texture, taken from where
+it lies, would run off the texture past the block. The tank, the fittings, the inlet flange, the line up to the tank and
+the ring under the base are dark steel, not brass; the inlet is now in the middle of the back face, where a pipe meets
+it, and the exhaust smoke comes out of the stack where it now stands. The item is drawn smaller in the inventory and in
+item frames to fit its wheel.
+
+**Stacked sections** (`column/ColumnSectionBlock`, `ColumnSectionBlockEntity`, `tools/gen_column.py`,
+`tools/gen_air_art.py`, `tools/gen_air.py`). A steel or aluminium column section on another of its own kind leaves its
+bottom flange off (`down` in its block state, set as it is placed and kept as the block under it changes); on anything
+else it keeps it, formed or not. A section from an older world checks the block under it once after it loads. The
+Ponder structures carry the new state.
+
+**Aluminium** (`tools/gen_air_art.py`). Each section's side has a girth weld round its middle and seams up its plates,
+and each flange a ring of bolts. A frozen column's icicles now hang from the flanges, between the bolts, so they stay
+inside the block and show at every joint.
+
+**The steel condenser** (`column/SteelCondenserBlock`, `SteelCondenserBlockEntity`, `tools/gen_column.py`,
+`ponder/ColumnScenes`). Its axis can now be vertical, and its block state says which side of it a steel column stands
+on (`against`). Placed beside a steel column section it stands upright, flush against the first one of north, east,
+south and west, with no water nozzle on that side; placed anywhere else it lies along the face it is placed against,
+or along the way its placer faces when placed on top, as before. A wrench stands it up or lays it down, and an upright
+one keeps flush with a column beside it as blocks round it change. Its ends are its top and bottom when upright, so the
+column's vapour line comes down into its top and the cut leaves from its bottom, and water goes in and out of its other
+sides. Each head's inner face, round the shell, was missing, which is what showed through under its flanges, and is
+now drawn. The column scenes stand it upright against the column, its product pipe under the floor, and the tooltip
+says how it stands. Condensers in an older world keep lying as they were until a wrench stands them up.
+
+**Review.** One review of the change found nothing that needed fixing. Left as known gaps: the flywheel reaches four
+pixels into whatever block is under the engine, as Taran chose, so it shows whole only with the engine on a post, a
+wall or a slab, and in the engine's Ponder scene it dips into the floor; an upright condenser sits flush against the
+first steel column section north, east, south or west of it, which with two columns beside it may not be the column it
+serves; condensers placed before 0.36.1 keep lying until a wrench stands them up; the vapour line still rises from the
+middle of the block, a pixel and a half from the middle of a flush condenser's top; and frosted and frozen aluminium,
+with its new welds, bolts and icicles, was seen only in the generator's previews.
+
+**Tests.** In `ColumnTests`: `aCondenserStandsUprightAgainstAColumnAndLiesElsewhere` (placed against a column it stands
+upright against it; placed alone on top of something it lies the way its placer faces, and against a wall along that
+face; upright, its top and bottom are its ends and its sides its jacket, which takes water through a side and not its
+top; a wrench on a side lays it down and on the side again stands it up; with the column gone it stands on its own) and
+`aSectionOnItsKindHidesItsBottomFlange` (steel on steel hides it, the bottom one shows it, aluminium on steel shows it,
+and taking away the section under one shows it again). `aColumnSplitsWashIntoEthanolAndWarmWater` now stands its
+condenser upright and draws the ethanol from its bottom. 443 of 443 GameTests pass plain and 449 of 449 with
+`-Pcompanions`. In a dev client the engine, the columns and the condensers draw as meant; an older world's sections
+took up their stacked look as they loaded.

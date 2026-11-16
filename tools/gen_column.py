@@ -214,19 +214,20 @@ ROUND = (1, 3, 5, 6, 6, 5, 4, 4, 3, 3, 2, 1)
 
 def shell(seed, pal, rust):
     """
-    The condenser's shell, its axis running across the texture: a square shell shaded round across its twelve pixels
-    (rows 2 to 13), with a girth seam a quarter of the way in from each end where one ring of plate meets the next.
+    The condenser's shell, its axis running up the texture as the condenser stands upright: a square shell shaded
+    round across its twelve pixels (columns 2 to 13), with a girth seam a quarter of the way in from each end where one
+    ring of plate meets the next.
     """
     rng = random.Random(seed)
     img = Image.new('RGBA', (16, 16))
     px = img.load()
-    for y in range(16):
-        i = ROUND[min(11, max(0, y - 2))]
-        for x in range(16):
+    for x in range(16):
+        i = ROUND[min(11, max(0, x - 2))]
+        for y in range(16):
             px[x, y] = D.shade(pal, i + (rng.random() < 0.05) - (rng.random() < 0.05))
-        for x in (4, 11):
+        for y in (4, 11):
             px[x, y] = D.shade(pal, i - 2)
-            px[x + 1, y] = D.shade(pal, i + 1)
+            px[x, y + 1] = D.shade(pal, i + 1)
     if rust:
         D.rusty(img, random.Random(seed + 1), rust)
     return img
@@ -327,6 +328,11 @@ def lip(side, y0, y1):
 
 
 def column_section():
+    """
+    Each look has two models: the whole section, a lip round its top and bottom, and the section standing on another,
+    whose bottom lip is left off so a stack shows one flange at each joint (Taran, 0.36.1); its blockstate picks one by
+    its `down` property.
+    """
     for prefix, _, _ in LOOKS:
         tex = {'side': f'mcremix:block/{prefix}steel_column_section',
                'top': f'mcremix:block/{prefix}steel_column_section_top',
@@ -335,12 +341,12 @@ def column_section():
         cube = D.el((0, 0, 0), (16, 16, 16), {
             d: D.face('#top' if d in ('up', 'down') else '#side', [0, 0, 16, 16], cull=d)
             for d in ('north', 'east', 'south', 'west', 'up', 'down')})
-        elements = [cube]
-        for side in ('north', 'east', 'south', 'west'):
-            elements.append(lip(side, 0, 1.5))
-            elements.append(lip(side, 14.5, 16))
+        top = [lip(side, 14.5, 16) for side in ('north', 'east', 'south', 'west')]
+        foot = [lip(side, 0, 1.5) for side in ('north', 'east', 'south', 'west')]
         D.model(f'{prefix}steel_column_section', {'parent': 'minecraft:block/block', 'textures': tex,
-                                                 'elements': elements})
+                                                 'elements': [cube] + foot + top})
+        D.model(f'{prefix}steel_column_section_stacked', {'parent': 'minecraft:block/block', 'textures': tex,
+                                                         'elements': [cube] + top})
         # a nozzle on the north side, turned to the others by the blockstate: wider and deeper than the rim a Create
         # pipe draws where it joins (3 to 13 across, 2 deep), so its flange shows round it
         D.model(f'{prefix}steel_column_nozzle', {
@@ -356,7 +362,10 @@ def column_section():
     for stage in STAGES:
         prefix = stage[0]
         when = D.patina_when(stage)
-        parts.append({'when': when, 'apply': {'model': f'mcremix:block/{prefix}steel_column_section'}})
+        parts.append({'when': {**when, 'down': 'false'},
+                      'apply': {'model': f'mcremix:block/{prefix}steel_column_section'}})
+        parts.append({'when': {**when, 'down': 'true'},
+                      'apply': {'model': f'mcremix:block/{prefix}steel_column_section_stacked'}})
         for side, y in turn.items():
             apply = {'model': f'mcremix:block/{prefix}steel_column_nozzle'}
             if y:
@@ -366,11 +375,46 @@ def column_section():
     D.item_model('steel_column_section', {'parent': 'mcremix:block/steel_column_section'})
 
 
+def condenser_elements(flush):
+    """
+    Standing upright: a flanged head top and bottom, the shell between them one square box shaded round (Taran, 0.36.0:
+    no stepped edges), and a short water nozzle out of each side, from the shell to the block's face. Each head's inner
+    face is drawn, where it stands out round the shell (Taran, 0.36.1: it was see-through). Flush, it sits against a
+    column on its north side (Taran, 0.36.1: no gap): shell and heads pushed against that face, and no nozzle there.
+    """
+    z0 = 0 if flush else 2
+    hz0, hz1 = (0, 13) if flush else (1, 15)
+    els = []
+    for y0, y1, end, inner in ((0, 2, 'down', 'up'), (14, 16, 'up', 'down')):
+        faces = {end: D.face('#head', [1, hz0 + (1 if flush else 0), 15, hz1 + (1 if flush else 0)], cull=end),
+                 inner: D.face('#flange', [1, hz0, 15, hz1])}
+        for d in ('north', 'south', 'east', 'west'):
+            if flush and d == 'north':
+                continue
+            faces[d] = D.face('#flange', [1, 4, 15, 6] if d in ('north', 'south') else [hz0, 4, hz1, 6])
+        els.append(D.el((1, y0, hz0), (15, y1, hz1), faces))
+    els.append(D.el((2, 2, z0), (14, 14, z0 + 12), {d: D.face('#shell', [2, 2, 14, 14])
+                                                    for d in ('north', 'south', 'east', 'west')
+                                                    if not (flush and d == 'north')}))
+    mid = z0 + 6
+    nozzles = [((14, 6, mid - 2), (16, 10, mid + 2), 'east'), ((0, 6, mid - 2), (2, 10, mid + 2), 'west'),
+               ((6, 6, z0 + 12), (10, 10, 16), 'south')]
+    if not flush:
+        nozzles.append(((6, 6, 0), (10, 10, 2), 'north'))
+    back = {'east': 'west', 'west': 'east', 'north': 'south', 'south': 'north'}
+    for frm, to, out in nozzles:
+        faces = {out: D.face('#neck', [0, 0, 16, 16])}
+        for d in ('north', 'south', 'east', 'west', 'up', 'down'):
+            if d not in (out, back[out]):
+                faces[d] = D.face('#flange', [6, 4, 10, 6])
+        els.append(D.el(frm, to, faces))
+    return els
+
+
 def condenser():
     """
-    Lying along z, turned by its blockstate to lie along x: a flanged head at each end, the shell between them one
-    square box shaded round (Taran, 0.36.0: no stepped edges), and a short water nozzle out of its top, bottom and two
-    sides, from the shell to the block's face.
+    Two models a look: standing upright on its own, and upright flush against a column on its north side, turned by
+    the blockstate to face the column. Lying along z or x, it is the upright one tipped over.
     """
     for prefix, _, _ in LOOKS:
         tex = {'shell': f'mcremix:block/{prefix}steel_condenser_shell',
@@ -378,33 +422,27 @@ def condenser():
                'flange': f'mcremix:block/{prefix}steel_column_flange',
                'neck': f'mcremix:block/{prefix}steel_vapour_line_end',
                'particle': f'mcremix:block/{prefix}steel_condenser_shell'}
-        elements = []
-        for z0, z1, end in ((0, 2, 'north'), (14, 16, 'south')):
-            faces = {end: D.face('#head', [1, 1, 15, 15], cull=end)}
-            for d in ('east', 'west'):
-                faces[d] = D.face('#flange', [z0, 1, z1, 15], rotation=90)
-            for d in ('up', 'down'):
-                faces[d] = D.face('#flange', [1, z0, 15, z1])
-            elements.append(D.el((1, 1, z0), (15, 15, z1), faces))
-        faces = {d: D.face('#shell', [2, 2, 14, 14]) for d in ('east', 'west')}
-        faces.update({d: D.face('#shell', [2, 2, 14, 14], rotation=90) for d in ('up', 'down')})
-        elements.append(D.el((2, 2, 2), (14, 14, 14), faces))
-        for frm, to, out in (((6, 14, 6), (10, 16, 10), 'up'), ((6, 0, 6), (10, 2, 10), 'down'),
-                             ((14, 6, 6), (16, 10, 10), 'east'), ((0, 6, 6), (2, 10, 10), 'west')):
-            faces = {out: D.face('#neck', [0, 0, 16, 16])}
-            for d in ('north', 'south', 'east', 'west', 'up', 'down'):
-                if d != out and d != {'up': 'down', 'down': 'up', 'east': 'west', 'west': 'east'}[out]:
-                    faces[d] = D.face('#flange', [6, 4, 10, 6])
-            elements.append(D.el(frm, to, faces))
         D.model(f'{prefix}steel_condenser', {'parent': 'minecraft:block/block', 'textures': tex,
-                                            'elements': elements})
+                                            'elements': condenser_elements(False)})
+        D.model(f'{prefix}steel_condenser_flush', {'parent': 'minecraft:block/block', 'textures': tex,
+                                                  'elements': condenser_elements(True)})
+    turn = {'north': 0, 'east': 90, 'south': 180, 'west': 270}
     variants = {}
     for patina in PATINAS:
-        for axis, y in (('z', 0), ('x', 90)):
-            v = {'model': f'mcremix:block/{look_of(patina)}steel_condenser'}
-            if y:
-                v['y'] = y
-            variants[f'axis={axis},patina={patina}'] = v
+        look = look_of(patina)
+        for axis in ('x', 'y', 'z'):
+            for against in ('none', 'north', 'east', 'south', 'west'):
+                if axis == 'y' and against != 'none':
+                    v = {'model': f'mcremix:block/{look}steel_condenser_flush'}
+                    if turn[against]:
+                        v['y'] = turn[against]
+                else:
+                    v = {'model': f'mcremix:block/{look}steel_condenser'}
+                    if axis != 'y':
+                        v['x'] = 90
+                    if axis == 'x':
+                        v['y'] = 90
+                variants[f'against={against},axis={axis},patina={patina}'] = v
     D.states('steel_condenser', {'variants': variants})
     D.item_model('steel_condenser', {'parent': 'mcremix:block/steel_condenser'})
 
@@ -480,9 +518,11 @@ def block_pos(pos):
 def section(origin, width, height, pos, nozzles=(), condenser=None):
     """
     A column section at pos, already joined as the column would join it: the controller (its bottom north-west block)
-    with the column's size, the rest pointing to it. Ponder's world forms no columns of its own.
+    with the column's size, the rest pointing to it, and each above the bottom row standing on the one under it.
+    Ponder's world forms no columns of its own.
     """
-    props = {'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false', 'patina': 'none'}
+    props = {'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false', 'patina': 'none',
+             'down': 'true' if pos[1] > origin[1] else 'false'}
     for side in nozzles:
         props[side] = 'true'
     if pos == origin:
@@ -515,25 +555,29 @@ def floor(b, size, heater_at, heater):
     b[heater_at] = heater
 
 
+# a column's condenser in Ponder, standing upright against the column on its west (Taran, 0.36.1)
+UPRIGHT_AGAINST_WEST = ('mcremix:steel_condenser', {'axis': 'y', 'against': 'west', 'patina': 'none'})
+
+
 def ponder_schematics():
     """
     steel_column/intro: a 7x7 plate with a kindled Blaze Burner sunk into its middle, a column of four sections on it
-    for coal tar, its condenser to the east lying north-south, the feed pipe on the bottom section's north side, a pipe
-    on the west side of each of the three lower sections, the top cut's pipe off the condenser's south end and water
-    into its east side. steel_column/reflux: a campfire sunk in the plate, a column three high for wood spirit, feed in
-    the north side of its bottom, methanol drawn west from its middle, the top cut out of the condenser's south end, and
-    from its north end a pump up and back into the top section's north side. steel_condenser/inline: a 5x5 plate, a
+    for coal tar, its condenser to the east standing upright against it (0.36.1), the feed pipe on the bottom
+    section's north side, a pipe on the west side of each of the three lower sections, and water into the condenser's
+    east side; the scene lays the top cut's pipe out of its bottom into the floor. steel_column/reflux: a campfire sunk
+    in the plate, a column three high for wood spirit, feed in the north side of its bottom, methanol drawn west from its
+    middle, the condenser upright against it, water into its east side, and from the floor under it a pump up and back
+    into the top section's north side; the scene lays the floor's pipes. steel_condenser/inline: a 5x5 plate, a
     condenser lying east-west in a line of pipe, with water piped in and out of its sides.
     """
     b = {}
     floor(b, 7, (3, 0, 3), ('create:blaze_burner', {'blaze': 'kindled', 'facing': 'north'}))
     column(b, (3, 1, 3), 1, 4, {(3, 1, 3): ('north', 'west'), (3, 2, 3): ('west',), (3, 3, 3): ('west',)},
            condenser=(4, 1, 3))
-    b[(4, 1, 3)] = ('mcremix:steel_condenser', {'axis': 'z', 'patina': 'none'})
+    b[(4, 1, 3)] = UPRIGHT_AGAINST_WEST
     b[(3, 1, 2)] = pipe('north', 'south')
     for y in (1, 2, 3):
         b[(2, y, 3)] = pipe('east', 'west')
-    b[(4, 1, 4)] = pipe('north', 'south')
     b[(5, 1, 3)] = pipe('east', 'west')
     G.save_structure('steel_column/intro', (7, 7, 7), b)
 
@@ -542,12 +586,11 @@ def ponder_schematics():
                                                    'waterlogged': 'false'}))
     column(b, (3, 1, 3), 1, 3, {(3, 1, 3): ('north',), (3, 2, 3): ('west',), (3, 3, 3): ('north',)},
            condenser=(4, 1, 3))
-    b[(4, 1, 3)] = ('mcremix:steel_condenser', {'axis': 'z', 'patina': 'none'})
+    b[(4, 1, 3)] = UPRIGHT_AGAINST_WEST
     b[(3, 1, 2)] = pipe('north', 'south')
     b[(2, 2, 3)] = pipe('east', 'west')
-    b[(4, 1, 4)] = pipe('north', 'south')
     b[(5, 1, 3)] = pipe('east', 'west')
-    b[(4, 1, 2)] = pipe('south', 'up')
+    b[(4, 1, 2)] = pipe('down', 'up')
     b[(4, 2, 2)] = ('create:mechanical_pump', {'facing': 'up', 'waterlogged': 'false'})
     b[(4, 3, 2)] = pipe('down', 'west')
     b[(3, 3, 2)] = pipe('east', 'south')
@@ -555,7 +598,7 @@ def ponder_schematics():
 
     b = {}
     G.plate(b)
-    b[(2, 1, 2)] = ('mcremix:steel_condenser', {'axis': 'x', 'patina': 'none'})
+    b[(2, 1, 2)] = ('mcremix:steel_condenser', {'axis': 'x', 'against': 'none', 'patina': 'none'})
     for x in (0, 1, 3, 4):
         b[(x, 1, 2)] = pipe('east', 'west')
     b[(2, 1, 1)] = pipe('north', 'south')
@@ -576,10 +619,11 @@ def lang():
             'the residue from the bottom. Cuts leave _as hot_ as their section.' + rusts),
         'block.mcremix.steel_condenser': 'Steel Condenser',
         'block.mcremix.steel_condenser.tooltip.summary': (
-            'Copper tubes in a steel shell, cooled by _water_, _cold water_ or _coolant_ piped into its top, bottom or '
-            'sides, which come out warm. Beside a _steel column\'s_ bottom section it condenses the column\'s _top '
-            'cut_, which comes out of its _ends_. Anywhere else it cools a _hot cut_ piped into one end into its plain '
-            'form out of the other.' + rusts),
+            'Copper tubes in a steel shell with a flanged head at each end, cooled by _water_, _cold water_ or '
+            '_coolant_ piped into the shell between them, which come out warm. Placed against a _steel column\'s_ '
+            'bottom section it _stands upright_, flush with it, and condenses the column\'s _top cut_, which comes out '
+            'of its _bottom_. Anywhere else it _lies on its side_ and cools a _hot cut_ piped into one end into its '
+            'plain form out of the other. A _wrench_ stands it up or lays it down.' + rusts),
         'entity.mcremix.solvent_vapour': 'Solvent Vapour',
         # the column's goggles
         'mcremix.goggles.steel_column.size': '%s sections high, %s by %s',

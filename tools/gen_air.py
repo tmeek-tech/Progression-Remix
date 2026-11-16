@@ -141,7 +141,8 @@ def column(b, origin, height, nozzles):
     ox, oy, oz = origin
     for y in range(height):
         pos = (ox, oy + y, oz)
-        props = {'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false', 'frost': '0'}
+        props = {'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false', 'frost': '0',
+                 'down': 'true' if y else 'false'}
         for side in nozzles.get(pos, ()):
             props[side] = 'true'
         if y == 0:
@@ -169,7 +170,7 @@ def ponder_schematics():
     b[(2, 2, 3)] = ('mcremix:pressurizer_vessel', {'north': 'true', 'east': 'true', 'south': 'false', 'west': 'false'})
     b[(2, 2, 4)] = ('create:encased_fan', {'facing': 'north'})
     b[(3, 2, 3)] = pipe('east', 'west')
-    b[(4, 2, 3)] = ('mcremix:steel_condenser', {'axis': 'x', 'patina': 'none'})
+    b[(4, 2, 3)] = ('mcremix:steel_condenser', {'axis': 'x', 'against': 'none', 'patina': 'none'})
     b[(4, 3, 3)] = pipe('up', 'down')
     b[(5, 2, 3)] = pipe('east', 'west')
     b[(6, 2, 3)] = ('mcremix:expansion_valve', {'facing': 'south', 'frosted': 'false'})

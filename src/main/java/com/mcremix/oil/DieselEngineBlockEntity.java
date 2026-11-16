@@ -21,6 +21,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -72,6 +73,12 @@ public class DieselEngineBlockEntity extends GeneratingKineticBlockEntity {
 
 	public DieselEngineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
+	}
+
+	/** Its flywheel reaches a quarter block past it on every side but its shaft's (Taran, 0.36.1). */
+	@Override
+	protected AABB createRenderBoundingBox() {
+		return super.createRenderBoundingBox().inflate(0.25);
 	}
 
 	private void fuelChanged() {
@@ -199,11 +206,15 @@ public class DieselEngineBlockEntity extends GeneratingKineticBlockEntity {
 		}
 	}
 
-	/** The top of its exhaust stack, over the cylinder head at its front. */
+	/**
+	 * The top of its exhaust stack, over the cylinder head at its front, a pixel to the left of the block's middle, as
+	 * its body sits, clear of the flywheel on its right.
+	 */
 	public Vec3 stackTop() {
 		Direction facing = getBlockState().getValue(HorizontalKineticBlock.HORIZONTAL_FACING);
 		Vec3 front = Vec3.atLowerCornerOf(facing.getNormal());
-		return Vec3.atCenterOf(worldPosition).add(front.scale(0.34)).add(0, 0.55, 0);
+		Vec3 left = Vec3.atLowerCornerOf(facing.getCounterClockWise().getNormal());
+		return Vec3.atCenterOf(worldPosition).add(front.scale(0.36)).add(left.scale(1 / 16d)).add(0, 0.5, 0);
 	}
 
 	// ---------------------------------------------------------------- goggles
