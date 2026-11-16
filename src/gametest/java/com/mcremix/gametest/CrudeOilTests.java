@@ -30,7 +30,10 @@ import com.mcremix.fluids.GasCloud;
 import com.mcremix.fluids.SourGasCloud;
 import com.mcremix.fluids.SulfurDioxideCloud;
 import com.mcremix.fluids.FluidPartMaterial;
+import com.mcremix.fluids.Patina;
 import com.mcremix.kiln.SteelFurnaceBlockEntity;
+import com.mcremix.kinetics.KineticRatings;
+import com.mcremix.kinetics.SteelFlywheelBlockEntity;
 import com.mcremix.lab.CowReceiverBlockEntity;
 import com.mcremix.lab.DistillingRecipe;
 import com.mcremix.lab.RoundFlaskBlockEntity;
@@ -40,8 +43,10 @@ import com.mcremix.registry.ModFeatures;
 import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
 import com.mcremix.registry.ModOil;
+import com.mcremix.registry.ModTags;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
+import com.simibubi.create.content.kinetics.base.RotatedPillarKineticBlock;
 import com.simibubi.create.content.fluids.transfer.FluidDrainingBehaviour;
 import com.simibubi.create.content.fluids.transfer.FluidManipulationBehaviour;
 import com.simibubi.create.content.processing.basin.BasinBlockEntity;
@@ -485,7 +490,8 @@ public class CrudeOilTests {
 	/**
 	 * Paraffin wax does what honeycomb does: used on copper it waxes it, it waxes copper parts in the crafting grid, and
 	 * string on it makes a candle. Petroleum coke works as Coal Coke does: the coke tag holds both, it burns as long,
-	 * and it is Searing kiln fuel. The diesel engine is crafted from a flywheel, a piston, a steel tank and steel sheet.
+	 * and it is Searing kiln fuel. The diesel engine is crafted from a steel flywheel, a piston, a steel tank and steel
+	 * sheet.
 	 */
 	@GameTest(template = GT.PLATFORM)
 	public static void paraffinWaxAndPetroleumCokeStandInForHoneycombAndCoke(GameTestHelper h) {
@@ -505,7 +511,7 @@ public class CrudeOilTests {
 			"petroleum coke should burn as long as Coal Coke");
 		h.assertTrue(coke.is(itemTag("kiln_fuel/searing")), "petroleum coke should be Searing kiln fuel");
 		ChainDriveTests.expectCraft(h, ModOil.DIESEL_ENGINE.get(), ModItems.STEEL_SHEET.get(),
-			AllBlocks.MECHANICAL_PISTON.get(), ModItems.STEEL_SHEET.get(), AllBlocks.FLYWHEEL.get(),
+			AllBlocks.MECHANICAL_PISTON.get(), ModItems.STEEL_SHEET.get(), ModOil.STEEL_FLYWHEEL.get(),
 			FluidPartTests.tank(FluidPartMaterial.STEEL), ModItems.STEEL_SHEET.get());
 		h.succeed();
 	}
@@ -710,5 +716,35 @@ public class CrudeOilTests {
 			})
 			.thenWaitUntil(() -> h.assertTrue(engine.running(), "with the load off, cranked, it should catch again"))
 			.thenSucceed();
+	}
+
+	// ---------------------------------------------------------------- the steel flywheel
+
+	/**
+	 * The steel flywheel (0.36.0) is crafted from eight steel ingots round a steel shaft. It rusts as steel does, only
+	 * to its first stage, and honeycomb waxes it; like Create's flywheel it holds no shafts and is given no rating; and
+	 * set on a shaft line it turns with it.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 60)
+	public static void aSteelFlywheelIsSteelAndTurnsOnItsShaftLine(GameTestHelper h) {
+		Item steel = ModItems.STEEL_INGOT.get();
+		ChainDriveTests.expectCraft(h, ModOil.STEEL_FLYWHEEL.get(), steel, steel, steel, steel,
+			KineticTests.part("steel_shaft"), steel, steel, steel, steel);
+		BlockState state = ModOil.STEEL_FLYWHEEL.getDefaultState();
+		h.assertTrue(Patina.has(state) && Patina.rusts(state) && state.isRandomlyTicking(),
+			"it should rust as steel does");
+		h.assertFalse(Patina.ages(state.setValue(Patina.PROPERTY, Patina.EXPOSED)),
+			"steel rusts only to its first stage");
+		h.assertTrue(state.is(ModTags.Blocks.HOLDS_NO_SHAFTS)
+			&& KineticRatings.of(new ItemStack(ModOil.STEEL_FLYWHEEL.get()), state) == null,
+			"like Create's flywheel it should hold no shafts and have no rating");
+		BlockPos wheel = p(4, 2, 4);
+		h.setBlock(wheel, state.setValue(RotatedPillarKineticBlock.AXIS, Direction.Axis.X));
+		Items.HONEYCOMB.useOn(PatinaTests.use(h, wheel, new ItemStack(Items.HONEYCOMB)));
+		h.assertTrue(h.getBlockState(wheel).getValue(Patina.PROPERTY) == Patina.WAXED, "honeycomb should wax it");
+		GT.motor(h, wheel.west(), Direction.EAST, 32);
+		SteelFlywheelBlockEntity flywheel = (SteelFlywheelBlockEntity) h.getBlockEntity(wheel);
+		h.succeedWhen(() -> h.assertTrue(Math.abs(flywheel.getSpeed()) == 32,
+			"it should turn with its shaft line, turns at " + flywheel.getSpeed()));
 	}
 }

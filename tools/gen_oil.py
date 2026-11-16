@@ -5,7 +5,9 @@ what is made from its cuts, the new tags, damage types and world generation, and
 calls run() after gen_column, passing itself; crude oil's fluids are in gen_assets' CHEMICALS, and this file adds to the
 lang and tag files written before it rather than owning any shared file.
 """
+import json
 import math
+import os
 import random
 
 from PIL import Image
@@ -14,11 +16,8 @@ import gen_decor as D
 
 G = None  # gen_assets, set by run()
 
-# old stationary engine green, as such engines were painted, from shadow to highlight, and the cast iron under it
-PAINT = [(0x18, 0x24, 0x1A), (0x22, 0x34, 0x26), (0x2C, 0x44, 0x30), (0x38, 0x56, 0x3C), (0x46, 0x68, 0x4A),
-         (0x58, 0x7C, 0x5A), (0x6C, 0x90, 0x6C)]
-IRON = [(0x1C, 0x1C, 0x1E), (0x2A, 0x2A, 0x2D), (0x38, 0x38, 0x3B), (0x48, 0x48, 0x4B), (0x5A, 0x5A, 0x5D),
-        (0x6E, 0x6E, 0x70), (0x86, 0x86, 0x88)]
+# the engine is bare dark steel, as the mod's steel is (Taran, 0.36.0: no green), with brass for its tank and fittings
+STEEL = D.STEEL
 BRASS = [(0x5C, 0x3E, 0x14), (0x7E, 0x58, 0x1E), (0xA0, 0x74, 0x2A), (0xC0, 0x90, 0x3A), (0xDA, 0xAC, 0x50),
          (0xEC, 0xC8, 0x70), (0xF8, 0xE4, 0x9C)]
 
@@ -28,6 +27,7 @@ def run(gen):
     G = gen
     textures()
     diesel_engine()
+    steel_flywheel()
     recipes()
     tags()
     damage_types()
@@ -49,49 +49,63 @@ def mottled(seed, pal, base=3, speckle=0.25):
 
 
 def body(seed):
-    """Painted cast iron: green, lit along the top, worn through to the iron at its edges."""
-    rng = random.Random(seed)
-    img = mottled(seed, PAINT)
+    """Bare dark steel: a faint mottle, lit along its top and left edges, shaded along its bottom and right."""
+    img = mottled(seed, STEEL, speckle=0.15)
     px = img.load()
     for x in range(16):
-        px[x, 0] = D.shade(PAINT, 5)
-        px[x, 15] = D.shade(PAINT, 1)
+        px[x, 0] = D.shade(STEEL, 5)
+        px[x, 15] = D.shade(STEEL, 1)
     for y in range(16):
-        px[0, y] = D.shade(PAINT, 4)
-        px[15, y] = D.shade(PAINT, 1)
-    for _ in range(10):
-        x, y = rng.choice([(rng.randrange(16), rng.choice((0, 1, 14, 15))),
-                           (rng.choice((0, 1, 14, 15)), rng.randrange(16))])
-        px[x, y] = D.shade(IRON, rng.choice((3, 4)))
+        px[0, y] = D.shade(STEEL, 4)
+        px[15, y] = D.shade(STEEL, 1)
+    return img
+
+
+def base(seed):
+    """
+    The base plate's underside: bare dark steel, and in its middle a brass ring round a dark bore, where a pipe from
+    below feeds the engine.
+    """
+    img = body(seed)
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            r = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+            if r < 1:
+                px[x, y] = D.shade(STEEL, 0)
+            elif r < 2.2:
+                px[x, y] = D.shade(BRASS, 1)
+            elif r < 3.6:
+                px[x, y] = D.shade(BRASS, 5 if x + y < 15 else 3)
     return img
 
 
 def cylinder(seed):
-    """The cylinder's cooling fins: bare cast iron in horizontal ribs, each lit on top and shadowed under."""
-    img = mottled(seed, IRON)
+    """The cylinder's cooling fins: bare dark steel in horizontal ribs, each lit on top and shadowed under."""
+    img = mottled(seed, STEEL, speckle=0.15)
     px = img.load()
     for y in range(16):
         rib = y % 4
         for x in range(16):
             if rib == 0:
-                px[x, y] = D.shade(IRON, 5)
+                px[x, y] = D.shade(STEEL, 5)
             elif rib == 3:
-                px[x, y] = D.shade(IRON, 1)
+                px[x, y] = D.shade(STEEL, 1)
     return img
 
 
 def flywheel(seed):
-    """The flywheel's iron: dark, the rim's worn face bright where it turns."""
-    img = mottled(seed, IRON, base=2)
+    """The flywheel's steel: dark, the rim's machined face bright where it turns."""
+    img = mottled(seed, STEEL, base=2, speckle=0.15)
     px = img.load()
     for x in range(16):
         for y in (0, 1):
-            px[x, y] = D.shade(IRON, 5 - y)
+            px[x, y] = D.shade(STEEL, 6 - y)
     return img
 
 
 def stack(seed):
-    """The exhaust stack: sooty iron pipe, blacker towards its top."""
+    """The exhaust stack: sooty steel pipe, blacker towards its top."""
     rng = random.Random(seed)
     img = Image.new('RGBA', (16, 16))
     px = img.load()
@@ -100,7 +114,7 @@ def stack(seed):
             i = 3 - (y < 6) - (y < 3) + (rng.random() < 0.2) - (rng.random() < 0.2)
             if x in (0, 1):
                 i += 1
-            px[x, y] = D.shade(IRON, i)
+            px[x, y] = D.shade(STEEL, i)
     return img
 
 
@@ -111,6 +125,38 @@ def tank(seed):
     for x in range(16):
         px[x, 7] = D.shade(BRASS, 1)
         px[x, 8] = D.shade(BRASS, 5)
+    return img
+
+
+def fitting(seed):
+    """The brass fittings, the fuel inlet's neck and the line up to the tank: brass bar, lit along its top."""
+    img = mottled(seed, BRASS, base=4, speckle=0.1)
+    px = img.load()
+    for x in range(16):
+        px[x, 0] = px[x, 5] = px[x, 10] = D.shade(BRASS, 6)
+    return img
+
+
+def inlet(seed):
+    """
+    The fuel inlet seen end on, in its middle six pixels: a brass flange lit along its top and left edges and shaded
+    along its bottom and right, a bolt at each corner, and in its middle a dark ring round a black bore, where a pipe
+    joins the engine's back.
+    """
+    img = mottled(seed, BRASS, base=4, speckle=0.1)
+    px = img.load()
+    for y in range(5, 11):
+        for x in range(5, 11):
+            if x == 5 or y == 5:
+                px[x, y] = D.shade(BRASS, 6)
+            elif x == 10 or y == 10:
+                px[x, y] = D.shade(BRASS, 2)
+            elif x in (7, 8) and y in (7, 8):
+                px[x, y] = D.shade(STEEL, 0)
+            elif x in (6, 9) and y in (6, 9):
+                px[x, y] = D.shade(BRASS, 6)
+            else:
+                px[x, y] = D.shade(BRASS, 1)
     return img
 
 
@@ -146,6 +192,9 @@ def textures():
     D.png(flywheel(4603), 'diesel_engine_flywheel')
     D.png(stack(4604), 'diesel_engine_stack')
     D.png(tank(4605), 'diesel_engine_tank')
+    D.png(base(4606), 'diesel_engine_base')
+    D.png(fitting(4607), 'diesel_engine_fitting')
+    D.png(inlet(4608), 'diesel_engine_inlet')
     G.save_png(petroleum_coke(), G.asset('textures', 'item', 'petroleum_coke.png'))
     G.save_png(paraffin_wax(), G.asset('textures', 'item', 'paraffin_wax.png'))
     for name in ('petroleum_coke', 'paraffin_wax'):
@@ -205,11 +254,19 @@ def flywheel_elements(axis='y'):
 def engine_elements():
     """
     The engine's body facing north: a base plate, the crankcase the shaft runs through, the finned cylinder pointing
-    out of its front with its head, the exhaust stack rising off the head, the brass fuel tank on the crankcase, and a
-    bearing housing each side where the shaft comes out. The shaft and flywheel are the partial.
+    out of its front with its head, the exhaust stack rising off the head, the brass fuel tank on the crankcase with
+    its filler cap, and a bearing housing each side where the shaft comes out. On its back, where fuel comes in, a
+    brass inlet flange flush with the block's face, a pipe's rim covering it, on a neck out of the crankcase, and a
+    brass line from it up the back and into the tank (Taran, 0.36.0: show where the pipe goes); under it, a brass ring
+    round the bore a pipe from below feeds. The shaft and flywheel are the partial.
     """
+    plate = box('#body', (3.5, 0, 1), (12.5, 1.5, 15))
+    plate['faces']['down'] = D.face('#base', [3.5, 1, 12.5, 15])
+    flange = D.el((5, 4, 15), (11, 10, 16), {
+        'south': D.face('#inlet', [5, 5, 11, 11], cull='south'), 'north': D.face('#fitting', [5, 5, 11, 11]),
+        **{d: D.face('#fitting', [5, 5, 11, 6]) for d in ('east', 'west', 'up', 'down')}})
     return [
-        box('#body', (3.5, 0, 1), (12.5, 1.5, 15)),
+        plate,
         box('#body', (4, 1.5, 5), (12, 12, 14)),
         box('#body', (3, 5, 5), (4, 11, 11)),
         box('#body', (12, 5, 5), (13, 11, 11)),
@@ -221,13 +278,18 @@ def engine_elements():
         box('#stack', (7, 11, 1.5), (9, 15.5, 3.5)),
         box('#stack', (6.5, 15.5, 1), (9.5, 16, 4)),
         box('#tank', (5, 12, 8), (11, 14.5, 13)),
-        box('#body', (7.5, 14.5, 9.5), (8.5, 15, 10.5)),
+        box('#fitting', (7.5, 14.5, 9.5), (8.5, 15, 10.5)),
+        box('#fitting', (6, 5, 14), (10, 9, 15), skip=('north', 'south')),
+        flange,
+        box('#fitting', (7.5, 9, 14), (8.5, 13.5, 15), skip=('north', 'down')),
+        box('#fitting', (7.5, 12.5, 13), (8.5, 13.5, 14), skip=('north', 'south')),
     ]
 
 
 ENGINE_TEXTURES = {'body': 'mcremix:block/diesel_engine_body', 'cylinder': 'mcremix:block/diesel_engine_cylinder',
                    'stack': 'mcremix:block/diesel_engine_stack', 'tank': 'mcremix:block/diesel_engine_tank',
-                   'particle': 'mcremix:block/diesel_engine_body'}
+                   'base': 'mcremix:block/diesel_engine_base', 'fitting': 'mcremix:block/diesel_engine_fitting',
+                   'inlet': 'mcremix:block/diesel_engine_inlet', 'particle': 'mcremix:block/diesel_engine_body'}
 FLYWHEEL_TEXTURES = {'flywheel': 'mcremix:block/diesel_engine_flywheel', 'shaft': 'create:block/axis',
                      'shaft_end': 'create:block/axis_top', 'particle': 'mcremix:block/diesel_engine_flywheel'}
 
@@ -249,6 +311,72 @@ def diesel_engine():
         variants[f'facing={facing}'] = v
     D.states('diesel_engine', {'variants': variants})
     G.write_json(G.data('mcremix', 'loot_tables', 'blocks', 'diesel_engine.json'), G.loot_self('diesel_engine'))
+
+
+# ------------------------------------------------------------------------------------------------ the steel flywheel
+
+# Create's flywheel texture (tools/create_flywheel_texture.json), which the steel one is drawn from
+FLYWHEEL_TEXTURE = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                               'create_flywheel_texture.json')))
+# steel's shades for it, darkest first, and a brighter one for the rim's machined face
+FLYWHEEL_LOOKS = (('', D.STEEL + [(0x92, 0x90, 0x94)], 0.0), ('exposed_', D.EXPOSED + [(0x96, 0x8A, 0x84)], 0.05))
+# Create's flywheel blockstate turns: its model is drawn turning about y
+FLYWHEEL_AXES = {'x': {'x': 90, 'y': 90}, 'y': {}, 'z': {'x': 90, 'y': 180}}
+PATINAS = ['none', 'exposed', 'weathered', 'oxidized', 'waxed', 'waxed_exposed', 'waxed_weathered', 'waxed_oxidized']
+
+
+def flywheel_texture(shades, rust, seed):
+    """
+    Create's flywheel in steel: each pixel takes the shade at the same place along `shades` as its brightness has among
+    the texture's own, brass, iron and all, so Create's drawing and its contrast stay; rust flecks the exposed look.
+    """
+    palette, rows = FLYWHEEL_TEXTURE['palette'], FLYWHEEL_TEXTURE['rows']
+    luma = lambda c: 0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]
+    seen = [luma(palette[i]) for row in rows for i in row if palette[i][3]]
+    lo, hi = min(seen), max(seen)
+    img = Image.new('RGBA', (len(rows[0]), len(rows)), (0, 0, 0, 0))
+    for y, row in enumerate(rows):
+        for x, i in enumerate(row):
+            c = palette[i]
+            if c[3]:
+                k = round((luma(c) - lo) / (hi - lo) * (len(shades) - 1))
+                img.putpixel((x, y), tuple(shades[k]) + (c[3],))
+    if rust:
+        D.rusty(img, random.Random(seed), rust)
+    return img
+
+
+def steel_flywheel():
+    """
+    The steel flywheel (Taran, 0.36.0): Create's flywheel, its models and how its blockstate turns them, in steel, with
+    a steel shaft through it, fresh and rusted to steel's one stage. The block's model leaves the shaft out, as
+    Create's does: the renderer and visual turn it (client/SteelFlywheelVisual).
+    """
+    for prefix, shades, rust in FLYWHEEL_LOOKS:
+        D.png(flywheel_texture(shades, rust, 4609), f'{prefix}steel_flywheel')
+        D.model(f'steel_flywheel/{prefix}flywheel', {
+            'parent': 'minecraft:block/block', 'ambientocclusion': False,
+            'textures': {'0': f'mcremix:block/{prefix}steel_flywheel', '1': f'mcremix:block/{prefix}steel_axis',
+                         '2': f'mcremix:block/{prefix}steel_axis_top',
+                         'particle': f'mcremix:block/{prefix}steel_flywheel'}})
+        D.model(f'steel_flywheel/{prefix}block', {
+            'parent': f'mcremix:block/steel_flywheel/{prefix}flywheel', 'loader': 'forge:obj', 'flip_v': True,
+            'model': 'create:models/block/flywheel/flywheel_shaftless.obj'})
+    D.model('steel_flywheel/item', {
+        'parent': 'mcremix:block/steel_flywheel/flywheel', 'loader': 'forge:obj', 'flip_v': True,
+        'model': 'create:models/block/flywheel/flywheel.obj',
+        'display': {'gui': {'rotation': [30, 225, 0], 'translation': [0, 0, 0], 'scale': [0.4, 0.4, 0.4]},
+                    'fixed': {'rotation': [90, 0, 0], 'translation': [0, 0, -1],
+                              'scale': [0.375, 0.375, 0.375]}}})
+    D.item_model('steel_flywheel', {'parent': 'mcremix:block/steel_flywheel/item'})
+    variants = {}
+    for axis, turn in FLYWHEEL_AXES.items():
+        for patina in PATINAS:
+            prefix = '' if patina in ('none', 'waxed') else 'exposed_'
+            variants[f'axis={axis},patina={patina}'] = {'model': f'mcremix:block/steel_flywheel/{prefix}block',
+                                                         **turn}
+    D.states('steel_flywheel', {'variants': variants})
+    G.write_json(G.data('mcremix', 'loot_tables', 'blocks', 'steel_flywheel.json'), G.loot_self('steel_flywheel'))
 
 
 # ------------------------------------------------------------------------------------------------ recipes
@@ -297,11 +425,16 @@ def recipes():
                 'type': 'minecraft:crafting_shapeless', 'category': 'building',
                 'ingredients': [item(f'minecraft:{name}'), item('mcremix:paraffin_wax')],
                 'result': item(f'minecraft:waxed_{name}')})
-    # the engine: Create's flywheel, a piston for the cylinder, a steel tank for fuel, in steel plate
+    # the steel flywheel, as Create's brass one is made: eight ingots round a shaft, in steel
+    G.recipe('steel_flywheel', {
+        'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['CCC', 'CAC', 'CCC'],
+        'key': {'C': {'tag': 'forge:ingots/steel'}, 'A': item('mcremix:steel_shaft')},
+        'result': item('mcremix:steel_flywheel')})
+    # the engine: a steel flywheel (Taran, 0.36.0), a piston for the cylinder, a steel tank for fuel, in steel plate
     G.recipe('diesel_engine', {
         'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['SPS', 'FTS'],
         'key': {'S': {'tag': 'forge:plates/steel'}, 'P': item('create:mechanical_piston'),
-                'F': item('create:flywheel'), 'T': item('mcremix:steel_fluid_tank')},
+                'F': item('mcremix:steel_flywheel'), 'T': item('mcremix:steel_fluid_tank')},
         'result': item('mcremix:diesel_engine')})
 
 
@@ -312,7 +445,7 @@ def tags():
     # the engine runs on a cut drawn hot as it does on the cold one
     D.add_tag('mcremix', 'fluids', 'diesel', m(['diesel', 'hot_diesel']))
     D.add_tag('mcremix', 'fluids', 'kerosene', m(['kerosene', 'hot_kerosene']))
-    D.add_tag('minecraft', 'blocks', 'mineable/pickaxe', ['mcremix:diesel_engine'])
+    D.add_tag('minecraft', 'blocks', 'mineable/pickaxe', ['mcremix:diesel_engine', 'mcremix:steel_flywheel'])
 
 
 def damage_types():
@@ -479,5 +612,13 @@ def lang():
         'mcremix.jei.diesel_engine.capacity': '%s su',
         'mcremix.jei.diesel_engine.burns': '%s mB a tick: %ss a bucket',
         'mcremix.jei.diesel_engine.crank': 'Crank it to start',
+        # the steel flywheel
+        'block.mcremix.steel_flywheel': 'Steel Flywheel',
+        'block.mcremix.steel_flywheel.tooltip.summary': (
+            'Create\'s _Flywheel_ in _steel_: an imposing wheel to set on a shaft line, and what a _Diesel Engine_ is '
+            'built round. Like other steel it _rusts_ where it gets wet, only to its first stage; _honeycomb_ or '
+            '_paraffin wax_ keeps it as it is.'),
+        'block.mcremix.steel_flywheel.tooltip.condition1': 'When Powered by Kinetics',
+        'block.mcremix.steel_flywheel.tooltip.behaviour1': 'Starts spinning.',
     }
     D.merge_json(G.asset('lang', 'en_us.json'), lambda obj: obj.update(text))

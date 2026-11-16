@@ -1,6 +1,8 @@
 package com.mcremix.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mcremix.McRemix;
@@ -24,6 +26,27 @@ public class ModSpriteShifts {
 
 	public static final CTSpriteShiftEntry IRON_CASING = CTSpriteShifter.getCT(AllCTTypes.OMNIDIRECTIONAL,
 		McRemix.asResource("block/iron_casing"), McRemix.asResource("block/iron_casing_connected"));
+
+	/**
+	 * A formed steel column's sides and top, fresh and rusted, joined up across the column by Create's RECTANGLE
+	 * connected textures (Taran, 0.36.0): each sheet is drawn by tools/gen_column.py.
+	 */
+	public static final List<CTSpriteShiftEntry> STEEL_COLUMN = column("", "exposed_", "steel");
+	/** A formed aluminium column's, bare, frosted and frozen (tools/gen_air_art.py). */
+	public static final List<CTSpriteShiftEntry> ALUMINIUM_COLUMN = column("", "frosted_", "frozen_", "aluminium");
+
+	/** A column section's side and top in each of its looks, the first look's side first. */
+	private static List<CTSpriteShiftEntry> column(String... looksThenMetal) {
+		String metal = looksThenMetal[looksThenMetal.length - 1];
+		List<CTSpriteShiftEntry> shifts = new ArrayList<>();
+		for (int i = 0; i < looksThenMetal.length - 1; i++)
+			for (String face : List.of("", "_top")) {
+				String texture = "block/" + looksThenMetal[i] + metal + "_column_section" + face;
+				shifts.add(CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, McRemix.asResource(texture),
+					McRemix.asResource(texture + "_connected")));
+			}
+		return List.copyOf(shifts);
+	}
 
 	/** For each tint of titanium (MachineTiers#look): titanium's casing in it, joined up as Create's casings are. */
 	private static final Map<String, CTSpriteShiftEntry> TITANIUM_CASINGS = new HashMap<>();

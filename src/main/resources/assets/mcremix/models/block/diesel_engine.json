@@ -5,6 +5,9 @@
     "cylinder": "mcremix:block/diesel_engine_cylinder",
     "stack": "mcremix:block/diesel_engine_stack",
     "tank": "mcremix:block/diesel_engine_tank",
+    "base": "mcremix:block/diesel_engine_base",
+    "fitting": "mcremix:block/diesel_engine_fitting",
+    "inlet": "mcremix:block/diesel_engine_inlet",
     "particle": "mcremix:block/diesel_engine_body"
   },
   "elements": [
@@ -66,7 +69,7 @@
           ]
         },
         "down": {
-          "texture": "#body",
+          "texture": "#base",
           "uv": [
             3.5,
             1,
@@ -841,7 +844,7 @@
       ],
       "faces": {
         "north": {
-          "texture": "#body",
+          "texture": "#fitting",
           "uv": [
             7.5,
             1,
@@ -850,7 +853,7 @@
           ]
         },
         "south": {
-          "texture": "#body",
+          "texture": "#fitting",
           "uv": [
             7.5,
             1,
@@ -859,7 +862,7 @@
           ]
         },
         "west": {
-          "texture": "#body",
+          "texture": "#fitting",
           "uv": [
             9.5,
             1,
@@ -868,7 +871,7 @@
           ]
         },
         "east": {
-          "texture": "#body",
+          "texture": "#fitting",
           "uv": [
             5.5,
             1,
@@ -877,7 +880,7 @@
           ]
         },
         "up": {
-          "texture": "#body",
+          "texture": "#fitting",
           "uv": [
             7.5,
             9.5,
@@ -886,12 +889,234 @@
           ]
         },
         "down": {
-          "texture": "#body",
+          "texture": "#fitting",
           "uv": [
             7.5,
             5.5,
             8.5,
             6.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        5,
+        14
+      ],
+      "to": [
+        10,
+        9,
+        15
+      ],
+      "faces": {
+        "west": {
+          "texture": "#fitting",
+          "uv": [
+            14,
+            7,
+            15,
+            11
+          ]
+        },
+        "east": {
+          "texture": "#fitting",
+          "uv": [
+            1,
+            7,
+            2,
+            11
+          ]
+        },
+        "up": {
+          "texture": "#fitting",
+          "uv": [
+            6,
+            14,
+            10,
+            15
+          ]
+        },
+        "down": {
+          "texture": "#fitting",
+          "uv": [
+            6,
+            1,
+            10,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        5,
+        4,
+        15
+      ],
+      "to": [
+        11,
+        10,
+        16
+      ],
+      "faces": {
+        "south": {
+          "texture": "#inlet",
+          "uv": [
+            5,
+            5,
+            11,
+            11
+          ],
+          "cullface": "south"
+        },
+        "north": {
+          "texture": "#fitting",
+          "uv": [
+            5,
+            5,
+            11,
+            11
+          ]
+        },
+        "east": {
+          "texture": "#fitting",
+          "uv": [
+            5,
+            5,
+            11,
+            6
+          ]
+        },
+        "west": {
+          "texture": "#fitting",
+          "uv": [
+            5,
+            5,
+            11,
+            6
+          ]
+        },
+        "up": {
+          "texture": "#fitting",
+          "uv": [
+            5,
+            5,
+            11,
+            6
+          ]
+        },
+        "down": {
+          "texture": "#fitting",
+          "uv": [
+            5,
+            5,
+            11,
+            6
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        7.5,
+        9,
+        14
+      ],
+      "to": [
+        8.5,
+        13.5,
+        15
+      ],
+      "faces": {
+        "south": {
+          "texture": "#fitting",
+          "uv": [
+            0.5,
+            0.5,
+            4.5,
+            1.0
+          ],
+          "rotation": 90
+        },
+        "west": {
+          "texture": "#fitting",
+          "uv": [
+            0.5,
+            0.5,
+            4.5,
+            1
+          ],
+          "rotation": 90
+        },
+        "east": {
+          "texture": "#fitting",
+          "uv": [
+            0.5,
+            0.5,
+            4.5,
+            1
+          ],
+          "rotation": 90
+        },
+        "up": {
+          "texture": "#fitting",
+          "uv": [
+            7.5,
+            14,
+            8.5,
+            15
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        7.5,
+        12.5,
+        13
+      ],
+      "to": [
+        8.5,
+        13.5,
+        14
+      ],
+      "faces": {
+        "west": {
+          "texture": "#fitting",
+          "uv": [
+            13,
+            2.5,
+            14,
+            3.5
+          ]
+        },
+        "east": {
+          "texture": "#fitting",
+          "uv": [
+            2,
+            2.5,
+            3,
+            3.5
+          ]
+        },
+        "up": {
+          "texture": "#fitting",
+          "uv": [
+            7.5,
+            13,
+            8.5,
+            14
+          ]
+        },
+        "down": {
+          "texture": "#fitting",
+          "uv": [
+            7.5,
+            2,
+            8.5,
+            3
           ]
         }
       }

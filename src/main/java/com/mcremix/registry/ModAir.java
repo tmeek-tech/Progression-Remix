@@ -6,7 +6,10 @@ import com.mcremix.air.AirColumnSectionBlock;
 import com.mcremix.air.AirColumnSectionBlockEntity;
 import com.mcremix.air.ExpansionValveBlock;
 import com.mcremix.air.ExpansionValveBlockEntity;
+import com.mcremix.client.ColumnCTBehaviour;
+import com.mcremix.client.ModSpriteShifts;
 import com.mcremix.item.UreaItem;
+import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -27,9 +30,11 @@ public class ModAir {
 		return p.mapColor(MapColor.METAL).sound(SoundType.METAL).requiresCorrectToolForDrops().strength(3f, 6f);
 	}
 
+	/** Its sides and top join up across a formed column, as steel's do (Taran, 0.36.0). */
 	public static final BlockEntry<AirColumnSectionBlock> AIR_COLUMN_SECTION = REGISTRATE
 		.block("aluminium_column_section", AirColumnSectionBlock::new)
 		.properties(ModAir::aluminium)
+		.onRegister(CreateRegistrate.connectedTextures(() -> new ColumnCTBehaviour(ModSpriteShifts.ALUMINIUM_COLUMN)))
 		.simpleItem()
 		.register();
 

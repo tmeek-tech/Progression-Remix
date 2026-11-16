@@ -1,6 +1,7 @@
 package com.mcremix.column;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -312,6 +313,9 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	@Override
 	protected void read(CompoundTag tag, boolean clientPacket) {
 		super.read(tag, clientPacket);
+		BlockPos controllerBefore = controller;
+		int widthBefore = width;
+		int heightBefore = height;
 		updateConnectivity = tag.contains("Uninitialized");
 		controller = null;
 		lastKnownPos = null;
@@ -325,6 +329,11 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 			column.sizeForRead(width, height);
 			column.read(tag.getCompound("Column"));
 		}
+		// the client draws a formed column's sides and top joined up (client/ColumnCTBehaviour): when the column this
+		// section is in changes, its blocks are drawn again, as Create's tanks are
+		if (clientPacket && level != null && (!Objects.equals(controllerBefore, controller) || width != widthBefore
+			|| height != heightBefore))
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 16);
 	}
 
 	// ------------------------------------------------------------------------------------------------ goggles

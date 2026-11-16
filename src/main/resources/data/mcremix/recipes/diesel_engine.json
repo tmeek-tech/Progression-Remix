@@ -13,7 +13,7 @@
       "item": "create:mechanical_piston"
     },
     "F": {
-      "item": "create:flywheel"
+      "item": "mcremix:steel_flywheel"
     },
     "T": {
       "item": "mcremix:steel_fluid_tank"

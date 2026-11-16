@@ -2568,14 +2568,15 @@ def gen_data():
         write_json(data('mcremix', 'tags', 'blocks', 'kinetic_material', material + '.json'),
                    tag(blocks, required=False))
     # friction points beyond the machines, gearboxes and the rest FrictionPoints knows: none of this mod's own now the
-    # Steel Spring is gone, but packs can add them. And what turns but holds nothing: Create's flywheel, and its
-    # crushing wheel (Taran), which carries any load but turns no faster than andesite's top speed
-    # (supports, as players know them since 0.23.0; the tag's old name is kept inside it for packs that used it)
+    # Steel Spring is gone, but packs can add them. And what turns but holds nothing: Create's flywheel and this mod's
+    # steel one, and Create's crushing wheel (Taran), which carries any load but turns no faster than andesite's top
+    # speed (supports, as players know them since 0.23.0; the tag's old name is kept inside it for packs that used it)
     write_json(data('mcremix', 'tags', 'blocks', 'supports.json'),
                tag([{'id': '#mcremix:friction_points', 'required': False}]))
     write_json(data('mcremix', 'tags', 'blocks', 'friction_points.json'), tag([]))
-    write_json(data('mcremix', 'tags', 'blocks', 'holds_no_shafts.json'),
-               tag(['create:flywheel', 'create:crushing_wheel'], required=False))
+    holds_nothing = tag(['create:flywheel', 'create:crushing_wheel'], required=False)
+    holds_nothing['values'].append('mcremix:steel_flywheel')
+    write_json(data('mcremix', 'tags', 'blocks', 'holds_no_shafts.json'), holds_nothing)
     # what an iron bloom can be struck on (BloomHammering)
     write_json(data('mcremix', 'tags', 'blocks', 'bloom_anvils.json'),
                tag(['#minecraft:anvil'] + [f'mcremix:{n}' for n in STONE_ANVILS]))

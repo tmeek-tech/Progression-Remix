@@ -59,40 +59,104 @@ def rivet(px, pal, x, y):
         px[x, y + 1] = D.shade(pal, 1)
 
 
-def section_side(seed, pal, rust):
+def ct_sheet(tile):
     """
-    A column section's side: plate, a riveted girth seam under the top flange and over the bottom one, and the
-    vertical seam where one plate meets the next at the block's edge, riveted down its length.
+    A connected texture sheet as Create's RECTANGLE type reads it (client/ModSpriteShifts): four by four tiles, each
+    drawn by tile(left, right, up, down), whether the face joins one of its own column on that side. Across, the tiles
+    are a lone block, the left end of a row (joined on its right), the middle and the right end; down, the top of a
+    column (joined below), the middle, the bottom and a lone block. The block's own texture is the lone block's tile.
+    """
+    sheet = Image.new('RGBA', (64, 64))
+    for col in range(4):
+        for row in range(4):
+            sheet.paste(tile(col in (2, 3), col in (1, 2), row in (1, 2), row in (0, 1)), (col * 16, row * 16))
+    return sheet
+
+
+def ring(start_open, end_open):
+    """
+    Where rivets go along an edge two pixels in: every four pixels, so a row of them runs on into the next block of the
+    column, turning the corner two pixels in from an end the column stops at.
+    """
+    return [2, 6, 10, 14 if end_open else 13]
+
+
+def section_side(seed, pal, rust, left=False, right=False, up=False, down=False):
+    """
+    A column section's side, as the connected texture draws it on a formed column: plate, a seam under the flange
+    round its top and over the one round its bottom, a row of rivets along each, running on across the column. The
+    column's top section is capped, a riveted band lit along its top under its top flange, and its bottom section stands
+    on a darker skirt; where the column ends at either side, the seam where its plates turn the corner. A lone section
+    is all of these.
     """
     img = plate(seed, pal)
     px = img.load()
-    for y in range(16):
-        px[0, y] = D.shade(pal, 1)
-    for x in range(16):
-        px[x, 2] = D.shade(pal, 2)
-        px[x, 13] = D.shade(pal, 4)
-    for x in (3, 7, 11):
-        rivet(px, pal, x, 3)
-        rivet(px, pal, x, 11)
-    for y in (6, 9):
-        rivet(px, pal, 2, y)
+    if up:
+        for x in range(16):
+            px[x, 2] = D.shade(pal, 2)
+        for x in range(1, 16, 4):
+            rivet(px, pal, x, 3)
+    else:
+        for x in range(16):
+            px[x, 2] = D.shade(pal, 5)
+            px[x, 3] = D.shade(pal, 4)
+            px[x, 4] = D.shade(pal, 1)
+        for x in range(1, 16, 4):
+            px[x, 3] = D.shade(pal, 6)
+    if down:
+        for x in range(16):
+            px[x, 13] = D.shade(pal, 4)
+        for x in range(1, 16, 4):
+            rivet(px, pal, x, 11)
+    else:
+        for x in range(16):
+            px[x, 11] = D.shade(pal, 1)
+            px[x, 12] = D.shade(pal, 2)
+            px[x, 13] = D.shade(pal, 2)
+        for x in range(1, 16, 4):
+            px[x, 12] = D.shade(pal, 4)
+    if not left:
+        for y in range(16):
+            px[0, y] = D.shade(pal, 1)
+        for y in (6, 9):
+            rivet(px, pal, 2, y)
+    if not right:
+        for y in range(16):
+            px[15, y] = D.shade(pal, 4)
+        for y in (6, 9):
+            rivet(px, pal, 12, y)
     if rust:
         D.rusty(img, random.Random(seed + 1), rust)
     return img
 
 
-def section_top(seed, pal, rust):
-    """A section's top or bottom: a plate with a ring of rivets near its edge."""
+def section_top(seed, pal, rust, left=False, right=False, up=False, down=False):
+    """
+    A section's top or bottom, as the connected texture draws it across a formed column: one plate, edged where the
+    column ends, lit along its top and left and shaded along its bottom and right, with a ring of rivets two pixels in
+    from those edges.
+    """
     img = plate(seed, pal)
     px = img.load()
+    for i in ring(left, right):
+        if not up:
+            rivet(px, pal, i, 2)
+        if not down:
+            rivet(px, pal, i, 12)
+    for i in ring(up, down):
+        if not left:
+            rivet(px, pal, 2, i)
+        if not right:
+            rivet(px, pal, 12, i)
     for i in range(16):
-        px[i, 0] = px[0, i] = D.shade(pal, 2)
-        px[i, 15] = px[15, i] = D.shade(pal, 4)
-    for i in (2, 6, 10):
-        rivet(px, pal, i, 2)
-        rivet(px, pal, i, 12)
-        rivet(px, pal, 2, i)
-        rivet(px, pal, 12, i)
+        if not up:
+            px[i, 0] = D.shade(pal, 2)
+        if not left:
+            px[0, i] = D.shade(pal, 2)
+        if not down:
+            px[i, 15] = D.shade(pal, 4)
+        if not right:
+            px[15, i] = D.shade(pal, 4)
     if rust:
         D.rusty(img, random.Random(seed + 1), rust)
     return img
@@ -143,21 +207,26 @@ def nozzle_face(seed, pal, rust):
     return img
 
 
+# a square shell or drum shaded round, as Create shades its pipes and tanks: the shade of each of the twelve pixels
+# across a face, lit a quarter of the way in from one edge and darkening to the other
+ROUND = (1, 3, 5, 6, 6, 5, 4, 4, 3, 3, 2, 1)
+
+
 def shell(seed, pal, rust):
     """
-    The condenser's shell, its axis running across the texture: a riveted seam along it, and a girth seam at each
-    quarter where one ring of plate meets the next.
+    The condenser's shell, its axis running across the texture: a square shell shaded round across its twelve pixels
+    (rows 2 to 13), with a girth seam a quarter of the way in from each end where one ring of plate meets the next.
     """
-    img = plate(seed, pal)
+    rng = random.Random(seed)
+    img = Image.new('RGBA', (16, 16))
     px = img.load()
-    for x in range(16):
-        px[x, 7] = D.shade(pal, 1)
-        px[x, 8] = D.shade(pal, 4)
-    for x in range(1, 16, 3):
-        rivet(px, pal, x, 5)
     for y in range(16):
-        px[4, y] = D.shade(pal, 2)
-        px[12, y] = D.shade(pal, 2)
+        i = ROUND[min(11, max(0, y - 2))]
+        for x in range(16):
+            px[x, y] = D.shade(pal, i + (rng.random() < 0.05) - (rng.random() < 0.05))
+        for x in (4, 11):
+            px[x, y] = D.shade(pal, i - 2)
+            px[x + 1, y] = D.shade(pal, i + 1)
     if rust:
         D.rusty(img, random.Random(seed + 1), rust)
     return img
@@ -218,8 +287,12 @@ def pipe_end(seed, pal, rust):
 
 def textures():
     for prefix, pal, rust in LOOKS:
-        D.png(section_side(4501, pal, rust), f'{prefix}steel_column_section')
-        D.png(section_top(4502, pal, rust), f'{prefix}steel_column_section_top')
+        side = lambda l, r, u, d: section_side(4501, pal, rust, l, r, u, d)
+        top = lambda l, r, u, d: section_top(4502, pal, rust, l, r, u, d)
+        D.png(side(False, False, False, False), f'{prefix}steel_column_section')
+        D.png(ct_sheet(side), f'{prefix}steel_column_section_connected')
+        D.png(top(False, False, False, False), f'{prefix}steel_column_section_top')
+        D.png(ct_sheet(top), f'{prefix}steel_column_section_top_connected')
         D.png(flange(4503, pal, rust), f'{prefix}steel_column_flange')
         D.png(nozzle_face(4504, pal, rust), f'{prefix}steel_column_nozzle')
         D.png(shell(4505, pal, rust), f'{prefix}steel_condenser_shell')
@@ -295,8 +368,9 @@ def column_section():
 
 def condenser():
     """
-    Lying along z, turned by its blockstate to lie along x: a flanged head at each end, the shell between them drawn
-    round from three boxes, and a short water nozzle out of its top, bottom and two sides.
+    Lying along z, turned by its blockstate to lie along x: a flanged head at each end, the shell between them one
+    square box shaded round (Taran, 0.36.0: no stepped edges), and a short water nozzle out of its top, bottom and two
+    sides, from the shell to the block's face.
     """
     for prefix, _, _ in LOOKS:
         tex = {'shell': f'mcremix:block/{prefix}steel_condenser_shell',
@@ -312,19 +386,15 @@ def condenser():
             for d in ('up', 'down'):
                 faces[d] = D.face('#flange', [1, z0, 15, z1])
             elements.append(D.el((1, 1, z0), (15, 15, z1), faces))
-        for frm, to in (((3, 1.5, 2), (13, 14.5, 14)), ((1.5, 3, 2), (14.5, 13, 14)), ((2, 2, 2), (14, 14, 14))):
-            faces = {}
-            for d in ('east', 'west'):
-                faces[d] = D.face('#shell', [2, 16 - to[1], 14, 16 - frm[1]])
-            for d in ('up', 'down'):
-                faces[d] = D.face('#shell', [frm[0], 2, to[0], 14], rotation=90)
-            elements.append(D.el(frm, to, faces))
-        for frm, to, out in (((6, 14.5, 6), (10, 16, 10), 'up'), ((6, 0, 6), (10, 1.5, 10), 'down'),
-                             ((14.5, 6, 6), (16, 10, 10), 'east'), ((0, 6, 6), (1.5, 10, 10), 'west')):
+        faces = {d: D.face('#shell', [2, 2, 14, 14]) for d in ('east', 'west')}
+        faces.update({d: D.face('#shell', [2, 2, 14, 14], rotation=90) for d in ('up', 'down')})
+        elements.append(D.el((2, 2, 2), (14, 14, 14), faces))
+        for frm, to, out in (((6, 14, 6), (10, 16, 10), 'up'), ((6, 0, 6), (10, 2, 10), 'down'),
+                             ((14, 6, 6), (16, 10, 10), 'east'), ((0, 6, 6), (2, 10, 10), 'west')):
             faces = {out: D.face('#neck', [0, 0, 16, 16])}
             for d in ('north', 'south', 'east', 'west', 'up', 'down'):
                 if d != out and d != {'up': 'down', 'down': 'up', 'east': 'west', 'west': 'east'}[out]:
-                    faces[d] = D.face('#flange', [6, 4, 10, 5.5])
+                    faces[d] = D.face('#flange', [6, 4, 10, 6])
             elements.append(D.el(frm, to, faces))
         D.model(f'{prefix}steel_condenser', {'parent': 'minecraft:block/block', 'textures': tex,
                                             'elements': elements})
