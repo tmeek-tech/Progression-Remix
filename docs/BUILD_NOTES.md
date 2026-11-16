@@ -3013,10 +3013,10 @@ ingredient's test ignores them.
 Stage 2 of Taran's distillation design (design/distillation.md in the shared folder; the numbers it left to the build
 are in design/steel-column-build-numbers.md): a steel fractionating column that splits stage 1's wash, wood spirit and
 coal tar nonstop, every cut at once, with a steel condenser at its foot that also works inline on any pipe. Six cards
-went to Taran on 2026-11-15 and none was answered when this was built, so it follows the picks they recommend: each
-heater under a column adds to its pace, any pipe on a section draws that section's cut, a close pair needs two more
-sections or reflux, one condenser serves a column and colder coolant makes it faster, warm cuts cool only in a
-condenser, and what escapes is a flammable haze. An answer that differs changes a number or a rule here, not the shape.
+went to Taran on 2026-11-15, and on 2026-11-16 Taran chose every one as it was built: each heater under a column adds to
+its pace (more heaters only add pace, none is required under every block), any pipe on a section draws that section's
+cut, a close pair needs two more sections or reflux, one condenser serves a column and colder coolant makes it faster,
+warm cuts cool only in a condenser, and what escapes is a flammable haze.
 Crude oil (stage 3) and the liquid air column (stage 4) come later.
 
 **The column** (`column/ColumnSectionBlock`, `ColumnSectionBlockEntity`, `Column`). Steel Column Sections join as

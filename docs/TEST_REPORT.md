@@ -9,7 +9,8 @@ Newest first: [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and
 This covers section 41 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 2 of the distillation build, the steel
 fractionating column and its steel condenser, splitting the wash, wood spirit and coal tar nonstop, with hot cuts, the
 condenser inline on a pipe and solvent vapour, on top of 0.31.0, with the fixes a review of the stage found. Tested on
-2026-11-15 against the same versions as 0.31.0.
+2026-11-15 against the same versions as 0.31.0. Taran answered the stage's six cards on 2026-11-16, each as it was
+built, so nothing tested here changed.
 
 **Result:** 0.32.0 compiled with no errors. Every GameTest passes in a fresh test world: 396 of 396 plain and
 402 of 402 with `-Pcompanions`. In a dev client the columns, their condensers and vapour lines and an inline condenser
@@ -31,9 +32,6 @@ draw, and all three Ponder scenes play. Not checked: the jar on a real Forge ser
 
 ### Known gaps
 
-- Taran has not answered the six cards on the stage yet, so every rule above that they cover is Claude's pick: each
-  heater adding pace, any pipe drawing a cut, two sections for a close pair, one condenser to a column, warm cuts
-  cooled only in a condenser, and vapour that burns.
 - The goggles, the JEI pages and a column running (feed, cuts drawn, venting, the vapour haze and its flash) were
   checked by GameTest only, not seen in the dev client.
 - A column broken, or re-formed, keeps only what fits the column its heir forms; two columns with different feeds
