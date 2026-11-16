@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
  * one below it. Create's pumps move 1 mB a tick for every 2 RPM, so the speed of the pump feeding a lit Steel Furnace
  * sets how hot it burns: coal tar is the thrifty fuel, and hydrogen and ethylene the only ones that reach Blazing. Fuel
  * that comes faster than burns at its ceiling is lost. Sour gas burns dirty: for every 2 mB of it burnt, 1 mB of
- * sulfur dioxide goes up the chimney ({@link #SULFUR_PER_SOUR_GAS}).
+ * sulfur dioxide goes up the chimney ({@link #SULFUR_PER_SOUR_GAS}); hydrogen sulfide dirtier, a mB for every mB.
  */
 public final class SteelFurnaceFuels {
 	/** {@code heatPerMb} is the heat a mB gives when burnt; {@code ceiling} is as hot as it ever burns. */
@@ -47,9 +47,18 @@ public final class SteelFurnaceFuels {
 			return new FluidStack(fluid.get(), amount);
 		}
 
-		/** Sour gas, which gives off sulfur dioxide as it burns. */
+		/** Sour gas or hydrogen sulfide, which give off sulfur dioxide as they burn. */
 		public boolean sour() {
-			return Chemical.of(fluid.get()) == Chemical.SOUR_GAS;
+			return sulfurUnits() > 0;
+		}
+
+		/**
+		 * Halves of a mB of sulfur dioxide each mB of it gives off burnt: sour gas one (a mB of sulfur dioxide for every
+		 * {@link #SULFUR_PER_SOUR_GAS} burnt), hydrogen sulfide two (a mB for a mB), anything else none.
+		 */
+		public int sulfurUnits() {
+			Chemical chemical = Chemical.of(fluid.get());
+			return chemical == Chemical.SOUR_GAS ? 1 : chemical == Chemical.HYDROGEN_SULFIDE ? 2 : 0;
 		}
 
 		/** A gas, which escapes into the air from an unlit Steel Furnace, where a liquid spills. */
@@ -75,7 +84,10 @@ public final class SteelFurnaceFuels {
 		// out sulfur dioxide as it burns
 		new Fuel(Chemical.FUEL_GAS::fluid, 2, HeatLevel.BLAZING),
 		new Fuel(Chemical.FUEL_OIL::fluid, 3, HeatLevel.SEARING),
-		new Fuel(Chemical.SOUR_GAS::fluid, 1, HeatLevel.SEARING));
+		new Fuel(Chemical.SOUR_GAS::fluid, 1, HeatLevel.SEARING),
+		// the sulfur works' (stage 5): hydrogen sulfide burns as sour gas does, but puffs out a mB of sulfur dioxide for
+		// every mB of it
+		new Fuel(Chemical.HYDROGEN_SULFIDE::fluid, 1, HeatLevel.SEARING));
 
 	/** mB of sour gas burnt for each mB of sulfur dioxide it gives off. */
 	public static final int SULFUR_PER_SOUR_GAS = 2;

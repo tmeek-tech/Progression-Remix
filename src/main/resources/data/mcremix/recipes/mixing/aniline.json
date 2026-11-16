@@ -1,0 +1,26 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "fluid": "mcremix:nitrobenzene",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:vinegar",
+      "amount": 50
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:aniline",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated"
+}

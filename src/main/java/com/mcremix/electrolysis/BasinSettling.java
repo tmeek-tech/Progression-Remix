@@ -18,9 +18,9 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 /**
- * A basin left to stand, with no mixer or press over it: cool, what settles settles and what ferments ferments; over
- * heat, what boils down boils down ({@link BoilingRecipe}). A basin does one batch at a time; a vat, never heated, does
- * many at once ({@link Vat}).
+ * A basin left to stand, with no mixer or press over it: cool, what settles settles and what ferments ferments, and
+ * with nothing at all over it what airs airs ({@link AiringRecipe}); over heat, what boils down boils down
+ * ({@link BoilingRecipe}). A basin does one batch at a time; a vat, never heated, does many at once ({@link Vat}).
  */
 public class BasinSettling {
 	/**
@@ -30,9 +30,16 @@ public class BasinSettling {
 	@Nullable
 	public static BasinRecipe find(BasinBlockEntity basin) {
 		Level level = basin.getLevel();
-		if (level == null || !holdsFluid(basin) || worked(basin))
+		if (level == null || worked(basin))
 			return null;
 		RecipeManager recipes = level.getRecipeManager();
+		// what airs needs the air over it, and may be only items, as foul red mud is
+		if (cool(basin) && open(basin))
+			for (AiringRecipe recipe : airing(recipes))
+				if (BasinRecipe.match(basin, recipe))
+					return recipe;
+		if (!holdsFluid(basin))
+			return null;
 		for (BasinRecipe recipe : cool(basin) ? standing(recipes) : boiling(recipes))
 			if (BasinRecipe.match(basin, recipe))
 				return recipe;
@@ -49,6 +56,24 @@ public class BasinSettling {
 		List<BasinRecipe> all = new ArrayList<>(recipes.getAllRecipesFor(ModRecipes.SETTLING_TYPE.get()));
 		all.addAll(recipes.getAllRecipesFor(ModRecipes.FERMENTING_TYPE.get()));
 		return all;
+	}
+
+	/** What turns in the air, as an open basin airs it. */
+	public static List<AiringRecipe> airing(RecipeManager recipes) {
+		return recipes.getAllRecipesFor(ModRecipes.AIRING_TYPE.get());
+	}
+
+	/** What a vat left to stand does: what settles, what ferments, and what airs with oxygen piped in. */
+	public static List<BasinRecipe> standingInVat(RecipeManager recipes) {
+		List<BasinRecipe> all = standing(recipes);
+		for (AiringRecipe recipe : airing(recipes))
+			all.add(recipe.inVat());
+		return all;
+	}
+
+	/** Nothing over it, so the air gets at what is in it. */
+	public static boolean open(BasinBlockEntity basin) {
+		return basin.getLevel().getBlockState(basin.getBlockPos().above()).isAir();
 	}
 
 	private static boolean holdsFluid(BasinBlockEntity basin) {

@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:light_oil",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:mixed_acid",
+      "amount": 500
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:nitrobenzene",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 250
+    }
+  ],
+  "processingTime": 100
+}

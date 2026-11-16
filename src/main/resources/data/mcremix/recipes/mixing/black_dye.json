@@ -1,0 +1,27 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "item": "mcremix:aniline_salt"
+    },
+    {
+      "fluid": "mcremix:ferric_chloride",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:black_dye",
+      "count": 8
+    }
+  ]
+}

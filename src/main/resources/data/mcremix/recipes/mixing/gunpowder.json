@@ -1,0 +1,23 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:sulfur"
+    },
+    {
+      "item": "mcremix:saltpetre"
+    },
+    {
+      "item": "mcremix:saltpetre"
+    },
+    {
+      "item": "minecraft:charcoal"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:gunpowder",
+      "count": 4
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:naphthalene"
+    },
+    {
+      "item": "mcremix:naphthalene"
+    },
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:naphthalenesulfonic_acid",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated"
+}

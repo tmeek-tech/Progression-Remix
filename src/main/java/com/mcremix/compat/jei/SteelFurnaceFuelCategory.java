@@ -51,9 +51,11 @@ public class SteelFurnaceFuelCategory extends AbstractRecipeCategory<SteelFurnac
 				tooltip.add(note);
 				tooltip.add(Component.translatable("mcremix.jei.steel_furnace_fuel.oxygen",
 					com.mcremix.kiln.SteelFurnaceBlockEntity.FUEL_PER_OXYGEN));
-				if (fuel.sour())
+				if (fuel.sulfurUnits() == 1)
 					tooltip.add(Component.translatable("mcremix.jei.steel_furnace_fuel.sour",
 						SteelFurnaceFuels.SULFUR_PER_SOUR_GAS));
+				else if (fuel.sour())
+					tooltip.add(Component.translatable("mcremix.jei.steel_furnace_fuel.hydrogen_sulfide"));
 			});
 	}
 

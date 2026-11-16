@@ -114,7 +114,10 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	/** When fuel last came in, lit or not. Not kept: a furnace just loaded gives its pumps a second to start again. */
 	private long lastFuel = Long.MIN_VALUE / 2;
 	private boolean fuelClockStarted;
-	/** mB of sour gas burnt since its sulfur dioxide last went up the chimney. */
+	/**
+	 * Halves of a mB of sulfur dioxide owed since it last went up the chimney: a mB of sour gas burnt gives one, a mB of
+	 * hydrogen sulfide two ({@link SteelFurnaceFuels.Fuel#sulfurUnits}).
+	 */
 	private int sourBurnt;
 
 	/** Liquid fuel piped in while it is out, pooled inside until a bucket's worth pours out of the front. */
@@ -297,7 +300,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		arrived[now] = (int) Math.min((long) arrived[now] + taken, MOST_COUNTED);
 		heatArrived[now] = (int) Math.min((long) heatArrived[now] + (long) taken * fuel.heatPerMb(), MOST_COUNTED);
 		if (fuel.sour())
-			sourBurnt = (int) Math.min((long) sourBurnt + taken, MOST_COUNTED);
+			sourBurnt = (int) Math.min((long) sourBurnt + (long) taken * fuel.sulfurUnits(), MOST_COUNTED);
 		if (burning != fuel) {
 			burning = fuel;
 			queueSync();
@@ -315,7 +318,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		}
 	}
 
-	/** mB of sour gas burnt since its sulfur dioxide last went up the chimney. */
+	/** Halves of a mB of sulfur dioxide owed since it last went up the chimney: a mB of sour gas burnt gives one. */
 	public int sourBurnt() {
 		return sourBurnt;
 	}

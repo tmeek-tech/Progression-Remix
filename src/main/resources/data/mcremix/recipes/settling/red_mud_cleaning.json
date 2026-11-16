@@ -1,0 +1,22 @@
+{
+  "type": "mcremix:settling",
+  "processingTime": 100,
+  "ingredients": [
+    {
+      "item": "mcremix:red_mud"
+    },
+    {
+      "fluid": "mcremix:sour_gas",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:foul_red_mud"
+    },
+    {
+      "fluid": "mcremix:fuel_gas",
+      "amount": 150
+    }
+  ]
+}

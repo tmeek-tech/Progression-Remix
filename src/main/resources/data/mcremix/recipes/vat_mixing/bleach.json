@@ -1,0 +1,19 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:bleach",
+      "amount": 500
+    }
+  ]
+}

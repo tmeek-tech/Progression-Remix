@@ -12,12 +12,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mcremix.electrolysis.BasinSettling;
 import com.mcremix.electrolysis.BasinVent;
+import com.mcremix.fluids.DiazoSalts;
 import com.mcremix.kiln.KilnBlockEntity;
 import com.simibubi.create.content.processing.basin.BasinBlockEntity;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
@@ -32,6 +34,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
  * time, and one left over heat boils down what will boil down ({@link BasinSettling}).
  * <p>
  * A basin is open, so gas piped into it goes off into the air rather than staying ({@link BasinVent}).
+ * <p>
+ * A diazo salt in it breaks down unless kept cold, and at once over heat ({@link DiazoSalts#basin}).
  */
 @Mixin(value = BasinBlockEntity.class, remap = false)
 public abstract class BasinBlockEntityMixin {
@@ -72,6 +76,7 @@ public abstract class BasinBlockEntityMixin {
 			return;
 		if (level.getGameTime() % 20 == 0)
 			mcremix$vent.tick();
+		DiazoSalts.basin((ServerLevel) level, self);
 		if (--mcremix$recheck <= 0) {
 			mcremix$recheck = 20;
 			BasinRecipe found = BasinSettling.find(self);

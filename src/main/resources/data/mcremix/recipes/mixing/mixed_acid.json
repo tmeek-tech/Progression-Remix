@@ -1,0 +1,19 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:nitric_acid",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:mixed_acid",
+      "amount": 500
+    }
+  ]
+}

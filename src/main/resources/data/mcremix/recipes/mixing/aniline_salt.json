@@ -1,0 +1,23 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:aniline",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:aniline_salt",
+      "count": 4
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ]
+}

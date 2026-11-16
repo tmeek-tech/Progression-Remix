@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:molten_sodium",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:ammonia",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:sodamide",
+      "count": 4
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 125
+    }
+  ]
+}

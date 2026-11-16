@@ -10,10 +10,13 @@ import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
 import com.mcremix.fluids.FuelGasCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
+import com.mcremix.fluids.HydrogenSulfideCloud;
 import com.mcremix.fluids.NitrogenCloud;
 import com.mcremix.fluids.NitrogenDioxideCloud;
 import com.mcremix.fluids.OxygenCloud;
 import com.mcremix.fluids.SourGasCloud;
+import com.mcremix.fluids.SulfurDioxideCloud;
+import com.mcremix.fluids.SulfurTrioxideFog;
 import com.mcremix.fluids.VinylChlorideHaze;
 
 import net.minecraft.core.particles.ParticleTypes;
@@ -29,8 +32,9 @@ import net.minecraftforge.fluids.FluidStack;
  * mist that rusts the metal under it, CO2 as a sinking haze that smothers, sour gas as a poison haze that flashes at a
  * flame and fuel gas as one that only flashes, oxygen as a haze that makes fire flare, nitrogen and argon smothering as
  * CO2 does (argon sinking, nitrogen thinning fast), ammonia as a stinging haze and nitrogen dioxide as a brown poison
- * one, titanium tetrachloride fuming into white smoke and that same mist, and the others (air and the compressed gases
- * among them) with a hiss and nothing more. A vat is closed and keeps its gases for pipes to draw off.
+ * one, titanium tetrachloride fuming into white smoke and that same mist, hydrogen sulfide as a deadly sinking cloud
+ * unseen when thick, sulfur dioxide as a choking haze that kills plants, sulfur trioxide as a stinging acid fog that
+ * eats into metal, and the others (air and the compressed gases among them) with a hiss and nothing more. A vat is closed and keeps its gases for pipes to draw off.
  */
 public class Gases {
 	public static void escape(ServerLevel level, Vec3 at, List<FluidStack> gases) {
@@ -60,6 +64,12 @@ public class Gases {
 				AmmoniaCloud.release(level, at, gas.getAmount());
 			else if (chemical == Chemical.NITROGEN_DIOXIDE)
 				NitrogenDioxideCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.HYDROGEN_SULFIDE)
+				HydrogenSulfideCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.SULFUR_DIOXIDE)
+				SulfurDioxideCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.SULFUR_TRIOXIDE)
+				SulfurTrioxideFog.release(level, at, gas.getAmount());
 			else if (chemical == Chemical.TITANIUM_TETRACHLORIDE)
 				fume(level, at, gas.getAmount());
 			else if (chemical != null && chemical.gas)

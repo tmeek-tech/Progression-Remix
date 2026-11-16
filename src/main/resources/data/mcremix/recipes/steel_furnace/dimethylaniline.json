@@ -1,0 +1,29 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "hot",
+  "processingTime": 100,
+  "catalyst_lasts": 16000,
+  "ingredients": [
+    {
+      "item": "mcremix:alumina"
+    },
+    {
+      "fluid": "mcremix:aniline",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:methanol",
+      "amount": 200
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:dimethylaniline",
+      "amount": 100
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 200
+    }
+  ]
+}

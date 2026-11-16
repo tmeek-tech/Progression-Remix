@@ -8,6 +8,8 @@
     "mcremix:ammonia",
     "mcremix:nitrogen_dioxide",
     "mcremix:nitrogen",
-    "mcremix:argon"
+    "mcremix:argon",
+    "mcremix:hydrogen_sulfide",
+    "mcremix:acid_fog"
   ]
 }

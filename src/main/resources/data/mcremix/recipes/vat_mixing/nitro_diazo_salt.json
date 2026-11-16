@@ -1,0 +1,32 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:sodium_nitrite"
+    },
+    {
+      "item": "mcremix:nitroaniline"
+    },
+    {
+      "item": "mcremix:nitroaniline"
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:cold_water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:nitro_diazo_salt",
+      "amount": 250
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ]
+}

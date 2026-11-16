@@ -1,0 +1,30 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:sodium_nitrite"
+    },
+    [
+      {
+        "item": "minecraft:ice"
+      },
+      {
+        "item": "minecraft:packed_ice"
+      }
+    ],
+    {
+      "fluid": "mcremix:aniline",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrochloric_acid",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:diazo_salt",
+      "amount": 250
+    }
+  ]
+}

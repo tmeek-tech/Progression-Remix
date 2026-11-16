@@ -1,6 +1,7 @@
 package com.mcremix.kiln;
 
 import com.mcremix.fluids.Chemical;
+import com.mcremix.fluids.SulfurDioxideCloud;
 import java.util.List;
 import java.util.Optional;
 
@@ -520,7 +521,8 @@ public class KilnBlockEntity extends SmartBlockEntity implements IHaveGoggleInfo
 
 	/**
 	 * Keeps what an item gave off as it fired. Whatever does not fit, because the tank is full or holds something
-	 * else, burns away at the chimney, or, if it is CO2, goes up it. CO2 kept in the tank gives way to anything else
+	 * else, burns away at the chimney, or, if it is CO2 or sulfur dioxide, goes up it, the sulfur dioxide as its choking
+	 * cloud. CO2 kept in the tank gives way to anything else
 	 * given off: it goes up the chimney and the new byproduct is kept, so lime fired earlier never stops tar being
 	 * collected.
 	 */
@@ -537,6 +539,13 @@ public class KilnBlockEntity extends SmartBlockEntity implements IHaveGoggleInfo
 		// CO2 from lime doesn't burn: what has no room just goes up the chimney unseen, as a lime kiln's does
 		if (Chemical.of(given.getFluid()) == Chemical.CARBON_DIOXIDE)
 			return;
+		// nor does sulfur dioxide, burnt already: it goes up the chimney and sinks round the Furnace, choking
+		if (Chemical.of(given.getFluid()) == Chemical.SULFUR_DIOXIDE) {
+			if (level instanceof ServerLevel server)
+				SulfurDioxideCloud.release(server, chimney(Vec3.atCenterOf(worldPosition),
+					Vec3.atLowerCornerOf(getBlockState().getValue(KilnBlock.FACING).getNormal())), given.getAmount() - kept);
+			return;
+		}
 		lastBurntOff = level.getGameTime();
 		syncQueued = true;
 		level.playSound(null, worldPosition, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.3f, 0.6f);

@@ -4369,12 +4369,43 @@ CHEMICALS = {
     'nitrogen_dioxide': ((0x5A, 0x28, 0x0C), (0x8E, 0x4C, 0x1E), (0xC8, 0x84, 0x50), 170),
     # nitric acid: clear, yellowing a little as it stands
     'nitric_acid': ((0xC8, 0xC0, 0x8C), (0xF2, 0xEE, 0xC6), (0xFF, 0xFE, 0xEE), 120),
+    # the dye works and sulfur works (0.35.0, gen_dyes.py). nitrobenzene: a pale yellow oil, smelling of almonds
+    'nitrobenzene': ((0xB0, 0x98, 0x48), (0xE4, 0xCC, 0x78), (0xFF, 0xF4, 0xC8), 170),
+    # aniline: an oily liquid, colourless going brownish as it stands
+    'aniline': ((0x9C, 0x80, 0x60), (0xD8, 0xC2, 0x9C), (0xFF, 0xF2, 0xDC), 160),
+    # bleach: a pale greenish yellow
+    'bleach': ((0xB8, 0xC0, 0x80), (0xE4, 0xEA, 0xB8), (0xFF, 0xFF, 0xEC), 110),
+    'chloroacetic_acid': ((0xB0, 0xB8, 0xA8), (0xE0, 0xE6, 0xD8), (0xFF, 0xFF, 0xFF), 100),
+    # the indigo melt: a hot yellow melt, glowing a little
+    'indigo_melt': ((0x9C, 0x6E, 0x0C), (0xE0, 0xB4, 0x2C), (0xFF, 0xE8, 0x90), 235),
+    # the diazo salts: pale yellow solutions, the nitro one deeper and the naphthyl one pinkish
+    'diazo_salt': ((0xB8, 0xAC, 0x70), (0xEE, 0xE4, 0xA8), (0xFF, 0xFC, 0xE4), 120),
+    'nitro_diazo_salt': ((0xB4, 0x94, 0x38), (0xEA, 0xCC, 0x70), (0xFF, 0xF0, 0xC0), 140),
+    'naphthyl_diazo_salt': ((0x9C, 0x70, 0x60), (0xD4, 0xAA, 0x98), (0xFC, 0xE4, 0xDA), 140),
+    'benzal_chloride': ((0xA8, 0xB4, 0xA0), (0xDC, 0xE4, 0xD4), (0xFF, 0xFF, 0xFF), 110),
+    # benzaldehyde: colourless, the oil of bitter almonds
+    'benzaldehyde': ((0xB8, 0xB4, 0x90), (0xEE, 0xE8, 0xC8), (0xFF, 0xFF, 0xF2), 110),
+    'dimethylaniline': ((0xB0, 0xA0, 0x70), (0xE8, 0xDA, 0xA8), (0xFF, 0xF8, 0xE0), 130),
+    # sulfuric acid: colourless, thick and oily
+    'sulfuric_acid': ((0xB4, 0xB4, 0xA8), (0xE8, 0xE8, 0xDC), (0xFF, 0xFF, 0xFF), 120),
+    # the sulfur gases: sulfur dioxide all but invisible, the trioxide white fumes, hydrogen sulfide a faint yellow
+    'sulfur_dioxide': ((0xB0, 0xAE, 0xA4), (0xDE, 0xDC, 0xD2), (0xFF, 0xFF, 0xFC), 70),
+    'sulfur_trioxide': ((0xC8, 0xC6, 0xC0), (0xF0, 0xEE, 0xE8), (0xFF, 0xFF, 0xFF), 110),
+    'hydrogen_sulfide': ((0xC0, 0xBE, 0x98), (0xE8, 0xE6, 0xC8), (0xFF, 0xFF, 0xF0), 50),
+    # foul soda: soda ash solution gone a murky yellow-green with what it took up
+    'foul_soda': ((0x8C, 0x90, 0x50), (0xC4, 0xC8, 0x88), (0xF0, 0xF4, 0xC8), 150),
+    'soda_ash_solution': ((0xB0, 0xB8, 0xB8), (0xE2, 0xE8, 0xE6), (0xFF, 0xFF, 0xFF), 100),
+    # molten sulfur: a glowing amber-orange melt
+    'molten_sulfur': ((0xA0, 0x58, 0x08), (0xEC, 0x9C, 0x18), (0xFF, 0xE0, 0x70), 240),
+    'mixed_acid': ((0xC0, 0xB8, 0x90), (0xEE, 0xE8, 0xCA), (0xFF, 0xFE, 0xF0), 120),
+    # naphthalenesulfonic acid: a brown syrup
+    'naphthalenesulfonic_acid': ((0x6E, 0x4C, 0x28), (0xAC, 0x84, 0x54), (0xE8, 0xC8, 0xA0), 220),
 }
 # gases have no bucket (Chemical.gas)
 GASES = {'chlorine', 'hydrogen', 'ethylene', 'vinyl_chloride', 'hydrogen_chloride', 'pressurized_steam',
          'titanium_tetrachloride', 'carbon_dioxide', 'sour_gas', 'fuel_gas', 'air', 'hot_compressed_air',
          'compressed_air', 'nitrogen', 'hot_compressed_nitrogen', 'compressed_nitrogen', 'oxygen', 'argon', 'ammonia',
-         'nitrogen_dioxide'}
+         'nitrogen_dioxide', 'sulfur_dioxide', 'sulfur_trioxide', 'hydrogen_sulfide'}
 
 
 def liquid_frame(size, phase, waves, palette, shift=0):
@@ -8598,6 +8629,259 @@ def gen_formulas():
     f.atom('HO', -1.8, 0, charge='-', end=True)
     f.atom('OH', 1.8, 0, charge='-')
 
+    # the dye works and sulfur works (stage 5): the sulfur compounds, the nitro compounds and amines made from coal
+    # tar's benzene and naphthalene, the diazo salts, the reagents, and the dyes that are one molecule each. A nitro
+    # group is drawn as chemists draw it, a charged nitrogen with one oxygen double-bonded and one charged
+    def nitro(i, angle):
+        n = f.branch(i, 'N', angle, charge='+')
+        f.branch(n, 'O', angle + 60, order=2)
+        f.branch(n, 'O', angle - 60, charge='-')
+
+    def diazonium(i, angle):
+        f.branch(f.branch(i, 'N', angle, charge='+'), 'N', angle, order=3)
+
+    def sulfuric(x, y):
+        s = f.atom('S', x, y)
+        f.branch(s, 'O', 90, order=2)
+        f.branch(s, 'O', 270, order=2)
+        f.branch(s, 'OH', 0)
+        f.branch(s, 'HO', 180, end=True)
+
+    f = formula('hydrogen_sulfide', 'H2S', fluids=mr('hydrogen_sulfide'))
+    s = f.atom('S', 0, 0)
+    for angle in (270 - 46, 270 + 46):
+        f.branch(s, 'H', angle)
+
+    f = formula('sulfur_dioxide', 'SO2', fluids=mr('sulfur_dioxide'))
+    s = f.atom('S', 0, 0)
+    for angle in (210, 330):
+        f.branch(s, 'O', angle, order=2)
+
+    f = formula('sulfur_trioxide', 'SO3', fluids=mr('sulfur_trioxide'))
+    s = f.atom('S', 0, 0)
+    for angle in (90, 210, 330):
+        f.branch(s, 'O', angle, order=2)
+
+    f = formula('sulfuric_acid', 'H2SO4', fluids=mr('sulfuric_acid'))
+    sulfuric(0, 0)
+
+    f = formula('mixed_acid', 'HNO3 + H2SO4', fluids=mr('mixed_acid'))
+    n = f.atom('N', 0, 0, charge='+')
+    f.branch(n, 'O', 90, order=2)
+    f.branch(n, 'O', 330, charge='-')
+    f.branch(f.branch(n, 'O', 210), 'H', 150)
+    f.sign('+', 2.0, 0)
+    sulfuric(4.3, 0)
+
+    # foul soda holds the hydrogen sulfide as sodium hydrosulfide
+    f = formula('sodium_hydrosulfide', 'NaHS in H2O', fluids=mr('foul_soda'))
+    f.atom('Na', 0, 0, charge='+')
+    f.atom('SH', 1.7, 0, charge='-')
+    f.sign('+', 2.9, 0)
+    water_molecule(f, 4.4, -0.3)
+
+    f = formula('soda_ash_solution', 'Na2CO3 in H2O', fluids=mr('soda_ash_solution'))
+    f.atom('Na', 0, 0, charge='+', count='2')
+    c = f.atom('C', 2.8, 0.2)
+    f.branch(c, 'O', 90, order=2)
+    for angle in (210, 330):
+        f.branch(c, 'O', angle, charge='-')
+    f.sign('+', 4.3, 0)
+    water_molecule(f, 5.8, -0.3)
+
+    # foul red mud: its iron oxide turned to iron sulfide
+    f = formula('iron_sulfide', 'Fe2S3', mr('foul_red_mud'))
+    fe = [f.atom('Fe', 0.85 + 1.7 * i, 0, charge='3+') for i in range(2)]
+    sulfide = [f.atom('S', 1.7 * i, 1.4, charge='2-') for i in range(3)]
+    for i, a in enumerate(fe):
+        f.bond(a, sulfide[i], 0)
+        f.bond(a, sulfide[i + 1], 0)
+
+    f = formula('sodium_nitrate', 'NaNO3', mr('saltpetre'))
+    f.atom('Na', 0, 0, charge='+')
+    n = f.atom('N', 2.6, 0.2, charge='+')
+    f.branch(n, 'O', 90, order=2)
+    for angle in (210, 330):
+        f.branch(n, 'O', angle, charge='-')
+
+    f = formula('bleach', 'NaOCl in H2O', fluids=mr('bleach'))
+    f.atom('Na', 0, 0, charge='+')
+    f.atom('OCl', 1.7, 0, charge='-')
+    f.sign('+', 3.1, 0)
+    water_molecule(f, 4.6, -0.3)
+
+    f = formula('sodamide', 'NaNH2', mr('sodamide'))
+    f.atom('Na', 0, 0, charge='+')
+    f.atom('NH2', 1.7, 0, charge='-')
+
+    f = formula('chloroacetic_acid', 'ClCH2COOH', fluids=mr('chloroacetic_acid'))
+    c = f.branch(f.atom('ClH2C', 0, 0, end=True), 'C', 0, 1.3)
+    f.branch(c, 'O', 60, order=2)
+    f.branch(c, 'OH', 300)
+
+    f = formula('nitrobenzene', 'C6H5NO2', fluids=mr('nitrobenzene'))
+    nitro(benzene_ring(f, 0, 0, substituted=(0,))[0], 90)
+
+    f = formula('aniline', 'C6H5NH2', fluids=mr('aniline'))
+    f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'NH2', 90)
+
+    f = formula('anilinium_chloride', 'C6H5NH3Cl', mr('aniline_salt'))
+    f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'NH3', 90, charge='+')
+    f.atom('Cl', 1.9, -2.0, charge='-')
+
+    f = formula('acetanilide', 'C8H9NO', mr('acetanilide'))
+    nh = f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'NH', 90)
+    c = f.branch(nh, 'C', 30, 1.1)
+    f.branch(c, 'O', 90, order=2)
+    f.branch(c, 'CH3', 330, 1.1)
+
+    f = formula('nitroacetanilide', 'C8H8N2O3', mr('nitroacetanilide'))
+    ring = benzene_ring(f, 0, 0, substituted=(0, 3))
+    nh = f.branch(ring[0], 'NH', 90)
+    c = f.branch(nh, 'C', 30, 1.1)
+    f.branch(c, 'O', 90, order=2)
+    f.branch(c, 'CH3', 330, 1.1)
+    nitro(ring[3], 270)
+
+    f = formula('nitroaniline', 'C6H6N2O2', mr('nitroaniline'))
+    ring = benzene_ring(f, 0, 0, substituted=(0, 3))
+    f.branch(ring[0], 'NH2', 90)
+    nitro(ring[3], 270)
+
+    f = formula('nitronaphthalene', 'C10H7NO2', mr('nitronaphthalene'))
+    nitro(naphthalene_rings(f, 0, 0, substituted=(0,))[0], 90)
+
+    f = formula('naphthylamine', 'C10H7NH2', mr('naphthylamine'))
+    f.branch(naphthalene_rings(f, 0, 0, substituted=(0,))[0], 'NH2', 90)
+
+    f = formula('naphthalenesulfonic_acid', 'C10H7SO3H', fluids=mr('naphthalenesulfonic_acid'))
+    f.branch(naphthalene_rings(f, 0, 0, substituted=(7,))[7], 'SO3H', 30, 1.1)
+
+    f = formula('naphthol', 'C10H7OH', mr('naphthol'))
+    f.branch(naphthalene_rings(f, 0, 0, substituted=(7,))[7], 'OH', 30)
+
+    # the diazo salts, each its diazonium ion and a chloride, in water
+    f = formula('benzenediazonium_chloride', 'C6H5N2Cl in H2O', fluids=mr('diazo_salt'))
+    diazonium(benzene_ring(f, 0, 0, substituted=(0,))[0], 90)
+    f.atom('Cl', 1.6, -2.4, charge='-')
+    f.sign('+', 2.6, 0)
+    water_molecule(f, 4.1, -0.3)
+
+    f = formula('nitrobenzenediazonium_chloride', 'C6H4N3O2Cl in H2O', fluids=mr('nitro_diazo_salt'))
+    ring = benzene_ring(f, 0, 0, substituted=(0, 3))
+    diazonium(ring[0], 90)
+    nitro(ring[3], 270)
+    f.atom('Cl', 1.6, -2.4, charge='-')
+    f.sign('+', 2.6, 0)
+    water_molecule(f, 4.1, -0.3)
+
+    f = formula('naphthalenediazonium_chloride', 'C10H7N2Cl in H2O', fluids=mr('naphthyl_diazo_salt'))
+    diazonium(naphthalene_rings(f, 0, 0, substituted=(0,))[0], 90)
+    f.atom('Cl', 1.6, -2.4, charge='-')
+    f.sign('+', 3.6, 0)
+    water_molecule(f, 5.1, -0.3)
+
+    f = formula('benzal_chloride', 'C6H5CHCl2', fluids=mr('benzal_chloride'))
+    c = f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'C', 90)
+    f.branch(c, 'H', 90)
+    f.branch(c, 'Cl', 30, 1.3)
+    f.branch(c, 'Cl', 150, 1.3)
+
+    f = formula('benzaldehyde', 'C6H5CHO', fluids=mr('benzaldehyde'))
+    c = f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'C', 90)
+    f.branch(c, 'O', 30, order=2)
+    f.branch(c, 'H', 150)
+
+    f = formula('dimethylaniline', 'C6H5N(CH3)2', fluids=mr('dimethylaniline'))
+    n = f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'N', 90)
+    f.branch(n, 'CH3', 30, 1.1)
+    f.branch(n, 'H3C', 150, 1.1, end=True)
+
+    f = formula('phenylglycine', 'C8H9NO2', mr('phenylglycine'))
+    nh = f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'NH', 90)
+    c = f.branch(f.branch(nh, 'C', 30, 1.1, h=2, hide=True), 'C', 330, 1.0)
+    f.branch(c, 'O', 270, order=2)
+    f.branch(c, 'OH', 30)
+
+    # indoxyl, the indigo melt's own: benzene and a five-membered ring holding the nitrogen, fused on the benzene's east
+    # side. Its corners: the benzene's upper and lower east ones, then the ring's top, east tip and bottom
+    def five_ring(cx, cy, flip=1):
+        """The three corners of a five-membered ring fused on the east side of the benzene ring round (cx, cy), or on
+        its west side turned half round if `flip` is -1: its top (or bottom), tip and bottom (or top)."""
+        r = 0.85065
+        ox = cx + flip * (math.sqrt(3) / 2 + 0.68819)
+        return [(ox + flip * r * math.cos(math.radians(a)), cy - flip * r * math.sin(math.radians(a)))
+                for a in (72, 0, -72)]
+
+    f = formula('indoxyl', 'C8H7NO + NaOH', fluids=mr('indigo_melt'))
+    ring = benzene_ring(f, 0, 0, substituted=(1, 2))
+    (tx, ty), (ex, ey), (bx, by) = five_ring(0, 0)
+    top = f.atom('C', tx, ty, hide=True)
+    tip = f.atom('C', ex, ey, h=1, hide=True)
+    nh = f.atom('NH', bx, by)
+    f.bond(ring[1], top)
+    f.bond(top, tip, 2, (ex - 0.6, ey))
+    f.bond(tip, nh)
+    f.bond(nh, ring[2])
+    f.branch(top, 'OH', 72)
+    f.atom('Na', 4.2, 0, charge='+')
+    f.atom('OH', 5.6, 0, charge='-')
+
+    # indigo: two halves joined tip to tip by a double bond, the second turned half round, so each ketone faces the
+    # other half's NH
+    f = formula('indigo', 'C16H10N2O2', mr('indigo_dye'))
+    for cx, flip in ((0, 1), (2 * (math.sqrt(3) / 2 + 0.68819 + 0.85065) + 1, -1)):
+        ring = benzene_ring(f, cx, 0, substituted=(1, 2) if flip == 1 else (4, 5))
+        (tx, ty), (ex, ey), (bx, by) = five_ring(cx, 0, flip)
+        top = f.atom('C', tx, ty, hide=True)
+        tip = f.atom('C', ex, ey, hide=True)
+        nh = f.atom('NH', bx, by)
+        f.bond(ring[1] if flip == 1 else ring[4], top)
+        f.bond(top, tip)
+        f.bond(tip, nh)
+        f.bond(nh, ring[2] if flip == 1 else ring[5])
+        f.branch(top, 'O', 72 if flip == 1 else 252, order=2)
+        if flip == 1:
+            first_tip = tip
+        else:
+            f.bond(first_tip, tip, 2)
+
+    # malachite green and its leuco base: a central carbon holding a phenyl ring and two rings with dimethylamino groups
+    # opposite it. The rings are drawn with their own double bonds, as the dye's quinoid one needs
+    def hexagon(cx, cy, substituted, doubles):
+        corners = [f.atom('C', cx + math.cos(math.radians(a)), cy - math.sin(math.radians(a)),
+                          h=0 if i in substituted else 1, hide=True)
+                   for i, a in enumerate((90, 30, -30, -90, -150, 150))]
+        for i in range(6):
+            j = (i + 1) % 6
+            f.bond(corners[i], corners[j], *((2, (cx, cy)) if (i, j) in doubles else (1,)))
+        return corners
+
+    def dimethylamino(i, angle, charge=None, order=1):
+        n = f.branch(i, 'N', angle, charge=charge, order=order)
+        f.branch(n, 'CH3' if math.cos(math.radians(angle + 60)) > 0 else 'H3C', angle + 60, 1.1,
+                 end=math.cos(math.radians(angle + 60)) < 0)
+        f.branch(n, 'CH3' if math.cos(math.radians(angle - 60)) > 0 else 'H3C', angle - 60, 1.1,
+                 end=math.cos(math.radians(angle - 60)) < 0)
+
+    benzenoid = {(1, 2), (3, 4), (5, 0)}
+    for name, text, items_, dye in (('leucomalachite_green', 'C23H26N2', mr('leuco_malachite_green'), False),
+                                    ('malachite_green', 'C23H25N2Cl', mr('malachite_green_dye'), True)):
+        f = formula(name, text, items_)
+        centre = f.atom('C', 0, 0, h=0 if dye else 1, hide=True)
+        top = hexagon(0, -2, (3,), benzenoid)
+        f.bond(centre, top[3])
+        r3 = math.sqrt(3)
+        left = hexagon(-r3, 1, (1, 4), benzenoid)
+        f.bond(centre, left[1])
+        dimethylamino(left[4], 210)
+        # the dye's right ring is quinoid: double-bonded to the centre and to its charged nitrogen
+        right = hexagon(r3, 1, (5, 2), {(0, 1), (3, 4)} if dye else benzenoid)
+        f.bond(centre, right[5], 2 if dye else 1)
+        dimethylamino(right[2], 330, charge='+' if dye else None, order=2 if dye else 1)
+        if dye:
+            f.atom('Cl', 4.6, -1.0, charge='-')
+
     # materials of one element (Taran, 0.26.0): the symbol alone, in its colour, on the metal's ingots, nuggets, sheets
     # and blocks, on its melt and that melt's bucket; and carbon on diamond and on a baked carbon electrode's graphite
     elements = {
@@ -8613,6 +8897,7 @@ def gen_formulas():
         'Na': ('sodium', [], mr('molten_sodium')),
         'C': ('carbon', mc('diamond', 'diamond_block') + mr('carbon_electrode'), []),
         'Pt': ('platinum', mr('platinum_nugget', 'platinum_gauze'), []),
+        'S': ('sulfur', mr('sulfur', 'sulfur_block'), mr('molten_sulfur')),
         'Ar': ('argon', [], mr('argon')),
     }
     for symbol, (name, items, fluids) in elements.items():
@@ -9238,4 +9523,6 @@ if __name__ == '__main__':
     # the liquid air plant (stage 4) adds to the Pressurizer's, the Steel Furnace's and the column's text and tags
     import gen_air
     gen_air.run(sys.modules[__name__])
+    import gen_dyes
+    gen_dyes.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

@@ -1,0 +1,20 @@
+{
+  "type": "mcremix:airing",
+  "processingTime": 200,
+  "ingredients": [
+    {
+      "fluid": "mcremix:indigo_melt",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:indigo_dye",
+      "count": 8
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 import com.mcremix.client.VatLook;
 import com.mcremix.fluids.Chemical;
+import com.mcremix.fluids.DiazoSalts;
 import com.mcremix.fluids.FluidHeat;
 import com.mcremix.fluids.Leaks;
 import com.mcremix.mixin.FluidTankBlockEntityAccessor;
@@ -113,7 +114,7 @@ public class Vat {
 	private LazyOptional<IItemHandler> outletCapability = LazyOptional.empty();
 	/** Coulombs its Electrolysers have put through it towards the next batch. */
 	private double charge;
-	/** Ticks into the batches settling or fermenting now. */
+	/** Ticks into the batches settling, fermenting or airing now. */
 	private int settled;
 	// long enough ago that nothing counts as fitted, without the subtraction overflowing as Long.MIN_VALUE's would
 	private long askedAt = Long.MIN_VALUE / 2;
@@ -126,6 +127,7 @@ public class Vat {
 	private ResourceLocation workingId;
 	private boolean splitting;
 	private boolean fermenting;
+	private boolean airing;
 	private boolean mixing;
 	private int recheck;
 	/** Amps through it lately, for the goggles. */
@@ -498,6 +500,7 @@ public class Vat {
 				workingId = found == null ? null : found.getId();
 				splitting = found instanceof ElectrolysisRecipe;
 				fermenting = found instanceof FermentingRecipe;
+				airing = found instanceof AiringRecipe;
 				mixing = isMixing(found);
 				changed();
 			}
@@ -508,9 +511,25 @@ public class Vat {
 			settle(working);
 		if (level.getGameTime() % 4 == 0)
 			pushOutputs();
+		warmSalts((ServerLevel) level);
 		if (dirty && level.getGameTime() % 10 == 0) {
 			dirty = false;
 			tank.sendData();
+		}
+	}
+
+	/** A diazo salt in it, made there or piped in, breaks down a part at a time unless ice or snow touches it. */
+	private void warmSalts(ServerLevel level) {
+		if (!DiazoSalts.due(level, tank.getBlockPos()))
+			return;
+		List<FluidTank> all = new ArrayList<>(contents());
+		Collections.addAll(all, products);
+		if (all.stream().noneMatch(t -> DiazoSalts.isSalt(t.getFluid()))
+			|| DiazoSalts.keptCold(level, DiazoSalts.blocksOf(tank)))
+			return;
+		if (DiazoSalts.warm(all) > 0) {
+			changed();
+			DiazoSalts.fizz(level, DiazoSalts.topOf(tank));
 		}
 	}
 
@@ -525,13 +544,20 @@ public class Vat {
 		return level != null && level.getGameTime() - stirredAt <= FITTED_FOR;
 	}
 
-	/** What a Vat Mixer stirs: what only a vat can mix, then Create's own mixing that is wet and needs no heat. */
+	/**
+	 * What a Vat Mixer stirs: what only a vat can mix and Create's own mixing that is wet and needs no heat, what takes
+	 * the most first.
+	 */
 	public static List<BasinRecipe> mixing(RecipeManager recipes) {
 		List<BasinRecipe> all = new ArrayList<>(recipes.getAllRecipesFor(ModRecipes.VAT_MIXING_TYPE.get()));
 		RecipeType<MixingRecipe> create = AllRecipeTypes.MIXING.getType();
 		for (MixingRecipe recipe : recipes.getAllRecipesFor(create))
 			if (!recipe.getFluidIngredients().isEmpty() && recipe.getRequiredHeat() == HeatCondition.NONE)
 				all.add(recipe);
+		// what takes the most first, as Create's mixer does: sulfur trioxide stirred into water with sulfuric acid there
+		// soaks into the acid rather than fogging
+		all.sort(Comparator.comparingInt((BasinRecipe r) -> r.getIngredients().size() + r.getFluidIngredients().size())
+			.reversed());
 		return all;
 	}
 
@@ -555,13 +581,13 @@ public class Vat {
 					return recipe;
 			return null;
 		}
-		for (BasinRecipe recipe : BasinSettling.standing(recipes))
+		for (BasinRecipe recipe : BasinSettling.standingInVat(recipes))
 			if (canRun(recipe))
 				return recipe;
 		return null;
 	}
 
-	/** A batch for every bucket it holds, up to {@link #MAX_BATCHES}, all settling or fermenting together. */
+	/** A batch for every bucket it holds, up to {@link #MAX_BATCHES}, all settling, fermenting or airing together. */
 	private void settle(BasinRecipe recipe) {
 		if (++settled < Math.max(1, recipe.getProcessingDuration()))
 			return;
@@ -636,11 +662,41 @@ public class Vat {
 			ItemHandlerHelper.insertItemStacked(outputs, item.copy(), false);
 		for (FluidStack fluid : recipe.getFluidResults())
 			fill(products, fluid, true);
+		if (recipe instanceof VatMixingRecipe mixed && !mixed.fumes().isEmpty() && level() instanceof ServerLevel server)
+			Gases.escape(server, DiazoSalts.topOf(tank), List.of(mixed.fumes().copy()));
 		return true;
 	}
 
-	/** Whether it holds what a batch takes, and if {@code execute}, takes it. */
-	private boolean take(BasinRecipe recipe, boolean execute) {
+	/** Whether it holds the items a batch of {@code recipe} takes. */
+	private boolean holdsItems(BasinRecipe recipe) {
+		return itemsFor(recipe) != null;
+	}
+
+	/**
+	 * Whether it holds the rest of what {@code recipe} works {@code fluid} with: the items a batch takes, and some of
+	 * each other fluid. Oxygen waits in a vat of indigo melt, but not in one with nothing to air.
+	 */
+	private boolean holdsTheRest(BasinRecipe recipe, FluidStack fluid) {
+		if (!holdsItems(recipe))
+			return false;
+		for (FluidIngredient other : recipe.getFluidIngredients()) {
+			if (other.test(fluid))
+				continue;
+			boolean held = false;
+			for (FluidTank layer : contents())
+				if (!layer.isEmpty() && other.test(layer.getFluid())) {
+					held = true;
+					break;
+				}
+			if (!held)
+				return false;
+		}
+		return true;
+	}
+
+	/** How many of each slot's items a batch takes, or null if it lacks some. */
+	@Nullable
+	private int[] itemsFor(BasinRecipe recipe) {
 		int[] taken = new int[SLOTS];
 		for (Ingredient ingredient : recipe.getIngredients()) {
 			boolean found = false;
@@ -652,8 +708,16 @@ public class Vat {
 				}
 			}
 			if (!found)
-				return false;
+				return null;
 		}
+		return taken;
+	}
+
+	/** Whether it holds what a batch takes, and if {@code execute}, takes it. */
+	private boolean take(BasinRecipe recipe, boolean execute) {
+		int[] taken = itemsFor(recipe);
+		if (taken == null)
+			return false;
 		// each fluid it takes from a layer of that fluid, which may give to more than one
 		List<FluidTank> contents = contents();
 		int[] drawn = new int[contents.size()];
@@ -755,15 +819,21 @@ public class Vat {
 		}
 	}
 
-	/** Whether it has anything to do with a fluid it was filled with, which then stays in for it. */
+	/**
+	 * Whether it has anything to do with a fluid it was filled with, which then stays in for it. A gas that would only
+	 * stand in it, waiting on what it does not hold, has nothing to do there.
+	 */
 	private boolean wants(FluidStack fluid) {
 		Level level = level();
 		if (fluid.isEmpty() || level == null)
 			return false;
 		RecipeManager recipes = level.getRecipeManager();
-		for (BasinRecipe recipe : BasinSettling.standing(recipes))
+		// a gas waits for what works on it only while that is in: sour gas piped through red mud that is all foul goes
+		// on out unchanged
+		boolean gas = Chemical.isGas(fluid);
+		for (BasinRecipe recipe : BasinSettling.standingInVat(recipes))
 			for (FluidIngredient ingredient : recipe.getFluidIngredients())
-				if (ingredient.test(fluid))
+				if (ingredient.test(fluid) && (!gas || holdsTheRest(recipe, fluid)))
 					return true;
 		List<BasinRecipe> fitted = new ArrayList<>();
 		if (electrolysersFitted())
@@ -777,13 +847,13 @@ public class Vat {
 		return false;
 	}
 
-	/** Whether anything settles, ferments, splits or, while it is stirred, mixes with this item in it. */
+	/** Whether anything settles, ferments, airs, splits or, while it is stirred, mixes with this item in it. */
 	private boolean wants(ItemStack stack) {
 		Level level = level();
 		if (stack.isEmpty() || level == null)
 			return false;
 		RecipeManager recipes = level.getRecipeManager();
-		List<BasinRecipe> all = new ArrayList<>(BasinSettling.standing(recipes));
+		List<BasinRecipe> all = new ArrayList<>(BasinSettling.standingInVat(recipes));
 		all.addAll(recipes.getAllRecipesFor(ModRecipes.ELECTROLYSIS_TYPE.get()));
 		if (stirred())
 			all.addAll(mixing(recipes));
@@ -822,6 +892,7 @@ public class Vat {
 			tag.putString("Working", workingId.toString());
 			tag.putBoolean("Splitting", splitting);
 			tag.putBoolean("Fermenting", fermenting);
+			tag.putBoolean("Airing", airing);
 			tag.putBoolean("Mixing", mixing);
 		}
 		return tag;
@@ -848,6 +919,7 @@ public class Vat {
 			workingId = tag.contains("Working") ? ResourceLocation.tryParse(tag.getString("Working")) : null;
 			splitting = tag.getBoolean("Splitting");
 			fermenting = tag.getBoolean("Fermenting");
+			airing = tag.getBoolean("Airing");
 			mixing = tag.getBoolean("Mixing");
 		}
 		hadWindows = formed && tag.getBoolean("HadWindows");
@@ -893,8 +965,15 @@ public class Vat {
 		else if (mixing)
 			doing = Component.translatable("mcremix.goggles.vat.mixing");
 		else
-			doing = Component.translatable("mcremix.goggles.vat." + (fermenting ? "fermenting" : "settling"));
+			doing = Component.translatable("mcremix.goggles.vat." + (fermenting ? "fermenting" : airing ? "airing" : "settling"));
 		tooltip.add(Component.literal("    ").append(doing.copy().withStyle(ChatFormatting.GRAY)));
+		List<FluidStack> held = new ArrayList<>();
+		for (FluidTank layer : contents())
+			held.add(layer.getFluid());
+		held.addAll(products());
+		Component warming = level() == null ? null : DiazoSalts.warning(level(), held, DiazoSalts.blocksOf(tank));
+		if (warming != null)
+			tooltip.add(warming);
 		int waiting = 0;
 		for (int slot = 0; slot < SLOTS; slot++)
 			waiting += outputs.getStackInSlot(slot).getCount();

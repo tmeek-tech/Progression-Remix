@@ -1,0 +1,19 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:diazo_salt",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:sodium_phenolate",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:orange_dye",
+      "count": 8
+    }
+  ]
+}

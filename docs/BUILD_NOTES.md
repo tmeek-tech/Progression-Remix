@@ -3419,3 +3419,139 @@ over iron without hydrogen too, while nitrogen alone is squeezed. Ammonia and CO
 grows wheat a stage. Ammonia and oxygen over platinum gauze give nitrogen dioxide and water. Argon gives an arc furnace
 half again, and one nearly full melts without it. Red sand washes out platinum 1 time in 100, and four nuggets make a
 gauze. `FormulaTests` covers the ten new formulas.
+
+## 44. The sulfur works and the dye works (0.35.0)
+
+Stage 5 of Taran's distillation design, its last stage (design/distillation.md in the shared folder; the numbers it left
+to the build are in design/dyes-sulfur-build-numbers.md): sour gas cleaned two ways, molten sulfur, sulfuric acid over
+the platinum gauze, nitrating and the amines, the diazo salts, gunpowder, and the coal tar dyes, which give mauve,
+indigo, malachite green and maroon their first recipes. Nine cards went to Taran on 2026-11-16, and Taran chose the
+pick on all nine: a sulfur for every 250 mB of sour gas; red mud that cleans 250 mB and airs back in 20 seconds;
+hydrogen sulfide deadly, sinking and unseen when thick; sulfur trioxide fogging half off water but none off acid; diazo
+salts kept on ice; sodamide tripling the indigo; ferric chloride for malachite green; 8 dyes for every 250 mB of
+aniline; and 4 gunpowder a batch.
+
+**Red mud** (`recipes/settling/red_mud_cleaning.json`, `electrolysis/Vat`). A vat of red mud, standing with no mixer,
+cleans sour gas piped into it: each lump takes 250 mB in 5 seconds, leaves 150 mB of fuel gas and turns black, into
+foul red mud, a batch for every bucket the vat holds. A vat keeps a gas only while it holds the items a recipe works it
+with (`Vat.wants`), so once the mud has all gone foul, sour gas passes on to a pipe as anything it has no use for does.
+
+**Airing** (`electrolysis/AiringRecipe`, `BasinSettling`, `registry/ModRecipes`, `recipes/airing/`). A new recipe type:
+what an open basin turns in the air. A basin with air above it, no mixer or press over it and no heat under it airs a
+batch at a time; a vat airs as it settles, with 50 mB of oxygen piped in for each batch (`AiringRecipe.inVat`, built
+from the basin recipe with the oxygen added). Foul red mud airs into red mud and a sulfur in 20 seconds; indigo melt
+into 8 indigo dye and its 250 mB of caustic soda in 10.
+
+**The Claus works** (`recipes/vat_mixing/claus_wash.json`, `distilling/foul_soda.json`, `steel_furnace/claus.json`).
+Soda ash mixed with water is soda ash solution; 250 sour gas and 150 of it stirred in a vat give 150 fuel gas and 250
+foul soda. Foul soda boils Warm in the glass still or the steel column into 400 mB of hydrogen sulfide and 600 of soda
+ash solution a bucket. Hydrogen sulfide run over alumina in a Steel Furnace, Hot, gives molten sulfur and water, 100 of
+each for every 100 mB; the alumina lasts 16 buckets.
+
+**Hydrogen sulfide as fuel** (`kiln/SteelFurnaceFuels`, `SteelFurnaceBlockEntity`). Piped into a Steel Furnace's bottom
+it burns as sour gas does, a heat a mB up to Searing, but puffs out a mB of sulfur dioxide for every mB where sour gas
+puffs one for every 2 (`Fuel.sulfurUnits`; the furnace now counts half-mB of sulfur dioxide).
+
+**Molten sulfur** (`fluids/MoltenSulfurBlock`, `recipes/settling/molten_sulfur.json`, `registry/ModDyes`). Warm, so no PVC
+carries it. In a basin or vat with no heat under it, 100 mB sets into a sulfur in a second. Poured out, a source sets
+into a block of sulfur in 1.5 to 4.5 seconds and what ran from it into nothing, smoking; standing in it scalds. Nine
+sulfur craft into a block and back.
+
+**Sulfuric acid** (`kiln/FiringRecipe`, `KilnBlockEntity`, `recipes/firing/sulfur.json`, `steel_furnace/sulfur_trioxide.json`,
+`electrolysis/VatMixingRecipe`, `vat_mixing/sulfuric_acid.json`, `sulfuric_acid_soaked.json`). A firing recipe may now
+have no result: sulfur burns away in a Furnace, Warm, into 100 mB of sulfur dioxide kept in its tank, and what has no
+room goes up the chimney as its choking cloud. Sulfur dioxide over the platinum gauze in a Steel Furnace, Hot, gives
+sulfur trioxide, the gauze lasting 64 buckets. A vat mixing recipe can now let fumes go (`fumes`): 250 sulfur trioxide
+and 250 water stirred in a vat give 250 sulfuric acid and let 125 mB of the trioxide go as an acid fog over the vat.
+With 250 sulfuric acid piped in too they give 750 and nothing fogs, since a vat tries the recipe that takes the most
+first (`Vat.mixing` now counts fluids as well as items). What the vat makes waits apart from what it was filled with, so
+a plant pipes some acid back in. 250 nitric and 250 sulfuric acid mixed are 500 mixed acid; sulfuric and mixed acid
+poured out strip rust and patina as the other acids do (`fluids/Chemical.acid`).
+
+**Nitrating and the amines** (`recipes/mixing/`). Light oil and nitric acid give nitrobenzene slowly, in 400 ticks, or
+with mixed acid in a quarter of the time and the sulfuric acid back; nitrobenzene, vinegar and iron nuggets, heated,
+give aniline (Béchamp). Aniline and hydrochloric acid give aniline salt; aniline and vinegar, heated, acetanilide, which
+mixed acid nitrates and hydrochloric acid frees into nitroaniline. Naphthalene nitrates into nitronaphthalene and
+reduces into naphthylamine; with sulfuric acid, heated, it is naphthalenesulfonic acid, which caustic soda melts into
+naphthol.
+
+**The diazo salts** (`fluids/DiazoSalts`, `mixin/FluidTankBlockEntityMixin`, `BasinBlockEntityMixin`, `Vat`). Aniline,
+hydrochloric acid, sodium nitrite and a block of ice (or packed ice) mixed in an unheated basin give 250 diazo salt; in
+a vat, 250 cold water does the ice's job and comes out as water. Nitroaniline and naphthylamine make the nitro and
+naphthyl salts the same way. A salt in a tank, basin or vat that no block tagged `mcremix:keeps_cold` (ice, packed ice,
+blue ice, snow blocks, powder snow) touches, outside a snowy biome, loses a tenth every 10 seconds (`EVERY`, spread by
+position), fizzing; in a heated basin it all goes within a second, plain diazo salt into half as much phenol. A basin
+checks its output as well as its input. Goggles on a warming tank or vat say so.
+
+**The dyes** (`recipes/mixing/*_dye.json`). 250 aniline and 250 bleach (chlorine stirred into caustic soda in a vat) give
+8 mauve; aniline salt with iron and nitrobenzene, heated, 8 magenta; aniline salt with ferric chloride, 8 black. Diazo
+salt with more aniline gives 16 yellow, and with sodium phenolate 8 orange; the nitro salt with 2 naphthol and caustic
+soda gives 8 red, the naphthyl salt 8 maroon. Indigo: chloroacetic acid (vinegar and chlorine in a vat) and aniline,
+heated, give phenylglycine; 12 phenylglycine, 3 sodamide (molten sodium and ammonia in a vat) and 750 caustic soda,
+heated, give 750 indigo melt, and without sodamide 12 give only 250. The sodamide batch is three times the card's so
+that Create, which tries the recipe with the most items first, takes it over the plain one. Aired, 250 mB of melt is 8
+indigo dye. Malachite green: benzal chloride (light oil and chlorine in a vat) and water, heated, give benzaldehyde;
+aniline and methanol over alumina in a Steel Furnace give dimethylaniline (a second fluid, as steam is for naphtha);
+benzaldehyde, dimethylaniline and a little hydrochloric acid stirred in a vat give 4 leuco base, which 250 ferric
+chloride turns into 8 malachite green.
+
+**Gunpowder** (`recipes/mixing/saltpetre.json`, `gunpowder.json`). Soda ash and nitric acid give 2 saltpetre, water and
+CO2; a sulfur, 2 saltpetre and a charcoal mixed give 4 gunpowder.
+
+**Gases let loose** (`fluids/HydrogenSulfideCloud`, `SulfurTrioxideFog`, `GasCloud.shows`, `electrolysis/Gases`).
+Hydrogen sulfide sinks and pools, about 30 seconds a bucket, and poisons through armour, 2 damage a second with nausea;
+a cloud under about half a bucket shows a faint yellow haze and a bigger one nothing, as strong hydrogen sulfide numbs
+the nose. At a flame it flashes as sour gas does and leaves sulfur dioxide. The acid fog is white, sinks, lasts about 20
+seconds a bucket, hurts 1 a second through armour, and rusts or weathers the metal under it a stage, as hydrogen
+chloride mist does. Both have death messages. Sulfur dioxide, hydrogen sulfide and sulfur trioxide escaping a vat,
+basin or column now leave as their clouds.
+
+**Goggles, tooltips, JEI and Ponder.** Vats say when they are airing, and tanks and vats when a diazo salt in them is
+warming. Buckets of molten sulfur, indigo melt, the diazo salts, sulfuric and mixed acid say what they are for. JEI gets
+an Airing tab (`compat/jei/AiringCategory`) with the basin, the tank and the scaffolding as its places; the Vat Mixing
+tab shows fumes; the Furnace tab shows a firing with no result; the Steel Furnace Fuel tab marks hydrogen sulfide; and
+the diazo salts, hydrogen sulfide and sulfur trioxide have info pages. Ponder scenes `sour_gas_cleaning/intro`,
+`sulfuric_acid/intro` and `dye_works/intro`, in their own plugin (`ponder/DyePonderPlugin`, `DyeScenes`).
+
+**Models and textures** (`tools/gen_dyes.py` and `gen_dyes_art.py`, called from `gen_assets.py`): sulfur and its block,
+foul red mud, the twelve crystal, needle, granule and powder items, the twenty new fluids, the structural formulas
+(sulfur drawn yellow) and the three Ponder schematics.
+
+**Review.** A review of the stage found ten things; four are fixed, and the one that changes play has a test, which
+fails with the fix undone. Oxygen piped into any formed vat stayed in it for good, taking its room, since airing indigo
+melt in a vat takes no items and a gas waited wherever the vat held a recipe's items: a gas now waits only where the vat
+holds the rest of what its recipe takes, fluids as well as items (`Vat.holdsTheRest`), so a pipe draws oxygen out of a
+vat with nothing to air. The acid fog over a vat and the fizz of a warming diazo salt came out over the controller's
+corner, about a block and a half off on a vat 3 wide, and now come out over its middle (`DiazoSalts.topOf`). A diazo
+salt in a creative tank fizzed every ten seconds without ever running down; creative tanks are now left alone, goggles
+too. And the tenth that breaks down was worked out apart for basins and for tanks, and is now one sum
+(`DiazoSalts.part`). Six are left as they are: whether ice touches a tank checks every block of it, inside ones too, at
+most 288 for Create's tanks, every ten seconds and on each look through goggles; a stirred vat sorts its mixing recipes
+each time a pipe asks it, as it did before; a mix of many batches lets its fumes go a batch at a time, each looking for
+a cloud to join; the acid fog's rusting repeats the hydrogen chloride mist's; `Chemical.light` names molten sulfur and
+indigo melt rather than lighting a fluid by its heat; and molten sulfur burns with vanilla's hot floor damage, as molten
+metal burns with lava's, since the mod's own scalding reads as a bursting boiler. In a dev client the sulfur block and
+the new items draw, poured molten sulfur sets into a block of sulfur with what ran from it gone, and the three Ponder
+scenes play to their last step. Known gaps: acid a vat has made doesn't soak up the fog, only acid piped in, since what
+a vat makes is kept apart from what it was filled with; death in molten sulfur reads as the floor being lava; and no
+GameTest runs the basin recipes from nitrating to the dyes, saltpetre and gunpowder, the vat recipes for the Claus wash,
+bleach, chloroacetic acid, sodamide, benzal chloride and the leuco base, or dimethylaniline in the Steel Furnace, which
+all load with no errors and use the basin, vat and furnace as the earlier recipes do.
+
+**Tests.** 14 GameTests in `DyesSulfurTests`. All 53 new recipes load; nine sulfur craft a block and back; a batch makes
+4 gunpowder; and foul soda boils Warm into 400 hydrogen sulfide and 600 soda ash solution. Two lumps of red mud in a vat
+clean 500 mB of a bucket of sour gas into 300 of fuel gas and go foul; a pipe can't draw the sour gas off while red mud
+is in, and can once it has all gone foul. Foul red mud airs into red mud and a sulfur in 20 seconds in an open basin but
+not under a block, and in a vat on 50 mB of oxygen a lump; oxygen waits in a vat of indigo melt or foul red mud but not
+in an empty one; and 250 mB of indigo melt airs into 8 indigo dye and gives its caustic soda back. Poured molten sulfur
+sets, its source into a block of sulfur and what ran from it into nothing, and 300 mB in a basin sets into 3 sulfur. Two
+sulfur in a Furnace on lava burn into 200 mB of sulfur dioxide, leaving nothing in the tray. In a Steel Furnace 300
+hydrogen sulfide over alumina gives 300 molten sulfur and 300 water, and 300 sulfur dioxide over the gauze 300 sulfur
+trioxide. Sulfur trioxide stirred with water gives 250 acid and a fog over the vat, and with acid piped in 750 and no
+fog. A diazo salt loses a tenth in ten seconds in a warm tank but nothing in one touching packed ice, and goggles warn
+of the first only; in a heated basin 500 mB of plain salt in the input breaks down into 250 phenol, and 500 of the nitro
+salt in the output into nothing. Hydrogen sulfide burns as hot as sour gas, Searing at most, with twice its sulfur, and
+a Steel Furnace on 4 mB a tick burns Searing and puffs sulfur dioxide; let loose it poisons a pig with nausea, it and
+the acid fog hurt through armour, a cloud of it flashes at a campfire into sulfur dioxide, and 250 mB of it shows where
+2 buckets don't. `ColourTests` now checks that mauve, indigo, malachite green and maroon each come from their dye works
+recipe and only from it, and `FormulaTests` covers the 34 new formulas.

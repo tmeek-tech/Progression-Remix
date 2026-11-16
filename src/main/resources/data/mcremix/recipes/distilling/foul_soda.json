@@ -1,0 +1,28 @@
+{
+  "type": "mcremix:distilling",
+  "heat": "warm",
+  "processingTime": 600,
+  "ingredients": [
+    {
+      "fluid": "mcremix:foul_soda",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:hydrogen_sulfide",
+      "amount": 400
+    },
+    {
+      "fluid": "mcremix:soda_ash_solution",
+      "amount": 600
+    }
+  ],
+  "boiling_points": [
+    -60,
+    100
+  ],
+  "close": [
+    false
+  ]
+}

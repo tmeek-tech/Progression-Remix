@@ -1,0 +1,25 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "hot",
+  "processingTime": 100,
+  "catalyst_lasts": 16000,
+  "ingredients": [
+    {
+      "item": "mcremix:alumina"
+    },
+    {
+      "fluid": "mcremix:hydrogen_sulfide",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:molten_sulfur",
+      "amount": 100
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 100
+    }
+  ]
+}

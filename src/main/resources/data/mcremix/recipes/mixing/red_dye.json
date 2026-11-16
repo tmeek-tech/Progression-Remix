@@ -1,0 +1,25 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:naphthol"
+    },
+    {
+      "item": "mcremix:naphthol"
+    },
+    {
+      "fluid": "mcremix:nitro_diazo_salt",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:caustic_soda",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:red_dye",
+      "count": 8
+    }
+  ]
+}

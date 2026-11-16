@@ -34,7 +34,8 @@ import net.minecraftforge.registries.ForgeRegistries;
  *   "byproduct": { "fluid": "mcremix:coal_tar", "amount": 50 }  // optional: given off as each item fires
  * }
  * </pre>
- * Every heat level above the minimum halves the time. A byproduct collects in the Furnace for pipes to draw off.
+ * Every heat level above the minimum halves the time. A byproduct collects in the Furnace for pipes to draw off. With
+ * no {@code result}, the item burns away and leaves only its byproduct, as sulfur leaves sulfur dioxide.
  */
 public class FiringRecipe implements Recipe<Container> {
 	private final ResourceLocation id;
@@ -73,6 +74,7 @@ public class FiringRecipe implements Recipe<Container> {
 		return time;
 	}
 
+	/** Empty when the item burns away to nothing but its byproduct. */
 	public ItemStack getResult() {
 		return result;
 	}
@@ -133,7 +135,9 @@ public class FiringRecipe implements Recipe<Container> {
 			Ingredient ingredient = Ingredient.fromJson(GsonHelper.isArrayNode(json, "ingredient")
 				? GsonHelper.getAsJsonArray(json, "ingredient")
 				: GsonHelper.getAsJsonObject(json, "ingredient"));
-			ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+			// sulfur burns away to nothing but its sulfur dioxide
+			ItemStack result = json.has("result")
+				? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")) : ItemStack.EMPTY;
 			HeatLevel heat = HeatLevel.byName(GsonHelper.getAsString(json, "heat", "hot"));
 			HeatLevel bonus = json.has("bonus_heat") ? HeatLevel.byName(GsonHelper.getAsString(json, "bonus_heat")) : null;
 			int time = GsonHelper.getAsInt(json, "time", 200);

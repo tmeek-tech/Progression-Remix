@@ -1,0 +1,23 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:vinegar",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:chlorine",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:chloroacetic_acid",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 250
+    }
+  ]
+}

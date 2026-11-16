@@ -112,9 +112,12 @@ public class ColourTests {
 		h.succeed();
 	}
 
-	/** Pale shades mix from their dye and white, two at a time, as pink does; the four dyes have no recipe yet. */
+	/**
+	 * Pale shades mix from their dye and white, two at a time, as pink does. The four dyes were creative only until the
+	 * distillation build's stage 5 (Taran, 2026-11-15); since 0.35.0 each comes from the dye works, and only from there.
+	 */
 	@GameTest(template = GT.PLATFORM)
-	public static void paleShadesMixWithWhiteAndTheFourDyesWaitForAniline(GameTestHelper h) {
+	public static void paleShadesMixWithWhiteAndTheFourDyesComeFromTheDyeWorks(GameTestHelper h) {
 		Map<NewColour, NewColour> pale = Map.of(NewColour.MAUVE, NewColour.LILAC, NewColour.INDIGO, NewColour.PERIWINKLE,
 			NewColour.MALACHITE_GREEN, NewColour.MINT, NewColour.MAROON, NewColour.ROSE);
 		pale.forEach((base, shade) -> {
@@ -122,12 +125,15 @@ public class ColourTests {
 			h.assertTrue(made.is(ColourBlocks.of(shade).dye.get()) && made.getCount() == 2,
 				base.id + " and white dye make " + made);
 		});
-		// Taran, 2026-11-15: no way to make the four until the distillation build's stage 5 makes them from aniline
-		for (NewColour c : List.of(NewColour.MAUVE, NewColour.INDIGO, NewColour.MALACHITE_GREEN, NewColour.MAROON)) {
+		Map<NewColour, String> works = Map.of(NewColour.MAUVE, "mixing/mauve_dye", NewColour.INDIGO, "airing/indigo_melt",
+			NewColour.MALACHITE_GREEN, "mixing/malachite_green_dye", NewColour.MAROON, "mixing/maroon_dye");
+		works.forEach((c, id) -> {
 			Item dye = ColourBlocks.of(c).dye.get();
-			h.getLevel().getRecipeManager().getRecipes().forEach(r -> h.assertFalse(
-				r.getResultItem(h.getLevel().registryAccess()).is(dye), r.getId() + " makes " + c.id + " dye"));
-		}
+			List<ResourceLocation> from = h.getLevel().getRecipeManager().getRecipes().stream()
+				.filter(r -> r.getResultItem(h.getLevel().registryAccess()).is(dye)).map(r -> r.getId()).toList();
+			h.assertTrue(from.equals(List.of(McRemix.asResource(id))), c.id + " dye should come from " + id
+				+ " alone, comes from " + from);
+		});
 		h.succeed();
 	}
 

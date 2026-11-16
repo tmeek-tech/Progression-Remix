@@ -11,12 +11,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mcremix.electrolysis.Vat;
 import com.mcremix.electrolysis.VatHolder;
+import com.mcremix.fluids.DiazoSalts;
 import com.mcremix.fluids.FluidHeat;
 import com.mcremix.fluids.FluidPartMaterial;
 import com.mcremix.fluids.FluidPartMaterial.Failure;
 import com.mcremix.fluids.Leaks;
 import com.mcremix.fluids.Overheating;
 import com.mcremix.kinetics.AluminiumMelting;
+import com.simibubi.create.content.fluids.tank.CreativeFluidTankBlockEntity;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 
 import net.minecraft.core.BlockPos;
@@ -41,6 +43,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
  * forms and breaks up as the controller checks now and then, works on the controller's tick, hands out its own fluids
  * and items from every tank of it, is saved and sent with the controller, and shows itself through goggles. On a client
  * its blocks are drawn again when the controller goes.
+ * <p>
+ * A diazo salt in a tank that nothing keeps cold breaks down a part at a time ({@link DiazoSalts}), and goggles say so.
  */
 @Mixin(value = FluidTankBlockEntity.class, remap = false)
 public abstract class FluidTankBlockEntityMixin implements VatHolder {
@@ -76,6 +80,8 @@ public abstract class FluidTankBlockEntityMixin implements VatHolder {
 		if (!self.isController() || self.isVirtual())
 			return;
 		mcremix$vat().tick();
+		if (Vat.of(self) == null)
+			DiazoSalts.tank((ServerLevel) level, self);
 		BlockPos pos = self.getBlockPos();
 		mcremix$leak((ServerLevel) level, self, state);
 		if (!Overheating.due(level, pos))
@@ -158,6 +164,20 @@ public abstract class FluidTankBlockEntityMixin implements VatHolder {
 	private void mcremix$readVat(CompoundTag compound, boolean clientPacket, CallbackInfo ci) {
 		if (((FluidTankBlockEntity) (Object) this).isController())
 			mcremix$vat().read(compound.getCompound("Vat"), clientPacket);
+	}
+
+	// a plain tank warming a diazo salt says so; a vat says it in its own lines
+	@Inject(method = "addToGoggleTooltip", at = @At("RETURN"))
+	private void mcremix$diazoGoggles(List<Component> tooltip, boolean isPlayerSneaking,
+		CallbackInfoReturnable<Boolean> cir) {
+		FluidTankBlockEntity controller = ((FluidTankBlockEntity) (Object) this).getControllerBE();
+		if (!cir.getReturnValueZ() || controller == null || controller.getLevel() == null
+			|| controller instanceof CreativeFluidTankBlockEntity)
+			return;
+		Component warning = DiazoSalts.warning(controller.getLevel(), List.of(controller.getTankInventory().getFluid()),
+			DiazoSalts.blocksOf(controller));
+		if (warning != null)
+			tooltip.add(warning);
 	}
 
 	@Inject(method = "addToGoggleTooltip", at = @At("HEAD"), cancellable = true)

@@ -43,8 +43,9 @@ public class KilnCategory extends AbstractRecipeCategory<KilnCategory.Display> {
 				RemixConfig.get(RemixConfig.KILN_SPEED));
 		}
 
+		/** The item, unless it burns away to nothing, and what it gives off. */
 		int outputs() {
-			return byproduct.isEmpty() ? 1 : 2;
+			return (result.isEmpty() ? 0 : 1) + (byproduct.isEmpty() ? 0 : 1);
 		}
 	}
 
@@ -56,9 +57,11 @@ public class KilnCategory extends AbstractRecipeCategory<KilnCategory.Display> {
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, Display recipe, IFocusGroup focuses) {
 		Page.input(builder, 0, 1).addItemStacks(recipe.inputs());
-		Page.output(builder, 0, recipe.outputs(), 1).addItemStack(recipe.result());
+		int i = 0;
+		if (!recipe.result().isEmpty())
+			Page.output(builder, i++, recipe.outputs(), 1).addItemStack(recipe.result());
 		if (!recipe.byproduct().isEmpty())
-			Page.fluid(Page.output(builder, 1, 2, 1), recipe.byproduct())
+			Page.fluid(Page.output(builder, i, recipe.outputs(), 1), recipe.byproduct())
 				.addRichTooltipCallback((view, tooltip) -> tooltip.add(Component.translatable("mcremix.jei.byproduct")));
 	}
 

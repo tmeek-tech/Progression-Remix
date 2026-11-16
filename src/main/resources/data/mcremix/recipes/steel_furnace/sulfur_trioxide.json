@@ -1,0 +1,21 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "hot",
+  "processingTime": 100,
+  "catalyst_lasts": 64000,
+  "ingredients": [
+    {
+      "item": "mcremix:platinum_gauze"
+    },
+    {
+      "fluid": "mcremix:sulfur_dioxide",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:sulfur_trioxide",
+      "amount": 100
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:acetanilide"
+    },
+    {
+      "item": "mcremix:acetanilide"
+    },
+    {
+      "item": "mcremix:acetanilide"
+    },
+    {
+      "item": "mcremix:acetanilide"
+    },
+    {
+      "fluid": "mcremix:mixed_acid",
+      "amount": 500
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:nitroacetanilide",
+      "count": 4
+    },
+    {
+      "fluid": "mcremix:sulfuric_acid",
+      "amount": 250
+    }
+  ]
+}

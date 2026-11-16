@@ -1,0 +1,28 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "mcremix:nitronaphthalene"
+    },
+    {
+      "item": "mcremix:nitronaphthalene"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "fluid": "mcremix:vinegar",
+      "amount": 50
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:naphthylamine",
+      "count": 2
+    }
+  ],
+  "heatRequirement": "heated"
+}
