@@ -3555,3 +3555,78 @@ a Steel Furnace on 4 mB a tick burns Searing and puffs sulfur dioxide; let loose
 the acid fog hurt through armour, a cloud of it flashes at a campfire into sulfur dioxide, and 250 mB of it shows where
 2 buckets don't. `ColourTests` now checks that mauve, indigo, malachite green and maroon each come from their dye works
 recipe and only from it, and `FormulaTests` covers the 34 new formulas.
+
+## 45. A new look for the engine, the valve, the condenser and the columns, and the steel flywheel (0.36.0)
+
+Taran's ask of 2026-11-16, after 0.35.0: no stair-stepped edges on the expansion valve and the steel condenser, no red
+handle on the valve, no green on the diesel engine, a steel flywheel in the engine's recipe, an engine that shows where
+its pipe goes in, connected textures on the steel and aluminium columns that show when one forms, and a clean, shiny
+aluminium for the aluminium column and the valve. Five cards went to Taran the same evening: the condenser's shell and
+the valve's drum are square boxes shaded to look round, as Create draws its pipes and tanks; the valve is all polished
+aluminium; the engine is bare dark steel with a brass tank and fittings; the steel flywheel is a block of its own, set
+on a shaft line as Create's is; and a formed column has a flange at every section. Clean, shiny aluminium was read as
+the mod's aluminium tanks and pipes are: smooth bright panels, a soft sheen, crisp seams, no mottle and no rivets. Frost
+and icicles stay.
+
+**The steel condenser** (`tools/gen_column.py`). One square shell, 12 pixels across, shaded round with a seam each side,
+where the old one was stepped boxes; a flanged nozzle stands out of each of its four pipe faces. The rusted look is the
+same shell in rusted steel.
+
+**The expansion valve** (`tools/gen_air_art.py`). All polished aluminium: a square drum shaded round, a flat head with a
+flange under it, the pipe stubs and port, and the handwheel, which was red. Frosted and frozen looks are drawn on the
+new art as before.
+
+**The diesel engine** (`tools/gen_oil.py`). Bare dark steel where it was painted green, its fins, stack, flywheel and
+shaft in the same steel; the fuel tank is brass. Its fuel inlet now shows: a brass flange on its back with a bolt at
+each corner and a dark bore in its middle, where a pipe joins, a brass line from it up to the tank, and a brass ring
+round a bore under its base plate, where a pipe from below joins.
+
+**The steel flywheel** (`kinetics/SteelFlywheelBlock`, `SteelFlywheelBlockEntity`, `client/SteelFlywheelRenderer`,
+`SteelFlywheelVisual`, `registry/ModOil`, `client/ModPartialModels`). Create's flywheel in steel: eight steel ingots
+round a steel shaft craft one, and it is set on a shaft line, turns with it and eases its speed up and down as Create's
+does. It is drawn with Create's flywheel model and a steel texture drawn from Create's, shade for shade
+(`tools/create_flywheel_texture.json`), with a steel shaft through it. Create keeps its flywheel's block entity,
+renderer and visual to its own package and draws its own wheel, so these are the mod's own copies. Like the rest of the
+mod's steel it rusts where it gets wet, only to its first stage, and honeycomb or paraffin wax keep it as it is; like
+Create's it holds no shafts (`mcremix:holds_no_shafts`), takes no stress and is given no Stability or Strength. The
+diesel engine's recipe takes it where it took Create's brass flywheel.
+
+**Connected columns** (`client/ColumnCTBehaviour`, `client/ModSpriteShifts`, `registry/ModColumn`, `registry/ModAir`,
+`column/ColumnSectionBlockEntity`). The sections of a formed steel or aluminium column join: their side plates run on
+across the column's width, a flange band runs round it at every section, a cap rings its top and a skirt its foot, and
+the plates on its top join into one. Only sections of the same formed column join (Create's
+`ConnectivityHandler.isConnected`, as its tanks do), so two columns side by side keep their own edges, and a lone
+section looks as it did. A section's mesh is drawn again on the client when its column forms, grows or splits, since
+that changes nothing in its block state. Each look has its own sheet: fresh and rusted steel; plain, frosted and frozen
+aluminium.
+
+**Aluminium** (`tools/gen_air_art.py`). The aluminium column's plates, top, flanges and nozzles and the valve are drawn
+in a new polished palette, bright and cool, with soft streaks and a rare glint on the top in place of the mottle and
+rivets; the lips at a section's ends are slimmer.
+
+**Review.** One review of the change found ten things; six are fixed. A rivet ring on a column's top doubled up at the
+corners where the column ends, two rivets side by side, and now turns the corner on one, two pixels in from each end
+(`gen_column.ring`). The diesel engine's shaft was still Create's andesite axis on an engine now all steel and built
+round a steel flywheel, and is now steel. The generator's third copy of the patina list is gone (it reads
+`gen_assets.PATINAS`), Create's flywheel texture is read when it is needed with the file closed after, and
+`ModSpriteShifts.column` takes its metal first; and the docs had no word of 0.36.0 until this section, the report and
+DESIGN.md. Four are left as they are: the steel flywheel takes its rust from the fluid part hook
+(`FluidPartMaterial.Part`), as the decor blocks do, and every fluid check that reads it looks only at blocks in a fluid
+network or at the tank under a steam engine, which a flywheel never is; a section's joined texture depends only on the
+sections beside it, and any change between two of them either places or breaks a block, which redraws the blocks round
+it, or changes one of their controllers, which redraws round that section, so a column that grows round the same
+controller still redraws where it must; every section of a formed column marks its blocks for redrawing when a chunk
+loads, which is cheap and idempotent, and skipping the first read would leave a newly placed section drawn unjoined; and
+frost on a frosted column repeats from block to block as it did before, since each block was always one texture. In a
+dev client the five old blocks and the steel flywheel draw as meant: formed steel and aluminium columns join with a band
+at every section, the condenser is square, the valve polished with an aluminium handwheel, the engine dark steel with
+its brass inlet in plain sight once the pipe behind it is taken away, and fresh and rusted flywheels turn on creative
+motors. Known gaps: frosted and frozen columns were seen only in the generator's previews, since a column's frost
+follows what it holds and setting it by hand does not last; and no GameTest covers the client side of a column redrawing
+as it forms.
+
+**Tests.** `aSteelFlywheelIsSteelAndTurnsOnItsShaftLine` in `CrudeOilTests`: eight steel ingots round a steel shaft
+craft a steel flywheel; it rusts as steel does, only to its first stage; honeycomb waxes it; it holds no shafts and is
+given no rating; and a creative motor at 32 RPM turns it at 32. `paraffinWaxAndPetroleumCokeStandInForHoneycombAndCoke`
+now crafts the diesel engine from a steel flywheel. The rest is art and a client-side texture rule, checked in a dev
+client.

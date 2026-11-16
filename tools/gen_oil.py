@@ -290,8 +290,9 @@ ENGINE_TEXTURES = {'body': 'mcremix:block/diesel_engine_body', 'cylinder': 'mcre
                    'stack': 'mcremix:block/diesel_engine_stack', 'tank': 'mcremix:block/diesel_engine_tank',
                    'base': 'mcremix:block/diesel_engine_base', 'fitting': 'mcremix:block/diesel_engine_fitting',
                    'inlet': 'mcremix:block/diesel_engine_inlet', 'particle': 'mcremix:block/diesel_engine_body'}
-FLYWHEEL_TEXTURES = {'flywheel': 'mcremix:block/diesel_engine_flywheel', 'shaft': 'create:block/axis',
-                     'shaft_end': 'create:block/axis_top', 'particle': 'mcremix:block/diesel_engine_flywheel'}
+# its shaft is steel, as the steel flywheel's is
+FLYWHEEL_TEXTURES = {'flywheel': 'mcremix:block/diesel_engine_flywheel', 'shaft': 'mcremix:block/steel_axis',
+                     'shaft_end': 'mcremix:block/steel_axis_top', 'particle': 'mcremix:block/diesel_engine_flywheel'}
 
 
 def diesel_engine():
@@ -315,14 +316,12 @@ def diesel_engine():
 
 # ------------------------------------------------------------------------------------------------ the steel flywheel
 
-# Create's flywheel texture (tools/create_flywheel_texture.json), which the steel one is drawn from
-FLYWHEEL_TEXTURE = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                               'create_flywheel_texture.json')))
+# Create's flywheel texture, which the steel one is drawn from
+FLYWHEEL_TEXTURE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'create_flywheel_texture.json')
 # steel's shades for it, darkest first, and a brighter one for the rim's machined face
 FLYWHEEL_LOOKS = (('', D.STEEL + [(0x92, 0x90, 0x94)], 0.0), ('exposed_', D.EXPOSED + [(0x96, 0x8A, 0x84)], 0.05))
 # Create's flywheel blockstate turns: its model is drawn turning about y
 FLYWHEEL_AXES = {'x': {'x': 90, 'y': 90}, 'y': {}, 'z': {'x': 90, 'y': 180}}
-PATINAS = ['none', 'exposed', 'weathered', 'oxidized', 'waxed', 'waxed_exposed', 'waxed_weathered', 'waxed_oxidized']
 
 
 def flywheel_texture(shades, rust, seed):
@@ -330,7 +329,9 @@ def flywheel_texture(shades, rust, seed):
     Create's flywheel in steel: each pixel takes the shade at the same place along `shades` as its brightness has among
     the texture's own, brass, iron and all, so Create's drawing and its contrast stay; rust flecks the exposed look.
     """
-    palette, rows = FLYWHEEL_TEXTURE['palette'], FLYWHEEL_TEXTURE['rows']
+    with open(FLYWHEEL_TEXTURE) as f:
+        drawn = json.load(f)
+    palette, rows = drawn['palette'], drawn['rows']
     luma = lambda c: 0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]
     seen = [luma(palette[i]) for row in rows for i in row if palette[i][3]]
     lo, hi = min(seen), max(seen)
@@ -371,7 +372,7 @@ def steel_flywheel():
     D.item_model('steel_flywheel', {'parent': 'mcremix:block/steel_flywheel/item'})
     variants = {}
     for axis, turn in FLYWHEEL_AXES.items():
-        for patina in PATINAS:
+        for patina in G.PATINAS:
             prefix = '' if patina in ('none', 'waxed') else 'exposed_'
             variants[f'axis={axis},patina={patina}'] = {'model': f'mcremix:block/steel_flywheel/{prefix}block',
                                                          **turn}

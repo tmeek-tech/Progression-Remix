@@ -73,12 +73,12 @@ def ct_sheet(tile):
     return sheet
 
 
-def ring(start_open, end_open):
+def ring(end_open):
     """
     Where rivets go along an edge two pixels in: every four pixels, so a row of them runs on into the next block of the
-    column, turning the corner two pixels in from an end the column stops at.
+    column, and where the column stops, one rivet two pixels in from that end, where the ring turns the corner.
     """
-    return [2, 6, 10, 14 if end_open else 13]
+    return [2, 6, 10, 14 if end_open else 12]
 
 
 def section_side(seed, pal, rust, left=False, right=False, up=False, down=False):
@@ -138,12 +138,12 @@ def section_top(seed, pal, rust, left=False, right=False, up=False, down=False):
     """
     img = plate(seed, pal)
     px = img.load()
-    for i in ring(left, right):
+    for i in ring(right):
         if not up:
             rivet(px, pal, i, 2)
         if not down:
             rivet(px, pal, i, 12)
-    for i in ring(up, down):
+    for i in ring(down):
         if not left:
             rivet(px, pal, 2, i)
         if not right:

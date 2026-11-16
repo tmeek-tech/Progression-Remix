@@ -1,8 +1,40 @@
 # Test reports
 
-Newest first: [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.36.0: A new look for the engine, the valve, the condenser and the columns
+
+This covers section 45 of [BUILD_NOTES.md](BUILD_NOTES.md): new art for the diesel engine, the expansion valve and the
+steel condenser, connected textures on formed steel and aluminium columns, a clean polished aluminium, and the steel
+flywheel, a block of its own that the diesel engine's recipe now takes, on top of 0.35.0, with the fixes a review found.
+Tested on 2026-11-16 against the same versions as 0.35.0. Taran answered the five taste cards on 2026-11-16 before the
+build was tested, so everything here tests the answers.
+
+**Result:** 0.36.0 compiled with no errors. Every GameTest passes in a fresh test world: 441 of 441 plain and 447 of 447
+with `-Pcompanions`. Two runs stopped at start-up with Registrate's "Found unused register callbacks" in Create's own
+registration, the dev-only flake seen since 0.8.1, and passed when run again. In a dev client the five reworked blocks
+and the steel flywheel draw as meant, with no errors from the mod in the log; before and after screenshots are in
+`builds/screenshots/0.36.0`. Not checked: the jar on a real Forge server, and frosted or frozen columns joined up in a
+client.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.36.0.jar`, 7,047,674 bytes, SHA-256 `75917db2…2b48beb6c4`; `builds/mcremix-1.20.1-0.36.0.zip` holds the same jar. Its `mods.toml` says 0.36.0; none of its 1,769 PNGs carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | As for 0.35.0 |
+| GameTests, plain | Pass | 441 of 441: 0.35.0's 440 and the new `aSteelFlywheelIsSteelAndTurnsOnItsShaftLine` |
+| GameTests, with companions | Pass | 447 of 447 |
+| The steel flywheel | Pass | `aSteelFlywheelIsSteelAndTurnsOnItsShaftLine` (eight steel ingots round a steel shaft craft it; it rusts as steel, only to its first stage; honeycomb waxes it; it holds no shafts and has no rating; a creative motor at 32 RPM turns it at 32) |
+| The diesel engine's recipe | Pass | `paraffinWaxAndPetroleumCokeStandInForHoneycombAndCoke` now crafts the engine from a steel flywheel, a piston, a steel tank and steel sheet |
+| Review fixes | Pass | Art and generator fixes, checked by eye: the rivet ring on a column's top turns each corner on one rivet, and the engine's shaft draws in steel |
+| Dev client | Pass | The same superflat scene before and after: a 2 by 2 by 3 and a 1 by 1 by 4 column in steel and in aluminium draw joined, plates running on across each, a flange band at every section, a cap at the top and a skirt at the foot; the steel condenser is one square shell shaded round; the expansion valve is polished aluminium with an aluminium handwheel; the diesel engine is dark steel with a brass tank, and with the pipe behind it taken away its brass inlet shows; fresh and rusted steel flywheels turn on creative motors; the new items draw in the hotbar |
+
+### Known gaps
+
+- Frosted and frozen aluminium columns were seen joined up only in the generator's previews: a column's frost follows
+  what it holds, so setting it by hand does not last.
+- No GameTest covers a column's texture joining up as it forms; that is drawn on the client only.
 
 ## 0.35.0: The sulfur works and the dye works
 

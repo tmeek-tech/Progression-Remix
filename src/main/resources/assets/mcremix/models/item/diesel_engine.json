@@ -10,8 +10,8 @@
     "inlet": "mcremix:block/diesel_engine_inlet",
     "particle": "mcremix:block/diesel_engine_flywheel",
     "flywheel": "mcremix:block/diesel_engine_flywheel",
-    "shaft": "create:block/axis",
-    "shaft_end": "create:block/axis_top"
+    "shaft": "mcremix:block/steel_axis",
+    "shaft_end": "mcremix:block/steel_axis_top"
   },
   "elements": [
     {

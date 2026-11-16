@@ -31,17 +31,16 @@ public class ModSpriteShifts {
 	 * A formed steel column's sides and top, fresh and rusted, joined up across the column by Create's RECTANGLE
 	 * connected textures (Taran, 0.36.0): each sheet is drawn by tools/gen_column.py.
 	 */
-	public static final List<CTSpriteShiftEntry> STEEL_COLUMN = column("", "exposed_", "steel");
+	public static final List<CTSpriteShiftEntry> STEEL_COLUMN = column("steel", "", "exposed_");
 	/** A formed aluminium column's, bare, frosted and frozen (tools/gen_air_art.py). */
-	public static final List<CTSpriteShiftEntry> ALUMINIUM_COLUMN = column("", "frosted_", "frozen_", "aluminium");
+	public static final List<CTSpriteShiftEntry> ALUMINIUM_COLUMN = column("aluminium", "", "frosted_", "frozen_");
 
 	/** A column section's side and top in each of its looks, the first look's side first. */
-	private static List<CTSpriteShiftEntry> column(String... looksThenMetal) {
-		String metal = looksThenMetal[looksThenMetal.length - 1];
+	private static List<CTSpriteShiftEntry> column(String metal, String... looks) {
 		List<CTSpriteShiftEntry> shifts = new ArrayList<>();
-		for (int i = 0; i < looksThenMetal.length - 1; i++)
+		for (String look : looks)
 			for (String face : List.of("", "_top")) {
-				String texture = "block/" + looksThenMetal[i] + metal + "_column_section" + face;
+				String texture = "block/" + look + metal + "_column_section" + face;
 				shifts.add(CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, McRemix.asResource(texture),
 					McRemix.asResource(texture + "_connected")));
 			}
