@@ -9,8 +9,9 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
- * What water coolers and radiators work with (Taran's design). A water cooler cools with water, cold water or coolant:
- * water of either kind comes out warm, and coolant comes out hot. A radiator chills any water into cold water and hot
+ * What water coolers and radiators work with (Taran's design). A water cooler cools with water, cold water, coolant or
+ * liquid nitrogen: water of either kind comes out warm, coolant comes out hot, and liquid nitrogen boils off as
+ * nitrogen gas. A radiator chills any water into cold water and hot
  * coolant back into coolant, and lets what is already as cold as it gets, cold water and coolant, straight through.
  * Water is free to pour away, so it suits a line that runs through once; coolant cools faster but has to be made, so it
  * is kept going round a loop of water coolers and radiators, where it never wears out.
@@ -28,6 +29,11 @@ public final class Coolants {
 	public static final Cooling COLD_WATER = new Cooling(30f, 188f, Chemical.WARM_WATER);
 	/** Coolant: three times as fast as water, half again as fast as cold water, and as much heat to a bucket. */
 	public static final Cooling COOLANT = new Cooling(45f, 188f, Chemical.HOT_COOLANT);
+	/**
+	 * Liquid nitrogen (stage 4): twice as fast as coolant, six times water, and as much heat to a bucket; it boils off
+	 * as nitrogen gas, which comes out where warm water would, ready to pipe on. A radiator takes neither.
+	 */
+	public static final Cooling LIQUID_NITROGEN = new Cooling(90f, 188f, Chemical.NITROGEN);
 
 	private Coolants() {}
 
@@ -41,6 +47,8 @@ public final class Coolants {
 			return COLD_WATER;
 		if (fluid.isSame(Chemical.COOLANT.fluid()))
 			return COOLANT;
+		if (fluid.isSame(Chemical.LIQUID_NITROGEN.fluid()))
+			return LIQUID_NITROGEN;
 		return null;
 	}
 

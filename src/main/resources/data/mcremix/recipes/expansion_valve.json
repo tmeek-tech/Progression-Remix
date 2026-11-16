@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "create:fluid_valve"
+    },
+    {
+      "item": "mcremix:aluminium_fluid_tank"
+    },
+    {
+      "tag": "forge:plates/aluminium"
+    },
+    {
+      "tag": "forge:plates/aluminium"
+    }
+  ],
+  "result": {
+    "item": "mcremix:expansion_valve"
+  }
+}

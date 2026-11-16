@@ -26,7 +26,7 @@ import net.minecraft.world.item.ItemStack;
 /**
  * One page per fluid a Steel Furnace burns: how many mB a tick, piped in from underneath, burn at each heat it
  * reaches, the last being as hot as it gets, set out as a table beside the furnace. Hovering a line gives the pump
- * speed that moves that much.
+ * speed that moves that much, and the fuel's own tooltip how oxygen piped in with it makes it burn hotter.
  */
 public class SteelFurnaceFuelCategory extends AbstractRecipeCategory<SteelFurnaceFuels.Fuel> {
 	public static final RecipeType<SteelFurnaceFuels.Fuel> TYPE =
@@ -49,6 +49,8 @@ public class SteelFurnaceFuelCategory extends AbstractRecipeCategory<SteelFurnac
 			.addFluidStack(fuel.fluid().get(), 1000)
 			.addRichTooltipCallback((view, tooltip) -> {
 				tooltip.add(note);
+				tooltip.add(Component.translatable("mcremix.jei.steel_furnace_fuel.oxygen",
+					com.mcremix.kiln.SteelFurnaceBlockEntity.FUEL_PER_OXYGEN));
 				if (fuel.sour())
 					tooltip.add(Component.translatable("mcremix.jei.steel_furnace_fuel.sour",
 						SteelFurnaceFuels.SULFUR_PER_SOUR_GAS));

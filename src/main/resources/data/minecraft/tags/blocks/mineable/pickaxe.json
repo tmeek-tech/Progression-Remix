@@ -438,6 +438,8 @@
     "mcremix:steel_caged_ladder",
     "mcremix:steel_column_section",
     "mcremix:steel_condenser",
-    "mcremix:diesel_engine"
+    "mcremix:diesel_engine",
+    "mcremix:aluminium_column_section",
+    "mcremix:expansion_valve"
   ]
 }

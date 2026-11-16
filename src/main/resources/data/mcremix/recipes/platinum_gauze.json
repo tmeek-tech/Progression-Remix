@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NN",
+    "NN"
+  ],
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/platinum"
+    }
+  },
+  "result": {
+    "item": "mcremix:platinum_gauze"
+  }
+}

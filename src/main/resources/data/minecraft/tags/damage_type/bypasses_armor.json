@@ -4,6 +4,10 @@
     "mcremix:chlorine",
     "mcremix:carbon_dioxide",
     "mcremix:sour_gas",
-    "mcremix:sulfur_dioxide"
+    "mcremix:sulfur_dioxide",
+    "mcremix:ammonia",
+    "mcremix:nitrogen_dioxide",
+    "mcremix:nitrogen",
+    "mcremix:argon"
   ]
 }

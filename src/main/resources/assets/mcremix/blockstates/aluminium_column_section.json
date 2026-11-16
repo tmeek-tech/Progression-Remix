@@ -1,0 +1,145 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "frost": "0"
+      },
+      "apply": {
+        "model": "mcremix:block/aluminium_column_section"
+      }
+    },
+    {
+      "when": {
+        "frost": "0",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/aluminium_column_nozzle"
+      }
+    },
+    {
+      "when": {
+        "frost": "0",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/aluminium_column_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "frost": "0",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/aluminium_column_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "frost": "0",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/aluminium_column_nozzle",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "frost": "1"
+      },
+      "apply": {
+        "model": "mcremix:block/frosted_aluminium_column_section"
+      }
+    },
+    {
+      "when": {
+        "frost": "1",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frosted_aluminium_column_nozzle"
+      }
+    },
+    {
+      "when": {
+        "frost": "1",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frosted_aluminium_column_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "frost": "1",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frosted_aluminium_column_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "frost": "1",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frosted_aluminium_column_nozzle",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "frost": "2"
+      },
+      "apply": {
+        "model": "mcremix:block/frozen_aluminium_column_section"
+      }
+    },
+    {
+      "when": {
+        "frost": "2",
+        "north": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frozen_aluminium_column_nozzle"
+      }
+    },
+    {
+      "when": {
+        "frost": "2",
+        "east": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frozen_aluminium_column_nozzle",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "frost": "2",
+        "south": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frozen_aluminium_column_nozzle",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "frost": "2",
+        "west": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frozen_aluminium_column_nozzle",
+        "y": 270
+      }
+    }
+  ]
+}

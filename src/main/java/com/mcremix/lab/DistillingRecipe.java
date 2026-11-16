@@ -14,9 +14,13 @@ import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
@@ -38,22 +42,54 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
  * </pre>
  * A recipe without exactly one fluid to split, without a result, or whose cuts come to more than the mixture they are
  * cut from, is turned down as it loads (the game logs why), so a broken data pack recipe never reaches a still.
+ * <p>
+ * Liquid air (stage 4) splits only in the aluminium air column, {@code "still": "air_column"}, which the glass still and
+ * steel column never take; its close pair needs {@code "extra_sections"} between them (two unless it says), and
+ * {@code "reflux"} names what is piped into its top as reflux when that is not its top cut (liquid nitrogen).
  */
 public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	private HeatLevel heat = HeatLevel.WARM;
 	private int[] boilingPoints = new int[0];
 	private boolean[] close = new boolean[0];
+	/** Whether only the air column splits it. */
+	private boolean airColumn;
+	/** Sections a close pair of it needs between its cuts with no reflux. */
+	private int extraSections = 2;
+	/** What goes into its top as reflux, if not its top cut; reboiled, it goes off as its lightest cut. */
+	@Nullable
+	private Fluid reflux;
 
 	public DistillingRecipe(ProcessingRecipeParams params) {
 		super(ModRecipes.DISTILLING, params);
 	}
 
-	/** The recipe that splits {@code fluid}, if any does. */
+	/** The recipe a glass still or steel column splits {@code fluid} by, if any. */
 	public static Optional<DistillingRecipe> find(@Nullable Level level, FluidStack fluid) {
+		return find(level, fluid, false);
+	}
+
+	/** The recipe {@code fluid} splits by in the air column ({@code air}) or in the others, if any. */
+	public static Optional<DistillingRecipe> find(@Nullable Level level, FluidStack fluid, boolean air) {
 		if (level == null || fluid.isEmpty())
 			return Optional.empty();
 		return level.getRecipeManager().getAllRecipesFor(ModRecipes.DISTILLING_TYPE.get()).stream()
-			.filter(r -> r.valid() && r.feed().test(fluid)).findFirst();
+			.filter(r -> r.valid() && r.airColumn == air && r.feed().test(fluid)).findFirst();
+	}
+
+	/** Whether only the aluminium air column splits it. */
+	public boolean airColumn() {
+		return airColumn;
+	}
+
+	/** Sections its close pair needs between its two cuts with no reflux. */
+	public int extraSections() {
+		return extraSections;
+	}
+
+	/** What is piped into its top as reflux, if not its top cut. */
+	@Nullable
+	public Fluid reflux() {
+		return reflux;
 	}
 
 	/** One fluid to split, in an amount, at least a residue, and cuts that come to no more than the mixture. */
@@ -149,6 +185,13 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		close = new boolean[closeness.size()];
 		for (int i = 0; i < closeness.size(); i++)
 			close[i] = closeness.get(i).getAsBoolean();
+		airColumn = "air_column".equals(GsonHelper.getAsString(json, "still", ""));
+		extraSections = Math.max(0, GsonHelper.getAsInt(json, "extra_sections", 2));
+		reflux = null;
+		if (json.has("reflux")) {
+			Fluid fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(GsonHelper.getAsString(json, "reflux")));
+			reflux = fluid == Fluids.EMPTY ? null : fluid;
+		}
 	}
 
 	@Override
@@ -158,6 +201,10 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		close = new boolean[buffer.readVarInt()];
 		for (int i = 0; i < close.length; i++)
 			close[i] = buffer.readBoolean();
+		airColumn = buffer.readBoolean();
+		extraSections = buffer.readVarInt();
+		Fluid fluid = BuiltInRegistries.FLUID.get(buffer.readResourceLocation());
+		reflux = fluid == Fluids.EMPTY ? null : fluid;
 	}
 
 	@Override
@@ -171,6 +218,11 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		for (boolean c : close)
 			closeness.add(c);
 		json.add("close", closeness);
+		if (airColumn)
+			json.addProperty("still", "air_column");
+		json.addProperty("extra_sections", extraSections);
+		if (reflux != null)
+			json.addProperty("reflux", BuiltInRegistries.FLUID.getKey(reflux).toString());
 	}
 
 	@Override
@@ -180,5 +232,8 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		buffer.writeVarInt(close.length);
 		for (boolean c : close)
 			buffer.writeBoolean(c);
+		buffer.writeBoolean(airColumn);
+		buffer.writeVarInt(extraSections);
+		buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(reflux == null ? Fluids.EMPTY : reflux));
 	}
 }

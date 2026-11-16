@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.mcremix.electrolysis.Gases;
 import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.fluids.WarmCuts;
 import com.mcremix.heat.HeatLevel;
@@ -50,6 +51,11 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  * its pace, half at 1, which is as much as helps.</li>
  * <li>What a short column has no room for escapes over its top as a flammable vapour ({@link SolventVapourCloud}).</li>
  * </ul>
+ * The aluminium air column (stage 4, {@link ColumnSectionBlockEntity#airColumn}) works the same way with these
+ * differences: it takes only liquid air ({@link DistillingRecipe#airColumn}); it needs no heater, as liquid air boils in
+ * the world's warmth, {@link #PACE_PER_HEATER} mB a tick for every block of its floor; it has no condenser, its cuts
+ * all leaving as gases drawn from their own sections, the top one too; its reflux is liquid nitrogen piped into the top
+ * section, which boils back into nitrogen there; and what has no room escapes over the top as the gases it is.
  */
 public class Column {
 	public static final int MAX_WIDTH = 3;
@@ -117,9 +123,16 @@ public class Column {
 	private BlockPos condenser;
 	private int lookIn;
 	private boolean changed;
+	/** The air column's gases that had no room, let loose every {@link #VENT_EVERY} ticks. */
+	private final java.util.ArrayList<FluidStack> gasPending = new java.util.ArrayList<>();
 
 	public Column(ColumnSectionBlockEntity be) {
 		this.be = be;
+	}
+
+	/** Whether it is the aluminium air column. */
+	private boolean air() {
+		return be.airColumn();
 	}
 
 	private FluidTank tank(int perBlock) {
@@ -171,7 +184,9 @@ public class Column {
 
 	/** mB of feed it boils a tick now. */
 	public float boilRate() {
-		return PACE_PER_HEATER * pace / (1 + Math.min(1f, refluxRatio()));
+		DistillingRecipe recipe = recipe(be.getLevel());
+		float most = recipe == null ? 1 : ColumnLayout.mostReflux(recipe);
+		return PACE_PER_HEATER * pace / (1 + Math.min(most, refluxRatio()));
 	}
 
 	@Nullable
@@ -237,10 +252,10 @@ public class Column {
 		if (recipeId != null) {
 			Optional<? extends Recipe<?>> found = level.getRecipeManager().byKey(recipeId);
 			if (found.isPresent() && found.get() instanceof DistillingRecipe recipe && recipe.valid()
-				&& recipe.feed().test(feed.getFluid()))
+				&& recipe.airColumn() == air() && recipe.feed().test(feed.getFluid()))
 				return recipe;
 		}
-		return DistillingRecipe.find(level, feed.getFluid()).orElse(null);
+		return DistillingRecipe.find(level, feed.getFluid(), air()).orElse(null);
 	}
 
 	/** Where its cuts go now: the plan for its mixture, height and reflux; null with nothing to split. */
@@ -264,8 +279,11 @@ public class Column {
 			if (vented != ventPending)
 				changed = true;
 			vented = ventPending;
-			if (ventPending > 0)
+			if (ventPending > 0 && !air())
 				SolventVapourCloud.release(server, ventAt(), ventPending);
+			if (!gasPending.isEmpty())
+				Gases.escape(server, ventAt(), List.copyOf(gasPending));
+			gasPending.clear();
 			ventPending = 0;
 		}
 		if (job != before || pace != pacedBefore)
@@ -301,8 +319,8 @@ public class Column {
 			carry = 0;
 			return feed.isEmpty() ? Job.IDLE : Job.WONT_DISTIL;
 		}
-		SteelCondenserBlockEntity condenser = condenser(level);
-		if (condenser == null)
+		SteelCondenserBlockEntity condenser = air() ? null : condenser(level);
+		if (condenser == null && !air())
 			return Job.NO_CONDENSER;
 		if (pace <= 0) {
 			carry = 0;
@@ -322,12 +340,61 @@ public class Column {
 				carry -= fits;
 			}
 		}
-		reboil(condenser);
+		if (air())
+			reboilAir(plan, recipe);
+		else
+			reboil(condenser);
 		return doing;
+	}
+
+	/**
+	 * The air column's reflux, liquid nitrogen, boils back into nitrogen in the section that draws it, on the warmth the
+	 * feed's boil gives up to it, as {@link #reboil} does; with no room there, it waits, and if no section draws
+	 * nitrogen, too short a column, it escapes over the top as nitrogen.
+	 */
+	private void reboilAir(ColumnLayout.Plan plan, DistillingRecipe recipe) {
+		if (reflux.isEmpty()) {
+			refluxCarry = 0;
+			return;
+		}
+		float rate = Math.max(0, PACE_PER_HEATER * pace - boilRate());
+		refluxCarry = Math.min(refluxCarry + rate, rate * 4 + 1);
+		int amount = Math.min(reflux.getFluidAmount(), (int) refluxCarry);
+		if (amount <= 0)
+			return;
+		FluidStack gas = new FluidStack(recipe.getFluidResults().get(0), amount);
+		int at = plan.layerOf(0);
+		if (at >= 0)
+			amount = sections[at].fill(gas, IFluidHandler.FluidAction.EXECUTE);
+		else
+			escape(gas);
+		if (amount <= 0)
+			return;
+		refluxCarry -= amount;
+		reflux.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+	}
+
+	/** Gas the air column has no room for, let loose over its top with the next lot. */
+	private void escape(FluidStack gas) {
+		if (gas.isEmpty())
+			return;
+		ventPending += gas.getAmount();
+		for (FluidStack pending : gasPending)
+			if (pending.isFluidEqual(gas)) {
+				pending.grow(gas.getAmount());
+				return;
+			}
+		gasPending.add(gas.copy());
 	}
 
 	/** Its condenser looked for again, and its heaters at the mixture's least heat {@code least} if it holds one. */
 	private void lookAround(Level level, @Nullable HeatLevel least) {
+		if (air()) {
+			// liquid air boils in the world's warmth: every block of its floor at once
+			heaters = width * width;
+			pace = heaters;
+			return;
+		}
 		BlockPos found = findCondenser(level);
 		if (!java.util.Objects.equals(found, condenser))
 			changed = true; // clients draw the vapour line by it
@@ -410,7 +477,8 @@ public class Column {
 	}
 
 	/** The most of {@code boil} mB of feed whose cuts all have somewhere to go; 0 if the column is held up. */
-	private int fits(ColumnLayout.Plan plan, DistillingRecipe recipe, SteelCondenserBlockEntity condenser, int boil) {
+	private int fits(ColumnLayout.Plan plan, DistillingRecipe recipe, @Nullable SteelCondenserBlockEntity condenser,
+		int boil) {
 		int lo = 0, hi = boil;
 		while (lo < hi) {
 			int mid = (lo + hi + 1) / 2;
@@ -428,7 +496,8 @@ public class Column {
 	 * Where {@code boil} mB of feed would find no room for its cuts: a section from the bottom, -1 for the condenser,
 	 * or -2 if everything fits.
 	 */
-	private int blocked(ColumnLayout.Plan plan, DistillingRecipe recipe, SteelCondenserBlockEntity condenser, int boil) {
+	private int blocked(ColumnLayout.Plan plan, DistillingRecipe recipe, @Nullable SteelCondenserBlockEntity condenser,
+		int boil) {
 		List<FluidStack> results = recipe.getFluidResults();
 		for (int i = 0; i < results.size(); i++) {
 			// a gas never holds it up: what the condenser has no room for escapes there
@@ -437,7 +506,7 @@ public class Column {
 			int amount = share(recipe, i, boil);
 			if (amount <= 0)
 				continue;
-			if (i == plan.top()) {
+			if (i == plan.top() && condenser != null) {
 				if (condenser.productRoom(results.get(i)) < amount)
 					return -1;
 				continue;
@@ -452,7 +521,8 @@ public class Column {
 		return -2;
 	}
 
-	private void boil(ColumnLayout.Plan plan, DistillingRecipe recipe, SteelCondenserBlockEntity condenser, int boil) {
+	private void boil(ColumnLayout.Plan plan, DistillingRecipe recipe, @Nullable SteelCondenserBlockEntity condenser,
+		int boil) {
 		feed.drain(boil, IFluidHandler.FluidAction.EXECUTE);
 		List<FluidStack> results = recipe.getFluidResults();
 		long batch = Math.max(1, recipe.batch());
@@ -462,10 +532,12 @@ public class Column {
 			owed[i] -= give * batch;
 			if (give <= 0)
 				continue;
-			if (plan.gas(i)) {
+			if (condenser != null && plan.gas(i)) {
 				condenser.takeGas(new FluidStack(results.get(i), give));
 				continue;
 			}
+			if (air() && i == 0)
+				freshIn += give;
 			float share = plan.vented()[i];
 			int vent = give;
 			if (share < 1) {
@@ -473,11 +545,14 @@ public class Column {
 				vent = (int) ventOwed[i];
 				ventOwed[i] -= vent;
 			}
-			ventPending += vent;
+			if (air())
+				escape(new FluidStack(results.get(i), vent));
+			else
+				ventPending += vent;
 			int kept = give - vent;
 			if (kept <= 0)
 				continue;
-			if (i == plan.top()) {
+			if (i == plan.top() && condenser != null) {
 				int condensed = condenser.condense(new FluidStack(results.get(i), kept));
 				freshIn += condensed;
 				if (condensed < kept)
@@ -505,14 +580,19 @@ public class Column {
 			return false;
 		if (!feed.isEmpty())
 			return feed.getFluid().isFluidEqual(stack);
-		return DistillingRecipe.find(level, stack).isPresent();
+		return DistillingRecipe.find(level, stack, air()).isPresent();
 	}
 
-	/** Whether {@code stack} can go in at the top as reflux: the cut going over to the condenser now. */
+	/**
+	 * Whether {@code stack} can go in at the top as reflux: the cut going over to the condenser now, or in the air
+	 * column what its mixture names (liquid nitrogen).
+	 */
 	boolean takesReflux(FluidStack stack) {
 		if (stack.isEmpty() || height < 2)
 			return false;
 		DistillingRecipe recipe = recipe(be.getLevel());
+		if (recipe != null && recipe.reflux() != null)
+			return stack.getFluid().isSame(recipe.reflux());
 		int top = recipe == null ? -1 : ColumnLayout.top(recipe, height);
 		return top >= 0 && recipe.getFluidResults().get(top).isFluidEqual(stack);
 	}
@@ -684,8 +764,12 @@ public class Column {
 				tooltip.add(line(tank("feed", feed)));
 			return;
 		}
-		tooltip.add(line(lang("heat", heaters, width * width, recipe.heat().displayName(), pace)
-			.withStyle(ChatFormatting.GRAY)));
+		if (air())
+			tooltip.add(line(Component.translatable("mcremix.goggles.air_column.boiling",
+				String.format(java.util.Locale.ROOT, "%.1f", boilRate())).withStyle(ChatFormatting.GRAY)));
+		else
+			tooltip.add(line(lang("heat", heaters, width * width, recipe.heat().displayName(), pace)
+				.withStyle(ChatFormatting.GRAY)));
 		float ratio = refluxRatio();
 		if (ratio > 0.005f || !reflux.isEmpty())
 			tooltip.add(line(lang("reflux", String.format(java.util.Locale.ROOT, "%.2f", ratio))
@@ -705,7 +789,8 @@ public class Column {
 			FluidTank held = sections[Math.min(j, sections.length - 1)];
 			MutableComponent text = Component.literal(at.celsius() + " °C ");
 			switch (at.kind()) {
-				case TOP -> text.append(lang("top", results.get(at.result()).getDisplayName()));
+				case TOP -> text.append(air() ? results.get(at.result()).getDisplayName()
+					: lang("top", results.get(at.result()).getDisplayName()));
 				case SEPARATING -> text.append(lang("separating"));
 				default -> text.append(results.get(at.result()).getDisplayName());
 			}
@@ -750,7 +835,13 @@ public class Column {
 			}
 			pour(sections[at], other.sections[i]);
 		}
+		// the other's pending gas is already counted in its ventPending, so escape() counts it here instead
 		ventPending += other.ventPending;
+		for (FluidStack gas : other.gasPending) {
+			ventPending -= gas.getAmount();
+			escape(gas);
+		}
+		other.gasPending.clear();
 		changed = true;
 	}
 
@@ -774,9 +865,22 @@ public class Column {
 		carry = refluxCarry = 0;
 		refluxAverage = freshAverage = 0;
 		refluxIn = freshIn = ventPending = vented = 0;
+		gasPending.clear();
 		job = Job.IDLE;
 		condenser = null;
 		changed = true;
+	}
+
+	/** Everything it holds, taken out of it: the feed, the reflux and every section's cut, as the column melts. */
+	public List<FluidStack> empty() {
+		java.util.ArrayList<FluidStack> out = new java.util.ArrayList<>();
+		for (FluidTank tank : new FluidTank[] { feed, reflux })
+			if (!tank.isEmpty())
+				out.add(tank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
+		for (FluidTank section : sections)
+			if (!section.isEmpty())
+				out.add(section.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
+		return out;
 	}
 
 	/** Whether what it holds would spill or escape if it were broken: for the block entity's own use. */

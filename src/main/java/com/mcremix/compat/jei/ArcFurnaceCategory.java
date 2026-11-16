@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 
 /**
  * What the Arc Furnace melts down, and the energy its arc puts into each, shown as the time that takes at the power
- * the arc draws on 20 V; it is drawn melting, both electrodes in.
+ * the arc draws on 20 V, and the argon that makes it give half again; it is drawn melting, both electrodes in.
  */
 public class ArcFurnaceCategory extends AbstractRecipeCategory<ArcFurnaceRecipe> {
 	public static final RecipeType<ArcFurnaceRecipe> TYPE =
@@ -62,5 +62,6 @@ public class ArcFurnaceCategory extends AbstractRecipeCategory<ArcFurnaceRecipe>
 			return;
 		tooltip.add(Component.translatable("mcremix.jei.arc_furnace.energy.note"));
 		tooltip.add(Component.translatable("mcremix.jei.arc_furnace.weak", Math.round(ArcFurnaceBlockEntity.MELTS_FROM)));
+		tooltip.add(Component.translatable("mcremix.jei.arc_furnace.argon", ArcFurnaceBlockEntity.ARGON_PER_MELT));
 	}
 }

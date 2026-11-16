@@ -15,8 +15,14 @@ import net.minecraftforge.fluids.FluidStack;
  * Blazing. PVC holds only cold fluids, aluminium up to Warm, glass, brass, iron and copper (Create's own fluid blocks) up
  * to Hot, steel up to Searing, and nothing is piped at Blazing: the crucible pours those. Both are tags, so packs can
  * rate other mods' fluids and blocks.
+ * <p>
+ * The cold end (stage 4): liquid air and liquid nitrogen are cryogenic, colder than {@link #CRYOGENIC_BELOW} K or
+ * tagged {@code mcremix:cryogenic}, and steel, iron and PVC parts (the {@code mcremix:cracks_in_cold} block tag) crack in
+ * that cold; copper, brass, aluminium and glass take it.
  */
 public class FluidHeat {
+	/** Kelvin below which a fluid is cryogenic, whatever its tags. */
+	public static final int CRYOGENIC_BELOW = 150;
 
 	/**
 	 * A fluid's heat: its {@code mcremix:heat/*} tag, or failing that its temperature in kelvin, so other mods' fluids
@@ -70,5 +76,24 @@ public class FluidHeat {
 			return false;
 		HeatLevel ceiling = ceiling(holder);
 		return ceiling != null && !ceiling.isAtLeast(of(fluid));
+	}
+
+	/** Whether a fluid is so cold it cracks steel, iron and PVC: its {@code mcremix:cryogenic} tag, or its temperature. */
+	public static boolean cryogenic(Fluid fluid) {
+		return fluid.is(ModTags.Fluids.CRYOGENIC) || fluid.getFluidType().getTemperature() < CRYOGENIC_BELOW;
+	}
+
+	public static boolean cryogenic(FluidStack stack) {
+		return !stack.isEmpty() && cryogenic(stack.getFluid());
+	}
+
+	/** Whether a block cracks holding a cryogenic fluid: steel, iron and PVC pipes, pumps and tanks. */
+	public static boolean cracksInCold(BlockState state) {
+		return state.is(ModTags.Blocks.CRACKS_IN_COLD);
+	}
+
+	/** Whether a block holding this fluid cracks with the cold. */
+	public static boolean tooCold(BlockState holder, FluidStack fluid) {
+		return cryogenic(fluid) && cracksInCold(holder);
 	}
 }

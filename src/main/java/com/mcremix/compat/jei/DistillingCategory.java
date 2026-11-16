@@ -3,8 +3,10 @@ package com.mcremix.compat.jei;
 import java.util.List;
 
 import com.mcremix.McRemix;
+import com.mcremix.air.AirColumnSectionBlock;
 import com.mcremix.column.ColumnLayout;
 import com.mcremix.lab.DistillingRecipe;
+import com.mcremix.registry.ModAir;
 import com.mcremix.registry.ModBlocks;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -22,7 +24,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 /**
  * What a still splits a mixture into, lightest first, each cut at the temperature it comes over at, and what is left
- * in the flask; how hot the mixture must be, and how long a batch takes.
+ * in the flask; how hot the mixture must be, and how long a batch takes. Liquid air splits only in the aluminium air
+ * column (stage 4), every cut a gas drawn off its own section, with no heat under it.
  */
 public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe> {
 	public static final RecipeType<DistillingRecipe> TYPE =
@@ -40,6 +43,15 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 			int i = 0;
 			while (i < results.size() && results.get(i) != fluid)
 				i++;
+			if (recipe.airColumn()) {
+				// every cut a gas, each drawn off its own section, the heaviest from the bottom
+				tooltip.add(Component.translatable("mcremix.jei.distilling.cut", i + 1, recipe.boilingPoint(i))
+					.withStyle(ChatFormatting.GOLD));
+				if (ColumnLayout.paired(recipe, i))
+					tooltip.add(Component.translatable("mcremix.jei.distilling.close_air_column", recipe.extraSections())
+						.withStyle(ChatFormatting.GRAY));
+				return;
+			}
 			if (i >= results.size() - 1) {
 				tooltip.add(Component.translatable("mcremix.jei.distilling.residue").withStyle(ChatFormatting.GOLD));
 				return;
@@ -53,22 +65,27 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 			if (recipe.close(i))
 				tooltip.add(Component.translatable("mcremix.jei.distilling.close").withStyle(ChatFormatting.GRAY));
 			if (ColumnLayout.paired(recipe, i))
-				tooltip.add(Component.translatable("mcremix.jei.distilling.close_column", ColumnLayout.EXTRA_FOR_CLOSE)
+				tooltip.add(Component.translatable("mcremix.jei.distilling.close_column", recipe.extraSections())
 					.withStyle(ChatFormatting.GRAY));
 		});
-		Page.heatSources(builder, recipe.heat());
+		if (!recipe.airColumn())
+			Page.heatSources(builder, recipe.heat());
 	}
 
 	@Override
 	public void draw(DistillingRecipe recipe, IRecipeSlotsView slots, GuiGraphics graphics, double mouseX,
 		double mouseY) {
+		boolean air = recipe.airColumn();
 		Page.arrow(graphics, Page.outputCount(recipe));
-		Page.ground(graphics, true);
-		Scene.heat(graphics, recipe.heat());
+		Page.ground(graphics, !air);
+		if (!air)
+			Scene.heat(graphics, recipe.heat());
 		Scene scene = Scene.open(graphics);
-		scene.block(ModBlocks.ROUND_FLASK.getDefaultState(), Scene.MACHINE);
+		scene.block(air ? ModAir.AIR_COLUMN_SECTION.getDefaultState().setValue(AirColumnSectionBlock.FROST, 1)
+			: ModBlocks.ROUND_FLASK.getDefaultState(), Scene.MACHINE);
 		scene.close();
-		Page.bar(graphics, true, JeiText.heatAndTime(recipe.heat(), recipe.getProcessingDuration()), null, true);
+		Page.bar(graphics, !air, air ? Component.translatable("mcremix.jei.distilling.no_heat")
+			: JeiText.heatAndTime(recipe.heat(), recipe.getProcessingDuration()), null, !air);
 	}
 
 	@Override
@@ -76,6 +93,16 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 		double mouseY) {
 		if (!Page.overBar(mouseX, mouseY))
 			return;
+		if (recipe.airColumn()) {
+			// only the aluminium column: a section for every cut, more for a close pair, which liquid nitrogen covers
+			float most = ColumnLayout.mostReflux(recipe);
+			int bare = ColumnLayout.needed(recipe, 0), refluxed = ColumnLayout.needed(recipe, most);
+			tooltip.add(Component.translatable("mcremix.jei.distilling.air_column", bare).withStyle(ChatFormatting.GOLD));
+			if (refluxed < bare)
+				tooltip.add(Component.translatable("mcremix.jei.distilling.air_column_reflux", refluxed,
+					JeiText.decimal(most)).withStyle(ChatFormatting.GRAY));
+			return;
+		}
 		tooltip.add(Component.translatable("mcremix.jei.distilling.time"));
 		// in a steel column: a section for every cut and the residue, and more for a close pair, which reflux covers
 		int bare = ColumnLayout.needed(recipe, 0), refluxed = ColumnLayout.needed(recipe, 1);

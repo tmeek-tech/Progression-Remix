@@ -1,0 +1,18 @@
+{
+  "type": "mcremix:pressurizing",
+  "heat": "cold",
+  "min_speed": 256,
+  "processingTime": 10,
+  "ingredients": [
+    {
+      "fluid": "mcremix:nitrogen",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:hot_compressed_nitrogen",
+      "amount": 100
+    }
+  ]
+}

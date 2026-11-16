@@ -9,6 +9,7 @@ import com.mcremix.cooling.CoolantTanks;
 import com.mcremix.cooling.Coolants;
 import com.mcremix.electrolysis.Gases;
 import com.mcremix.fluids.Chemical;
+import com.mcremix.fluids.FluidHeat;
 import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.fluids.WarmCuts;
 import com.mcremix.lab.CoilCondenserBlockEntity;
@@ -48,16 +49,18 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  * gas tank of its own, {@link #CAPACITY} mB, for the same pipes to draw off, and what has no room escapes there as
  * itself ({@link Gases#escape}), never holding the column up.</li>
  * <li>Anywhere else it is inline: a warm cut piped into either end ({@link WarmCuts}) comes out of either end as its
- * plain form, so a cut drawn hot from a column can go on into a PVC pipe. It takes nothing else, pitch least of all,
- * which would set solid in its tubes.</li>
+ * plain form, so a cut drawn hot from a column can go on into a PVC pipe. Hot compressed air and nitrogen off a
+ * Pressurizer chill into compressed air and nitrogen the same way, but only with coolant in the jacket. It takes nothing
+ * else, pitch least of all, which would set solid in its tubes.</li>
  * </ul>
+ * Its jacket takes no liquid nitrogen: steel cracks in that cold ({@link FluidHeat#tooCold}).
  */
 public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
 	public static final int CAPACITY = 1000;
 	/** mB it condenses or cools a tick with water: cold water twice as much, coolant three times. */
 	public static final int RATE = 10;
 
-	private final CoolantTanks cooling = new CoolantTanks(CoilCondenserBlockEntity::takes, this::changed);
+	private final CoolantTanks cooling = new CoolantTanks(SteelCondenserBlockEntity::jacketTakes, this::changed);
 	/** Warm cuts piped in to cool, inline. */
 	private final FluidTank input = new FluidTank(CAPACITY, WarmCuts::coolable) {
 		@Override
@@ -117,6 +120,18 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 		return cooling;
 	}
 
+	/** What its jacket takes: what the glass coil condenser does, but no liquid nitrogen, which would crack its steel. */
+	public static boolean jacketTakes(FluidStack stack) {
+		return CoilCondenserBlockEntity.takes(stack) && !FluidHeat.cryogenic(stack);
+	}
+
+	/** Whether what it cools with now chills what is piped in: a squeezed gas needs coolant ({@link WarmCuts}). */
+	public boolean coldEnough() {
+		if (input.isEmpty() || !WarmCuts.coolantOnly(input.getFluid().getFluid()))
+			return true;
+		return Coolants.cooling(cooling.feed.getFluid()) == Coolants.COOLANT;
+	}
+
 	public FluidTank input() {
 		return input;
 	}
@@ -155,7 +170,8 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 		if (level == null)
 			return null;
 		for (Direction side : Direction.Plane.HORIZONTAL)
-			if (level.getBlockEntity(worldPosition.relative(side)) instanceof ColumnSectionBlockEntity section) {
+			if (level.getBlockEntity(worldPosition.relative(side)) instanceof ColumnSectionBlockEntity section
+				&& !section.airColumn()) {
 				ColumnSectionBlockEntity c = section.getControllerBE();
 				if (c != null && c.getBlockPos().getY() == worldPosition.getY())
 					return side;
@@ -314,7 +330,7 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 
 	/** A warm cut piped in cooled into its plain form, as fast as its rate and water allow. */
 	private void coolInline() {
-		if (input.isEmpty())
+		if (input.isEmpty() || !coldEnough())
 			return;
 		FluidStack cooled = WarmCuts.cool(input.getFluid());
 		int amount = Math.min(input.getFluidAmount(), Math.min(productRoom(cooled), Math.min(budget(), coolable())));
@@ -441,6 +457,8 @@ public class SteelCondenserBlockEntity extends SmartBlockEntity implements IHave
 		String state;
 		if (speed() <= 0)
 			state = "dry";
+		else if (!coldEnough())
+			state = "needs_coolant";
 		else if (coolable() == 0)
 			state = "warm_full";
 		else if (product.getSpace() == 0)

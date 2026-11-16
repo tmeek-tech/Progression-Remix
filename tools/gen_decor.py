@@ -27,7 +27,7 @@ CREOSOTE_BLOCKS = ['creosote_log', 'creosote_planks', 'creosote_stairs', 'creoso
 # (Taran's card, 2026-11-15: no stand-in recipes), so its fluid is None and its Spout recipes, and the empty glass tube's
 # own, are left out. The stage that adds each fluid sets its id here, and the recipes below appear.
 CREOSOTE_FLUID = 'mcremix:creosote'
-ARGON_FLUID = None
+ARGON_FLUID = 'mcremix:argon'
 
 
 def run(gen):

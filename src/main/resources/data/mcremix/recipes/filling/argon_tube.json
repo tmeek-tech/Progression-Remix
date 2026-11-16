@@ -1,0 +1,17 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "mcremix:glass_tube"
+    },
+    {
+      "fluid": "mcremix:argon",
+      "amount": 50
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:argon_tube"
+    }
+  ]
+}

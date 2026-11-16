@@ -1,0 +1,50 @@
+{
+  "formula": "N2 + O2",
+  "fluids": [
+    "mcremix:air",
+    "mcremix:hot_compressed_air",
+    "mcremix:compressed_air",
+    "mcremix:liquid_air"
+  ],
+  "atoms": [
+    {
+      "l": "N",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "l": "N",
+      "x": 1.2,
+      "y": 0.0
+    },
+    {
+      "l": "O",
+      "x": 3.4,
+      "y": 0
+    },
+    {
+      "l": "O",
+      "x": 4.6,
+      "y": 0.0
+    }
+  ],
+  "bonds": [
+    [
+      0,
+      1,
+      3
+    ],
+    [
+      2,
+      3,
+      2
+    ]
+  ],
+  "signs": [
+    {
+      "s": "+",
+      "x": 2.2,
+      "y": 0
+    }
+  ]
+}

@@ -20,7 +20,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 /**
  * Spouts and item drains (and anything else rated that keeps its fluid in one of Create's smart tanks) overheat with a
- * fluid too hot for them in it, and spill it when they give way (see {@link Overheating}).
+ * fluid too hot for them in it, or crack with one too cold for them, and spill it when they give way (see
+ * {@link Overheating}).
  */
 @Mixin(value = SmartFluidTankBehaviour.class, remap = false)
 public abstract class SmartFluidTankBehaviourMixin {
@@ -36,22 +37,27 @@ public abstract class SmartFluidTankBehaviourMixin {
 			return;
 		BlockState state = self.blockEntity.getBlockState();
 		HeatLevel ceiling = FluidHeat.ceiling(state);
-		IFluidHandler handler = ceiling == null ? null : self.getCapability().orElse(null);
+		boolean cracks = FluidHeat.cracksInCold(state);
+		IFluidHandler handler = ceiling == null && !cracks ? null : self.getCapability().orElse(null);
 		if (handler == null) {
 			mcremix$overheat = 0;
 			return;
 		}
-		FluidStack tooHot = FluidStack.EMPTY;
+		FluidStack tooHot = FluidStack.EMPTY, tooCold = FluidStack.EMPTY;
 		for (int tank = 0; tank < handler.getTanks(); tank++) {
 			FluidStack fluid = handler.getFluidInTank(tank);
-			if (!fluid.isEmpty() && !ceiling.isAtLeast(FluidHeat.of(fluid))) {
+			if (fluid.isEmpty())
+				continue;
+			if (ceiling != null && !ceiling.isAtLeast(FluidHeat.of(fluid))) {
 				tooHot = fluid.copy();
 				break;
 			}
+			if (cracks && FluidHeat.cryogenic(fluid) && tooCold.isEmpty())
+				tooCold = fluid.copy();
 		}
 		ServerLevel server = (ServerLevel) level;
-		FluidStack held = tooHot;
-		mcremix$overheat = Overheating.check(server, pos, state, 1, 1, !held.isEmpty(), mcremix$overheat,
-			() -> Overheating.giveWay(server, pos, state, held));
+		FluidStack held = tooHot.isEmpty() ? tooCold : tooHot;
+		mcremix$overheat = Overheating.check(server, pos, state, 1, 1, !tooHot.isEmpty(), !tooCold.isEmpty(),
+			mcremix$overheat, () -> Overheating.giveWay(server, pos, state, held));
 	}
 }

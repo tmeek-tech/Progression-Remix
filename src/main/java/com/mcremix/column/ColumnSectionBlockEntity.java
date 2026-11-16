@@ -55,6 +55,11 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 	}
 
+	/** Whether it is a section of the aluminium air column (stage 4), which works {@link Column} its own way. */
+	public boolean airColumn() {
+		return false;
+	}
+
 	/** The column it keeps, if it is the controller; a part's is empty and idle. */
 	public Column column() {
 		return column;

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "N",
+    "G",
+    "N"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "N": {
+      "tag": "forge:nuggets/iron"
+    }
+  },
+  "result": {
+    "item": "mcremix:glass_tube",
+    "count": 2
+  }
+}

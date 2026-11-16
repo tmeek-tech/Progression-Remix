@@ -4350,10 +4350,31 @@ CHEMICALS = {
     'hot_kerosene': ((0xC8, 0xB4, 0x7C), (0xF2, 0xE8, 0xB8), (0xFF, 0xFC, 0xE4), 120),
     'hot_diesel': ((0xA8, 0x8C, 0x38), (0xE0, 0xC4, 0x68), (0xFF, 0xF0, 0xB4), 165),
     'hot_heavy_oil': ((0x26, 0x1C, 0x0C), (0x54, 0x40, 0x1E), (0x9C, 0x84, 0x58), 235),
+    # the liquid air plant (0.34.0, gen_air.py). air and nitrogen, all but invisible; squeezed, a little thicker, and
+    # hot from squeezing, a touch warm in tint
+    'air': ((0xD8, 0xE0, 0xE8), (0xEE, 0xF2, 0xF6), (0xFF, 0xFF, 0xFF), 40),
+    'hot_compressed_air': ((0xE8, 0xD8, 0xC8), (0xF6, 0xEC, 0xE2), (0xFF, 0xFA, 0xF4), 70),
+    'compressed_air': ((0xD0, 0xDA, 0xE6), (0xE8, 0xEE, 0xF6), (0xFF, 0xFF, 0xFF), 70),
+    # liquid air: a clear pale blue, from its oxygen
+    'liquid_air': ((0x7C, 0xA8, 0xD8), (0xB4, 0xD2, 0xF2), (0xEC, 0xF6, 0xFF), 150),
+    'nitrogen': ((0xD6, 0xDC, 0xE6), (0xEC, 0xF0, 0xF6), (0xFF, 0xFF, 0xFF), 40),
+    'hot_compressed_nitrogen': ((0xE6, 0xDA, 0xCE), (0xF4, 0xEC, 0xE4), (0xFF, 0xFA, 0xF4), 70),
+    'compressed_nitrogen': ((0xCC, 0xD6, 0xE4), (0xE6, 0xEC, 0xF4), (0xFF, 0xFF, 0xFF), 70),
+    # liquid nitrogen: clear as water and nearly colourless
+    'liquid_nitrogen': ((0xA8, 0xC0, 0xDA), (0xDC, 0xE8, 0xF6), (0xFF, 0xFF, 0xFF), 120),
+    'oxygen': ((0xC8, 0xD6, 0xEE), (0xE4, 0xEC, 0xFA), (0xFF, 0xFF, 0xFF), 45),
+    'argon': ((0xD8, 0xD4, 0xE6), (0xEE, 0xEA, 0xF6), (0xFF, 0xFF, 0xFF), 40),
+    'ammonia': ((0xDA, 0xDE, 0xCC), (0xEE, 0xF0, 0xE4), (0xFF, 0xFF, 0xF6), 55),
+    # nitrogen dioxide: a reddish brown fume
+    'nitrogen_dioxide': ((0x5A, 0x28, 0x0C), (0x8E, 0x4C, 0x1E), (0xC8, 0x84, 0x50), 170),
+    # nitric acid: clear, yellowing a little as it stands
+    'nitric_acid': ((0xC8, 0xC0, 0x8C), (0xF2, 0xEE, 0xC6), (0xFF, 0xFE, 0xEE), 120),
 }
 # gases have no bucket (Chemical.gas)
 GASES = {'chlorine', 'hydrogen', 'ethylene', 'vinyl_chloride', 'hydrogen_chloride', 'pressurized_steam',
-         'titanium_tetrachloride', 'carbon_dioxide', 'sour_gas', 'fuel_gas'}
+         'titanium_tetrachloride', 'carbon_dioxide', 'sour_gas', 'fuel_gas', 'air', 'hot_compressed_air',
+         'compressed_air', 'nitrogen', 'hot_compressed_nitrogen', 'compressed_nitrogen', 'oxygen', 'argon', 'ammonia',
+         'nitrogen_dioxide'}
 
 
 def liquid_frame(size, phase, waves, palette, shift=0):
@@ -8516,6 +8537,49 @@ def gen_formulas():
                                   ('cetane', 16, mr('diesel', 'hot_diesel'))):
         alkane_chain(formula(name, 'C%dH%d' % (carbons, 2 * carbons + 2), fluids=fluids), carbons, 0, 0)
 
+    # the liquid air plant (stage 4): air is nitrogen and oxygen; ammonia, urea and the nitrogen oxides made from them
+    f = formula('air', 'N2 + O2', fluids=mr('air', 'hot_compressed_air', 'compressed_air', 'liquid_air'))
+    f.branch(f.atom('N', 0, 0), 'N', 0, 1.2, order=3)
+    f.sign('+', 2.2, 0)
+    f.branch(f.atom('O', 3.4, 0), 'O', 0, 1.2, order=2)
+
+    f = formula('nitrogen', 'N2', fluids=mr('nitrogen', 'hot_compressed_nitrogen', 'compressed_nitrogen',
+                                            'liquid_nitrogen'))
+    f.branch(f.atom('N', 0, 0), 'N', 0, 1.2, order=3)
+
+    f = formula('oxygen', 'O2', fluids=mr('oxygen'))
+    f.branch(f.atom('O', 0, 0), 'O', 0, 1.2, order=2)
+
+    f = formula('ammonia', 'NH3', fluids=mr('ammonia'))
+    n = f.atom('N', 0, 0)
+    for angle in (90, 210, 330):
+        f.branch(n, 'H', angle)
+
+    f = formula('nitrogen_dioxide', 'NO2', fluids=mr('nitrogen_dioxide'))
+    n = f.atom('N', 0, 0)
+    f.branch(n, 'O', 210, order=2)
+    f.branch(n, 'O', 330)
+
+    f = formula('nitric_acid', 'HNO3 in H2O', fluids=mr('nitric_acid'))
+    n = f.atom('N', 0, 0, charge='+')
+    f.branch(n, 'O', 90, order=2)
+    f.branch(n, 'O', 330, charge='-')
+    f.branch(f.branch(n, 'O', 210), 'H', 150)
+    f.sign('+', 2.2, 0)
+    water_molecule(f, 3.7, -0.3)
+
+    f = formula('urea', 'CO(NH2)2', mr('urea'))
+    c = f.atom('C', 0, 0)
+    f.branch(c, 'O', 90, order=2)
+    f.branch(c, 'H2N', 210, 1.2, end=True)
+    f.branch(c, 'NH2', 330, 1.2)
+
+    f = formula('sodium_nitrite', 'NaNO2', mr('sodium_nitrite'))
+    f.atom('Na', 0, 0, charge='+')
+    n = f.atom('N', 2.2, 0.2)
+    f.branch(n, 'O', 150, order=2)
+    f.branch(n, 'O', 30, charge='-')
+
     f = formula('naphthalene', 'C10H8', mr('naphthalene'))
     naphthalene_rings(f, 0, 0)
 
@@ -8548,6 +8612,8 @@ def gen_formulas():
                               'titanium_sponge'), []),
         'Na': ('sodium', [], mr('molten_sodium')),
         'C': ('carbon', mc('diamond', 'diamond_block') + mr('carbon_electrode'), []),
+        'Pt': ('platinum', mr('platinum_nugget', 'platinum_gauze'), []),
+        'Ar': ('argon', [], mr('argon')),
     }
     for symbol, (name, items, fluids) in elements.items():
         formula(name, symbol, items, fluids).atom(symbol, 0, 0)
@@ -9169,4 +9235,7 @@ if __name__ == '__main__':
     # crude oil (stage 3) adds to the steel column's and the Steel Furnace's text and tags, so it goes after them
     import gen_oil
     gen_oil.run(sys.modules[__name__])
+    # the liquid air plant (stage 4) adds to the Pressurizer's, the Steel Furnace's and the column's text and tags
+    import gen_air
+    gen_air.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

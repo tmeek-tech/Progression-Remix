@@ -11,6 +11,7 @@ import org.patryk3211.powergrid.electricity.sim.SwitchedWire;
 import org.patryk3211.powergrid.electricity.sim.node.OwnedFloatingNode;
 
 import com.mcremix.electrolysis.CarbonElectrodeItem;
+import com.mcremix.fluids.Chemical;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 
 import net.minecraft.ChatFormatting;
@@ -32,6 +33,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -49,6 +53,10 @@ import net.minecraftforge.items.ItemHandlerHelper;
  * <p>
  * Each melt takes a set energy, so the more power, the faster it melts. The electrodes burn away by the energy through
  * them, both alike, and the furnace stops when one is gone until a new one goes in, by hand, funnel or arm.
+ * <p>
+ * Argon (stage 4) piped into its sides waits in a tank of {@link #ARGON_CAPACITY} mB, a shield gas over the melt: each
+ * one melted with {@link #ARGON_PER_MELT} mB of argon there gives half again what it makes, the half carried to the
+ * next, so two sponges give three ingots. Without argon it melts as before.
  */
 public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveGoggleInformation {
 	/** Ohms of the arc with the clamps the electrodes sit in. */
@@ -62,6 +70,9 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 	public static final float ELECTRODE_LIFE = 160_000;
 	/** How many it holds still to melt, and how many it has made before they must be taken out. */
 	public static final int HOLDS = 16;
+	public static final int ARGON_CAPACITY = 1000;
+	/** mB of argon a melt takes to give half again. */
+	public static final int ARGON_PER_MELT = 25;
 	/** Less current than this counts as none. */
 	static final double MIN_CURRENT = 0.05;
 
@@ -80,6 +91,20 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 	/** How far through melting the next one it is, as a client is told. */
 	private float shownProgress;
 	private final LazyOptional<IItemHandler> slots = LazyOptional.of(Slots::new);
+	/** Argon piped into its sides, a shield gas over the melt. */
+	private final FluidTank argon = new FluidTank(ARGON_CAPACITY,
+		stack -> stack.getFluid().isSame(Chemical.ARGON.fluid())) {
+		@Override
+		protected void onContentsChanged() {
+			setChanged();
+			argonChanged = true;
+		}
+	};
+	/** Whether its argon changed since it last told clients, so goggles show argon piped into it idle. */
+	private boolean argonChanged;
+	private final LazyOptional<IFluidHandler> argonInlet = LazyOptional.of(ArgonInlet::new);
+	/** Halves of what it makes owed by melts under argon, carried to the next. */
+	private int halves;
 	@Nullable
 	private ArcFurnaceRecipe recipe;
 	/** Joules put into what is melting now. */
@@ -154,6 +179,7 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 		if (recipe != null && (found == null || !found.getId().equals(recipe.getId())))
 			energy = 0;
 		recipe = found;
+		// room for a plain melt is enough: one whose half more wouldn't fit melts without argon
 		boolean room = recipe != null && fits(recipe.result());
 		boolean wanted = electrodes && room;
 		arc.setState(wanted);
@@ -183,15 +209,38 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 			effects();
 		}
 		showState();
-		if (status != was || (status == Status.WORKING || volts != 0) && --syncIn <= 0) {
+		if (status != was || (status == Status.WORKING || volts != 0 || argonChanged) && --syncIn <= 0) {
 			syncIn = 10;
+			argonChanged = false;
 			sendData();
 		}
 	}
 
-	/** One has melted down: it freezes against the cold copper into what it makes. */
+	public FluidStack argon() {
+		return argon.getFluid();
+	}
+
+	/** What one melt makes, with the half more argon may owe it. */
+	private ItemStack withArgon(ItemStack result) {
+		int more = (halves + Math.max(1, result.getCount())) / 2;
+		if (argon.getFluidAmount() < ARGON_PER_MELT || more == 0)
+			return result;
+		return result.copyWithCount(result.getCount() + more);
+	}
+
+	/**
+	 * One has melted down: it freezes against the cold copper into what it makes, half again under argon.
+	 */
 	private void melted() {
 		ItemStack result = recipe.result();
+		if (argon.getFluidAmount() >= ARGON_PER_MELT && fits(withArgon(result))) {
+			argon.drain(ARGON_PER_MELT, IFluidHandler.FluidAction.EXECUTE);
+			halves += Math.max(1, result.getCount());
+			if (halves >= 2) {
+				result = result.copyWithCount(result.getCount() + halves / 2);
+				halves %= 2;
+			}
+		}
 		charge.shrink(1);
 		if (charge.isEmpty())
 			charge = ItemStack.EMPTY;
@@ -314,13 +363,54 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
 		if (cap == ForgeCapabilities.ITEM_HANDLER)
 			return slots.cast();
+		if (cap == ForgeCapabilities.FLUID_HANDLER && (side == null || side.getAxis().isHorizontal()))
+			return argonInlet.cast();
 		return super.getCapability(cap, side);
+	}
+
+	/** Its sides take argon and nothing else, and give nothing back. */
+	private class ArgonInlet implements IFluidHandler {
+		@Override
+		public int getTanks() {
+			return 1;
+		}
+
+		@Override
+		public FluidStack getFluidInTank(int tank) {
+			return argon.getFluid();
+		}
+
+		@Override
+		public int getTankCapacity(int tank) {
+			return ARGON_CAPACITY;
+		}
+
+		@Override
+		public boolean isFluidValid(int tank, FluidStack stack) {
+			return argon.isFluidValid(stack);
+		}
+
+		@Override
+		public int fill(FluidStack resource, FluidAction action) {
+			return argon.fill(resource, action);
+		}
+
+		@Override
+		public FluidStack drain(FluidStack resource, FluidAction action) {
+			return FluidStack.EMPTY;
+		}
+
+		@Override
+		public FluidStack drain(int maxDrain, FluidAction action) {
+			return FluidStack.EMPTY;
+		}
 	}
 
 	@Override
 	public void invalidate() {
 		super.invalidate();
 		slots.invalidate();
+		argonInlet.invalidate();
 	}
 
 	@Override
@@ -331,6 +421,8 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 		tag.put("Charge", charge.save(new CompoundTag()));
 		tag.put("Made", made.save(new CompoundTag()));
 		tag.putDouble("Energy", energy);
+		tag.put("Argon", argon.writeToNBT(new CompoundTag()));
+		tag.putInt("Halves", halves);
 		if (clientPacket) {
 			tag.putFloat("Amps", amps);
 			tag.putFloat("Volts", volts);
@@ -348,6 +440,8 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 		charge = ItemStack.of(tag.getCompound("Charge"));
 		made = ItemStack.of(tag.getCompound("Made"));
 		energy = tag.getDouble("Energy");
+		argon.readFromNBT(tag.getCompound("Argon"));
+		halves = tag.getInt("Halves");
 		if (clientPacket) {
 			amps = tag.getFloat("Amps");
 			volts = tag.getFloat("Volts");
@@ -373,6 +467,9 @@ public class ArcFurnaceBlockEntity extends ElectricBlockEntity implements IHaveG
 		if (!made.isEmpty())
 			tooltip.add(line(Component.translatable("mcremix.goggles.arc_furnace.made", made.getCount(),
 				made.getHoverName()).withStyle(ChatFormatting.GRAY)));
+		if (!argon.isEmpty())
+			tooltip.add(line(Component.translatable("mcremix.goggles.arc_furnace.argon", argon.getFluidAmount(),
+				ARGON_CAPACITY).withStyle(ChatFormatting.AQUA)));
 		if (status != Status.WORKING)
 			tooltip.add(line(Component.translatable("mcremix.goggles.arc_furnace." + status.name().toLowerCase(),
 				Math.round(MELTS_FROM)).withStyle(ChatFormatting.DARK_GRAY)));

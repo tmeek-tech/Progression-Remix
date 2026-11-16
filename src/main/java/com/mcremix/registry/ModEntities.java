@@ -2,12 +2,17 @@ package com.mcremix.registry;
 
 import static com.mcremix.McRemix.REGISTRATE;
 
+import com.mcremix.fluids.AmmoniaCloud;
+import com.mcremix.fluids.ArgonCloud;
 import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
 import com.mcremix.fluids.FuelGasCloud;
 import com.mcremix.fluids.GasCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
+import com.mcremix.fluids.NitrogenCloud;
+import com.mcremix.fluids.NitrogenDioxideCloud;
+import com.mcremix.fluids.OxygenCloud;
 import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.fluids.SourGasCloud;
 import com.mcremix.fluids.SulfurDioxideCloud;
@@ -59,6 +64,15 @@ public class ModEntities {
 	public static final EntityEntry<FuelGasCloud> FUEL_GAS_CLOUD = cloud("fuel_gas_cloud", FuelGasCloud::new);
 	public static final EntityEntry<SulfurDioxideCloud> SULFUR_DIOXIDE_CLOUD = cloud("sulfur_dioxide_cloud",
 		SulfurDioxideCloud::new);
+
+	// the air plant's gases (stage 4): oxygen makes fire flare, nitrogen and argon smother, ammonia stings and nitrogen
+	// dioxide poisons
+	public static final EntityEntry<OxygenCloud> OXYGEN_CLOUD = cloud("oxygen_cloud", OxygenCloud::new);
+	public static final EntityEntry<NitrogenCloud> NITROGEN_CLOUD = cloud("nitrogen_cloud", NitrogenCloud::new);
+	public static final EntityEntry<ArgonCloud> ARGON_CLOUD = cloud("argon_cloud", ArgonCloud::new);
+	public static final EntityEntry<AmmoniaCloud> AMMONIA_CLOUD = cloud("ammonia_cloud", AmmoniaCloud::new);
+	public static final EntityEntry<NitrogenDioxideCloud> NITROGEN_DIOXIDE_CLOUD = cloud("nitrogen_dioxide_cloud",
+		NitrogenDioxideCloud::new);
 
 	private static <T extends GasCloud> EntityEntry<T> cloud(String name, EntityType.EntityFactory<T> factory) {
 		return REGISTRATE.<T>entity(name, factory, MobCategory.MISC)

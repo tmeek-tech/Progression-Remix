@@ -11,6 +11,7 @@ import com.mcremix.fluids.AmbientLiquidBlock;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.ChemicalFluidType;
 import com.mcremix.fluids.CrudeOilBlock;
+import com.mcremix.fluids.CryogenicLiquidBlock;
 import com.mcremix.fluids.GasBlock;
 import com.mcremix.fluids.MoltenMetal;
 import com.mcremix.fluids.MoltenMetalBlock;
@@ -93,6 +94,9 @@ public class ModFluids {
 					: chemical == Chemical.VINEGAR ? new VinegarBlock(source, p)
 					: chemical == Chemical.MOLTEN_SODIUM ? new SodiumBlock(source, p)
 					: chemical == Chemical.CRUDE_OIL ? new CrudeOilBlock(source, p)
+					// liquid air and liquid nitrogen boil away, into air and nitrogen, freezing what they touch
+					: chemical.cryogenic() ? new CryogenicLiquidBlock(source,
+						() -> (chemical == Chemical.LIQUID_NITROGEN ? Chemical.NITROGEN : Chemical.AIR).stack(1000), p)
 					: chemical.poursAs() != null ? new AmbientLiquidBlock(source, chemical.poursAs(), p)
 					: new LiquidBlock(source, p))
 			.initialProperties(() -> Blocks.WATER)

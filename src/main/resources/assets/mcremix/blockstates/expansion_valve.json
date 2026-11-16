@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,frosted=false": {
+      "model": "mcremix:block/expansion_valve"
+    },
+    "facing=north,frosted=true": {
+      "model": "mcremix:block/frosted_expansion_valve"
+    },
+    "facing=east,frosted=false": {
+      "model": "mcremix:block/expansion_valve",
+      "y": 90
+    },
+    "facing=east,frosted=true": {
+      "model": "mcremix:block/frosted_expansion_valve",
+      "y": 90
+    },
+    "facing=south,frosted=false": {
+      "model": "mcremix:block/expansion_valve",
+      "y": 180
+    },
+    "facing=south,frosted=true": {
+      "model": "mcremix:block/frosted_expansion_valve",
+      "y": 180
+    },
+    "facing=west,frosted=false": {
+      "model": "mcremix:block/expansion_valve",
+      "y": 270
+    },
+    "facing=west,frosted=true": {
+      "model": "mcremix:block/frosted_expansion_valve",
+      "y": 270
+    }
+  }
+}

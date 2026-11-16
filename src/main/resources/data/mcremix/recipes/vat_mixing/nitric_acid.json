@@ -1,0 +1,19 @@
+{
+  "type": "mcremix:vat_mixing",
+  "ingredients": [
+    {
+      "fluid": "mcremix:nitrogen_dioxide",
+      "amount": 250
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:nitric_acid",
+      "amount": 500
+    }
+  ]
+}

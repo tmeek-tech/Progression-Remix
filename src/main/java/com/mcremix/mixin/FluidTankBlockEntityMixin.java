@@ -83,8 +83,9 @@ public abstract class FluidTankBlockEntityMixin implements VatHolder {
 		boolean tooHot = FluidHeat.tooHot(state, self.getTankInventory().getFluid()) || mcremix$vat().tooHot(state)
 			|| FluidPartMaterial.failureOf(state) == Failure.MELTS
 				&& AluminiumMelting.besideHeat(level, pos, self.getWidth(), self.getHeight());
+		boolean tooCold = FluidHeat.tooCold(state, self.getTankInventory().getFluid());
 		ServerLevel server = (ServerLevel) level;
-		mcremix$overheat = Overheating.check(server, pos, state, self.getWidth(), self.getHeight(), tooHot,
+		mcremix$overheat = Overheating.check(server, pos, state, self.getWidth(), self.getHeight(), tooHot, tooCold,
 			mcremix$overheat, () -> Overheating.giveWay(server, self));
 	}
 

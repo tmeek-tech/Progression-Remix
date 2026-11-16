@@ -1,0 +1,38 @@
+{
+  "type": "mcremix:distilling",
+  "heat": "warm",
+  "processingTime": 200,
+  "still": "air_column",
+  "extra_sections": 4,
+  "reflux": "mcremix:liquid_nitrogen",
+  "ingredients": [
+    {
+      "fluid": "mcremix:liquid_air",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:nitrogen",
+      "amount": 780
+    },
+    {
+      "fluid": "mcremix:argon",
+      "amount": 10
+    },
+    {
+      "fluid": "mcremix:oxygen",
+      "amount": 210
+    }
+  ],
+  "boiling_points": [
+    -196,
+    -186,
+    -183
+  ],
+  "close": [
+    false,
+    true,
+    true
+  ]
+}

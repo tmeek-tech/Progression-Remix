@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mcremix.McRemix;
+import com.mcremix.air.Liquefying;
 import com.mcremix.config.RemixConfig;
 import com.mcremix.electrolysis.VatMixerBlock;
 import com.mcremix.fluids.Chemical;
@@ -13,6 +14,7 @@ import com.mcremix.heat.HeatLevel;
 import com.mcremix.kiln.SteelFurnaceFuels;
 import com.mcremix.kiln.FiringRecipe;
 import com.mcremix.machines.MachineKind;
+import com.mcremix.registry.ModAir;
 import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModColumn;
 import com.mcremix.registry.ModFluidBlocks;
@@ -52,6 +54,7 @@ import net.minecraftforge.fluids.FluidStack;
  * melts, alloys and casts, and what settles, what ferments and what an Electrolyser splits in basins and vats. With cold
  * furnaces on, the furnace, smoker, blast furnace and fuel tabs are hidden, since nothing cooks in them any more. Every
  * tier of a machine joins Create's own on its tabs, and saw blades join the saws (all but gold on block cutting).
+ * Since stage 4 it shows what the expansion valve liquefies, too.
  */
 @JeiPlugin
 public class RemixJeiPlugin implements IModPlugin {
@@ -84,7 +87,7 @@ public class RemixJeiPlugin implements IModPlugin {
 			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui),
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
 			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
-			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui));
+			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui), new LiquefyingCategory(gui));
 	}
 
 	@Override
@@ -116,6 +119,7 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addRecipes(SteelFurnaceFuelCategory.TYPE, SteelFurnaceFuels.FUELS);
 		registration.addRecipes(DieselEngineCategory.TYPE, DieselEngineCategory.Fuel.all());
 		registration.addRecipes(CoolingCategory.TYPE, CoolingCategory.Cooling.all());
+		registration.addRecipes(LiquefyingCategory.TYPE, Liquefying.ALL);
 		registration.addRecipes(BloomCategory.TYPE, List.of(BloomCategory.Display.INSTANCE));
 		registration.addRecipes(CastingCategory.TYPE, CastingCategory.Display.all());
 
@@ -132,7 +136,7 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addItemStackInfo(List.of(ModBlocks.RADIATOR.asStack()),
 			Component.translatable("mcremix.jei.info.radiator"));
 		for (Chemical chemical : new Chemical[] { Chemical.WARM_WATER, Chemical.COLD_WATER, Chemical.COOLANT,
-			Chemical.HOT_COOLANT })
+			Chemical.HOT_COOLANT, Chemical.LIQUID_NITROGEN, Chemical.LIQUID_AIR })
 			registration.addItemStackInfo(List.of(ModFluids.chemical(chemical).bucket().asStack()),
 				Component.translatable("mcremix.jei.info." + chemical.id));
 	}
@@ -204,6 +208,9 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(ModColumn.STEEL_CONDENSER.get()), DistillingCategory.TYPE,
 			CoolingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.HOT_TUBE.get()), SteelFurnaceCategory.TYPE);
+		// the liquid air plant: the valve liquefies what the Pressurizer squeezes, and the aluminium column splits it
+		registration.addRecipeCatalyst(new ItemStack(ModAir.EXPANSION_VALVE.get()), LiquefyingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(ModAir.AIR_COLUMN_SECTION.get()), DistillingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.SETTLING_FLASK.get()), SettlingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.SEPARATING_FUNNEL.get()), VatMixingCategory.TYPE);
 

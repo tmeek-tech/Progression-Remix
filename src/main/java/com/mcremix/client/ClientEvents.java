@@ -22,7 +22,8 @@ public class ClientEvents {
 	/**
 	 * Every drill names the bits it goes down with, and every saw its blade, under its name: iron for a new one, Create's
 	 * own included, and whatever was fitted when it was broken. Pipes, pumps,
-	 * tanks and whatever else holds fluids say how hot a fluid they take, and a weathered, rusted or waxed one says so.
+	 * tanks and whatever else holds fluids say how hot a fluid they take, those that crack with a cryogenic fluid in them
+	 * say that too, and a weathered, rusted or waxed one says so.
 	 */
 	@SubscribeEvent
 	public static void onItemTooltip(ItemTooltipEvent event) {
@@ -32,6 +33,9 @@ public class ClientEvents {
 		HeatLevel ceiling = FluidHeat.ceiling(state);
 		if (ceiling != null)
 			event.getToolTip().add(1, Component.translatable("mcremix.tooltip.fluid_ceiling", ceiling.displayName())
+				.withStyle(ChatFormatting.GRAY));
+		if (FluidHeat.cracksInCold(state))
+			event.getToolTip().add(ceiling != null ? 2 : 1, Component.translatable("mcremix.tooltip.cracks_in_cold")
 				.withStyle(ChatFormatting.GRAY));
 		Patina patina = Patina.of(event.getItemStack());
 		// iron and steel rust rather than oxidize; a titanium machine keeps its tint in the same place: gold, purple or

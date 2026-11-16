@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.mcremix.electrolysis.Gases;
+import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.Spills;
 import com.mcremix.fluids.SulfurDioxideCloud;
 import com.mcremix.heat.HeatLevel;
@@ -55,11 +56,19 @@ import net.minecraftforge.items.IItemHandler;
  * inside until a bucket's worth pours out as a fluid block, backing up the pipe when there is nowhere for it to go.
  * Sour gas burns dirty: the sulfur dioxide it gives off puffs out of the chimney once a second, as a choking cloud that
  * kills plants ({@link SulfurDioxideCloud}).
+ * <p>
+ * Oxygen (stage 4) piped into its front, sides or top goes to its fire, as much as its fuel needs: with
+ * {@link #FUEL_PER_OXYGEN} mB of fuel for every mB of oxygen, reckoned over the last second as the fuel is, every mB of
+ * fuel burns twice as hot and its ceiling is a level higher. Short of oxygen, the fire burns as it would without, and
+ * unlit, oxygen piped in escapes out of the front. A job that takes oxygen as its second fluid, the ammonia burner,
+ * fills its tank first.
  */
 public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	public static final int FEED_CAPACITY = 4000, PRODUCT_CAPACITY = 4000;
 	/** Ticks over which it reckons the flow of fuel piped in, and for which it stays lit with none coming. */
 	public static final int FLOW_WINDOW = 20;
+	/** mB of fuel a mB of oxygen piped in enriches. */
+	public static final int FUEL_PER_OXYGEN = 2;
 	/** Liquid fuel piped in unlit pools inside until there is a bucket's worth to pour out of the front. */
 	public static final int POOL_CAPACITY = 1000;
 	/** The most fuel counted in a tick, so the sums cannot overflow however much a pipe pushes in to be lost. */
@@ -95,6 +104,10 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	/** mB of fuel piped in while lit each of the last ticks, this one included, by game time, and the heat it gave. */
 	private final int[] arrived = new int[FLOW_WINDOW + 1];
 	private final int[] heatArrived = new int[FLOW_WINDOW + 1];
+	/** mB of oxygen piped in for its fire each of the last ticks, by game time. */
+	private final int[] oxygenArrived = new int[FLOW_WINDOW + 1];
+	/** Whether its fire had oxygen enough, over the last second, to burn twice as hot. */
+	private boolean enriched;
 	private long arrivedTo = Long.MIN_VALUE / 2;
 	/** mB a tick piped in while lit over the last second, as of its last tick, and the heat a tick it gave. */
 	private float flow, heatFlow;
@@ -152,6 +165,15 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			mb += arrived[slot(arrivedTo - t)];
 			heatIn += heatArrived[slot(arrivedTo - t)];
 		}
+		float oxygen = 0;
+		for (int t = 1; t <= FLOW_WINDOW; t++)
+			oxygen += oxygenArrived[slot(arrivedTo - t)];
+		// a twentieth short still counts, so a mB rounded away, or fuel coming a tick late, never puts it out
+		boolean rich = mb > 0 && oxygen * FUEL_PER_OXYGEN >= mb * (1 - 1f / FLOW_WINDOW) - 1e-3f;
+		if (rich != enriched) {
+			enriched = rich;
+			queueSync();
+		}
 		mb /= FLOW_WINDOW;
 		heatIn /= FLOW_WINDOW;
 		if (Math.round(mb * 10) != Math.round(flow * 10) || Math.round(heatIn * 10) != Math.round(heatFlow * 10))
@@ -163,9 +185,64 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		tickEscaping(now);
 		if (sourBurnt >= SteelFurnaceFuels.SULFUR_PER_SOUR_GAS && now % 20 == 0)
 			puffSulfur();
-		HeatLevel fire = isLit() && burning != null ? SteelFurnaceFuels.heatAt(heatFlow, burning.ceiling())
-			: HeatLevel.COLD;
+		HeatLevel fire = isLit() && burning != null ? SteelFurnaceFuels.heatAt(heatBurnt(), ceiling()) : HeatLevel.COLD;
 		return new Heat(fire, fire, false);
+	}
+
+	/** The heat a tick its fire gives: twice the fuel's with oxygen enough. */
+	private float heatBurnt() {
+		return enriched ? heatFlow * 2 : heatFlow;
+	}
+
+	/** The hottest its fuel burns: a level higher with oxygen enough. */
+	private HeatLevel ceiling() {
+		if (burning == null)
+			return HeatLevel.COLD;
+		return enriched ? burning.ceiling().hotter() : burning.ceiling();
+	}
+
+	/** Whether its fire has oxygen enough to burn twice as hot. */
+	public boolean enriched() {
+		return isLit() && enriched;
+	}
+
+	/**
+	 * Oxygen piped in at its front, sides or top: lit, it takes only what its fuel needs, a mB for every
+	 * {@link #FUEL_PER_OXYGEN} of fuel over the last second, to its fire; unlit, it escapes out of the front.
+	 */
+	private int takeOxygen(FluidStack resource, FluidAction action) {
+		if (resource.isEmpty())
+			return 0;
+		if (!isLit()) {
+			if (action.execute()) {
+				if (!vented.isEmpty() && !vented.isFluidEqual(resource))
+					letGasGo();
+				if (vented.isEmpty())
+					vented = resource.copy();
+				else
+					vented.setAmount((int) Math.min((long) vented.getAmount() + resource.getAmount(), MOST_COUNTED));
+			}
+			return resource.getAmount();
+		}
+		catchUp();
+		long fuel = 0, oxygen = 0;
+		for (int t = 0; t < FLOW_WINDOW; t++) {
+			fuel += arrived[slot(arrivedTo - t)];
+			oxygen += oxygenArrived[slot(arrivedTo - t)];
+		}
+		// oxygen can come before this tick's fuel: until that fuel is in, the tick before the window stands in for it
+		if (arrived[slot(arrivedTo)] == 0)
+			fuel += arrived[slot(arrivedTo - FLOW_WINDOW)];
+		int wanted = (int) Math.max(0, Math.min(resource.getAmount(), (fuel + FUEL_PER_OXYGEN - 1) / FUEL_PER_OXYGEN - oxygen));
+		if (wanted > 0 && action.execute()) {
+			int now = slot(arrivedTo);
+			oxygenArrived[now] += wanted;
+		}
+		return wanted;
+	}
+
+	private static boolean oxygen(FluidStack stack) {
+		return !stack.isEmpty() && stack.getFluid().isSame(Chemical.OXYGEN.fluid());
 	}
 
 	@Override
@@ -202,6 +279,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		for (long t = Math.max(arrivedTo + 1, now - FLOW_WINDOW); t <= now; t++) {
 			arrived[slot(t)] = 0;
 			heatArrived[slot(t)] = 0;
+			oxygenArrived[slot(t)] = 0;
 		}
 		arrivedTo = now;
 	}
@@ -376,6 +454,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		if (value != isLit()) {
 			Arrays.fill(arrived, 0);
 			Arrays.fill(heatArrived, 0);
+			Arrays.fill(oxygenArrived, 0);
+			enriched = false;
 			flow = heatFlow = 0;
 			if (!value)
 				burning = null;
@@ -385,7 +465,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 
 	/** Fed faster than it burns at its fuel's ceiling: the rest is lost, and the chimney smokes black. */
 	public boolean isRich() {
-		return isLit() && burning != null && heatFlow > SteelFurnaceFuels.heatNeeded(burning.ceiling());
+		return isLit() && burning != null && heatBurnt() > SteelFurnaceFuels.heatNeeded(ceiling());
 	}
 
 	/**
@@ -617,9 +697,12 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 				.withStyle(ChatFormatting.DARK_GRAY)));
 			return;
 		}
-		HeatLevel at = SteelFurnaceFuels.heatAt(heatFlow, burning.ceiling());
+		HeatLevel at = SteelFurnaceFuels.heatAt(heatBurnt(), ceiling());
 		tooltip.add(Component.literal("    ").append(Component.translatable("mcremix.goggles.steel_furnace.burning",
 			burning.stack(1).getDisplayName(), mb(flow), at.displayName()).withStyle(ChatFormatting.GRAY)));
+		if (enriched())
+			tooltip.add(Component.literal("    ").append(Component.translatable("mcremix.goggles.steel_furnace.oxygen",
+				ceiling().displayName()).withStyle(ChatFormatting.AQUA)));
 		if (isRich()) {
 			tooltip.add(Component.literal("    ").append(Component.translatable("mcremix.goggles.steel_furnace.rich",
 				burning.maxFlow()).withStyle(ChatFormatting.GOLD)));
@@ -731,6 +814,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			tag.putInt("Burning", SteelFurnaceFuels.FUELS.indexOf(burning));
 		tag.putFloat("Flow", flow);
 		tag.putFloat("HeatFlow", heatFlow);
+		tag.putBoolean("Enriched", enriched);
 		tag.put("Pool", pool.writeToNBT(new CompoundTag()));
 		if (escaping != null)
 			tag.putInt("Escaping", SteelFurnaceFuels.FUELS.indexOf(escaping));
@@ -753,6 +837,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		burning = fuel(tag, "Burning");
 		flow = tag.getFloat("Flow");
 		heatFlow = tag.getFloat("HeatFlow");
+		enriched = tag.getBoolean("Enriched");
 		pool.readFromNBT(tag.getCompound("Pool"));
 		escaping = fuel(tag, "Escaping");
 		blocked = tag.getBoolean("Blocked");
@@ -902,9 +987,16 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			return index == 0 ? feed.isFluidValid(stack) : index == 1 && coFeed.isFluidValid(stack);
 		}
 
-		/** What a recipe takes first goes into the feed tank, and what one takes second into the second feed tank. */
+		/**
+		 * What a recipe takes first goes into the feed tank, and what one takes second into the second feed tank.
+		 * Oxygen goes to the fire, but for what the job in hand takes second.
+		 */
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {
+			if (oxygen(resource)) {
+				int job = !feed.isEmpty() && coFeed.isFluidValid(resource) ? coFeed.fill(resource, action) : 0;
+				return job + takeOxygen(new FluidStack(resource, resource.getAmount() - job), action);
+			}
 			return feed.isFluidValid(resource) ? feed.fill(resource, action) : coFeed.fill(resource, action);
 		}
 

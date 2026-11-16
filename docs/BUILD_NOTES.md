@@ -3271,3 +3271,151 @@ dioxide from a burning Steel Furnace, which kills grass and leaves; sour gas poi
 flashes. An engine catches after 2 seconds of cranking at 32 RPM and 16,384 su, runs about 100 ticks on 100 mB, stalls
 dry, stays stalled, and catches again once refuelled; on kerosene it gives 12,288 su and says so, a 4 RPM crank never
 starts it, one with no fuel says so, and a tank switched to diesel gives full power again; and overloaded, it stalls.
+
+## 43. The liquid air plant (0.34.0)
+
+Stage 4 of Taran's distillation design (design/distillation.md in the shared folder; the numbers it left to the build
+are in design/liquid-air-build-numbers.md): a liquefier built from a fan, the Pressurizer, a steel condenser and a new
+aluminium expansion valve; an aluminium air column that splits liquid air with no heat; cold lines that crack steel,
+iron and PVC; and what the gases are for: oxygen for hotter fires, ammonia and urea, nitric acid over platinum, and
+argon for the arc furnace and argon tubes. Nine cards went to Taran on 2026-11-16, and Taran chose seven as they were
+built: a fifth liquefied a pass; four extra sections between argon and oxygen, seven in all; frost, then crack and
+burst; a mB of oxygen for every 2 of fuel; iron catalyst pellets that wear; half again from argon; and oxygen that flares
+fire while the rest smother. The other two changed a number: a bucket of liquid air splits as real air does, 780
+nitrogen, 10 argon and 210 oxygen (the pick was 750, 50 and 200), and platinum turns up 1 time in 100 red sand washed
+(the pick was 1 in 50). Stage 5 (sour gas cleaning, sulfuric acid and the coal tar dyes) comes next.
+
+**Air in** (`pressurizer/PressurizerBlockEntity`). An encased fan of any metal against a Pressurizer's vessel, blowing
+into it, feeds it air, 1 mB a tick for every 16 RPM, into its feed tank. A fan pulling, or set further off, does
+nothing. Create's own encased fan is the andesite tier and breaks above 128 RPM, so a fast feed takes a steel fan.
+
+**The liquefier** (`recipes/pressurizing/hot_compressed_air.json`, `hot_compressed_nitrogen.json`, `fluids/WarmCuts`). From 256 RPM the Pressurizer
+squeezes 100 mB of air (or nitrogen) a batch into hot compressed air (or nitrogen), which leaves Warm, so no PVC carries
+it. A steel condenser inline chills it into compressed air, but only on coolant: on water its jacket stays too warm,
+and the Cooling Hot Cuts tab marks those two cuts coolant only (`WarmCuts.coolantOnly`). The **expansion valve**
+(`air/ExpansionValveBlock`, `ExpansionValveBlockEntity`, `Liquefying`), a new aluminium block, takes the compressed gas
+into any side, up to 100 mB a tick, and a fifth turns liquid (`LIQUID_SHARE`): liquid air out of its bottom, the rest
+out of its top as air again, cold, to pipe back into the Pressurizer for another pass. With nothing drawing from its
+top, that gas is let go; with nowhere for the liquid to go, it holds 1,000 mB and then stops taking more. It frosts
+over while it works (`FROSTED`). Fed nitrogen, the same chain makes liquid nitrogen.
+
+**The air column** (`air/AirColumnSectionBlock`, `AirColumnSectionBlockEntity`, `column/Column`, `ColumnLayout`).
+Aluminium column sections join as steel ones do, one to three across and up to sixteen high, but never with steel. The
+column runs in an air mode: it has no heater and no condenser, and liquid air piped into its bottom section boils in
+the world's warmth at 5 mB a tick for every block of floor (`pace` = width²). A bucket gives 780 nitrogen from the top
+section, 10 argon from the one below it and 210 oxygen from the bottom, all three gases, drawn by pipes on their
+sections; the top cut gets its own section rather than a condenser. Argon and oxygen boil 3 °C apart, so the layout
+gives them four extra sections between them (`ColumnLayout.credit`), seven in all; a column short of them lets part of
+the argon go over the top, as the steel column's close pair does. Liquid nitrogen piped into the top section is reflux:
+each half of the reflux ratio stands in for one extra section (`mostReflux` = extra / 2), so a ratio of 2 runs liquid air
+on three sections; it boils back into nitrogen in the top section (`reboilAir`) and slows the column as reflux always
+does. Cuts with no room, and gas the pipes don't draw, are let go beside the column every second (`Gases.escape`). Running,
+it frosts after 10 seconds and grows icicles from its flange rings after 30 (`FROST`, looks only); it never rusts, and
+melts beside anything Hot as an aluminium tank does. The glass still and the steel column don't take liquid air.
+
+**Cold lines** (`fluids/FluidHeat`, `Overheating`, tags `mcremix:cryogenic` and `mcremix:cracks_in_cold`). Liquid air and
+liquid nitrogen are cryogenic: below 150 K, or tagged. In a part tagged to crack in the cold, steel and iron pipes,
+pumps, electric pumps and tanks and PVC pipe, they frost it white for about three seconds (60 ticks and up to 19 more)
+with a creak of ice, and then it gives way as an overheated part does: steel and iron burst and drop as items, PVC
+shatters. Copper, brass, aluminium and glass take the cold, as do Create's spouts, basins and drains, the column and the
+valve. Tooltips on pipes, pumps and tanks say when a part cracks in the cold (`client/ClientEvents`).
+
+**Spilt** (`fluids/CryogenicLiquidBlock`). Poured out, either boils away in about two seconds, smoking white, into its
+gas. As soon as it lands it freezes water beside it to ice and puts out fire, and anything standing in it freezes as in
+powder snow.
+
+**Liquid nitrogen as a coolant** (`cooling/Coolants`). In a water cooler it cools six times as fast as water, and boils
+off into nitrogen where warm water would come out, ready to pipe on. The glass coil condenser takes it too; the steel
+condenser's jacket and the radiator never do.
+
+**Oxygen** (`kiln/SteelFurnaceBlockEntity`). Piped into a lit Steel Furnace's front, sides or top, oxygen goes to the
+fire. With a mB of oxygen for every 2 mB of fuel over the last second (`FUEL_PER_OXYGEN`), its fuel burns twice as hot
+and its ceiling goes up a level: coal tar fed 2 mB a tick with 1 of oxygen burns Blazing. The furnace draws only what
+its fuel needs, and unlit, the oxygen escapes out of its front. Oxygen a recipe takes as its second fluid goes to the
+job first.
+
+**Ammonia and urea** (`pressurizer/PressurizingRecipe`, `recipes/pressurizing/ammonia.json`, `urea.json`,
+`item/UreaItem`). The Pressurizer gains a second feed tank and a catalyst slot, so its recipes can take a second fluid
+and something to squeeze over. Four iron nuggets pressed with alumina over a basin make two iron catalyst pellets (`recipes/compacting/iron_catalyst.json`), dropped into the
+vessel by hand or funnel. 100 nitrogen and 300 hydrogen squeezed Hot at 256 RPM over a pellet give 200 ammonia; a
+pellet lasts 16 buckets of ammonia and then crumbles (`catalystLasts`). 100 ammonia and 50 CO2 squeezed Hot give 4 urea
+and 50 water. Urea is bulk bone meal: on a crop it grows one stage every time; on anything else bone meal works on it
+does what one bone meal does, and dispensers use it. The Pressurizer's second tank takes only a fluid some recipe wants
+second, and once its feed is in, only one that goes with that feed (`takesSecond`).
+
+**Nitric acid and sodium nitrite** (`recipes/steel_furnace/nitrogen_dioxide.json`, `recipes/vat_mixing/nitric_acid.json`,
+`sodium_nitrite.json`). 100 ammonia and 175 oxygen burnt in a Steel Furnace at Searing over a platinum gauze give 100
+nitrogen dioxide and 150 water in 5 seconds; the gauze lies in the chamber as copper mesh does and lasts 64 buckets.
+Nitrogen dioxide stirred with water in a vat gives nitric acid, and with caustic soda, sodium nitrite crystals and water.
+
+**Platinum** (Create's `recipes/splashing/red_sand.json`). Washing red sand turns up a platinum nugget 1 time in 100, beside its
+gold and bauxite; four nuggets in a square make a gauze.
+
+**Argon** (`arcfurnace/ArcFurnaceBlockEntity`). Piped into an Arc Furnace's sides, argon waits in a 1,000 mB tank. Each
+sponge melted with 25 mB of argon there (`ARGON_PER_MELT`) gives half an ingot more, carried to the next, so two
+sponges give three ingots. A Spout fills a glass tube with 50 mB of argon for stage 6's argon tube (`tools/gen_decor.py`
+now names the argon fluid).
+
+**Gases let loose** (`fluids/OxygenCloud`, `SmotheringGasCloud`, `NitrogenCloud`, `ArgonCloud`, `AmmoniaCloud`,
+`NitrogenDioxideCloud`, `electrolysis/Gases`). Oxygen is an all but invisible haze as heavy as air, about 20 seconds a
+bucket: what burns in it burns twice as long, and a fire under it spreads to what burns beside it. Nitrogen and argon
+smother as CO2 does (CO2's cloud now shares their base): nitrogen thins in about 10 seconds a bucket, while argon sinks
+and pools for about a minute. Ammonia is a sharp haze lighter than air, about 15 seconds a bucket, that stings, 1
+damage every 2 seconds with blindness and slowness. Nitrogen dioxide is a brown haze heavier than air, about 30 seconds
+a bucket, that poisons through armour, 1 damage a second and nausea. Both have their own death messages. Air,
+compressed air and compressed nitrogen just hiss away.
+
+**Goggles.** The valve's say whether it is liquefying, what it holds, and how much gas a second it lets go and why;
+the air column's are the steel column's, with how fast it boils in the air's warmth in place of its heat; the
+Pressurizer's name the second fluid it waits for, and its catalyst and how worn it is, or the catalyst it needs; the
+Steel Furnace's say when oxygen burns it hotter and up to what; the Arc Furnace's its argon.
+
+**JEI and Ponder.** A new Liquefying tab (`compat/jei/LiquefyingCategory`) shows each compressed gas through the valve,
+a fifth liquid and the rest gas. The Distilling tab has liquid air in the air column, with no heat, its argon and
+oxygen marked as needing seven sections bare or three at a reflux of 2. The Pressurizing tab shows a recipe's second
+fluid and its catalyst with how long it lasts; Cooling Hot Cuts marks the coolant-only cuts; the Steel Furnace Fuel tab
+says how oxygen helps; the Arc Furnace tab says what argon gives; and liquid nitrogen and liquid air have info pages.
+Ponder scenes `liquefier/intro` (fan, Pressurizer, condenser, valve and the loop back), `air_column/intro` (the split,
+reflux and frost) and `cold_lines/intro` (what cracks and what takes the cold), in their own plugin
+(`ponder/AirPonderPlugin`, `AirScenes`).
+
+**Models and textures** (`tools/gen_air.py` and `gen_air_art.py`, called from `gen_assets.py`): the valve and the
+aluminium column section with their frost and icicle stages, the thirteen new fluids, iron catalyst, platinum nugget and
+gauze, urea and sodium nitrite, the structural formulas (nitrogen drawn blue, argon pale cyan, platinum grey) and the
+three Ponder schematics.
+
+**Review.** A review of the stage found six things, all fixed; the four that change play each have a test, and with
+them undone the oxygen, ammonia and arc furnace tests fail. Oxygen piped in before the fuel in a tick (whichever pipe ticks first, which can change on a reload) never
+made the fire hotter, because the furnace counted the fuel it was owed over a window a tick behind the one it judged
+by: until a tick's fuel is in, the tick before the window now stands in for it, and a fire a twentieth short of oxygen
+still counts as fed. A Pressurizer with nitrogen in and its hydrogen run out squeezed the nitrogen on its own, sending
+hot compressed nitrogen down the ammonia line: over an iron catalyst it now waits for hydrogen (`PressurizingRecipe.find`
+ranks a recipe waiting over the catalyst in the vessel before one that takes nothing second). Taking a catalyst out and
+putting it back made it new; its wear stays with the vessel now, as the Steel Furnace's does. An Arc Furnace with room
+for one more ingot but not the half more argon owed stopped as full; it now melts that one without argon. Two only
+touched goggles: argon piped into an idle Arc Furnace wasn't sent to clients, and an air column's venting figure counted
+a joined column's pending gas twice. Two older tests were made sturdier, since the new tests shifted when each batch
+starts: the rusted chlorine tank's cloud, let go a second's leak at a time and lasting 12 ticks of every 20, is looked
+for every tick rather than at one, and the fan test sets its second fan turning only once it knows which way is in. In a
+dev client the air column's Ponder scene was cut off at the top (now drawn at 0.6 and a block lower). Known gaps: gas an
+air column or a valve is about to let go isn't saved, so up to a second of it is lost on unload; the valve's goggles
+count any pipe above it as drawing its gas, joined or not; and a click that a full catalyst slot refuses still swings
+the hand on the client.
+
+**Tests.** 16 GameTests in `LiquidAirTests`. A fan at 128 RPM blowing into a Pressurizer's vessel at 256 RPM feeds it
+air that it squeezes into 700 to 1,000 mB of hot compressed air by tick 120, and one blowing out feeds nothing. A steel
+condenser chills hot compressed air only on coolant and never takes liquid nitrogen. The valve turns compressed air a
+fifth liquid air out of its bottom and the rest air out of its top, frosting over, lets the air go with nothing on top,
+and does the same for nitrogen. A column seven high splits a bucket into 780, 10 and 210, nothing lost, and steel and
+aluminium sections don't join; three high it loses four fifths of its argon over the top as a cloud, and liquid
+nitrogen reflux past a ratio of 2 stops that, boils back into nitrogen and slows it to a third, frosting it over; over
+lava it melts. Liquid nitrogen bursts steel and iron tanks and cracks steel, iron and PVC pipes, but not copper,
+aluminium or glass; spilt, it freezes water, puts out fire, freezes a pig and boils away into nitrogen; in a water
+cooler it cools faster than coolant and boils off into nitrogen. Oxygen makes hydrogen burn Searing and wood spirit past
+its ceiling, coming before the fuel or after it. Let loose, oxygen keeps a burning stand alight longer, nitrogen and
+argon smother (argon sinking into a pit), ammonia stings and nitrogen dioxide poisons. Nitrogen and hydrogen over iron
+give 600 ammonia, wearing the catalyst 600 whether it is taken out and put back or not; without a catalyst it waits, and
+over iron without hydrogen too, while nitrogen alone is squeezed. Ammonia and CO2 give 8 urea and 100 water, and urea
+grows wheat a stage. Ammonia and oxygen over platinum gauze give nitrogen dioxide and water. Argon gives an arc furnace
+half again, and one nearly full melts without it. Red sand washes out platinum 1 time in 100, and four nuggets make a
+gauze. `FormulaTests` covers the ten new formulas.
