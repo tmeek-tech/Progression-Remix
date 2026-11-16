@@ -57,6 +57,8 @@ public class ModTags {
 		public static final TagKey<Block> FLUID_CEILING_WARM = tag("fluid_ceiling/warm");
 		public static final TagKey<Block> FLUID_CEILING_HOT = tag("fluid_ceiling/hot");
 		public static final TagKey<Block> FLUID_CEILING_SEARING = tag("fluid_ceiling/searing");
+		/** Pipes, pumps and tanks that crack carrying something cryogenic: steel, iron and PVC (stage 4). */
+		public static final TagKey<Block> CRACKS_IN_COLD = tag("cracks_in_cold");
 
 		private static TagKey<Block> tag(String path) {
 			return TagKey.create(Registries.BLOCK, McRemix.asResource(path));
@@ -69,6 +71,8 @@ public class ModTags {
 		public static final TagKey<Fluid> HEAT_HOT = tag("heat/hot");
 		public static final TagKey<Fluid> HEAT_SEARING = tag("heat/searing");
 		public static final TagKey<Fluid> HEAT_BLAZING = tag("heat/blazing");
+		/** So cold it cracks steel, iron and PVC: liquid air and liquid nitrogen (stage 4). */
+		public static final TagKey<Fluid> CRYOGENIC = tag("cryogenic");
 
 		private static TagKey<Fluid> tag(String path) {
 			return TagKey.create(Registries.FLUID, McRemix.asResource(path));
@@ -85,6 +89,9 @@ public class ModTags {
 		public static final TagKey<Item> FURNACE_LIGHTERS = tag("furnace_lighters");
 		/** Items stripped from village chest loot. */
 		public static final TagKey<Item> VILLAGE_CONTRABAND = tag("village_contraband");
+		/** Platinum nuggets, washed out of red sand, which make the platinum gauze (stage 4). */
+		public static final TagKey<Item> PLATINUM_NUGGETS = TagKey.create(Registries.ITEM,
+			new net.minecraft.resources.ResourceLocation("forge", "nuggets/platinum"));
 
 		private static TagKey<Item> tag(String path) {
 			return TagKey.create(Registries.ITEM, McRemix.asResource(path));

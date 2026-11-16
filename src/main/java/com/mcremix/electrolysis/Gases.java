@@ -2,12 +2,17 @@ package com.mcremix.electrolysis;
 
 import java.util.List;
 
+import com.mcremix.fluids.AmmoniaCloud;
+import com.mcremix.fluids.ArgonCloud;
 import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
 import com.mcremix.fluids.FuelGasCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
+import com.mcremix.fluids.NitrogenCloud;
+import com.mcremix.fluids.NitrogenDioxideCloud;
+import com.mcremix.fluids.OxygenCloud;
 import com.mcremix.fluids.SourGasCloud;
 import com.mcremix.fluids.VinylChlorideHaze;
 
@@ -21,9 +26,11 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Gas let out of something open, such as a basin or an open pipe end, goes into the air: chlorine as a poison cloud,
  * ethylene as a brief haze that ripens crops, vinyl chloride as a haze that makes you dizzy, hydrogen chloride as a
- * mist that rusts the metal under it, CO2 as a sinking haze that smothers, sour gas as a poison haze that flashes at a flame and fuel gas as one that
- * only flashes, titanium tetrachloride fuming into white smoke and that same mist, and the others
- * with a hiss and nothing more. A vat is closed and keeps its gases for pipes to draw off.
+ * mist that rusts the metal under it, CO2 as a sinking haze that smothers, sour gas as a poison haze that flashes at a
+ * flame and fuel gas as one that only flashes, oxygen as a haze that makes fire flare, nitrogen and argon smothering as
+ * CO2 does (argon sinking, nitrogen thinning fast), ammonia as a stinging haze and nitrogen dioxide as a brown poison
+ * one, titanium tetrachloride fuming into white smoke and that same mist, and the others (air and the compressed gases
+ * among them) with a hiss and nothing more. A vat is closed and keeps its gases for pipes to draw off.
  */
 public class Gases {
 	public static void escape(ServerLevel level, Vec3 at, List<FluidStack> gases) {
@@ -43,6 +50,16 @@ public class Gases {
 				SourGasCloud.release(level, at, gas.getAmount());
 			else if (chemical == Chemical.FUEL_GAS)
 				FuelGasCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.OXYGEN)
+				OxygenCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.NITROGEN)
+				NitrogenCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.ARGON)
+				ArgonCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.AMMONIA)
+				AmmoniaCloud.release(level, at, gas.getAmount());
+			else if (chemical == Chemical.NITROGEN_DIOXIDE)
+				NitrogenDioxideCloud.release(level, at, gas.getAmount());
 			else if (chemical == Chemical.TITANIUM_TETRACHLORIDE)
 				fume(level, at, gas.getAmount());
 			else if (chemical != null && chemical.gas)

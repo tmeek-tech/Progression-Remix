@@ -182,7 +182,46 @@ public enum Chemical {
 	 * Heavy oil as the steel column draws it, at 375 °C. A steel condenser cools it into heavy oil, which it has to be
 	 * before its wax settles out ({@link WarmCuts}).
 	 */
-	HOT_HEAVY_OIL("hot_heavy_oil", 0xFF54401E, MapColor.COLOR_BROWN, 860, 1200, 648, false);
+	HOT_HEAVY_OIL("hot_heavy_oil", 0xFF54401E, MapColor.COLOR_BROWN, 860, 1200, 648, false),
+	/**
+	 * Air, as a fan blows it into a Pressurizer for the liquefier (the distillation design, stage 4), and as the
+	 * expansion valve sends back what did not turn liquid, to go round again. Let loose, it is only air.
+	 */
+	AIR("air", 0xFFE8EEF4, MapColor.NONE, 1, 10, 300, true, true),
+	/** Air squeezed in a Pressurizer, hot from the squeezing: Warm, so no PVC carries it. A steel condenser on coolant chills it. */
+	HOT_COMPRESSED_AIR("hot_compressed_air", 0xFFF4EEE6, MapColor.NONE, 2, 10, 420, true, true),
+	/** Squeezed air chilled on coolant, ready for the expansion valve, where a fifth of it turns liquid. */
+	COMPRESSED_AIR("compressed_air", 0xFFE2EAF4, MapColor.NONE, 3, 10, 290, true, true),
+	/**
+	 * Air so cold it is a liquid, pale blue and boiling: what the expansion valve gives. Steel, iron and PVC crack
+	 * carrying it ({@link FluidHeat#cryogenic}); poured out, it boils away in a moment, freezing what it touches
+	 * ({@link CryogenicLiquidBlock}). The aluminium air column splits it into nitrogen, argon and oxygen.
+	 */
+	LIQUID_AIR("liquid_air", 0xFFB4D2F2, MapColor.ICE, 870, 180, 80, true),
+	/** The air column's top cut, four fifths of the air. Let loose, it smothers what breathes it. */
+	NITROGEN("nitrogen", 0xFFE6EAF2, MapColor.NONE, 1, 10, 290, true, true),
+	/** Nitrogen squeezed hot in a Pressurizer, for the liquefier, as air is. */
+	HOT_COMPRESSED_NITROGEN("hot_compressed_nitrogen", 0xFFF2ECE6, MapColor.NONE, 2, 10, 420, true, true),
+	/** Squeezed nitrogen chilled on coolant, for the expansion valve to turn a fifth of into liquid nitrogen. */
+	COMPRESSED_NITROGEN("compressed_nitrogen", 0xFFE0E6F0, MapColor.NONE, 3, 10, 290, true, true),
+	/**
+	 * Nitrogen liquefied, clear with the faintest blue: in a water cooler it cools fastest of all, then boils off as
+	 * nitrogen. Piped into the air column's top, it is its reflux. It cracks steel, iron and PVC as liquid air does.
+	 */
+	LIQUID_NITROGEN("liquid_nitrogen", 0xFFDCE8F6, MapColor.SNOW, 807, 160, 77, true),
+	/** The air column's bottom cut, a faint blue gas: piped into a Steel Furnace with its fuel, it burns a level hotter. */
+	OXYGEN("oxygen", 0xFFDAE6FA, MapColor.NONE, 1, 10, 290, true, true),
+	/** The air column's middle cut: shield gas for the arc furnace, and what argon tubes glow with. It smothers, sinking. */
+	ARGON("argon", 0xFFE6E2F0, MapColor.NONE, 2, 10, 290, true, true),
+	/** Nitrogen and hydrogen squeezed hot over iron: a sharp-smelling gas, lighter than air, that stings what breathes it. */
+	AMMONIA("ammonia", 0xFFEEF0E4, MapColor.NONE, 1, 10, 300, true, true),
+	/**
+	 * Ammonia burnt with oxygen over hot platinum: a brown, poisonous gas, heavier than air. Water in a vat takes it up
+	 * as nitric acid, and caustic soda as sodium nitrite.
+	 */
+	NITROGEN_DIOXIDE("nitrogen_dioxide", 0xFF8E4C1E, MapColor.COLOR_BROWN, 2, 10, 300, true, true),
+	/** Nitrogen dioxide taken up in water: a clear, pale yellow, fuming acid. */
+	NITRIC_ACID("nitric_acid", 0xFFF2EEC6, MapColor.COLOR_YELLOW, 1410, 900, 300, true);
 
 	public final String id;
 	/** Its colour as seen through it, from inside. */
@@ -213,6 +252,14 @@ public enum Chemical {
 
 	public boolean thick() {
 		return viscosity >= 3000;
+	}
+
+	/**
+	 * Whether it is so cold it cracks steel, iron and PVC, and boils away when poured out: liquid air and liquid nitrogen.
+	 * Other mods' fluids are rated by the {@code mcremix:cryogenic} tag ({@link FluidHeat#cryogenic}).
+	 */
+	public boolean cryogenic() {
+		return temperature < FluidHeat.CRYOGENIC_BELOW;
 	}
 
 	/** Whether it burns where it stands in the world, rather than putting out what is alight in it: crude oil. */

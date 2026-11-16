@@ -25,7 +25,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Pipes, pumps and valves overheat with a fluid too hot for them flowing through (see {@link Overheating}), and an
+ * Pipes, pumps and valves overheat with a fluid too hot for them flowing through (see {@link Overheating}), and
+ * steel, iron and PVC ones crack with liquid air or liquid nitrogen flowing through ({@link FluidHeat#cracksInCold}); an
  * aluminium pipe beside anything Hot melts the same way (an aluminium pump melts as aluminium parts do,
  * {@link AluminiumMelting}). Checked before Create's own tick, which returns early on some ticks. On the client, a
  * rusted-through iron pipe or pump drips what goes through it ({@link Leaks}). A pipe that loads joined to a pipe of
@@ -49,23 +50,28 @@ public abstract class FluidTransportBehaviourMixin {
 		if (self.blockEntity.isVirtual() || !Overheating.due(level, pos))
 			return;
 		HeatLevel ceiling = FluidHeat.ceiling(state);
-		if (ceiling == null) {
+		boolean cracks = FluidHeat.cracksInCold(state);
+		if (ceiling == null && !cracks) {
 			mcremix$overheat = 0;
 			return;
 		}
-		boolean tooHot = false;
+		boolean tooHot = false, tooCold = false;
 		for (Direction side : Direction.values()) {
 			PipeConnection.Flow flow = self.getFlow(side);
-			if (flow != null && !ceiling.isAtLeast(FluidHeat.of(flow.fluid))) {
+			if (flow == null)
+				continue;
+			if (ceiling != null && !ceiling.isAtLeast(FluidHeat.of(flow.fluid))) {
 				tooHot = true;
 				break;
 			}
+			if (cracks && FluidHeat.cryogenic(flow.fluid))
+				tooCold = true;
 		}
 		if (!tooHot && FluidPartMaterial.failureOf(state) == Failure.MELTS
 			&& !(self.blockEntity instanceof KineticBlockEntity))
 			tooHot = AluminiumMelting.besideHeat(level, pos);
 		ServerLevel server = (ServerLevel) level;
-		mcremix$overheat = Overheating.check(server, pos, state, 1, 1, tooHot, mcremix$overheat,
+		mcremix$overheat = Overheating.check(server, pos, state, 1, 1, tooHot, tooCold, mcremix$overheat,
 			() -> Overheating.giveWay(server, pos, state));
 	}
 

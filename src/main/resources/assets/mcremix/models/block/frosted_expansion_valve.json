@@ -1,0 +1,12 @@
+{
+  "parent": "mcremix:block/expansion_valve",
+  "textures": {
+    "drum": "mcremix:block/frosted_expansion_valve_drum",
+    "head": "mcremix:block/frosted_expansion_valve_head",
+    "flange": "mcremix:block/frosted_aluminium_column_flange",
+    "stub": "mcremix:block/frosted_expansion_valve_stub",
+    "stub_flange": "mcremix:block/frozen_aluminium_column_flange",
+    "stub_end": "mcremix:block/frosted_expansion_valve_port",
+    "particle": "mcremix:block/frosted_expansion_valve_drum"
+  }
+}

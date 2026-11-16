@@ -13,6 +13,7 @@ import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -32,7 +33,8 @@ import net.minecraftforge.fluids.FluidStack;
  * What a Pressurizer squeezes, the least speed it needs and the heat, if any, under it; and how long a batch takes at
  * that speed, or for a fluid made as fast as it is fed, how much it makes a tick. It is drawn at work over that heat,
  * its vessel on top, its shaft turning through its sides and the needle on its dial trembling at that speed. Three blocks tall with its heat, a heated one
- * stands a block higher than Create's basin machines, its fire over the bar rather than across the words on it.
+ * stands a block higher than Create's basin machines, its fire over the bar rather than across the words on it. A
+ * catalyst it works over, the recipe's one item, says how long it lasts.
  */
 public class PressurizingCategory extends AbstractRecipeCategory<PressurizingRecipe> {
 	public static final RecipeType<PressurizingRecipe> TYPE =
@@ -45,7 +47,11 @@ public class PressurizingCategory extends AbstractRecipeCategory<PressurizingRec
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, PressurizingRecipe recipe, IFocusGroup focuses) {
-		Page.processing(builder, recipe, (fluid, tooltip) -> {});
+		// the one item that goes in is the catalyst, dropped into the vessel
+		Component catalyst = Component.translatable("mcremix.jei.pressurizing.catalyst",
+			JeiText.decimal(recipe.catalystLasts() / 1000.0));
+		for (IRecipeSlotBuilder slot : Page.processing(builder, recipe, (fluid, tooltip) -> {}))
+			slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(catalyst));
 		if (recipe.heat() != HeatLevel.COLD)
 			Page.heatSources(builder, recipe.heat());
 	}

@@ -1,7 +1,9 @@
 package com.mcremix.fluids;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -16,6 +18,10 @@ import net.minecraftforge.fluids.FluidStack;
  * poured out into the world it cools at once ({@link Chemical#poursAs}). What comes through a condenser leaves cold
  * already, and methanol (65 °C) and the wash's warm water are cool enough as they are. Pitch and bitumen are always
  * kept warm, as they set hard when cold, so they have no plain form to cool into.
+ * <p>
+ * Air and nitrogen squeezed in a Pressurizer come out warm too (stage 4: squeezing heats a gas), as hot compressed air
+ * and hot compressed nitrogen, and the same condenser chills them into compressed air and nitrogen for the expansion
+ * valve, but only with coolant in its jacket ({@link #coolantOnly}): water leaves them too warm to liquefy.
  */
 public final class WarmCuts {
 	/** The hottest a fluid can be and still be Cold on the mod's scale ({@link FluidHeat#fromKelvin}, 350 K). */
@@ -23,6 +29,7 @@ public final class WarmCuts {
 
 	private static final Map<Chemical, Chemical> WARM = new EnumMap<>(Chemical.class);
 	private static final Map<Chemical, Chemical> PLAIN = new EnumMap<>(Chemical.class);
+	private static final Set<Chemical> COOLANT_ONLY = EnumSet.noneOf(Chemical.class);
 
 	static {
 		warm(Chemical.CARBOLIC_OIL, Chemical.HOT_CARBOLIC_OIL);
@@ -32,6 +39,20 @@ public final class WarmCuts {
 		warm(Chemical.KEROSENE, Chemical.HOT_KEROSENE);
 		warm(Chemical.DIESEL, Chemical.HOT_DIESEL);
 		warm(Chemical.HEAVY_OIL, Chemical.HOT_HEAVY_OIL);
+		// squeezed gases (stage 4), which only coolant chills cold enough
+		squeezed(Chemical.COMPRESSED_AIR, Chemical.HOT_COMPRESSED_AIR);
+		squeezed(Chemical.COMPRESSED_NITROGEN, Chemical.HOT_COMPRESSED_NITROGEN);
+	}
+
+	private static void squeezed(Chemical plain, Chemical warm) {
+		PLAIN.put(warm, plain);
+		COOLANT_ONLY.add(warm);
+	}
+
+	/** Whether {@code fluid} is a squeezed gas a steel condenser chills only with coolant. */
+	public static boolean coolantOnly(Fluid fluid) {
+		Chemical chemical = Chemical.of(fluid);
+		return chemical != null && COOLANT_ONLY.contains(chemical);
 	}
 
 	private WarmCuts() {}
@@ -53,7 +74,7 @@ public final class WarmCuts {
 		return warm == null ? cut : warm.stack(cut.getAmount());
 	}
 
-	/** Every warm cut, and the plain form it cools into. */
+	/** Every warm cut (and squeezed gas), and the plain form it cools into. */
 	public static Map<Chemical, Chemical> pairs() {
 		return java.util.Collections.unmodifiableMap(PLAIN);
 	}

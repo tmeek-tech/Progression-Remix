@@ -109,19 +109,32 @@ public class PressurizerBlock extends HorizontalKineticBlock implements IBE<Pres
 		return oldState.getBlock() == newState.getBlock() && getRotationAxis(oldState) == getRotationAxis(newState);
 	}
 
-	/** An empty hand takes out what it has made. */
+	/**
+	 * An empty hand takes out what it has made, or failing that its catalyst; a catalyst in hand is dropped into its
+	 * vessel.
+	 */
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
 		BlockHitResult hit) {
-		if (!player.getItemInHand(hand).isEmpty())
-			return InteractionResult.PASS;
+		ItemStack held = player.getItemInHand(hand);
 		return onBlockEntityUse(level, pos, pressurizer -> {
-			if (pressurizer.made().isEmpty())
-				return InteractionResult.PASS;
-			if (!level.isClientSide) {
-				ItemStack taken = pressurizer.takeMade();
-				player.getInventory().placeItemBackInInventory(taken);
+			if (!held.isEmpty()) {
+				if (!PressurizingRecipe.anyCatalyst(level, held))
+					return InteractionResult.PASS;
+				if (!level.isClientSide) {
+					ItemStack left = pressurizer.addCatalyst(held.copy());
+					if (left.getCount() == held.getCount())
+						return InteractionResult.PASS;
+					if (!player.isCreative())
+						player.setItemInHand(hand, left);
+				}
+				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
+			boolean made = !pressurizer.made().isEmpty();
+			if (!made && pressurizer.catalyst().isEmpty())
+				return InteractionResult.PASS;
+			if (!level.isClientSide)
+				player.getInventory().placeItemBackInInventory(made ? pressurizer.takeMade() : pressurizer.takeCatalyst());
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		});
 	}

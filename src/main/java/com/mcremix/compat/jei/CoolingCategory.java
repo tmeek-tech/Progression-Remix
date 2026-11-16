@@ -21,6 +21,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -31,7 +32,7 @@ import net.minecraft.world.level.material.Fluids;
 
 /**
  * One page for each warm cut a steel condenser cools inline: the hot form in, the plain form out, and how fast it
- * cools with each thing it can be cooled with.
+ * cools with each thing it can be cooled with: for the squeezed gases of stage 4, coolant alone.
  */
 public class CoolingCategory extends AbstractRecipeCategory<CoolingCategory.Cooling> {
 	public static final RecipeType<Cooling> TYPE = RecipeType.create(McRemix.ID, "steel_condenser_cooling", Cooling.class);
@@ -57,7 +58,11 @@ public class CoolingCategory extends AbstractRecipeCategory<CoolingCategory.Cool
 	public void setRecipe(IRecipeLayoutBuilder builder, Cooling cooling, IFocusGroup focuses) {
 		Page.fluid(builder.addSlot(RecipeIngredientRole.INPUT, IN_X, SLOT_Y)
 				.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1))
-			.addFluidStack(cooling.hot().fluid(), 1000);
+			.addFluidStack(cooling.hot().fluid(), 1000)
+			.addRichTooltipCallback((view, tooltip) -> {
+				if (WarmCuts.coolantOnly(cooling.hot().fluid()))
+					tooltip.add(Component.translatable("mcremix.jei.cooling.coolant_only").withStyle(ChatFormatting.GRAY));
+			});
 		Page.fluid(builder.addSlot(RecipeIngredientRole.OUTPUT, OUT_X, SLOT_Y)
 				.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1))
 			.addFluidStack(cooling.plain().fluid(), 1000);
@@ -73,8 +78,10 @@ public class CoolingCategory extends AbstractRecipeCategory<CoolingCategory.Cool
 		Font font = Minecraft.getInstance().font;
 		int y = TABLE_Y;
 		record Row(net.minecraft.world.level.material.Fluid fluid, Coolants.Cooling with) {}
-		for (Row row : List.of(new Row(Fluids.WATER, Coolants.WATER), new Row(Chemical.COLD_WATER.fluid(), Coolants.COLD_WATER),
-			new Row(Chemical.COOLANT.fluid(), Coolants.COOLANT))) {
+		List<Row> rows = WarmCuts.coolantOnly(cooling.hot().fluid()) ? List.of(new Row(Chemical.COOLANT.fluid(), Coolants.COOLANT))
+			: List.of(new Row(Fluids.WATER, Coolants.WATER), new Row(Chemical.COLD_WATER.fluid(), Coolants.COLD_WATER),
+				new Row(Chemical.COOLANT.fluid(), Coolants.COOLANT));
+		for (Row row : rows) {
 			Component name = row.fluid().getFluidType().getDescription();
 			Component amount = Component.translatable("mcremix.jei.steel_condenser_cooling.rate",
 				SteelCondenserBlockEntity.rateWith(row.with()));

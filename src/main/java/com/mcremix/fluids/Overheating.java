@@ -26,6 +26,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
  * Pipes, pumps, tanks, spouts and drains holding a fluid hotter than they are rated for (see {@link FluidHeat}): they
  * glow and smoke for about three seconds, then give way as their material does ({@link Failure}), and what they held
  * spills out of the gap. Aluminium ones take about five, as aluminium parts do, and melt.
+ * <p>
+ * The cold end (the distillation design, stage 4): a part that cannot take the cold ({@link FluidHeat#cracksInCold},
+ * steel, iron and PVC) holding liquid air or liquid nitrogen ({@link FluidHeat#cryogenic}) frosts white with a creak of
+ * cracking ice for about three seconds, then gives way: steel and iron burst as they do when too hot, and drop as items,
+ * and PVC, brittle in that cold, shatters into nothing.
  */
 public class Overheating {
 	/** How often, in ticks, a part checks what is in it, as kinetic limits are checked. */
@@ -34,6 +39,9 @@ public class Overheating {
 	public static final int GIVES_AFTER = 60;
 
 	private static final DustParticleOptions GLOW = new DustParticleOptions(new Vector3f(1f, .42f, .12f), 1.2f);
+	private static final DustParticleOptions FROST = new DustParticleOptions(new Vector3f(.92f, .96f, 1f), 1.1f);
+	/** Set while a part gives way to the cold rather than the heat, so PVC shatters rather than sags. */
+	private static boolean cracking;
 
 	/** Whether to check the part at {@code pos} this tick: on the server, every few ticks, spread over positions. */
 	public static boolean due(Level level, BlockPos pos) {
@@ -47,6 +55,29 @@ public class Overheating {
 	 */
 	public static int check(ServerLevel level, BlockPos pos, BlockState state, int width, int height, boolean tooHot,
 		int ticks, Runnable giveWay) {
+		return check(level, pos, state, width, height, tooHot, false, ticks, giveWay);
+	}
+
+	/**
+	 * As {@link #check(ServerLevel, BlockPos, BlockState, int, int, boolean, int, Runnable)}, and {@code tooCold} when it
+	 * holds something too cold for it: it frosts over rather than glowing, and gives way to the cold.
+	 */
+	public static int check(ServerLevel level, BlockPos pos, BlockState state, int width, int height, boolean tooHot,
+		boolean tooCold, int ticks, Runnable giveWay) {
+		if (tooCold && !tooHot) {
+			ticks += CHECK_INTERVAL;
+			int limit = GIVES_AFTER + (int) Math.floorMod(pos.asLong() * 31, 20L);
+			frost(level, pos, width, height, ticks / (float) limit);
+			if (ticks < limit)
+				return ticks;
+			cracking = true;
+			try {
+				giveWay.run();
+			} finally {
+				cracking = false;
+			}
+			return 0;
+		}
 		if (!tooHot)
 			return Math.max(0, ticks - CHECK_INTERVAL * 2);
 		ticks += CHECK_INTERVAL;
@@ -58,6 +89,18 @@ public class Overheating {
 			return ticks;
 		giveWay.run();
 		return 0;
+	}
+
+	/** Frosting white, and a creak of cracking ice that comes faster as it goes, over a part {@code width} wide. */
+	private static void frost(ServerLevel level, BlockPos pos, int width, int height, float urgency) {
+		double x = pos.getX() + width / 2d, y = pos.getY() + height / 2d, z = pos.getZ() + width / 2d;
+		double spreadXZ = width * .3, spreadY = height * .3;
+		int count = (int) ((2 + urgency * 5) * Math.min(4, Math.sqrt(width * width * height)));
+		level.sendParticles(FROST, x, y, z, count, spreadXZ, spreadY, spreadXZ, 0);
+		level.sendParticles(ParticleTypes.SNOWFLAKE, x, y, z, 1 + count / 3, spreadXZ, spreadY, spreadXZ, .01);
+		if (level.random.nextFloat() < .3f + urgency * .6f)
+			level.playSound(null, pos, SoundEvents.GLASS_HIT, SoundSource.BLOCKS, .3f + urgency * .5f,
+				.5f + urgency * .3f);
 	}
 
 	/** Glowing and smoking or dripping metal, cracking glass, or softening plastic, over a part {@code width} wide. */
@@ -103,7 +146,15 @@ public class Overheating {
 	/** One block giving way. What it held, if anything, is the caller's to spill after. */
 	public static void giveWay(ServerLevel level, BlockPos pos, BlockState state) {
 		double x = pos.getX() + .5, y = pos.getY() + .5, z = pos.getZ() + .5;
-		switch (FluidPartMaterial.failureOf(state)) {
+		Failure failure = FluidPartMaterial.failureOf(state);
+		if (cracking && failure == Failure.SAGS) {
+			// plastic gone brittle in the cold: it shatters
+			level.sendParticles(FROST, x, y, z, 6, .25, .25, .25, 0);
+			level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, .7f, 1.3f);
+			level.destroyBlock(pos, false);
+			return;
+		}
+		switch (failure) {
 			case BURSTS -> {
 				level.sendParticles(ParticleTypes.LARGE_SMOKE, x, y, z, 4, .2, .2, .2, .02);
 				level.playSound(null, pos, SoundEvents.ANVIL_BREAK, SoundSource.BLOCKS, .6f, 1.4f);

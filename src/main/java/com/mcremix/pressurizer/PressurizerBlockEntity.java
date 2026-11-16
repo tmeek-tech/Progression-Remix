@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.mcremix.fluids.Chemical;
 import com.mcremix.heat.HeatLevel;
 import com.mcremix.heat.HeatSources;
 import com.mcremix.kiln.KilnBlock;
@@ -15,6 +16,7 @@ import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.fan.EncasedFanBlockEntity;
 import com.simibubi.create.foundation.item.ItemHelper;
 
 import net.createmod.catnip.data.Iterate;
@@ -27,6 +29,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -51,6 +55,11 @@ import net.minecraftforge.items.ItemStackHandler;
  * the vessel's top, where the safety valve is, nor any face of the block under it, whose sides take the shaft. The dial
  * reads the pressure, which is speed: from nothing up to the top speed of the Pressurizer's metal, and into the red
  * past it.
+ * <p>
+ * Since stage 4 of the distillation design: an encased fan against a side of its vessel, blowing into it, feeds it air
+ * ({@link #AIR_PER_RPM}); a recipe's second fluid, such as the hydrogen nitrogen is squeezed with into ammonia, waits in
+ * a second feed tank; and a catalyst dropped into the vessel, by hand or funnel, lies there for the recipes that work
+ * over it, crumbling after so much is made.
  */
 public class PressurizerBlockEntity extends KineticBlockEntity {
 	/**
@@ -59,6 +68,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	 */
 	public static final double IMPACT = 32;
 	public static final int FEED_CAPACITY = 1000;
+	/** RPM of a fan blowing into its vessel for each mB of air a tick it feeds. */
+	public static final int AIR_PER_RPM = 16;
 	public static final int OUTPUT_CAPACITY = 1000;
 	/** The most batches a tick, however fast it turns, so a batch of a tick's length cannot run away. */
 	private static final int MOST_BATCHES = 16;
@@ -72,7 +83,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	/** What it is doing, for the goggles. */
 	public enum Job {
 		IDLE(ChatFormatting.GRAY), WORKING(ChatFormatting.GREEN), TOO_SLOW(ChatFormatting.GOLD),
-		TOO_COLD(ChatFormatting.GOLD), WAITING(ChatFormatting.GRAY), FULL(ChatFormatting.GOLD);
+		TOO_COLD(ChatFormatting.GOLD), WAITING(ChatFormatting.GRAY), FULL(ChatFormatting.GOLD),
+		NO_CATALYST(ChatFormatting.RED);
 
 		final ChatFormatting color;
 
@@ -86,6 +98,25 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		@Override
 		protected void onContentsChanged() {
 			contentsChanged();
+		}
+	};
+	/** The second fluid its recipe takes, if it takes one: a fluid only a recipe's second fluid is, kept apart. */
+	private final FluidTank coFeed = new FluidTank(FEED_CAPACITY, this::takesCoFeed) {
+		@Override
+		protected void onContentsChanged() {
+			contentsChanged();
+		}
+	};
+	/** What its recipe works over, dropped into the vessel. */
+	private final ItemStackHandler catalyst = new ItemStackHandler(1) {
+		@Override
+		protected void onContentsChanged(int slot) {
+			contentsChanged();
+		}
+
+		@Override
+		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+			return PressurizingRecipe.anyCatalyst(level, stack);
 		}
 	};
 	private final FluidTank output = new FluidTank(OUTPUT_CAPACITY) {
@@ -104,6 +135,10 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	private final LazyOptional<IItemHandler> outlet = LazyOptional.of(Outlet::new);
 
 	private Job job = Job.IDLE;
+	/** mB its catalyst has made since an item of it last crumbled. */
+	private int catalystWear;
+	/** Air a fan has blown in towards the next whole mB. */
+	private float air;
 	/** How much of the next batch is done, and of which recipe. */
 	private float progress;
 	@Nullable
@@ -151,7 +186,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			vesselMatched = true;
 			matchVessel();
 		}
-		PressurizingRecipe recipe = PressurizingRecipe.find(level, feed.getFluid()).orElse(null);
+		takeAir();
+		PressurizingRecipe recipe = recipe();
 		ResourceLocation id = recipe == null ? null : recipe.getId();
 		if (id == null || !id.equals(working))
 			progress = 0;
@@ -184,13 +220,22 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		}
 	}
 
+	/** The recipe for what is in its feed tanks now, if any. */
+	@Nullable
+	public PressurizingRecipe recipe() {
+		return PressurizingRecipe.find(level, feed.getFluid(), coFeed.getFluid(), catalyst.getStackInSlot(0)).orElse(null);
+	}
+
 	/** Whether it can work {@code recipe} now, and if not, why not. */
 	private Job check(PressurizingRecipe recipe) {
 		if (Math.abs(getSpeed()) < recipe.minSpeed())
 			return Job.TOO_SLOW;
 		if (!heatUnder().isAtLeast(recipe.heat()))
 			return Job.TOO_COLD;
-		if (!recipe.feed().test(feed.getFluid()) || feed.getFluidAmount() < recipe.feed().getRequiredAmount())
+		if (recipe.catalyst() != null && !recipe.catalyst().test(catalyst.getStackInSlot(0)))
+			return Job.NO_CATALYST;
+		if (!recipe.feed().test(feed.getFluid()) || feed.getFluidAmount() < recipe.feed().getRequiredAmount()
+			|| !coFeedReady(recipe))
 			return Job.WAITING;
 		for (ItemStack result : recipe.getRollableResultsAsItemStacks())
 			if (!made.insertItem(0, result.copy(), true).isEmpty())
@@ -201,19 +246,85 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		return Job.WORKING;
 	}
 
+	private boolean coFeedReady(PressurizingRecipe recipe) {
+		return recipe.coFeed() == null || recipe.coFeed().test(coFeed.getFluid())
+			&& coFeed.getFluidAmount() >= recipe.coFeed().getRequiredAmount();
+	}
+
+	/**
+	 * The second feed tank takes a fluid some recipe takes second, and never one a recipe takes first; while the feed
+	 * tank holds something, only what a recipe that takes that fluid first takes second, even while it works another
+	 * recipe on that fluid alone, as nitrogen is squeezed on its own until the hydrogen for ammonia comes.
+	 */
+	private boolean takesCoFeed(FluidStack stack) {
+		if (!PressurizingRecipe.onlyCoFeed(level, stack))
+			return false;
+		return feed.isEmpty() || PressurizingRecipe.takesSecond(level, feed.getFluid(), stack);
+	}
+
+	/**
+	 * Whether the second feed tank holds what the feed's recipe does not take, left from before: pipes may draw it off.
+	 * While the feed tank is empty it is waiting for its feed, and stays.
+	 */
+	private boolean staleCoFeed() {
+		if (coFeed.isEmpty() || feed.isEmpty())
+			return false;
+		PressurizingRecipe recipe = recipe();
+		return recipe == null || recipe.coFeed() == null || !recipe.coFeed().test(coFeed.getFluid());
+	}
+
+	/** An encased fan against a side of its vessel, blowing into it, feeds it air: a mB a tick for every 16 RPM. */
+	private void takeAir() {
+		if (!getBlockState().getValue(PressurizerBlock.VESSEL))
+			return;
+		BlockPos vessel = worldPosition.above();
+		float blown = 0;
+		for (Direction side : Iterate.horizontalDirections)
+			if (level.getBlockEntity(vessel.relative(side)) instanceof EncasedFanBlockEntity fan
+				&& fan.getAirFlowDirection() == side.getOpposite())
+				blown += Math.abs(fan.getSpeed()) / AIR_PER_RPM;
+		if (blown <= 0) {
+			air = 0;
+			return;
+		}
+		air += blown;
+		int whole = (int) air;
+		if (whole <= 0)
+			return;
+		air -= whole;
+		feed.fill(Chemical.AIR.stack(whole), FluidAction.EXECUTE);
+	}
+
 	private void make(PressurizingRecipe recipe) {
 		feed.drain(recipe.feed().getRequiredAmount(), FluidAction.EXECUTE);
+		if (recipe.coFeed() != null)
+			coFeed.drain(recipe.coFeed().getRequiredAmount(), FluidAction.EXECUTE);
 		boolean items = false;
 		for (ItemStack result : recipe.rollResults()) {
 			made.insertItem(0, result, false);
 			items = true;
 		}
-		for (FluidStack result : recipe.getFluidResults())
+		int fluid = 0;
+		for (FluidStack result : recipe.getFluidResults()) {
 			output.fill(result.copy(), FluidAction.EXECUTE);
+			fluid += result.getAmount();
+		}
+		if (recipe.catalyst() != null)
+			wear(recipe, fluid);
 		if (items)
 			AllSoundEvents.MECHANICAL_PRESS_ACTIVATION.playOnServer(level, worldPosition, .4f, .8f);
 		else if (level.getGameTime() % 40 == 0)
 			AllSoundEvents.STEAM.playOnServer(level, worldPosition, .3f, .9f);
+	}
+
+	/** What its catalyst makes wears it: an item of it crumbles away for every so much. */
+	private void wear(PressurizingRecipe recipe, int amount) {
+		catalystWear += amount;
+		if (catalystWear < recipe.catalystLasts())
+			return;
+		catalystWear -= recipe.catalystLasts();
+		catalyst.extractItem(0, 1, false);
+		level.playSound(null, worldPosition.above(), SoundEvents.GRAVEL_BREAK, SoundSource.BLOCKS, 0.5f, 1.2f);
 	}
 
 	/**
@@ -325,6 +436,34 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		return feed.getFluid();
 	}
 
+	public FluidStack coFeed() {
+		return coFeed.getFluid();
+	}
+
+	public ItemStack catalyst() {
+		return catalyst.getStackInSlot(0);
+	}
+
+	/**
+	 * How many mB the catalyst has made since an item of it last crumbled. It stays with the vessel when the catalyst is
+	 * taken out, as the Steel Furnace's does, so taking a worn one out and putting it back never makes it new.
+	 */
+	public int catalystWear() {
+		return catalystWear;
+	}
+
+	/** Drops a catalyst into its vessel from a hand: as much of the stack as fits; returns what is left. */
+	public ItemStack addCatalyst(ItemStack stack) {
+		return catalyst.insertItem(0, stack, false);
+	}
+
+	/** Hands back its catalyst. */
+	public ItemStack takeCatalyst() {
+		ItemStack taken = catalyst.getStackInSlot(0).copy();
+		catalyst.setStackInSlot(0, ItemStack.EMPTY);
+		return taken;
+	}
+
 	public FluidStack output() {
 		return output.getFluid();
 	}
@@ -378,8 +517,10 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		if (level != null)
+		if (level != null) {
 			ItemHelper.dropContents(level, worldPosition, made);
+			ItemHelper.dropContents(level, worldPosition, catalyst);
+		}
 	}
 
 	@Override
@@ -387,7 +528,11 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		super.write(tag, clientPacket);
 		tag.put("Feed", feed.writeToNBT(new CompoundTag()));
 		tag.put("Output", output.writeToNBT(new CompoundTag()));
+		tag.put("CoFeed", coFeed.writeToNBT(new CompoundTag()));
 		tag.put("Made", made.serializeNBT());
+		tag.put("Catalyst", catalyst.serializeNBT());
+		tag.putInt("CatalystWear", catalystWear);
+		tag.putFloat("Air", air);
 		tag.putFloat("Progress", progress);
 		if (working != null)
 			tag.putString("Working", working.toString());
@@ -403,7 +548,12 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		super.read(tag, clientPacket);
 		feed.readFromNBT(tag.getCompound("Feed"));
 		output.readFromNBT(tag.getCompound("Output"));
+		coFeed.readFromNBT(tag.getCompound("CoFeed"));
 		made.deserializeNBT(tag.getCompound("Made"));
+		if (tag.contains("Catalyst"))
+			catalyst.deserializeNBT(tag.getCompound("Catalyst"));
+		catalystWear = tag.getInt("CatalystWear");
+		air = tag.getFloat("Air");
 		progress = tag.getFloat("Progress");
 		working = tag.contains("Working") ? ResourceLocation.tryParse(tag.getString("Working")) : null;
 		try {
@@ -435,12 +585,24 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		MutableComponent doing = switch (job) {
 			case TOO_SLOW -> Component.translatable(key, wantsSpeed);
 			case TOO_COLD -> Component.translatable(key, wantsHeat.displayName());
+			case NO_CATALYST -> Component.translatable(key, catalystName());
+			case WAITING -> waitingFor();
 			default -> Component.translatable(key);
 		};
 		tooltip.add(line(doing.withStyle(job.color)));
 		if (!feed.isEmpty())
 			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.feed", feed.getFluid().getDisplayName(),
 				feed.getFluidAmount()).withStyle(ChatFormatting.GRAY)));
+		if (!coFeed.isEmpty())
+			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.feed",
+				coFeed.getFluid().getDisplayName(), coFeed.getFluidAmount()).withStyle(ChatFormatting.GRAY)));
+		ItemStack lying = catalyst.getStackInSlot(0);
+		if (!lying.isEmpty()) {
+			PressurizingRecipe recipe = recipe();
+			int lasts = recipe == null || recipe.catalyst() == null ? 0 : recipe.catalystLasts();
+			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.catalyst", lying.getCount(),
+				lying.getHoverName(), lasts == 0 ? 0 : 100 * catalystWear / lasts).withStyle(ChatFormatting.AQUA)));
+		}
 		if (!output.isEmpty())
 			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.output",
 				output.getFluid().getDisplayName(), output.getFluidAmount()).withStyle(ChatFormatting.GRAY)));
@@ -450,84 +612,113 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 				stack.getHoverName()).withStyle(ChatFormatting.GRAY)));
 	}
 
+	/** What its recipe works over, by name, for the goggles. */
+	private Component catalystName() {
+		PressurizingRecipe recipe = recipe();
+		if (recipe == null || recipe.catalyst() == null || recipe.catalyst().getItems().length == 0)
+			return Component.empty();
+		return recipe.catalyst().getItems()[0].getHoverName();
+	}
+
+	/** Waiting: for its second fluid when the first is in, otherwise for its feed. */
+	private MutableComponent waitingFor() {
+		PressurizingRecipe recipe = recipe();
+		if (recipe != null && recipe.coFeed() != null && feed.getFluidAmount() >= recipe.feed().getRequiredAmount()
+			&& !recipe.coFeed().getMatchingFluidStacks().isEmpty())
+			return Component.translatable("mcremix.goggles.pressurizer.waiting_for", recipe.coFeed().getRequiredAmount(),
+				recipe.coFeed().getMatchingFluidStacks().get(0).getDisplayName());
+		return Component.translatable("mcremix.goggles.pressurizer.waiting");
+	}
+
 	private static Component line(Component text) {
 		return Component.literal("    ").append(text);
 	}
 
-	/** Pipes fill its feed and draw off what it made; nothing else goes in or comes out. */
+	/**
+	 * Pipes fill its feed, or its second feed with what only a recipe's second fluid is, and draw off what it made, and
+	 * a second fluid its feed's recipe does not take; nothing else goes in or comes out.
+	 */
 	private class Pipes implements IFluidHandler {
+		private FluidTank tank(int tank) {
+			return tank == 0 ? feed : tank == 1 ? coFeed : output;
+		}
+
 		@Override
 		public int getTanks() {
-			return 2;
+			return 3;
 		}
 
 		@Nonnull
 		@Override
 		public FluidStack getFluidInTank(int tank) {
-			return (tank == 0 ? feed : output).getFluid();
+			return tank(tank).getFluid();
 		}
 
 		@Override
 		public int getTankCapacity(int tank) {
-			return (tank == 0 ? feed : output).getCapacity();
+			return tank(tank).getCapacity();
 		}
 
 		@Override
 		public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-			return tank == 0 && feed.isFluidValid(stack);
+			return tank == 0 ? feed.isFluidValid(stack) : tank == 1 && coFeed.isFluidValid(stack);
 		}
 
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {
-			return feed.fill(resource, action);
+			return feed.isFluidValid(resource) ? feed.fill(resource, action) : coFeed.fill(resource, action);
 		}
 
 		@Nonnull
 		@Override
 		public FluidStack drain(FluidStack resource, FluidAction action) {
+			if (staleCoFeed() && coFeed.getFluid().isFluidEqual(resource))
+				return coFeed.drain(resource, action);
 			return output.drain(resource, action);
 		}
 
 		@Nonnull
 		@Override
 		public FluidStack drain(int maxDrain, FluidAction action) {
+			if (output.isEmpty() && staleCoFeed())
+				return coFeed.drain(maxDrain, action);
 			return output.drain(maxDrain, action);
 		}
 	}
 
-	/** What it made, to be taken out; nothing is put in this way. */
+	/** What it made, to be taken out, and its catalyst, which goes in this way but never comes out. */
 	private class Outlet implements IItemHandler {
 		@Override
 		public int getSlots() {
-			return 1;
+			return 2;
 		}
 
 		@Nonnull
 		@Override
 		public ItemStack getStackInSlot(int slot) {
-			return made.getStackInSlot(slot);
+			return slot == 0 ? made.getStackInSlot(0) : catalyst.getStackInSlot(0);
 		}
 
 		@Nonnull
 		@Override
 		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-			return stack;
+			return slot == 1 ? catalyst.insertItem(0, stack, simulate) : stack;
 		}
 
 		@Nonnull
 		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			return made.extractItem(slot, amount, simulate);
+			return slot == 0 ? made.extractItem(0, amount, simulate) : ItemStack.EMPTY;
 		}
 
 		@Override
 		public int getSlotLimit(int slot) {
-			return made.getSlotLimit(slot);
+			return slot == 0 ? made.getSlotLimit(0) : catalyst.getSlotLimit(0);
 		}
 
 		@Override
 		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-			return false;
+			return slot == 1 && catalyst.isItemValid(0, stack);
 		}
 	}
 }

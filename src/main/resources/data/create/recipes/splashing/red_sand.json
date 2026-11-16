@@ -16,6 +16,10 @@
       "chance": 0.25
     },
     {
+      "item": "mcremix:platinum_nugget",
+      "chance": 0.01
+    },
+    {
       "item": "minecraft:dead_bush",
       "chance": 0.05
     }

@@ -48,7 +48,9 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 
 	public ColumnSectionBlock(Properties properties) {
 		super(properties);
-		BlockState state = defaultBlockState().setValue(Patina.PROPERTY, Patina.NONE);
+		BlockState state = defaultBlockState();
+		if (state.hasProperty(Patina.PROPERTY))
+			state = state.setValue(Patina.PROPERTY, Patina.NONE);
 		for (BooleanProperty nozzle : NOZZLES.values())
 			state = state.setValue(nozzle, false);
 		registerDefaultState(state);
@@ -61,8 +63,14 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		super.createBlockStateDefinition(builder.add(NOZZLES.values().toArray(BooleanProperty[]::new))
-			.add(Patina.PROPERTY));
+		super.createBlockStateDefinition(builder.add(NOZZLES.values().toArray(BooleanProperty[]::new)));
+		if (rusts())
+			builder.add(Patina.PROPERTY);
+	}
+
+	/** Whether it rusts, and so has a patina: steel does, aluminium never. Called as the block is made. */
+	protected boolean rusts() {
+		return true;
 	}
 
 	@Override

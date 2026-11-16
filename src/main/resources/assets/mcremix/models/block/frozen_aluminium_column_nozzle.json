@@ -1,0 +1,68 @@
+{
+  "textures": {
+    "nozzle": "mcremix:block/frozen_aluminium_column_nozzle",
+    "flange": "mcremix:block/frozen_aluminium_column_flange",
+    "particle": "mcremix:block/frozen_aluminium_column_section"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        1,
+        -2
+      ],
+      "to": [
+        15,
+        15,
+        0
+      ],
+      "faces": {
+        "north": {
+          "texture": "#nozzle",
+          "uv": [
+            1,
+            1,
+            15,
+            15
+          ]
+        },
+        "up": {
+          "texture": "#flange",
+          "uv": [
+            1,
+            4,
+            15,
+            6
+          ]
+        },
+        "down": {
+          "texture": "#flange",
+          "uv": [
+            1,
+            4,
+            15,
+            6
+          ]
+        },
+        "east": {
+          "texture": "#flange",
+          "uv": [
+            4,
+            1,
+            6,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#flange",
+          "uv": [
+            4,
+            1,
+            6,
+            15
+          ]
+        }
+      }
+    }
+  ]
+}

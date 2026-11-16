@@ -1,0 +1,26 @@
+{
+  "type": "mcremix:pressurizing",
+  "heat": "hot",
+  "min_speed": 256,
+  "processingTime": 20,
+  "ingredients": [
+    {
+      "fluid": "mcremix:ammonia",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:carbon_dioxide",
+      "amount": 50
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:urea",
+      "count": 4
+    },
+    {
+      "fluid": "minecraft:water",
+      "amount": 50
+    }
+  ]
+}

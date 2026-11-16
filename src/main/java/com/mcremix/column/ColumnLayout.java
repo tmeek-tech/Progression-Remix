@@ -22,6 +22,9 @@ import com.mcremix.lab.DistillingRecipe;
  * <li>Sections beyond what the mixture needs sit just under the top, and draw nothing.</li>
  * <li>A gas, sour gas off crude oil, never condenses: it takes no section, never holds the column up, and always goes
  * over the top with the top cut, to the condenser's gas outlet ({@link SteelCondenserBlockEntity#takeGas}).</li>
+ * <li>Liquid air in the aluminium air column (stage 4) is split the same way, but its cuts all leave as gases, each
+ * from its own section, so none of them is a gas in that sense; its close pair, argon and oxygen, needs
+ * {@link DistillingRecipe#extraSections} between them (four), and every half of a reflux ratio stands in for one.</li>
  * </ul>
  */
 public final class ColumnLayout {
@@ -72,9 +75,19 @@ public final class ColumnLayout {
 
 	private ColumnLayout() {}
 
-	/** The extra sections a reflux ratio of {@code reflux} covers. */
+	/** The extra sections a reflux ratio of {@code reflux} covers in a steel column. */
 	public static int credit(float reflux) {
-		return (int) Math.floor(Math.min(1f, Math.max(0f, reflux)) * EXTRA_FOR_CLOSE + 1e-4f);
+		return credit(reflux, EXTRA_FOR_CLOSE);
+	}
+
+	/** The extra sections a reflux ratio of {@code reflux} covers, of the {@code extra} a close pair needs: one a half. */
+	public static int credit(float reflux, int extra) {
+		return Math.min(extra, (int) Math.floor(Math.max(0f, reflux) * 2 + 1e-4f));
+	}
+
+	/** The most reflux ratio that helps {@code recipe}: what covers all its close pair's extra sections. */
+	public static float mostReflux(DistillingRecipe recipe) {
+		return Math.max(1, recipe.extraSections()) / 2f;
 	}
 
 	/** The share of a close pair's lighter cut that escapes with the pair {@code short} sections short. */
@@ -92,8 +105,10 @@ public final class ColumnLayout {
 		return pair(recipe, i) || pair(recipe, i - 1);
 	}
 
-	/** How many of {@code recipe}'s results are gases: the lightest, which never condense. */
+	/** How many of {@code recipe}'s results are gases: the lightest, which never condense; none in the air column. */
 	public static int gases(DistillingRecipe recipe) {
+		if (recipe.airColumn())
+			return 0;
 		List<net.minecraftforge.fluids.FluidStack> results = recipe.getFluidResults();
 		int g = 0;
 		// the residue is never a gas, so at least one result is left to stand in the bottom section
@@ -104,7 +119,8 @@ public final class ColumnLayout {
 
 	/** The sections a column needs to split {@code recipe} with nothing escaping, at a reflux ratio of {@code reflux}. */
 	public static int needed(DistillingRecipe recipe, float reflux) {
-		int k = recipe.getFluidResults().size(), extra = Math.max(0, EXTRA_FOR_CLOSE - credit(reflux));
+		int k = recipe.getFluidResults().size(),
+			extra = Math.max(0, recipe.extraSections() - credit(reflux, recipe.extraSections()));
 		int sections = k - gases(recipe);
 		for (int i = gases(recipe); i + 1 < k; i++)
 			if (pair(recipe, i))
@@ -129,8 +145,8 @@ public final class ColumnLayout {
 	public static Plan plan(DistillingRecipe recipe, int sections, float reflux) {
 		int k = recipe.getFluidResults().size();
 		sections = Math.max(1, sections);
-		int credit = credit(reflux);
-		int need = Math.max(0, EXTRA_FOR_CLOSE - credit);
+		int credit = credit(reflux, recipe.extraSections());
+		int need = Math.max(0, recipe.extraSections() - credit);
 		float[] vented = new float[k];
 		int gases = gases(recipe);
 		// the lightest result that has a section: those lighter have no room and escape, all but the gases

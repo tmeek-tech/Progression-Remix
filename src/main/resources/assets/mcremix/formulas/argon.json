@@ -1,0 +1,13 @@
+{
+  "formula": "Ar",
+  "fluids": [
+    "mcremix:argon"
+  ],
+  "atoms": [
+    {
+      "l": "Ar",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

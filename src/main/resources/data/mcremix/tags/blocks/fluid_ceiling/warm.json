@@ -4,6 +4,8 @@
     "mcremix:aluminium_fluid_pipe",
     "mcremix:aluminium_mechanical_pump",
     "mcremix:aluminium_electric_pump",
-    "mcremix:aluminium_fluid_tank"
+    "mcremix:aluminium_fluid_tank",
+    "mcremix:aluminium_column_section",
+    "mcremix:expansion_valve"
   ]
 }

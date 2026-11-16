@@ -1,0 +1,26 @@
+{
+  "type": "mcremix:pressurizing",
+  "heat": "hot",
+  "min_speed": 256,
+  "processingTime": 20,
+  "catalyst_lasts": 16000,
+  "ingredients": [
+    {
+      "item": "mcremix:iron_catalyst"
+    },
+    {
+      "fluid": "mcremix:nitrogen",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 300
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:ammonia",
+      "amount": 200
+    }
+  ]
+}

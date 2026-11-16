@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " S ",
+    "STS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/aluminium"
+    },
+    "T": {
+      "item": "mcremix:aluminium_fluid_tank"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_column_section",
+    "count": 2
+  }
+}

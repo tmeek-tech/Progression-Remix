@@ -134,11 +134,13 @@ public class IronRustTests {
 		h.setBlock(tank, tank(FluidPartMaterial.IRON).defaultBlockState().setValue(Patina.PROPERTY, Patina.OXIDIZED));
 		h.runAtTickTime(5, () -> tankAt(h, tank).getTankInventory().fill(Chemical.CHLORINE.stack(4000),
 			FluidAction.EXECUTE));
+		// a second's leak is let go at once, a cloud that lasts only 12 ticks, so it is looked for every tick
+		AABB around = new AABB(h.absolutePos(tank)).inflate(3);
+		boolean[] seen = { false };
+		h.onEachTick(() -> seen[0] |= !h.getLevel().getEntitiesOfClass(ChlorineCloud.class, around).isEmpty());
 		h.runAtTickTime(80, () -> {
 			h.assertTrue(amount(h, tank) < 4000 - 40, "chlorine should leak out, holds " + amount(h, tank));
-			AABB around = new AABB(h.absolutePos(tank)).inflate(3);
-			h.assertFalse(h.getLevel().getEntitiesOfClass(ChlorineCloud.class, around).isEmpty(),
-				"the chlorine should hang beside the tank as a cloud");
+			h.assertTrue(seen[0], "the chlorine should hang beside the tank as a cloud");
 			h.succeed();
 		});
 	}

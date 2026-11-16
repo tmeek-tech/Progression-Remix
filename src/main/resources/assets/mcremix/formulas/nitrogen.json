@@ -1,0 +1,28 @@
+{
+  "formula": "N2",
+  "fluids": [
+    "mcremix:nitrogen",
+    "mcremix:hot_compressed_nitrogen",
+    "mcremix:compressed_nitrogen",
+    "mcremix:liquid_nitrogen"
+  ],
+  "atoms": [
+    {
+      "l": "N",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "l": "N",
+      "x": 1.2,
+      "y": 0.0
+    }
+  ],
+  "bonds": [
+    [
+      0,
+      1,
+      3
+    ]
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "formula": "Pt",
+  "items": [
+    "mcremix:platinum_nugget",
+    "mcremix:platinum_gauze"
+  ],
+  "atoms": [
+    {
+      "l": "Pt",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

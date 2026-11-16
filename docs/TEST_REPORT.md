@@ -1,8 +1,46 @@
 # Test reports
 
-Newest first: [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.34.0: The liquid air plant
+
+This covers section 43 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 4 of the distillation build, the liquefier and
+expansion valve, the aluminium air column, cold lines, liquid nitrogen as a coolant, oxygen for hotter fires, ammonia,
+urea, nitric acid over platinum, and argon for the arc furnace, on top of 0.33.0, with the fixes a review of the stage
+found. Tested on 2026-11-16 against the same versions as 0.33.0. Taran answered the stage's nine cards on 2026-11-16
+before the build was tested: seven as built, and two that changed a number before testing (liquid air split 780, 10 and
+210, and platinum 1 time in 100), so everything here tests the answers.
+
+**Result:** 0.34.0 compiled with no errors. Every GameTest passes in a fresh test world: 426 of 426 plain and
+432 of 432 with `-Pcompanions`. In a dev client the expansion valve and the aluminium column sections draw, and the
+liquefier, air column and cold lines Ponder scenes play, with no errors from the mod in the log. Not checked: the jar on
+a real Forge server, the JEI tabs in a client, and a working liquefier and column built by hand in a world.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.34.0.jar`, 6,525,509 bytes, SHA-256 `59d3aff6…a976ee246465`; `builds/mcremix-1.20.1-0.34.0.zip` holds the same jar. Its `mods.toml` says 0.34.0; none of its 1,700 PNGs carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | As for 0.33.0 |
+| GameTests, plain | Pass | 426 of 426: 0.33.0's 410 and the 16 in `LiquidAirTests` |
+| GameTests, with companions | Pass | 432 of 432 |
+| The liquefier | Pass | `aFanFeedsAPressurizerAirThatItSqueezesHot` (a fan at 128 RPM into a Pressurizer at 256: 700 to 1,000 mB of hot compressed air by tick 120, a pipe draws it, a fan blowing out feeds nothing); `squeezedAirChillsOnlyOnCoolant` (500 mB of compressed air on coolant, none taken on water and the goggles say coolant, liquid nitrogen refused by the jacket); `anExpansionValveLiquefiesAFifth` (a fifth liquid out of the bottom, the rest out of the top, frosted while working, the air let go with nothing on top, nitrogen the same, nothing else taken) |
+| The air column | Pass | `anAirColumnSevenHighSplitsLiquidAir` (780 nitrogen, 10 argon and 210 oxygen in their sections, nothing lost; steel and aluminium sections don't join); `aShortAirColumnLosesArgonUnlessRefluxed` (three high: four fifths of the argon escapes as a cloud; with liquid nitrogen reflux past 2 none does, the reflux boils into nitrogen, the pace drops to a third, and it frosts); `anAirColumnMeltsOverLava` |
+| Cold lines and spills | Pass | `liquidNitrogenBurstsSteelAndIronButNotCopper` (steel and iron tanks frost and burst, a copper one holds; steel, iron and PVC pipes crack, aluminium, copper and glass don't); `spiltLiquidNitrogenFreezesAndBoilsAway` (water beside it is ice and the fire out by tick 10, a pig in it freezes, it boils away into a nitrogen cloud); `liquidNitrogenCoolsAWaterCoolerFastest` |
+| Oxygen and gases | Pass | `oxygenMakesASteelFurnaceBurnHotter` (hydrogen Hot alone and Searing on oxygen, with oxygen coming before the fuel each tick as well as after; wood spirit Searing past its ceiling); `escapedGasesFlareSmotherAndPoison` |
+| Ammonia, urea, nitric acid | Pass | `nitrogenAndHydrogenSqueezeIntoAmmoniaOverIron` (600 ammonia over iron; no catalyst waits; over iron without hydrogen waits; nitrogen alone squeezed; the catalyst's wear of 600 kept when it is taken out and put back); `ammoniaAndCarbonDioxideGiveUrea` (8 urea and 100 water; urea grows wheat a stage); `ammoniaBurntOverPlatinumGivesNitrogenDioxide` |
+| Argon and platinum | Pass | `argonGivesAnArcFurnaceHalfAgain` (two ingots when a half is owed, one and a half owed otherwise, 25 mB each; one with room for one ingot melts it without argon); `platinumWashesOutOfRedSandIntoGauze` (four nuggets make a gauze; red sand's washing gives a nugget at 0.01) |
+| Review fixes | Pass | The four that change play each have a test (checked by undoing all four at once: the oxygen, ammonia and arc furnace tests failed; the ammonia test stopped at its check that nitrogen waits over iron, so its wear check was not seen failing on its own): oxygen before fuel, nitrogen waiting over iron, catalyst wear and the nearly full arc furnace. The argon goggles sync and the column's venting figure were checked by reading |
+| Older tests | Pass | `gasLeaksOutOfRustedTanks` now looks for the chlorine cloud every tick, since the new tests moved when its batch starts and the cloud, let go a second's leak at a time, lasts 12 ticks of every 20 |
+| Formulas | Pass | `FormulaTests`: the ten new formulas draw, with nitrogen, argon and platinum coloured and nitric acid's water drawn |
+| Dev client | Pass | A superflat world: the valve and the column sections draw; `/ponder` plays the liquefier, air column and cold lines scenes (the air column scene was cut off at the top until drawn at 0.6 and a block lower; checked again after) |
+
+### Known gaps
+
+- Gas an air column or an expansion valve is about to let go isn't saved: up to a second of it is lost on unload.
+- The valve's goggles count any pipe above it as drawing its gas, joined or not.
+- A click that a full catalyst slot refuses still swings the hand on the client.
+- No GameTest runs the vat recipes for nitric acid and sodium nitrite; they load with no errors and use the vat as hydrochloric acid does.
 
 ## 0.33.0: Crude oil
 
