@@ -135,7 +135,16 @@ public enum Chemical {
 	/** Phenol taken into caustic soda: a clear, pale brown watery layer. CO2 bubbled through it frees the phenol. */
 	SODIUM_PHENOLATE("sodium_phenolate", 0xFFE2D2BC, MapColor.TERRACOTTA_WHITE, 1100, 1400, 300, true),
 	/** Carbolic acid: a clear oil with a faint pink cast, sharp-smelling. Pressed with formaldehyde, it sets into Bakelite. */
-	PHENOL("phenol", 0xFFF2E2DC, MapColor.TERRACOTTA_WHITE, 1070, 2800, 300, true);
+	PHENOL("phenol", 0xFFF2E2DC, MapColor.TERRACOTTA_WHITE, 1070, 2800, 300, true),
+	/**
+	 * Carbolic oil as the steel column draws it, at its section's 200 °C: Warm, so no PVC carries it. A steel condenser
+	 * cools it into carbolic oil, which it has to be before it settles out naphthalene ({@link WarmCuts}).
+	 */
+	HOT_CARBOLIC_OIL("hot_carbolic_oil", 0xFF94582A, MapColor.COLOR_BROWN, 990, 1200, 473, false),
+	/** Creosote as the steel column draws it, at 250 °C: soaks timber and burns as creosote does, but no PVC carries it. */
+	HOT_CREOSOTE("hot_creosote", 0xFF4C361E, MapColor.COLOR_BROWN, 1030, 1400, 523, false),
+	/** Vinegar as it leaves the bottom of a steel column running wood spirit, at 100 °C, steaming a little. */
+	HOT_VINEGAR("hot_vinegar", 0xFFE8D098, MapColor.SAND, 960, 700, 373, true);
 
 	public final String id;
 	/** Its colour as seen through it, from inside. */
@@ -175,13 +184,17 @@ public enum Chemical {
 
 	/**
 	 * What it turns straight into poured out into the world, where it takes the temperature of everything round it, or
-	 * null if it stays as it is: warm and cold water turn into water, and hot coolant into coolant.
+	 * null if it stays as it is: warm and cold water turn into water, hot coolant into coolant, and the steel column's
+	 * warm cuts into their plain forms.
 	 */
 	@Nullable
 	public Supplier<FlowingFluid> poursAs() {
 		return switch (this) {
 			case WARM_WATER, COLD_WATER -> () -> Fluids.WATER;
 			case HOT_COOLANT -> () -> ModFluids.chemical(COOLANT).source().get();
+			case HOT_CARBOLIC_OIL -> () -> ModFluids.chemical(CARBOLIC_OIL).source().get();
+			case HOT_CREOSOTE -> () -> ModFluids.chemical(CREOSOTE).source().get();
+			case HOT_VINEGAR -> () -> ModFluids.chemical(VINEGAR).source().get();
 			default -> null;
 		};
 	}

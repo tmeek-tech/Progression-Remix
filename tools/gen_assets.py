@@ -4324,6 +4324,10 @@ CHEMICALS = {
     'sodium_phenolate': ((0xA8, 0x94, 0x7C), (0xE2, 0xD2, 0xBC), (0xFC, 0xF4, 0xEA), 170),
     # phenol: colourless, pinking a little as it stands, oily
     'phenol': ((0xC0, 0xA8, 0xA0), (0xF2, 0xE2, 0xDC), (0xFF, 0xFA, 0xF8), 180),
+    # the steel column's warm cuts (0.32.0), drawn hot from its sections: each a touch brighter than its cold form
+    'hot_carbolic_oil': ((0x44, 0x22, 0x0C), (0x94, 0x58, 0x2A), (0xD8, 0xA4, 0x6C), 235),
+    'hot_creosote': ((0x1E, 0x14, 0x0A), (0x4C, 0x36, 0x1E), (0x9C, 0x88, 0x5C), 250),
+    'hot_vinegar': ((0xA8, 0x88, 0x48), (0xE8, 0xD0, 0x98), (0xFF, 0xF4, 0xDC), 145),
 }
 # gases have no bucket (Chemical.gas)
 GASES = {'chlorine', 'hydrogen', 'ethylene', 'vinyl_chloride', 'hydrogen_chloride', 'pressurized_steam',
@@ -8412,7 +8416,7 @@ def gen_formulas():
     f.branch(c, 'H3C', 210, 1.2, end=True)
     f.branch(c, 'CH3', 330, 1.2)
 
-    f = formula('vinegar', 'CH3COOH in H2O', fluids=mr('vinegar'))
+    f = formula('vinegar', 'CH3COOH in H2O', fluids=mr('vinegar', 'hot_vinegar'))
     c = f.branch(f.atom('H3C', 0, 0, end=True), 'C', 0, 1.3)
     f.branch(c, 'O', 60, order=2)
     f.branch(c, 'OH', 300)
@@ -8439,7 +8443,7 @@ def gen_formulas():
     f.sign('+', 2.6, 0)
     water_molecule(f, 4.1, -0.3)
 
-    f = formula('carbolic_oil', 'C6H5OH + C10H8', fluids=mr('carbolic_oil'))
+    f = formula('carbolic_oil', 'C6H5OH + C10H8', fluids=mr('carbolic_oil', 'hot_carbolic_oil'))
     f.branch(benzene_ring(f, 0, 0, substituted=(0,))[0], 'OH', 90)
     f.sign('+', 2.1, 0)
     naphthalene_rings(f, 3.4, 0)
@@ -8450,7 +8454,7 @@ def gen_formulas():
     f.branch(naphthalene_rings(f, 3.4, 0, substituted=(6,))[6], 'CH3', 90)
 
     # creosote's neutral oil is mostly methylnaphthalenes
-    f = formula('methylnaphthalene', 'C11H10', fluids=mr('creosote'))
+    f = formula('methylnaphthalene', 'C11H10', fluids=mr('creosote', 'hot_creosote'))
     f.branch(naphthalene_rings(f, 0, 0, substituted=(6,))[6], 'CH3', 90)
 
     f = formula('naphthalene', 'C10H8', mr('naphthalene'))
@@ -8831,7 +8835,8 @@ def gen_glass_lab():
         ns, name = bare.split(':')
         recipe(f'filling/vinegar/{name if ns == "mcremix" else ns + "_" + name}', {
             'type': 'create:filling',
-            'ingredients': [weathered, {'fluid': 'mcremix:vinegar', 'amount': ACID_PER_ITEM}],
+            # the tag: hot vinegar drawn from a steel column cleans as well (gen_column.py)
+            'ingredients': [weathered, {'fluidTag': 'mcremix:vinegar', 'amount': ACID_PER_ITEM}],
             'results': [item(bare)]})
 
 
@@ -9099,4 +9104,7 @@ if __name__ == '__main__':
     # the distillation build's decorative blocks (stage 6) add to what is written above, so they go last
     import gen_decor
     gen_decor.run(sys.modules[__name__])
+    # the steel column (stage 2) uses gen_decor's steel, so it goes after it
+    import gen_column
+    gen_column.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

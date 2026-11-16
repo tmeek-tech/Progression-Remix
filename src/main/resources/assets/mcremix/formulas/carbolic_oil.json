@@ -1,7 +1,8 @@
 {
   "formula": "C6H5OH + C10H8",
   "fluids": [
-    "mcremix:carbolic_oil"
+    "mcremix:carbolic_oil",
+    "mcremix:hot_carbolic_oil"
   ],
   "atoms": [
     {

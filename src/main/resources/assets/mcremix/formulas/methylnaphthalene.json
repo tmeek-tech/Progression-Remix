@@ -1,7 +1,8 @@
 {
   "formula": "C11H10",
   "fluids": [
-    "mcremix:creosote"
+    "mcremix:creosote",
+    "mcremix:hot_creosote"
   ],
   "atoms": [
     {

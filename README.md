@@ -3,7 +3,7 @@
 A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
-electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab that distils coal tar and wood spirit, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
+electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar and wood spirit, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Optional | Immersive Weathering, JEI |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
-## What is in 0.31.0
+## What is in 0.32.0
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -223,6 +223,20 @@ smothers what breathes there. Vinegar takes the patina off copper, poured or fro
 ethanol, methanol or ethylene dichloride loses a quarter as much again as vapour unless a coil condenser is fitted to
 its side.
 
+**The steel column.** **Steel Column Sections** join as fluid tanks do, one to three across and up to sixteen high,
+each block layer a section, over heat as a basin takes it: every block under the column hot enough for its mixture adds
+a bucket every ten seconds to its pace, twice that for each level hotter. A **Steel Condenser** beside the bottom
+section, cooled by water, cold water or coolant (10, 20 or 30 mB a tick), takes the vapour line from the top. Feed
+piped into the bottom section splits nonstop, every cut at once, each in its own section in boiling order: a pipe on a
+section's side draws the cut that condenses there, the lightest goes over the top and comes out of the condenser's ends
+cold, and the bottom gives what is left. The wash needs two sections and coal tar four; wood spirit's acetone and
+methanol boil close together, so it needs five, or three with as much of the top cut piped back into the top section
+as is kept (a reflux ratio of 1), which halves the pace. A cut nobody draws holds the column up. Cuts leave as hot as
+their section, so carbolic oil, creosote and vinegar come out as **hot** forms that no PVC pipe carries until a steel
+condenser set inline on a pipe cools them (hot creosote soaks timber and burns as it is, and hot vinegar cleans
+copper). What a column too short for its mixture has no room for escapes over the top as **solvent vapour**, a low haze
+that flashes into flame at a fire, a torch or anything else warm or hotter, and sets alight what stands in it.
+
 **Salt water, chlorine and hydrogen.** Water taken from the sea, by bucket, pump or hose pulley, is **salt water**.
 Split by an Electrolyser it gives **chlorine**, **hydrogen** and **caustic soda**. Chlorine let loose sinks into a low
 green cloud that hurts whoever breathes it and kills the plants under it; mixed with water and an iron nugget it makes
@@ -376,7 +390,7 @@ creosote timber; argon tubes are creative only until argon can be made.
 **Ponder.** Every new interaction has a Ponder scene (hold W over the item): furnace basics, heating from below,
 fanning fires with bellows, bloom iron and anvils, blister steel, furnace-heated steam boilers and basins,
 supports, speed controllers as supports, brackets, casings in every material, wood as a fuse, kinetic materials, steel parts, wooden parts in
-every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit, the glass lab still and bench,
+every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit, the glass lab still and bench, the steel column, reflux and the inline condenser,
 pressing Bakelite, the heat sink, the Electrolyser on a basin and on a vat, lighting a furnace with a Spark Plug, the
 Steel Furnace, mixing in a vat, the Pressurizer, steam engines in every boiler metal, friction heat in aluminium, cooling with water and coolant, titanium's
 heat, colours and burning, and the Arc Furnace. Every metal's machines and every wood's movers also get Create's
@@ -387,10 +401,10 @@ opened by holding W starts playing.
 which fuels and which blocks underneath give each heat level, a Striking Blooms tab shows the anvil recipe, and
 Melting and Alloying tabs show what a crucible melts and makes. Settling and Electrolysis tabs show what settles out
 and what an Electrolyser splits, with the charge each takes and its time at a given current. Distilling, Fermenting, Steel
-Furnace, Steel Furnace Fuel, Vat Mixing and Pressurizing tabs show what a still splits into which cuts, what ferments, what the Steel Furnace works and how
+Furnace, Steel Furnace Fuel, Vat Mixing and Pressurizing tabs show what a still splits into which cuts (and how many sections a steel column needs for them), what ferments, what the Steel Furnace works and how
 many mB a tick of each fuel give each heat, what stirs together in a vat, and what the Pressurizer squeezes at what
 speed and heat. Boiling and Arc Furnace tabs show what a heated basin boils down and what the Arc Furnace melts,
-with the energy it takes, and a Casting tab every molten metal poured into a sand mold. Every one of these tabs is laid out like Create's basin pages, with the machine drawn at
+with the energy it takes, a Casting tab every molten metal poured into a sand mold, and a Cooling Hot Cuts tab what a steel condenser cools at what rate. Every one of these tabs is laid out like Create's basin pages, with the machine drawn at
 work in the middle, over a campfire, lava or a blaze burner when it needs heat, and a bar giving the heat, time, speed,
 charge or energy, with a slot on its end cycling through what heats it that hot. Every metal's machines join Create's tabs for their machine. Information pages explain the Water
 Cooler, the Radiator and warm water, cold water, coolant and hot coolant. Vanilla's furnace, smoker, blast furnace and fuel tabs are hidden while they are
@@ -483,9 +497,11 @@ src/main/java/com/mcremix/
   fluids/       Fluid heat and part ratings, overheating, brass, iron, glass, steel and aluminium pipes, pumps and
                 tanks, copper patina and iron rust, rusted iron leaking, steel pressure boilers, molten metal, rough metal and spills, the chemicals (coal tar to
                 hydrogen, glycol and coolant), salt water from the sea and cold water where it snows, the chlorine
-                cloud, and warm water and hot coolant poured out turning to water and coolant
+                cloud and solvent vapour, the steel column's hot cuts, and warm water and hot coolant poured out
+                turning to water and coolant
   crucible/     The crucible, its melting and alloying recipes, and sand molds
   lab/          The glass lab: lab glass, the still's pieces, the bench glassware and basin reflux
+  column/       The steel fractionating column, where its cuts go, and the steel condenser
   electrolysis/ The Electrolyser and Carbon Electrodes, vats, settling and electrolysis recipes, and gases let loose
   heatsink/     The aluminium heat sink and its share of Power Grid's heat model
   cooling/      Water coolers, radiator panels and what each works with

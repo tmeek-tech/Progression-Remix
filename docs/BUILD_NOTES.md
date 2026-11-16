@@ -3007,3 +3007,127 @@ Changed: the vat and basin fermenting tests (wash; a two-tank vat holds 4,000 mB
 ten sugar ferment as four batches at once and leave two sugar, which a funnel can't take out), Bakelite from phenol and
 formaldehyde, and electrodes and briquettes bound with pitch, each now checking the amounts too, since a fluid
 ingredient's test ignores them.
+
+## 41. The steel column (0.32.0)
+
+Stage 2 of Taran's distillation design (design/distillation.md in the shared folder; the numbers it left to the build
+are in design/steel-column-build-numbers.md): a steel fractionating column that splits stage 1's wash, wood spirit and
+coal tar nonstop, every cut at once, with a steel condenser at its foot that also works inline on any pipe. Six cards
+went to Taran on 2026-11-15, and on 2026-11-16 Taran chose every one as it was built: each heater under a column adds to
+its pace (more heaters only add pace, none is required under every block), any pipe on a section draws that section's
+cut, a close pair needs two more sections or reflux, one condenser serves a column and colder coolant makes it faster,
+warm cuts cool only in a condenser, and what escapes is a flammable haze.
+Crude oil (stage 3) and the liquid air column (stage 4) come later.
+
+**The column** (`column/ColumnSectionBlock`, `ColumnSectionBlockEntity`, `Column`). Steel Column Sections join as
+Create's fluid tanks do (`ConnectivityHandler`): one to three across, a square, and up to 16 high, each block layer a
+section. The controller, the bottom north-west block, keeps the column, and a pipe on any block's side works with the
+section that block is in; a flanged nozzle grows on each side a pipe joins (`NOZZLES`, the four side properties). When
+the controller passes to another block, as when a column grows to the north or west or its controller is broken, what
+it held goes with it (`absorb`, `bequeath`), each section's cut moving up or down with the column's new bottom. Create
+tells a controller its column changed part way through forming it, before the new size is set, so `Column.resize` only
+ever grows and sets capacities, and the next tick trims what no longer fits (`settle`). A bucket works on the section
+it is used on: feed into the bottom, reflux into the top, or out with the cut a section holds. Sections and the
+condenser are steel: Searing-rated (`fluid_ceiling/searing`), mined with a pickaxe, rusting where wet to the first
+stage only, waxed with honeycomb. Four steel plates round a steel fluid tank make two sections; a steel fluid tank, two
+steel pipes and four copper plates make a condenser.
+
+**Running it.** Feed is piped into the bottom section (2,000 mB for each block of its floor): any mixture with a
+`mcremix:distilling` recipe, one at a time, and the goggles say when a fluid won't split. Each block under the bottom
+section at the mixture's least heat or hotter, read as a basin reads it, is a heater, adding 5 mB of feed a tick at
+that heat (`PACE_PER_HEATER`, a bucket every ten seconds) and twice as much for each level hotter, as Create's boilers
+count heaters. Every cut comes out at once, nonstop, each in its own section (`ColumnLayout`): the residue in the bottom
+section and each cut above it in boiling order, the lightest in the top section, from which it goes over the vapour
+line to the condenser and out of its ends, cold. A pipe on a section's side draws the cut that condenses there. A
+section holds 1,000 mB of its cut for each block of its floor; a cut nobody draws fills its section and then holds the
+whole column up until it is drawn, as a full condenser does. Without a condenser the column does not start, and too
+cold it says what heat it needs. What each cut's share of the feed comes to past whole mB is carried, as the still
+carries it (`owed`), so a column gives a bucket's cuts in the end; a new mixture, or the same recipe with other results
+after a data pack reload or from an old save, starts that afresh.
+
+**Sections.** Every cut needs a section of its own, the residue too: the wash needs two, coal tar four. A column too
+short lets the cuts it has no room for escape over the top, lightest first. Acetone and methanol boil close together
+(`close`), so between them they need two more sections that draw nothing (`EXTRA_FOR_CLOSE`), five in all for wood
+spirit; a pair still short lets part of its lighter cut escape, half when one section short and two thirds when two
+short, and the rest still comes over, so there is reflux to start with. Sections beyond what a mixture needs sit just
+under the top and draw nothing, and a separating section reads the temperature between its neighbours. The goggles say
+how many sections a column is short, and whether reflux could stand in for them.
+
+**Reflux.** The top cut piped back into the top section's side is reflux; the top section takes no other fluid back,
+up to 1,000 mB for each block of its floor. The column keeps its ratio over the last 200 ticks (`REFLUX_WINDOW`), what
+came back for every mB of fresh top cut condensed. A ratio of 1 stands in for both of a close pair's sections and 1/2
+for one (`ColumnLayout.credit`), so wood spirit splits clean in three sections at a ratio of 1. Reflux costs pace: at a
+ratio r the column boils feed at 1/(1 + r) of its pace, half at 1, and more than 1 buys nothing. Reflux boils again on
+the pace the feed leaves, only as fast as the condenser can still take it after the fresh top cut, and goes over to
+the condenser again. Two pumps drawing from the condenser, one into the top section and one away, set the ratio by
+their speeds.
+
+**Cuts leave as hot as their section** (`fluids/WarmCuts`). Above 77 °C, Warm on the mod's fluid scale, a cut drawn from
+a section or the bottom leaves as a warm form of itself, which no PVC pipe carries: hot carbolic oil (200 °C), hot
+creosote (250 °C) and hot vinegar (100 °C). Pitch (360 °C) is always kept warm and has no plain form; methanol (65 °C)
+and the wash's warm water are cool enough as they are, and the top cut comes through the condenser cold. Hot creosote
+soaks timber in a Spout and burns in the Steel Furnace as creosote does, and hot vinegar cleans patina as vinegar does
+(the Spout recipes now take the fluid tags `mcremix:creosote` and `mcremix:vinegar`, which hold both forms); carbolic
+oil has to be cooled before it settles out its naphthalene. Poured out into the world, a warm form turns straight into
+its plain one. Each has a bucket, a JEI entry and its plain form's structural formula.
+
+**The steel condenser** (`SteelCondenserBlock`, `SteelCondenserBlockEntity`, `client/SteelCondenserRenderer`). A
+riveted steel shell of copper tubes lying on its side, along the face it is placed against: its two ends are the process
+side, and its top, bottom and other two sides the water jacket, which takes water, cold water or coolant and gives back
+warm water or hot coolant, a mB for every 4 mB it condenses or cools, as the coil condenser does. It condenses or cools
+10 mB a tick with water, 20 with cold water and 30 with coolant (`RATE`, scaled by the coolant's conductance,
+`rateWith`), and holds 1,000 mB of what it made, which pipes on its ends draw. Beside a steel column's bottom section it
+is that column's condenser, and its renderer draws the vapour line from it up the column's side and over into its top;
+vapour past what it can take, or with nothing to cool it, escapes there. Anywhere else it is inline: a warm cut piped
+into either end comes out of either end as its plain form, so a cut drawn hot can go on in PVC. It takes nothing else,
+pitch least of all, which would set solid in its tubes, and while it serves a column it takes nothing piped in.
+
+**Solvent vapour** (`fluids/SolventVapourCloud`, a `GasCloud`). What escapes over the top of a short column, or past a
+condenser, hangs low as a faint haze, heavier than air, sinking, about 10 seconds a bucket (`TICKS_PER_BUCKET`). It does
+nothing to what breathes it. If it reaches a flame (fire, a torch, a lantern, a lit campfire, furnace, smoker or
+candle), lava, or a blaze burner or anything else Warm or hotter, it flashes into flame and is gone, setting alight
+everything standing in it for 5 seconds and lighting fires on what burns under it. A lit redstone torch, lamp or ore,
+or an argon tube's cold glow, is no flame. The column lets what escaped loose once a second (`VENT_EVERY`), and its
+goggles say how much; so does the condenser's.
+
+**Goggles.** A column's goggles give its size, what it is doing (idle, won't split, needs a condenser, too cold, held
+up and by which section, or splitting), its heaters and pace, its reflux ratio, how many sections short it is and what
+escapes, then each section from the top: its cut and temperature (the top's going over to the condenser, separating
+sections between), what it holds, the feed and the reflux. A condenser's say which job it has, its rate with what cools
+it, whether it is dry or its warm water has nowhere to go, whether it is full, and what escapes.
+
+**JEI and Ponder.** The Distilling tab now gives the sections each mixture needs in a steel column, and how many with a
+reflux ratio of 1 at half the pace, and on a close pair's cuts the two more sections they need between them
+(`ColumnLayout.paired`). A new Cooling Hot Cuts tab (`CoolingCategory`) shows what the inline condenser cools, at its
+rates with water, cold water and coolant. Ponder scenes `steel_column/intro` (a column on a blaze burner splitting coal
+tar: heaters, the condenser, feed, cuts, warm cuts, a held-up column and venting), `steel_column/reflux` (wood spirit
+at a ratio of 1) and `steel_condenser/inline`.
+
+**Models and textures** (`tools/gen_column.py`, called from `gen_assets.py`): riveted steel sections with flange rings,
+a nozzle model, the condenser's shell and heads, the vapour line and its elbow as partial models, each with an exposed
+(rusted) form, and the three warm fluids. The nozzle is a bolted flange 14 pixels across and 2 deep: the rim Create draws
+where its pipe joins a block is 10 across and 2 deep, and hid the first, smaller nozzle entirely.
+
+**Review.** A review of the stage found ten things, all fixed but one: a too-short column's goggles counted too few
+sections missing when a close pair's lighter cut had no section either; reflux boiled faster than the condenser could
+take it, so much of it was vented; a data pack reload that changed a recipe's results could crash a column (`owed`
+sized for the old ones); an argon tube set off vapour; JEI gave a close pair's extra sections on each of its cuts, and
+on a cut flagged close alone; a column sent itself to clients every second, changed or not; the top section worked out
+a whole layout for each mB of reflux it was offered; the cooling tab worked out the rate its own way; and dead state was
+saved. Left: the condenser's jacket accounting repeats the glass coil condenser's rather than sharing it. A test also
+found a column losing what it held when Create reported it changed part way through forming (fixed as above).
+
+**Tests.** 16 GameTests in `ColumnTests`. A column one across and two high on a campfire splits wash into 250 ethanol
+out of the condenser's end and 750 warm water from the bottom, warming 62 mB of the condenser's water; four high on a
+fire it splits coal tar into light oil over the top, hot carbolic oil, hot creosote and pitch; three high, wood spirit
+loses two thirds of its acetone over the top as a vapour, the goggles saying two sections short or reflux, and with
+the top cut sent back at a ratio of 1 nothing escapes and it boils at half its pace. A cut nobody draws, or a full
+condenser, holds a column up, and drawn off it runs again; a column waits for its condenser and finds one placed
+beside it, and a condenser beside an idle column serves it; a column two across counts four heaters at a pace of 6
+for wash over two campfires and two fires, and only the two fires for coal tar. Vapour a dry condenser can't take
+escapes beside it; a condenser on its own cools hot cuts for PVC at 10, 20 and 30 mB a tick and refuses pitch, cold
+creosote and water, and beside a column takes nothing in; solvent vapour flashes at a flame, setting an armour stand
+alight and the planks under it, and hangs harmless with no flame; reflux re-boils only what the condenser can take; a
+column saved with other results starts afresh; what a column holds stays as it grows, loses its bottom or gains a new
+one; close cuts need two more sections or reflux; parts are steel and grow nozzles where pipes join; and every part
+is crafted, and the hot cuts work as their plain forms.

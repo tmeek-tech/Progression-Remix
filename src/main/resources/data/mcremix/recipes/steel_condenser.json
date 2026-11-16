@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "mcremix:steel_fluid_tank"
+    },
+    {
+      "item": "mcremix:steel_fluid_pipe"
+    },
+    {
+      "item": "mcremix:steel_fluid_pipe"
+    },
+    {
+      "tag": "forge:plates/copper"
+    },
+    {
+      "tag": "forge:plates/copper"
+    },
+    {
+      "tag": "forge:plates/copper"
+    },
+    {
+      "tag": "forge:plates/copper"
+    }
+  ],
+  "result": {
+    "item": "mcremix:steel_condenser"
+  }
+}

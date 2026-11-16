@@ -57,6 +57,17 @@ public class ModPartialModels {
 		PartialModel.of(McRemix.asResource("block/crucible/frame_large"));
 	public static final PartialModel CRUCIBLE_SHAFT_STUB = PartialModel.of(McRemix.asResource("block/crucible/shaft"));
 
+	/**
+	 * A steel condenser's vapour line, fresh and rusted: a length of it rising through a block, and an elbow coming up
+	 * from below and turning north, out of the block's north side.
+	 */
+	public static final PartialModel VAPOUR_LINE = PartialModel.of(McRemix.asResource("block/steel_condenser/vapour_line"));
+	public static final PartialModel VAPOUR_ELBOW = PartialModel.of(McRemix.asResource("block/steel_condenser/vapour_elbow"));
+	public static final PartialModel EXPOSED_VAPOUR_LINE =
+		PartialModel.of(McRemix.asResource("block/steel_condenser/exposed_vapour_line"));
+	public static final PartialModel EXPOSED_VAPOUR_ELBOW =
+		PartialModel.of(McRemix.asResource("block/steel_condenser/exposed_vapour_elbow"));
+
 	/** The needle of a Pressurizer's dial, on a dial facing south, pointing straight up from the middle of the face. */
 	public static final PartialModel PRESSURIZER_NEEDLE = PartialModel.of(McRemix.asResource("block/pressurizer/needle"));
 
