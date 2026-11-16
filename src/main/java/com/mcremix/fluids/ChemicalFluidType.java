@@ -25,7 +25,7 @@ public class ChemicalFluidType extends FluidType {
 		super(Properties.create()
 			.descriptionId("fluid." + McRemix.ID + "." + chemical.id)
 			.canSwim(!chemical.thick())
-			.canExtinguish(true)
+			.canExtinguish(!chemical.flammable())
 			.canConvertToSource(false)
 			.supportsBoating(!chemical.thick())
 			.motionScale(chemical.thick() ? 0.0023333333333333335D : 0.014D)

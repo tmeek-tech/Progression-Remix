@@ -2592,7 +2592,7 @@ def gen_data():
                {'replace': False, 'values': ['minecraft:charcoal', 'minecraft:coal', 'minecraft:coal_block',
                                              'minecraft:lava_bucket'] + charred})
     write_json(data('mcremix', 'tags', 'items', 'kiln_fuel', 'searing.json'),
-               tag(['mcremix:coal_coke', 'minecraft:blaze_rod']))
+               tag(['mcremix:coal_coke', 'mcremix:petroleum_coke', 'minecraft:blaze_rod']))
     # what lights a Furnace or Steel Furnace by hand or from a deployer, as they light a campfire
     write_json(data('mcremix', 'tags', 'items', 'furnace_lighters.json'),
                tag(['minecraft:flint_and_steel', 'minecraft:fire_charge']))
@@ -2770,7 +2770,7 @@ def gen_recipes():
     # a cementation pack: four iron ingots in four coal coke, sealed with a clay ball, in any order
     recipe('cementation_pack', {
         'type': 'minecraft:crafting_shapeless', 'category': 'misc',
-        'ingredients': [item('minecraft:iron_ingot')] * 4 + [item('mcremix:coal_coke')] * 4 + [item('minecraft:clay_ball')],
+        'ingredients': [item('minecraft:iron_ingot')] * 4 + [{'tag': 'mcremix:coke'}] * 4 + [item('minecraft:clay_ball')],
         'result': item('mcremix:cementation_pack')})
     # steel: blister steel only a Mechanical Press can beat into ingots; ingots press into sheets, and a sheet applied to
     # a stripped log makes Steel Casing, as Create makes its casings
@@ -2925,7 +2925,7 @@ def gen_recipes():
             continue
         recipe(f'waxing/waxed_{name}', {
             'type': 'minecraft:crafting_shapeless', 'category': 'misc',
-            'ingredients': [item(f'mcremix:{name}'), item('minecraft:honeycomb')],
+            'ingredients': [item(f'mcremix:{name}'), {'tag': 'mcremix:waxes'}],
             'result': item(f'mcremix:waxed_{name}')})
 
 
@@ -4328,10 +4328,32 @@ CHEMICALS = {
     'hot_carbolic_oil': ((0x44, 0x22, 0x0C), (0x94, 0x58, 0x2A), (0xD8, 0xA4, 0x6C), 235),
     'hot_creosote': ((0x1E, 0x14, 0x0A), (0x4C, 0x36, 0x1E), (0x9C, 0x88, 0x5C), 250),
     'hot_vinegar': ((0xA8, 0x88, 0x48), (0xE8, 0xD0, 0x98), (0xFF, 0xF4, 0xDC), 145),
+    # crude oil and its cuts (0.33.0, gen_oil.py). crude oil: black-brown and thick, a dull sheen on it
+    'crude_oil': ((0x0C, 0x09, 0x06), (0x24, 0x1C, 0x12), (0x6A, 0x5C, 0x44), 255),
+    # sour gas: a faint yellowish haze
+    'sour_gas': ((0xC4, 0xC0, 0x98), (0xE6, 0xE2, 0xBC), (0xFF, 0xFE, 0xE8), 80),
+    # naphtha: a clear, pale straw spirit
+    'naphtha': ((0xC8, 0xBC, 0x94), (0xF0, 0xE8, 0xC8), (0xFF, 0xFC, 0xEC), 110),
+    # kerosene: clear paraffin, a touch of straw
+    'kerosene': ((0xC0, 0xB0, 0x80), (0xEE, 0xE8, 0xC4), (0xFF, 0xFC, 0xE8), 125),
+    # diesel: a clear golden yellow oil
+    'diesel': ((0xA0, 0x84, 0x30), (0xD8, 0xBC, 0x60), (0xFC, 0xEC, 0xAC), 170),
+    # heavy oil: dark brown, nearly opaque
+    'heavy_oil': ((0x1C, 0x14, 0x0A), (0x40, 0x30, 0x1A), (0x8C, 0x74, 0x4C), 240),
+    # bitumen: black and glossy, as pitch is
+    'bitumen': ((0x04, 0x04, 0x03), (0x0E, 0x0C, 0x0A), (0x48, 0x44, 0x40), 255),
+    # fuel gas: all but invisible
+    'fuel_gas': ((0xCC, 0xD0, 0xD4), (0xEC, 0xEE, 0xF0), (0xFF, 0xFF, 0xFF), 60),
+    # fuel oil: heavy oil with its wax gone, very dark brown
+    'fuel_oil': ((0x10, 0x0C, 0x06), (0x2C, 0x20, 0x12), (0x74, 0x60, 0x40), 250),
+    # the warm cuts a steel column draws, each a touch brighter than its cold form
+    'hot_kerosene': ((0xC8, 0xB4, 0x7C), (0xF2, 0xE8, 0xB8), (0xFF, 0xFC, 0xE4), 120),
+    'hot_diesel': ((0xA8, 0x8C, 0x38), (0xE0, 0xC4, 0x68), (0xFF, 0xF0, 0xB4), 165),
+    'hot_heavy_oil': ((0x26, 0x1C, 0x0C), (0x54, 0x40, 0x1E), (0x9C, 0x84, 0x58), 235),
 }
 # gases have no bucket (Chemical.gas)
 GASES = {'chlorine', 'hydrogen', 'ethylene', 'vinyl_chloride', 'hydrogen_chloride', 'pressurized_steam',
-         'titanium_tetrachloride', 'carbon_dioxide'}
+         'titanium_tetrachloride', 'carbon_dioxide', 'sour_gas', 'fuel_gas'}
 
 
 def liquid_frame(size, phase, waves, palette, shift=0):
@@ -4997,7 +5019,7 @@ def gen_crucible_data():
     # Create mixes brass from an ingot each of copper and zinc
     alloying('brass', [('copper', 90), ('zinc', 90)], 'brass', 180, 'searing', 40)
     # crucible steel: four ingots of iron and a coke, in a quarter of the time a cementation pack takes
-    alloying('steel', [('iron', 360)], 'steel', 360, 'blazing', 200, items=[(item('mcremix:coal_coke'), 1)])
+    alloying('steel', [('iron', 360)], 'steel', 360, 'blazing', 200, items=[({'tag': 'mcremix:coke'}, 1)])
     # netherite as vanilla makes it: four gold ingots and four scrap for an ingot
     alloying('netherite', [('gold', 360)], 'netherite', 90, 'blazing', 200,
              items=[(item('minecraft:netherite_scrap'), 4)])
@@ -5253,7 +5275,7 @@ def gen_fluid_data():
     write_json(data('mcremix', 'damage_type', 'chlorine.json'),
                {'message_id': 'mcremix.chlorine', 'scaling': 'when_caused_by_living_non_player', 'exhaustion': 0.0})
     write_json(data('minecraft', 'tags', 'damage_type', 'bypasses_armor.json'),
-               tag(['mcremix:chlorine', 'mcremix:carbon_dioxide']))
+               tag(['mcremix:chlorine', 'mcremix:carbon_dioxide', 'mcremix:sour_gas', 'mcremix:sulfur_dioxide']))
     # running out of air in a pool of CO2 (CarbonDioxideCloud), as drowning does
     write_json(data('mcremix', 'damage_type', 'carbon_dioxide.json'),
                {'message_id': 'mcremix.carbon_dioxide', 'scaling': 'when_caused_by_living_non_player', 'exhaustion': 0.0})
@@ -5704,7 +5726,7 @@ def gen_electrolysis():
     # coke bound with pitch by a press, then baked hard in the Furnace
     recipe('compacting/unbaked_carbon_electrode', {
         'type': 'create:compacting',
-        'ingredients': [item('mcremix:coal_coke'), item('mcremix:coal_coke'),
+        'ingredients': [{'tag': 'mcremix:coke'}, {'tag': 'mcremix:coke'},
                         {'fluid': 'mcremix:pitch', 'amount': 100}],
         'results': [item('mcremix:unbaked_carbon_electrode')]})
     firing('carbon_electrode', item('mcremix:unbaked_carbon_electrode'), 'mcremix:carbon_electrode', 'hot', 300)
@@ -7859,7 +7881,7 @@ def gen_titanium_chain():
     # rutile and coke bound with pitch by a press, as the Carbon Electrode's coke is
     recipe('compacting/rutile_briquette', {
         'type': 'create:compacting',
-        'ingredients': [{'tag': 'mcremix:rutile'}, item('mcremix:coal_coke'), {'fluid': 'mcremix:pitch', 'amount': 50}],
+        'ingredients': [{'tag': 'mcremix:rutile'}, {'tag': 'mcremix:coke'}, {'fluid': 'mcremix:pitch', 'amount': 50}],
         'results': [item('mcremix:rutile_briquette')]})
     # chlorine over a briquette at Blazing: the coke takes the rutile's oxygen and the chlorine its titanium; one
     # briquette for each batch
@@ -8069,6 +8091,23 @@ def water_molecule(f, x, y):
     o = f.atom('O', x, y)
     for angle in (270 - 52.25, 270 + 52.25):
         f.branch(o, 'H', angle)
+
+
+def methane_molecule(f, x, y):
+    """Methane written out in full, its carbon at (x, y) and a hydrogen each way."""
+    c = f.atom('C', x, y)
+    for angle in (0, 90, 180, 270):
+        f.branch(c, 'H', angle)
+    return c
+
+
+def alkane_chain(f, carbons, x, y):
+    """A straight-chain alkane `carbons` long, skeletal: a zigzag from (x, y) east, each corner a carbon."""
+    chain = [f.atom('C', x + i * math.cos(math.radians(30)), y - (0.5 if i % 2 else 0), h=3 if i in (0, carbons - 1)
+                    else 2, hide=True) for i in range(carbons)]
+    for a, b in zip(chain, chain[1:]):
+        f.bond(a, b)
+    return chain
 
 
 def methanol_molecule(f, x, y):
@@ -8456,6 +8495,26 @@ def gen_formulas():
     # creosote's neutral oil is mostly methylnaphthalenes
     f = formula('methylnaphthalene', 'C11H10', fluids=mr('creosote', 'hot_creosote'))
     f.branch(naphthalene_rings(f, 0, 0, substituted=(6,))[6], 'CH3', 90)
+
+    # crude oil's cuts, each drawn as the molecule that stands for it (crude oil itself, heavy oil, fuel oil and bitumen
+    # are mixtures of too many things to draw, as coal tar and pitch are): sour gas is methane with hydrogen sulfide,
+    # fuel gas methane with hydrogen, and the liquid cuts straight-chain alkanes, longer the heavier the cut
+    f = formula('sour_gas', 'CH4 + H2S', fluids=mr('sour_gas'))
+    methane_molecule(f, 0, 0)
+    f.sign('+', 1.9, 0)
+    s = f.atom('S', 3.6, 0)
+    for angle in (270 - 46, 270 + 46):
+        f.branch(s, 'H', angle)
+
+    f = formula('fuel_gas', 'CH4 + H2', fluids=mr('fuel_gas'))
+    methane_molecule(f, 0, 0)
+    f.sign('+', 1.9, 0)
+    f.branch(f.atom('H', 3.2, 0), 'H', 0)
+
+    # naphtha's middle is octane, as petrol's is; diesel's is cetane, the fuel diesel is rated against
+    for name, carbons, fluids in (('octane', 8, mr('naphtha')), ('dodecane', 12, mr('kerosene', 'hot_kerosene')),
+                                  ('cetane', 16, mr('diesel', 'hot_diesel'))):
+        alkane_chain(formula(name, 'C%dH%d' % (carbons, 2 * carbons + 2), fluids=fluids), carbons, 0, 0)
 
     f = formula('naphthalene', 'C10H8', mr('naphthalene'))
     naphthalene_rings(f, 0, 0)
@@ -9107,4 +9166,7 @@ if __name__ == '__main__':
     # the steel column (stage 2) uses gen_decor's steel, so it goes after it
     import gen_column
     gen_column.run(sys.modules[__name__])
+    # crude oil (stage 3) adds to the steel column's and the Steel Furnace's text and tags, so it goes after them
+    import gen_oil
+    gen_oil.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

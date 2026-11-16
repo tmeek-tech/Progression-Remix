@@ -1,0 +1,19 @@
+{
+  "type": "mcremix:settling",
+  "processingTime": 200,
+  "ingredients": [
+    {
+      "fluid": "mcremix:heavy_oil",
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:paraffin_wax"
+    },
+    {
+      "fluid": "mcremix:fuel_oil",
+      "amount": 225
+    }
+  ]
+}

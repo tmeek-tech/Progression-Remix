@@ -47,7 +47,12 @@ public class SteelFurnaceFuelCategory extends AbstractRecipeCategory<SteelFurnac
 		Page.fluid(builder.addSlot(RecipeIngredientRole.INPUT, SLOT_X, SLOT_Y)
 				.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1))
 			.addFluidStack(fuel.fluid().get(), 1000)
-			.addRichTooltipCallback((view, tooltip) -> tooltip.add(note));
+			.addRichTooltipCallback((view, tooltip) -> {
+				tooltip.add(note);
+				if (fuel.sour())
+					tooltip.add(Component.translatable("mcremix.jei.steel_furnace_fuel.sour",
+						SteelFurnaceFuels.SULFUR_PER_SOUR_GAS));
+			});
 	}
 
 	@Override

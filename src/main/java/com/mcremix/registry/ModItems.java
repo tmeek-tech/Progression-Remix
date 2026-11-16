@@ -11,6 +11,7 @@ import com.mcremix.drilling.DrillBits;
 import com.mcremix.electrolysis.CarbonElectrodeItem;
 import com.mcremix.item.FuelItem;
 import com.mcremix.item.IronBloomItem;
+import com.mcremix.item.ParaffinWaxItem;
 import com.mcremix.item.SlagItem;
 import com.mcremix.sawing.SawBlades;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -64,6 +65,17 @@ public class ModItems {
 
 	/** White flakes that grow in carbolic oil left to stand cool. */
 	public static final ItemEntry<Item> NAPHTHALENE = REGISTRATE.item("naphthalene", Item::new)
+		.register();
+
+	/**
+	 * Bitumen boiled down over Searing heat, as in a refinery's coker drums: a second coke, which does whatever Coal Coke
+	 * does (the {@code mcremix:coke} tag). Burns Searing.
+	 */
+	public static final ItemEntry<FuelItem> PETROLEUM_COKE = REGISTRATE.item("petroleum_coke", p -> new FuelItem(p, 3200))
+		.register();
+
+	/** Settled out of heavy oil left to stand cool: does whatever honeycomb does, and makes candles. */
+	public static final ItemEntry<ParaffinWaxItem> PARAFFIN_WAX = REGISTRATE.item("paraffin_wax", ParaffinWaxItem::new)
 		.register();
 
 	/** Kelp burnt in the Furnace: the old source of soda, washed out with water. */

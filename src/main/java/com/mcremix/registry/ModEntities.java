@@ -5,12 +5,17 @@ import static com.mcremix.McRemix.REGISTRATE;
 import com.mcremix.fluids.CarbonDioxideCloud;
 import com.mcremix.fluids.ChlorineCloud;
 import com.mcremix.fluids.EthyleneCloud;
+import com.mcremix.fluids.FuelGasCloud;
+import com.mcremix.fluids.GasCloud;
 import com.mcremix.fluids.HydrogenChlorideMist;
 import com.mcremix.fluids.SolventVapourCloud;
+import com.mcremix.fluids.SourGasCloud;
+import com.mcremix.fluids.SulfurDioxideCloud;
 import com.mcremix.fluids.VinylChlorideHaze;
 import com.tterrag.registrate.util.entry.EntityEntry;
 
 import net.minecraft.client.renderer.entity.NoopRenderer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
 public class ModEntities {
@@ -47,6 +52,20 @@ public class ModEntities {
 		.properties(b -> b.sized(0.5f, 0.5f).clientTrackingRange(10).updateInterval(5).fireImmune())
 		.renderer(() -> NoopRenderer::new)
 		.register();
+
+	// crude oil's gases (stage 3): sour gas poisons and flashes, fuel gas only flashes, and the sulfur dioxide burning
+	// sour gas gives off chokes and kills plants
+	public static final EntityEntry<SourGasCloud> SOUR_GAS_CLOUD = cloud("sour_gas_cloud", SourGasCloud::new);
+	public static final EntityEntry<FuelGasCloud> FUEL_GAS_CLOUD = cloud("fuel_gas_cloud", FuelGasCloud::new);
+	public static final EntityEntry<SulfurDioxideCloud> SULFUR_DIOXIDE_CLOUD = cloud("sulfur_dioxide_cloud",
+		SulfurDioxideCloud::new);
+
+	private static <T extends GasCloud> EntityEntry<T> cloud(String name, EntityType.EntityFactory<T> factory) {
+		return REGISTRATE.<T>entity(name, factory, MobCategory.MISC)
+			.properties(b -> b.sized(0.5f, 0.5f).clientTrackingRange(10).updateInterval(5).fireImmune())
+			.renderer(() -> NoopRenderer::new)
+			.register();
+	}
 
 	public static void register() {}
 }

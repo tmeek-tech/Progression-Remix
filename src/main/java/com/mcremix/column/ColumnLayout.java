@@ -3,6 +3,7 @@ package com.mcremix.column;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mcremix.fluids.Chemical;
 import com.mcremix.lab.DistillingRecipe;
 
 /**
@@ -19,6 +20,8 @@ import com.mcremix.lab.DistillingRecipe;
  * top, half of it when one section short, two thirds when two short; the rest still comes over, so there is reflux to
  * start with, as real columns start up on reflux.</li>
  * <li>Sections beyond what the mixture needs sit just under the top, and draw nothing.</li>
+ * <li>A gas, sour gas off crude oil, never condenses: it takes no section, never holds the column up, and always goes
+ * over the top with the top cut, to the condenser's gas outlet ({@link SteelCondenserBlockEntity#takeGas}).</li>
  * </ul>
  */
 public final class ColumnLayout {
@@ -45,7 +48,12 @@ public final class ColumnLayout {
 	 * sections it is short with the reflux it has, {@code refluxable} how many of those reflux could stand in for, and
 	 * {@code credit} the extra sections its reflux covers now.
 	 */
-	public record Plan(List<Layer> layers, float[] vented, int top, int more, int refluxable, int credit) {
+	public record Plan(List<Layer> layers, float[] vented, int top, int more, int refluxable, int credit, int gases) {
+		/** Whether result {@code i} is a gas, which goes over the top to the condenser's gas outlet. */
+		public boolean gas(int result) {
+			return result < gases;
+		}
+
 		/** The section result {@code i} condenses in, or -1 if it has none. */
 		public int layerOf(int result) {
 			for (int j = 0; j < layers.size(); j++)
@@ -84,19 +92,32 @@ public final class ColumnLayout {
 		return pair(recipe, i) || pair(recipe, i - 1);
 	}
 
+	/** How many of {@code recipe}'s results are gases: the lightest, which never condense. */
+	public static int gases(DistillingRecipe recipe) {
+		List<net.minecraftforge.fluids.FluidStack> results = recipe.getFluidResults();
+		int g = 0;
+		// the residue is never a gas, so at least one result is left to stand in the bottom section
+		while (g < results.size() - 1 && Chemical.isGas(results.get(g)))
+			g++;
+		return g;
+	}
+
 	/** The sections a column needs to split {@code recipe} with nothing escaping, at a reflux ratio of {@code reflux}. */
 	public static int needed(DistillingRecipe recipe, float reflux) {
 		int k = recipe.getFluidResults().size(), extra = Math.max(0, EXTRA_FOR_CLOSE - credit(reflux));
-		int sections = k;
-		for (int i = 0; i + 1 < k; i++)
+		int sections = k - gases(recipe);
+		for (int i = gases(recipe); i + 1 < k; i++)
 			if (pair(recipe, i))
 				sections += extra;
 		return sections;
 	}
 
-	/** The lightest result with a section of its own in a column {@code sections} high: the lighter ones escape. */
+	/**
+	 * The lightest result with a section of its own in a column {@code sections} high: the lighter ones escape, but for
+	 * the gases, which need none.
+	 */
 	private static int fitFrom(DistillingRecipe recipe, int sections) {
-		return Math.max(0, recipe.getFluidResults().size() - Math.max(1, sections));
+		return Math.max(gases(recipe), recipe.getFluidResults().size() - Math.max(1, sections));
 	}
 
 	/** The result that goes over the top of a column {@code sections} high to its condenser, or -1 if none does. */
@@ -111,14 +132,15 @@ public final class ColumnLayout {
 		int credit = credit(reflux);
 		int need = Math.max(0, EXTRA_FOR_CLOSE - credit);
 		float[] vented = new float[k];
-		// the lightest result that has a section: those lighter have no room and escape
+		int gases = gases(recipe);
+		// the lightest result that has a section: those lighter have no room and escape, all but the gases
 		int fitFrom = fitFrom(recipe, sections);
-		for (int i = 0; i < fitFrom; i++)
+		for (int i = gases; i < fitFrom; i++)
 			vented[i] = 1;
-		int spare = Math.max(0, sections - k);
+		int spare = Math.max(0, sections - (k - gases));
 		int[] give = new int[k];
-		int more = fitFrom, refluxable = 0;
-		for (int i = 0; i + 1 < k; i++) {
+		int more = fitFrom - gases, refluxable = 0;
+		for (int i = gases; i + 1 < k; i++) {
 			if (!pair(recipe, i))
 				continue;
 			if (i < fitFrom) {
@@ -163,6 +185,6 @@ public final class ColumnLayout {
 			int at = from + Math.round((to - from) * (j - below) / (float) (above - below));
 			layers.set(j, new Layer(Kind.SEPARATING, -1, at));
 		}
-		return new Plan(layers, vented, top(recipe, sections), more, refluxable, credit);
+		return new Plan(layers, vented, top(recipe, sections), more, refluxable, credit, gases);
 	}
 }

@@ -41,6 +41,7 @@
     "FluidTransportBehaviourMixin",
     "GlassFluidPipeBlockMixin",
     "HoneycombItemMixin",
+    "HosePulleyFluidHandlerMixin",
     "ItemProviderEntryMixin",
     "KineticBlockEntityMixin",
     "KineticBlockMixin",

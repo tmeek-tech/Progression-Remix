@@ -431,7 +431,8 @@ public class Column {
 	private int blocked(ColumnLayout.Plan plan, DistillingRecipe recipe, SteelCondenserBlockEntity condenser, int boil) {
 		List<FluidStack> results = recipe.getFluidResults();
 		for (int i = 0; i < results.size(); i++) {
-			if (plan.vented()[i] >= 1)
+			// a gas never holds it up: what the condenser has no room for escapes there
+			if (plan.vented()[i] >= 1 || plan.gas(i))
 				continue;
 			int amount = share(recipe, i, boil);
 			if (amount <= 0)
@@ -461,6 +462,10 @@ public class Column {
 			owed[i] -= give * batch;
 			if (give <= 0)
 				continue;
+			if (plan.gas(i)) {
+				condenser.takeGas(new FluidStack(results.get(i), give));
+				continue;
+			}
 			float share = plan.vented()[i];
 			int vent = give;
 			if (share < 1) {
@@ -709,6 +714,9 @@ public class Column {
 			ChatFormatting colour = j == layer ? ChatFormatting.WHITE : ChatFormatting.GRAY;
 			tooltip.add(line(Component.literal("  ").append(text).withStyle(colour)));
 		}
+		for (int i = 0; i < plan.gases(); i++)
+			tooltip.add(line(Component.literal("  ").append(lang("gas_over", results.get(i).getDisplayName()))
+				.withStyle(ChatFormatting.GRAY)));
 		tooltip.add(line(tank("feed", feed)));
 		if (!reflux.isEmpty())
 			tooltip.add(line(tank("reflux_held", reflux)));

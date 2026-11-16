@@ -1,0 +1,52 @@
+{
+  "type": "mcremix:distilling",
+  "heat": "hot",
+  "processingTime": 600,
+  "ingredients": [
+    {
+      "fluid": "mcremix:crude_oil",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:sour_gas",
+      "amount": 50
+    },
+    {
+      "fluid": "mcremix:naphtha",
+      "amount": 250
+    },
+    {
+      "fluid": "mcremix:kerosene",
+      "amount": 150
+    },
+    {
+      "fluid": "mcremix:diesel",
+      "amount": 200
+    },
+    {
+      "fluid": "mcremix:heavy_oil",
+      "amount": 200
+    },
+    {
+      "fluid": "mcremix:bitumen",
+      "amount": 150
+    }
+  ],
+  "boiling_points": [
+    20,
+    100,
+    210,
+    300,
+    375,
+    400
+  ],
+  "close": [
+    false,
+    false,
+    false,
+    false,
+    false
+  ]
+}

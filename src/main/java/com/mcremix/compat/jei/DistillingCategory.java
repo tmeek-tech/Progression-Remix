@@ -46,6 +46,10 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 			}
 			tooltip.add(Component.translatable("mcremix.jei.distilling.cut", i + 1, recipe.boilingPoint(i))
 				.withStyle(ChatFormatting.GOLD));
+			if (com.mcremix.fluids.Chemical.isGas(fluid)) {
+				tooltip.add(Component.translatable("mcremix.jei.distilling.gas").withStyle(ChatFormatting.GRAY));
+				return;
+			}
 			if (recipe.close(i))
 				tooltip.add(Component.translatable("mcremix.jei.distilling.close").withStyle(ChatFormatting.GRAY));
 			if (ColumnLayout.paired(recipe, i))

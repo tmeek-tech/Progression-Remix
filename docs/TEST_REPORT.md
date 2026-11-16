@@ -1,8 +1,37 @@
 # Test reports
 
-Newest first: [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.33.0: Crude oil
+
+This covers section 42 of [BUILD_NOTES.md](BUILD_NOTES.md): stage 3 of the distillation build, crude oil pockets, the
+hose pulley that never runs one dry, crude oil's six cuts in the still and the steel column, naphtha cracking, paraffin
+wax, petroleum coke, the new fuels and gases and the diesel engine, on top of 0.32.0, with the fixes a review of the
+stage found. Tested on 2026-11-16 against the same versions as 0.32.0. Taran answered the stage's six cards on
+2026-11-16, each as it was built, so nothing tested here changed.
+
+**Result:** 0.33.0 compiled with no errors. Every GameTest passes in a fresh test world: 410 of 410 plain and
+416 of 416 with `-Pcompanions`. In a dev client the engine draws, runs with smoke from its stack and gives its goggles,
+a new world has oil pockets in the deepslate, and the engine's and the oil pocket's Ponder scenes play, with no errors
+from the mod in the log. Not checked: the jar on a real Forge server, the cracking scene, and the pocket's scene again
+after it was drawn at three quarters.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.33.0.jar`, 6,182,935 bytes, SHA-256 `7f6a0d21…57165a5dd`; `builds/mcremix-1.20.1-0.33.0.zip` holds the same jar. Its `mods.toml` says 0.33.0; no PNG in it carries a `caBX` chunk; no GameTest class is in it |
+| Production server | Not run | As for 0.32.0 |
+| GameTests, plain | Pass | 410 of 410: 0.32.0's 396 and the 14 in `CrudeOilTests` |
+| GameTests, with companions | Pass | 416 of 416 |
+| Pockets and spills | Pass | `anOilPocketIsSealedInTheRock` (placed in a stone box with a tunnel, a water block and planks: more than 60 blocks of oil, every one with only rock or oil beside it); `crudeOilIsStickyAndBurns` (an armour stand pushed into oil moves under 0.4 of what one on stone moves; lava sets oil alight; a burning stand stays alight and lights it) |
+| The hose pulley | Pass | `aHosePulleyDrawsCrudeOilSlowlyAndNeverRunsItDry` (5 mB a tick over 260 ticks, past Create's check of the pool, which stays whole and endless every tick; 100 mB saved after 40 idle ticks; water still comes a bucket at once) |
+| Splitting | Pass | `crudeOilStillsIntoItsCuts` (the glass still on a fire: 250 naphtha, 150 kerosene, 200 diesel and 200 heavy oil in its flasks, 50 sour gas in the vent's tank, 150 bitumen left); `crudeOilNeedsFiveSectionsAndItsGasNone` (the layout at five, three and one sections); `aColumnFiveHighSplitsCrudeOilAndSendsItsGasToTheCondenser` (the cuts in their sections, 250 naphtha and 50 gas in the condenser, a plain drain giving naphtha first and then gas; a full gas outlet lets sour gas loose as a cloud and its goggles say gas, not vapour, is escaping) |
+| What the cuts become | Pass | `naphthaCracksWithSteamIntoEthyleneAndFuelGas` (300 ethylene and 200 fuel gas; without steam the furnace waits and says for what; steam left after the feed changed drains back out); `heavyOilSettlesWaxAndBitumenBoilsDownToCoke` (1 wax and 225 fuel oil; 2 petroleum coke over a fed blaze burner); `paraffinWaxAndPetroleumCokeStandInForHoneycombAndCoke` (wax on a copper block, a waxed copper chain drive crafted with it, a candle, the coke tag, burn time, Searing furnace fuel, the engine's recipe) |
+| Fuels and gases | Pass | `sourGasBurnsDirtyAndSulfurDioxideKillsPlants` (a Steel Furnace burning sour gas puffs out sulfur dioxide, which kills grass and leaves); `sourGasPoisonsAndFuelGasOnlyBurns` |
+| The diesel engine | Pass | `aDieselEngineCatchesWhenCrankedAndStallsWhenDry` (catches after 2 seconds of cranking, 32 RPM and 512 su a RPM, runs 95 to 105 ticks on 100 mB, stalls dry and stays stalled, catches again refuelled); `aDieselEngineRunsWeakerOnKeroseneAndNeedsAFastCrank` (12,288 su on kerosene and the goggles say so, a 4 RPM crank never starts it, no fuel says so, and a tank switched to diesel gives 16,384 again); `aDieselEngineStallsWhenOverloaded` |
+| Review fixes | Pass | Each of the five fixes has a test that fails without it: the pool check (the hose pulley test), the condenser's drain and its gas goggles (the column test), the engine's power (the kerosene test) and stale steam (the cracking test) |
+| Formulas | Pass | `FormulaTests`: sour gas, fuel gas, naphtha, kerosene and diesel have formulas; crude oil, heavy oil, fuel oil and bitumen are mixtures |
 
 ## 0.32.0: The steel column
 

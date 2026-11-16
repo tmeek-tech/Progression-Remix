@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "mcremix:chlorine",
-    "mcremix:carbon_dioxide"
+    "mcremix:carbon_dioxide",
+    "mcremix:sour_gas",
+    "mcremix:sulfur_dioxide"
   ]
 }

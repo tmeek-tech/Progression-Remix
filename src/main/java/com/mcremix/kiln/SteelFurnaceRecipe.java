@@ -22,7 +22,8 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
  * What the Steel Furnace works from a fluid: a batch of it, held at least as hot as {@link #heat()}, gives the fluids
  * listed, in {@link #getProcessingDuration()} ticks at that heat and half as long for each level hotter. Some run over
  * a catalyst lying in the chamber, the recipe's one item ingredient, which wears away by {@link #catalystLasts()} mB
- * of the fluid run over it rather than by the batch.
+ * of the fluid run over it rather than by the batch. Some take a second fluid with the first, as naphtha is cracked
+ * with steam ({@link #coFeed()}), which waits in a tank of its own.
  */
 public class SteelFurnaceRecipe extends ProcessingRecipe<RecipeWrapper> {
 	public static final int DEFAULT_CATALYST_LASTS = 16000;
@@ -44,6 +45,20 @@ public class SteelFurnaceRecipe extends ProcessingRecipe<RecipeWrapper> {
 
 	public FluidIngredient feed() {
 		return getFluidIngredients().get(0);
+	}
+
+	/** The second fluid it takes with the first, or null if it takes only one. */
+	@Nullable
+	public FluidIngredient coFeed() {
+		return getFluidIngredients().size() > 1 ? getFluidIngredients().get(1) : null;
+	}
+
+	/** Whether any recipe takes {@code fluid} as its second fluid. */
+	public static boolean anyCoFeed(@Nullable Level level, FluidStack fluid) {
+		if (level == null || fluid.isEmpty())
+			return false;
+		return level.getRecipeManager().getAllRecipesFor(ModRecipes.STEEL_FURNACE_TYPE.get()).stream()
+			.anyMatch(r -> r.coFeed() != null && r.coFeed().test(fluid));
 	}
 
 	/** What the fluid runs over, or null if it needs nothing. */
@@ -85,7 +100,7 @@ public class SteelFurnaceRecipe extends ProcessingRecipe<RecipeWrapper> {
 
 	@Override
 	protected int getMaxFluidInputCount() {
-		return 1;
+		return 2;
 	}
 
 	/** Its time is how long a batch takes, at the least speed or heat it needs. */

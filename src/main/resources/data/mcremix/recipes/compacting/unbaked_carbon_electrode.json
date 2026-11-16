@@ -2,10 +2,10 @@
   "type": "create:compacting",
   "ingredients": [
     {
-      "item": "mcremix:coal_coke"
+      "tag": "mcremix:coke"
     },
     {
-      "item": "mcremix:coal_coke"
+      "tag": "mcremix:coke"
     },
     {
       "fluid": "mcremix:pitch",

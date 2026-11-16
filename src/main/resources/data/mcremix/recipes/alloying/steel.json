@@ -9,7 +9,7 @@
   "items": [
     {
       "ingredient": {
-        "item": "mcremix:coal_coke"
+        "tag": "mcremix:coke"
       },
       "count": 1
     }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "FTS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "P": {
+      "item": "create:mechanical_piston"
+    },
+    "F": {
+      "item": "create:flywheel"
+    },
+    "T": {
+      "item": "mcremix:steel_fluid_tank"
+    }
+  },
+  "result": {
+    "item": "mcremix:diesel_engine"
+  }
+}

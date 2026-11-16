@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import com.mcremix.electrolysis.Gases;
 import com.mcremix.fluids.Spills;
+import com.mcremix.fluids.SulfurDioxideCloud;
 import com.mcremix.heat.HeatLevel;
 import com.mcremix.registry.ModRecipes;
 import com.simibubi.create.content.fluids.FluidFX;
@@ -43,7 +44,8 @@ import net.minecraftforge.items.IItemHandler;
  * The Steel Furnace: a Furnace cased in steel, which fires what a Furnace fires and works fluids too. A fluid one of
  * its recipes takes, piped or poured in at its front, sides or top, waits in its feed tank and is worked a batch at a
  * time, at the recipe's heat or hotter, into the fluids it gives, held for pipes to draw off. Some jobs run over a
- * catalyst lying in the chamber, as ethanol runs over alumina, which wears away slowly. See {@link SteelFurnaceRecipe}.
+ * catalyst lying in the chamber, as ethanol runs over alumina, which wears away slowly, and some take a second fluid
+ * with the first, as naphtha is cracked with steam, which waits in a tank of its own. See {@link SteelFurnaceRecipe}.
  * <p>
  * Its fire is fuel piped in from underneath and nothing else (Taran, 2026-10-22): it takes no solid fuel, it is sealed
  * so no heat comes up through it, and bellows do nothing for it. Once lit, it burns the fuel as it comes, whether or
@@ -51,6 +53,8 @@ import net.minecraftforge.items.IItemHandler;
  * ({@link SteelFurnaceFuels}); fuel that comes faster than burns at its ceiling is lost. A second after its fuel stops
  * coming, it goes out. Fuel piped into it unlit escapes out of its front: a gas into the air, and a liquid pooling
  * inside until a bucket's worth pours out as a fluid block, backing up the pipe when there is nowhere for it to go.
+ * Sour gas burns dirty: the sulfur dioxide it gives off puffs out of the chimney once a second, as a choking cloud that
+ * kills plants ({@link SulfurDioxideCloud}).
  */
 public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	public static final int FEED_CAPACITY = 4000, PRODUCT_CAPACITY = 4000;
@@ -73,6 +77,13 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			contentsChanged();
 		}
 	};
+	/** The second fluid its recipe takes, if it takes one: a fluid only a recipe's second fluid is, kept apart. */
+	protected final FluidTank coFeed = new FluidTank(FEED_CAPACITY, this::takesCoFeed) {
+		@Override
+		protected void onContentsChanged() {
+			contentsChanged();
+		}
+	};
 	protected final FluidTank[] products = { product(), product() };
 	private final LazyOptional<IFluidHandler> steelPipes = LazyOptional.of(SteelPipes::new);
 	private final LazyOptional<IFluidHandler> burner = LazyOptional.of(Burner::new);
@@ -90,6 +101,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	/** When fuel last came in, lit or not. Not kept: a furnace just loaded gives its pumps a second to start again. */
 	private long lastFuel = Long.MIN_VALUE / 2;
 	private boolean fuelClockStarted;
+	/** mB of sour gas burnt since its sulfur dioxide last went up the chimney. */
+	private int sourBurnt;
 
 	/** Liquid fuel piped in while it is out, pooled inside until a bucket's worth pours out of the front. */
 	private final FluidTank pool = new FluidTank(POOL_CAPACITY) {
@@ -148,6 +161,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		if (isLit() && now - lastFuel > FLOW_WINDOW)
 			goOut();
 		tickEscaping(now);
+		if (sourBurnt >= SteelFurnaceFuels.SULFUR_PER_SOUR_GAS && now % 20 == 0)
+			puffSulfur();
 		HeatLevel fire = isLit() && burning != null ? SteelFurnaceFuels.heatAt(heatFlow, burning.ceiling())
 			: HeatLevel.COLD;
 		return new Heat(fire, fire, false);
@@ -203,11 +218,28 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		int now = slot(arrivedTo);
 		arrived[now] = (int) Math.min((long) arrived[now] + taken, MOST_COUNTED);
 		heatArrived[now] = (int) Math.min((long) heatArrived[now] + (long) taken * fuel.heatPerMb(), MOST_COUNTED);
+		if (fuel.sour())
+			sourBurnt = (int) Math.min((long) sourBurnt + taken, MOST_COUNTED);
 		if (burning != fuel) {
 			burning = fuel;
 			queueSync();
 		}
 		return taken;
+	}
+
+	/** The sulfur dioxide from the sour gas burnt this last second goes up the chimney and sinks round the furnace. */
+	private void puffSulfur() {
+		int sulfur = sourBurnt / SteelFurnaceFuels.SULFUR_PER_SOUR_GAS;
+		sourBurnt -= sulfur * SteelFurnaceFuels.SULFUR_PER_SOUR_GAS;
+		if (level instanceof ServerLevel server) {
+			Vec3 front = Vec3.atLowerCornerOf(getBlockState().getValue(KilnBlock.FACING).getNormal());
+			SulfurDioxideCloud.release(server, chimney(Vec3.atCenterOf(worldPosition), front), sulfur);
+		}
+	}
+
+	/** mB of sour gas burnt since its sulfur dioxide last went up the chimney. */
+	public int sourBurnt() {
+		return sourBurnt;
 	}
 
 	// ---------------------------------------------------------------- unlit: fuel escaping
@@ -431,7 +463,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		if (r == null) {
 			job = Job.IDLE;
 			jobProgress = 0;
-		} else if (feed.getFluidAmount() < r.feed().getRequiredAmount()) {
+		} else if (feed.getFluidAmount() < r.feed().getRequiredAmount() || !coFeedReady(r)) {
 			job = Job.WAITING;
 		} else if (r.catalyst() != null && catalystSlot(r.catalyst()) < 0) {
 			job = Job.NO_CATALYST;
@@ -447,6 +479,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 				jobProgress = 0;
 				int amount = r.feed().getRequiredAmount();
 				feed.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+				if (r.coFeed() != null)
+					coFeed.drain(r.coFeed().getRequiredAmount(), IFluidHandler.FluidAction.EXECUTE);
 				put(r.getFluidResults(), false);
 				if (r.catalyst() != null)
 					wear(r, amount);
@@ -455,6 +489,36 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		}
 		if (before != job)
 			contentsChanged();
+	}
+
+	/** Whether the second fluid {@code r} takes, if any, is waiting in its tank, enough of it for a batch. */
+	private boolean coFeedReady(SteelFurnaceRecipe r) {
+		return r.coFeed() == null
+			|| r.coFeed().test(coFeed.getFluid()) && coFeed.getFluidAmount() >= r.coFeed().getRequiredAmount();
+	}
+
+	/**
+	 * Whether the second feed tank holds what the feed's recipe does not take, left from before: pipes may draw it off.
+	 * While the feed tank is empty it is waiting for its feed, and stays.
+	 */
+	private boolean staleCoFeed() {
+		if (coFeed.isEmpty() || feed.isEmpty())
+			return false;
+		SteelFurnaceRecipe r = recipe();
+		return r == null || r.coFeed() == null || !r.coFeed().test(coFeed.getFluid());
+	}
+
+	/**
+	 * The second feed tank takes a fluid some recipe takes second, and never one a recipe takes first; while the feed
+	 * tank holds something, only what its recipe takes second.
+	 */
+	private boolean takesCoFeed(FluidStack stack) {
+		if (SteelFurnaceRecipe.find(level, stack).isPresent())
+			return false;
+		SteelFurnaceRecipe r = recipe();
+		if (r != null)
+			return r.coFeed() != null && r.coFeed().test(stack);
+		return SteelFurnaceRecipe.anyCoFeed(level, stack);
 	}
 
 	/** Fluid run over the catalyst wears it: an item of it crumbles away for every so much. */
@@ -513,6 +577,10 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 
 	public FluidStack feed() {
 		return feed.getFluid();
+	}
+
+	public FluidStack coFeed() {
+		return coFeed.getFluid();
 	}
 
 	public FluidStack product(int tank) {
@@ -619,13 +687,20 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			case NO_CATALYST -> Component.translatable("mcremix.goggles.steel_furnace.no_catalyst",
 				r.catalyst().getItems()[0].getHoverName()).withStyle(ChatFormatting.RED);
 			case FULL -> Component.translatable("mcremix.goggles.steel_furnace.full").withStyle(ChatFormatting.GOLD);
-			case WAITING -> Component.translatable("mcremix.goggles.steel_furnace.waiting",
-				r.feed().getRequiredAmount()).withStyle(ChatFormatting.GRAY);
+			case WAITING -> feed.getFluidAmount() >= r.feed().getRequiredAmount() && r.coFeed() != null
+				? Component.translatable("mcremix.goggles.steel_furnace.waiting_for", r.coFeed().getRequiredAmount(),
+					r.coFeed().getMatchingFluidStacks().get(0).getDisplayName()).withStyle(ChatFormatting.GRAY)
+				: Component.translatable("mcremix.goggles.steel_furnace.waiting", r.feed().getRequiredAmount())
+					.withStyle(ChatFormatting.GRAY);
 			case IDLE -> Component.empty();
 		};
 		tooltip.add(Component.literal("     ").append(fed.getDisplayName().copy().withStyle(ChatFormatting.WHITE))
 			.append(Component.literal(" " + fed.getAmount() + " mB  ").withStyle(ChatFormatting.GRAY))
 			.append(status));
+		if (!coFeed.isEmpty())
+			tooltip.add(Component.literal("     ").append(coFeed.getFluid().getDisplayName().copy()
+				.withStyle(ChatFormatting.WHITE)).append(Component.literal(" " + coFeed.getFluidAmount() + " mB")
+				.withStyle(ChatFormatting.GRAY)));
 		if (r != null && r.catalyst() != null && catalystWear > 0)
 			tooltip.add(Component.literal("     ").append(Component.translatable("mcremix.goggles.steel_furnace.wear",
 				r.catalyst().getItems()[0].getHoverName(), 100 * catalystWear / r.catalystLasts()))
@@ -644,6 +719,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	protected void write(CompoundTag tag, boolean clientPacket) {
 		super.write(tag, clientPacket);
 		tag.put("Feed", feed.writeToNBT(new CompoundTag()));
+		tag.put("CoFeed", coFeed.writeToNBT(new CompoundTag()));
+		tag.putInt("SourBurnt", sourBurnt);
 		for (int i = 0; i < products.length; i++)
 			tag.put("Product" + i, products[i].writeToNBT(new CompoundTag()));
 		tag.putInt("Job", job.ordinal());
@@ -664,6 +741,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 	protected void read(CompoundTag tag, boolean clientPacket) {
 		super.read(tag, clientPacket);
 		feed.readFromNBT(tag.getCompound("Feed"));
+		coFeed.readFromNBT(tag.getCompound("CoFeed"));
+		sourBurnt = tag.getInt("SourBurnt");
 		for (int i = 0; i < products.length; i++)
 			products[i].readFromNBT(tag.getCompound("Product" + i));
 		job = Job.values()[Math.min(tag.getInt("Job"), Job.values().length - 1)];
@@ -795,15 +874,16 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		private FluidTank tank(int index) {
 			return switch (index) {
 				case 0 -> feed;
-				case 1 -> products[0];
-				case 2 -> products[1];
+				case 1 -> coFeed;
+				case 2 -> products[0];
+				case 3 -> products[1];
 				default -> byproducts;
 			};
 		}
 
 		@Override
 		public int getTanks() {
-			return 4;
+			return 5;
 		}
 
 		@Nonnull
@@ -819,12 +899,13 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 
 		@Override
 		public boolean isFluidValid(int index, @Nonnull FluidStack stack) {
-			return index == 0 && feed.isFluidValid(stack);
+			return index == 0 ? feed.isFluidValid(stack) : index == 1 && coFeed.isFluidValid(stack);
 		}
 
+		/** What a recipe takes first goes into the feed tank, and what one takes second into the second feed tank. */
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {
-			return feed.fill(resource, action);
+			return feed.isFluidValid(resource) ? feed.fill(resource, action) : coFeed.fill(resource, action);
 		}
 
 		@Nonnull
@@ -833,7 +914,8 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			for (FluidTank tank : new FluidTank[] { products[0], products[1], byproducts })
 				if (tank.getFluid().isFluidEqual(resource))
 					return tank.drain(resource, action);
-			return FluidStack.EMPTY;
+			return staleCoFeed() && coFeed.getFluid().isFluidEqual(resource) ? coFeed.drain(resource, action)
+				: FluidStack.EMPTY;
 		}
 
 		@Nonnull
@@ -842,7 +924,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 			for (FluidTank tank : new FluidTank[] { products[0], products[1], byproducts })
 				if (!tank.isEmpty())
 					return tank.drain(maxDrain, action);
-			return FluidStack.EMPTY;
+			return staleCoFeed() ? coFeed.drain(maxDrain, action) : FluidStack.EMPTY;
 		}
 	}
 }
