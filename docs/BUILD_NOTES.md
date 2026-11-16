@@ -3693,3 +3693,19 @@ and taking away the section under one shows it again). `aColumnSplitsWashIntoEth
 condenser upright and draws the ethanol from its bottom. 443 of 443 GameTests pass plain and 449 of 449 with
 `-Pcompanions`. In a dev client the engine, the columns and the condensers draw as meant; an older world's sections
 took up their stacked look as they loaded.
+
+## 47. The upright condenser kept centred (0.36.2)
+
+Taran's ask of 2026-11-16, after 0.36.1: keep the condenser centred when it stands against a column, and just draw it
+out towards the column. In 0.36.1 the whole condenser slid two pixels over to meet the column, so it sat off the middle
+of its block.
+
+**The condenser** (`tools/gen_column.py`, `column/SteelCondenserBlock`). Standing against a column it now keeps the
+lone upright condenser's place, centred in its block, with its shell and both heads drawn out on the column's side to
+the block's face, so it touches the column with no gap and no water nozzle that side. The water nozzles on its other
+three sides are back in the middle of each face, and the vapour line comes down within half a pixel of the middle of
+its top. Its outline and collision box reach the column's face and stop a pixel short of the other three.
+
+**Tests.** No test reads the model; the condenser tests of 0.36.1 still cover where it stands. 443 of 443 GameTests
+pass plain and 449 of 449 with `-Pcompanions`. In a dev client the condenser stands centred against its column.
+

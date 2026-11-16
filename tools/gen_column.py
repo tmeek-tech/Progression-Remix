@@ -379,26 +379,26 @@ def condenser_elements(flush):
     """
     Standing upright: a flanged head top and bottom, the shell between them one square box shaded round (Taran, 0.36.0:
     no stepped edges), and a short water nozzle out of each side, from the shell to the block's face. Each head's inner
-    face is drawn, where it stands out round the shell (Taran, 0.36.1: it was see-through). Flush, it sits against a
-    column on its north side (Taran, 0.36.1: no gap): shell and heads pushed against that face, and no nozzle there.
+    face is drawn, where it stands out round the shell (Taran, 0.36.1: it was see-through). Flush, it stands against a
+    column on its north side (Taran, 0.36.1: no gap): it stays centred in its block, its shell and heads drawn out to
+    the column's face, with no nozzle that side.
     """
     z0 = 0 if flush else 2
-    hz0, hz1 = (0, 13) if flush else (1, 15)
+    hz0 = 0 if flush else 1
     els = []
     for y0, y1, end, inner in ((0, 2, 'down', 'up'), (14, 16, 'up', 'down')):
-        faces = {end: D.face('#head', [1, hz0 + (1 if flush else 0), 15, hz1 + (1 if flush else 0)], cull=end),
-                 inner: D.face('#flange', [1, hz0, 15, hz1])}
+        faces = {end: D.face('#head', [1, 1, 15, 15], cull=end),
+                 inner: D.face('#flange', [1, hz0, 15, 15])}
         for d in ('north', 'south', 'east', 'west'):
             if flush and d == 'north':
                 continue
-            faces[d] = D.face('#flange', [1, 4, 15, 6] if d in ('north', 'south') else [hz0, 4, hz1, 6])
-        els.append(D.el((1, y0, hz0), (15, y1, hz1), faces))
-    els.append(D.el((2, 2, z0), (14, 14, z0 + 12), {d: D.face('#shell', [2, 2, 14, 14])
-                                                    for d in ('north', 'south', 'east', 'west')
-                                                    if not (flush and d == 'north')}))
-    mid = z0 + 6
-    nozzles = [((14, 6, mid - 2), (16, 10, mid + 2), 'east'), ((0, 6, mid - 2), (2, 10, mid + 2), 'west'),
-               ((6, 6, z0 + 12), (10, 10, 16), 'south')]
+            faces[d] = D.face('#flange', [1, 4, 15, 6] if d in ('north', 'south') else [hz0, 4, 15, 6])
+        els.append(D.el((1, y0, hz0), (15, y1, 15), faces))
+    els.append(D.el((2, 2, z0), (14, 14, 14), {d: D.face('#shell', [2, 2, 14, 14])
+                                               for d in ('north', 'south', 'east', 'west')
+                                               if not (flush and d == 'north')}))
+    nozzles = [((14, 6, 6), (16, 10, 10), 'east'), ((0, 6, 6), (2, 10, 10), 'west'),
+               ((6, 6, 14), (10, 10, 16), 'south')]
     if not flush:
         nozzles.append(((6, 6, 0), (10, 10, 2), 'north'))
     back = {'east': 'west', 'west': 'east', 'north': 'south', 'south': 'north'}

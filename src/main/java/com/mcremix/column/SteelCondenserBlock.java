@@ -37,7 +37,7 @@ import net.minecraftforge.fluids.FluidUtil;
 /**
  * The steel condenser: a steel shell with a flanged head at each end ({@link #AXIS} runs between them) and a water
  * nozzle on each other side ({@link SteelCondenserBlockEntity}). Placed against a steel column it stands upright, its
- * ends top and bottom, and sits flush against the column ({@link #AGAINST}; Taran, 0.36.1): the vapour line comes down
+ * ends top and bottom, centred in its block and drawn out to touch the column ({@link #AGAINST}; Taran, 0.36.1): the vapour line comes down
  * into its top and the cut leaves from its bottom. Placed anywhere else it lies on its side, along the face it is
  * placed against, or along the way you face when placed on top of something. A wrench stands it up or lays it down.
  * Beside a steel column's bottom section it is the column's condenser, upright or not, and the vapour line runs from
@@ -51,9 +51,9 @@ public class SteelCondenserBlock extends Block implements IBE<SteelCondenserBloc
 	private static final VoxelShape ALONG_Z = Block.box(1, 1, 0, 15, 15, 16);
 	private static final VoxelShape ALONG_X = Block.box(0, 1, 1, 16, 15, 15);
 	private static final VoxelShape UPRIGHT = Block.box(1, 0, 1, 15, 16, 15);
-	private static final Map<Direction, VoxelShape> FLUSH = Map.of(Direction.NORTH, Block.box(1, 0, 0, 15, 16, 13),
-		Direction.SOUTH, Block.box(1, 0, 3, 15, 16, 16), Direction.WEST, Block.box(0, 0, 1, 13, 16, 15),
-		Direction.EAST, Block.box(3, 0, 1, 16, 16, 15));
+	private static final Map<Direction, VoxelShape> FLUSH = Map.of(Direction.NORTH, Block.box(1, 0, 0, 15, 16, 15),
+		Direction.SOUTH, Block.box(1, 0, 1, 15, 16, 16), Direction.WEST, Block.box(0, 0, 1, 15, 16, 15),
+		Direction.EAST, Block.box(1, 0, 1, 16, 16, 15));
 
 	/** Which side of it a steel column stands on, that it sits flush against, if it stands upright. */
 	public enum Against implements StringRepresentable {
