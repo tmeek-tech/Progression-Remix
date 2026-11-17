@@ -38,8 +38,8 @@ import net.minecraftforge.fluids.FluidUtil;
 /**
  * The steel condenser: a steel shell with a flanged head at each end ({@link #AXIS} runs between them) and a water
  * nozzle on each other side ({@link SteelCondenserBlockEntity}). Placed against a steel column it stands upright, its
- * ends top and bottom, centred in its block, its shell running on into the column ({@link #AGAINST}; Taran,
- * 0.36.1 to 0.36.3): the vapour line comes down into its top and the cut leaves from its bottom. Placed anywhere else
+ * ends top and bottom, centred in its block, a neck of its shell running into the column ({@link #AGAINST}; Taran,
+ * 0.36.1 to 0.36.4): the vapour line comes down into its top and the cut leaves from its bottom. Placed anywhere else
  * it lies on its side, along the face it is placed against, or along the way you face when placed on top of something.
  * A wrench stands it up or lays it down. Beside a steel column's bottom section it is the column's condenser, upright
  * or not, and the vapour line runs from its top up the column's side and over into the column's top. A bucket works
@@ -47,17 +47,17 @@ import net.minecraftforge.fluids.FluidUtil;
  */
 public class SteelCondenserBlock extends Block implements IBE<SteelCondenserBlockEntity>, FluidPartMaterial.Part, IWrenchable {
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
-	/** The side of the steel column it stands upright against, its shell run into it; NONE lying, or upright alone. */
+	/** The side of the steel column it stands upright against, its neck in it; NONE lying, or upright alone. */
 	public static final EnumProperty<Against> AGAINST = EnumProperty.create("against", Against.class);
 	private static final VoxelShape ALONG_Z = Block.box(1, 1, 0, 15, 15, 16);
 	private static final VoxelShape ALONG_X = Block.box(0, 1, 1, 16, 15, 15);
 	private static final VoxelShape UPRIGHT = Block.box(1, 0, 1, 15, 16, 15);
-	/** Upright against a column: as upright alone, with its shell running on into the column (Taran, 0.36.3). */
+	/** Upright against a column: as upright alone, with its neck running into the column (Taran, 0.36.4). */
 	private static final Map<Direction, VoxelShape> FLUSH = Map.of(
-		Direction.NORTH, Shapes.or(UPRIGHT, Block.box(2, 2, 0, 14, 14, 1)),
-		Direction.SOUTH, Shapes.or(UPRIGHT, Block.box(2, 2, 15, 14, 14, 16)),
-		Direction.WEST, Shapes.or(UPRIGHT, Block.box(0, 2, 2, 1, 14, 14)),
-		Direction.EAST, Shapes.or(UPRIGHT, Block.box(15, 2, 2, 16, 14, 14)));
+		Direction.NORTH, Shapes.or(UPRIGHT, Block.box(4, 4, 0, 12, 12, 1)),
+		Direction.SOUTH, Shapes.or(UPRIGHT, Block.box(4, 4, 15, 12, 12, 16)),
+		Direction.WEST, Shapes.or(UPRIGHT, Block.box(0, 4, 4, 1, 12, 12)),
+		Direction.EAST, Shapes.or(UPRIGHT, Block.box(15, 4, 4, 16, 12, 12)));
 
 	/** Which side of it a steel column stands on, that it stands against, if it stands upright. */
 	public enum Against implements StringRepresentable {

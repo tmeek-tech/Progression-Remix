@@ -3743,3 +3743,28 @@ frosted and frozen aluminium was seen only in the generator's previews.
 **Tests.** No test reads models or textures. 443 of 443 GameTests pass plain and 449 of 449 with `-Pcompanions`. In a
 dev client the aluminium columns and the condenser draw as meant, with no errors from the mod in the log.
 
+
+## 49. A neck into the column (0.36.4)
+
+Taran's answer of 2026-11-17 to the card left in 0.36.3: the upright condenser should run into its column through a
+neck, the first of the two tried, rather than with its whole shell.
+
+**The condenser** (`tools/gen_column.py`, `column/SteelCondenserBlock`). Standing against a column it keeps the lone
+upright condenser's shape whole, centred in its block, with its shell's face to the column drawn again and its flanged
+heads a pixel short of the column as they are alone. Out of the middle of that face a neck of its shell, eight pixels
+square, runs the last two pixels into the column. Its top and bottom take the shell's shading across them and its
+sides the same shading turned to run down them, so it reads as the shell's own plate drawn out; its end is inside the
+column and not drawn. There is still no water nozzle on that side. The outline and collision box are the lone upright
+one's with the neck's last pixel added, turned for each side the column can be on. The tooltip says a neck of its
+shell runs into the column.
+
+**Review.** One review of the change. The flush model is the lone upright model with its column side's nozzle taken
+off and the neck put on, nothing else; the lone upright and lying models are unchanged byte for byte; the neck is
+centred on both of its axes, so the shape for each side needs no turning beyond its position; no face of the neck lies
+in the plane of another face, so nothing flickers. Left as known gaps: with two pixels between the shell and the
+column, the gap round the neck shows from most angles as a thin dark slit, and looking straight along the column's
+face light shows through it, as the card's picture showed; Taran chose this over the shell running in.
+
+**Tests.** No test reads models or the condenser's shape. 443 of 443 GameTests pass plain and 449 of 449 with
+`-Pcompanions`. The neck was seen in a dev client when it was first tried for 0.36.3, against a column and cloned away
+from one to see it whole; the model shipped is that one.

@@ -1,8 +1,33 @@
 # Test reports
 
-Newest first: [0.36.3](#0363-shiny-aluminium-and-a-condenser-that-runs-into-its-column), [0.36.2](#0362-the-upright-condenser-kept-centred), [0.36.1](#0361-a-bigger-engine-stacked-columns-detailed-aluminium-and-an-upright-condenser), [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.36.4](#0364-a-neck-into-the-column), [0.36.3](#0363-shiny-aluminium-and-a-condenser-that-runs-into-its-column), [0.36.2](#0362-the-upright-condenser-kept-centred), [0.36.1](#0361-a-bigger-engine-stacked-columns-detailed-aluminium-and-an-upright-condenser), [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.36.4: A neck into the column
+
+This covers section 49 of [BUILD_NOTES.md](BUILD_NOTES.md): on Taran's card answer, the upright condenser beside a
+column keeps its lone shape whole and runs into the column through a neck of its shell, eight pixels square, instead
+of with its whole shell. Tested on 2026-11-17 against the same versions as 0.36.3.
+
+**Result:** 0.36.4 compiled with no errors. Every GameTest passes in a fresh test world: 443 of 443 plain and 449 of 449
+with `-Pcompanions`. The neck model is the one seen in a dev client when it was first tried for 0.36.3; the shots of it
+are in `builds/screenshots/0.36.4`. Not checked: the jar on a real Forge server.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.36.4.jar`, 7,062,394 bytes, SHA-256 `1d0a62a8…df455922e4`; `builds/mcremix-1.20.1-0.36.4.zip` holds the same jar. Its `mods.toml` says 0.36.4; none of its 1,769 PNGs carries a `caBX` chunk; no GameTest class is in it |
+| GameTests, plain | Pass | 443 of 443 |
+| GameTests, with companions | Pass | 449 of 449 |
+| Models | Pass | The flush model is the lone upright model less its column side's nozzle, plus the neck; the lone upright and lying models are unchanged byte for byte |
+| Dev client | Pass | Seen for 0.36.3 with this model: the condensers beside both columns centred, their necks running into the columns, and one cloned away from its column to see it whole |
+
+### Known gaps
+
+- The gap round the neck shows as a thin dark slit, and looking straight along the column's face light shows through
+  it.
+- Frosted and frozen aluminium is still seen only in the generator's previews, and the known gaps of 0.36.1 still
+  stand.
 
 ## 0.36.3: Shiny aluminium and a condenser that runs into its column
 
