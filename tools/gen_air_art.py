@@ -36,8 +36,6 @@ ALUMINIUM = ramp((0xCC, 0xD3, 0xDA), (0x92, 0x9B, 0xA6), (0xEE, 0xF2, 0xF6), dee
 # with more between its shadow and its highlight than bare aluminium's mottle needs, so seams and edges read crisply
 POLISHED = [(0x3C, 0x44, 0x50), (0x7C, 0x86, 0x93), (0xA2, 0xAB, 0xB6), (0xC2, 0xC9, 0xD1), (0xD5, 0xDB, 0xE1),
             (0xE5, 0xE9, 0xEE), (0xF6, 0xF8, 0xFA)]
-# brushed: the shade of each column of a polished plate, faint lines running down it
-STREAKS = (4, 4, 5, 4, 4, 4, 4, 5, 5, 4, 4, 4, 4, 4, 5, 4)
 # rime over aluminium, by the shade of the metal under it: white, with a cold blue in its shadows
 RIME = [(0xA2, 0xB6, 0xCC), (0xC0, 0xCF, 0xDF), (0xD4, 0xE0, 0xEB), (0xE6, 0xEE, 0xF5), (0xF1, 0xF6, 0xFA),
         (0xF8, 0xFB, 0xFD), (0xFF, 0xFF, 0xFF)]
@@ -160,7 +158,7 @@ def round_the_rim(x, y):
     return 0.3 if d < 2 else 0.18 if d < 3 else 0.08
 
 
-def under_the_bolts(x, y):
+def under_each_band(x, y):
     """On flange stock: heaviest along each band's shaded underside, and a little everywhere."""
     return 0.12 + (0.15 if y % 4 == 3 else 0.0)
 
@@ -191,64 +189,47 @@ def icicle_texture():
     return img
 
 
-def polished_plate():
-    """A polished aluminium plate: smooth, brushed in faint lines down it, no mottle and no rivets."""
-    img = Image.new('RGBA', (16, 16))
-    px = img.load()
-    for y in range(16):
-        for x in range(16):
-            px[x, y] = D.shade(POLISHED, STREAKS[x])
-    return img
-
-
-def weld(px, cells, along):
-    """
-    A weld bead over the given pixels, which run in a line: its ripples catch the light every other pixel along it,
-    and a shadow falls beside it, under it or to its right, as the plate's light falls.
-    """
-    for n, (x, y) in enumerate(cells):
-        px[x, y] = D.shade(POLISHED, 6 if n % 2 == 0 else 5)
-        sx, sy = (x, y + 1) if along == 'x' else (x + 1, y)
-        if 0 <= sx < 16 and 0 <= sy < 16:
-            px[sx, sy] = D.shade(POLISHED, 3)
+# polished aluminium shaded round across a column's face (Taran, 0.36.3: it should read shiny, not as bricks): the shade
+# of each pixel across a lone section's side, and across the left end, the middle and the right end of a formed
+# column's face, so a formed column is shaded round as one, as Create shades its tanks: a crisp highlight a quarter of
+# the way in from its left, falling off to a broad, soft reflection near its right, with a little light round its edge
+SHINE = {'lone': (3, 5, 6, 6, 5, 4, 4, 4, 4, 3, 3, 2, 2, 2, 3, 3),
+         'left': (3, 5, 6, 6, 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4),
+         'middle': (4,) * 16,
+         'right': (4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 3, 3)}
 
 
 def section_side(left=False, right=False, up=False, down=False):
     """
-    An aluminium column section's side, polished, as the connected texture draws it on a formed column: a brushed
-    plate running on across the column, a crisp seam under the slim flange round its top and over the one round its
-    bottom, a lit band under the column's top flange for its cap and a darker skirt at its foot, and a lit edge and a
-    shaded one where its plates turn the column's corners. A lone section is all of these. Welded (Taran, 0.36.1): a
-    girth weld round the section's middle, where its upper ring of plate meets its lower, and the plates' upright
-    seams staggered as plating is, the upper ring's in the middle of each block and the lower ring's where blocks of
-    the column meet, so the seams run on across a formed column a block apart.
+    An aluminium column section's side, polished, as the connected texture draws it on a formed column: smooth plate
+    shaded round across the column (SHINE), with no seams, welds or rivets on it (Taran, 0.36.3), a crisp seam under
+    the slim flange round its top and over the one round its bottom, a lit band under the column's top flange for its
+    cap and a darker skirt at its foot. Each band follows the plate's shading round, so it wraps the column as a band
+    of polished metal does. A lone section is all of these.
     """
-    img = polished_plate()
+    across = SHINE['middle' if left and right else 'left' if right else 'right' if left else 'lone']
+    img = Image.new('RGBA', (16, 16))
     px = img.load()
-    row = lambda y, i: [px.__setitem__((x, y), D.shade(POLISHED, i)) for x in range(16)]
-    row(0, 2)
-    row(15, 2)
-    if up:
-        row(1, 2)
-    else:
-        row(1, 6)
-        row(2, 5)
-        row(3, 2)
-    if down:
-        row(14, 5)
-    else:
-        row(12, 2)
-        row(13, 3)
-        row(14, 3)
-    weld(px, [(x, 7) for x in range(16)], 'x')
-    weld(px, [(7, y) for y in range(2 if up else 4, 7)], 'y')
-    if left:
-        weld(px, [(0, y) for y in range(9, 15 if down else 12)], 'y')
+
+    def row(y, d):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, max(1, min(6, across[x] + d)))
     for y in range(16):
-        if not left:
-            px[0, y] = D.shade(POLISHED, 6)
-        if not right:
-            px[15, y] = D.shade(POLISHED, 2)
+        row(y, 0)
+    row(0, -2)
+    row(15, -2)
+    if up:
+        row(1, -2)
+    else:
+        row(1, 2)
+        row(2, 1)
+        row(3, -2)
+    if down:
+        row(14, 1)
+    else:
+        row(12, -2)
+        row(13, -1)
+        row(14, -1)
     return img
 
 
@@ -368,7 +349,7 @@ def column_textures():
         png(C.ct_sheet(side), f'{prefix}aluminium_column_section_connected')
         png(top(False, False, False, False), f'{prefix}aluminium_column_section_top')
         png(C.ct_sheet(top), f'{prefix}aluminium_column_section_top_connected')
-        png(frost(polished_flange(), 4731 + level, level, under_the_bolts), f'{prefix}aluminium_column_flange')
+        png(frost(polished_flange(), 4731 + level, level, under_each_band), f'{prefix}aluminium_column_flange')
         png(frost(polished_nozzle(), 4741 + level, level, round_the_nozzle), f'{prefix}aluminium_column_nozzle')
     png(icicle_texture(), 'aluminium_column_icicle')
 
@@ -376,13 +357,11 @@ def column_textures():
 # ------------------------------------------------------------------------------------------------ column models
 
 # icicles hanging off each side's top flange: the left edge of each, as seen from outside that side, and its whole
-# length, uneven, its last pixel a thinner tip; each between two of the flange's bolt heads
+# length, uneven, its last pixel a thinner tip
 ICICLES = {'north': ((3, 3), (7.5, 5), (11, 2), (12.5, 4)),
            'east': ((0.5, 2), (4, 4), (8.5, 3), (12, 5)),
            'south': ((3.5, 4), (7, 2.5), (11.5, 5), (14.5, 2)),
            'west': ((2.5, 5), (4.5, 2), (8, 3.5), (12, 2.5))}
-# where the bolt heads stand along each flange: every four pixels, so a row runs on across a formed column
-BOLTS = (2, 6, 10, 14)
 SIDES = ['north', 'east', 'south', 'west']
 
 
@@ -418,29 +397,13 @@ def icicles():
     return els
 
 
-def bolts(y0, y1):
-    """
-    The bolt heads round a flange from y0 to y1 (Taran, 0.36.1: bolted flanges): a pixel square standing half a pixel
-    proud of the lip, lit on top and shaded under, every four pixels along each side. Culled with their side, as the
-    lip is.
-    """
-    els = []
-    for side in SIDES:
-        for x in BOLTS:
-            faces = {d: D.face('#flange', [x - 0.5, 4, x + 0.5, 5], cull=side) for d in ('north', 'east', 'west')}
-            faces['up'] = D.face('#flange', [x - 0.5, 4, x + 0.5, 4.5], cull=side)
-            faces['down'] = D.face('#flange', [x - 0.5, 3, x + 0.5, 3.5], cull=side)
-            els.append(turned((x - 0.5, y0, -1), (x + 0.5, y1, -0.5), faces, side))
-    return els
-
-
 def column_section():
     """
     As steel's section: a full cube with a flange lip half a pixel proud round its top and bottom on each outer side,
-    a pixel deep where steel's is a pixel and a half, bolt heads round each flange, and a flanged nozzle drawn on the
-    north side, turned by the blockstate to each side a pipe joins. Each frost level has its own section and nozzle;
-    the frozen section has icicles too. As steel's, each has a second model for a section standing on another, its
-    bottom flange left off (Taran, 0.36.1).
+    a pixel deep where steel's is a pixel and a half, and a flanged nozzle drawn on the north side, turned by the
+    blockstate to each side a pipe joins. No bolt heads stand out of its flanges (Taran, 0.36.3: no 3D rivets). Each
+    frost level has its own section and nozzle; the frozen section has icicles too. As steel's, each has a second model
+    for a section standing on another, its bottom flange left off (Taran, 0.36.1).
     """
     for prefix, _ in FROSTS:
         tex = {'side': f'mcremix:block/{prefix}aluminium_column_section',
@@ -451,8 +414,8 @@ def column_section():
             d: D.face('#top' if d in ('up', 'down') else '#side', [0, 0, 16, 16], cull=d)
             for d in ('north', 'east', 'south', 'west', 'up', 'down')})
         # aluminium's flange is slimmer than steel's: a pixel round its top and bottom (Taran, 0.36.0)
-        top = [C.lip(side, 15, 16) for side in SIDES] + bolts(15, 16)
-        foot = [C.lip(side, 0, 1) for side in SIDES] + bolts(0, 1)
+        top = [C.lip(side, 15, 16) for side in SIDES]
+        foot = [C.lip(side, 0, 1) for side in SIDES]
         if prefix == 'frozen_':
             tex['ice'] = 'mcremix:block/aluminium_column_icicle'
             top += icicles()

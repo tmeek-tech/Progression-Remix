@@ -3709,3 +3709,37 @@ its top. Its outline and collision box reach the column's face and stop a pixel 
 **Tests.** No test reads the model; the condenser tests of 0.36.1 still cover where it stands. 443 of 443 GameTests
 pass plain and 449 of 449 with `-Pcompanions`. In a dev client the condenser stands centred against its column.
 
+## 48. Shiny aluminium and a condenser that runs into its column (0.36.3)
+
+Taran's asks of 2026-11-17, after 0.36.2: take the 3D rivets off the aluminium column and make it read shiny rather
+than as bricks; and have the steel condenser extrude into the steel column instead of its side just being drawn out to
+it.
+
+**Aluminium** (`tools/gen_air_art.py`, `tools/gen_air.py`). The bolt heads that stood out of each flange in 0.36.1 are
+gone, and so are the girth weld round each section's middle and the staggered seams up its plates, which together read
+as brickwork. The side is now one polished plate shaded round (`SHINE`): a crisp highlight a quarter of the way in from
+its left, falling off to a broad, soft reflection near its right, with a little light at its edge. On a formed column
+the connected texture's left end, middle and right end tiles carry that shading across the whole face, so a wide
+column is shaded round as one, as Create shades its tanks. The seam under each flange, the lit cap band at the top and
+the skirt at the foot follow the shading round, so they wrap the column as bands of polished metal. The top keeps its
+groove and its ring of bolt heads, drawn flat in its texture; frost and icicles are as before. The tooltip calls the
+section polished rather than riveted.
+
+**The condenser** (`tools/gen_column.py`, `column/SteelCondenserBlock`). Standing against a column it now keeps the lone
+upright condenser's shape, centred, with its flanged heads stopping a pixel short of the column as they do alone, and
+only its shell carries on the last two pixels into the column, the shell's own shading running on to the column's face.
+There is still no water nozzle on that side, and its outline and collision box are the lone upright one's with the
+shell's run into the column added. A neck eight pixels square was tried first: with only two pixels between the
+condenser and the column it showed in the game as a thin gap, which Taran had asked to avoid in 0.36.1, so the whole
+shell runs in instead. Both were put to Taran on a card, with a picture of each
+(`builds/screenshots/0.36.3/condenser_choices.png`).
+
+**Review.** One review of the change. The lone upright and lying condenser models are unchanged byte for byte; the
+shape added for the column side matches the model's; `UPRIGHT` is declared before the map that uses it; the stacked
+aluminium models lost their bolt heads too; nothing else used the plate painters taken out. Left as known gaps: the
+heads' pixel-wide gap to the column lets a sliver of light through when looking straight along the column's face, and
+frosted and frozen aluminium was seen only in the generator's previews.
+
+**Tests.** No test reads models or textures. 443 of 443 GameTests pass plain and 449 of 449 with `-Pcompanions`. In a
+dev client the aluminium columns and the condenser draw as meant, with no errors from the mod in the log.
+

@@ -380,26 +380,29 @@ def condenser_elements(flush):
     Standing upright: a flanged head top and bottom, the shell between them one square box shaded round (Taran, 0.36.0:
     no stepped edges), and a short water nozzle out of each side, from the shell to the block's face. Each head's inner
     face is drawn, where it stands out round the shell (Taran, 0.36.1: it was see-through). Flush, it stands against a
-    column on its north side (Taran, 0.36.1: no gap): it stays centred in its block, its shell and heads drawn out to
-    the column's face, with no nozzle that side.
+    column on its north side (Taran, 0.36.1: no gap): centred in its block as it stands alone (0.36.2), with no water
+    nozzle that side, and its shell running on out of that side into the column, its heads stopping short as they do
+    alone (Taran, 0.36.3: the condenser extrudes into the column rather than its side being drawn out to it). Where
+    the shell runs into the column, its end is not drawn.
     """
-    z0 = 0 if flush else 2
-    hz0 = 0 if flush else 1
     els = []
     for y0, y1, end, inner in ((0, 2, 'down', 'up'), (14, 16, 'up', 'down')):
-        faces = {end: D.face('#head', [1, 1, 15, 15], cull=end),
-                 inner: D.face('#flange', [1, hz0, 15, 15])}
+        faces = {end: D.face('#head', [1, 1, 15, 15], cull=end), inner: D.face('#flange', [1, 1, 15, 15])}
         for d in ('north', 'south', 'east', 'west'):
-            if flush and d == 'north':
-                continue
-            faces[d] = D.face('#flange', [1, 4, 15, 6] if d in ('north', 'south') else [hz0, 4, 15, 6])
-        els.append(D.el((1, y0, hz0), (15, y1, 15), faces))
-    els.append(D.el((2, 2, z0), (14, 14, 14), {d: D.face('#shell', [2, 2, 14, 14])
-                                               for d in ('north', 'south', 'east', 'west')
-                                               if not (flush and d == 'north')}))
+            faces[d] = D.face('#flange', [1, 4, 15, 6])
+        els.append(D.el((1, y0, 1), (15, y1, 15), faces))
+    els.append(D.el((2, 2, 2), (14, 14, 14), {d: D.face('#shell', [2, 2, 14, 14])
+                                              for d in ('north', 'south', 'east', 'west')
+                                              if not (flush and d == 'north')}))
     nozzles = [((14, 6, 6), (16, 10, 10), 'east'), ((0, 6, 6), (2, 10, 10), 'west'),
                ((6, 6, 14), (10, 10, 16), 'south')]
-    if not flush:
+    if flush:
+        # the shell carried on to the column's face, each side taking on from where the shell's own face leaves off in
+        # its shading, so it reads as one shell running into the column between its heads
+        els.append(D.el((2, 2, 0), (14, 14, 2), {
+            'east': D.face('#shell', [14, 2, 16, 14]), 'west': D.face('#shell', [0, 2, 2, 14]),
+            'up': D.face('#shell', [2, 0, 14, 2]), 'down': D.face('#shell', [2, 0, 14, 2])}))
+    else:
         nozzles.append(((6, 6, 0), (10, 10, 2), 'north'))
     back = {'east': 'west', 'west': 'east', 'north': 'south', 'south': 'north'}
     for frm, to, out in nozzles:
@@ -413,8 +416,8 @@ def condenser_elements(flush):
 
 def condenser():
     """
-    Two models a look: standing upright on its own, and upright flush against a column on its north side, turned by
-    the blockstate to face the column. Lying along z or x, it is the upright one tipped over.
+    Two models a look: standing upright on its own, and upright against a column on its north side, its shell running
+    into it, turned by the blockstate to face the column. Lying along z or x, it is the upright one tipped over.
     """
     for prefix, _, _ in LOOKS:
         tex = {'shell': f'mcremix:block/{prefix}steel_condenser_shell',
@@ -621,9 +624,10 @@ def lang():
         'block.mcremix.steel_condenser.tooltip.summary': (
             'Copper tubes in a steel shell with a flanged head at each end, cooled by _water_, _cold water_ or '
             '_coolant_ piped into the shell between them, which come out warm. Placed against a _steel column\'s_ '
-            'bottom section it _stands upright_, flush with it, and condenses the column\'s _top cut_, which comes out '
-            'of its _bottom_. Anywhere else it _lies on its side_ and cools a _hot cut_ piped into one end into its '
-            'plain form out of the other. A _wrench_ stands it up or lays it down.' + rusts),
+            'bottom section it _stands upright_ beside it, its shell running on into it, and condenses the '
+            'column\'s _top cut_, which comes out of its _bottom_. Anywhere else it _lies on its side_ and cools a '
+            '_hot cut_ piped into one end into its plain form out of the other. A _wrench_ stands it up or lays it '
+            'down.' + rusts),
         'entity.mcremix.solvent_vapour': 'Solvent Vapour',
         # the column's goggles
         'mcremix.goggles.steel_column.size': '%s sections high, %s by %s',

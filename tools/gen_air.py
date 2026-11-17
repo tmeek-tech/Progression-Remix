@@ -212,11 +212,11 @@ def lang():
         # blocks
         'block.mcremix.aluminium_column_section': 'Aluminium Column Section',
         'block.mcremix.aluminium_column_section.tooltip.summary': (
-            'A riveted, flanged section of an _air column_, which splits _liquid air_. Stack them _up to sixteen high_ '
-            'and _one to three across_; pipe or pour _liquid air_ into the bottom section. It needs _no heat_: liquid '
-            'air boils in the world\'s warmth, _5 mB a tick_ for every block of its floor. _Nitrogen_ comes from the '
-            'top section, _argon_ from the one below it, and _oxygen_ from the bottom, all as gases. It frosts over as '
-            'it runs.' + melts),
+            'A polished, flanged section of an _air column_, which splits _liquid air_. Stack them _up to sixteen '
+            'high_ and _one to three across_; pipe or pour _liquid air_ into the bottom section. It needs _no heat_: '
+            'liquid air boils in the world\'s warmth, _5 mB a tick_ for every block of its floor. _Nitrogen_ comes from '
+            'the top section, _argon_ from the one below it, and _oxygen_ from the bottom, all as gases. It frosts over '
+            'as it runs.' + melts),
         'block.mcremix.aluminium_column_section.tooltip.condition1': 'Argon and oxygen',
         'block.mcremix.aluminium_column_section.tooltip.behaviour1': (
             'They boil only _3 °C apart_, so they need _four sections_ between them: _seven_ in all. Short of them, '

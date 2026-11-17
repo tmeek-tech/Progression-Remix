@@ -31,31 +31,35 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidUtil;
 
 /**
  * The steel condenser: a steel shell with a flanged head at each end ({@link #AXIS} runs between them) and a water
  * nozzle on each other side ({@link SteelCondenserBlockEntity}). Placed against a steel column it stands upright, its
- * ends top and bottom, centred in its block and drawn out to touch the column ({@link #AGAINST}; Taran, 0.36.1): the vapour line comes down
- * into its top and the cut leaves from its bottom. Placed anywhere else it lies on its side, along the face it is
- * placed against, or along the way you face when placed on top of something. A wrench stands it up or lays it down.
- * Beside a steel column's bottom section it is the column's condenser, upright or not, and the vapour line runs from
- * its top up the column's side and over into the column's top. A bucket works on the side it is used on: water into
- * its jacket, or what it made out of an end.
+ * ends top and bottom, centred in its block, its shell running on into the column ({@link #AGAINST}; Taran,
+ * 0.36.1 to 0.36.3): the vapour line comes down into its top and the cut leaves from its bottom. Placed anywhere else
+ * it lies on its side, along the face it is placed against, or along the way you face when placed on top of something.
+ * A wrench stands it up or lays it down. Beside a steel column's bottom section it is the column's condenser, upright
+ * or not, and the vapour line runs from its top up the column's side and over into the column's top. A bucket works
+ * on the side it is used on: water into its jacket, or what it made out of an end.
  */
 public class SteelCondenserBlock extends Block implements IBE<SteelCondenserBlockEntity>, FluidPartMaterial.Part, IWrenchable {
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
-	/** The side of the steel column it stands upright against and sits flush with; NONE lying, or upright alone. */
+	/** The side of the steel column it stands upright against, its shell run into it; NONE lying, or upright alone. */
 	public static final EnumProperty<Against> AGAINST = EnumProperty.create("against", Against.class);
 	private static final VoxelShape ALONG_Z = Block.box(1, 1, 0, 15, 15, 16);
 	private static final VoxelShape ALONG_X = Block.box(0, 1, 1, 16, 15, 15);
 	private static final VoxelShape UPRIGHT = Block.box(1, 0, 1, 15, 16, 15);
-	private static final Map<Direction, VoxelShape> FLUSH = Map.of(Direction.NORTH, Block.box(1, 0, 0, 15, 16, 15),
-		Direction.SOUTH, Block.box(1, 0, 1, 15, 16, 16), Direction.WEST, Block.box(0, 0, 1, 15, 16, 15),
-		Direction.EAST, Block.box(1, 0, 1, 16, 16, 15));
+	/** Upright against a column: as upright alone, with its shell running on into the column (Taran, 0.36.3). */
+	private static final Map<Direction, VoxelShape> FLUSH = Map.of(
+		Direction.NORTH, Shapes.or(UPRIGHT, Block.box(2, 2, 0, 14, 14, 1)),
+		Direction.SOUTH, Shapes.or(UPRIGHT, Block.box(2, 2, 15, 14, 14, 16)),
+		Direction.WEST, Shapes.or(UPRIGHT, Block.box(0, 2, 2, 1, 14, 14)),
+		Direction.EAST, Shapes.or(UPRIGHT, Block.box(15, 2, 2, 16, 14, 14)));
 
-	/** Which side of it a steel column stands on, that it sits flush against, if it stands upright. */
+	/** Which side of it a steel column stands on, that it stands against, if it stands upright. */
 	public enum Against implements StringRepresentable {
 		NONE(null), NORTH(Direction.NORTH), EAST(Direction.EAST), SOUTH(Direction.SOUTH), WEST(Direction.WEST);
 
@@ -119,7 +123,7 @@ public class SteelCondenserBlock extends Block implements IBE<SteelCondenserBloc
 		return null;
 	}
 
-	/** Upright, it keeps flush against a steel column beside it, if there is one; lying, it is against nothing. */
+	/** Upright, it stands against a steel column beside it, if there is one; lying, it is against nothing. */
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighbour, LevelAccessor level,
 		BlockPos pos, BlockPos neighbourPos) {
