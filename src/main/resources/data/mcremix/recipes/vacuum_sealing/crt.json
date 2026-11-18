@@ -1,0 +1,43 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "tag": "forge:copper_coils"
+    },
+    {
+      "tag": "forge:copper_coils"
+    },
+    {
+      "tag": "forge:copper_coils"
+    },
+    {
+      "tag": "forge:copper_coils"
+    },
+    {
+      "item": "minecraft:glass"
+    },
+    {
+      "item": "minecraft:glass"
+    },
+    {
+      "item": "minecraft:glass"
+    },
+    {
+      "item": "minecraft:glass"
+    },
+    {
+      "item": "create:electron_tube"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:crt"
+    }
+  ],
+  "min_speed": 512,
+  "heat": "hot",
+  "processingTime": 200
+}

@@ -1,0 +1,34 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:growth_lamp"
+    }
+  ],
+  "min_speed": 128,
+  "heat": "hot",
+  "processingTime": 100
+}

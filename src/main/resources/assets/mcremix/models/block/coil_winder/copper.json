@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/coil_winder/frame",
+  "textures": {
+    "casing": "mcremix:block/copper_casing",
+    "axis": "mcremix:block/copper_axis",
+    "particle": "mcremix:block/copper_casing"
+  }
+}

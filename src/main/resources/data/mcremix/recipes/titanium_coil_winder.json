@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "G"
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:titanium_shaft"
+    },
+    "C": {
+      "item": "mcremix:titanium_casing"
+    },
+    "G": {
+      "item": "mcremix:titanium_cogwheel"
+    }
+  },
+  "result": {
+    "item": "mcremix:titanium_coil_winder"
+  }
+}

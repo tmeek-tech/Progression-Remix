@@ -6323,8 +6323,9 @@ DIAL_TOP = -135 + 270 / 1.15
 
 def pressurizer_dial_texture(seed, look='steel'):
     """The Pressurizer's front: a casing panel of its metal with its pressure dial let into it, an ivory face in a
-    brass bezel, marked at nothing and at each quarter of its metal's top speed, and red past top speed. Its needle and
-    the boss it turns on are a model of their own (block/pressurizer/needle), turned as the pressure changes."""
+    brass bezel, marked at nothing and at each quarter of its metal's top speed, and red past top speed; below nothing,
+    where the needle drops as it pulls a vacuum (0.37.0), blue. Its needle and the boss it turns on are a model of their
+    own (block/pressurizer/needle), turned as the pressure changes."""
     img = casing_texture(look, seed)
     _, dark, light, _ = PALETTES[look]
     for y in range(16):
@@ -6336,6 +6337,9 @@ def pressurizer_dial_texture(seed, look='steel'):
                 col = mix((0xC2, 0xBA, 0xA6), (0xE6, 0xE0, 0xCE), 0.6 - (dx + dy) * 0.06)
                 if r > 2.6 and DIAL_TOP - 4 <= angle <= 140:
                     col = mix((0x9C, 0x20, 0x18), (0xD0, 0x36, 0x28), 0.6 - (dx + dy) * 0.06)
+                # the vacuum, from just under the zero mark down to the needle's lowest, straight down
+                if r > 2.6 and angle <= -139:
+                    col = mix((0x1E, 0x4E, 0x9C), (0x3A, 0x6E, 0xC8), 0.6 - (dx + dy) * 0.06)
             elif r < 6.0:
                 col = shade(BRASS_FITTING, 0.6 - (dx + dy) * 0.07)
             elif r < 6.7:
@@ -6699,7 +6703,7 @@ def pressurizer_lang():
         'block.mcremix.pressurizer.tooltip.condition3': 'Pipes and funnels',
         'block.mcremix.pressurizer.tooltip.behaviour3': 'Fluid goes in at any of the _four sides_ of its _vessel_, which reaches out to meet each pipe, and what it makes is drawn off the same sides: fluid by _pumps_, items by _funnels_ or an _empty hand_. Its _shaft_ goes in at _either side_ of the lower block, left or right of the dial.',
         'block.mcremix.pressurizer.tooltip.condition4': 'The dial',
-        'block.mcremix.pressurizer.tooltip.behaviour4': 'Reads the _pressure_, which is how fast it turns: from nothing to the _top speed_ of its metal, each mark a quarter of it. Past top speed the needle is in the _red_.',
+        'block.mcremix.pressurizer.tooltip.behaviour4': 'Reads the _pressure_, which is how fast it turns: from nothing to the _top speed_ of its metal, each mark a quarter of it. Past top speed the needle is in the _red_; turned the other way it drops _below zero_, into the _blue_, as it pulls a vacuum.',
         'block.mcremix.pressurizer_vessel': 'Pressurizer Vessel',
         'block.mcremix.titanium_pressurizer_vessel': 'Titanium Pressurizer Vessel',
         'block.mcremix.titanium_pressurizer': 'Titanium Pressurizer',
@@ -9526,4 +9530,10 @@ if __name__ == '__main__':
     gen_air.run(sys.modules[__name__])
     import gen_dyes
     gen_dyes.run(sys.modules[__name__])
+    # coiling (0.37.0) adds to the tags and text written above
+    import gen_coiling
+    gen_coiling.run(sys.modules[__name__])
+    # vacuum sealing (0.37.0) adds to the text written above
+    import gen_vacuum
+    gen_vacuum.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

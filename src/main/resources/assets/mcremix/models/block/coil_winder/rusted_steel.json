@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/coil_winder/frame",
+  "textures": {
+    "casing": "mcremix:block/rusted_steel_casing",
+    "axis": "mcremix:block/rusted_steel_axis",
+    "particle": "mcremix:block/rusted_steel_casing"
+  }
+}

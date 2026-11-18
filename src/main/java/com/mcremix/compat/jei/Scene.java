@@ -112,6 +112,12 @@ final class Scene {
 			.render(graphics);
 	}
 
+	/** A part tinted {@code colour} (0xRRGGBB), as a winder's wire is in the colour of what it winds. */
+	void part(PartialModel part, double y, double xRot, double yRot, double zRot, int colour) {
+		AnimatedKinetics.defaultBlockElement(part).rotateBlock(xRot, yRot, zRot).atLocal(0, y, 0).scale(SCALE)
+			.color(colour).render(graphics);
+	}
+
 	/** A box of fluid in the block at height {@code y}, from corner to corner as the block's model has them. */
 	void fluid(FluidStack fluid, double y, float x0, float y0, float z0, float x1, float y1, float z1) {
 		if (fluid.isEmpty())

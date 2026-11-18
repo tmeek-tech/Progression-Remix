@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.mcremix.McRemix;
 import com.mcremix.arcfurnace.ArcFurnaceRecipe;
+import com.mcremix.coiling.CoilingRecipe;
 import com.mcremix.crucible.AlloyingRecipe;
 import com.mcremix.crucible.MeltingRecipe;
 import com.mcremix.electrolysis.AiringRecipe;
@@ -16,6 +17,7 @@ import com.mcremix.kiln.FiringRecipe;
 import com.mcremix.kiln.SteelFurnaceRecipe;
 import com.mcremix.lab.DistillingRecipe;
 import com.mcremix.pressurizer.PressurizingRecipe;
+import com.mcremix.pressurizer.VacuumSealingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 
@@ -122,6 +124,21 @@ public class ModRecipes {
 	public static final RegistryObject<ProcessingRecipeSerializer<DistillingRecipe>> DISTILLING_SERIALIZER =
 		SERIALIZERS.register("distilling", () -> new ProcessingRecipeSerializer<>(DistillingRecipe::new));
 	public static final IRecipeTypeInfo DISTILLING = new TypeInfo("distilling", DISTILLING_TYPE, DISTILLING_SERIALIZER);
+
+	/** What a coil winder winds (0.37.0): wire round a stick into Power Grid's copper and resistive coils. */
+	public static final RegistryObject<RecipeType<CoilingRecipe>> COILING_TYPE =
+		TYPES.register("coiling", () -> RecipeType.simple(McRemix.asResource("coiling")));
+	public static final RegistryObject<ProcessingRecipeSerializer<CoilingRecipe>> COILING_SERIALIZER =
+		SERIALIZERS.register("coiling", () -> new ProcessingRecipeSerializer<>(CoilingRecipe::new));
+	public static final IRecipeTypeInfo COILING = new TypeInfo("coiling", COILING_TYPE, COILING_SERIALIZER);
+
+	/** What a Pressurizer turned the other way seals in a vacuum (0.37.0): Power Grid's tubes and bulbs. */
+	public static final RegistryObject<RecipeType<VacuumSealingRecipe>> VACUUM_SEALING_TYPE =
+		TYPES.register("vacuum_sealing", () -> RecipeType.simple(McRemix.asResource("vacuum_sealing")));
+	public static final RegistryObject<ProcessingRecipeSerializer<VacuumSealingRecipe>> VACUUM_SEALING_SERIALIZER =
+		SERIALIZERS.register("vacuum_sealing", () -> new ProcessingRecipeSerializer<>(VacuumSealingRecipe::new));
+	public static final IRecipeTypeInfo VACUUM_SEALING =
+		new TypeInfo("vacuum_sealing", VACUUM_SEALING_TYPE, VACUUM_SEALING_SERIALIZER);
 
 	/** How Create's processing recipes find their type and serializer. */
 	private record TypeInfo(String name, Supplier<? extends RecipeType<?>> type,
