@@ -3555,3 +3555,216 @@ a Steel Furnace on 4 mB a tick burns Searing and puffs sulfur dioxide; let loose
 the acid fog hurt through armour, a cloud of it flashes at a campfire into sulfur dioxide, and 250 mB of it shows where
 2 buckets don't. `ColourTests` now checks that mauve, indigo, malachite green and maroon each come from their dye works
 recipe and only from it, and `FormulaTests` covers the 34 new formulas.
+
+## 45. A new look for the engine, the valve, the condenser and the columns, and the steel flywheel (0.36.0)
+
+Taran's ask of 2026-11-16, after 0.35.0: no stair-stepped edges on the expansion valve and the steel condenser, no red
+handle on the valve, no green on the diesel engine, a steel flywheel in the engine's recipe, an engine that shows where
+its pipe goes in, connected textures on the steel and aluminium columns that show when one forms, and a clean, shiny
+aluminium for the aluminium column and the valve. Five cards went to Taran the same evening: the condenser's shell and
+the valve's drum are square boxes shaded to look round, as Create draws its pipes and tanks; the valve is all polished
+aluminium; the engine is bare dark steel with a brass tank and fittings; the steel flywheel is a block of its own, set
+on a shaft line as Create's is; and a formed column has a flange at every section. Clean, shiny aluminium was read as
+the mod's aluminium tanks and pipes are: smooth bright panels, a soft sheen, crisp seams, no mottle and no rivets. Frost
+and icicles stay.
+
+**The steel condenser** (`tools/gen_column.py`). One square shell, 12 pixels across, shaded round with a seam each side,
+where the old one was stepped boxes; a flanged nozzle stands out of each of its four pipe faces. The rusted look is the
+same shell in rusted steel.
+
+**The expansion valve** (`tools/gen_air_art.py`). All polished aluminium: a square drum shaded round, a flat head with a
+flange under it, the pipe stubs and port, and the handwheel, which was red. Frosted and frozen looks are drawn on the
+new art as before.
+
+**The diesel engine** (`tools/gen_oil.py`). Bare dark steel where it was painted green, its fins, stack, flywheel and
+shaft in the same steel; the fuel tank is brass. Its fuel inlet now shows: a brass flange on its back with a bolt at
+each corner and a dark bore in its middle, where a pipe joins, a brass line from it up to the tank, and a brass ring
+round a bore under its base plate, where a pipe from below joins.
+
+**The steel flywheel** (`kinetics/SteelFlywheelBlock`, `SteelFlywheelBlockEntity`, `client/SteelFlywheelRenderer`,
+`SteelFlywheelVisual`, `registry/ModOil`, `client/ModPartialModels`). Create's flywheel in steel: eight steel ingots
+round a steel shaft craft one, and it is set on a shaft line, turns with it and eases its speed up and down as Create's
+does. It is drawn with Create's flywheel model and a steel texture drawn from Create's, shade for shade
+(`tools/create_flywheel_texture.json`), with a steel shaft through it. Create keeps its flywheel's block entity,
+renderer and visual to its own package and draws its own wheel, so these are the mod's own copies. Like the rest of the
+mod's steel it rusts where it gets wet, only to its first stage, and honeycomb or paraffin wax keep it as it is; like
+Create's it holds no shafts (`mcremix:holds_no_shafts`), takes no stress and is given no Stability or Strength. The
+diesel engine's recipe takes it where it took Create's brass flywheel.
+
+**Connected columns** (`client/ColumnCTBehaviour`, `client/ModSpriteShifts`, `registry/ModColumn`, `registry/ModAir`,
+`column/ColumnSectionBlockEntity`). The sections of a formed steel or aluminium column join: their side plates run on
+across the column's width, a flange band runs round it at every section, a cap rings its top and a skirt its foot, and
+the plates on its top join into one. Only sections of the same formed column join (Create's
+`ConnectivityHandler.isConnected`, as its tanks do), so two columns side by side keep their own edges, and a lone
+section looks as it did. A section's mesh is drawn again on the client when its column forms, grows or splits, since
+that changes nothing in its block state. Each look has its own sheet: fresh and rusted steel; plain, frosted and frozen
+aluminium.
+
+**Aluminium** (`tools/gen_air_art.py`). The aluminium column's plates, top, flanges and nozzles and the valve are drawn
+in a new polished palette, bright and cool, with soft streaks and a rare glint on the top in place of the mottle and
+rivets; the lips at a section's ends are slimmer.
+
+**Review.** One review of the change found ten things; six are fixed. A rivet ring on a column's top doubled up at the
+corners where the column ends, two rivets side by side, and now turns the corner on one, two pixels in from each end
+(`gen_column.ring`). The diesel engine's shaft was still Create's andesite axis on an engine now all steel and built
+round a steel flywheel, and is now steel. The generator's third copy of the patina list is gone (it reads
+`gen_assets.PATINAS`), Create's flywheel texture is read when it is needed with the file closed after, and
+`ModSpriteShifts.column` takes its metal first; and the docs had no word of 0.36.0 until this section, the report and
+DESIGN.md. Four are left as they are: the steel flywheel takes its rust from the fluid part hook
+(`FluidPartMaterial.Part`), as the decor blocks do, and every fluid check that reads it looks only at blocks in a fluid
+network or at the tank under a steam engine, which a flywheel never is; a section's joined texture depends only on the
+sections beside it, and any change between two of them either places or breaks a block, which redraws the blocks round
+it, or changes one of their controllers, which redraws round that section, so a column that grows round the same
+controller still redraws where it must; every section of a formed column marks its blocks for redrawing when a chunk
+loads, which is cheap and idempotent, and skipping the first read would leave a newly placed section drawn unjoined; and
+frost on a frosted column repeats from block to block as it did before, since each block was always one texture. In a
+dev client the five old blocks and the steel flywheel draw as meant: formed steel and aluminium columns join with a band
+at every section, the condenser is square, the valve polished with an aluminium handwheel, the engine dark steel with
+its brass inlet in plain sight once the pipe behind it is taken away, and fresh and rusted flywheels turn on creative
+motors. Known gaps: frosted and frozen columns were seen only in the generator's previews, since a column's frost
+follows what it holds and setting it by hand does not last; and no GameTest covers the client side of a column redrawing
+as it forms.
+
+**Tests.** `aSteelFlywheelIsSteelAndTurnsOnItsShaftLine` in `CrudeOilTests`: eight steel ingots round a steel shaft
+craft a steel flywheel; it rusts as steel does, only to its first stage; honeycomb waxes it; it holds no shafts and is
+given no rating; and a creative motor at 32 RPM turns it at 32. `paraffinWaxAndPetroleumCokeStandInForHoneycombAndCoke`
+now crafts the diesel engine from a steel flywheel. The rest is art and a client-side texture rule, checked in a dev
+client.
+
+## 46. A bigger engine, stacked columns, detailed aluminium and an upright condenser (0.36.1)
+
+Taran's asks of 2026-11-16, after 0.36.0: the diesel engine still looked too small and weak, perhaps with a bigger
+flywheel, and its yellow had to go; the aluminium column needed more detail; a steel or aluminium column section placed
+on another should lose its bottom flange, so a stack looks joined up the column without losing the flange at each
+section; the steel condenser should stand upright rather than on its side; and the part under its flange was
+see-through. Three cards went to Taran that evening: one flywheel bigger than the block (it reaches into the ground
+unless the engine stands a block up), dark steel all over where the brass was, and welds and bolted flanges on
+aluminium. On the condenser Taran asked for it to stand upright only when placed against a column, with no gap between
+the two.
+
+**The diesel engine** (`tools/gen_oil.py`, `oil/DieselEngineBlockEntity`). A chunkier body that fills the block but for
+its flywheel's side: a crankcase 10 pixels wide and 11 high, a bearing housing each side where the shaft comes out, a
+bigger cylinder with three fins on the shaft's line and its head, the stack on the cylinder, the tank on the crankcase,
+and a base plate bolted down at its corners. One heavy flywheel, 24 pixels across, turns on its right: a rim of sixteen
+bars, each set at its angle by Minecraft's 22.5 degree turns and every other one a little thinner along the shaft, so
+that where two overlap their faces never meet in one plane and flicker; eight spokes; and a hub. The wheel reaches a
+quarter block past the engine on every side but the shaft's, so the engine's render box is that much bigger, and its
+parts take the texture as if they stood in the block's middle, since a face's place on the texture, taken from where
+it lies, would run off the texture past the block. The tank, the fittings, the inlet flange, the line up to the tank and
+the ring under the base are dark steel, not brass; the inlet is now in the middle of the back face, where a pipe meets
+it, and the exhaust smoke comes out of the stack where it now stands. The item is drawn smaller in the inventory and in
+item frames to fit its wheel.
+
+**Stacked sections** (`column/ColumnSectionBlock`, `ColumnSectionBlockEntity`, `tools/gen_column.py`,
+`tools/gen_air_art.py`, `tools/gen_air.py`). A steel or aluminium column section on another of its own kind leaves its
+bottom flange off (`down` in its block state, set as it is placed and kept as the block under it changes); on anything
+else it keeps it, formed or not. A section from an older world checks the block under it once after it loads. The
+Ponder structures carry the new state.
+
+**Aluminium** (`tools/gen_air_art.py`). Each section's side has a girth weld round its middle and seams up its plates,
+and each flange a ring of bolts. A frozen column's icicles now hang from the flanges, between the bolts, so they stay
+inside the block and show at every joint.
+
+**The steel condenser** (`column/SteelCondenserBlock`, `SteelCondenserBlockEntity`, `tools/gen_column.py`,
+`ponder/ColumnScenes`). Its axis can now be vertical, and its block state says which side of it a steel column stands
+on (`against`). Placed beside a steel column section it stands upright, flush against the first one of north, east,
+south and west, with no water nozzle on that side; placed anywhere else it lies along the face it is placed against,
+or along the way its placer faces when placed on top, as before. A wrench stands it up or lays it down, and an upright
+one keeps flush with a column beside it as blocks round it change. Its ends are its top and bottom when upright, so the
+column's vapour line comes down into its top and the cut leaves from its bottom, and water goes in and out of its other
+sides. Each head's inner face, round the shell, was missing, which is what showed through under its flanges, and is
+now drawn. The column scenes stand it upright against the column, its product pipe under the floor, and the tooltip
+says how it stands. Condensers in an older world keep lying as they were until a wrench stands them up.
+
+**Review.** One review of the change found nothing that needed fixing. Left as known gaps: the flywheel reaches four
+pixels into whatever block is under the engine, as Taran chose, so it shows whole only with the engine on a post, a
+wall or a slab, and in the engine's Ponder scene it dips into the floor; an upright condenser sits flush against the
+first steel column section north, east, south or west of it, which with two columns beside it may not be the column it
+serves; condensers placed before 0.36.1 keep lying until a wrench stands them up; the vapour line still rises from the
+middle of the block, a pixel and a half from the middle of a flush condenser's top; and frosted and frozen aluminium,
+with its new welds, bolts and icicles, was seen only in the generator's previews.
+
+**Tests.** In `ColumnTests`: `aCondenserStandsUprightAgainstAColumnAndLiesElsewhere` (placed against a column it stands
+upright against it; placed alone on top of something it lies the way its placer faces, and against a wall along that
+face; upright, its top and bottom are its ends and its sides its jacket, which takes water through a side and not its
+top; a wrench on a side lays it down and on the side again stands it up; with the column gone it stands on its own) and
+`aSectionOnItsKindHidesItsBottomFlange` (steel on steel hides it, the bottom one shows it, aluminium on steel shows it,
+and taking away the section under one shows it again). `aColumnSplitsWashIntoEthanolAndWarmWater` now stands its
+condenser upright and draws the ethanol from its bottom. 443 of 443 GameTests pass plain and 449 of 449 with
+`-Pcompanions`. In a dev client the engine, the columns and the condensers draw as meant; an older world's sections
+took up their stacked look as they loaded.
+
+## 47. The upright condenser kept centred (0.36.2)
+
+Taran's ask of 2026-11-16, after 0.36.1: keep the condenser centred when it stands against a column, and just draw it
+out towards the column. In 0.36.1 the whole condenser slid two pixels over to meet the column, so it sat off the middle
+of its block.
+
+**The condenser** (`tools/gen_column.py`, `column/SteelCondenserBlock`). Standing against a column it now keeps the
+lone upright condenser's place, centred in its block, with its shell and both heads drawn out on the column's side to
+the block's face, so it touches the column with no gap and no water nozzle that side. The water nozzles on its other
+three sides are back in the middle of each face, and the vapour line comes down within half a pixel of the middle of
+its top. Its outline and collision box reach the column's face and stop a pixel short of the other three.
+
+**Tests.** No test reads the model; the condenser tests of 0.36.1 still cover where it stands. 443 of 443 GameTests
+pass plain and 449 of 449 with `-Pcompanions`. In a dev client the condenser stands centred against its column.
+
+## 48. Shiny aluminium and a condenser that runs into its column (0.36.3)
+
+Taran's asks of 2026-11-17, after 0.36.2: take the 3D rivets off the aluminium column and make it read shiny rather
+than as bricks; and have the steel condenser extrude into the steel column instead of its side just being drawn out to
+it.
+
+**Aluminium** (`tools/gen_air_art.py`, `tools/gen_air.py`). The bolt heads that stood out of each flange in 0.36.1 are
+gone, and so are the girth weld round each section's middle and the staggered seams up its plates, which together read
+as brickwork. The side is now one polished plate shaded round (`SHINE`): a crisp highlight a quarter of the way in from
+its left, falling off to a broad, soft reflection near its right, with a little light at its edge. On a formed column
+the connected texture's left end, middle and right end tiles carry that shading across the whole face, so a wide
+column is shaded round as one, as Create shades its tanks. The seam under each flange, the lit cap band at the top and
+the skirt at the foot follow the shading round, so they wrap the column as bands of polished metal. The top keeps its
+groove and its ring of bolt heads, drawn flat in its texture; frost and icicles are as before. The tooltip calls the
+section polished rather than riveted.
+
+**The condenser** (`tools/gen_column.py`, `column/SteelCondenserBlock`). Standing against a column it now keeps the lone
+upright condenser's shape, centred, with its flanged heads stopping a pixel short of the column as they do alone, and
+only its shell carries on the last two pixels into the column, the shell's own shading running on to the column's face.
+There is still no water nozzle on that side, and its outline and collision box are the lone upright one's with the
+shell's run into the column added. A neck eight pixels square was tried first: with only two pixels between the
+condenser and the column it showed in the game as a thin gap, which Taran had asked to avoid in 0.36.1, so the whole
+shell runs in instead. Both were put to Taran on a card, with a picture of each
+(`builds/screenshots/0.36.3/condenser_choices.png`).
+
+**Review.** One review of the change. The lone upright and lying condenser models are unchanged byte for byte; the
+shape added for the column side matches the model's; `UPRIGHT` is declared before the map that uses it; the stacked
+aluminium models lost their bolt heads too; nothing else used the plate painters taken out. Left as known gaps: the
+heads' pixel-wide gap to the column lets a sliver of light through when looking straight along the column's face, and
+frosted and frozen aluminium was seen only in the generator's previews.
+
+**Tests.** No test reads models or textures. 443 of 443 GameTests pass plain and 449 of 449 with `-Pcompanions`. In a
+dev client the aluminium columns and the condenser draw as meant, with no errors from the mod in the log.
+
+
+## 49. A neck into the column (0.36.4)
+
+Taran's answer of 2026-11-17 to the card left in 0.36.3: the upright condenser should run into its column through a
+neck, the first of the two tried, rather than with its whole shell.
+
+**The condenser** (`tools/gen_column.py`, `column/SteelCondenserBlock`). Standing against a column it keeps the lone
+upright condenser's shape whole, centred in its block, with its shell's face to the column drawn again and its flanged
+heads a pixel short of the column as they are alone. Out of the middle of that face a neck of its shell, eight pixels
+square, runs the last two pixels into the column. Its top and bottom take the shell's shading across them and its
+sides the same shading turned to run down them, so it reads as the shell's own plate drawn out; its end is inside the
+column and not drawn. There is still no water nozzle on that side. The outline and collision box are the lone upright
+one's with the neck's last pixel added, turned for each side the column can be on. The tooltip says a neck of its
+shell runs into the column.
+
+**Review.** One review of the change. The flush model is the lone upright model with its column side's nozzle taken
+off and the neck put on, nothing else; the lone upright and lying models are unchanged byte for byte; the neck is
+centred on both of its axes, so the shape for each side needs no turning beyond its position; no face of the neck lies
+in the plane of another face, so nothing flickers. Left as known gaps: with two pixels between the shell and the
+column, the gap round the neck shows from most angles as a thin dark slit, and looking straight along the column's
+face light shows through it, as the card's picture showed; Taran chose this over the shell running in.
+
+**Tests.** No test reads models or the condenser's shape. 443 of 443 GameTests pass plain and 449 of 449 with
+`-Pcompanions`. The neck was seen in a dev client when it was first tried for 0.36.3, against a column and cloned away
+from one to see it whole; the model shipped is that one.

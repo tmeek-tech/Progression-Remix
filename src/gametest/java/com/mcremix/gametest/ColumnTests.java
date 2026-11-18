@@ -26,6 +26,7 @@ import com.mcremix.fluids.Patina;
 import com.mcremix.fluids.SolventVapourCloud;
 import com.mcremix.kiln.SteelFurnaceFuels;
 import com.mcremix.lab.DistillingRecipe;
+import com.mcremix.registry.ModAir;
 import com.mcremix.registry.ModColumn;
 import com.mcremix.registry.ModDecor;
 import com.mcremix.registry.ModFluidBlocks;
@@ -45,17 +46,20 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -136,8 +140,8 @@ public class ColumnTests {
 	}
 
 	/**
-	 * A column two high on a campfire, its condenser beside it with water: a bucket of wash splits into 250 mB of
-	 * ethanol, which goes over the top and comes out of the condenser's end cold, and 750 of warm water left in the
+	 * A column two high on a campfire, its condenser upright beside it with water: a bucket of wash splits into 250 mB
+	 * of ethanol, which goes over the top and comes out of the condenser's bottom cold, and 750 of warm water left in the
 	 * bottom section and drawn from its side. Feed goes into the bottom section only.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 400)
@@ -145,7 +149,7 @@ public class ColumnTests {
 		BlockPos base = p(4, 3, 4);
 		campfire(h, base.below());
 		ColumnSectionBlockEntity column = column(h, base, 1, 2);
-		SteelCondenserBlockEntity condenser = condenser(h, base.east(), Direction.Axis.Z, water());
+		SteelCondenserBlockEntity condenser = condenser(h, base.east(), Direction.Axis.Y, water());
 		h.assertTrue(fluids(section(h, base.above()), Direction.NORTH).fill(Chemical.WASH.stack(100),
 			FluidAction.SIMULATE) == 0, "only the bottom section should take feed");
 		h.assertTrue(fluids(column, Direction.NORTH).fill(Chemical.WASH.stack(1000), FluidAction.EXECUTE) == 1000,
@@ -154,16 +158,95 @@ public class ColumnTests {
 			Column c = column.column();
 			h.assertTrue(c.feed().isEmpty(), "waiting for the wash to boil: " + c.feed().getFluidAmount() + " mB left, "
 				+ c.job());
-			FluidStack ethanol = fluids(condenser, Direction.SOUTH).drain(1000, FluidAction.SIMULATE);
+			FluidStack ethanol = fluids(condenser, Direction.DOWN).drain(1000, FluidAction.SIMULATE);
 			FluidStack left = fluids(column, Direction.WEST).drain(1000, FluidAction.SIMULATE);
-			h.assertTrue(holds(ethanol, Chemical.ETHANOL, 250), "the condenser's end should give 250 mB of ethanol, gives "
-				+ of(ethanol));
+			h.assertTrue(holds(ethanol, Chemical.ETHANOL, 250), "the condenser's bottom should give 250 mB of ethanol, "
+				+ "gives " + of(ethanol));
 			h.assertTrue(holds(left, Chemical.WARM_WATER, 750), "the bottom section should give 750 mB of warm water, gives "
 				+ of(left));
 			int warmed = amount(condenser.cooling(), Chemical.WARM_WATER);
 			h.assertTrue(warmed == 62, "condensing 250 mB should warm 62 mB of water, warmed " + warmed);
 			h.assertTrue(c.job() == Column.Job.IDLE && c.vented() == 0, "it should stand idle, nothing escaped: " + c.job()
 				+ ", " + c.vented() + " mB vented");
+		});
+	}
+
+	/**
+	 * Taran, 0.36.1: a steel condenser placed against a steel column stands upright and sits flush against it, its ends
+	 * top and bottom and its jacket the four sides; placed anywhere else it lies along the face it is placed against,
+	 * or along the way its placer faces on top of something. Taking the column away leaves it upright on its own, and a
+	 * wrench lays it down or stands it up.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 60)
+	public static void aCondenserStandsUprightAgainstAColumnAndLiesElsewhere(GameTestHelper h) {
+		BlockPos base = p(3, 2, 4);
+		column(h, base, 1, 2);
+		BlockState beside = placed(h, base.east(), Direction.UP);
+		h.assertTrue(beside.getValue(SteelCondenserBlock.AXIS) == Direction.Axis.Y
+			&& beside.getValue(SteelCondenserBlock.AGAINST) == SteelCondenserBlock.Against.WEST,
+			"placed against a column it should stand upright against it, not " + beside);
+		BlockState alone = placed(h, p(7, 2, 4), Direction.UP), wall = placed(h, p(7, 2, 4), Direction.EAST);
+		h.assertTrue(alone.getValue(SteelCondenserBlock.AXIS) == Direction.Axis.Z
+			&& alone.getValue(SteelCondenserBlock.AGAINST) == SteelCondenserBlock.Against.NONE,
+			"placed on top of something away from a column it should lie the way its placer faces, not " + alone);
+		h.assertTrue(wall.getValue(SteelCondenserBlock.AXIS) == Direction.Axis.X,
+			"placed against a wall it should lie along that face, not " + wall);
+
+		h.setBlock(base.east(), beside);
+		SteelCondenserBlockEntity condenser = (SteelCondenserBlockEntity) h.getBlockEntity(base.east());
+		IFluidHandler top = fluids(condenser, Direction.UP), bottom = fluids(condenser, Direction.DOWN);
+		h.assertTrue(top == bottom && top != fluids(condenser, Direction.NORTH)
+			&& fluids(condenser, Direction.NORTH) == fluids(condenser, Direction.SOUTH),
+			"upright, its top and bottom should be its ends and its sides its jacket");
+		h.assertTrue(fluids(condenser, Direction.SOUTH).fill(water(), FluidAction.SIMULATE) == 1000
+			&& top.fill(water(), FluidAction.SIMULATE) == 0, "its jacket should take water through a side, not its top");
+
+		SteelCondenserBlock block = (SteelCondenserBlock) ModColumn.STEEL_CONDENSER.get();
+		BlockState laid = block.getRotatedBlockState(beside, Direction.NORTH);
+		h.assertTrue(laid.getValue(SteelCondenserBlock.AXIS) != Direction.Axis.Y
+			&& block.getRotatedBlockState(laid, Direction.NORTH).getValue(SteelCondenserBlock.AXIS) == Direction.Axis.Y,
+			"a wrench on a side should lay it down, and on the side again stand it up");
+
+		h.setBlock(base, Blocks.AIR.defaultBlockState());
+		h.setBlock(base.above(), Blocks.AIR.defaultBlockState());
+		BlockState left = h.getBlockState(base.east());
+		h.assertTrue(left.getValue(SteelCondenserBlock.AXIS) == Direction.Axis.Y
+			&& left.getValue(SteelCondenserBlock.AGAINST) == SteelCondenserBlock.Against.NONE,
+			"with the column gone it should stand on its own, not " + left);
+		h.succeed();
+	}
+
+	/**
+	 * The state a steel condenser takes placed at {@code rel}, empty, clicked on {@code face} of the block it goes on:
+	 * the hit names the empty block itself, which placing replaces, so the condenser goes there.
+	 */
+	static BlockState placed(GameTestHelper h, BlockPos rel, Direction face) {
+		BlockPos at = h.absolutePos(rel);
+		BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(at), face, at, false);
+		return ModColumn.STEEL_CONDENSER.get().getStateForPlacement(new BlockPlaceContext(h.getLevel(), null,
+			InteractionHand.MAIN_HAND, new ItemStack(ModColumn.STEEL_CONDENSER.get()), hit));
+	}
+
+	/**
+	 * Taran, 0.36.1: a section standing on another of its kind hides its bottom flange, so a stack shows one flange at
+	 * each joint; on a section of the other metal, or with the section under it gone, it shows it again.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 60)
+	public static void aSectionOnItsKindHidesItsBottomFlange(GameTestHelper h) {
+		BlockPos base = p(3, 2, 4), alu = p(6, 2, 4);
+		column(h, base, 1, 2);
+		h.setBlock(alu, ModColumn.COLUMN_SECTION.getDefaultState());
+		h.setBlock(alu.above(), ModAir.AIR_COLUMN_SECTION.getDefaultState());
+		h.runAfterDelay(3, () -> {
+			h.assertTrue(!h.getBlockState(base).getValue(ColumnSectionBlock.DOWN)
+				&& h.getBlockState(base.above()).getValue(ColumnSectionBlock.DOWN),
+				"the upper section should hide its bottom flange and the lower show it");
+			h.assertTrue(!h.getBlockState(alu.above()).getValue(ColumnSectionBlock.DOWN),
+				"aluminium on steel should show its bottom flange");
+			h.setBlock(base, Blocks.AIR.defaultBlockState());
+			h.assertTrue(!h.getBlockState(base.above()).getValue(ColumnSectionBlock.DOWN),
+				"with the section under it gone it should show its bottom flange again");
+			h.succeed();
 		});
 	}
 

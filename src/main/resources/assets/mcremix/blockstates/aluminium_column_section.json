@@ -2,10 +2,20 @@
   "multipart": [
     {
       "when": {
-        "frost": "0"
+        "frost": "0",
+        "down": "false"
       },
       "apply": {
         "model": "mcremix:block/aluminium_column_section"
+      }
+    },
+    {
+      "when": {
+        "frost": "0",
+        "down": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/aluminium_column_section_stacked"
       }
     },
     {
@@ -49,10 +59,20 @@
     },
     {
       "when": {
-        "frost": "1"
+        "frost": "1",
+        "down": "false"
       },
       "apply": {
         "model": "mcremix:block/frosted_aluminium_column_section"
+      }
+    },
+    {
+      "when": {
+        "frost": "1",
+        "down": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frosted_aluminium_column_section_stacked"
       }
     },
     {
@@ -96,10 +116,20 @@
     },
     {
       "when": {
-        "frost": "2"
+        "frost": "2",
+        "down": "false"
       },
       "apply": {
         "model": "mcremix:block/frozen_aluminium_column_section"
+      }
+    },
+    {
+      "when": {
+        "frost": "2",
+        "down": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/frozen_aluminium_column_section_stacked"
       }
     },
     {

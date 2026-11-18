@@ -32,11 +32,10 @@ def ramp(base, dark, light, deep):
 
 # bare aluminium, from gen_assets' PALETTES['aluminium']: paler than iron and a little blue
 ALUMINIUM = ramp((0xCC, 0xD3, 0xDA), (0x92, 0x9B, 0xA6), (0xEE, 0xF2, 0xF6), deep=(0x20, 0x26, 0x30))
-# the valve's cast brass body, from PALETTES['brass']
-BRASS = ramp((0xD9, 0xA9, 0x4C), (0x9C, 0x6B, 0x26), (0xF6, 0xD8, 0x7C), deep=(0x30, 0x1C, 0x08))
-# the handwheel's red paint, shadow to highlight
-RED = [(0x3A, 0x0A, 0x08), (0x5C, 0x10, 0x0C), (0x7E, 0x18, 0x12), (0x9E, 0x22, 0x18), (0xBC, 0x30, 0x22),
-       (0xD6, 0x48, 0x34), (0xEC, 0x6E, 0x56)]
+# polished aluminium (Taran, 0.36.0: clean and shiny, as the aluminium tanks and pipes are): bright, a little blue,
+# with more between its shadow and its highlight than bare aluminium's mottle needs, so seams and edges read crisply
+POLISHED = [(0x3C, 0x44, 0x50), (0x7C, 0x86, 0x93), (0xA2, 0xAB, 0xB6), (0xC2, 0xC9, 0xD1), (0xD5, 0xDB, 0xE1),
+            (0xE5, 0xE9, 0xEE), (0xF6, 0xF8, 0xFA)]
 # rime over aluminium, by the shade of the metal under it: white, with a cold blue in its shadows
 RIME = [(0xA2, 0xB6, 0xCC), (0xC0, 0xCF, 0xDF), (0xD4, 0xE0, 0xEB), (0xE6, 0xEE, 0xF5), (0xF1, 0xF6, 0xFA),
         (0xF8, 0xFB, 0xFD), (0xFF, 0xFF, 0xFF)]
@@ -100,7 +99,7 @@ def blotches(seed):
 COVER = {1: (0.76, 0.66), 2: (0.40, 0.30)}
 
 
-def frost(img, seed, level, cold=lambda x, y: 0.0, pal=ALUMINIUM):
+def frost(img, seed, level, cold=lambda x, y: 0.0, pal=POLISHED):
     """
     Rime over a texture drawn in `pal`. Level 1: white patches, granular, thickest where `cold` says frost gathers,
     each a crust with a faint shadow under its lower right edge. Level 2: thick frost over nearly all of it, whiter,
@@ -159,7 +158,7 @@ def round_the_rim(x, y):
     return 0.3 if d < 2 else 0.18 if d < 3 else 0.08
 
 
-def under_the_bolts(x, y):
+def under_each_band(x, y):
     """On flange stock: heaviest along each band's shaded underside, and a little everywhere."""
     return 0.12 + (0.15 if y % 4 == 3 else 0.0)
 
@@ -190,28 +189,179 @@ def icicle_texture():
     return img
 
 
+# polished aluminium shaded round across a column's face (Taran, 0.36.3: it should read shiny, not as bricks): the shade
+# of each pixel across a lone section's side, and across the left end, the middle and the right end of a formed
+# column's face, so a formed column is shaded round as one, as Create shades its tanks: a crisp highlight a quarter of
+# the way in from its left, falling off to a broad, soft reflection near its right, with a little light round its edge
+SHINE = {'lone': (3, 5, 6, 6, 5, 4, 4, 4, 4, 3, 3, 2, 2, 2, 3, 3),
+         'left': (3, 5, 6, 6, 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4),
+         'middle': (4,) * 16,
+         'right': (4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 3, 3)}
+
+
+def section_side(left=False, right=False, up=False, down=False):
+    """
+    An aluminium column section's side, polished, as the connected texture draws it on a formed column: smooth plate
+    shaded round across the column (SHINE), with no seams, welds or rivets on it (Taran, 0.36.3), a crisp seam under
+    the slim flange round its top and over the one round its bottom, a lit band under the column's top flange for its
+    cap and a darker skirt at its foot. Each band follows the plate's shading round, so it wraps the column as a band
+    of polished metal does. A lone section is all of these.
+    """
+    across = SHINE['middle' if left and right else 'left' if right else 'right' if left else 'lone']
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+
+    def row(y, d):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, max(1, min(6, across[x] + d)))
+    for y in range(16):
+        row(y, 0)
+    row(0, -2)
+    row(15, -2)
+    if up:
+        row(1, -2)
+    else:
+        row(1, 2)
+        row(2, 1)
+        row(3, -2)
+    if down:
+        row(14, 1)
+    else:
+        row(12, -2)
+        row(13, -1)
+        row(14, -1)
+    return img
+
+
+def section_top(left=False, right=False, up=False, down=False):
+    """
+    A section's top or bottom, polished, as the connected texture draws it across a formed column: one brushed plate,
+    edged where the column ends, lit along its top and left and shaded along its bottom and right, and a crisp groove
+    round it two pixels in from those edges, lit just inside along its top and left. Bolted (Taran, 0.36.1): a bolt
+    head every four pixels along the groove, a row running on across the column as the steel column's rivets do.
+    """
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, 6 if (x + 2 * y) % 11 == 0 else 5)
+    x0, x1 = (0 if left else 2), (15 if right else 13)
+    y0, y1 = (0 if up else 2), (15 if down else 13)
+    for x in range(x0, x1 + 1):
+        if not up:
+            px[x, 2] = D.shade(POLISHED, 2)
+            if 3 <= x <= 12 or left and x < 3 or right and x > 12:
+                px[x, 3] = D.shade(POLISHED, 6)
+        if not down:
+            px[x, 13] = D.shade(POLISHED, 2)
+    for y in range(y0, y1 + 1):
+        if not left:
+            px[2, y] = D.shade(POLISHED, 2)
+            if 3 <= y <= 12 or up and y < 3 or down and y > 12:
+                px[3, y] = D.shade(POLISHED, 6)
+        if not right:
+            px[13, y] = D.shade(POLISHED, 2)
+    for i in range(16):
+        if not up:
+            px[i, 0] = D.shade(POLISHED, 6)
+        if not left:
+            px[0, i] = D.shade(POLISHED, 6)
+        if not down:
+            px[i, 15] = D.shade(POLISHED, 2)
+        if not right:
+            px[15, i] = D.shade(POLISHED, 2)
+    def bolt(x, y):
+        px[x, y] = D.shade(POLISHED, 6)
+        if x < 15 and y < 15:
+            px[x + 1, y + 1] = D.shade(POLISHED, 1)
+    for i in C.ring(right):
+        if not up:
+            bolt(i, 2)
+        if not down:
+            bolt(i, 13)
+    for i in C.ring(down):
+        if not left:
+            bolt(2, i)
+        if not right:
+            bolt(13, i)
+    return img
+
+
+def polished_flange():
+    """
+    Flange stock, polished: bands four pixels deep, each lit along its top edge and shaded along its bottom, so any
+    strip of it a flange's narrow faces show reads as a crisp ring. No bolts.
+    """
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, (6, 5, 4, 2)[y % 4])
+    return img
+
+
+def polished_nozzle():
+    """
+    A flanged nozzle seen end on, polished: a smooth flange round a dark bore, a bolt at each corner of it, the bore's
+    rim shaded on its far side. A Create pipe joining it covers 3 to 13 with its rim, so the bolts sit outside that.
+    """
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+            if d < 3.2:
+                i = 0
+            elif d < 4.4:
+                i = 2 if x + y > 15 else 3
+            elif x in (1, 14) or y in (1, 14):
+                i = 6 if x == 1 or y == 1 else 2
+            else:
+                i = 5 if x + y < 15 else 4
+            px[x, y] = D.shade(POLISHED, i)
+    for x, y in ((2, 2), (12, 2), (2, 12), (12, 12)):
+        px[x, y] = D.shade(POLISHED, 6)
+        px[x + 1, y + 1] = D.shade(POLISHED, 2)
+    return img
+
+
+def rim_frost(left, right, up, down):
+    """
+    Where frost gathers on a section's top or bottom as the connected texture draws it: round the column's rim, where
+    the column ends, and settled over the rest.
+    """
+    def cold(x, y):
+        d = min([16] + ([x] if not left else []) + ([15 - x] if not right else []) + ([y] if not up else [])
+                + ([15 - y] if not down else []))
+        return 0.3 if d < 2 else 0.18 if d < 3 else 0.08
+    return cold
+
+
 def column_textures():
-    """The section's plate, top, flange and nozzle, as gen_column draws steel's, in aluminium, bare and frosted."""
+    """
+    The section's plate and top, polished, and joined up across a formed column by the connected textures (Taran,
+    0.36.0), and its flange and nozzle, bare and at each level of frost. Each tile of a sheet frosts as a block does.
+    """
     for prefix, level in FROSTS:
-        png(frost(C.section_side(4701, ALUMINIUM, 0), 4711 + level, level, low_and_flanged),
-            f'{prefix}aluminium_column_section')
-        png(frost(C.section_top(4702, ALUMINIUM, 0), 4721 + level, level, round_the_rim),
-            f'{prefix}aluminium_column_section_top')
-        png(frost(C.flange(4703, ALUMINIUM, 0), 4731 + level, level, under_the_bolts),
-            f'{prefix}aluminium_column_flange')
-        png(frost(C.nozzle_face(4704, ALUMINIUM, 0), 4741 + level, level, round_the_nozzle),
-            f'{prefix}aluminium_column_nozzle')
+        side = lambda l, r, u, d: frost(section_side(l, r, u, d), 4711 + level, level, low_and_flanged)
+        top = lambda l, r, u, d: frost(section_top(l, r, u, d), 4721 + level, level, rim_frost(l, r, u, d))
+        png(side(False, False, False, False), f'{prefix}aluminium_column_section')
+        png(C.ct_sheet(side), f'{prefix}aluminium_column_section_connected')
+        png(top(False, False, False, False), f'{prefix}aluminium_column_section_top')
+        png(C.ct_sheet(top), f'{prefix}aluminium_column_section_top_connected')
+        png(frost(polished_flange(), 4731 + level, level, under_each_band), f'{prefix}aluminium_column_flange')
+        png(frost(polished_nozzle(), 4741 + level, level, round_the_nozzle), f'{prefix}aluminium_column_nozzle')
     png(icicle_texture(), 'aluminium_column_icicle')
 
 
 # ------------------------------------------------------------------------------------------------ column models
 
-# icicles hanging off each side's bottom flange: the left edge of each, as seen from outside that side, and its whole
+# icicles hanging off each side's top flange: the left edge of each, as seen from outside that side, and its whole
 # length, uneven, its last pixel a thinner tip
-ICICLES = {'north': ((2.5, 3), (6, 5), (9, 2), (12.5, 4)),
-           'east': ((1.5, 2), (4.5, 4), (8.5, 3), (13, 5)),
-           'south': ((3, 4), (7, 2.5), (10.5, 5), (13.5, 2)),
-           'west': ((2, 5), (5.5, 2), (9.5, 3.5), (12, 2.5))}
+ICICLES = {'north': ((3, 3), (7.5, 5), (11, 2), (12.5, 4)),
+           'east': ((0.5, 2), (4, 4), (8.5, 3), (12, 5)),
+           'south': ((3.5, 4), (7, 2.5), (11.5, 5), (14.5, 2)),
+           'west': ((2.5, 5), (4.5, 2), (8, 3.5), (12, 2.5))}
 SIDES = ['north', 'east', 'south', 'west']
 
 
@@ -228,9 +378,10 @@ def turned(frm, to, faces, side):
 
 def icicles():
     """
-    The frozen section's icicles: about a pixel square, hanging from the bottom flange's lip a pixel out from the side,
-    rooted on the lip's face and reaching below the block, each ending in a half pixel tip. They are culled with their
-    side, as the lips are, so they show only on the column's outside.
+    The frozen section's icicles: about a pixel square, hanging from the top flange's lip a pixel out from the side,
+    rooted on the lip's face and reaching down the section's side, each ending in a half pixel tip. Hung from the top
+    flange (0.36.1), they stay inside the block, and every joint of a stack has them, its flange being the top one of
+    the section under it. They are culled with their side, as the lips are, so they show only on the column's outside.
     """
     els = []
     for side, hanging in ICICLES.items():
@@ -238,19 +389,21 @@ def icicles():
             u = (n * 5) % 16
             body = {d: D.face('#ice', [u, 0, u + 1, length - 1], cull=side) for d in ('north', 'east', 'west')}
             body['down'] = D.face('#ice', [u, length - 2, u + 1, length - 1], cull=side)
-            els.append(turned((x, 2 - length, -1), (x + 1, 1, 0), body, side))
+            els.append(turned((x, 17 - length, -1), (x + 1, 16, 0), body, side))
             tip = {d: D.face('#ice', [u, length - 1, u + 0.5, length], cull=side)
                    for d in ('north', 'east', 'west', 'south')}
             tip['down'] = D.face('#ice', [u, length - 1, u + 0.5, length - 0.5], cull=side)
-            els.append(turned((x + 0.25, 1 - length, -0.75), (x + 0.75, 2 - length, -0.25), tip, side))
+            els.append(turned((x + 0.25, 16 - length, -0.75), (x + 0.75, 17 - length, -0.25), tip, side))
     return els
 
 
 def column_section():
     """
-    As steel's section: a full cube with a half pixel flange lip round its top and bottom on each outer side, and a
-    flanged nozzle drawn on the north side, turned by the blockstate to each side a pipe joins. Each frost level has
-    its own section and nozzle; the frozen section has icicles too.
+    As steel's section: a full cube with a flange lip half a pixel proud round its top and bottom on each outer side,
+    a pixel deep where steel's is a pixel and a half, and a flanged nozzle drawn on the north side, turned by the
+    blockstate to each side a pipe joins. No bolt heads stand out of its flanges (Taran, 0.36.3: no 3D rivets). Each
+    frost level has its own section and nozzle; the frozen section has icicles too. As steel's, each has a second model
+    for a section standing on another, its bottom flange left off (Taran, 0.36.1).
     """
     for prefix, _ in FROSTS:
         tex = {'side': f'mcremix:block/{prefix}aluminium_column_section',
@@ -260,15 +413,16 @@ def column_section():
         cube = D.el((0, 0, 0), (16, 16, 16), {
             d: D.face('#top' if d in ('up', 'down') else '#side', [0, 0, 16, 16], cull=d)
             for d in ('north', 'east', 'south', 'west', 'up', 'down')})
-        elements = [cube]
-        for side in SIDES:
-            elements.append(C.lip(side, 0, 1.5))
-            elements.append(C.lip(side, 14.5, 16))
+        # aluminium's flange is slimmer than steel's: a pixel round its top and bottom (Taran, 0.36.0)
+        top = [C.lip(side, 15, 16) for side in SIDES]
+        foot = [C.lip(side, 0, 1) for side in SIDES]
         if prefix == 'frozen_':
             tex['ice'] = 'mcremix:block/aluminium_column_icicle'
-            elements += icicles()
+            top += icicles()
         model(f'{prefix}aluminium_column_section', {'parent': 'minecraft:block/block', 'textures': tex,
-                                                    'elements': elements})
+                                                    'elements': [cube] + foot + top})
+        model(f'{prefix}aluminium_column_section_stacked', {'parent': 'minecraft:block/block', 'textures': tex,
+                                                            'elements': [cube] + top})
         model(f'{prefix}aluminium_column_nozzle', {
             'textures': {'nozzle': f'mcremix:block/{prefix}aluminium_column_nozzle',
                          'flange': f'mcremix:block/{prefix}aluminium_column_flange',
@@ -280,7 +434,10 @@ def column_section():
     parts = []
     for prefix, level in FROSTS:
         when = {'frost': str(level)}
-        parts.append({'when': when, 'apply': {'model': f'mcremix:block/{prefix}aluminium_column_section'}})
+        parts.append({'when': {**when, 'down': 'false'},
+                      'apply': {'model': f'mcremix:block/{prefix}aluminium_column_section'}})
+        parts.append({'when': {**when, 'down': 'true'},
+                      'apply': {'model': f'mcremix:block/{prefix}aluminium_column_section_stacked'}})
         for side, y in TURN.items():
             apply = {'model': f'mcremix:block/{prefix}aluminium_column_nozzle'}
             if y:
@@ -292,55 +449,106 @@ def column_section():
 
 # ------------------------------------------------------------------------------------------------ valve textures
 
-def drum_side(seed):
-    """The separator drum's side: aluminium plate, and two darker bands round it, each lit along its top edge."""
-    img = C.plate(seed, ALUMINIUM)
+# the drum's shading across its twelve pixels: gen_column's ROUND kept bright, as polished aluminium is
+DRUM = (3, 4, 5, 6, 6, 5, 5, 4, 4, 4, 3, 2)
+
+
+def drum_side():
+    """
+    The separator drum's side, polished: a square drum shaded round across its twelve pixels as Create shades its
+    tanks (DRUM), with two crisp bands round it, each a groove shaded under a lit edge. No rivets.
+    """
+    img = Image.new('RGBA', (16, 16))
     px = img.load()
-    for y0 in (5, 10):
-        for x in range(16):
-            px[x, y0 - 1] = D.shade(ALUMINIUM, 5)
-            px[x, y0] = D.shade(ALUMINIUM, 2)
-            px[x, y0 + 1] = D.shade(ALUMINIUM, 1)
-    for x in (2, 8, 13):
-        C.rivet(px, ALUMINIUM, x, 5)
-        C.rivet(px, ALUMINIUM, x, 10)
+    for x in range(16):
+        i = DRUM[min(11, max(0, x - 2))]
+        for y in range(16):
+            px[x, y] = D.shade(POLISHED, i + (y < 4) + (y < 2))
+        for y0 in (5, 10):
+            px[x, y0 - 1] = D.shade(POLISHED, min(6, i + 2))
+            px[x, y0] = D.shade(POLISHED, max(1, i - 2))
+            px[x, y0 + 1] = D.shade(POLISHED, max(1, i - 1))
     return img
 
 
-def port(seed, pal):
+def head():
     """
-    A small flange seen end on, for the stubs' ends (aluminium) and the valve's inlet (brass): in its middle six
-    pixels, a dark bore in a shadowed ring, a bolt at each corner, lit along its top and left edges.
+    The drum's head, seen end on, polished: a smooth dish lit towards its upper left inside a crisp groove, and its
+    rim lit along its top and left edges and shaded along its bottom and right.
     """
-    rng = random.Random(seed)
-    img = C.plate(seed, pal)
-    px = img.load()
-    for y in range(5, 11):
-        for x in range(5, 11):
-            d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
-            if d < 1.2:
-                px[x, y] = D.shade(pal, 0)
-            elif d < 2.2:
-                px[x, y] = D.shade(pal, 2 - (x + y > 15))
-            elif x == 5 or y == 5:
-                px[x, y] = D.shade(pal, 5)
-            elif x == 10 or y == 10:
-                px[x, y] = D.shade(pal, 2)
-            else:
-                px[x, y] = D.shade(pal, 4 - (rng.random() < 0.2))
-    for x, y in ((6, 6), (9, 6), (6, 9), (9, 9)):
-        px[x, y] = D.shade(pal, 6)
-    return img
-
-
-def cast(seed, pal, base=3, speckle=0.2):
-    """Cast metal, or paint over it: a mottle, lit a little along its top."""
-    rng = random.Random(seed)
     img = Image.new('RGBA', (16, 16))
     px = img.load()
     for y in range(16):
         for x in range(16):
-            px[x, y] = D.shade(pal, base + (y < 2) + (rng.random() < speckle) - (rng.random() < speckle * 1.2))
+            r = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+            if x in (0, 15) or y in (0, 15):
+                i = 6 if x == 0 or y == 0 else 2
+            elif 5.4 <= r < 6.4:
+                i = 2 if x + y > 15 else 6
+            elif r < 5.4:
+                i = 6 if x + y < 9 else 5 if x + y < 17 else 4
+            else:
+                i = 4
+            px[x, y] = D.shade(POLISHED, i)
+    return img
+
+
+def pipe_side():
+    """A stub's side, polished: a pipe shaded round, lit just left of its middle, darkest at its right edge."""
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    across = (2, 3, 4, 4, 5, 5, 4, 6, 5, 3, 3, 3, 2, 2, 2, 3)
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, across[x])
+    return img
+
+
+def port():
+    """
+    A small flange seen end on, polished, for the stubs' ends and the valve's inlet: in its middle six pixels, a dark
+    bore in a shadowed ring, a bolt at each corner, lit along its top and left edges.
+    """
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+            if not (5 <= x <= 10 and 5 <= y <= 10):
+                i = 5
+            elif d < 1.2:
+                i = 0
+            elif d < 2.2:
+                i = 2 - (x + y > 15)
+            elif x == 5 or y == 5:
+                i = 6
+            elif x == 10 or y == 10:
+                i = 2
+            else:
+                i = 4
+            px[x, y] = D.shade(POLISHED, i)
+    for x, y in ((6, 6), (9, 6), (6, 9), (9, 9)):
+        px[x, y] = D.shade(POLISHED, 6)
+    return img
+
+
+def cast():
+    """The valve's body, bonnet and stem, cast and polished: lit along the top, shading down its face, no speckle."""
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, 6 if y < 2 or x == 7 else 5 if y < 9 else 4)
+    return img
+
+
+def wheel():
+    """The handwheel, polished: bright, a highlight along every fourth pixel so its thin bars glint."""
+    img = Image.new('RGBA', (16, 16))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = D.shade(POLISHED, 6 if (x + y) % 4 == 0 or y < 1 else 4 if (x + y) % 4 == 2 else 5)
     return img
 
 
@@ -350,31 +558,24 @@ def colder_low(x, y):
 
 
 def valve_textures():
-    """The drum, its heads and stubs, bare and frosted; the brass valve body and the red handwheel never frost."""
+    """
+    All polished aluminium (Taran, 0.36.0): the drum, its heads and stubs, bare and frosted; the valve's body, inlet
+    and handwheel, on the warm side of it, never frost.
+    """
     for prefix, level in (('', 0), ('frosted_', 1)):
-        png(frost(drum_side(4751), 4761, level, colder_low), f'{prefix}expansion_valve_drum')
-        png(frost(C.head(4752, ALUMINIUM, 0), 4762, level, lambda x, y: 0.15), f'{prefix}expansion_valve_head')
-        png(frost(C.pipe_side(4753, ALUMINIUM, 0), 4763, level, lambda x, y: 0.3), f'{prefix}expansion_valve_stub')
-        png(frost(port(4754, ALUMINIUM), 4764, level, lambda x, y: 0.25), f'{prefix}expansion_valve_port')
-    png(cast(4755, BRASS), 'expansion_valve_body')
-    png(port(4757, BRASS), 'expansion_valve_inlet')
-    png(cast(4756, RED, base=4, speckle=0.08), 'expansion_valve_handwheel')
+        png(frost(drum_side(), 4761, level, colder_low), f'{prefix}expansion_valve_drum')
+        png(frost(head(), 4762, level, lambda x, y: 0.15), f'{prefix}expansion_valve_head')
+        png(frost(pipe_side(), 4763, level, lambda x, y: 0.3), f'{prefix}expansion_valve_stub')
+        png(frost(port(), 4764, level, lambda x, y: 0.25), f'{prefix}expansion_valve_port')
+    png(cast(), 'expansion_valve_body')
+    png(port(), 'expansion_valve_inlet')
+    png(wheel(), 'expansion_valve_handwheel')
 
 
 # ------------------------------------------------------------------------------------------------ the valve
 
 def box(tex, frm, to, skip=()):
     return D.el(frm, to, D.box_faces(tex, frm, to, skip=skip))
-
-
-def round_upright(y0, y1, half, step=1.5):
-    """
-    An upright drum's cross-section, drawn round from three boxes as gen_column draws the condenser's shell: one long
-    in z, one long in x, and a square between them filling the corners, each `half` from the middle at its widest.
-    """
-    a, b = 8 - half, 8 + half
-    return [((a + step, y0, a), (b - step, y1, b)), ((a, y0, a + step), (b, y1, b - step)),
-            ((a + 0.5, y0, a + 0.5), (b - 0.5, y1, b - 0.5))]
 
 
 def handwheel(cx, cz, y0, y1, a=2.75, t=0.75):
@@ -411,22 +612,23 @@ def handwheel(cx, cz, y0, y1, a=2.75, t=0.75):
 
 def valve_elements():
     """
-    The expansion valve facing north: a squat aluminium separator drum twelve pixels across, two bands round it and a
-    bolted flange for its top, with a short flanged stub up out of its top, where the cold gas left over leaves, and
-    one down out of its bottom, where liquid air drips out. On its north side, the valve: a brass body at the drum's
-    middle, its inlet flange at the block's face where a pipe meets it, and a bonnet up the drum's front to a red
-    handwheel lying flat over the top flange's front edge, above where a pipe's rim would hide it.
+    The expansion valve facing north: a squat aluminium separator drum twelve pixels across, a square box shaded round
+    (Taran, 0.36.0: no stepped edges), two bands round it and a flange for its top, with a short flanged stub up
+    out of its top, where the cold gas left over leaves, and one down out of its bottom, where liquid air drips out. On
+    its north side, the valve: a body at the drum's middle, its inlet flange at the block's face where a pipe meets it,
+    and a bonnet up the drum's front to a handwheel lying flat over the top flange's front edge, above where a pipe's
+    rim would hide it. All of it polished aluminium.
     """
     els = []
-    for frm, to in round_upright(2, 13, 6):
-        els.append(box('#drum', frm, to, skip=('up',)))
-        els[-1]['faces']['down'] = D.face('#head', D.inset([frm[0], 16 - to[2], to[0], 16 - frm[2]]))
-    for frm, to in round_upright(13, 14, 6.5):
-        faces = {d: D.face('#flange', [frm[0] if d in ('north', 'south') else frm[2], 4.5,
-                                       to[0] if d in ('north', 'south') else to[2], 5.5]) for d in SIDES}
-        faces['up'] = D.face('#head', D.inset([frm[0], frm[2], to[0], to[2]]))
-        faces['down'] = D.face('#flange', D.inset([frm[0], 16 - to[2], to[0], 16 - frm[2]]))
-        els.append(D.el(frm, to, faces))
+    drum = box('#drum', (2, 2, 2), (14, 13, 14), skip=('up',))
+    drum['faces']['down'] = D.face('#head', D.inset([2, 2, 14, 14]))
+    for d in SIDES:
+        drum['faces'][d] = D.face('#drum', [2, 3, 14, 14])
+    els.append(drum)
+    faces = {d: D.face('#flange', [1.5, 4.5, 14.5, 5.5]) for d in SIDES}
+    faces['up'] = D.face('#head', D.inset([1.5, 1.5, 14.5, 14.5]))
+    faces['down'] = D.face('#flange', D.inset([1.5, 1.5, 14.5, 14.5]))
+    els.append(D.el((1.5, 13, 1.5), (14.5, 14, 14.5), faces))
     # the stubs: a neck four pixels across, and a flange six across at its end
     for neck, flange, end in ((((6, 14, 6), (10, 15, 10)), ((5, 15, 5), (11, 16, 11)), 'up'),
                               (((6, 1, 6), (10, 2, 10)), ((5, 0, 5), (11, 1, 11)), 'down')):

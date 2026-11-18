@@ -1,6 +1,7 @@
 package com.mcremix.ponder;
 
 import com.mcremix.fluids.Patina;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 
 import net.createmod.ponder.api.PonderPalette;
@@ -9,6 +10,8 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Ponder scenes for the steel column (the distillation build's second stage): the column and its condenser, reflux on a
@@ -56,7 +59,7 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A Steel Condenser beside the bottom section makes it a fractionating column. Its vapour line runs up and over into the top")
+			.text("A Steel Condenser placed against the bottom section stands upright and makes it a fractionating column. Its vapour line runs up and over into the top")
 			.pointAt(util.vector().blockSurface(condenser, Direction.UP))
 			.placeNearTarget();
 		scene.idle(100);
@@ -86,13 +89,14 @@ public class ColumnScenes {
 			.placeNearTarget();
 		scene.idle(110);
 
-		scene.world().showSection(util.select().fromTo(4, 1, 4, 5, 1, 4).add(util.select().position(5, 1, 3)),
-			Direction.DOWN);
+		scene.world().showSection(util.select().position(5, 1, 3), Direction.DOWN);
+		scene.world().setBlock(util.grid().at(4, 0, 3), pipe(Direction.UP, Direction.SOUTH), true);
+		scene.world().setBlock(util.grid().at(4, 0, 4), pipe(Direction.NORTH, Direction.SOUTH), true);
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("The lightest cut goes over the top and comes out of the condenser's ends, cold. Water, cold water or coolant piped into its top, bottom or sides cools it, each faster than the last")
-			.pointAt(util.vector().blockSurface(condenser, Direction.SOUTH))
+			.text("The lightest cut goes over the top, down into the condenser and out of its bottom, cold. Water, cold water or coolant piped into its sides cools it, each faster than the last")
+			.pointAt(util.vector().topOf(util.grid().at(4, 0, 4)))
 			.placeNearTarget();
 		scene.idle(120);
 
@@ -129,10 +133,10 @@ public class ColumnScenes {
 		scene.idle(5);
 
 		BlockPos top = util.grid().at(3, 3, 3);
-		BlockPos condenser = util.grid().at(4, 1, 3);
 		scene.world().showSection(util.select().fromTo(3, 1, 3, 4, 3, 3).add(util.select().position(3, 1, 2))
-			.add(util.select().position(2, 2, 3)).add(util.select().position(4, 1, 4))
-			.add(util.select().position(5, 1, 3)), Direction.DOWN);
+			.add(util.select().position(2, 2, 3)).add(util.select().position(5, 1, 3)), Direction.DOWN);
+		scene.world().setBlock(util.grid().at(4, 0, 3), pipe(Direction.UP, Direction.NORTH, Direction.SOUTH), false);
+		scene.world().setBlock(util.grid().at(4, 0, 4), pipe(Direction.NORTH, Direction.SOUTH), false);
 		scene.idle(20);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
@@ -143,6 +147,7 @@ public class ColumnScenes {
 
 		scene.world().showSection(util.select().fromTo(4, 1, 2, 4, 3, 2).add(util.select().position(3, 3, 2)),
 			Direction.DOWN);
+		scene.world().setBlock(util.grid().at(4, 0, 2), pipe(Direction.SOUTH, Direction.UP), true);
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
@@ -153,7 +158,7 @@ public class ColumnScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.text("A ratio of 1, as much sent back as kept, stands in for both missing sections; a ratio of 1/2 for one. Set it with the speeds of the two pumps drawing from the condenser")
-			.pointAt(util.vector().blockSurface(condenser, Direction.NORTH))
+			.pointAt(util.vector().topOf(util.grid().at(4, 0, 3)))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(90)
@@ -206,5 +211,15 @@ public class ColumnScenes {
 			.placeNearTarget();
 		scene.idle(90);
 		scene.markAsFinished();
+	}
+
+	/** A copper fluid pipe open to {@code sides}, for the pipes laid into the floor under an upright condenser. */
+	private static BlockState pipe(Direction... sides) {
+		BlockState state = AllBlocks.FLUID_PIPE.getDefaultState();
+		for (Direction side : Direction.values())
+			state = state.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(side), false);
+		for (Direction side : sides)
+			state = state.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(side), true);
+		return state;
 	}
 }

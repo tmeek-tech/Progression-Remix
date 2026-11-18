@@ -1,60 +1,508 @@
 {
   "variants": {
-    "axis=z,patina=none": {
+    "against=none,axis=x,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=north,axis=x,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=none": {
       "model": "mcremix:block/steel_condenser"
     },
-    "axis=x,patina=none": {
+    "against=north,axis=y,patina=none": {
+      "model": "mcremix:block/steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=none": {
+      "model": "mcremix:block/steel_condenser_flush",
+      "y": 90
+    },
+    "against=south,axis=y,patina=none": {
+      "model": "mcremix:block/steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=none": {
+      "model": "mcremix:block/steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=none": {
       "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=none": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
       "y": 90
     },
-    "axis=z,patina=exposed": {
+    "against=north,axis=x,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=exposed": {
       "model": "mcremix:block/exposed_steel_condenser"
     },
-    "axis=x,patina=exposed": {
-      "model": "mcremix:block/exposed_steel_condenser",
+    "against=north,axis=y,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
       "y": 90
     },
-    "axis=z,patina=weathered": {
+    "against=south,axis=y,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=north,axis=x,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=weathered": {
       "model": "mcremix:block/exposed_steel_condenser"
     },
-    "axis=x,patina=weathered": {
-      "model": "mcremix:block/exposed_steel_condenser",
+    "against=north,axis=y,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
       "y": 90
     },
-    "axis=z,patina=oxidized": {
+    "against=south,axis=y,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=north,axis=x,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=oxidized": {
       "model": "mcremix:block/exposed_steel_condenser"
     },
-    "axis=x,patina=oxidized": {
-      "model": "mcremix:block/exposed_steel_condenser",
+    "against=north,axis=y,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
       "y": 90
     },
-    "axis=z,patina=waxed": {
+    "against=south,axis=y,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=north,axis=x,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=waxed": {
       "model": "mcremix:block/steel_condenser"
     },
-    "axis=x,patina=waxed": {
+    "against=north,axis=y,patina=waxed": {
+      "model": "mcremix:block/steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=waxed": {
+      "model": "mcremix:block/steel_condenser_flush",
+      "y": 90
+    },
+    "against=south,axis=y,patina=waxed": {
+      "model": "mcremix:block/steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=waxed": {
+      "model": "mcremix:block/steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=waxed": {
       "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=waxed": {
+      "model": "mcremix:block/steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
       "y": 90
     },
-    "axis=z,patina=waxed_exposed": {
+    "against=north,axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=waxed_exposed": {
       "model": "mcremix:block/exposed_steel_condenser"
     },
-    "axis=x,patina=waxed_exposed": {
-      "model": "mcremix:block/exposed_steel_condenser",
+    "against=north,axis=y,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
       "y": 90
     },
-    "axis=z,patina=waxed_weathered": {
+    "against=south,axis=y,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=north,axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=waxed_weathered": {
       "model": "mcremix:block/exposed_steel_condenser"
     },
-    "axis=x,patina=waxed_weathered": {
-      "model": "mcremix:block/exposed_steel_condenser",
+    "against=north,axis=y,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
       "y": 90
     },
-    "axis=z,patina=waxed_oxidized": {
+    "against=south,axis=y,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=none,axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=north,axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=east,axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=south,axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=west,axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90,
+      "y": 90
+    },
+    "against=none,axis=y,patina=waxed_oxidized": {
       "model": "mcremix:block/exposed_steel_condenser"
     },
-    "axis=x,patina=waxed_oxidized": {
-      "model": "mcremix:block/exposed_steel_condenser",
+    "against=north,axis=y,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush"
+    },
+    "against=east,axis=y,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
       "y": 90
+    },
+    "against=south,axis=y,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 180
+    },
+    "against=west,axis=y,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser_flush",
+      "y": 270
+    },
+    "against=none,axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=north,axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=east,axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=south,axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
+    },
+    "against=west,axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/exposed_steel_condenser",
+      "x": 90
     }
   }
 }

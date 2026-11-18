@@ -36,8 +36,10 @@ import net.minecraftforge.fluids.FluidUtil;
  * A steel column section (the distillation design, stage 2): a riveted steel block with a flange ring round its top
  * and bottom, so the sections of a column stand bolted flange to flange. Blocks join into a column one to three across
  * and up to sixteen high ({@link ColumnSectionBlockEntity}), and a steel condenser beside the bottom section makes it a
- * fractionating column ({@link Column}). A flanged nozzle stands out of each side a pipe joins. A bucket works on the
- * section it is used on: it pours feed into the bottom or reflux into the top, or takes out the cut a section holds.
+ * fractionating column ({@link Column}). A flanged nozzle stands out of each side a pipe joins. Standing on a section
+ * of its own kind, it hides its bottom flange ({@link #DOWN}), so a stack shows one flange at each joint. A bucket works
+ * on the section it is used on: it pours feed into the bottom or reflux into the top, or takes out the cut a section
+ * holds.
  * Like the rest of this mod's steel it rusts where it gets wet, only to its first stage ({@link Patina}).
  */
 public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockEntity>, FluidPartMaterial.Part, IWrenchable {
@@ -45,6 +47,11 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 	public static final Map<Direction, BooleanProperty> NOZZLES = Map.of(Direction.NORTH, BlockStateProperties.NORTH,
 		Direction.EAST, BlockStateProperties.EAST, Direction.SOUTH, BlockStateProperties.SOUTH, Direction.WEST,
 		BlockStateProperties.WEST);
+	/**
+	 * Whether it stands on a section of its own kind, steel on steel or aluminium on aluminium: then the flange round
+	 * its bottom is not drawn, and the one round the top of the section under it is the joint's (Taran, 0.36.1).
+	 */
+	public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
 
 	public ColumnSectionBlock(Properties properties) {
 		super(properties);
@@ -53,7 +60,7 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 			state = state.setValue(Patina.PROPERTY, Patina.NONE);
 		for (BooleanProperty nozzle : NOZZLES.values())
 			state = state.setValue(nozzle, false);
-		registerDefaultState(state);
+		registerDefaultState(state.setValue(DOWN, false));
 	}
 
 	@Override
@@ -63,7 +70,7 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		super.createBlockStateDefinition(builder.add(NOZZLES.values().toArray(BooleanProperty[]::new)));
+		super.createBlockStateDefinition(builder.add(NOZZLES.values().toArray(BooleanProperty[]::new)).add(DOWN));
 		if (rusts())
 			builder.add(Patina.PROPERTY);
 	}
@@ -78,7 +85,12 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 		BlockState state = defaultBlockState();
 		for (Direction side : NOZZLES.keySet())
 			state = state.setValue(NOZZLES.get(side), joins(context.getLevel(), context.getClickedPos(), side));
-		return state;
+		return state.setValue(DOWN, standsOn(context.getLevel().getBlockState(context.getClickedPos().below())));
+	}
+
+	/** Whether a section of this kind stands on {@code below}: a section of the same kind. */
+	public boolean standsOn(BlockState below) {
+		return below.is(this);
 	}
 
 	@Override
@@ -86,6 +98,8 @@ public class ColumnSectionBlock extends Block implements IBE<ColumnSectionBlockE
 		BlockPos pos, BlockPos neighbourPos) {
 		if (NOZZLES.containsKey(direction))
 			return state.setValue(NOZZLES.get(direction), joins(level, pos, direction));
+		if (direction == Direction.DOWN)
+			return state.setValue(DOWN, standsOn(neighbour));
 		return state;
 	}
 

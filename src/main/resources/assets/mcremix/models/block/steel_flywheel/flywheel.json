@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "0": "mcremix:block/steel_flywheel",
+    "1": "mcremix:block/steel_axis",
+    "2": "mcremix:block/steel_axis_top",
+    "particle": "mcremix:block/steel_flywheel"
+  }
+}

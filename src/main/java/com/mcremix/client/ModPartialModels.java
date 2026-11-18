@@ -72,6 +72,10 @@ public class ModPartialModels {
 	public static final PartialModel PRESSURIZER_NEEDLE = PartialModel.of(McRemix.asResource("block/pressurizer/needle"));
 	/** The diesel engine's shaft and flywheel, modelled upright with the flywheel at the top. */
 	public static final PartialModel DIESEL_FLYWHEEL = PartialModel.of(McRemix.asResource("block/diesel_engine/flywheel"));
+	/** The steel flywheel's wheel without its shaft, fresh and rusted, modelled turning about y (SteelFlywheelVisual). */
+	public static final PartialModel STEEL_FLYWHEEL = PartialModel.of(McRemix.asResource("block/steel_flywheel/block"));
+	public static final PartialModel EXPOSED_STEEL_FLYWHEEL =
+		PartialModel.of(McRemix.asResource("block/steel_flywheel/exposed_block"));
 
 	/** Create's drill head with other bits; iron bits are Create's own head. */
 	private static final Map<DrillBits, PartialModel> DRILL_HEADS = new EnumMap<>(DrillBits.class);

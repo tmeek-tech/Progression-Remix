@@ -2,10 +2,20 @@
   "multipart": [
     {
       "when": {
-        "patina": "none|waxed"
+        "patina": "none|waxed",
+        "down": "false"
       },
       "apply": {
         "model": "mcremix:block/steel_column_section"
+      }
+    },
+    {
+      "when": {
+        "patina": "none|waxed",
+        "down": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/steel_column_section_stacked"
       }
     },
     {
@@ -49,10 +59,20 @@
     },
     {
       "when": {
-        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized"
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "down": "false"
       },
       "apply": {
         "model": "mcremix:block/exposed_steel_column_section"
+      }
+    },
+    {
+      "when": {
+        "patina": "exposed|weathered|oxidized|waxed_exposed|waxed_weathered|waxed_oxidized",
+        "down": "true"
+      },
+      "apply": {
+        "model": "mcremix:block/exposed_steel_column_section_stacked"
       }
     },
     {

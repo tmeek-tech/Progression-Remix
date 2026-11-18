@@ -1,0 +1,108 @@
+{
+  "variants": {
+    "axis=x,patina=none": {
+      "model": "mcremix:block/steel_flywheel/block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=exposed": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=weathered": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=oxidized": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed": {
+      "model": "mcremix:block/steel_flywheel/block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed_exposed": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed_weathered": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,patina=waxed_oxidized": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,patina=none": {
+      "model": "mcremix:block/steel_flywheel/block"
+    },
+    "axis=y,patina=exposed": {
+      "model": "mcremix:block/steel_flywheel/exposed_block"
+    },
+    "axis=y,patina=weathered": {
+      "model": "mcremix:block/steel_flywheel/exposed_block"
+    },
+    "axis=y,patina=oxidized": {
+      "model": "mcremix:block/steel_flywheel/exposed_block"
+    },
+    "axis=y,patina=waxed": {
+      "model": "mcremix:block/steel_flywheel/block"
+    },
+    "axis=y,patina=waxed_exposed": {
+      "model": "mcremix:block/steel_flywheel/exposed_block"
+    },
+    "axis=y,patina=waxed_weathered": {
+      "model": "mcremix:block/steel_flywheel/exposed_block"
+    },
+    "axis=y,patina=waxed_oxidized": {
+      "model": "mcremix:block/steel_flywheel/exposed_block"
+    },
+    "axis=z,patina=none": {
+      "model": "mcremix:block/steel_flywheel/block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=exposed": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=weathered": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=oxidized": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=waxed": {
+      "model": "mcremix:block/steel_flywheel/block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=waxed_exposed": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=waxed_weathered": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,patina=waxed_oxidized": {
+      "model": "mcremix:block/steel_flywheel/exposed_block",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "mcremix:block/steel_flywheel/exposed_flywheel",
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "create:models/block/flywheel/flywheel_shaftless.obj"
+}

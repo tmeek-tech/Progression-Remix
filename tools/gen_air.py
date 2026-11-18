@@ -141,7 +141,8 @@ def column(b, origin, height, nozzles):
     ox, oy, oz = origin
     for y in range(height):
         pos = (ox, oy + y, oz)
-        props = {'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false', 'frost': '0'}
+        props = {'north': 'false', 'east': 'false', 'south': 'false', 'west': 'false', 'frost': '0',
+                 'down': 'true' if y else 'false'}
         for side in nozzles.get(pos, ()):
             props[side] = 'true'
         if y == 0:
@@ -169,7 +170,7 @@ def ponder_schematics():
     b[(2, 2, 3)] = ('mcremix:pressurizer_vessel', {'north': 'true', 'east': 'true', 'south': 'false', 'west': 'false'})
     b[(2, 2, 4)] = ('create:encased_fan', {'facing': 'north'})
     b[(3, 2, 3)] = pipe('east', 'west')
-    b[(4, 2, 3)] = ('mcremix:steel_condenser', {'axis': 'x', 'patina': 'none'})
+    b[(4, 2, 3)] = ('mcremix:steel_condenser', {'axis': 'x', 'against': 'none', 'patina': 'none'})
     b[(4, 3, 3)] = pipe('up', 'down')
     b[(5, 2, 3)] = pipe('east', 'west')
     b[(6, 2, 3)] = ('mcremix:expansion_valve', {'facing': 'south', 'frosted': 'false'})
@@ -211,11 +212,11 @@ def lang():
         # blocks
         'block.mcremix.aluminium_column_section': 'Aluminium Column Section',
         'block.mcremix.aluminium_column_section.tooltip.summary': (
-            'A riveted, flanged section of an _air column_, which splits _liquid air_. Stack them _up to sixteen high_ '
-            'and _one to three across_; pipe or pour _liquid air_ into the bottom section. It needs _no heat_: liquid '
-            'air boils in the world\'s warmth, _5 mB a tick_ for every block of its floor. _Nitrogen_ comes from the '
-            'top section, _argon_ from the one below it, and _oxygen_ from the bottom, all as gases. It frosts over as '
-            'it runs.' + melts),
+            'A polished, flanged section of an _air column_, which splits _liquid air_. Stack them _up to sixteen '
+            'high_ and _one to three across_; pipe or pour _liquid air_ into the bottom section. It needs _no heat_: '
+            'liquid air boils in the world\'s warmth, _5 mB a tick_ for every block of its floor. _Nitrogen_ comes from '
+            'the top section, _argon_ from the one below it, and _oxygen_ from the bottom, all as gases. It frosts over '
+            'as it runs.' + melts),
         'block.mcremix.aluminium_column_section.tooltip.condition1': 'Argon and oxygen',
         'block.mcremix.aluminium_column_section.tooltip.behaviour1': (
             'They boil only _3 °C apart_, so they need _four sections_ between them: _seven_ in all. Short of them, '

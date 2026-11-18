@@ -1,6 +1,7 @@
 package com.mcremix.column;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,6 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,6 +46,11 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	protected int height = 1;
 
 	private final Column column = new Column(this);
+	/**
+	 * Whether it has checked, since it loaded, that its block shows whether it stands on a section of its kind: one
+	 * placed before 0.36.1 has no such state, and nothing beside it changes to set it.
+	 */
+	private boolean checkedFlange;
 	/** What a pipe on its side works with: its section of the column, whichever block keeps it now. */
 	private final LazyOptional<IFluidHandler> port = LazyOptional.of(Port::new);
 
@@ -87,12 +94,27 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 		}
 		if (updateConnectivity)
 			updateConnectivity();
-		if (level == null || level.isClientSide || !isController())
+		if (level == null || level.isClientSide)
+			return;
+		if (!checkedFlange)
+			checkFlange();
+		if (!isController())
 			return;
 		if (column.width() != width || column.height() != height)
 			column.resize(width, height);
 		column.settle();
 		column.tick(level);
+	}
+
+	/** Sets its block to hide its bottom flange if it stands on a section of its kind, and to show it if not. */
+	private void checkFlange() {
+		checkedFlange = true;
+		BlockState state = getBlockState();
+		if (!(state.getBlock() instanceof ColumnSectionBlock block))
+			return;
+		boolean stands = block.standsOn(level.getBlockState(worldPosition.below()));
+		if (state.getValue(ColumnSectionBlock.DOWN) != stands)
+			level.setBlock(worldPosition, state.setValue(ColumnSectionBlock.DOWN, stands), Block.UPDATE_CLIENTS);
 	}
 
 	@Override
@@ -312,6 +334,9 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	@Override
 	protected void read(CompoundTag tag, boolean clientPacket) {
 		super.read(tag, clientPacket);
+		BlockPos controllerBefore = controller;
+		int widthBefore = width;
+		int heightBefore = height;
 		updateConnectivity = tag.contains("Uninitialized");
 		controller = null;
 		lastKnownPos = null;
@@ -325,6 +350,11 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 			column.sizeForRead(width, height);
 			column.read(tag.getCompound("Column"));
 		}
+		// the client draws a formed column's sides and top joined up (client/ColumnCTBehaviour): when the column this
+		// section is in changes, its blocks are drawn again, as Create's tanks are
+		if (clientPacket && level != null && (!Objects.equals(controllerBefore, controller) || width != widthBefore
+			|| height != heightBefore))
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 16);
 	}
 
 	// ------------------------------------------------------------------------------------------------ goggles

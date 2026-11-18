@@ -8,6 +8,7 @@
     {
       "id": "create:crushing_wheel",
       "required": false
-    }
+    },
+    "mcremix:steel_flywheel"
   ]
 }
