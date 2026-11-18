@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "facing=south,patina=none": {
+      "model": "mcremix:block/coil_winder/titanium"
+    },
+    "facing=south,patina=exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium"
+    },
+    "facing=south,patina=weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium"
+    },
+    "facing=south,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium"
+    },
+    "facing=south,patina=waxed": {
+      "model": "mcremix:block/coil_winder/titanium"
+    },
+    "facing=south,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium"
+    },
+    "facing=south,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium"
+    },
+    "facing=south,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium"
+    },
+    "facing=west,patina=none": {
+      "model": "mcremix:block/coil_winder/titanium",
+      "y": 90
+    },
+    "facing=west,patina=exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium",
+      "y": 90
+    },
+    "facing=west,patina=weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium",
+      "y": 90
+    },
+    "facing=west,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium",
+      "y": 90
+    },
+    "facing=west,patina=waxed": {
+      "model": "mcremix:block/coil_winder/titanium",
+      "y": 90
+    },
+    "facing=west,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium",
+      "y": 90
+    },
+    "facing=west,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium",
+      "y": 90
+    },
+    "facing=west,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium",
+      "y": 90
+    },
+    "facing=north,patina=none": {
+      "model": "mcremix:block/coil_winder/titanium",
+      "y": 180
+    },
+    "facing=north,patina=exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium",
+      "y": 180
+    },
+    "facing=north,patina=weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium",
+      "y": 180
+    },
+    "facing=north,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium",
+      "y": 180
+    },
+    "facing=north,patina=waxed": {
+      "model": "mcremix:block/coil_winder/titanium",
+      "y": 180
+    },
+    "facing=north,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium",
+      "y": 180
+    },
+    "facing=north,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium",
+      "y": 180
+    },
+    "facing=north,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium",
+      "y": 180
+    },
+    "facing=east,patina=none": {
+      "model": "mcremix:block/coil_winder/titanium",
+      "y": 270
+    },
+    "facing=east,patina=exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium",
+      "y": 270
+    },
+    "facing=east,patina=weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium",
+      "y": 270
+    },
+    "facing=east,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium",
+      "y": 270
+    },
+    "facing=east,patina=waxed": {
+      "model": "mcremix:block/coil_winder/titanium",
+      "y": 270
+    },
+    "facing=east,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/gold_tinted_titanium",
+      "y": 270
+    },
+    "facing=east,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/purple_tinted_titanium",
+      "y": 270
+    },
+    "facing=east,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/blue_tinted_titanium",
+      "y": 270
+    }
+  }
+}

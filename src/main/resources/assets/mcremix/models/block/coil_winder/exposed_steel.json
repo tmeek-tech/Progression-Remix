@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/coil_winder/frame",
+  "textures": {
+    "casing": "mcremix:block/exposed_steel_casing",
+    "axis": "mcremix:block/exposed_steel_axis",
+    "particle": "mcremix:block/exposed_steel_casing"
+  }
+}

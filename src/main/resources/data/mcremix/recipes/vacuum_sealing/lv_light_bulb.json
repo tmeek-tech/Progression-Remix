@@ -1,0 +1,28 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "tag": "minecraft:coals"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:lv_light_bulb"
+    }
+  ],
+  "min_speed": 128,
+  "heat": "hot",
+  "processingTime": 100
+}

@@ -12,6 +12,7 @@ import com.mcremix.heat.HeatSources;
 import com.mcremix.kiln.KilnBlock;
 import com.mcremix.kinetics.KineticMaterial;
 import com.mcremix.kinetics.KineticMaterials;
+import com.mcremix.machines.KindSlots;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.content.kinetics.base.IRotate;
@@ -24,6 +25,7 @@ import net.createmod.catnip.data.Iterate;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -60,6 +62,12 @@ import net.minecraftforge.items.ItemStackHandler;
  * ({@link #AIR_PER_RPM}); a recipe's second fluid, such as the hydrogen nitrogen is squeezed with into ammonia, waits in
  * a second feed tank; and a catalyst dropped into the vessel, by hand or funnel, lies there for the recipes that work
  * over it, crumbling after so much is made.
+ * <p>
+ * Since 0.37.0 the way it turns matters (Taran): it squeezes as its shaft's top rolls away from its dial
+ * ({@link #squeezesAt}), and turned the other way its pump pulls the air out of its vessel instead, the needle dropping
+ * below nothing. Then, over a fire, it seals what lies in the vessel ({@link VacuumSealingRecipe}), put in a kind to a
+ * slot by hand or funnel. One from before then squeezed whichever way it turned, so it keeps squeezing the way it
+ * turns when it is first loaded ({@link #reversed}).
  */
 public class PressurizerBlockEntity extends KineticBlockEntity {
 	/**
@@ -79,12 +87,26 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	public static final float DIAL_END = 1.15f;
 	/** How far the needle sweeps, in degrees clockwise from straight up, from nothing to the far end of the dial. */
 	public static final float NEEDLE_FROM = -135, NEEDLE_TO = 135;
+	/** How far below nothing the needle drops at a full vacuum, round to straight down, in degrees. */
+	public static final float VACUUM_SWEEP = 45;
+	/** Kinds of thing its vessel holds at once to seal in a vacuum: a cathode ray tube takes four. */
+	public static final int SEALING_SLOTS = 4;
 
 	/** What it is doing, for the goggles. */
 	public enum Job {
 		IDLE(ChatFormatting.GRAY), WORKING(ChatFormatting.GREEN), TOO_SLOW(ChatFormatting.GOLD),
 		TOO_COLD(ChatFormatting.GOLD), WAITING(ChatFormatting.GRAY), FULL(ChatFormatting.GOLD),
-		NO_CATALYST(ChatFormatting.RED);
+		NO_CATALYST(ChatFormatting.RED),
+		/** Pulling a vacuum and sealing what lies in the vessel. */
+		SEALING(ChatFormatting.GREEN),
+		/** Pulling a vacuum with nothing to seal. */
+		VACUUM(ChatFormatting.GRAY),
+		/** Holding some of what a seal takes, but not all. */
+		SEAL_WAITING(ChatFormatting.GOLD),
+		/** Holding what it squeezes, but turned the way that pulls a vacuum. */
+		TURN_TO_SQUEEZE(ChatFormatting.GOLD),
+		/** Holding what it seals, but turned the way that squeezes. */
+		TURN_TO_SEAL(ChatFormatting.GOLD);
 
 		final ChatFormatting color;
 
@@ -131,6 +153,19 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			contentsChanged();
 		}
 	};
+	/** What it seals in a vacuum, a kind to a slot. */
+	private final ItemStackHandler sealing = new ItemStackHandler(SEALING_SLOTS) {
+		@Override
+		protected void onContentsChanged(int slot) {
+			sealChecked = false;
+			contentsChanged();
+		}
+
+		@Override
+		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+			return VacuumSealingRecipe.takes(level, stack);
+		}
+	};
 	private final LazyOptional<IFluidHandler> pipes = LazyOptional.of(Pipes::new);
 	private final LazyOptional<IItemHandler> outlet = LazyOptional.of(Outlet::new);
 
@@ -156,6 +191,17 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	private float dial, lastDial;
 	/** Whether its vessel has been given its colours since it was loaded ({@link #matchVessel}). */
 	private boolean vesselMatched;
+	/**
+	 * Whether it squeezes the other way round from {@link #squeezesAt}: one from before 0.37.0, which squeezed whichever
+	 * way it turned, keeps squeezing the way it was turning.
+	 */
+	private boolean reversed;
+	/** False for one from before 0.37.0 until it next turns, when it learns which way it squeezes. */
+	private boolean senseKnown = true;
+	/** What its vessel seals, looked for again only once what the vessel holds has changed. */
+	@Nullable
+	private VacuumSealingRecipe sealFound;
+	private boolean sealChecked;
 
 	public PressurizerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -187,12 +233,34 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			matchVessel();
 		}
 		takeAir();
+		if (!senseKnown && getSpeed() != 0) {
+			senseKnown = true;
+			reversed = !squeezesAt(getBlockState(), getSpeed());
+			setChanged();
+			sendData();
+		}
+		boolean vacuum = !squeezing();
 		PressurizingRecipe recipe = recipe();
-		ResourceLocation id = recipe == null ? null : recipe.getId();
+		VacuumSealingRecipe seal = sealRecipe();
+		boolean holdsSeal = !KindSlots.empty(sealing);
+		// what it works at: in a vacuum, what it seals; turned the squeezing way or still, what it squeezes first
+		boolean sealWork = vacuum ? holdsSeal : recipe == null && holdsSeal;
+		ResourceLocation id = sealWork ? (seal == null ? null : seal.getId()) : recipe == null ? null : recipe.getId();
 		if (id == null || !id.equals(working))
 			progress = 0;
 		working = id;
-		Job now = recipe == null ? Job.IDLE : check(recipe);
+		Job now;
+		if (vacuum)
+			now = seal != null ? checkSeal(seal) : holdsSeal ? Job.SEAL_WAITING : recipe != null ? Job.TURN_TO_SQUEEZE
+				: Job.VACUUM;
+		else if (recipe != null)
+			now = check(recipe);
+		else if (!holdsSeal)
+			now = Job.IDLE;
+		else if (getSpeed() != 0)
+			now = Job.TURN_TO_SEAL;
+		else
+			now = seal != null ? checkSeal(seal) : Job.SEAL_WAITING;
 		if (now == Job.WORKING) {
 			progress += recipe.progressAt(Math.abs(getSpeed()));
 			for (int batches = 0; progress >= 1 && batches < MOST_BATCHES; batches++) {
@@ -203,9 +271,19 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			}
 			// a batch it could not finish for want of feed or room waits whole, not ahead
 			progress = Math.min(progress, 1);
+		} else if (now == Job.SEALING) {
+			progress += seal.progressAt(Math.abs(getSpeed()));
+			for (int batches = 0; progress >= 1 && batches < MOST_BATCHES; batches++) {
+				if (checkSeal(seal) != Job.SEALING || !seal.takeFrom(sealing, true))
+					break;
+				sealOne(seal);
+				progress -= 1;
+			}
+			progress = Math.min(progress, 1);
 		}
-		int speed = recipe == null ? 0 : recipe.minSpeed();
-		HeatLevel heat = recipe == null ? HeatLevel.COLD : recipe.heat();
+		int speed = sealWork ? seal == null ? 0 : seal.minSpeed() : recipe == null ? 0 : recipe.minSpeed();
+		HeatLevel heat = sealWork ? seal == null ? HeatLevel.COLD : seal.heat()
+			: recipe == null ? HeatLevel.COLD : recipe.heat();
 		if (now != job || speed != wantsSpeed || heat != wantsHeat) {
 			job = now;
 			wantsSpeed = speed;
@@ -218,6 +296,56 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			syncIn = SYNC_EVERY;
 			sendData();
 		}
+	}
+
+	/**
+	 * Whether it squeezes as it turns now; turned the other way it pulls a vacuum. Still, or one from before 0.37.0 that
+	 * has not turned since, it counts as squeezing.
+	 */
+	public boolean squeezing() {
+		float speed = getSpeed();
+		return speed == 0 || !senseKnown || squeezesAt(getBlockState(), speed) != reversed;
+	}
+
+	/**
+	 * Whether a Pressurizer squeezes turning at {@code speed} (0.37.0): as its shaft's top rolls away from its
+	 * dial, so the pump's stroke pushes into the vessel. Turned the other way it draws out of it. Create turns a part by
+	 * the right hand about the positive end of its axis, so a positive speed rolls the top of a shaft running east to
+	 * west towards the south, and of one running north to south towards the west.
+	 */
+	public static boolean squeezesAt(BlockState state, float speed) {
+		Direction front = state.getValue(HorizontalKineticBlock.HORIZONTAL_FACING);
+		Direction top = front.getAxis() == Axis.Z ? speed > 0 ? Direction.SOUTH : Direction.NORTH
+			: speed > 0 ? Direction.WEST : Direction.EAST;
+		return top != front;
+	}
+
+	/** What its vessel holds enough of to seal, if anything. */
+	@Nullable
+	public VacuumSealingRecipe sealRecipe() {
+		if (!sealChecked && level != null) {
+			sealFound = VacuumSealingRecipe.find(level, sealing).orElse(null);
+			sealChecked = true;
+		}
+		return sealFound;
+	}
+
+	/** Whether it can seal {@code seal} now, turned the vacuum way, and if not, why not. */
+	private Job checkSeal(VacuumSealingRecipe seal) {
+		if (Math.abs(getSpeed()) < seal.minSpeed())
+			return Job.TOO_SLOW;
+		if (!heatUnder().isAtLeast(seal.heat()))
+			return Job.TOO_COLD;
+		if (!made.insertItem(0, seal.sealed(), true).isEmpty())
+			return Job.FULL;
+		return Job.SEALING;
+	}
+
+	private void sealOne(VacuumSealingRecipe seal) {
+		seal.takeFrom(sealing, false);
+		for (ItemStack result : seal.rollResults())
+			made.insertItem(0, result, false);
+		level.playSound(null, worldPosition.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, .25f, 1.6f);
 	}
 
 	/** The recipe for what is in its feed tanks now, if any. */
@@ -382,20 +510,24 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			level.setBlock(above, matched, Block.UPDATE_ALL);
 	}
 
-	/** The pressure, which is speed, as a share of the top speed of its metal: 1 at top speed, past it in the red. */
+	/**
+	 * The pressure, which is speed, as a share of the top speed of its metal: 1 at top speed, past it in the red. Turned
+	 * the vacuum way it is below nothing, -1 at top speed.
+	 */
 	public float pressure() {
 		KineticMaterial material = KineticMaterials.of(getBlockState());
 		int top = material == null ? KineticMaterial.STEEL.maxSpeed : material.maxSpeed;
-		return Math.min(DIAL_END, Math.abs(getSpeed()) / top);
+		float share = Math.min(DIAL_END, Math.abs(getSpeed()) / top);
+		return squeezing() ? share : -Math.min(1, share);
 	}
 
 	/** Client: the needle swings after the pressure, and trembles while the Pressurizer squeezes. */
 	private void moveNeedle() {
 		lastDial = dial;
 		dial += (pressure() - dial) * .1f;
-		if (job == Job.WORKING)
+		if (job == Job.WORKING || job == Job.SEALING)
 			dial += (level.random.nextFloat() - .5f) * .012f;
-		dial = Mth.clamp(dial, 0, DIAL_END);
+		dial = Mth.clamp(dial, -1, DIAL_END);
 	}
 
 	/** Where the needle is, as a share of top speed, between ticks. */
@@ -403,8 +535,10 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		return Mth.lerp(partialTicks, lastDial, dial);
 	}
 
-	/** The needle's angle for a dial reading, in degrees clockwise from straight up. */
+	/** The needle's angle for a dial reading, in degrees clockwise from straight up; below nothing, it drops lower. */
 	public static float needleAngle(float dial) {
+		if (dial < 0)
+			return NEEDLE_FROM + VACUUM_SWEEP * Math.max(dial, -1);
 		return NEEDLE_FROM + (NEEDLE_TO - NEEDLE_FROM) * Mth.clamp(dial, 0, DIAL_END) / DIAL_END;
 	}
 
@@ -468,6 +602,23 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		return output.getFluid();
 	}
 
+	/** What its vessel holds to seal in a vacuum. */
+	public IItemHandler sealing() {
+		return sealing;
+	}
+
+	/** Puts what it seals in a vacuum into its vessel, a kind to a slot, as much as fits; returns what is left. */
+	public ItemStack addSealing(ItemStack stack, boolean simulate) {
+		if (stack.isEmpty() || !sealing.isItemValid(0, stack))
+			return stack;
+		return KindSlots.insert(sealing, stack, simulate);
+	}
+
+	/** Hands back the last kind of thing put in to seal. */
+	public ItemStack takeSealing() {
+		return KindSlots.takeLast(sealing);
+	}
+
 	public ItemStack made() {
 		return made.getStackInSlot(0);
 	}
@@ -520,6 +671,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		if (level != null) {
 			ItemHelper.dropContents(level, worldPosition, made);
 			ItemHelper.dropContents(level, worldPosition, catalyst);
+			ItemHelper.dropContents(level, worldPosition, sealing);
 		}
 	}
 
@@ -531,6 +683,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		tag.put("CoFeed", coFeed.writeToNBT(new CompoundTag()));
 		tag.put("Made", made.serializeNBT());
 		tag.put("Catalyst", catalyst.serializeNBT());
+		tag.put("Sealing", sealing.serializeNBT());
 		tag.putInt("CatalystWear", catalystWear);
 		tag.putFloat("Air", air);
 		tag.putFloat("Progress", progress);
@@ -541,6 +694,9 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		tag.putString("WantsHeat", wantsHeat.getSerializedName());
 		tag.putBoolean("TwoBlock", true);
 		tag.putBoolean("SideShaft", true);
+		if (senseKnown)
+			tag.putBoolean("Sense", true);
+		tag.putBoolean("Reversed", reversed);
 	}
 
 	@Override
@@ -552,6 +708,9 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		made.deserializeNBT(tag.getCompound("Made"));
 		if (tag.contains("Catalyst"))
 			catalyst.deserializeNBT(tag.getCompound("Catalyst"));
+		if (tag.contains("Sealing"))
+			sealing.deserializeNBT(tag.getCompound("Sealing"));
+		sealChecked = false;
 		catalystWear = tag.getInt("CatalystWear");
 		air = tag.getFloat("Air");
 		progress = tag.getFloat("Progress");
@@ -564,6 +723,9 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		wantsSpeed = tag.getInt("WantsSpeed");
 		twoBlock = tag.getBoolean("TwoBlock");
 		sideShaft = tag.getBoolean("SideShaft");
+		// one saved before 0.37.0 squeezed whichever way it turned: it learns which way when it next turns
+		senseKnown = tag.contains("Sense");
+		reversed = tag.getBoolean("Reversed");
 		try {
 			wantsHeat = HeatLevel.byName(tag.getString("WantsHeat"));
 		} catch (IllegalArgumentException e) {
@@ -587,6 +749,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 			case TOO_COLD -> Component.translatable(key, wantsHeat.displayName());
 			case NO_CATALYST -> Component.translatable(key, catalystName());
 			case WAITING -> waitingFor();
+			case SEALING -> Component.translatable(key, sealedName());
+			case SEAL_WAITING -> Component.translatable(key, sealWants());
 			default -> Component.translatable(key);
 		};
 		tooltip.add(line(doing.withStyle(job.color)));
@@ -596,6 +760,12 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		if (!coFeed.isEmpty())
 			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.feed",
 				coFeed.getFluid().getDisplayName(), coFeed.getFluidAmount()).withStyle(ChatFormatting.GRAY)));
+		for (int slot = 0; slot < SEALING_SLOTS; slot++) {
+			ItemStack held = sealing.getStackInSlot(slot);
+			if (!held.isEmpty())
+				tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.to_seal", held.getCount(),
+					held.getHoverName()).withStyle(ChatFormatting.GRAY)));
+		}
 		ItemStack lying = catalyst.getStackInSlot(0);
 		if (!lying.isEmpty()) {
 			PressurizingRecipe recipe = recipe();
@@ -610,6 +780,31 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		if (!stack.isEmpty())
 			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.made", stack.getCount(),
 				stack.getHoverName()).withStyle(ChatFormatting.GRAY)));
+	}
+
+	/** What it is sealing, by name, for the goggles. */
+	private Component sealedName() {
+		VacuumSealingRecipe seal = sealRecipe();
+		return seal == null ? Component.empty() : seal.sealed().getHoverName();
+	}
+
+	/**
+	 * What the seal its vessel holds the most of still wants, by name, for the goggles: of those it holds part of, the
+	 * one fewest items short; ties go by name.
+	 */
+	private Component sealWants() {
+		VacuumSealingRecipe nearest = null;
+		int fewest = Integer.MAX_VALUE;
+		for (VacuumSealingRecipe seal : VacuumSealingRecipe.all(level)) {
+			if (!KindSlots.sharesAny(seal.getIngredients(), sealing))
+				continue;
+			int lacking = KindSlots.unmet(seal.getIngredients(), sealing).size();
+			if (lacking < fewest || lacking == fewest && seal.getId().compareTo(nearest.getId()) < 0) {
+				nearest = seal;
+				fewest = lacking;
+			}
+		}
+		return nearest == null ? Component.empty() : KindSlots.missing(nearest.getIngredients(), sealing);
 	}
 
 	/** What its recipe works over, by name, for the goggles. */
@@ -686,23 +881,29 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		}
 	}
 
-	/** What it made, to be taken out, and its catalyst, which goes in this way but never comes out. */
+	/**
+	 * What it made, to be taken out; its catalyst, which goes in this way but never comes out; and what it seals in a
+	 * vacuum, which goes in a kind to a slot and never comes out either.
+	 */
 	private class Outlet implements IItemHandler {
 		@Override
 		public int getSlots() {
-			return 2;
+			return 2 + SEALING_SLOTS;
 		}
 
 		@Nonnull
 		@Override
 		public ItemStack getStackInSlot(int slot) {
-			return slot == 0 ? made.getStackInSlot(0) : catalyst.getStackInSlot(0);
+			return slot == 0 ? made.getStackInSlot(0) : slot == 1 ? catalyst.getStackInSlot(0)
+				: sealing.getStackInSlot(slot - 2);
 		}
 
 		@Nonnull
 		@Override
 		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-			return slot == 1 ? catalyst.insertItem(0, stack, simulate) : stack;
+			if (slot == 1)
+				return catalyst.insertItem(0, stack, simulate);
+			return slot >= 2 ? addSealing(stack, simulate) : stack;
 		}
 
 		@Nonnull
@@ -713,12 +914,12 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 
 		@Override
 		public int getSlotLimit(int slot) {
-			return slot == 0 ? made.getSlotLimit(0) : catalyst.getSlotLimit(0);
+			return slot == 0 ? made.getSlotLimit(0) : slot == 1 ? catalyst.getSlotLimit(0) : 64;
 		}
 
 		@Override
 		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-			return slot == 1 && catalyst.isItemValid(0, stack);
+			return slot == 1 ? catalyst.isItemValid(0, stack) : slot >= 2 && sealing.isItemValid(0, stack);
 		}
 	}
 }

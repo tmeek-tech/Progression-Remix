@@ -1,0 +1,25 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:regulator_tube"
+    }
+  ],
+  "min_speed": 256,
+  "heat": "hot",
+  "processingTime": 100
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "G"
+  ],
+  "key": {
+    "S": {
+      "item": "create:shaft"
+    },
+    "C": {
+      "item": "create:andesite_casing"
+    },
+    "G": {
+      "item": "create:cogwheel"
+    }
+  },
+  "result": {
+    "item": "mcremix:coil_winder"
+  }
+}

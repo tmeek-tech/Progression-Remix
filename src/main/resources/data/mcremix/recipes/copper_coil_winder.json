@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "G"
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:copper_shaft"
+    },
+    "C": {
+      "item": "create:copper_casing"
+    },
+    "G": {
+      "item": "mcremix:copper_cogwheel"
+    }
+  },
+  "result": {
+    "item": "mcremix:copper_coil_winder"
+  }
+}

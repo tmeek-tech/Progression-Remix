@@ -70,6 +70,25 @@ public class ModPartialModels {
 
 	/** The needle of a Pressurizer's dial, on a dial facing south, pointing straight up from the middle of the face. */
 	public static final PartialModel PRESSURIZER_NEEDLE = PartialModel.of(McRemix.asResource("block/pressurizer/needle"));
+	/**
+	 * A coil winder's bobbin (its two flanges; the shaft is its core) and the wire on it at each step of a coil, a
+	 * quarter of a pixel thicker each (CoilWinderRenderer.WIRE_STEPS), all modelled upright as Create's shaft is; and
+	 * its wire guide, in the middle of its rod on a winder facing south.
+	 */
+	public static final PartialModel COIL_WINDER_BOBBIN = PartialModel.of(McRemix.asResource("block/coil_winder/bobbin"));
+	public static final PartialModel COIL_WINDER_GUIDE = PartialModel.of(McRemix.asResource("block/coil_winder/guide"));
+	private static final PartialModel[] COIL_WINDER_WIRE = new PartialModel[CoilWinderRenderer.WIRE_STEPS];
+
+	static {
+		for (int step = 1; step <= CoilWinderRenderer.WIRE_STEPS; step++)
+			COIL_WINDER_WIRE[step - 1] = PartialModel.of(McRemix.asResource("block/coil_winder/wire_" + step));
+	}
+
+	/** The wire on a coil winder's bobbin at {@code step}, 1 to CoilWinderRenderer.WIRE_STEPS. */
+	public static PartialModel coilWinderWire(int step) {
+		return COIL_WINDER_WIRE[step - 1];
+	}
+
 	/** The diesel engine's shaft and flywheel, modelled upright with the flywheel at the top. */
 	public static final PartialModel DIESEL_FLYWHEEL = PartialModel.of(McRemix.asResource("block/diesel_engine/flywheel"));
 	/** The steel flywheel's wheel without its shaft, fresh and rusted, modelled turning about y (SteelFlywheelVisual). */

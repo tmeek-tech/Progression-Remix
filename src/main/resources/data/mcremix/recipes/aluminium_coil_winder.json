@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "G"
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:aluminium_shaft"
+    },
+    "C": {
+      "item": "mcremix:aluminium_casing"
+    },
+    "G": {
+      "item": "mcremix:aluminium_cogwheel"
+    }
+  },
+  "result": {
+    "item": "mcremix:aluminium_coil_winder"
+  }
+}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.patryk3211.powergrid.collections.ModdedBlocks;
+import org.patryk3211.powergrid.collections.ModdedItems;
 import org.patryk3211.powergrid.ponder.PowerGridPonderTags;
 
 import com.mcremix.McRemix;
@@ -180,6 +182,12 @@ public class ModPonderPlugin implements PonderPlugin {
 			.addStoryBoard("pressurizer/intro", PressurizerScenes::intro, AllCreatePonderTags.KINETIC_APPLIANCES);
 		entries.forComponents(ModItems.POLYETHYLENE_PELLETS, ModItems.PVC_RESIN)
 			.addStoryBoard("pressurizer/intro", PressurizerScenes::intro);
+		// turned the other way it seals Power Grid's bulbs and tubes in a vacuum, on the same stage (0.37.0)
+		entries.forComponents(ModBlocks.PRESSURIZER, ModBlocks.TITANIUM_PRESSURIZER, ModdedItems.LIGHT_BULB,
+			ModdedItems.LV_LIGHT_BULB, ModdedItems.GROWTH_LAMP, ModdedItems.NEON_BULB, ModdedItems.TRIODE,
+			ModdedItems.PENTODE, ModdedItems.THYRATRON, ModdedItems.BARRETTER_TUBE, ModdedItems.REGULATOR_TUBE,
+			ModdedBlocks.CRT)
+			.addStoryBoard("pressurizer/intro", PressurizerScenes::vacuum);
 		// a vat is tanks on a layer of scaffolding, and a basin can take an Electrolyser
 		helper.forComponents(AllBlocks.FLUID_TANK.getId(), AllBlocks.ANDESITE_SCAFFOLD.getId())
 			.addStoryBoard("electrolysis/vat", ElectrolysisScenes::vat);
