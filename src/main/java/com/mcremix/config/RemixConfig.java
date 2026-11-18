@@ -97,8 +97,9 @@ public class RemixConfig {
 			.define("emptyVillages", true);
 		DISABLE_VILLAGER_BREEDING = b.comment("Villagers cannot breed; the only source is curing zombie villagers.")
 			.define("disableBreeding", true);
-		RUINED_VILLAGES = b.comment("New villages generate as ruins: mossy and cracked stone, broken windows, burnt-out torches, cold",
-				"campfires, cobwebs in the corners and weeds in the fields. Only affects chunks generated while it is on.")
+		RUINED_VILLAGES = b.comment("New villages generate as ruins: roofs fallen in and walls crumbled (each village its own age), rubble",
+				"where it fell, grown over by biome, half the doors, beds, chests and workstations gone, mossy and cracked stone,",
+				"broken windows, burnt-out torches, cold campfires and cobwebs. Only affects chunks generated while it is on.")
 			.define("ruinedVillages", true);
 		b.pop();
 

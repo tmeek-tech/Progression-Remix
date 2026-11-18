@@ -1,8 +1,47 @@
 # Test reports
 
-Newest first: [0.37.0](#0370-coiling-and-vacuum-sealing), [0.36.4](#0364-a-neck-into-the-column), [0.36.3](#0363-shiny-aluminium-and-a-condenser-that-runs-into-its-column), [0.36.2](#0362-the-upright-condenser-kept-centred), [0.36.1](#0361-a-bigger-engine-stacked-columns-detailed-aluminium-and-an-upright-condenser), [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.38.0](#0380-ruins-that-look-ruined), [0.37.0](#0370-coiling-and-vacuum-sealing), [0.36.4](#0364-a-neck-into-the-column), [0.36.3](#0363-shiny-aluminium-and-a-condenser-that-runs-into-its-column), [0.36.2](#0362-the-upright-condenser-kept-centred), [0.36.1](#0361-a-bigger-engine-stacked-columns-detailed-aluminium-and-an-upright-condenser), [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.38.0: Ruins that look ruined
+
+This covers section 51 of [BUILD_NOTES.md](BUILD_NOTES.md): on Taran's five card answers, every village falls in by
+its own age, rubble lies where it fell, the ruins grow over by biome with vanilla blocks only, and half the doors and
+about half the beds, chests and workstations are gone. Tested on 2026-11-18 against the same versions as 0.37.0.
+
+**Result:** 0.38.0 compiled with no errors. Every GameTest passes in a fresh test world: 463 of 463 plain and
+469 of 469 with `-Pcompanions`. In a dev client with the companions, a whole village of each kind placed with
+`/place structure` comes out ruined its own way, two plains villages at very different ages; shots are in
+`builds/screenshots/0.38.0`. Not checked: the jar on a real Forge server, and villages generated in a played world
+rather than placed on a flat one.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.38.0.jar`, 7,188,142 bytes, SHA-256 `3a57ff08…cb406c20dd`; `builds/mcremix-1.20.1-0.38.0.zip` holds the same jar. Its `mods.toml` says 0.38.0; none of its 1,771 PNGs carries a `caBX` chunk; no GameTest class is in it |
+| GameTests, plain | Pass | 463 of 463, the nine new ones among them |
+| GameTests, with companions | Pass | 469 of 469 (run before `streetsGoBackToTheLand` was made to count over fixed spots, a change to that test only) |
+| Each village its own age | Pass | `villagesAgeTogether`: of 4,800 houses in 400 villages 752 nearly whole (decay under 0.2), 802 nearly gone (over 0.8), 3,246 between; 51 villages young (under 0.25) and 51 old (over 0.75); every house within 0.35 of its village's age |
+| Houses fall in | Pass | `housesFallInWithDecay`: the small house 86% standing at decay 0 and 7% at decay 1, `plains_small_house_8` 95% at decay 0 and 38% at 0.90; nothing left hanging, no doorway blocked that was open as built, the floor course standing, rubble round the worst |
+| Same across chunks | Pass | `ruinsAreTheSameAcrossChunks`: the plains library at decay 1.0 placed whole and in four parts, 0 blocks differ |
+| Overgrowth by biome | Pass | `ruinsGrowOverByBiome`: the worst-off small house of each kind; plains grew 5 green blocks, taiga 9, savanna 4 dry, desert 3 sand, snowy 10 snow, none of the wrong kind; with companions it caught a tall grass left without its top (fixed) |
+| Salvage | Pass | `aboutHalfTheSalvageIsGone`: 50% of 288 beds, chests and workstations gone, about 54% expected from those houses' decay; no bed or double chest split; all 12 bells left. `ruinProcessorDecaysBlocks`: 213 doors of 400 gone, the rest open |
+| Streets | Pass | `streetsGoBackToTheLand`: a plains street's 48 dirt path down to 34, with grass blocks, coarse dirt and weeds, and a desert street with a block of sand, both keeping their blocks with nothing out of place; over a thousand spots 22.5% of path to grass and 11.3% to coarse dirt, 18.3% of paving to sand |
+| Review fixes | Pass | `ruinsLeaveTheGroundInThem`: 0 of 167 spots of clay filling a worn-out house's air taken; `villageStylesComeFromFolderNames`: `rice_paddy` and `alpine_meadow` plains, `snowy_taiga` snowy, `desert_oasis` desert; `tallPlantsFallWhole`: 92 of 150 tall grasses and large ferns in six worn-out houses came down, not one half left |
+| Burnt houses | Pass | `CompanionTests.someVillageHousesBurnedDown`: charred wood, roof partly gone, door and bed gone whole or left whole, the cobblestone kept |
+| Dev client | Pass | Old plains village (0, 0): most houses wall stubs with corner posts, moss, vines and rubble, a few still roofed with holes. Young plains village (300, 0): roofs holed, walls whole. Desert: roofless sandstone houses with sand drifted in, one 18-high tower (`desert_small_house_6`) whole. Taiga: spruce roofs fallen in over mossy cobblestone. Snowy: snow on everything open, snow-covered streets. Savanna: two villages, both young, roofs holed |
+
+### Known gaps
+
+- Rubble that tumbles out of a house can land in a neighbouring piece's space; if that piece is placed after and has
+  air there, the rubble stays inside it.
+- Where a house crosses a chunk border, a choice that reads the world (rubble landing on the ground outside it, a
+  beam lying across the border, the spot beside a doorway) can come out differently on either side; the library
+  placed in parts showed none.
+- A tall building loses the same share of its height as a low one, so a young `desert_small_house_6` keeps its whole
+  tower and only an old one comes down to a stub.
+- A burnt house's fallen roof still leaves what hung from it, as in 0.6.0.
+- Villages generated before 0.38.0 keep their old look; only new chunks change.
 
 ## 0.37.0: Coiling and vacuum sealing
 

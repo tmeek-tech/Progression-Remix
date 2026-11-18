@@ -482,7 +482,9 @@ bricks (with their stairs, slabs and walls) mossy or cracked. Its `finalizeProce
 corners of rooms, only where the corner is closed in on all four sides (a wall, door or window of the piece within 16
 blocks each way), so none hang under eaves, on porches or under a well's roof. Every roll is seeded by the block's
 position, so a piece spanning two chunks decays the same in both.
-`ruinedVillages` in the server config switches it off.
+`ruinedVillages` in the server config switches it off. Since 0.38.0 (section 51) houses also fall in by their
+village's age, rubble lies where it fell, the ruins grow over by biome and about half the doors, beds, chests and
+workstations are gone.
 
 With Immersive Weathering installed, one house in six (seeded by the piece's position) burned down instead: logs,
 planks and wooden stairs, slabs, fences and gates become IW's charred blocks (looked up by id, properties copied with
@@ -3827,3 +3829,113 @@ change after `/reload`, and fan air still filling the feed tank while it pulls a
 
 **Tests.** `CoilingTests` (six) and `VacuumSealingTests` (five). `PressurizerTests.turned` now takes a signed speed and
 gears up past 256 RPM with the motor turned back, so the Pressurizer still turns forwards.
+
+## 51. Ruins that look ruined (0.38.0)
+
+Taran's ask of 2026-11-18, "Can you make ruined villages look more ruined?", with five cards answered the same day:
+each village its own age (a few nearly whole, a few mostly fallen, most in between, and its houses ranging from a
+holed roof to wall stubs), rubble lying where it fell, moderate overgrowth by biome, vanilla blocks only, and less left
+to salvage (half the doors gone and the rest hanging open, about half the beds, chests and workstations gone). Only
+chunks generated from 0.38.0 on change; `ruinedVillages` still switches all of it off.
+
+**Kinds and styles.** `RuinProcessor` now knows what a piece is (`Kind`: `HOUSE` under a `houses/` folder, farms and
+animal pens included as villages file them; `STREET` under `streets/` or `terminators/`; `OTHER` for wells, meeting
+points, lamp posts and decorations) and what grows back over it (`village/RuinStyle`: plains, taiga, savanna, desert,
+snowy), both from the template's path `village/<style>/...`. A mod's village is matched by whole words of its folder's
+name (`snowy_taiga` is snowy, `desert_oasis` desert, `rice_paddy` plains); where words disagree, dry beats cold beats
+forest, and anything not recognised grows back as the plains. There is one processor for each kind and style
+(`RuinProcessor.of`); its codec is `{kind, style}`, both optional, still never used since the processor is only added
+in code. `RuinProcessor.HOUSE` and `OTHER` are the plains house and other.
+
+**Age.** `RuinProcessor.villageAge(pivot)` is the mean of two rolls seeded by the pivot every piece of a village shares
+(its first piece's), so a village's age runs 0 to 1, most villages near the middle. A house's decay
+(`RuinProcessor.decay`) is its village's age give or take up to 0.35, seeded by the house's own position. Of 4,800
+houses in 400 villages, a sixth came out nearly whole (decay under 0.2) and a sixth nearly gone (over 0.8).
+
+**The collapse** (`village/Collapse`, run on houses in `finalizeProcessing`). It works on `village/PieceView`, the
+piece's processed blocks by world position, which answers as a `BlockGetter` with each block turned the way the piece
+is, and lets blocks be set, moved and removed (as cave air) before they are placed. A column is a room's when the run of
+blocks at its top has two empty blocks under it and then a floor. A share of the house's columns, 0.1 + 0.9 x decay,
+in patches about three blocks across (smooth noise over the world's x and z, seeded by the house), loses its roof over
+rooms. Above decay 0.4 the tops of the walls go too, in those same patches: a column keeps less of its height as
+((decay - 0.4) / 0.6)^1.5 grows, cut unevenly in two-block patches, and corners (walls meeting on both axes) are cut
+0.7 as deep, so they stand longest. Then whatever was left hanging comes down: frame blocks (walls, floors, roofs,
+posts, panes) must still reach the ground through other frame blocks, and anything that leans (ladders, signs, banners,
+lanterns, torches, beds, carpets, plants) must still have what it leans on, a door or a tall plant both its halves.
+Beds, chests, workstations and bells on a floor that gave way fall whole to the floor below, both halves of a bed or
+double chest together, or are lost if there is no whole floor under them.
+
+**Rubble.** Some of what fell lies where it landed: a third of the planks, wooden stairs and slabs as slabs or stairs
+of the same wood, three logs in ten lying on their side (half of those a beam two or three blocks long), four stone
+blocks in ten as cobblestone, mossy cobblestone, gravel or slabs of their family (stone bricks also cracked stone
+bricks; sandstone sand and sandstone slabs; diorite, smooth stone and bricks their own slabs), a few terracotta blocks,
+half the snow blocks as one to three snow layers, and wooden trapdoors lying flat. Off a roof over a room a block lands
+on the floor under the hole; off a wall, an eave or a gable it tumbles one block to a side rolled for it, onto the floor
+inside or the ground outside (up to a block outside the house), but never up on what is left of the wall beside it.
+Rubble never lands on salvage, never fills a doorway or the way into one (a two-high gap between walls, or the spot in
+front of a door), never puts snow on ice, and piles at most two deep.
+
+**Salvage, doors and windows.** The new block tag `#mcremix:ruin_salvage` (beds, chests, trapped chests, barrels,
+every workstation but the bell, cauldrons, brewing stands, furnaces, smokers and blast furnaces): 0.25 + 0.5 x decay of
+them are gone from a house, so about half overall, a bed's or double chest's halves going together. Bells stay. Half
+the doors are gone, both halves together (rolled by the lower half's position); the rest hang open. A house's windows
+break 0.4 + 0.4 x decay of the time, the rest of a village's 0.4 as before. Doorways are found from the template's own
+blocks (`originalInfos`, placed by `StructureTemplate.calculateRelativePosition`), so a doorway whose door was taken is
+still kept clear.
+
+**Overgrowth** (`village/Overgrowth`), more of it the more a house has decayed (growth 0.5 + 0.5 x decay). The floors
+of rooms that lost their roofs grow over by style: in the plains moss blocks, moss carpets and mossy cobblestone, then
+grass, tall grass, flowers, ferns and oak or birch saplings; in the taiga moss, podzol, ferns, large ferns, sweet berry
+bushes and spruce saplings; in the savanna coarse and rooted dirt, grass, tall grass, dead bushes and acacia saplings;
+in the desert sand over the floor and drifted two high against walls half the time, with dead bushes; in a snowy
+village one to three snow layers (more against walls) on everything open to the sky, roofs and wall tops included,
+never on ice or packed ice. Vines climb two to five blocks up walls from the bottom course (plains most, savanna
+fewest, none in deserts or snow), and moss creeps over the lowest two courses of stone and over stone left open to the
+sky. Fields run to weeds: 0.25 + 0.35 x decay of the farmland is back to grass or coarse dirt (sand in a desert, snowy
+grass in the snow) with grass, ferns, flowers, dead bushes or snow where the crop was, and the rest grows its crop at
+mixed ages. Saplings and berry bushes never grow in a doorway or the way into one. The old quarter of crops turned to
+grass is gone; fields do that now.
+
+**Streets** (`Kind.STREET`): a quarter of the dirt path is back to grass and a tenth more coarse dirt (not in the
+snow), a desert street's smooth sandstone a fifth sand. Green villages grow weeds on a third of a street's grass, and a
+snowy village's grass is snowy, with a snow layer on it.
+
+**Same in every chunk.** A village piece is placed chunk by chunk, each chunk running the processors over the whole
+piece. Every roll is seeded by a world position, and the world is only read inside the chunk being placed, which the
+piece has not touched yet: `PieceView.free` and `worldAt` answer from the world there and, beyond it, take a spot
+within the piece's extent for air the template left out and anything outside it as unknown. So a choice that needs the
+world is made in the one chunk that places that block, and a house across a chunk border falls in the same way on
+both sides.
+
+**Burnt houses** (with Immersive Weathering) keep 0.6.0's look, and are stripped of salvage like the rest.
+
+**Review.** One review round. Fixed, each with a test: ground or another piece reaching into a house where its
+template has air was taken for air, so moss, plants, cobwebs or rubble could replace it (it is read from the world now,
+inside the chunk being placed); a doorway whose door was taken was found by pairing the template's blocks with the
+processed ones by index, which another processor's `finalizeProcessing` could upset (it is placed by position now); a
+mod's village folder was matched by letters inside its name, so `rice_paddy` was icy (whole words now). Also tidied:
+every position-seeded roll goes through `Collapse.roll`, the burnt-house salt named. The run with companions then
+caught a tall grass in a savanna house left without its top half when the wall round it crumbled (vanilla's savanna
+and plains houses keep tall grass, the taiga's large ferns): what kept a door's halves together now keeps anything in
+two halves together, and `tallPlantsFallWhole` checks it. Left: rubble tumbling out of a
+house can land in a neighbouring piece's space and stay there if that piece has air there (a known gap); burnt houses'
+fallen roofs still leave what hung from them, as in 0.6.0; working out each house's decay once per pane and each
+column's top again where it is needed, which costs little next to placing the piece. A vine said to be overwritten at
+an inside corner is not: a spot holding a vine is not free.
+
+**Tests.** `RuinTests` has nine new tests: `villagesAgeTogether`, `housesFallInWithDecay` (two plains houses, nearly
+whole at the least decayed spot on the platform and stubs at the most), `ruinsAreTheSameAcrossChunks` (the plains
+library placed whole and in four parts), `ruinsGrowOverByBiome`, `aboutHalfTheSalvageIsGone`,
+`streetsGoBackToTheLand`, and from the review `ruinsLeaveTheGroundInThem`, `villageStylesComeFromFolderNames` and
+`tallPlantsFallWhole`. A house is checked by placing it as built, then as a ruin on the same spot, and listing what is
+wrong with the ruin that was not with the house: blocks that cannot survive where they are, sand or gravel with
+nothing under it, solid blocks with nothing holding them, beds and doors missing a half, a doorway blocked. Of the four
+it had, `ruinProcessorDecaysBlocks` now also counts doors gone whole or left open, and `ruinedVillagesCanBeSwitchedOff`
+checks a door is left alone. Shares that hang on rolls are counted over spots far off, the same every run: one street
+placed on the platform turned only one block of its 45 to sand in one layout, so `streetsGoBackToTheLand` checks its
+street keeps its blocks and counts grass, coarse dirt and sand over a thousand spots.
+`CompanionTests.someVillageHousesBurnedDown` now expects a burnt house's door and bed gone whole or left whole, the
+door open.
+
+In game (new worlds; `/place structure minecraft:village_plains` and the desert, savanna, snowy and taiga ones build a
+whole village where you stand): shots in `builds/screenshots/0.38.0`.
