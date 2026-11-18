@@ -48,6 +48,11 @@ public class ModTags {
 		public static final TagKey<Block> COLD_FURNACES = tag("cold_furnaces");
 		/** Blocks an iron bloom can be struck on: the vanilla anvils and the stone anvils. */
 		public static final TagKey<Block> BLOOM_ANVILS = tag("bloom_anvils");
+		/**
+		 * What a ruined village's houses have been stripped of, about half of it gone (see
+		 * {@link com.mcremix.village.Collapse}): beds, chests, barrels and workstations. Bells are left.
+		 */
+		public static final TagKey<Block> RUIN_SALVAGE = tag("ruin_salvage");
 
 		/**
 		 * The hottest fluid a pipe, pump or tank can hold, by its material (see {@link com.mcremix.fluids.FluidHeat}).

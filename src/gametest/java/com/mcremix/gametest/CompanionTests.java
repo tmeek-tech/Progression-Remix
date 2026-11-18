@@ -246,7 +246,8 @@ public class CompanionTests {
 
 	/**
 	 * With Immersive Weathering one village house in six burned down: its wood is charred, most of its roof has fallen
-	 * in, and its glass, torches and cobwebs are gone. Doors and beds stay.
+	 * in, and its glass, torches and cobwebs are gone. Its door and bed are gone whole or left whole (the door open), as
+	 * in any ruined house, and its stone stays.
 	 */
 	static void someVillageHousesBurnedDown(GameTestHelper h) {
 		BlockPos burntAt = null;
@@ -268,8 +269,15 @@ public class CompanionTests {
 				+ RuinTests.count(burnt, "stripped_oak_log") == 0, "no unburnt wood should be left: " + burnt);
 			h.assertTrue(RuinTests.count(burnt, "glass_pane") == 0 && RuinTests.count(burnt, "wall_torch") == 0
 				&& RuinTests.count(burnt, "cobweb") == 0, "a burnt house has no glass, torches or cobwebs: " + burnt);
-			h.assertTrue(RuinTests.count(burnt, "oak_door") == 2 && RuinTests.count(burnt, "white_bed") == 2
-				&& RuinTests.count(burnt, "cobblestone") == 43, "doors, bed and cobblestone stay: " + burnt);
+			int doors = RuinTests.count(burnt, "oak_door"), beds = RuinTests.count(burnt, "white_bed");
+			h.assertTrue((doors == 0 || doors == 2) && (beds == 0 || beds == 2),
+				"the door and the bed should be gone whole or left whole: " + burnt);
+			BlockPos.betweenClosedStream(box).forEach(pos -> {
+				BlockState state = h.getLevel().getBlockState(pos);
+				if (state.getBlock() instanceof DoorBlock)
+					h.assertTrue(state.getValue(DoorBlock.OPEN), "a door left in a burnt house should hang open");
+			});
+			h.assertTrue(RuinTests.count(burnt, "cobblestone") == 43, "the cobblestone should stay: " + burnt);
 			h.succeed();
 		});
 	}
