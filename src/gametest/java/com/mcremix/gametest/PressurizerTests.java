@@ -90,12 +90,18 @@ public class PressurizerTests {
 		return turned(h, rel, rpm, ModBlocks.PRESSURIZER.get());
 	}
 
+	/**
+	 * A Pressurizer facing north at {@code rel}, turned at {@code rpm} from its west side, past 256 RPM geared up from a
+	 * large cogwheel. Turned forwards, its shaft's top rolling away from its dial, it squeezes; at a speed below zero,
+	 * the other way, it pulls a vacuum (0.37.0).
+	 */
 	static PressurizerBlockEntity turned(GameTestHelper h, BlockPos rel, int rpm, Block block) {
-		if (rpm <= 256)
+		if (Math.abs(rpm) <= 256)
 			GT.motor(h, rel.west(), Direction.EAST, rpm);
 		else {
 			BlockPos large = rel.west().below().north();
-			GT.motor(h, large.west(2), Direction.EAST, rpm / 2);
+			// a large cogwheel turns the small one twice as fast the other way
+			GT.motor(h, large.west(2), Direction.EAST, -rpm / 2);
 			GT.shaftX(h, large.west(), KineticTests.part("steel_shaft"));
 			GT.shaftX(h, large, KineticTests.part("steel_large_cogwheel"));
 			GT.shaftX(h, rel.west(), KineticTests.part("steel_cogwheel"));

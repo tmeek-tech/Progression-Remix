@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "C",
+    "G"
+  ],
+  "key": {
+    "S": {
+      "item": "mcremix:steel_shaft"
+    },
+    "C": {
+      "item": "mcremix:steel_casing"
+    },
+    "G": {
+      "item": "mcremix:steel_cogwheel"
+    }
+  },
+  "result": {
+    "item": "mcremix:steel_coil_winder"
+  }
+}

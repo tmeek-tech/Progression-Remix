@@ -1,9 +1,11 @@
 package com.mcremix.machines;
 
 import com.mcremix.McRemix;
+import com.mcremix.coiling.CoilWinderBlock;
 import com.mcremix.fluids.Patina;
 import com.mcremix.kinetics.EncasingCasing;
 import com.mcremix.kinetics.KineticMaterial;
+import com.mcremix.registry.ModCoiling;
 import com.simibubi.create.content.kinetics.deployer.DeployerBlock;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 
@@ -28,9 +30,10 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * A placed machine changes material when it is used with a casing (Taran's design, Part 2): any casing on any machine
  * that comes in its material, a step down as well as up. It keeps its facing, what it holds and how it is set, the
- * casing it had pops out of the face that was clicked, and it comes out fresh, unweathered and unwaxed. A deployer's
- * front still takes the casing into its hand, as in Create. A deployer holding a casing swaps it too, as Create's
- * deployer fires the same event as a player. The crafter comes in brass alone, so a casing does nothing to it.
+ * casing it had pops out of the face that was clicked, and it comes out fresh, unweathered and unwaxed. The coil winder
+ * (0.37.0) swaps the same way. A deployer's front still takes the casing into its hand, as in Create. A deployer
+ * holding a casing swaps it too, as Create's deployer fires the same event as a player. The crafter comes in brass
+ * alone, so a casing does nothing to it.
  */
 @Mod.EventBusSubscriber(modid = McRemix.ID)
 public final class CasingSwaps {
@@ -49,10 +52,12 @@ public final class CasingSwaps {
 		BlockPos pos = event.getPos();
 		BlockState state = level.getBlockState(pos);
 		MachineKind kind = MachineTiers.kind(state);
+		CoilWinderBlock winder = state.getBlock() instanceof CoilWinderBlock w ? w : null;
 		Player player = event.getEntity();
-		if (kind == null || !player.mayBuild() || takesItemsThere(kind, state, pos, event.getHitVec()))
+		if (kind == null && winder == null || !player.mayBuild()
+			|| kind != null && takesItemsThere(kind, state, pos, event.getHitVec()))
 			return;
-		Block target = MachineTiers.block(kind, casing.material);
+		Block target = winder != null ? ModCoiling.winder(casing.material) : MachineTiers.block(kind, casing.material);
 		if (target == null || state.is(target))
 			return;
 		event.setCanceled(true);
@@ -60,7 +65,7 @@ public final class CasingSwaps {
 		if (level.isClientSide)
 			return;
 
-		KineticMaterial was = MachineTiers.material(state);
+		KineticMaterial was = winder != null ? winder.material() : MachineTiers.material(state);
 		swap(level, pos, state, target);
 		if (!player.getAbilities().instabuild)
 			held.shrink(1);

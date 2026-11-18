@@ -3768,3 +3768,62 @@ face light shows through it, as the card's picture showed; Taran chose this over
 **Tests.** No test reads models or the condenser's shape. 443 of 443 GameTests pass plain and 449 of 449 with
 `-Pcompanions`. The neck was seen in a dev client when it was first tried for 0.36.3, against a column and cloned away
 from one to see it whole; the model shipped is that one.
+
+
+## 50. Coiling and vacuum sealing (0.37.0)
+
+Taran's ask of 2026-11-17, "Can you add coiling and vacuum sealing as crafting processes?", with five cards answered
+on 2026-11-18, all as Claude picked them: coiling makes Power Grid's coils, on a coil winder in every metal; vacuum
+sealing makes Power Grid's tubes and bulbs, on the Pressurizer run backwards; and a deeper vacuum needs more speed and
+Hot heat.
+
+**The coil winder** (`registry/ModCoiling`, `coiling/`, `client/CoilWinderRenderer` and `CoilWinderVisual`,
+`tools/gen_coiling.py`). Six blocks, `coil_winder` (andesite, unnamed by its andesite as Create's machines are) and
+`copper_`, `iron_`, `steel_`, `aluminium_` and `titanium_coil_winder`, each a shaft over its casing over a cogwheel
+of its metal. It is a machine of its metal (`MachineBody`): capped at its metal's top speed, weathering by its patina,
+and a casing used on it makes it that metal (`CasingSwaps`), keeping what it holds. It loads its network 4 su per RPM,
+as Create's millstone. Its front is open: a wooden bobbin on its shaft, drawn as octagons so it reads round as it
+turns, fills in seven steps with the wire's colour (a tinted wire model, the colour given by the recipe), and a brass
+guide runs along a rod over it as it winds. Its shaft goes in at either side; placed, its front faces the player, and
+a shaft ahead or behind turns it a quarter, as the Pressurizer is placed. Its recipes (`mcremix:coiling`,
+`coiling/CoilingRecipe`) take one item for each ingredient out of four slots that hold a kind of thing each
+(`machines/KindSlots`, shared with the Pressurizer's vessel); a hand, funnel, chute or hopper puts in only what some
+recipe winds, and only the coils come out. A Copper Coil (four copper wire, a stick, two cardboard) has a processing
+time of 400 and a Resistive Coil (four iron wire and a stick) 300, counted down by a sixteenth of its speed a tick as
+Create's millstone counts, so 2.5 and under 2 seconds at 128 RPM and half that at 256. Power Grid's two hand recipes
+for them are switched off. JEI has a Coiling page (`CoilingCategory`) with every winder as its
+catalyst, and Ponder a scene on every winder (`ponder/CoilingScenes`, registered by `CoilingPonderPlugin`).
+
+**Vacuum sealing** (`pressurizer/VacuumSealingRecipe`, `PressurizerBlockEntity`, `tools/gen_vacuum.py`). The
+Pressurizer now cares which way it turns: it squeezes when its shaft's top rolls away from its dial
+(`PressurizerBlockEntity.squeezesAt`), and turned the other way its pump pulls the air out of its vessel. Then it seals
+what lies in four new slots in its vessel, a kind of thing to each, over the heat each seal wants: Power Grid's four
+bulbs from 128 RPM, its five tubes from 256 and the cathode ray tube from 512, all over Hot heat, in 100 ticks at that
+speed (the CRT 200), twice as fast at twice the speed. Each takes its hand recipe's ingredients, with a glass pane for
+the triode, thyratron, barretter and regulator tubes, whose hand recipes had none; the pentode is sealed from a triode.
+Power Grid's hand recipes for all ten are switched off. With parts for more than one seal it seals the one that takes
+the most; a hand or a funnel at the vessel's sides lays parts in, and an empty hand takes out what it has made, then
+the last kind of part laid in, then its catalyst. The dial's needle drops below zero, up to 45 degrees at its metal's
+top speed, into a new blue zone on the dial. New jobs for the goggles: sealing, pulling a vacuum on nothing, still
+wanting parts (naming what the nearest seal lacks), and turned the wrong way for what it holds either way.
+
+**Old Pressurizers.** One saved before 0.37.0 has no `Sense` tag. Until it turns it counts as squeezing; the first way
+it turns becomes its squeezing way (saved as `Reversed`), so a build that already ran keeps running. A Pressurizer
+placed new follows the rule above.
+
+**Ponder and JEI.** The Pressurizer's intro scene now turns it forwards (its drive's signs flipped), and a second scene
+on the same stage shows vacuum sealing; it is on both Pressurizers and on every bulb and tube it seals. JEI has a
+Vacuum Sealing page (`VacuumSealingCategory`), drawn as the pressurizing page with the needle below zero and the shaft
+turning back, the two Pressurizers its catalysts.
+
+**Review.** One review round found the winder starting a part-wound coil over whenever its chunk loaded or its casing
+was swapped, as the recipe it was winding was kept only in memory; it now saves the recipe's name (`Working`) beside
+its progress, as the Pressurizer does. Three smaller changes came with it: what a winder winds past one coil goes on the
+next rather than being lost, a winder tells clients what changed once a tick at most rather than at every slot it
+changes, and the Pressurizer looks for what its vessel seals only when what the vessel holds has changed. The rest were
+left: parts of different seals jamming four slots (a known gap below), a matching that takes the first slot an
+ingredient fits with no second try (no recipe here has two ingredients one item fits), a recipe kept until the slots
+change after `/reload`, and fan air still filling the feed tank while it pulls a vacuum.
+
+**Tests.** `CoilingTests` (six) and `VacuumSealingTests` (five). `PressurizerTests.turned` now takes a signed speed and
+gears up past 256 RPM with the motor turned back, so the Pressurizer still turns forwards.

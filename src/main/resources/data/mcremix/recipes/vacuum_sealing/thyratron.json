@@ -1,0 +1,25 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "powergrid:heavy_wire_connector"
+    },
+    {
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:thyratron"
+    }
+  ],
+  "min_speed": 256,
+  "heat": "hot",
+  "processingTime": 100
+}

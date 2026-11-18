@@ -13,6 +13,7 @@ import com.mcremix.registry.ModArmPoints;
 import com.mcremix.registry.ModBlockEntities;
 import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModAir;
+import com.mcremix.registry.ModCoiling;
 import com.mcremix.registry.ModDyes;
 import com.mcremix.registry.ModColumn;
 import com.mcremix.registry.ModDecor;
@@ -69,6 +70,7 @@ public class McRemix {
 		ModOil.register();
 		ModAir.register();
 		ModDyes.register();
+		ModCoiling.register();
 		ModItems.register();
 		ColourBlocks.register();
 		ModBlockEntities.register();

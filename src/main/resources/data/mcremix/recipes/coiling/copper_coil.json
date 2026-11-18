@@ -1,0 +1,33 @@
+{
+  "type": "mcremix:coiling",
+  "processingTime": 400,
+  "colour": "#c8794a",
+  "ingredients": [
+    {
+      "tag": "forge:wires/copper"
+    },
+    {
+      "tag": "forge:wires/copper"
+    },
+    {
+      "tag": "forge:wires/copper"
+    },
+    {
+      "tag": "forge:wires/copper"
+    },
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "create:cardboard"
+    },
+    {
+      "item": "create:cardboard"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:copper_coil"
+    }
+  ]
+}

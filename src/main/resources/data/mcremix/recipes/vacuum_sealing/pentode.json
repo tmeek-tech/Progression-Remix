@@ -1,0 +1,22 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "powergrid:triode"
+    },
+    {
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:pentode"
+    }
+  ],
+  "min_speed": 256,
+  "heat": "hot",
+  "processingTime": 100
+}

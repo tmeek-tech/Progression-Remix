@@ -17,6 +17,7 @@ import com.mcremix.kiln.FiringRecipe;
 import com.mcremix.machines.MachineKind;
 import com.mcremix.registry.ModAir;
 import com.mcremix.registry.ModBlocks;
+import com.mcremix.registry.ModCoiling;
 import com.mcremix.registry.ModColumn;
 import com.mcremix.registry.ModFluidBlocks;
 import com.mcremix.registry.ModFluids;
@@ -89,7 +90,8 @@ public class RemixJeiPlugin implements IModPlugin {
 			new MeltingCategory(gui), new AlloyingCategory(gui), new SettlingCategory(gui), new FermentingCategory(gui), new AiringCategory(gui),
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
 			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
-			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui), new LiquefyingCategory(gui));
+			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui), new LiquefyingCategory(gui),
+			new CoilingCategory(gui), new VacuumSealingCategory(gui));
 	}
 
 	@Override
@@ -113,6 +115,9 @@ public class RemixJeiPlugin implements IModPlugin {
 			registration.addRecipes(VatMixingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.VAT_MIXING_TYPE.get()));
 			registration.addRecipes(ArcFurnaceCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.ARC_FURNACE_TYPE.get()));
 			registration.addRecipes(DistillingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.DISTILLING_TYPE.get()));
+			registration.addRecipes(CoilingCategory.TYPE, recipes.getAllRecipesFor(ModRecipes.COILING_TYPE.get()));
+			registration.addRecipes(VacuumSealingCategory.TYPE,
+				recipes.getAllRecipesFor(ModRecipes.VACUUM_SEALING_TYPE.get()));
 		}
 		List<KilnHeatCategory.Display> heat = new ArrayList<>();
 		for (HeatLevel h : HeatLevel.VALUES)
@@ -202,8 +207,14 @@ public class RemixJeiPlugin implements IModPlugin {
 			AiringCategory.TYPE, ElectrolysisCategory.TYPE);
 		registration.addRecipeCatalyst(AllBlocks.ANDESITE_SCAFFOLD.asStack(), SettlingCategory.TYPE,
 			FermentingCategory.TYPE, AiringCategory.TYPE, ElectrolysisCategory.TYPE, VatMixingCategory.TYPE);
-		registration.addRecipeCatalyst(new ItemStack(ModBlocks.PRESSURIZER.get()), PressurizingCategory.TYPE);
-		registration.addRecipeCatalyst(new ItemStack(ModBlocks.TITANIUM_PRESSURIZER.get()), PressurizingCategory.TYPE);
+		// a Pressurizer squeezes one way and, turned the other, seals in a vacuum
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.PRESSURIZER.get()), PressurizingCategory.TYPE,
+			VacuumSealingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.TITANIUM_PRESSURIZER.get()), PressurizingCategory.TYPE,
+			VacuumSealingCategory.TYPE);
+		// the coil winder in every metal winds the same coils, the faster metals sooner
+		for (var winder : ModCoiling.all())
+			registration.addRecipeCatalyst(winder.asStack(), CoilingCategory.TYPE);
 		// the mixers that have a vat form, and the tanks of the vats they stir: Create's copper one and this mod's
 		for (BlockEntry<VatMixerBlock> form : ModFluidBlocks.vatMixers())
 			registration.addRecipeCatalyst(new ItemStack(form.get().mixer()), VatMixingCategory.TYPE);

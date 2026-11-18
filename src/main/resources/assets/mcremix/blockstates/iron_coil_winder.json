@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "facing=south,patina=none": {
+      "model": "mcremix:block/coil_winder/iron"
+    },
+    "facing=south,patina=exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron"
+    },
+    "facing=south,patina=weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron"
+    },
+    "facing=south,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron"
+    },
+    "facing=south,patina=waxed": {
+      "model": "mcremix:block/coil_winder/iron"
+    },
+    "facing=south,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron"
+    },
+    "facing=south,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron"
+    },
+    "facing=south,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron"
+    },
+    "facing=west,patina=none": {
+      "model": "mcremix:block/coil_winder/iron",
+      "y": 90
+    },
+    "facing=west,patina=exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron",
+      "y": 90
+    },
+    "facing=west,patina=weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron",
+      "y": 90
+    },
+    "facing=west,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron",
+      "y": 90
+    },
+    "facing=west,patina=waxed": {
+      "model": "mcremix:block/coil_winder/iron",
+      "y": 90
+    },
+    "facing=west,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron",
+      "y": 90
+    },
+    "facing=west,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron",
+      "y": 90
+    },
+    "facing=west,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron",
+      "y": 90
+    },
+    "facing=north,patina=none": {
+      "model": "mcremix:block/coil_winder/iron",
+      "y": 180
+    },
+    "facing=north,patina=exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron",
+      "y": 180
+    },
+    "facing=north,patina=weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron",
+      "y": 180
+    },
+    "facing=north,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron",
+      "y": 180
+    },
+    "facing=north,patina=waxed": {
+      "model": "mcremix:block/coil_winder/iron",
+      "y": 180
+    },
+    "facing=north,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron",
+      "y": 180
+    },
+    "facing=north,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron",
+      "y": 180
+    },
+    "facing=north,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron",
+      "y": 180
+    },
+    "facing=east,patina=none": {
+      "model": "mcremix:block/coil_winder/iron",
+      "y": 270
+    },
+    "facing=east,patina=exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron",
+      "y": 270
+    },
+    "facing=east,patina=weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron",
+      "y": 270
+    },
+    "facing=east,patina=oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron",
+      "y": 270
+    },
+    "facing=east,patina=waxed": {
+      "model": "mcremix:block/coil_winder/iron",
+      "y": 270
+    },
+    "facing=east,patina=waxed_exposed": {
+      "model": "mcremix:block/coil_winder/exposed_iron",
+      "y": 270
+    },
+    "facing=east,patina=waxed_weathered": {
+      "model": "mcremix:block/coil_winder/weathered_iron",
+      "y": 270
+    },
+    "facing=east,patina=waxed_oxidized": {
+      "model": "mcremix:block/coil_winder/rusted_iron",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "mcremix:coiling",
+  "processingTime": 300,
+  "colour": "#8f9294",
+  "ingredients": [
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:resistive_coil"
+    }
+  ]
+}

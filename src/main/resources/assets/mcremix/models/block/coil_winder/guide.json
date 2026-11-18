@@ -1,0 +1,69 @@
+{
+  "textures": {
+    "guide": "create:block/brass_block",
+    "particle": "create:block/brass_block"
+  },
+  "elements": [
+    {
+      "from": [
+        7,
+        11.5,
+        12.5
+      ],
+      "to": [
+        9,
+        13.5,
+        14.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#guide"
+        },
+        "south": {
+          "texture": "#guide"
+        },
+        "east": {
+          "texture": "#guide"
+        },
+        "west": {
+          "texture": "#guide"
+        },
+        "up": {
+          "texture": "#guide"
+        },
+        "down": {
+          "texture": "#guide"
+        }
+      }
+    },
+    {
+      "from": [
+        7.5,
+        10.75,
+        13
+      ],
+      "to": [
+        8.5,
+        11.5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#guide"
+        },
+        "south": {
+          "texture": "#guide"
+        },
+        "east": {
+          "texture": "#guide"
+        },
+        "west": {
+          "texture": "#guide"
+        },
+        "down": {
+          "texture": "#guide"
+        }
+      }
+    }
+  ]
+}

@@ -1,8 +1,40 @@
 # Test reports
 
-Newest first: [0.36.4](#0364-a-neck-into-the-column), [0.36.3](#0363-shiny-aluminium-and-a-condenser-that-runs-into-its-column), [0.36.2](#0362-the-upright-condenser-kept-centred), [0.36.1](#0361-a-bigger-engine-stacked-columns-detailed-aluminium-and-an-upright-condenser), [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
+Newest first: [0.37.0](#0370-coiling-and-vacuum-sealing), [0.36.4](#0364-a-neck-into-the-column), [0.36.3](#0363-shiny-aluminium-and-a-condenser-that-runs-into-its-column), [0.36.2](#0362-the-upright-condenser-kept-centred), [0.36.1](#0361-a-bigger-engine-stacked-columns-detailed-aluminium-and-an-upright-condenser), [0.36.0](#0360-a-new-look-for-the-engine-the-valve-the-condenser-and-the-columns), [0.35.0](#0350-the-sulfur-works-and-the-dye-works), [0.34.0](#0340-the-liquid-air-plant), [0.33.0](#0330-crude-oil), [0.32.0](#0320-the-steel-column), [0.31.0](#0310-the-glass-lab-and-the-first-chemistry), [0.30.2](#0302-fixes-to-the-decor-blocks), [0.30.1](#0301-fixes-to-the-new-colours), [0.30.0](#0300-catwalks-railings-and-decor-blocks), [0.29.0](#0290-the-new-dye-colours), [0.28.1](#0281-ponder-starts-playing-and-no-valve-lever), [0.28.0](#0280-tarans-six-changes), [0.27.0](#0270-stability-for-supports-strength-for-shafts-and-cogs), [0.26.0](#0260-tarans-nine-changes), [0.25.0](#0250-tarans-list-part-three), [0.24.0](#0240-tarans-list-part-two), [0.23.0](#0230-tarans-list-part-one), [0.22.1](#0221-rusted-iron-leaks-as-an-option-and-vat-outlets), [0.22.0](#0220-texture-changes), [0.21.0](#0210-the-fermenter-look), [0.20.0](#0200-pipe-and-tank-metals), [0.19.1](#0191-the-titanium-pressurizer), [0.19.0](#0190-titanium), [0.18.0](#0180-heat-and-cooling), [0.17.0](#0170-machine-tiers-fitted-bits-and-wooden-movers), [0.16.0](#0160-plastics-the-steel-furnace-and-pvc-pipes), [0.15.1](#0151-brackets-on-their-own), [0.15.0](#0150-friction-points-brackets-casings-and-brass), [0.14.0](#0140-power-grid-chemistry-and-aluminium), [0.13.0](#0130-heat-rated-pipes-pressure-boilers-and-the-crucible), [0.12.0](#0120-steel-the-steel-spring-and-every-wood), [0.11.1](#0111-rust-runs-down), [0.11.0](#0110-furnace-heated-basins-chain-drive-tiers-and-the-furnace), [0.8.2](#082-iron-rusts-only-while-wet), [0.8.1](#081-fast-varied-weathering),
 [0.8.0](#080-slag-roads-kiln-boilers-ruined-villages-saw-blades-clutches-and-gearshifts),
 [0.4.0](#040-bellows-gearbox-tiers-stone-anvil-jei-tabs-and-drill-bits), then [phase 1](#phase-1-gameplay-010).
+
+## 0.37.0: Coiling and vacuum sealing
+
+This covers section 50 of [BUILD_NOTES.md](BUILD_NOTES.md): on Taran's five card answers, a coil winder in every metal
+winds Power Grid's coils in place of their hand recipes, and a Pressurizer turned the other way pulls a vacuum and
+seals Power Grid's tubes and bulbs over Hot heat, a deeper seal wanting more speed. Tested on 2026-11-18 against the
+same versions as 0.36.4.
+
+**Result:** 0.37.0 compiled with no errors. Every GameTest passes in a fresh test world: 454 of 454 plain and 460 of 460
+with `-Pcompanions`. In a dev client the winders wind, a Pressurizer turned the other way seals bulbs over lava with its
+needle in the blue, and both JEI pages and both Ponder scenes show as meant; shots are in `builds/screenshots/0.37.0`.
+Not checked: the jar on a real Forge server.
+
+| Check | Result | How |
+| --- | --- | --- |
+| Build | Pass | `./gradlew build`: `mcremix-1.20.1-0.37.0.jar`, 7,149,835 bytes, SHA-256 `20e8cb59…fe478fd42f`; `builds/mcremix-1.20.1-0.37.0.zip` holds the same jar. Its `mods.toml` says 0.37.0; none of its 1,771 PNGs carries a `caBX` chunk; no GameTest class is in it |
+| GameTests, plain | Pass | 454 of 454, the eleven new ones among them |
+| GameTests, with companions | Pass | 460 of 460 |
+| Coiling | Pass | `CoilingTests`: copper coils wound by hand-fed winders, twice as fast in copper at 256 RPM; a resistive coil waiting for its stick, its goggles saying so, and a funnel's stick setting it going; a still winder winding nothing; funnels putting in only what it winds and taking only coils; both coils' hand recipes gone; a steel casing making an andesite winder steel with what it holds; a coil more than half wound going on where it was when its winder is loaded again, as when its chunk loads (the review's one bug: it started over) |
+| Vacuum sealing | Pass | `VacuumSealingTests`: a light bulb laid in by hand and sealed in five seconds at 128 RPM over lava, the dial reading -0.25, an empty hand taking the bulb; one turned the squeezing way waiting and saying so; a triode too slow at 128, a bulb too cold over magma, a triode in five seconds at 256 and two bulbs in the same time; funnels laying in only parts and taking only seals, the goggles naming what is missing; an old Pressurizer squeezing the way it first turns, kept when saved, where a new one turned that way pulls a vacuum; all ten hand recipes gone |
+| Pressurizing | Pass | Every `PressurizerTests` and `LiquidAirTests` test passes with their Pressurizers turned forwards, geared ones through a motor turned back |
+| Dev client | Pass | A winder of each metal turned by a motor, copper and iron wire filling their spools and the guide running to and fro; a Pressurizer turned the other way over lava making eight light bulbs from what a hand laid in, its needle in the blue and its goggles saying what it seals; one turned the squeezing way saying to turn it the other way to seal; the titanium winder glowing with heat as titanium parts do |
+| JEI | Pass | A Coiling page per coil ("2.5s at 128 RPM", the six winders as catalysts) and a Vacuum Sealing page per seal ("128 RPM · Hot · 5s", the needle just under zero in the blue, both Pressurizers as catalysts) |
+| Ponder | Pass | The coil winder's scene and the Pressurizer's vacuum scene play through with their text; under llvmpipe some turning parts were sometimes left undrawn, as with Create's own |
+### Known gaps
+
+- Parts of four different seals in a vessel's four slots jam it until a hand takes one kind out, and the same goes for a
+  winder's four slots; nothing a funnel feeds a single recipe hits it.
+- An old Pressurizer saved while still learns its squeezing way from the first way it turns after the update, which
+  may be the way its owner meant for a vacuum; its goggles then say to turn it the other way.
+- The way a Pressurizer squeezes was not checked against the way its shaft is drawn turning; the rule is by Create's
+  own sign of speed.
 
 ## 0.36.4: A neck into the column
 

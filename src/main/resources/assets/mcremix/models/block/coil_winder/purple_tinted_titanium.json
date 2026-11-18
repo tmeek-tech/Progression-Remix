@@ -1,0 +1,8 @@
+{
+  "parent": "mcremix:block/coil_winder/frame",
+  "textures": {
+    "casing": "mcremix:block/purple_tinted_titanium_casing",
+    "axis": "mcremix:block/titanium_axis",
+    "particle": "mcremix:block/purple_tinted_titanium_casing"
+  }
+}

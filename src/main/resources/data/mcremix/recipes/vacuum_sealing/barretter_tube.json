@@ -1,0 +1,25 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:barretter_tube"
+    }
+  ],
+  "min_speed": 256,
+  "heat": "hot",
+  "processingTime": 100
+}

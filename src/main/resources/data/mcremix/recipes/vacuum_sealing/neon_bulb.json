@@ -1,0 +1,22 @@
+{
+  "type": "mcremix:vacuum_sealing",
+  "ingredients": [
+    {
+      "item": "minecraft:glass"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:neon_bulb"
+    }
+  ],
+  "min_speed": 128,
+  "heat": "hot",
+  "processingTime": 100
+}

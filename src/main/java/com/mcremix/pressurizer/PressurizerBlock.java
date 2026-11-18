@@ -2,6 +2,7 @@ package com.mcremix.pressurizer;
 
 import javax.annotation.Nullable;
 
+import com.mcremix.machines.KindSlots;
 import com.mcremix.registry.ModBlockEntities;
 import com.mcremix.registry.ModBlocks;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
@@ -110,8 +111,9 @@ public class PressurizerBlock extends HorizontalKineticBlock implements IBE<Pres
 	}
 
 	/**
-	 * An empty hand takes out what it has made, or failing that its catalyst; a catalyst in hand is dropped into its
-	 * vessel.
+	 * An empty hand takes out what it has made, or failing that the last kind of thing put in to seal, or failing that
+	 * its catalyst; a catalyst in hand is dropped into its vessel, and what it seals in a vacuum is laid in it, a kind to
+	 * a slot (0.37.0).
 	 */
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
@@ -119,10 +121,12 @@ public class PressurizerBlock extends HorizontalKineticBlock implements IBE<Pres
 		ItemStack held = player.getItemInHand(hand);
 		return onBlockEntityUse(level, pos, pressurizer -> {
 			if (!held.isEmpty()) {
-				if (!PressurizingRecipe.anyCatalyst(level, held))
+				boolean catalyst = PressurizingRecipe.anyCatalyst(level, held);
+				if (!catalyst && !VacuumSealingRecipe.takes(level, held))
 					return InteractionResult.PASS;
 				if (!level.isClientSide) {
-					ItemStack left = pressurizer.addCatalyst(held.copy());
+					ItemStack left = catalyst ? pressurizer.addCatalyst(held.copy())
+						: pressurizer.addSealing(held.copy(), false);
 					if (left.getCount() == held.getCount())
 						return InteractionResult.PASS;
 					if (!player.isCreative())
@@ -131,10 +135,12 @@ public class PressurizerBlock extends HorizontalKineticBlock implements IBE<Pres
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
 			boolean made = !pressurizer.made().isEmpty();
-			if (!made && pressurizer.catalyst().isEmpty())
+			boolean sealing = !KindSlots.empty(pressurizer.sealing());
+			if (!made && !sealing && pressurizer.catalyst().isEmpty())
 				return InteractionResult.PASS;
 			if (!level.isClientSide)
-				player.getInventory().placeItemBackInInventory(made ? pressurizer.takeMade() : pressurizer.takeCatalyst());
+				player.getInventory().placeItemBackInInventory(made ? pressurizer.takeMade()
+					: sealing ? pressurizer.takeSealing() : pressurizer.takeCatalyst());
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		});
 	}

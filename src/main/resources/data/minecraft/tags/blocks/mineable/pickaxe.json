@@ -442,6 +442,12 @@
     "mcremix:steel_flywheel",
     "mcremix:aluminium_column_section",
     "mcremix:expansion_valve",
-    "mcremix:sulfur_block"
+    "mcremix:sulfur_block",
+    "mcremix:coil_winder",
+    "mcremix:copper_coil_winder",
+    "mcremix:iron_coil_winder",
+    "mcremix:steel_coil_winder",
+    "mcremix:aluminium_coil_winder",
+    "mcremix:titanium_coil_winder"
   ]
 }

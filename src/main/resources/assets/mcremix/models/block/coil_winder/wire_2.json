@@ -1,0 +1,114 @@
+{
+  "textures": {
+    "wire": "mcremix:block/coil_winder/wire",
+    "particle": "mcremix:block/coil_winder/wire"
+  },
+  "elements": [
+    {
+      "from": [
+        4.5,
+        4,
+        6.5503
+      ],
+      "to": [
+        11.5,
+        12,
+        9.4497
+      ],
+      "faces": {
+        "west": {
+          "texture": "#wire",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#wire",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        4.5,
+        4,
+        6.5503
+      ],
+      "to": [
+        11.5,
+        12,
+        9.4497
+      ],
+      "faces": {
+        "west": {
+          "texture": "#wire",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#wire",
+          "tintindex": 0
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45
+      }
+    },
+    {
+      "from": [
+        6.5503,
+        4,
+        4.5
+      ],
+      "to": [
+        9.4497,
+        12,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#wire",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#wire",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        6.5503,
+        4,
+        4.5
+      ],
+      "to": [
+        9.4497,
+        12,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#wire",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#wire",
+          "tintindex": 0
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45
+      }
+    }
+  ]
+}
