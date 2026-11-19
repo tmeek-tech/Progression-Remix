@@ -1,0 +1,9 @@
+{
+	chapter_groups: [
+		{
+			icon: "minecraft:mossy_cobblestone"
+			id: "5C1C2C3660565F97"
+			title: "Side Roads"
+		}
+	]
+}

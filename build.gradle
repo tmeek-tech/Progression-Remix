@@ -109,6 +109,10 @@ repositories {
         forRepository { maven { url = 'https://api.modrinth.com/maven' } }
         filter { includeGroup 'maven.modrinth' }
     }
+    exclusiveContent {                                  // FTB Quests and its libraries, for -Pquests
+        forRepository { maven { url = 'https://maven.ftb.dev/releases' } }
+        filter { includeGroup 'dev.ftb.mods' }
+    }
     mavenCentral()
 }
 
@@ -136,6 +140,14 @@ dependencies {
         modRuntimeOnly 'maven.modrinth:better-combat:rnhiaw3t'
         modRuntimeOnly 'maven.modrinth:playeranimator:xe2EVE6q'
         modRuntimeOnly 'maven.modrinth:cloth-config:t8TXrZvZ'
+    }
+    // ./gradlew runClient -Pquests (or runGameTestServer -Pquests) also loads FTB Quests 2001.4.22 with FTB Library
+    // 2001.2.13 and FTB Teams 2001.3.2, so the quest book the mod installs (src/main/resources/mcremix_questbook, made
+    // by tools/gen_quests.py) can be seen in the game. FTB Quests stays optional for players
+    if (project.hasProperty('quests')) {
+        modRuntimeOnly('dev.ftb.mods:ftb-quests-forge:2001.4.22') { transitive = false }
+        modRuntimeOnly('dev.ftb.mods:ftb-library-forge:2001.2.13') { transitive = false }
+        modRuntimeOnly('dev.ftb.mods:ftb-teams-forge:2001.3.2') { transitive = false }
     }
     // Create: Power Grid 0.6.2 is required since 0.14.0 (electrolysis runs on its current, and its parts take steel
     // and Bakelite), with Architectury 9.2.14, which it needs. By Modrinth version id, as for the companion mods

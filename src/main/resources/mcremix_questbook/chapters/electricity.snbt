@@ -1,0 +1,261 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "electricity"
+	group: ""
+	icon: "mcremix:electrolyser"
+	id: "6E20C1F41CA459A1"
+	images: [ ]
+	order_index: 6
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"29CC8F5AB0429C0C"
+				"77A54992179DB0AA"
+			]
+			description: [
+				"Power Grid adds real circuits: generators, wire, transformers and devices that care about volts and amps. Its own Ponder scenes explain its parts better than any book."
+				""
+				"Here its motor and transformer core take steel, its boards, switches, buttons and sockets take Bakelite, and its boards are etched in ferric chloride."
+			]
+			id: "79D3C636DD73D69C"
+			rewards: [ ]
+			subtitle: "Real circuits, volts and amps"
+			tasks: [
+				{
+					id: "39A5044982D833FD"
+					item: "powergrid:wire"
+					type: "item"
+				}
+			]
+			title: "Create: Power Grid"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"79D3C636DD73D69C"
+			]
+			description: [
+				"Power Grid's coils come off a Coil Winder, wound from wire: copper wire into a Copper Coil, iron wire into a Resistive Coil. It winds as fast as it turns."
+				""
+				"It comes in andesite and in every metal from copper to titanium, each held to its own metal's top speed."
+				""
+				"&7JEI: the Coiling tab.&r"
+			]
+			id: "6AEF9F7DC91405D5"
+			rewards: [ ]
+			subtitle: "Coils are wound, not crafted"
+			tasks: [
+				{
+					id: "2EAADC0E0B5F895A"
+					item: "mcremix:coil_winder"
+					type: "item"
+				}
+				{
+					id: "664B7FD9CF9C0ECB"
+					item: "powergrid:copper_coil"
+					type: "item"
+				}
+			]
+			title: "The Coil Winder"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6AEF9F7DC91405D5"
+				"36D4E952BA3CE9EC"
+			]
+			description: [
+				"Power Grid's generator turns rotation into current. It is built from copper coils strung on shafts round rotors and a commutator, and it has to be excited before it gives any current."
+				""
+				"Its rotor and commutator are put together on Mechanical Crafters, which come only in brass."
+				""
+				"&7Ponder: the generator parts show how to build and start one.&r"
+			]
+			id: "319C7C5E0FF2477D"
+			rewards: [ ]
+			subtitle: "Rotation into current"
+			tasks: [
+				{
+					id: "67C459D089354B55"
+					item: "powergrid:generator_induction_rotor"
+					type: "item"
+				}
+				{
+					id: "2408436DC4F3EB76"
+					item: "powergrid:generator_commutator"
+					type: "item"
+				}
+			]
+			title: "A Generator"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"319C7C5E0FF2477D"
+			]
+			description: [
+				"A generator gives one voltage, and devices want others. A transformer steps voltage up or down, and its core takes steel."
+				""
+				"The next devices need one each way: the Electrolyser wants a few volts, the Spark Plug about a thousand."
+			]
+			id: "4B4A1C9CC8E643DD"
+			rewards: [ ]
+			subtitle: "Every device wants its own voltage"
+			tasks: [
+				{
+					id: "56C9AB622170575F"
+					item: "powergrid:transformer_core"
+					type: "item"
+				}
+			]
+			title: "Stepping Volts"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"4B4A1C9CC8E643DD"
+				"670869AA09CABEE6"
+			]
+			description: [
+				"An Electrolyser goes on the side of a basin or a vat and splits what is inside. Fit a Carbon Electrode as its anode (+) first, then its cathode."
+				""
+				"It is a real cell. Next to nothing flows below about 4 V, and past that the current climbs steeply, so a generator straight across it cooks it. Step the voltage down, or wire several in series. Wired the wrong way round, nothing flows."
+				""
+				"The anode burns away by the power through it, so a gently driven Electrolyser costs less carbon per batch."
+				""
+				"&7Ponder: the Electrolyser. JEI: the Electrolysis tab.&r"
+			]
+			id: "6BD37C7E20889D52"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Volts to start, amps to work"
+			tasks: [
+				{
+					id: "2157AA0C79269652"
+					item: "mcremix:electrolyser"
+					type: "item"
+				}
+				{
+					id: "6448E4D5A111D8F7"
+					item: "mcremix:carbon_electrode"
+					type: "item"
+				}
+				{
+					icon: "mcremix:carbon_electrode"
+					id: "1FA333E8B8894885"
+					observe_type: 2
+					timer: 10L
+					title: "Look at an Electrolyser with both electrodes"
+					to_observe: "mcremix:electrolyser[anode=true,cathode=true]"
+					type: "observation"
+				}
+			]
+			title: "The Electrolyser"
+			x: 7.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"4718C7B7C98B7081"
+			]
+			description: [
+				"Water taken in an ocean or beach biome, by bucket, pump or hose pulley, is salt water."
+			]
+			id: "41213510650AA21C"
+			rewards: [ ]
+			subtitle: "Only from the sea"
+			tasks: [
+				{
+					id: "2A4ECAED6F1910C7"
+					item: "mcremix:salt_water_bucket"
+					type: "item"
+				}
+			]
+			title: "Salt Water"
+			x: 8.75d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"6BD37C7E20889D52"
+				"41213510650AA21C"
+				"764E14D4DF0D32B5"
+			]
+			description: [
+				"Split, salt water gives chlorine, hydrogen and caustic soda. On a basin the gases escape: chlorine as a low yellow-green cloud that hurts what breathes it and kills the plants under it. A vat keeps them, ready to pipe away."
+				""
+				"Iron stirred with chlorine and water in a vat makes ferric chloride, which etches Power Grid's circuit boards."
+			]
+			id: "5EEDEEC2867C3143"
+			rewards: [ ]
+			subtitle: "Splitting the sea"
+			tasks: [
+				{
+					id: "609ED27AF6DDEDE7"
+					item: "mcremix:ferric_chloride_bucket"
+					type: "item"
+				}
+			]
+			title: "Chlorine"
+			x: 8.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"4B4A1C9CC8E643DD"
+			]
+			description: [
+				"A Spark Plug screws into a Furnace's or Steel Furnace's side or back. It sparks only from about 900 V, so it wants a transformer stepping up, and while it sparks it lights the furnace whenever there is fuel to catch. A switch or relay in its circuit decides when."
+			]
+			id: "53D6AD1F23844450"
+			optional: true
+			rewards: [ ]
+			subtitle: "Light a fire from a circuit"
+			tasks: [
+				{
+					id: "1F32FC744F2201E7"
+					item: "mcremix:spark_plug"
+					type: "item"
+				}
+			]
+			title: "The Spark Plug"
+			x: 5.25d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"6AEF9F7DC91405D5"
+			]
+			description: [
+				"Power Grid's heating coil and basin heater count by their real temperature: 200 °C is &eWarm&r, 400 &6Hot&r, 600 &cSearing&r and 1,200 &bBlazing&r. Under a Furnace they heat it with no fuel to burn."
+				""
+				"A Bellows can't fan them: moving air only cools an electric heater."
+			]
+			id: "2FF08B923E6168E2"
+			optional: true
+			rewards: [ ]
+			subtitle: "Heat with no fire"
+			tasks: [
+				{
+					id: "7CE3E8E597AE36E4"
+					item: "powergrid:heating_coil"
+					type: "item"
+				}
+			]
+			title: "Electric Heat"
+			x: 0.0d
+			y: -1.75d
+		}
+	]
+	subtitle: [
+		"Create: Power Grid, and splitting things with current"
+	]
+	title: "Electricity"
+}

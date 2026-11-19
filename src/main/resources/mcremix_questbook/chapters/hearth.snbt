@@ -1,0 +1,226 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "hearth"
+	group: ""
+	icon: "mcremix:kiln"
+	id: "516F243A66F6DDDF"
+	images: [ ]
+	order_index: 0
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [ ]
+			description: [
+				"This book walks the mod's progression from the first fire to the dye works. Each quest names a goal and the idea behind it. It never gives a layout: how you build each step is up to you."
+				""
+				"Three things carry the details. JEI shows every recipe and the heat, speed or charge it needs. Ponder shows how a block behaves: hover over an item and hold W. Create's Engineer's Goggles show what a placed block is doing, from a Furnace's heat to a shaft's limits."
+				""
+				"An item quest ticks itself once the item is in your inventory. If one hasn't, click the task to check."
+			]
+			icon: "minecraft:writable_book"
+			id: "1626CEC5328F5382"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "How this book works"
+			tasks: [
+				{
+					id: "50A6BEBC1E63857E"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Welcome to the Remix"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"1626CEC5328F5382"
+			]
+			description: [
+				"Vanilla's furnace, smoker and blast furnace have gone cold: their menus stay shut and they smelt nothing, even fed by hoppers."
+				""
+				"Food cooks on a campfire. Later, an Encased Fan blowing through fire smokes food in bulk."
+			]
+			id: "2A24C5248E6A15BB"
+			rewards: [ ]
+			subtitle: "Vanilla's furnaces have gone cold"
+			tasks: [
+				{
+					id: "73EB0FD6094F38CE"
+					item: "minecraft:campfire"
+					type: "item"
+				}
+			]
+			title: "Food Goes on the Fire"
+			x: 1.75d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"1626CEC5328F5382"
+			]
+			description: [
+				"Vanilla's furnace recipe still makes one, but it is the Furnace now. It has no menu: click things to fire into its upper chamber and fuel into its low firebox, and watch them sit on the grate, glow and wait to be taken out."
+				""
+				"Hoppers and funnels work it too: things to fire go in at the top, fuel at the sides, and results come out of the bottom. It refuses food."
+				""
+				"&7Ponder: the Furnace.&r"
+			]
+			id: "6C06A8D2FE2265D4"
+			rewards: [ ]
+			subtitle: "No menu, and a cut-open front"
+			tasks: [
+				{
+					id: "29AA74CA6B016190"
+					item: "mcremix:kiln"
+					type: "item"
+				}
+			]
+			title: "The Furnace"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6C06A8D2FE2265D4"
+			]
+			description: [
+				"Fuel in the firebox doesn't catch by itself. Flint and steel or a fire charge lights it, by hand or from a Deployer. Flint and steel takes iron, and iron comes later in this book, so look for your first lighter: a ruined portal's chest can hold flint and steel or a fire charge, and mineshafts, dungeons and shipwrecks still keep iron."
+				""
+				"Once lit, it burns its fuel to the end whether or not it has work, so load it when you mean to use it. A shovel puts it out and leaves the fuel in for next time."
+				""
+				"Heat from the block underneath needs no lighting at all."
+			]
+			id: "380C39E07B5A7809"
+			rewards: [ ]
+			subtitle: "Fuel waits for a flame"
+			tasks: [
+				{
+					icon: "minecraft:flint_and_steel"
+					id: "56F5E09C159A870B"
+					observe_type: 2
+					timer: 10L
+					title: "Look at a lit Furnace"
+					to_observe: "mcremix:kiln[lit=true]"
+					type: "observation"
+				}
+			]
+			title: "Light It"
+			x: 3.5d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"6C06A8D2FE2265D4"
+			]
+			description: [
+				"Everything that cooks or fires shares one scale: &eWarm&r, &6Hot&r, &cSearing&r and &bBlazing&r. Each recipe needs a least heat, and every level above it halves the time."
+				""
+				"Wood fuel burns only &eWarm&r, as does a campfire or magma block under the Furnace. That is enough to char logs into charcoal and to fire clay into bricks and terracotta. A Furnace on a campfire stays &eWarm&r forever with no fuel."
+				""
+				"&7JEI: the Furnace tab gives each firing's heat, and the Furnace Heat tab shows what burns how hot.&r"
+			]
+			id: "466E58C303880A27"
+			rewards: [ ]
+			subtitle: "One scale for every fire"
+			tasks: [
+				{
+					id: "5CBE8993824B8BDB"
+					item: "minecraft:charcoal"
+					type: "item"
+				}
+			]
+			title: "Warm: Charcoal"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"466E58C303880A27"
+				"380C39E07B5A7809"
+			]
+			description: [
+				"Charcoal and coal burn &6Hot&r, and so does fire or lava under the Furnace. &6Hot&r does vanilla's smelting that isn't food, such as glass, smooth stone, copper and gold. Raw iron, iron ore and ancient debris are the exceptions: they now need hotter firings of their own."
+				""
+				"Copper is the first metal you'll work, for Create's parts and the first tier of your own."
+			]
+			id: "690A67A6D21199B1"
+			rewards: [ ]
+			subtitle: "Charcoal and coal burn Hot"
+			tasks: [
+				{
+					id: "75C181D5C84656E9"
+					item: "minecraft:glass"
+					type: "item"
+				}
+				{
+					id: "66D678EA48FD0477"
+					item: "minecraft:copper_ingot"
+					type: "item"
+				}
+			]
+			title: "Hot: Glass and Copper"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"690A67A6D21199B1"
+			]
+			description: [
+				"Coal fired &6Hot&r cokes into Coal Coke, which burns &cSearing&r and lasts twice as long as coal."
+				""
+				"Coking also gives off coal tar into a small tank in the Furnace. You can ignore it for now: past a bucket's worth it burns away at the chimney. Later it becomes one of the most useful things you make."
+			]
+			id: "35D075A91FFA3F0D"
+			rewards: [ ]
+			subtitle: "Coal baked hotter"
+			tasks: [
+				{
+					id: "3E64DF6DF16C8B4E"
+					item: "mcremix:coal_coke"
+					type: "item"
+				}
+			]
+			title: "Coal Coke"
+			x: 7.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"35D075A91FFA3F0D"
+			]
+			description: [
+				"Bring a Furnace to &cSearing&r: Coal Coke or blaze rods in the firebox, or soul fire, a soul campfire or a fed Blaze Burner underneath."
+				""
+				"&cSearing&r is where iron, steel and brass begin. Engineer's Goggles on a Furnace show its exact heat, its fuel and what each slot is waiting for, and a comparator reads its heat."
+			]
+			id: "5CF0F2FE999D2187"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "The heat iron needs"
+			tasks: [
+				{
+					icon: "mcremix:coal_coke"
+					id: "2D77A14A17FD6A38"
+					observe_type: 2
+					timer: 10L
+					title: "Look at a Searing Furnace"
+					to_observe: "mcremix:kiln[heat=3]"
+					type: "observation"
+				}
+			]
+			title: "Searing"
+			x: 8.75d
+			y: 0.0d
+		}
+	]
+	subtitle: [
+		"Fire comes first: heat, the Furnace and its fuel"
+	]
+	title: "The Hearth"
+}

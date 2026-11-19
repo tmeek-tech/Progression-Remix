@@ -1,0 +1,232 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "liquid_air"
+	group: ""
+	icon: "mcremix:liquid_air_bucket"
+	id: "3560E0D166C1B6E3"
+	images: [ ]
+	order_index: 13
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"5CD85503C7FA27AB"
+				"252B1D6D21683A9C"
+				"211EDAB3AE1ED6F2"
+			]
+			description: [
+				"An Encased Fan blowing into a Pressurizer's vessel feeds it air, and from 256 RPM the Pressurizer squeezes it hot. A Steel Condenser with coolant in its jacket chills it, and an aluminium Expansion Valve lets it through, a fifth of it turning liquid."
+				""
+				"The rest comes out cold, to go round again."
+				""
+				"&7JEI: the Liquefying tab.&r"
+			]
+			id: "6E06FDD802380DCB"
+			rewards: [ ]
+			subtitle: "Squeeze, chill, let go"
+			tasks: [
+				{
+					id: "446F74DC1E4E6627"
+					item: "mcremix:expansion_valve"
+					type: "item"
+				}
+			]
+			title: "The Liquefier"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6E06FDD802380DCB"
+			]
+			description: [
+				"Liquid air is cryogenic. In steel or iron pipes, pumps or tanks, or in PVC, it frosts them white, then they crack and burst. Copper, aluminium and glass take it, and tooltips say which crack."
+				""
+				"Spilt, it boils away in seconds, freezing the water beside it."
+			]
+			id: "5CDB9FE65D68D6E3"
+			rewards: [ ]
+			subtitle: "Cold enough to crack steel"
+			tasks: [
+				{
+					id: "0C9EA2B4F9F6B25F"
+					item: "mcremix:liquid_air_bucket"
+					type: "item"
+				}
+			]
+			title: "Liquid Air"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"5CDB9FE65D68D6E3"
+			]
+			description: [
+				"Aluminium Column Sections join as steel ones do, but need no heat and no condenser: liquid air boils in the world's warmth. It splits into nitrogen from the top, oxygen from the bottom and argon from a section of its own between them. Spare sections sit just under the top and draw nothing, and goggles show which section draws what."
+				""
+				"Argon and oxygen boil only 3 °C apart, so the column needs extra sections between them, or liquid nitrogen piped back into its top as reflux. It frosts and grows icicles as it runs, and melts beside anything &6Hot&r."
+			]
+			id: "4A92C81CCC100231"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Boiled by the world's warmth"
+			tasks: [
+				{
+					icon: "mcremix:aluminium_column_section"
+					id: "6D7B9EB28CE4A5E8"
+					observe_type: 2
+					timer: 10L
+					title: "Look at an air column grown icicles"
+					to_observe: "mcremix:aluminium_column_section[frost=2]"
+					type: "observation"
+				}
+			]
+			title: "The Air Column"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"4A92C81CCC100231"
+			]
+			description: [
+				"Piped into a lit Steel Furnace beside its fuel, oxygen makes the fire burn twice as hot and lifts the fuel's ceiling a level. Let loose, it makes fire spread."
+			]
+			icon: "minecraft:fire_charge"
+			id: "4E069455AC7A5FE8"
+			rewards: [ ]
+			subtitle: "A hotter fire"
+			tasks: [
+				{
+					id: "2F3674DEE5416401"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Oxygen"
+			x: 5.25d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"4A92C81CCC100231"
+				"5EEDEEC2867C3143"
+			]
+			description: [
+				"Iron nuggets pressed with alumina make iron catalyst pellets. Dropped into a Pressurizer's vessel, a pellet lets nitrogen and hydrogen squeeze into ammonia over &6Hot&r heat."
+				""
+				"Ammonia squeezed with carbon dioxide gives urea, which is bone meal by the bucket: on a crop it grows one stage."
+			]
+			id: "5242ADDF56F91A4D"
+			rewards: [ ]
+			subtitle: "Nitrogen, fixed"
+			tasks: [
+				{
+					id: "0E64F6F241F721F1"
+					item: "mcremix:urea"
+					type: "item"
+				}
+			]
+			title: "Ammonia and Urea"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"3F4C5E0A2AB19ACB"
+			]
+			description: [
+				"Washing red sand turns up a platinum nugget about once in a hundred. Nuggets make a gauze, a catalyst that lasts a long time."
+			]
+			id: "754D20403EEE0165"
+			rewards: [ ]
+			subtitle: "Rare in red sand"
+			tasks: [
+				{
+					id: "32562D19247D1A48"
+					item: "mcremix:platinum_gauze"
+					type: "item"
+				}
+			]
+			title: "Platinum"
+			x: 7.0d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"5242ADDF56F91A4D"
+				"754D20403EEE0165"
+				"4E069455AC7A5FE8"
+			]
+			description: [
+				"Ammonia and oxygen burnt over platinum gauze in a &cSearing&r Steel Furnace give nitrogen dioxide, a brown, poisonous haze. Stirred with water in a vat it becomes nitric acid, and with caustic soda, sodium nitrite."
+				""
+				"Every coal tar dye needs nitric acid."
+			]
+			id: "64207D5B90DBDEF5"
+			rewards: [ ]
+			subtitle: "Ammonia, burnt"
+			tasks: [
+				{
+					id: "44D1FDA78E2D50B5"
+					item: "mcremix:nitric_acid_bucket"
+					type: "item"
+				}
+			]
+			title: "Nitric Acid"
+			x: 7.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"4A92C81CCC100231"
+			]
+			description: [
+				"Piped into an Arc Furnace's sides, argon gives half an ingot more for each sponge. A Spout fills a glass tube with argon for an argon tube, which glows violet once enough volts are across it."
+			]
+			id: "3EEC4B6E68B06CB6"
+			optional: true
+			rewards: [ ]
+			subtitle: "A bonus and a glow"
+			tasks: [
+				{
+					id: "18F87D958BFEC0E7"
+					item: "mcremix:argon_tube"
+					type: "item"
+				}
+			]
+			title: "Argon"
+			x: 3.5d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"4A92C81CCC100231"
+			]
+			description: [
+				"In a water cooler, liquid nitrogen cools six times as fast as water and boils off as nitrogen. A Steel Condenser's jacket and radiators won't take it."
+			]
+			id: "18CA0D2DD68D0D5E"
+			optional: true
+			rewards: [ ]
+			subtitle: "The coldest coolant"
+			tasks: [
+				{
+					id: "29BECF319A9EACD8"
+					item: "mcremix:liquid_nitrogen_bucket"
+					type: "item"
+				}
+			]
+			title: "Liquid Nitrogen"
+			x: 3.5d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"Squeezed, chilled and split"
+	]
+	title: "Liquid Air"
+}

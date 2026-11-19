@@ -1,0 +1,120 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "molten_metal"
+	group: ""
+	icon: "mcremix:crucible"
+	id: "178ED8F02A0450EF"
+	images: [ ]
+	order_index: 4
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"690A67A6D21199B1"
+			]
+			description: [
+				"Clay shaped like a pot and fired &6Hot&r becomes a crucible. It hangs on a shaft between two posts and melts what goes in with the heat of the block underneath: zinc and aluminium at &6Hot&r, copper, gold and brass at &cSearing&r, and iron, steel and netherite only at &bBlazing&r: over a superheated Blaze Burner, or later Power Grid's basin heater run past 1,200 °C."
+				""
+				"It melts tools and armour too, into half the metal they were made of, and copper with zinc becomes brass."
+				""
+				"&7JEI: the Melting and Alloying tabs.&r"
+			]
+			id: "57E4D8BA15816733"
+			rewards: [ ]
+			subtitle: "Melting by the heat below"
+			tasks: [
+				{
+					id: "0990FB159EFA7765"
+					item: "mcremix:crucible"
+					type: "item"
+				}
+			]
+			title: "The Crucible"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"57E4D8BA15816733"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"Turning the crucible's shaft tips it, and it pours what rises over its lip onto whatever is in front: a Sand Mold on a depot or belt, a tank, another crucible, or the ground, where it spills and sets as rough metal."
+				""
+				"A press in a basin rams sand round an ingot or a block to make a mold. Full, a mold sets in two seconds and the casting breaks out."
+				""
+				"&7JEI: the Casting tab. Ponder: the crucible.&r"
+			]
+			id: "6D7CDDADA949BC04"
+			rewards: [ ]
+			subtitle: "Tip it into sand"
+			tasks: [
+				{
+					id: "0C0ACD1A42A449BE"
+					item: "mcremix:sand_ingot_mold"
+					type: "item"
+				}
+			]
+			title: "Pouring"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6D7CDDADA949BC04"
+			]
+			description: [
+				"Twenty-seven crucibles placed as a 3x3x3 cube join into one big crucible. It needs heat under every one of its nine columns, then melts and pours nine times as fast. Turning it is a heavy load."
+			]
+			id: "212B25E798689E47"
+			optional: true
+			rewards: [ ]
+			subtitle: "Twenty-seven as one"
+			tasks: [
+				{
+					icon: "mcremix:crucible"
+					id: "364F1B9770CCB2AD"
+					observe_type: 2
+					timer: 10L
+					title: "Look at a big crucible"
+					to_observe: "mcremix:crucible[formed=true]"
+					type: "observation"
+				}
+			]
+			title: "The Big Crucible"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"690A67A6D21199B1"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"Fluids carry heat on the same scale as fires: water is &3Cold&r, lava &6Hot&r, and molten metals as hot as they melt. Every pipe, pump and tank has a ceiling: brass, glass, copper and iron hold up to &6Hot&r, steel &cSearing&r, aluminium only &eWarm&r and PVC only &3Cold&r. Past it a part glows, then bursts or melts and spills."
+				""
+				"A plain pipe joins only pipes of its own metal. Pumps, valves and smart pipes join any, so one between two metals is the adapter. Tanks of different metals never join."
+				""
+				"Tooltips say how hot a fluid each part holds."
+			]
+			id: "361F092D54BF5055"
+			rewards: [ ]
+			subtitle: "Fluids are hot or cold too"
+			tasks: [
+				{
+					id: "7430378DE8182367"
+					item: "create:mechanical_pump"
+					type: "item"
+				}
+			]
+			title: "Every Pipe Has a Ceiling"
+			x: 0.0d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"Pipes, heat and the crucible"
+	]
+	title: "Molten Metal"
+}

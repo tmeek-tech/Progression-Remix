@@ -3,6 +3,7 @@ package com.mcremix;
 import com.mcremix.client.McRemixClient;
 import com.mcremix.colour.ColourBlocks;
 import com.mcremix.colour.Colours;
+import com.mcremix.compat.QuestBook;
 import com.mcremix.config.RemixConfig;
 import com.mcremix.decor.CreosoteBlocks;
 import com.mcremix.fluids.MetalElectricPumpBlock;
@@ -90,6 +91,7 @@ public class McRemix {
 			Colours.setup();
 			CreosoteBlocks.setup();
 			ModAir.setup();
+			QuestBook.install();
 		}));
 		modBus.addListener(Colours::fillTabs);
 

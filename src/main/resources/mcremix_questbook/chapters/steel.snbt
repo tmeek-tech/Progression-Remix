@@ -1,0 +1,134 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "steel"
+	group: ""
+	icon: "mcremix:steel_ingot"
+	id: "66E1BE389E5BF867"
+	images: [ ]
+	order_index: 3
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"4718C7B7C98B7081"
+				"35D075A91FFA3F0D"
+			]
+			description: [
+				"Steel is iron that has soaked up carbon, made the way it was in cementation furnaces: iron packed in coke and sealed in."
+			]
+			id: "7726CC1946BE6CBC"
+			rewards: [ ]
+			subtitle: "Iron sealed in coke"
+			tasks: [
+				{
+					id: "6DA610185482870D"
+					item: "mcremix:cementation_pack"
+					type: "item"
+				}
+			]
+			title: "A Cementation Pack"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"7726CC1946BE6CBC"
+			]
+			description: [
+				"Fired at &cSearing&r, from any heat source, a pack comes out as Blister Steel. It is the slowest firing in the Furnace, so plan for it."
+				""
+				"Blister steel is brittle, its skin raised in blisters, and crafts into nothing."
+			]
+			id: "483ED798AEF19429"
+			rewards: [ ]
+			subtitle: "The slowest firing there is"
+			tasks: [
+				{
+					id: "523CEABCC42862C6"
+					item: "mcremix:blister_steel"
+					type: "item"
+				}
+			]
+			title: "Blister Steel"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"483ED798AEF19429"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"Only a Mechanical Press beats blister steel into steel ingots, and ingots press into steel sheets."
+				""
+				"Much later a crucible over &bBlazing&r heat alloys iron and coke straight into molten steel, four times as fast."
+			]
+			id: "77A54992179DB0AA"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Beaten under a press"
+			tasks: [
+				{
+					id: "1F0D38F8A97718C4"
+					item: "mcremix:steel_ingot"
+					type: "item"
+				}
+			]
+			title: "Steel"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"77A54992179DB0AA"
+			]
+			description: [
+				"Steel Casing, made from steel sheet the way Create's casings are, is the base for steel gearboxes, clutches, gearshifts and chain drives, and for steel machines."
+			]
+			id: "76805D734AD34BD5"
+			rewards: [ ]
+			subtitle: "The casing for 512 RPM"
+			tasks: [
+				{
+					id: "2609F9966579F9D6"
+					item: "mcremix:steel_casing"
+					type: "item"
+				}
+			]
+			title: "Steel Casing"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"76805D734AD34BD5"
+			]
+			description: [
+				"Steel supports turn up to 512 RPM, and steel shafts and cogs take any load and reach six blocks from a support. Steel supports are the heaviest to turn."
+				""
+				"A machine draws stress for every RPM, so at 512 it works twice as fast for twice the stress. Speed only pays where it matters."
+				""
+				"Steel rusts where it gets wet, but never past its first stage."
+			]
+			id: "6A4065E4125B400F"
+			rewards: [ ]
+			subtitle: "Fast, unbreakable and heavy"
+			tasks: [
+				{
+					id: "1BCA12671FAD932A"
+					item: "mcremix:steel_shaft"
+					type: "item"
+				}
+			]
+			title: "512 RPM"
+			x: 7.0d
+			y: 0.0d
+		}
+	]
+	subtitle: [
+		"Iron that soaked up carbon"
+	]
+	title: "Steel"
+}

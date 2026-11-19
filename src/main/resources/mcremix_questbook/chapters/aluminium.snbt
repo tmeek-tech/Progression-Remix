@@ -1,0 +1,200 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "aluminium"
+	group: ""
+	icon: "mcremix:aluminium_ingot"
+	id: "66048D303709E097"
+	images: [ ]
+	order_index: 7
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"6BD37C7E20889D52"
+			]
+			description: [
+				"Washing red sand in front of an Encased Fan turns up bauxite a quarter of the time, beside the gold nuggets."
+				""
+				"Every step from here can be worked out from what you see."
+			]
+			id: "3F4C5E0A2AB19ACB"
+			rewards: [ ]
+			subtitle: "Washed out of red sand"
+			tasks: [
+				{
+					id: "6A92CB4B52B2B4C4"
+					item: "mcremix:bauxite"
+					type: "item"
+				}
+			]
+			title: "Bauxite"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"3F4C5E0A2AB19ACB"
+				"2F5032893F65C980"
+			]
+			description: [
+				"Bauxite dissolves in caustic soda in a heated basin into bauxite liquor, leaving red mud behind."
+			]
+			id: "109BD4CCCD1F5D59"
+			rewards: [ ]
+			subtitle: "Dissolved in caustic soda"
+			tasks: [
+				{
+					id: "4065F2E473FD4785"
+					item: "mcremix:bauxite_liquor_bucket"
+					type: "item"
+				}
+			]
+			title: "Bauxite Liquor"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"109BD4CCCD1F5D59"
+			]
+			description: [
+				"Left to stand cool, the liquor settles out aluminium hydroxide and gives back some of its caustic soda. A basin settles a batch at a time, but only with no heat under it and nothing working over it. A vat settles a batch for every bucket it holds."
+				""
+				"&7JEI: the Settling tab.&r"
+			]
+			id: "42115E5A5C8D65E6"
+			rewards: [ ]
+			subtitle: "Leave it to stand"
+			tasks: [
+				{
+					id: "23B142F854CCD31B"
+					item: "mcremix:aluminium_hydroxide"
+					type: "item"
+				}
+			]
+			title: "Settling"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"42115E5A5C8D65E6"
+			]
+			description: [
+				"Aluminium hydroxide fired at &cSearing&r becomes alumina, the white powder electrolysis turns into metal. Keep some spare: it is a catalyst later too."
+			]
+			id: "008AD6AA8A865A86"
+			rewards: [ ]
+			subtitle: "Fired white"
+			tasks: [
+				{
+					id: "10736BCACB583D0E"
+					item: "mcremix:alumina"
+					type: "item"
+				}
+			]
+			title: "Alumina"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"008AD6AA8A865A86"
+				"6D7CDDADA949BC04"
+			]
+			description: [
+				"An Electrolyser splits alumina into molten aluminium, with no heat under it: the current keeps the melt hot. Pipe it off and cast it in sand molds."
+				""
+				"It takes far more charge than salt water does, so this is where a good circuit pays off."
+			]
+			id: "028B0660FD4BDF35"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Split by current"
+			tasks: [
+				{
+					id: "122EA9EFA2B41414"
+					item: "mcremix:aluminium_ingot"
+					type: "item"
+				}
+			]
+			title: "Aluminium"
+			x: 7.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"028B0660FD4BDF35"
+			]
+			description: [
+				"Aluminium supports turn up to 512 RPM with no drag at all, and nothing aluminium ever weathers. But its shafts and cogs carry only light loads, and it melts beside anything &6Hot&r: lava, fire, a lit Furnace, a Blaze Burner or molten metal. A melted part runs down and sets as rough aluminium."
+				""
+				"Its pipes hold only &eWarm&r fluids, and its tanks make no boiler. Keep it out of the furnace yard."
+				""
+				"Every aluminium bracket and casing needs a Polyethylene Bushing, so aluminium parts wait for the Steel Furnace chapter."
+			]
+			id: "44DB9B8C2FC1DCE2"
+			rewards: [ ]
+			subtitle: "Steel's speed, no drag, and a weakness"
+			tasks: [
+				{
+					id: "70D3FABDDC3D2D9F"
+					item: "mcremix:aluminium_sheet"
+					type: "item"
+				}
+			]
+			title: "Light and Soft"
+			x: 8.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"028B0660FD4BDF35"
+			]
+			description: [
+				"Bolted to a Power Grid device with its base against it, a heat sink draws heat out, so the device takes more power before it overheats. Several add up, and a fan blowing through the fins sheds far more."
+			]
+			id: "39CE89A28527ED35"
+			rewards: [ ]
+			subtitle: "Fins for hot devices"
+			tasks: [
+				{
+					id: "02712F8A40BB22C9"
+					item: "mcremix:heat_sink"
+					type: "item"
+				}
+			]
+			title: "The Heat Sink"
+			x: 8.75d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"109BD4CCCD1F5D59"
+			]
+			description: [
+				"Red mud fires &eWarm&r into red mud bricks, with stairs, slabs and walls of their own."
+			]
+			id: "33DDABD396D7D304"
+			optional: true
+			rewards: [ ]
+			subtitle: "Waste made into walls"
+			tasks: [
+				{
+					id: "08D9ECC131F21778"
+					item: "mcremix:red_mud_bricks"
+					type: "item"
+				}
+			]
+			title: "Red Mud Bricks"
+			x: 1.75d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"From red sand to the everyday late metal"
+	]
+	title: "Aluminium"
+}

@@ -1,0 +1,152 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "cooling"
+	group: ""
+	icon: "mcremix:water_cooler"
+	id: "4B40B463F9C1E639"
+	images: [ ]
+	order_index: 9
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"22308AEB6DC1499F"
+			]
+			description: [
+				"An aluminium support warms as it turns. Left alone it settles near 600 °C at about 256 RPM, but at 512 it melts about a minute after starting cold. Only what holds a part heats: an aluminium shaft in a steel bracket stays cool."
+				""
+				"Goggles show its temperature, gold from 520 °C and red from 620."
+			]
+			id: "374B6B27BFDD7013"
+			rewards: [ ]
+			subtitle: "Aluminium warms as it turns"
+			tasks: [
+				{
+					id: "7DF5B21E06993CFD"
+					item: "mcremix:aluminium_gearbox"
+					type: "item"
+				}
+			]
+			title: "Friction Heat"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"374B6B27BFDD7013"
+			]
+			description: [
+				"A heat sink bolted to the support carries it to about 384 RPM, and a fan of 128 RPM or more blowing through the sink's fins carries it to its full 512. A fan blowing straight at it with no sink helps about as much as one sink."
+			]
+			id: "30173B91345304C8"
+			rewards: [ ]
+			subtitle: "Air cooling"
+			tasks: [
+				{
+					id: "6ADCB9DFBB792F39"
+					item: "create:encased_fan"
+					type: "item"
+				}
+			]
+			title: "Sinks and Fans"
+			x: 1.75d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"374B6B27BFDD7013"
+			]
+			description: [
+				"A water cooler is a heat sink's base in a copper water jacket, bolted on like a heat sink. It takes heat in step with how hot its support runs and turns its water warm as it does, so it uses water only as fast as it cools."
+				""
+				"The warm water has to be pumped away, or it stops. Coolers work on Power Grid devices too."
+			]
+			id: "219624AEE35DA726"
+			rewards: [ ]
+			subtitle: "Water takes the heat away"
+			tasks: [
+				{
+					id: "6D5564BCD30B078E"
+					item: "mcremix:water_cooler"
+					type: "item"
+				}
+			]
+			title: "The Water Cooler"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"219624AEE35DA726"
+			]
+			description: [
+				"Water drawn wherever it is cold enough to snow is cold water, though the sea gives salt water even where it freezes. It stays cold wherever you pipe it, and in a water cooler it works twice as well as plain water."
+			]
+			id: "739987E70CB02EF2"
+			rewards: [ ]
+			subtitle: "From wherever it snows"
+			tasks: [
+				{
+					id: "11CA6882736544F4"
+					item: "mcremix:cold_water_bucket"
+					type: "item"
+				}
+			]
+			title: "Cold Water"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"739987E70CB02EF2"
+			]
+			description: [
+				"Radiators side by side in one plane join into a panel. A panel chills any water into cold water and hot coolant back into coolant, faster with a fan blowing through it."
+				""
+				"So the warm water out of a cooler can come back cold."
+			]
+			id: "6DB3F2374FF5F911"
+			rewards: [ ]
+			subtitle: "Chill it and send it round"
+			tasks: [
+				{
+					id: "141E02CE6136873B"
+					item: "mcremix:radiator"
+					type: "item"
+				}
+			]
+			title: "Radiators"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6DB3F2374FF5F911"
+				"3F805F9CA871A2D4"
+			]
+			description: [
+				"Ethylene dichloride and caustic soda mixed over heat give ethylene glycol, and glycol with water is coolant. In a water cooler it takes heat three times as fast as water and comes out as hot coolant, which a radiator chills back."
+				""
+				"It never wears out, so it goes round a loop."
+			]
+			id: "252B1D6D21683A9C"
+			rewards: [ ]
+			subtitle: "Three times water"
+			tasks: [
+				{
+					id: "256A1C92168E767C"
+					item: "mcremix:coolant_bucket"
+					type: "item"
+				}
+			]
+			title: "Coolant"
+			x: 7.0d
+			y: 0.0d
+		}
+	]
+	subtitle: [
+		"Friction heat, and how to shed it"
+	]
+	title: "Heat and Cooling"
+}

@@ -1,0 +1,84 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "ruins"
+	group: "5C1C2C3660565F97"
+	icon: "minecraft:mossy_cobblestone"
+	id: "7B95E9888D2B2291"
+	images: [ ]
+	order_index: 0
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [ ]
+			description: [
+				"Every village is a ruin, each its own age: roofs fallen in, walls crumbled, rubble where it fell, and the whole place growing over. Nobody lives there, not even zombies or golems."
+				""
+				"Salvage what is left: cold campfires, lanterns, beds and workstations, and the odd Cold Furnace. Chests have lost anything valuable. The streets are dark at night, so monsters walk them."
+			]
+			id: "61E8ED08B9F21D4D"
+			rewards: [ ]
+			subtitle: "Long abandoned"
+			tasks: [
+				{
+					icon: "minecraft:bell"
+					id: "772C97249762A61C"
+					structure: "#minecraft:village"
+					title: "Find a village"
+					type: "structure"
+				}
+			]
+			title: "A Ruined Village"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"61E8ED08B9F21D4D"
+				"690A67A6D21199B1"
+			]
+			description: [
+				"Villagers come only from curing zombie villagers met out in the world, and they don't breed. Each one you cure is worth keeping."
+			]
+			id: "5AF486FCBBA11A7E"
+			rewards: [ ]
+			subtitle: "Cure, don't breed"
+			tasks: [
+				{
+					id: "196B9C4F5F8A39F8"
+					item: "minecraft:golden_apple"
+					type: "item"
+				}
+			]
+			title: "Bringing People Back"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"61E8ED08B9F21D4D"
+			]
+			description: [
+				"Nothing makes vanilla's furnace any more; you find them in ruins as Cold Furnaces. They smelt nothing, but smokers and blast furnaces, the butcher's and armorer's workstations, are still crafted round one, or round the Furnace."
+			]
+			id: "73FA871F2C2AB3A7"
+			optional: true
+			rewards: [ ]
+			subtitle: "Still good for something"
+			tasks: [
+				{
+					id: "1C402C56C4F5A980"
+					item: "minecraft:furnace"
+					type: "item"
+				}
+			]
+			title: "A Cold Furnace"
+			x: 1.75d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"The villages are empty"
+	]
+	title: "Ruins"
+}

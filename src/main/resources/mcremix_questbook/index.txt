@@ -1,0 +1,21 @@
+# The quest book Minecraft Remix installs for FTB Quests, made by tools/gen_quests.py.
+book bacc01f18764247b
+chapter_groups.snbt
+chapters/aluminium.snbt
+chapters/bloom_iron.snbt
+chapters/cooling.snbt
+chapters/crude_oil.snbt
+chapters/decor.snbt
+chapters/dyes.snbt
+chapters/electricity.snbt
+chapters/glass_lab.snbt
+chapters/hearth.snbt
+chapters/liquid_air.snbt
+chapters/molten_metal.snbt
+chapters/ruins.snbt
+chapters/steel.snbt
+chapters/steel_column.snbt
+chapters/steel_furnace.snbt
+chapters/titanium.snbt
+chapters/turning.snbt
+data.snbt
