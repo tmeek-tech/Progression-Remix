@@ -1,0 +1,127 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "decor"
+	group: "5C1C2C3660565F97"
+	icon: "mcremix:steel_catwalk"
+	id: "61E3610D62247B9E"
+	images: [ ]
+	order_index: 1
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [ ]
+			description: [
+				"Mechanical bearings, pistons, gantries and rope pulleys come in every wood, before you have andesite alloy, for drawbridges and gates that match what they are built into."
+			]
+			id: "602279B76C948C62"
+			optional: true
+			rewards: [ ]
+			subtitle: "Drawbridges before andesite"
+			tasks: [
+				{
+					id: "49F10C4387D30C1F"
+					item: "mcremix:oak_mechanical_bearing"
+					type: "item"
+				}
+			]
+			title: "Wooden Movers"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"670869AA09CABEE6"
+			]
+			description: [
+				"A Spout of creosote soaks stripped logs and planks into creosote timber, with posts, fences and stairs of its own."
+			]
+			id: "24AEC0BA3B84E00B"
+			optional: true
+			rewards: [ ]
+			subtitle: "Soaked dark"
+			tasks: [
+				{
+					id: "591C2E86FE54D811"
+					item: "mcremix:creosote_log"
+					type: "item"
+				}
+			]
+			title: "Creosote Timber"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"77A54992179DB0AA"
+			]
+			description: [
+				"Steel catwalks, catwalk stairs, railings and caged ladders, for getting round a plant. They rust where they get wet, but only to the first stage."
+				""
+				"&7Ponder: the catwalk.&r"
+			]
+			id: "085E3568CA79FBD3"
+			optional: true
+			rewards: [ ]
+			subtitle: "Steel walkways"
+			tasks: [
+				{
+					id: "4C8AA820D1A4BD56"
+					item: "mcremix:steel_catwalk"
+					type: "item"
+				}
+			]
+			title: "Catwalks"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"26629077D11A6817"
+			]
+			description: [
+				"Titanium plating takes the colour of the heat it is fired at in a Furnace: gold at &6Hot&r, purple at &cSearing&r, blue at &bBlazing&r. A colour only gets deeper, and acid strips it back."
+			]
+			id: "4DDE2D3BF8228432"
+			optional: true
+			rewards: [ ]
+			subtitle: "Tinted by fire"
+			tasks: [
+				{
+					id: "5DB9DAD719DCC5D3"
+					item: "mcremix:titanium_plating"
+					type: "item"
+				}
+			]
+			title: "Titanium Plating"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"73EA012B1EAFFC1E"
+			]
+			description: [
+				"Each new colour's glazed terracotta is a Victorian encaustic tile. Four placed facing round join into a bigger figure, as vanilla's do."
+			]
+			id: "16AA9B4C24DF3043"
+			optional: true
+			rewards: [ ]
+			subtitle: "Four make a figure"
+			tasks: [
+				{
+					id: "35AA37E2FCEBD695"
+					item: "mcremix:mauve_glazed_terracotta"
+					type: "item"
+				}
+			]
+			title: "Encaustic Tiles"
+			x: 7.0d
+			y: 0.0d
+		}
+	]
+	subtitle: [
+		"Things built to look right"
+	]
+	title: "Decor"
+}

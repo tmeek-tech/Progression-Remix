@@ -1,0 +1,321 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "turning"
+	group: ""
+	icon: "create:cogwheel"
+	id: "3168B13CE7674309"
+	images: [ ]
+	order_index: 1
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"690A67A6D21199B1"
+			]
+			description: [
+				"Create's own shafts, cogs, gearboxes and machines are the andesite tier. They never weather and their shafts take any load, but their supports stop at 128 RPM."
+				""
+				"Andesite stays the maintenance-free workhorse for slow, heavy machines all game."
+			]
+			id: "541D0DC718F4FF4B"
+			rewards: [ ]
+			subtitle: "Create's own tier, steady and slow"
+			tasks: [
+				{
+					id: "4486CF6DB0698A53"
+					item: "create:andesite_alloy"
+					type: "item"
+				}
+			]
+			title: "Andesite Alloy"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"541D0DC718F4FF4B"
+			]
+			description: [
+				"A bare shaft or cog can't hang in the air. It must be held by a support: a machine, a gearbox, clutch, gearshift or chain drive, a casing, or a bracket bolted to a solid block. Water wheels, windmills and engines pass rotation on but hold nothing."
+				""
+				"A support holds the parts in line with it as far as their own material reaches, counting through the bare parts between, like scaffolding from a post: two blocks for wood and brass, four for andesite, copper and iron, six for steel and up. Out of reach a part won't go on, and when its support goes it drops."
+				""
+				"&7Ponder: any shaft, bracket or casing.&r"
+			]
+			id: "629C0AF66AEA3D00"
+			rewards: [ ]
+			subtitle: "Every part turns in a support"
+			tasks: [
+				{
+					id: "17E6F1B412B0AFFE"
+					item: "create:shaft"
+					type: "item"
+				}
+			]
+			title: "Shafts Need Holding"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"629C0AF66AEA3D00"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"Create's Engineer's Goggles show what a placed block is doing: each part's material, what holds it and its limits, a Furnace's heat and fuel, and what a machine is waiting for."
+				""
+				"Their lenses sit in gold sheet, and sheets come only off a press, so goggles wait for iron."
+			]
+			id: "48EF2BB3E8E92849"
+			rewards: [ ]
+			subtitle: "See what a block is doing"
+			tasks: [
+				{
+					id: "54288B7E7E69C060"
+					item: "create:goggles"
+					type: "item"
+				}
+			]
+			title: "Engineer's Goggles"
+			x: 1.75d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"629C0AF66AEA3D00"
+			]
+			description: [
+				"Each material gives two limits. A support's Stability is the top speed it turns at. A shaft or cog's Strength is the load it carries. A part turns as fast as its supports allow, whatever it is made of."
+				""
+				"Spin a support past its Stability and it grinds for a few seconds, then gives way and drops. Draw more stress through a network than a shaft or cog can carry and it wobbles, then breaks. Supports never break from load, and shafts never break from speed."
+				""
+				"Tooltips show both as a word and a bar, and goggles give the numbers."
+			]
+			icon: "create:stressometer"
+			id: "3296CE900D1C9370"
+			rewards: [ ]
+			subtitle: "Speed breaks supports, load breaks shafts"
+			tasks: [
+				{
+					id: "621F22D461AC08AE"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Stability and Strength"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"629C0AF66AEA3D00"
+			]
+			description: [
+				"Logs make wooden shafts cheaply, and every one of the eleven woods has its own parts. Wood is the cheapest tier: its supports stop at 64 RPM, and its shafts carry the least load of anything."
+				""
+				"That makes a wooden shaft a fuse. Between an engine and a risky machine, it is the first thing to break when the machine draws too much."
+				""
+				"Crimson and warped parts don't burn."
+			]
+			id: "0BBD389261D0567C"
+			optional: true
+			rewards: [ ]
+			subtitle: "The cheapest parts give way first"
+			tasks: [
+				{
+					icon: "mcremix:oak_shaft"
+					id: "3B852AEACAF79693"
+					observe_type: 1
+					timer: 10L
+					title: "Look at a wooden shaft"
+					to_observe: "#mcremix:wooden_shafts"
+					type: "observation"
+				}
+			]
+			title: "Wood Is the Fuse"
+			x: 3.5d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"3296CE900D1C9370"
+			]
+			description: [
+				"Copper supports turn up to 256 RPM, twice andesite's, and copper shafts and cogs carry light loads. They are the early road to full-speed lines."
+				""
+				"Copper weathers anywhere, within a day, and each stage adds a little friction at its supports. Honeycomb waxes it and an axe scrapes it back, just like copper blocks."
+				""
+				"Copper gearboxes, clutches, gearshifts and chain drives are built on Create's copper casing."
+			]
+			id: "2D5A296BEAA4D578"
+			rewards: [ ]
+			subtitle: "Full speed, light duty"
+			tasks: [
+				{
+					id: "218168076A2D4D86"
+					item: "mcremix:copper_shaft"
+					type: "item"
+				}
+			]
+			title: "Copper Parts"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"2D5A296BEAA4D578"
+				"4718C7B7C98B7081"
+			]
+			description: [
+				"Copper and iron weather fast and stop at a stage of their own: each spot ends weathered or fully weathered, so a build takes on a varied palette within a day of play instead of one flat green."
+				""
+				"Iron only rusts while wet: rained on, waterlogged or beside water. Dry iron under rustier iron rusts too, so rust runs down a wall as far as the blocks above it got. Indoor machines stay clean."
+				""
+				"Honeycomb seals a block as it is. An axe scrapes it back a stage, and it weathers to the same stage again."
+			]
+			id: "060ABCEC2D22B788"
+			optional: true
+			rewards: [ ]
+			subtitle: "Fast, and never quite all the way"
+			tasks: [
+				{
+					id: "2E7BA13AA358CDF3"
+					item: "minecraft:honeycomb"
+					type: "item"
+				}
+			]
+			title: "Weathering"
+			x: 7.0d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"2D5A296BEAA4D578"
+				"5CF0F2FE999D2187"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"A Create basin standing on a Furnace is heated by the fuel burning in it, for the mixer or press above. Fuel burning &cSearing&r heats it as a fed Blaze Burner does, which is enough for heated mixing such as brass; a &eWarm&r or &6Hot&r fire only warms it. Heat from under the Furnace passes up as it is, so a soul campfire beneath only warms the basin."
+				""
+				"Superheated recipes still need a Blaze Burner fed Blaze Cake, later Power Grid's basin heater run hot enough, or a Steel Furnace burning &bBlazing&r."
+			]
+			id: "36D4E952BA3CE9EC"
+			rewards: [ ]
+			subtitle: "A heated basin, no blazes needed"
+			tasks: [
+				{
+					id: "502A8E24B52D373D"
+					item: "create:brass_ingot"
+					type: "item"
+				}
+			]
+			title: "Brass"
+			x: 7.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"36D4E952BA3CE9EC"
+			]
+			description: [
+				"Brass parts are fine clockwork, polished and delicate. Their supports stop at 96 RPM and their shafts carry little, just above wood, because brass already has some powerful machines."
+				""
+				"Brass never tarnishes. It has no clutch, gearshift or chain gearshift, and the Mechanical Crafter comes only in brass."
+			]
+			id: "15A0CEE9BF75BD3A"
+			rewards: [ ]
+			subtitle: "Delicate and fancy"
+			tasks: [
+				{
+					id: "5906A2B49E2162C7"
+					item: "mcremix:brass_cogwheel"
+					type: "item"
+				}
+			]
+			title: "Clockwork Brass"
+			x: 8.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"2D5A296BEAA4D578"
+			]
+			description: [
+				"Create's press, mixer, millstone, fan, saw, drill, deployer and arm also come in copper, iron, steel, aluminium and titanium. Each is the same machine in another casing, a support held to its own metal's top speed."
+				""
+				"Use a casing on a placed machine to change its metal, up or down. It keeps its facing and settings, and the old casing pops out."
+				""
+				"&7Ponder: any machine shows the materials scene.&r"
+			]
+			id: "20B01B5CDC744C67"
+			rewards: [ ]
+			subtitle: "Swap the casing, swap the tier"
+			tasks: [
+				{
+					id: "122EAF728124AE6A"
+					item: "create:copper_casing"
+					type: "item"
+				}
+			]
+			title: "Machines in Every Metal"
+			x: 7.0d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"541D0DC718F4FF4B"
+				"6C06A8D2FE2265D4"
+			]
+			description: [
+				"A turning Bellows blows into the block its nozzle faces. A Furnace there, or one standing on a fire there, burns one level hotter, up to &cSearing&r. It never reaches &bBlazing&r, never lights a cold Furnace, and fuel it fans burns twice as fast."
+				""
+				"That makes low heat go further: a campfire under a fanned Furnace is &6Hot&r with no fuel at all, and lava under one is &cSearing&r. Blowing on a lit campfire, it cooks food twice as fast."
+			]
+			id: "404A1BD175B2514C"
+			rewards: [ ]
+			subtitle: "One level hotter"
+			tasks: [
+				{
+					id: "1F63B27233C2ED57"
+					item: "mcremix:bellows"
+					type: "item"
+				}
+			]
+			title: "The Bellows"
+			x: 1.75d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"541D0DC718F4FF4B"
+				"5CF0F2FE999D2187"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"A Furnace heats a Create boiler standing on it by the fuel burning in it, the way a Blaze Burner does. Fuel burning &cSearing&r boils it as a fed Blaze Burner would; a &eWarm&r or &6Hot&r fire only keeps it simmering. Heat from under the Furnace passes up as it is, so a soul campfire beneath only simmers it."
+				""
+				"So steam power arrives with Coal Coke, without a trip to the Nether for blazes."
+				""
+				"Brass, iron and steel have steam engines of their own, and each goes only on tanks of its own metal. Create's engine goes on Create's copper tanks."
+			]
+			id: "5C2C3A2E77FAA0F8"
+			rewards: [ ]
+			subtitle: "A Furnace under a boiler"
+			tasks: [
+				{
+					id: "394D0CCD3CCC42DC"
+					item: "create:steam_engine"
+					type: "item"
+				}
+			]
+			title: "Steam from Fire"
+			x: 0.0d
+			y: 3.5d
+		}
+	]
+	subtitle: [
+		"Create's kinetics, remixed: supports, materials and their limits"
+	]
+	title: "Turning"
+}

@@ -3,14 +3,14 @@
 A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
-electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar, wood spirit and crude oil, a cranked diesel engine, abandoned villages, eight new dye colours, and steel catwalks and creosote timber. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
+electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar, wood spirit and crude oil, a cranked diesel engine, abandoned villages, eight new dye colours, and steel catwalks and creosote timber, with a quest book for FTB Quests that walks it all. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
 
 | | |
 |---|---|
 | Minecraft | 1.20.1 |
 | Forge | 47.4.6 (works on 47.1.3 and later) |
 | Required | Create 6.0.7 or later 6.0.x, Ponder (ships with Create), Create: Power Grid 0.6.2 or later, Architectury API (Power Grid needs it) |
-| Optional | Immersive Weathering, JEI |
+| Optional | Immersive Weathering, JEI, FTB Quests (the mod brings its own quest book) |
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
 ## What is in 0.33.0
@@ -429,6 +429,15 @@ charge or energy, with a slot on its end cycling through what heats it that hot.
 Cooler, the Radiator and warm water, cold water, coolant and hot coolant. Vanilla's furnace, smoker, blast furnace and fuel tabs are hidden while they are
 cold.
 
+**Quest book.** With FTB Quests installed, the mod puts its own quest book in `config/ftbquests/quests` the first
+time it starts, unless a book is already there: 130 quests in 15 chapters, from the first fire to the dye works, with
+the ruins and the decor blocks as side roads. Each quest names a goal, an item in hand or a block seen working, and
+explains why it matters and the rule behind it, pointing to JEI and Ponder for the rest. It never gives a layout or a
+recipe, so how each step is built is yours to work out. Quests give no rewards, and every quest shows from the start,
+locked until the ones before it are done. A later version of the mod updates the book only while nobody has changed it
+(it keeps a note of what it wrote in `mcremix_book.txt` there); a changed book, or one a modpack brought, is left
+alone. Delete the folder to get the mod's book back; quest progress is kept.
+
 **Structural formulas.** Every compound's tooltip draws its structural formula, its atoms colour coded by element
 (carbon grey, hydrogen white, oxygen red, chlorine green, sodium violet, and so on) and the formula written out
 underneath: this mod's chemicals and their buckets, Create's limestone, and Minecraft's water, ice, snow, sugar,
@@ -464,6 +473,7 @@ Needs JDK 17 (Gradle downloads one through the foojay toolchain resolver if none
 - `maven.createmod.net` (Create, Ponder, Flywheel), `maven.ithundxr.dev` (Registrate), `maven.blamejared.com` (JEI)
 - `repo.maven.apache.org` (Maven Central), `api.foojay.io` (JDK download, only if no JDK 17 is installed)
 - `api.modrinth.com` (Create: Power Grid and Architectury API, and the companion mods with `-Pcompanions`)
+- `maven.ftb.dev` (FTB Quests, FTB Library and FTB Teams, only with `-Pquests`)
 
 ```
 ./gradlew build          # mod jar in build/libs/
@@ -471,6 +481,7 @@ Needs JDK 17 (Gradle downloads one through the foojay toolchain resolver if none
 ./gradlew runServer
 ./gradlew runGameTestServer   # the GameTests in src/gametest; -Pcompanions also loads IW, WWOO and
                               # Better Combat (runClient takes -Pcompanions too)
+./gradlew runClient -Pquests  # also loads FTB Quests, to see the quest book (/ftbquests open_book)
 ```
 
 If `create_version=6.0.8-+` in `gradle.properties` does not resolve, set it to `6.0.7-281`.
@@ -499,6 +510,10 @@ pipes, pumps and tanks, and the weathered copper and rusted iron ones, are Creat
 
 The decorative blocks (catwalks to argon tubes) are written by `tools/gen_decor.py`, which `gen_assets.py` runs last,
 after `gen_colours.py`, adding its lines to the lang file and tags written before it.
+
+The FTB Quests book is written by `tools/gen_quests.py` into `src/main/resources/mcremix_questbook` (outside what
+`gen_assets.py` wipes), with the book as data in the script: change the script and run `python3 tools/gen_quests.py`.
+Quest ids come from each quest's key, so keep keys as they are or players lose that quest's progress.
 
 ## Layout
 
@@ -532,7 +547,8 @@ src/main/java/com/mcremix/
   village/      Empty and ruined villages, no breeding, village loot filter
   colour/       The eight new colours, their blocks and items, and what joins them to vanilla's and Create's
   compat/       Immersive Weathering soot, Power Grid heater temperatures (looked up at runtime, no compile dependency),
-                JEI tabs (compiled against JEI's API, loaded only when JEI is installed)
+                JEI tabs (compiled against JEI's API, loaded only when JEI is installed), and installing the quest
+                book for FTB Quests (plain files, no compile dependency)
   ponder/       Ponder scenes and plugin
   client/       Renderers, Flywheel visuals, partial models, bellows particles and sounds
   mixin/        Kinetic limits, cold furnaces, the heat basins read, fitted bits and blades, Create taking machine
@@ -543,6 +559,6 @@ src/main/java/com/mcremix/
                 dye colours (and the places vanilla counts sixteen)
 src/gametest/   GameTests for the gameplay checklist (never packaged into the jar)
 docs/           DESIGN.md (the plan), BUILD_NOTES.md (what to check on the first compile), TEST_REPORT.md
-tools/          gen_assets.py, the UV masks it uses and Create's fluid textures it recolours, and gen_colours.py and
-                gen_decor.py
+tools/          gen_assets.py, the UV masks it uses and Create's fluid textures it recolours, gen_colours.py and
+                gen_decor.py, and gen_quests.py (the quest book)
 ```

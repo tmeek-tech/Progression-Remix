@@ -1,0 +1,245 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "dyes"
+	group: ""
+	icon: "mcremix:mauve_dye"
+	id: "0EF308CDEA53892B"
+	images: [ ]
+	order_index: 14
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"695A658C30C5B030"
+				"109BD4CCCD1F5D59"
+			]
+			description: [
+				"Sour gas is fuel gas carrying hydrogen sulfide, which poisons and flashes. Clean it, and the sulfur comes out."
+				""
+				"A vat of red mud with no mixer cleans sour gas piped through it, and the foul red mud, aired in an open basin, goes red again and drops sulfur. Or wash the gas with soda ash solution in a stirred vat, boil the foul soda for hydrogen sulfide, and burn that over alumina in a Steel Furnace into molten sulfur."
+				""
+				"&7JEI: the Airing tab.&r"
+			]
+			id: "21D1DCB0DD850FAC"
+			rewards: [ ]
+			subtitle: "Cleaned out of sour gas"
+			tasks: [
+				{
+					id: "21A5D0ECAFF9CBD6"
+					item: "mcremix:sulfur"
+					type: "item"
+				}
+			]
+			title: "Sulfur"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"21D1DCB0DD850FAC"
+				"754D20403EEE0165"
+			]
+			description: [
+				"Sulfur burns away in a Furnace into sulfur dioxide, which platinum gauze in a &6Hot&r Steel Furnace turns to sulfur trioxide. Stirred into water in a vat it becomes sulfuric acid, but half of it fogs off as an acid mist unless there is acid in the vat already."
+				""
+				"Mixed with nitric acid, it nitrates four times as fast."
+			]
+			id: "6B61D77A597EB929"
+			rewards: [ ]
+			subtitle: "Sulfur, burnt twice"
+			tasks: [
+				{
+					id: "67A4661495A6D726"
+					item: "mcremix:sulfuric_acid_bucket"
+					type: "item"
+				}
+			]
+			title: "Sulfuric Acid"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"64207D5B90DBDEF5"
+				"670869AA09CABEE6"
+			]
+			description: [
+				"Light oil nitrated becomes nitrobenzene, and nitrobenzene with iron and vinegar becomes aniline. These are mixed in basins, and JEI shows each step."
+			]
+			id: "452A4DAE3CE278D9"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "The root of the dyes"
+			tasks: [
+				{
+					id: "4AF9FFA7DED2C3FB"
+					item: "mcremix:aniline_bucket"
+					type: "item"
+				}
+			]
+			title: "Aniline"
+			x: 0.0d
+			y: 3.5d
+		}
+		{
+			dependencies: [
+				"452A4DAE3CE278D9"
+				"11220AE969A46307"
+			]
+			description: [
+				"Aniline, hydrochloric acid, sodium nitrite and ice mixed cold give a diazo salt. It breaks down unless ice or snow touches what holds it, or it stands where it is cold enough to snow, and heat ruins it at once."
+				""
+				"Goggles say when it is warming."
+			]
+			id: "2B3105C1E2D06B94"
+			rewards: [ ]
+			subtitle: "Diazo salts spoil warm"
+			tasks: [
+				{
+					id: "636839BB825929FA"
+					item: "mcremix:diazo_salt_bucket"
+					type: "item"
+				}
+			]
+			title: "Keep It on Ice"
+			x: 3.5d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"6B61D77A597EB929"
+				"2B3105C1E2D06B94"
+			]
+			description: [
+				"Maroon comes from naphthylamine's diazo salt with naphthol, and naphthol needs sulfuric acid. Yellow, orange and red come from diazo salts too."
+			]
+			id: "5DA870321EF0BC9A"
+			rewards: [ ]
+			subtitle: "Needs the acid"
+			tasks: [
+				{
+					id: "1A8DFCE3721827C2"
+					item: "mcremix:maroon_dye"
+					type: "item"
+				}
+			]
+			title: "Maroon"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"452A4DAE3CE278D9"
+			]
+			description: [
+				"Mauve comes from aniline and bleach. It is one of four colours that only the dye works makes."
+			]
+			id: "73EA012B1EAFFC1E"
+			rewards: [ ]
+			subtitle: "The first coal tar dye"
+			tasks: [
+				{
+					id: "6A981C250716FDFF"
+					item: "mcremix:mauve_dye"
+					type: "item"
+				}
+			]
+			title: "Mauve"
+			x: 1.75d
+			y: 5.25d
+		}
+		{
+			dependencies: [
+				"452A4DAE3CE278D9"
+			]
+			description: [
+				"Indigo comes from phenylglycine melted with caustic soda, the melt aired into dye. Sodamide in the melt triples it."
+			]
+			id: "627AB97BE1876BBB"
+			rewards: [ ]
+			subtitle: "Melted and aired"
+			tasks: [
+				{
+					id: "241BBE4A462F10BB"
+					item: "mcremix:indigo_dye"
+					type: "item"
+				}
+			]
+			title: "Indigo"
+			x: 0.0d
+			y: 5.25d
+		}
+		{
+			dependencies: [
+				"452A4DAE3CE278D9"
+			]
+			description: [
+				"Benzaldehyde and dimethylaniline give a colourless base, and ferric chloride turns it green."
+			]
+			id: "29042AEDE80E90D3"
+			rewards: [ ]
+			subtitle: "Turned green at the end"
+			tasks: [
+				{
+					id: "683E4E50934E9E4E"
+					item: "mcremix:malachite_green_dye"
+					type: "item"
+				}
+			]
+			title: "Malachite Green"
+			x: -1.75d
+			y: 5.25d
+		}
+		{
+			dependencies: [
+				"73EA012B1EAFFC1E"
+			]
+			description: [
+				"Each new dye with white makes a pale shade: lilac, periwinkle, mint and rose. All eight go on everything vanilla and Create dye, from wool and glass to seats and sails."
+			]
+			id: "6A5E8C6988122404"
+			optional: true
+			rewards: [ ]
+			subtitle: "Four more colours"
+			tasks: [
+				{
+					id: "2175E3974CCE0598"
+					item: "mcremix:lilac_dye"
+					type: "item"
+				}
+			]
+			title: "Pale Shades"
+			x: 1.75d
+			y: 7.0d
+		}
+		{
+			dependencies: [
+				"21D1DCB0DD850FAC"
+				"64207D5B90DBDEF5"
+			]
+			description: [
+				"Soda ash and nitric acid give saltpetre, and saltpetre mixed with sulfur and charcoal gives gunpowder."
+			]
+			id: "774B22164B0319D6"
+			optional: true
+			rewards: [ ]
+			subtitle: "Made, not hunted"
+			tasks: [
+				{
+					id: "6E1F1CD32BF9E83F"
+					item: "mcremix:saltpetre"
+					type: "item"
+				}
+			]
+			title: "Gunpowder"
+			x: 0.0d
+			y: -1.75d
+		}
+	]
+	subtitle: [
+		"The last chemistry, and four new colours"
+	]
+	title: "Sulfur and Dyes"
+}

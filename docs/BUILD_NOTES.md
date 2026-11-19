@@ -3939,3 +3939,94 @@ door open.
 
 In game (new worlds; `/place structure minecraft:village_plains` and the desert, savanna, snowy and taiga ones build a
 whole village where you stand): shots in `builds/screenshots/0.38.0`.
+
+## 52. The quest book (0.39.0)
+
+Taran's ask of 2026-11-18, "Can you write a quest book that walks you through the progression but leaves room for
+specific solutions to be determined by the player? Use FTB Quests.", with four cards answered the same day: nothing
+but progress (no rewards, and no XP while enchanting is redesigned), show the whole road (every quest in a chapter
+visible from the start, locked until the ones before it are done), inside the mod jar, and the idea, not the recipe
+(each quest names a goal, why it matters and the rule behind it, and points to JEI and Ponder; never a layout or a
+recipe).
+
+**The book.** `tools/gen_quests.py` holds the whole book as data and writes it in FTB Quests' own SNBT (FTB Quests
+2001.4.x for 1.20.1: file version 13, quest text inline, no lang files) into `src/main/resources/mcremix_questbook/`:
+`data.snbt`, `chapter_groups.snbt`, one file per chapter under `chapters/`, and `index.txt`, which names the book's
+version (16 hex digits of a SHA-1 over every file) and its files. It lives outside `assets` and `data`, so
+`gen_assets.py` never wipes it. Run the script from the project root after any change. It refuses a dependency on a
+quest not in the book, two quests on one spot, or a clash of ids, and warns of dependency lines that cross or run
+through another quest. Ids are hashed from each chapter's and quest's key (`make_id`), so they never change between
+versions and players keep their progress when the book updates; renaming a key loses that quest's progress.
+`{Warm}`, `{Hot}`, `{Searing}`, `{Blazing}` and `{Cold}` in text become the heat words in colour (`&e`, `&6`, `&c`,
+`&b`, `&3`), and a paragraph starting with `@` is a grey pointer to JEI or Ponder.
+
+**Chapters.** Fifteen in order (The Hearth, Turning, Bloom Iron, Steel, Molten Metal, Tar Spirit and Glass,
+Electricity, Aluminium, The Steel Furnace, Heat and Cooling, Titanium, The Steel Column, Crude Oil, Liquid Air, Sulfur
+and Dyes) and a Side Roads group (Ruins, Decor): 130 quests, each chapter's turning points drawn as big hexagons.
+A task is an item in the inventory (FTB Quests ticks it on any inventory change), a block seen working (an observation
+task on a block state: a lit Furnace, a Searing Furnace, a Searing and a Blazing Steel Furnace, an Electrolyser with
+both electrodes, a formed big crucible, an air column grown icicles; or on the new block tag `#mcremix:wooden_shafts`,
+which `gen_assets.py` writes beside the item tag), the village structure tag for the ruins, or a checkmark where
+there is nothing to hold (a gas, a column drawing every cut). Substitutes and side lines (slag, weathering, wood, the
+big crucible, petroleum coke, paraffin wax, gunpowder, the pale shades and the like) are optional, so a chapter
+completes without them. A quest that needs another chapter's step first waits on that quest: the first review found
+eleven that opened before what their recipes take could be made. Seven wanted a pressed sheet, so they now wait on the
+Mechanical Press: the goggles, Create's steam engine, the mechanical pump (fluid pipes), brass and the vat's copper
+mixer (a whisk), caustic soda (a mixer and a fan) and iron casing. The press and the drill wanted andesite casing,
+Power Grid's generator parts a brass Mechanical Crafter, and its heating coil a coil from the coil winder. The goggles
+left the shafts quest for one of their own after the press.
+
+**Second review** (the last round). Every quest's claims were checked against the code, and each finding was checked
+again by a second reader before anything changed: 73 held up (many of them the same point found twice) and 12 did not.
+What changed, in about forty quests:
+- Recipe details out, since JEI has them: the furnace's eight cobblestone, two logs to six shafts, the iron anvil's 31
+  iron, the stone anvil's stones, the cementation pack's clay, four blister steel, the casings as sheet on stripped
+  log, the coil winder's stick and cardboard, two pellets to a bushing, four platinum nuggets to a gauze, the
+  gunpowder ratio and the briquette's pitch.
+- Claims the code contradicts: a Furnace heats a basin or boiler above it by the fuel burning in it, and heat from
+  under it passes up as it is (a soul campfire beneath only warms or simmers); a part's own material sets how far it
+  reaches from a support; raw iron, iron ore and ancient debris aren't fired at Hot ("Raw Iron Won't Smelt", since a
+  crucible does melt it); the crucible melts iron, steel and netherite at any Blazing heat, Power Grid's basin heater
+  included; lab glass cracks at Searing itself; the sea gives salt water even where it snows; only the Steel
+  Condenser's jacket refuses liquid nitrogen (the still's coil condenser takes it); titanium needs twice aluminium's
+  cooling (it makes about three times the heat); the air column draws argon from a section of its own between
+  nitrogen and oxygen, spare sections sitting under the top; reflux stands in for the empty sections between close
+  cuts but makes no room for a missing cut; titanium sponge needs no steel vat; a diazo salt keeps where it is cold
+  enough to snow; wax waxes what honeycomb waxes. DESIGN.md said the same as the old text about titanium's heat, the
+  crucible and the steel vat, so those three lines now follow the code too.
+- Unlock order: charcoal opens straight off the Furnace (a campfire under it is Warm with nothing to light) and Hot
+  waits on both charcoal and lighting. No dependency can gate the first lighter, since flint and steel takes iron and
+  iron comes later, so the light quest says where one turns up: ruined portal chests hold flint and steel and fire
+  charges, and mineshafts, dungeons and shipwrecks iron (only village chests lose theirs). Coal tar, wood spirit and
+  salt water now wait on iron (a bucket or a pipe), weathering on iron (shears, for honeycomb), the golden apple on Hot
+  (gold), salt on the heated basin, Blazing on chlorine (hydrogen), PVC on polyethylene (ethylene), naphtha cracking on
+  the Steel Furnace's fuel quest, and sulfur on bauxite liquor (red mud).
+
+**Installing it** (`compat/QuestBook`, called at common setup). Without FTB Quests loaded it does nothing. With it,
+it reads the book from the jar and looks in `config/ftbquests/quests`. With no `chapters/*.snbt` there (FTB Quests'
+own empty book has none) it writes the book and `mcremix_book.txt`, which holds the version and a SHA-1 of each file
+written. With the marker there and the same version, nothing. With an earlier version, it replaces the book only if
+every file it wrote still matches its hash and no chapter was added, deleting only the files it wrote; otherwise, and
+with chapters but no marker, it leaves the book alone and logs that deleting the folder brings the mod's book back. A
+marker naming a path outside the folder is refused. FTB Quests saves its book only when it is edited: in the dev
+client, playing, completing quests, and saving and quitting left every file matching, and quest progress lives in the
+world (`saves/<world>/ftbquests`). A restart with a newer book logged "Updated the Minecraft Remix quest book", and
+the world's three completed quests were still complete.
+
+**Seeing it.** `./gradlew runClient -Pquests` (or `runGameTestServer -Pquests`) also loads FTB Quests 2001.4.22, FTB
+Library 2001.2.13 and FTB Teams 2001.3.2 from `maven.ftb.dev`; Architectury is already there for Power Grid. In game,
+`/ftbquests open_book` opens the book.
+
+**Tests.** `QuestBookTests.questBookNamesThingsThatExist` reads the book from the jar and checks that every item and
+icon it names is registered, every block state it looks for parses against its block, every block tag it looks for
+has blocks, the structure tag exists, no id repeats and every dependency is in the book.
+`questBookInstallsOnlyOverItsOwnUnchangedBook` runs the installer in a temporary folder through each case above:
+installing into an empty folder and into FTB Quests' empty book, leaving the same version be, updating an unchanged
+earlier version (and deleting a chapter the new book drops), keeping a changed book, a book with a chapter added and
+someone else's book, and refusing a marker that points out of the folder. FTB Quests' own detection was checked by
+hand for one quest of each kind (a checkmark, an item, a look-at), not for every quest.
+
+**Known gaps** (left, per the one-review rule): a crash partway through replacing the book leaves files that no
+longer match the marker, so the next start keeps them as a changed book until the folder is deleted; a later FTB
+Quests that rewrites older books on load would make every book look changed, so updates would stop until the folder
+is deleted; the text is English only.

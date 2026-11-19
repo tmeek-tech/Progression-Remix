@@ -1,0 +1,324 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "glass_lab"
+	group: ""
+	icon: "mcremix:round_flask"
+	id: "7511BD78FBEEFB44"
+	images: [ ]
+	order_index: 5
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"35D075A91FFA3F0D"
+				"4718C7B7C98B7081"
+			]
+			description: [
+				"Coking coal gives off coal tar, and charring logs wood spirit, into a tank in the Furnace. Draw either off by pipe from any side, or with a bucket. The tank holds a bucket of one of them; past that, or while it holds the other, the rest burns away at the chimney."
+				""
+				"Coal tar is the start of almost every chemical in this book."
+			]
+			id: "670861ACF270D86D"
+			rewards: [ ]
+			subtitle: "What coking gives off"
+			tasks: [
+				{
+					id: "4475A6F4FEB0B7FC"
+					item: "mcremix:coal_tar_bucket"
+					type: "item"
+				}
+			]
+			title: "Coal Tar"
+			x: 0.0d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"466E58C303880A27"
+				"4718C7B7C98B7081"
+			]
+			description: [
+				"Charring logs into charcoal gives off wood spirit, a little for every log. It holds acetone, methanol and vinegar, waiting to be split."
+			]
+			id: "227161A851D43479"
+			rewards: [ ]
+			subtitle: "What charring gives off"
+			tasks: [
+				{
+					id: "4724B7D48A08EEAD"
+					item: "mcremix:wood_spirit_bucket"
+					type: "item"
+				}
+			]
+			title: "Wood Spirit"
+			x: 0.0d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"690A67A6D21199B1"
+				"4718C7B7C98B7081"
+			]
+			description: [
+				"Lab glass is eight pieces, each on an iron retort stand. Each takes its heat from what is under it, as a basin does, up to &6Hot&r: over &cSearing&r heat or hotter it cracks."
+				""
+				"Hot glass also cracks in rain or with water beside it, so a lab needs a roof. Cracked glass hisses and shatters five seconds later, spilling what it held."
+			]
+			id: "674C069C050D3746"
+			rewards: [ ]
+			subtitle: "Glassware on retort stands"
+			tasks: [
+				{
+					id: "061F41B748F4E622"
+					item: "mcremix:round_flask"
+					type: "item"
+				}
+			]
+			title: "Lab Glass"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"674C069C050D3746"
+			]
+			description: [
+				"A still is a round flask over heat, a still head with a thermometer, a coil condenser on its side arm and a cow receiver under the drip, with glass column pieces between flask and head when a mixture needs them."
+				""
+				"A bucket comes over cut by cut, lightest first, each into a fresh flask of the receiver, and what is left stays in the flask. The condenser needs water through it. Cuts that boil close together need column pieces to come over at full pace."
+				""
+				"&7JEI: the Distilling tab. Ponder: the still head.&r"
+			]
+			id: "3120A738668C125F"
+			rewards: [ ]
+			subtitle: "A bucket at a time, cut by cut"
+			tasks: [
+				{
+					id: "1659F024E6A6D5FF"
+					item: "mcremix:still_head"
+					type: "item"
+				}
+				{
+					id: "7464A33F8A03C02A"
+					item: "mcremix:coil_condenser"
+					type: "item"
+				}
+				{
+					id: "1D3C689A9A80D105"
+					item: "mcremix:cow_receiver"
+					type: "item"
+				}
+			]
+			title: "The Still"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"3120A738668C125F"
+				"670861ACF270D86D"
+			]
+			description: [
+				"Coal tar distils at &6Hot&r into light oil, carbolic oil and creosote, leaving pitch in the flask."
+				""
+				"Each has a job: pitch binds electrodes and briquettes, creosote soaks timber and burns as fuel, carbolic oil holds phenol and naphthalene, and light oil is fuel and, much later, the start of the dyes."
+			]
+			id: "670869AA09CABEE6"
+			rewards: [ ]
+			subtitle: "Light oil, carbolic oil, creosote and pitch"
+			tasks: [
+				{
+					id: "7B2C5FBBD7EEE786"
+					item: "mcremix:pitch_bucket"
+					type: "item"
+				}
+			]
+			title: "Splitting Coal Tar"
+			x: 5.25d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"3120A738668C125F"
+				"227161A851D43479"
+			]
+			description: [
+				"Wood spirit distils at &eWarm&r into acetone and methanol, leaving vinegar. Acetone and methanol boil only 9 °C apart, so a bare still brings them over slowly; column pieces fix that."
+				""
+				"Vinegar strips copper's patina the way acid strips rust."
+			]
+			id: "0066D6427AE070DE"
+			rewards: [ ]
+			subtitle: "Acetone, methanol and vinegar"
+			tasks: [
+				{
+					id: "093F8ABD83DA27EC"
+					item: "mcremix:methanol_bucket"
+					type: "item"
+				}
+			]
+			title: "Splitting Wood Spirit"
+			x: 5.25d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"3120A738668C125F"
+			]
+			description: [
+				"Sugar in water ferments by itself into wash: in a basin kept cool with nothing working it, a batch at a time, or in a vat, a batch for every bucket it holds. The still distils wash at &eWarm&r into ethanol."
+				""
+				"Ethanol is fuel for the Steel Furnace and the start of ethylene."
+				""
+				"&7JEI: the Fermenting tab.&r"
+			]
+			id: "2A3F16D2B751D16F"
+			rewards: [ ]
+			subtitle: "Sugar ferments, the still does the rest"
+			tasks: [
+				{
+					id: "039BC2F096ADB919"
+					item: "mcremix:ethanol_bucket"
+					type: "item"
+				}
+			]
+			title: "Wash and Ethanol"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"0066D6427AE070DE"
+			]
+			description: [
+				"The hot tube does catalyst jobs that need no more than &6Hot&r: methanol run over copper mesh in it turns to formaldehyde."
+				""
+				"&7JEI: the Steel Furnace tab lists the hot tube's jobs too.&r"
+			]
+			id: "5A80D4145EDA62A2"
+			rewards: [ ]
+			subtitle: "Methanol over hot copper"
+			tasks: [
+				{
+					id: "0FAD6798E1CAC6C0"
+					item: "mcremix:formaldehyde_bucket"
+					type: "item"
+				}
+			]
+			title: "Formaldehyde"
+			x: 7.0d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"5CF0F2FE999D2187"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"Limestone or chalk fired at &cSearing&r burns to quicklime, giving off carbon dioxide, and washed quicklime is slaked lime. Slaked lime with soda ash and water mixes into caustic soda and chalk."
+				""
+				"Soda ash comes from kelp: fire it into kelp ash and wash that. Later, splitting salt water gives caustic soda by the bucket."
+			]
+			id: "2F5032893F65C980"
+			rewards: [ ]
+			subtitle: "From lime and kelp"
+			tasks: [
+				{
+					id: "55FEEED23E4EDB66"
+					item: "mcremix:caustic_soda_bucket"
+					type: "item"
+				}
+			]
+			title: "Caustic Soda"
+			x: 7.0d
+			y: -3.5d
+		}
+		{
+			dependencies: [
+				"20B01B5CDC744C67"
+				"3AC9A7994C4F9DC0"
+			]
+			description: [
+				"Tanks standing on a whole layer of Create's andesite scaffolding form a vat, up to three wide and five high. A vat is closed, so it keeps gases a basin would lose, and it holds up to four fluids at once in layers."
+				""
+				"Left alone it settles and ferments. A mixer used on its side goes on as its vat form and stirs it, but only a mixer of the vat's own metal fits: a copper mixer for Create's copper tanks. Create's own mixer has no vat form."
+				""
+				"&7JEI: the Vat Mixing tab. Ponder: the copper mixer.&r"
+			]
+			id: "764E14D4DF0D32B5"
+			rewards: [ ]
+			subtitle: "Closed tanks on scaffolding"
+			tasks: [
+				{
+					id: "149E9366513CB1B1"
+					item: "create:andesite_scaffolding"
+					type: "item"
+				}
+				{
+					id: "3F9CDC570367E2BB"
+					item: "mcremix:copper_mechanical_mixer"
+					type: "item"
+				}
+			]
+			title: "A Vat"
+			x: 8.75d
+			y: -3.5d
+		}
+		{
+			dependencies: [
+				"670869AA09CABEE6"
+				"2F5032893F65C980"
+				"764E14D4DF0D32B5"
+			]
+			description: [
+				"Carbolic oil settles in a settling flask into naphthalene and strained carbolic oil. Shaken with caustic soda in a separating funnel, the strained oil gives sodium phenolate under a layer of creosote."
+				""
+				"Sodium phenolate stirred with carbon dioxide in a vat gives phenol and soda ash. Carbon dioxide comes off fermenting and burning lime, by pipe only: it has no bucket."
+			]
+			id: "4C4C483FDFE2E0E1"
+			rewards: [ ]
+			subtitle: "Out of carbolic oil"
+			tasks: [
+				{
+					id: "64AA62FE6AD6A9FB"
+					item: "mcremix:phenol_bucket"
+					type: "item"
+				}
+			]
+			title: "Phenol"
+			x: 8.75d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"4C4C483FDFE2E0E1"
+				"5A80D4145EDA62A2"
+			]
+			description: [
+				"Phenol and formaldehyde pressed together in a heated basin set into Bakelite. It is a crafting ingredient, never a material for parts."
+				""
+				"With steel, it builds Create: Power Grid: its circuit boards, switches, buttons and sockets take Bakelite, and its motor and transformer core take steel."
+			]
+			id: "29CC8F5AB0429C0C"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "The first plastic"
+			tasks: [
+				{
+					id: "45F90097D54A7106"
+					item: "mcremix:bakelite"
+					type: "item"
+				}
+			]
+			title: "Bakelite"
+			x: 10.5d
+			y: 0.0d
+		}
+	]
+	subtitle: [
+		"The first chemistry, a bucket at a time"
+	]
+	title: "Tar, Spirit and Glass"
+}

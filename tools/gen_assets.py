@@ -2512,8 +2512,11 @@ def gen_data():
                    + ['mcremix:iron_casing', 'mcremix:steel_casing', 'mcremix:aluminium_casing',
                       'mcremix:titanium_casing']
                    + encased_blocks() + vat_mixers_mined_with('axe') + movers()))
-    # any wood's shaft does where a recipe wants a wooden one
+    # any wood's shaft does where a recipe wants a wooden one; the block tag is what the quest book's wooden shaft
+    # quest looks for (tools/gen_quests.py)
     write_json(data('mcremix', 'tags', 'items', 'wooden_shafts.json'),
+               tag([f'mcremix:{wood}_shaft' for wood in WOODS]))
+    write_json(data('mcremix', 'tags', 'blocks', 'wooden_shafts.json'),
                tag([f'mcremix:{wood}_shaft' for wood in WOODS]))
     # Iron, Steel, Aluminium and Titanium Casing are Create's casings: windows, encasing and the rest look for this tag
     casings = ['mcremix:iron_casing', 'mcremix:steel_casing', 'mcremix:aluminium_casing', 'mcremix:titanium_casing']

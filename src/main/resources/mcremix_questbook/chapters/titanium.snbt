@@ -1,0 +1,253 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "titanium"
+	group: ""
+	icon: "mcremix:titanium_ingot"
+	id: "0AD91464536080CC"
+	images: [ ]
+	order_index: 10
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"219624AEE35DA726"
+			]
+			description: [
+				"Basalt crushed or milled is black sand, and black sand is where titanium starts."
+			]
+			id: "374660BCC5E1AEFA"
+			rewards: [ ]
+			subtitle: "Crushed basalt"
+			tasks: [
+				{
+					id: "436F44C28096F4BD"
+					item: "mcremix:black_sand"
+					type: "item"
+				}
+			]
+			title: "Black Sand"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"374660BCC5E1AEFA"
+			]
+			description: [
+				"Power Grid's electromagnet pulls black sand's iron out as nuggets, leaving rutile, titanium's ore."
+			]
+			id: "743B693E5D5E50DB"
+			rewards: [ ]
+			subtitle: "What the magnet leaves"
+			tasks: [
+				{
+					id: "65C68004DB759921"
+					item: "mcremix:rutile"
+					type: "item"
+				}
+			]
+			title: "Rutile"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"743B693E5D5E50DB"
+				"670869AA09CABEE6"
+			]
+			description: [
+				"A press binds rutile into briquettes with coke, whose carbon will take the rutile's oxygen when chlorine meets it."
+			]
+			id: "7A3890CA9363650C"
+			rewards: [ ]
+			subtitle: "Rutile and carbon, pressed"
+			tasks: [
+				{
+					id: "0901671B3BAE4E63"
+					item: "mcremix:rutile_briquette"
+					type: "item"
+				}
+			]
+			title: "Rutile Briquettes"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"41213510650AA21C"
+				"36D4E952BA3CE9EC"
+			]
+			description: [
+				"Salt water in a heated basin, with no mixer or press over it, boils down to salt."
+				""
+				"&7JEI: the Boiling tab.&r"
+			]
+			id: "60A2C5B8A5DFDBF4"
+			rewards: [ ]
+			subtitle: "Boiled out of the sea"
+			tasks: [
+				{
+					id: "33DB06B45D29815C"
+					item: "mcremix:salt"
+					type: "item"
+				}
+			]
+			title: "Salt"
+			x: 0.0d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"60A2C5B8A5DFDBF4"
+				"57E4D8BA15816733"
+				"6BD37C7E20889D52"
+			]
+			description: [
+				"A crucible over &6Hot&r heat melts salt into molten salt, and an Electrolyser splits that into molten sodium and chlorine."
+				""
+				"Keep sodium away from water: it goes off with a bang and a burst of fire."
+			]
+			id: "0F1BA0A8623F6A0C"
+			rewards: [ ]
+			subtitle: "Split from molten salt"
+			tasks: [
+				{
+					id: "3E3573DBD980BC6E"
+					item: "mcremix:molten_sodium_bucket"
+					type: "item"
+				}
+			]
+			title: "Molten Sodium"
+			x: 1.75d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"7A3890CA9363650C"
+				"0F1BA0A8623F6A0C"
+				"5AF40633E36AE46C"
+			]
+			description: [
+				"Chlorine run over a briquette in a &bBlazing&r Steel Furnace comes off as titanium tetrachloride, a gas that fumes into white smoke and acid mist if let loose."
+				""
+				"Stirred in a vat with molten sodium, it leaves titanium sponge and salt, and the salt goes round again."
+			]
+			id: "21B67815CE8A2BA9"
+			rewards: [ ]
+			subtitle: "Chlorine, then sodium"
+			tasks: [
+				{
+					id: "716B79C45ED980F3"
+					item: "mcremix:titanium_sponge"
+					type: "item"
+				}
+			]
+			title: "Titanium Sponge"
+			x: 5.25d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"4B4A1C9CC8E643DD"
+				"219624AEE35DA726"
+			]
+			description: [
+				"The Arc Furnace is a Power Grid device: a copper hearth under a Bakelite beam, with a Carbon Electrode hanging from each terminal. Its arc melts only with enough power through it."
+				""
+				"Its hearth overheats quickly on its own, so it needs a water cooler. Both electrodes burn away as it works."
+				""
+				"&7Ponder: the Arc Furnace. JEI: the Arc Furnace tab.&r"
+			]
+			id: "488876A9C1DE16B0"
+			rewards: [ ]
+			subtitle: "An arc over a cooled hearth"
+			tasks: [
+				{
+					id: "2EE4A59255E1351A"
+					item: "mcremix:arc_furnace"
+					type: "item"
+				}
+			]
+			title: "The Arc Furnace"
+			x: 5.25d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"21B67815CE8A2BA9"
+				"488876A9C1DE16B0"
+			]
+			description: [
+				"The arc melts titanium sponge into ingots. Hands, funnels and arms load it, and hoppers empty it."
+			]
+			id: "26629077D11A6817"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Sponge, melted down"
+			tasks: [
+				{
+					id: "0D0229BDE491990C"
+					item: "mcremix:titanium_ingot"
+					type: "item"
+				}
+			]
+			title: "Titanium"
+			x: 7.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"26629077D11A6817"
+				"252B1D6D21683A9C"
+			]
+			description: [
+				"Titanium supports turn up to 2,048 RPM, four times steel's, with no drag, any load and no weathering. Its casing takes a bushing, as aluminium's does."
+				""
+				"But its supports need twice aluminium's cooling at the same speed and burn past 1,000 °C, flaring white and setting fire across the gap, then crumbling to powder. Heat sinks melt long before that, so fast titanium needs water coolers, on cold water or coolant for the top speeds."
+				""
+				"Heat leaves temper colours, gold, purple and blue, that stay until acid strips them."
+			]
+			id: "36F8B6611C6A4123"
+			rewards: [ ]
+			subtitle: "2,048 RPM, if you can cool it"
+			tasks: [
+				{
+					id: "016BB4F57DBCCEEA"
+					item: "mcremix:titanium_casing"
+					type: "item"
+				}
+			]
+			title: "Rock-solid"
+			x: 8.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"36F8B6611C6A4123"
+			]
+			description: [
+				"The Pressurizer in titanium turns up to 2,048 RPM, so its jobs run up to four times as fast. It heats and burns like any titanium machine, so past about 128 RPM it wants a water cooler."
+			]
+			id: "5FE6C35DB5660149"
+			optional: true
+			rewards: [ ]
+			subtitle: "Four times the pace"
+			tasks: [
+				{
+					id: "0242848E2F6DDB43"
+					item: "mcremix:titanium_pressurizer"
+					type: "item"
+				}
+			]
+			title: "The Titanium Pressurizer"
+			x: 8.75d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"The top tier, if you can keep it cool"
+	]
+	title: "Titanium"
+}

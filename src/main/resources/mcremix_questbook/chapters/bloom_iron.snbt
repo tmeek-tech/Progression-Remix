@@ -1,0 +1,180 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "bloom_iron"
+	group: ""
+	icon: "mcremix:iron_bloom"
+	id: "4E52E4F73EBA83A8"
+	images: [ ]
+	order_index: 2
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"5CF0F2FE999D2187"
+			]
+			description: [
+				"Raw iron no longer smelts into ingots. Fired at &cSearing&r, raw iron and iron ore come out as a glowing Iron Bloom: spongy iron full of slag that has to be beaten out."
+				""
+				"&7JEI: the Furnace and Striking Blooms tabs.&r"
+			]
+			id: "21A22298535A522F"
+			rewards: [ ]
+			subtitle: "Fire it into a bloom"
+			tasks: [
+				{
+					id: "49FB80A2C0D4A152"
+					item: "mcremix:iron_bloom"
+					type: "item"
+				}
+			]
+			title: "Raw Iron Won't Smelt"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"21A22298535A522F"
+			]
+			description: [
+				"An iron anvil takes a lot of iron and a press needs a block of it, so the first blooms are struck on a Stone Anvil. Strike a bloom on it four times."
+				""
+				"Stone cracks as you work it and crumbles after about fifteen blooms. It has no menu and never repairs anything."
+			]
+			id: "2B464E5EC7982C1A"
+			rewards: [ ]
+			subtitle: "Strike before you have iron"
+			tasks: [
+				{
+					id: "4D9A4ACE8330BD46"
+					item: "mcremix:stone_anvil"
+					type: "item"
+				}
+			]
+			title: "A Stone Anvil"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"2B464E5EC7982C1A"
+			]
+			description: [
+				"Each bloom gives an ingot, and half the time a lump of slag. An iron anvil lasts about a hundred blooms, and a Mechanical Press strikes them with no hand on the hammer at all."
+				""
+				"Create's crushing and washing still works too: a cheaper but leaner road to iron."
+			]
+			id: "4718C7B7C98B7081"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "An ingot, and sometimes slag"
+			tasks: [
+				{
+					id: "19E42716D5F205D7"
+					item: "minecraft:iron_ingot"
+					type: "item"
+				}
+			]
+			title: "Iron"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"4718C7B7C98B7081"
+			]
+			description: [
+				"Slag fertilises like bone meal, and washing it in front of an Encased Fan gives back iron nuggets and gravel. Later a Power Grid electromagnet pulls more iron out of it."
+			]
+			id: "5F042604C274D9E9"
+			optional: true
+			rewards: [ ]
+			subtitle: "Waste worth keeping"
+			tasks: [
+				{
+					id: "002E9DAF5AB52C73"
+					item: "mcremix:slag"
+					type: "item"
+				}
+			]
+			title: "Slag"
+			x: 5.25d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"4718C7B7C98B7081"
+				"541D0DC718F4FF4B"
+			]
+			description: [
+				"The press needs a block of iron, so it comes once you have a supply. It strikes blooms under its head, presses ingots into sheets, and later it is the only thing that beats blister steel into steel."
+			]
+			id: "3AC9A7994C4F9DC0"
+			rewards: [ ]
+			subtitle: "Strikes, presses and beats"
+			tasks: [
+				{
+					id: "499F64C9846A4BCF"
+					item: "create:mechanical_press"
+					type: "item"
+				}
+			]
+			title: "The Mechanical Press"
+			x: 5.25d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"3AC9A7994C4F9DC0"
+				"2D5A296BEAA4D578"
+			]
+			description: [
+				"Iron supports turn up to 256 RPM like copper's, but iron shafts and cogs take any load. Iron supports are a little heavier to turn, even clean."
+				""
+				"Iron rusts only where it gets wet, each stage adding friction, so indoor machines stay clean. Iron Casing, made from iron sheet the way Create's casings are, is the base for iron gearboxes, clutches, gearshifts, chain drives and machines."
+			]
+			id: "48B70BB7018FC73B"
+			rewards: [ ]
+			subtitle: "Full speed, any load"
+			tasks: [
+				{
+					id: "5C38543EECF289ED"
+					item: "mcremix:iron_casing"
+					type: "item"
+				}
+			]
+			title: "Iron Parts"
+			x: 5.25d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"4718C7B7C98B7081"
+				"541D0DC718F4FF4B"
+			]
+			description: [
+				"Every drill and saw comes with iron bits or an iron blade, which cut what an iron pickaxe or axe would. Use other bits or blades on a placed drill or saw to fit them."
+				""
+				"Stone bits are cheap and light. Gold cuts twice as fast for half the stress, but its bits stop at iron, copper and lapis ore and a golden blade cuts no stone. Only diamond bits cut obsidian and ancient debris. A drill that can't cut a block skates over it, throwing sparks."
+			]
+			id: "2A6F4DF807C3BE25"
+			rewards: [ ]
+			subtitle: "The body sets the speed, the bits what it cuts"
+			tasks: [
+				{
+					id: "0CF5F383B0EC02C0"
+					item: "create:mechanical_drill"
+					type: "item"
+				}
+			]
+			title: "Bits and Blades"
+			x: 3.5d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"Iron is struck, not smelted"
+	]
+	title: "Bloom Iron"
+}

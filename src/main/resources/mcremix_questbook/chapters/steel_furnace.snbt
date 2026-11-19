@@ -1,0 +1,270 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "steel_furnace"
+	group: ""
+	icon: "mcremix:steel_furnace"
+	id: "6919BD736A32B311"
+	images: [ ]
+	order_index: 8
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"76805D734AD34BD5"
+				"670861ACF270D86D"
+			]
+			description: [
+				"Steel Casing used on a Furnace makes a Steel Furnace. It fires what a Furnace fires and heats a boiler or basin on top the same way, but it burns only fluid fuel pumped up into it from underneath, and it still has to be lit."
+				""
+				"It is sealed: no heat comes up through it, and a Bellows does nothing for it."
+			]
+			id: "48D6B6311A24539C"
+			rewards: [ ]
+			subtitle: "A Furnace cased in steel"
+			tasks: [
+				{
+					id: "3BCBAA4101B703E0"
+					item: "mcremix:steel_furnace"
+					type: "item"
+				}
+			]
+			title: "The Steel Furnace"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"48D6B6311A24539C"
+			]
+			description: [
+				"Lit, it burns all the fuel that comes, and how hot depends on how fast it comes and what it is. Create's pumps move fuel in step with their speed, so the pump's speed sets the heat. Each fuel has a ceiling: wood spirit stops at &6Hot&r, ethanol and coal tar at &cSearing&r."
+				""
+				"Fuel coming faster than burns at its ceiling goes up the chimney, wasted. Fuel pumped into it unlit pours out of its front."
+				""
+				"&7JEI: the Steel Furnace Fuel tab.&r"
+			]
+			id: "66503F11B0F24374"
+			rewards: [ ]
+			subtitle: "The pump's speed sets the fire"
+			tasks: [
+				{
+					icon: "mcremix:steel_furnace"
+					id: "23C608C4D41C12E3"
+					observe_type: 2
+					timer: 10L
+					title: "Look at a Searing Steel Furnace"
+					to_observe: "mcremix:steel_furnace[heat=3]"
+					type: "observation"
+				}
+			]
+			title: "Flow Is Heat"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"66503F11B0F24374"
+				"5EEDEEC2867C3143"
+			]
+			description: [
+				"Only the richest fuels reach &bBlazing&r: hydrogen and ethylene, and later fuel gas. At &bBlazing&r a Steel Furnace superheats a boiler or basin on top, as a Blaze Burner fed Blaze Cake does."
+			]
+			id: "5AF40633E36AE46C"
+			rewards: [ ]
+			subtitle: "The hottest fire"
+			tasks: [
+				{
+					icon: "minecraft:blaze_powder"
+					id: "4A8BC15CA02010CE"
+					observe_type: 2
+					timer: 10L
+					title: "Look at a Blazing Steel Furnace"
+					to_observe: "mcremix:steel_furnace[heat=4]"
+					type: "observation"
+				}
+			]
+			title: "Blazing"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"6A4065E4125B400F"
+			]
+			description: [
+				"The Pressurizer is a steel machine on a shaft with a piston pump inside: its speed is its pressure. Each job needs a least speed and nothing happens below it, and twice as fast works twice as quick."
+				""
+				"It is very heavy to turn, so it wants gearing up. Heat for the jobs that need it comes from the block underneath, and the dial on its front reads the pressure."
+				""
+				"&7JEI: the Pressurizing tab. Ponder: the Pressurizer.&r"
+			]
+			id: "211EDAB3AE1ED6F2"
+			rewards: [ ]
+			subtitle: "Speed is pressure"
+			tasks: [
+				{
+					id: "4D9847D55E291E9C"
+					item: "mcremix:pressurizer"
+					type: "item"
+				}
+			]
+			title: "The Pressurizer"
+			x: 0.0d
+			y: 3.5d
+		}
+		{
+			dependencies: [
+				"211EDAB3AE1ED6F2"
+				"66503F11B0F24374"
+				"2A3F16D2B751D16F"
+				"008AD6AA8A865A86"
+			]
+			description: [
+				"Ethanol run over alumina, in a Steel Furnace at &6Hot&r or in a hot tube, turns to ethylene, a gas. The Pressurizer at full steel speed, over &eWarm&r heat or more, squeezes ethylene into polyethylene pellets, and pellets pressed over a heated basin make a Polyethylene Bushing."
+				""
+				"Every aluminium and titanium bracket and casing takes a bushing, and Power Grid's integrated circuit takes pellets."
+			]
+			id: "50BDB9AB61AE564C"
+			rewards: [ ]
+			subtitle: "Ethylene squeezed solid"
+			tasks: [
+				{
+					id: "6C15ADDD6F98DDF0"
+					item: "mcremix:polyethylene_bushing"
+					type: "item"
+				}
+			]
+			title: "Polyethylene"
+			x: 1.75d
+			y: 3.5d
+		}
+		{
+			dependencies: [
+				"50BDB9AB61AE564C"
+				"44DB9B8C2FC1DCE2"
+			]
+			description: [
+				"Aluminium Casing takes a Polyethylene Bushing, and is the base for aluminium gearboxes, clutches, gearshifts, chain drives and machines: steel's speed with no drag, as long as you mind the heat."
+				""
+				"Aluminium supports also warm up as they turn. The Heat and Cooling chapter is about that."
+			]
+			id: "22308AEB6DC1499F"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Aluminium supports at last"
+			tasks: [
+				{
+					id: "2BAD4C84698983D7"
+					item: "mcremix:aluminium_casing"
+					type: "item"
+				}
+			]
+			title: "Aluminium Casing"
+			x: 3.5d
+			y: 3.5d
+		}
+		{
+			dependencies: [
+				"50BDB9AB61AE564C"
+				"5EEDEEC2867C3143"
+			]
+			description: [
+				"Chlorine and ethylene stirred in a vat over ferric chloride make ethylene dichloride. The Steel Furnace cracks that at &cSearing&r into vinyl chloride, and the Pressurizer squeezes vinyl chloride into PVC resin, which a press makes into sheets. Sheets craft into pipes."
+				""
+				"PVC pipes lie flat on block faces, and a pump reaches twice as far through them as through other pipe: the pick for long runs. They hold only &3Cold&r fluids and never weather."
+			]
+			id: "3F805F9CA871A2D4"
+			rewards: [ ]
+			subtitle: "Thin, white and long"
+			tasks: [
+				{
+					id: "0EA2519DFF59482C"
+					item: "mcremix:pvc_pipe"
+					type: "item"
+				}
+			]
+			title: "PVC Pipes"
+			x: 1.75d
+			y: 5.25d
+		}
+		{
+			dependencies: [
+				"3F805F9CA871A2D4"
+			]
+			description: [
+				"Cracking ethylene dichloride gives off hydrogen chloride. An Electrolyser splits it back into chlorine and hydrogen, or stirred into water it makes hydrochloric acid."
+				""
+				"Poured out, acid strips rust and patina back to bare metal; waxed metal is sealed against it. A Spout of it cleans weathered parts on a belt."
+				""
+				"Let loose, hydrogen chloride is a mist that rusts the metal under it."
+			]
+			id: "11220AE969A46307"
+			rewards: [ ]
+			subtitle: "Rust remover"
+			tasks: [
+				{
+					id: "54E2B359418FBDEB"
+					item: "mcremix:hydrochloric_acid_bucket"
+					type: "item"
+				}
+			]
+			title: "Hydrochloric Acid"
+			x: 3.5d
+			y: 5.25d
+		}
+		{
+			dependencies: [
+				"211EDAB3AE1ED6F2"
+			]
+			description: [
+				"The Pressurizer over &6Hot&r heat squeezes water into pressurised steam. Piped into a boiler of steel tanks, it is all that runs it: no water, no fire. A steel boiler is compact, needing half the tanks for each level."
+				""
+				"Steam its engines don't use builds pressure. Give it a whistle to vent, or it bursts."
+			]
+			id: "1B0187F98E1ACA62"
+			rewards: [ ]
+			subtitle: "Steel boilers need no fire"
+			tasks: [
+				{
+					id: "0E9284A0448CAD6A"
+					item: "mcremix:steel_steam_engine"
+					type: "item"
+				}
+			]
+			title: "Pressurised Steam"
+			x: 0.0d
+			y: 5.25d
+		}
+		{
+			dependencies: [
+				"211EDAB3AE1ED6F2"
+			]
+			description: [
+				"Turned the other way, a Pressurizer pulls a vacuum, its needle dropping below zero, and seals what lies in its vessel over a &6Hot&r fire. Power Grid's light bulbs and vacuum tubes are made this way now, not by hand."
+				""
+				"Deeper vacuums need more speed: bulbs seal from 128 RPM, tubes from 256, and the cathode ray tube needs 512."
+				""
+				"&7JEI: the Vacuum Sealing tab.&r"
+			]
+			id: "57EB3C92DD68A1E7"
+			rewards: [ ]
+			subtitle: "The Pressurizer, run backwards"
+			tasks: [
+				{
+					id: "7BD75EBA67EF0CB7"
+					item: "powergrid:light_bulb"
+					type: "item"
+				}
+			]
+			title: "Vacuum Sealing"
+			x: -1.75d
+			y: 3.5d
+		}
+	]
+	subtitle: [
+		"Fluid fuel, the Pressurizer and plastics"
+	]
+	title: "The Steel Furnace"
+}

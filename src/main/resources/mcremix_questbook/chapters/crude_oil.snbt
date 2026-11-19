@@ -1,0 +1,182 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "crude_oil"
+	group: ""
+	icon: "mcremix:crude_oil_bucket"
+	id: "57EFAED641A3365B"
+	images: [ ]
+	order_index: 12
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"5CD85503C7FA27AB"
+			]
+			description: [
+				"Crude oil lies in sealed pockets deep underground, between y -40 and -16, under every biome. A skin of stone keeps them from opening onto caves or water, so you only find one by digging."
+				""
+				"Spilt crude creeps out slowly, clings like cobweb and burns."
+			]
+			id: "19CD54A7B8257823"
+			rewards: [ ]
+			subtitle: "Found only by digging"
+			tasks: [
+				{
+					id: "4F438B64F9651331"
+					item: "mcremix:crude_oil_bucket"
+					type: "item"
+				}
+			]
+			title: "Oil Pockets"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"19CD54A7B8257823"
+			]
+			description: [
+				"To a hose pulley a pocket is endless, however small, but crude comes up at a slow, fixed rate however fast the pump turns."
+				""
+				"&7Ponder: the hose pulley.&r"
+			]
+			id: "7F744C8C0F462AB7"
+			rewards: [ ]
+			subtitle: "Pumped up, not mined out"
+			tasks: [
+				{
+					id: "14E85015EE199F49"
+					item: "create:hose_pulley"
+					type: "item"
+				}
+			]
+			title: "An Endless Pocket"
+			x: 0.0d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"19CD54A7B8257823"
+			]
+			description: [
+				"Crude oil distils at &6Hot&r into sour gas, naphtha, kerosene, diesel and heavy oil, with bitumen left behind. Sour gas leaves by the still's vent or the condenser's gas outlet."
+				""
+				"Kerosene, diesel and heavy oil come out of a column hot, and bitumen is always warm."
+			]
+			id: "695A658C30C5B030"
+			rewards: [ ]
+			subtitle: "Crude, split"
+			tasks: [
+				{
+					id: "2E1EC829544667B7"
+					item: "mcremix:diesel_bucket"
+					type: "item"
+				}
+			]
+			title: "Six Cuts"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"695A658C30C5B030"
+			]
+			description: [
+				"The diesel engine is one block built round a steel flywheel. Crank it briskly for two seconds to start it, and it runs on diesel or, weaker, kerosene, turning the way it was cranked."
+				""
+				"It stalls when it runs dry or is overloaded, and then it has to be cranked again."
+				""
+				"&7JEI: the Diesel Engine tab. Ponder: the diesel engine.&r"
+			]
+			id: "47DD51764B4270C4"
+			rewards: [ ]
+			shape: "hexagon"
+			size: 1.5d
+			subtitle: "Crank it to start"
+			tasks: [
+				{
+					id: "7A8BF61C4EF27D79"
+					item: "mcremix:diesel_engine"
+					type: "item"
+				}
+			]
+			title: "The Diesel Engine"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"695A658C30C5B030"
+				"1B0187F98E1ACA62"
+				"66503F11B0F24374"
+			]
+			description: [
+				"Naphtha and pressurised steam crack in a Steel Furnace at &cSearing&r into ethylene and fuel gas, and fuel gas burns &bBlazing&r."
+			]
+			icon: "mcremix:naphtha_bucket"
+			id: "0DC65B29A0E81B0B"
+			optional: true
+			rewards: [ ]
+			subtitle: "More ethylene"
+			tasks: [
+				{
+					id: "410FEDFB4911BE4C"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Cracking Naphtha"
+			x: 3.5d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"695A658C30C5B030"
+			]
+			description: [
+				"Heavy oil settles into paraffin wax and fuel oil. Wax waxes whatever honeycomb waxes, and makes candles."
+			]
+			id: "1C5F8BD2CFAE28F0"
+			optional: true
+			rewards: [ ]
+			subtitle: "Heavy oil, settled"
+			tasks: [
+				{
+					id: "705F81885DB74171"
+					item: "mcremix:paraffin_wax"
+					type: "item"
+				}
+			]
+			title: "Paraffin Wax"
+			x: 3.5d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"695A658C30C5B030"
+			]
+			description: [
+				"Bitumen boiled down in a basin over &cSearing&r heat leaves petroleum coke, which stands in for Coal Coke everywhere."
+			]
+			id: "20CA7C2F0C25119A"
+			optional: true
+			rewards: [ ]
+			subtitle: "Coke from the bottom of the barrel"
+			tasks: [
+				{
+					id: "7F2D7E6FF6BF5BC1"
+					item: "mcremix:petroleum_coke"
+					type: "item"
+				}
+			]
+			title: "Petroleum Coke"
+			x: 1.75d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"Dug for, pumped up and split"
+	]
+	title: "Crude Oil"
+}

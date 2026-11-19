@@ -1,0 +1,139 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "steel_column"
+	group: ""
+	icon: "mcremix:steel_column_section"
+	id: "250B7BEF978DAF9D"
+	images: [ ]
+	order_index: 11
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: [
+				"3120A738668C125F"
+				"77A54992179DB0AA"
+			]
+			description: [
+				"Steel Column Sections join as Create's tanks do, one to three across and up to sixteen high, each block layer a section. Heat under the column boils its feed: each block under it at the mixture's heat adds more, and hotter adds more again."
+				""
+				"Feed goes into the bottom, the residue stays there, and each cut condenses in its own section above, in boiling order."
+				""
+				"&7Ponder: the column section.&r"
+			]
+			id: "0CEBDB8A282691E9"
+			rewards: [ ]
+			subtitle: "Split nonstop"
+			tasks: [
+				{
+					id: "2DD71CA539244965"
+					item: "mcremix:steel_column_section"
+					type: "item"
+				}
+			]
+			title: "Column Sections"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"0CEBDB8A282691E9"
+			]
+			description: [
+				"A Steel Condenser beside the bottom section takes the vapour from the top one; without it the column doesn't start. Water, cold water or coolant through its jacket sets how much it condenses, each better than the last."
+			]
+			id: "5CD85503C7FA27AB"
+			rewards: [ ]
+			subtitle: "Without one, nothing moves"
+			tasks: [
+				{
+					id: "67EA7965A66C8443"
+					item: "mcremix:steel_condenser"
+					type: "item"
+				}
+			]
+			title: "The Steel Condenser"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"5CD85503C7FA27AB"
+			]
+			description: [
+				"A pipe on a section's side draws that section's cut. A cut nobody draws fills its section and holds the whole column up."
+				""
+				"Each mixture needs enough sections for all its cuts: close cuts need empty sections between them, and a column too short lets the cuts it has no room for escape over the top."
+				""
+				"&7JEI: the Distilling tab gives the sections each mixture needs.&r"
+			]
+			icon: "mcremix:steel_fluid_pipe"
+			id: "7B195200D9D3485B"
+			rewards: [ ]
+			subtitle: "A cut nobody draws holds everything up"
+			tasks: [
+				{
+					id: "3A95DD6950665E4C"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Draw Every Cut"
+			x: 3.5d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"7B195200D9D3485B"
+			]
+			description: [
+				"Pipe some of the top cut back into the top section and it stands in for the empty sections that close cuts need between them, at the cost of pace. It makes no room for a cut the column is too short for."
+			]
+			icon: "create:mechanical_pump"
+			id: "57C79F579F0F6029"
+			optional: true
+			rewards: [ ]
+			subtitle: "Trade pace for height"
+			tasks: [
+				{
+					id: "163FCA21620CCA7A"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Reflux"
+			x: 5.25d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"7B195200D9D3485B"
+			]
+			description: [
+				"A cut leaves as hot as its section. Carbolic oil, creosote and vinegar come out hot, and no PVC pipe carries them; pitch is always kept warm. A Steel Condenser anywhere but beside a column cools hot cuts inline."
+				""
+				"Whatever escapes over the top hangs low as solvent vapour, and flashes into flame at anything &eWarm&r or hotter."
+				""
+				"&7JEI: the Cooling Hot Cuts tab.&r"
+			]
+			id: "05AB9648C2B564F3"
+			optional: true
+			rewards: [ ]
+			subtitle: "Some cuts leave hot"
+			tasks: [
+				{
+					id: "6E57EAD1D90C22DE"
+					item: "mcremix:hot_creosote_bucket"
+					type: "item"
+				}
+			]
+			title: "Hot Cuts"
+			x: 5.25d
+			y: 1.75d
+		}
+	]
+	subtitle: [
+		"Distilling nonstop, every cut at once"
+	]
+	title: "The Steel Column"
+}
