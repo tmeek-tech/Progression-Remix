@@ -14,7 +14,7 @@
 				"5CF0F2FE999D2187"
 			]
 			description: [
-				"Raw iron no longer smelts into ingots. Fired at &cSearing&r, raw iron and iron ore come out as a glowing Iron Bloom: spongy iron full of slag that has to be beaten out."
+				"Raw iron no longer smelts into ingots. Fire raw iron or iron ore at &cSearing&r for a glowing Iron Bloom: spongy iron full of slag that has to be beaten out."
 				""
 				"&7JEI: the Furnace and Striking Blooms tabs.&r"
 			]
@@ -37,9 +37,9 @@
 				"21A22298535A522F"
 			]
 			description: [
-				"An iron anvil takes a lot of iron and a press needs a block of it, so the first blooms are struck on a Stone Anvil. Strike a bloom on it four times."
+				"An iron anvil takes a lot of iron and a press a whole block, so your first blooms meet a Stone Anvil. Four strikes a bloom."
 				""
-				"Stone cracks as you work it and crumbles after about fifteen blooms. It has no menu and never repairs anything."
+				"It cracks as you work and crumbles after about fifteen blooms. No menu, no repairs: it's a rock you hit things on."
 			]
 			id: "2B464E5EC7982C1A"
 			rewards: [ ]
@@ -60,9 +60,9 @@
 				"2B464E5EC7982C1A"
 			]
 			description: [
-				"Each bloom gives an ingot, and half the time a lump of slag. An iron anvil lasts about a hundred blooms, and a Mechanical Press strikes them with no hand on the hammer at all."
+				"Each bloom gives an ingot, and half the time a lump of slag. An iron anvil lasts about a hundred blooms, and a Mechanical Press takes the hammer out of your hands for good."
 				""
-				"Create's crushing and washing still works too: a cheaper but leaner road to iron."
+				"Create's crushing and washing still work too: cheaper, but leaner."
 			]
 			id: "4718C7B7C98B7081"
 			rewards: [ ]
@@ -85,7 +85,7 @@
 				"4718C7B7C98B7081"
 			]
 			description: [
-				"Slag fertilises like bone meal, and washing it in front of an Encased Fan gives back iron nuggets and gravel. Later a Power Grid electromagnet pulls more iron out of it."
+				"Don't bin it. Slag fertilises like bone meal, and washing it with an Encased Fan gives back iron nuggets and gravel. Later, a Power Grid electromagnet pulls more iron out of it."
 			]
 			id: "5F042604C274D9E9"
 			optional: true
@@ -108,7 +108,7 @@
 				"541D0DC718F4FF4B"
 			]
 			description: [
-				"The press needs a block of iron, so it comes once you have a supply. It strikes blooms under its head, presses ingots into sheets, and later it is the only thing that beats blister steel into steel."
+				"The press costs a block of iron, so it waits for a steady supply. It strikes blooms, presses ingots into sheets, and later it's the only thing that beats blister steel into steel."
 			]
 			id: "3AC9A7994C4F9DC0"
 			rewards: [ ]
@@ -130,9 +130,9 @@
 				"2D5A296BEAA4D578"
 			]
 			description: [
-				"Iron supports turn up to 256 RPM like copper's, but iron shafts and cogs take any load. Iron supports are a little heavier to turn, even clean."
+				"Iron supports spin to 256 RPM like copper's, but iron shafts and cogs take any load. The price: iron supports are a little heavier to turn, even clean."
 				""
-				"Iron rusts only where it gets wet, each stage adding friction, so indoor machines stay clean. Iron Casing, made from iron sheet the way Create's casings are, is the base for iron gearboxes, clutches, gearshifts, chain drives and machines."
+				"Iron rusts only where it gets wet, each stage adding friction. Iron Casing, made from iron sheet, is the base for iron gearboxes, clutches, gearshifts, chain drives and machines."
 			]
 			id: "48B70BB7018FC73B"
 			rewards: [ ]
@@ -154,9 +154,9 @@
 				"541D0DC718F4FF4B"
 			]
 			description: [
-				"Every drill and saw comes with iron bits or an iron blade, which cut what an iron pickaxe or axe would. Use other bits or blades on a placed drill or saw to fit them."
+				"Drills and saws come with iron bits or an iron blade, cutting what an iron pickaxe or axe would. Use other bits or blades on a placed one to swap them in."
 				""
-				"Stone bits are cheap and light. Gold cuts twice as fast for half the stress, but its bits stop at iron, copper and lapis ore and a golden blade cuts no stone. Only diamond bits cut obsidian and ancient debris. A drill that can't cut a block skates over it, throwing sparks."
+				"Stone is cheap and light. Gold cuts twice as fast for half the stress, but balks at iron, copper and lapis ore, and a golden blade won't cut stone. Only diamond bits get through obsidian and ancient debris. A drill that can't cut a block skates over it, throwing sparks."
 			]
 			id: "2A6F4DF807C3BE25"
 			rewards: [ ]

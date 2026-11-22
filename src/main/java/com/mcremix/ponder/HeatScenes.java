@@ -44,7 +44,7 @@ public class HeatScenes {
 
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("Furnaces work differently now. There is no menu: everything happens in their two openings")
+			.text("Furnaces work differently now. No menu: everything happens through their two openings")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
@@ -69,7 +69,7 @@ public class HeatScenes {
 			ItemStack.EMPTY, ItemStack.EMPTY }, new ItemStack(Items.OAK_PLANKS, 6), ItemStack.EMPTY, HeatLevel.COLD, false);
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("Right-click the low firebox with fuel. It does not catch by itself")
+			.text("Right-click the low firebox with fuel. It won't catch by itself")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(80);
@@ -82,7 +82,7 @@ public class HeatScenes {
 			scene.effects().simpleParticleEmitter(ParticleTypes.FLAME, new Vec3(-0.02, 0.02, 0)), 3, 2);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Light it with Flint and Steel or a Fire Charge, by hand or from a Deployer. Wood only burns Warm, which is enough for clay and charcoal")
+			.text("Light it with Flint and Steel or a Fire Charge, by hand or Deployer. Wood burns only Warm: enough for clay and charcoal")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(90);
@@ -93,14 +93,14 @@ public class HeatScenes {
 		scene.overlay().showControls(chamber, Pointing.LEFT, 40).rightClick();
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("Finished items wait inside. Take them with an empty hand, or put a hopper underneath")
+			.text("Finished items wait inside. Take them by hand, or put a hopper underneath")
 			.pointAt(chamber)
 			.placeNearTarget();
 		scene.idle(80);
 
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Sneak with an empty hand to take back anything that has not been fired yet")
+			.text("Changed your mind? Sneak with an empty hand to take back anything not yet fired")
 			.pointAt(chamber)
 			.placeNearTarget();
 		scene.idle(90);
@@ -110,7 +110,7 @@ public class HeatScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Once lit, it burns its fuel whether or not there is anything to fire, until the fuel runs out and the fire dies")
+			.text("Once lit, it burns until the fuel runs out, work or no work. Load it when you mean it")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(100);
@@ -122,7 +122,7 @@ public class HeatScenes {
 		scene.effects().emitParticles(firebox.add(0.1, 0, 0),
 			scene.effects().simpleParticleEmitter(ParticleTypes.SMOKE, new Vec3(-0.02, 0.03, 0)), 4, 2);
 		scene.overlay().showText(80)
-			.text("A Shovel puts it out, by hand or from a Deployer, and leaves the fuel in for next time")
+			.text("A Shovel, by hand or Deployer, puts it out and saves the fuel for next time")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(90);
@@ -144,13 +144,13 @@ public class HeatScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Coal Coke and Blaze Rods burn Searing, which iron needs. Engineer's Goggles show the heat and what each item still needs")
+			.text("Coal Coke and Blaze Rods burn Searing, which iron needs. Goggles show the heat and what each item is waiting for")
 			.pointAt(util.vector().topOf(kiln))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(70)
-			.text("Hoppers and funnels work too: items in through the top, fuel through the sides, results out the bottom")
+			.text("Hoppers and funnels work too: items in the top, fuel in the sides, results out the bottom")
 			.pointAt(util.vector().topOf(kiln))
 			.placeNearTarget();
 		scene.idle(80);
@@ -181,21 +181,21 @@ public class HeatScenes {
 
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A furnace also takes heat from whatever is directly beneath it. That heat needs no fuel and no lighting")
+			.text("A furnace also takes heat from whatever sits right under it. No fuel, no lighting, no fuss")
 			.pointAt(util.vector().blockSurface(lavaKiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
 
 		scene.overlay().showText(70)
 			.colored(PonderPalette.WHITE)
-			.text("Campfires and magma give Warm heat")
+			.text("Campfires and magma give Warm")
 			.pointAt(util.vector().blockSurface(campfireKiln.below(), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
 
 		scene.overlay().showText(70)
 			.colored(PonderPalette.RED)
-			.text("Fire and lava give Hot heat")
+			.text("Fire and lava give Hot")
 			.pointAt(util.vector().blockSurface(lavaKiln.below(), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
@@ -205,7 +205,7 @@ public class HeatScenes {
 		scene.overlay().showText(80)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("A fed Blaze Burner gives Searing heat, enough to fire raw iron into blooms")
+			.text("A fed Blaze Burner gives Searing, enough to fire raw iron into blooms")
 			.pointAt(util.vector().blockSurface(burner, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -215,13 +215,13 @@ public class HeatScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.BLUE)
-			.text("Superheated with Blaze Cake, it reaches Blazing. Every level above what a recipe needs halves the time, and some recipes yield double")
+			.text("Superheated with Blaze Cake, it reaches Blazing. Each level above what a recipe needs halves the time, and some recipes yield double")
 			.pointAt(util.vector().blockSurface(burnerKiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(90)
-			.text("Power Grid's electric heaters work too, by temperature: 200°C is Warm, 400°C Hot, 600°C Searing and 1200°C Blazing")
+			.text("Power Grid's electric heaters work too, by temperature: 200 °C is Warm, 400 Hot, 600 Searing and 1,200 Blazing")
 			.pointAt(util.vector().blockSurface(burner, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -243,7 +243,7 @@ public class HeatScenes {
 
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("Raw iron will not melt into ingots any more. At Searing heat, a furnace fires it into a glowing Iron Bloom")
+			.text("Raw iron won't melt into ingots any more. At Searing, a furnace fires it into a glowing Iron Bloom instead")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		setKiln(scene, util, kiln, new ItemStack[] { new ItemStack(Items.RAW_IRON, 8), ItemStack.EMPTY, ItemStack.EMPTY,
@@ -262,7 +262,7 @@ public class HeatScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A bloom is spongy iron full of slag. Strike it on an anvil to beat the slag out. Until you have iron for one, a Stone Anvil will do")
+			.text("A bloom is spongy iron full of slag, to be beaten out on an anvil. No iron for one yet? A Stone Anvil will do")
 			.pointAt(stoneTop)
 			.placeNearTarget();
 		scene.idle(40);
@@ -281,7 +281,7 @@ public class HeatScenes {
 
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Four strikes give an iron ingot, often with Slag. Slag fertilises crops like bone meal, and washing it recovers iron nuggets")
+			.text("Four strikes give an ingot, often with Slag, which works like bone meal and washes into iron nuggets")
 			.pointAt(stoneTop)
 			.placeNearTarget();
 		scene.idle(90);
@@ -291,7 +291,7 @@ public class HeatScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Stone cracks as you work it. A Stone Anvil chips, cracks deeper, and crumbles to cobblestone after about fifteen blooms")
+			.text("A Stone Anvil chips, cracks deeper and crumbles to cobblestone after about fifteen blooms")
 			.pointAt(stoneTop)
 			.placeNearTarget();
 		scene.idle(35);
@@ -314,14 +314,14 @@ public class HeatScenes {
 		scene.overlay().showText(70)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("An iron anvil costs 31 iron, but it wears down about seven times more slowly")
+			.text("An iron anvil costs 31 iron, but wears about seven times slower")
 			.pointAt(ironTop)
 			.placeNearTarget();
 		scene.idle(80);
 
 		scene.overlay().showText(70)
 			.colored(PonderPalette.GREEN)
-			.text("A Mechanical Press hammers blooms automatically. At Blazing heat, crushed iron fires into two blooms instead of one")
+			.text("A Mechanical Press hammers blooms for you. At Blazing, crushed iron fires into two blooms instead of one")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
@@ -344,7 +344,7 @@ public class HeatScenes {
 			.withItem(ModItems.CEMENTATION_PACK.asStack());
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Steel is iron that has soaked up carbon. Pack four iron ingots in four coal coke and seal them with a clay ball, and you have a Cementation Pack")
+			.text("Steel is iron that has soaked up carbon. Iron packed in coal coke and sealed with clay makes a Cementation Pack")
 			.pointAt(util.vector().topOf(kiln))
 			.placeNearTarget();
 		scene.idle(110);
@@ -354,7 +354,7 @@ public class HeatScenes {
 			new ItemStack(ModItems.COAL_COKE.get(), 6), ItemStack.EMPTY, HeatLevel.SEARING, true);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Fire it at Searing heat, from any heat source. It is the slowest firing there is, as the carbon creeps into the iron")
+			.text("Fire it at Searing, from any heat source. It's the slowest firing there is: the carbon takes its time creeping in")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
@@ -372,7 +372,7 @@ public class HeatScenes {
 		scene.idle(100);
 
 		scene.overlay().showText(100)
-			.text("Blister steel is brittle, its skin raised in blisters where the carbon went in. Only a Mechanical Press can beat it into steel ingots")
+			.text("Blister steel is brittle, blistered where the carbon went in. Only a Mechanical Press beats it into steel ingots")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);

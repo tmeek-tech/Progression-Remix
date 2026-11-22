@@ -67,14 +67,14 @@ public class DrillScenes {
 
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("Every Mechanical Drill comes with iron bits, whatever it is made of")
+			.text("Every Mechanical Drill comes with iron bits, whatever it's made of")
 			.pointAt(util.vector().blockSurface(iron, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Use stone, gold or diamond bits on a drill to fit them. The old bits pop out")
+			.text("Use stone, gold or diamond bits on a drill to swap them in. The old bits pop out")
 			.pointAt(util.vector().blockSurface(stone, Direction.WEST))
 			.placeNearTarget();
 		ItemStack ironBits = new ItemStack(DrillBits.IRON.item());
@@ -85,7 +85,7 @@ public class DrillScenes {
 		scene.world().modifyEntities(ItemEntity.class, Entity::discard);
 
 		scene.overlay().showText(80)
-			.text("A Deployer holding bits fits them too, and a drill keeps its bits when broken")
+			.text("A Deployer can fit them too, and a broken drill keeps its bits")
 			.pointAt(util.vector().blockSurface(gold, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -94,7 +94,7 @@ public class DrillScenes {
 		scene.idle(5);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Bits cut as fast as a pickaxe of their material: gold fastest, then diamond, iron and stone")
+			.text("Bits cut as fast as a pickaxe of the same material: gold fastest, then diamond, iron and stone")
 			.pointAt(util.vector().blockSurface(gold, Direction.WEST))
 			.placeNearTarget();
 		cut(scene, util, targets, Blocks.STONE, true, true, true, true);
@@ -104,7 +104,7 @@ public class DrillScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("They only cut what that pickaxe can mine. Gold bits cannot cut iron, copper or lapis ore")
+			.text("They only cut what that pickaxe could mine. Gold bits can't cut iron, copper or lapis ore")
 			.pointAt(util.vector().topOf(targets[2]))
 			.placeNearTarget();
 		cut(scene, util, targets, Blocks.IRON_ORE, true, true, false, true);
@@ -114,7 +114,7 @@ public class DrillScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Stone bits cannot cut gold, diamond, emerald or redstone ore")
+			.text("Stone bits can't cut gold, diamond, emerald or redstone ore")
 			.pointAt(util.vector().topOf(targets[0]))
 			.placeNearTarget();
 		cut(scene, util, targets, Blocks.DIAMOND_ORE, false, true, false, true);
@@ -123,7 +123,7 @@ public class DrillScenes {
 		swap(scene, targetSel, targets, Blocks.OBSIDIAN);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Only diamond bits cut obsidian, crying obsidian and ancient debris. Iron bits no longer can")
+			.text("Only diamond bits cut obsidian, crying obsidian and ancient debris. Iron no longer can")
 			.pointAt(util.vector().blockSurface(diamond, Direction.WEST))
 			.placeNearTarget();
 		cut(scene, util, targets, Blocks.OBSIDIAN, false, false, false, true);
@@ -131,7 +131,7 @@ public class DrillScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A drill on a block too hard for its bits throws sparks. Look at it to see which bits would cut it")
+			.text("On a block too hard for its bits, a drill just throws sparks. Look at it to see which bits would cut it")
 			.pointAt(util.vector().blockSurface(stone, Direction.WEST))
 			.placeNearTarget();
 		grindFor(scene, util, targets, Blocks.OBSIDIAN, 100, true, true, true, false);
@@ -139,7 +139,7 @@ public class DrillScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Stone and gold bits need half the stress of iron bits. Diamond bits need twice as much")
+			.text("Stone and gold bits take half the stress of iron. Diamond takes twice as much")
 			.pointAt(util.vector().blockSurface(diamond, Direction.WEST))
 			.placeNearTarget();
 		grindFor(scene, util, targets, Blocks.OBSIDIAN, 100, true, true, true, false);

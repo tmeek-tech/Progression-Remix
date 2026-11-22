@@ -46,7 +46,7 @@ public class BoilerScenes {
 
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A Furnace heats a steam boiler on top of it, as a Blaze Burner would")
+			.text("A Furnace heats a steam boiler on top, the way a Blaze Burner does")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -64,7 +64,7 @@ public class BoilerScenes {
 		power(scene, util, tank, shaft, false);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Fuel it and light it. A Warm or Hot fire only keeps the boiler simmering, as a campfire would: the engine runs slowly and weakly")
+			.text("A Warm or Hot fire only keeps the boiler simmering, like a campfire, and the engine plods along")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(90);
@@ -85,7 +85,7 @@ public class BoilerScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Heat from under the furnace passes up unchanged: only fuel burnt in the furnace boils the boiler harder")
+			.text("Heat from under the furnace passes straight through. Only fuel burnt inside boils it harder")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST).add(0, -0.45, 0))
 			.placeNearTarget();
 		scene.idle(100);
@@ -95,7 +95,7 @@ public class BoilerScenes {
 			ItemStack.EMPTY, HeatLevel.SEARING, true);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Once lit, it burns its fuel whether or not the engine is running, and fires its chamber meanwhile")
+			.text("Lit, it burns its fuel whether the engine runs or not, and fires its chamber meanwhile")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST).add(0, 0.2, 0))
 			.placeNearTarget();
 		scene.idle(100);

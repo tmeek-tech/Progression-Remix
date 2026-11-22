@@ -12,9 +12,9 @@
 		{
 			dependencies: [ ]
 			description: [
-				"Every village is a ruin, each its own age: roofs fallen in, walls crumbled, rubble where it fell, and the whole place growing over. Nobody lives there, not even zombies or golems."
+				"Every village is a ruin, each its own age: roofs caved in, walls crumbled, rubble where it fell, and nature moving back in. Nobody lives there, not even zombies or golems."
 				""
-				"Salvage what is left: cold campfires, lanterns, beds and workstations, and the odd Cold Furnace. Chests have lost anything valuable. The streets are dark at night, so monsters walk them."
+				"Salvage what's left: cold campfires, lanterns, beds, workstations and the odd Cold Furnace. Someone got to the chests first and took anything valuable. The streets are dark at night, and monsters walk them."
 			]
 			id: "61E8ED08B9F21D4D"
 			rewards: [ ]
@@ -38,7 +38,7 @@
 				"690A67A6D21199B1"
 			]
 			description: [
-				"Villagers come only from curing zombie villagers met out in the world, and they don't breed. Each one you cure is worth keeping."
+				"Every villager comes from curing a zombie villager out in the world, and they don't breed. Each one you cure is worth keeping safe."
 			]
 			id: "5AF486FCBBA11A7E"
 			rewards: [ ]
@@ -59,7 +59,7 @@
 				"61E8ED08B9F21D4D"
 			]
 			description: [
-				"Nothing makes vanilla's furnace any more; you find them in ruins as Cold Furnaces. They smelt nothing, but smokers and blast furnaces, the butcher's and armorer's workstations, are still crafted round one, or round the Furnace."
+				"Nothing makes vanilla's furnace any more; you'll find them in ruins as Cold Furnaces. They smelt nothing, but smokers and blast furnaces, the butcher's and armorer's workstations, still craft round one, or round the Furnace."
 			]
 			id: "73FA871F2C2AB3A7"
 			optional: true

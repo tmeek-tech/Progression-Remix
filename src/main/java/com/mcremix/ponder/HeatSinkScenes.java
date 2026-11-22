@@ -47,12 +47,12 @@ public class HeatSinkScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A Heat Sink draws heat out of the device its base sits on, and its aluminium fins shed it into the air")
+			.text("A Heat Sink draws heat out of whatever its base sits on, and its aluminium fins shed it into the air")
 			.pointAt(side(util, sink))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.overlay().showText(70)
-			.text("The device runs cooler, so it can take more power before it burns out")
+			.text("Running cooler, the device takes more power before it burns out")
 			.pointAt(util.vector().blockSurface(motor, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
@@ -63,7 +63,7 @@ public class HeatSinkScenes {
 		scene.overlay().showText(80)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Air blown along the fins by a fan carries the heat away much faster")
+			.text("A fan blowing along the fins carries the heat off much faster")
 			.pointAt(top(util, sink))
 			.placeNearTarget();
 		scene.idle(90);
@@ -71,7 +71,7 @@ public class HeatSinkScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Only the base draws heat: a sink beside a device, or with its base turned away, does nothing")
+			.text("Only the base draws heat. A sink beside a device, or with its base turned away, is just decoration")
 			.pointAt(util.vector().blockSurface(sink, Direction.DOWN))
 			.placeNearTarget();
 		scene.idle(100);

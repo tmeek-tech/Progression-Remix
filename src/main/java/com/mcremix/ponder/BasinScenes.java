@@ -52,7 +52,7 @@ public class BasinScenes {
 
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A Furnace heats a basin on top of it, as a Blaze Burner would")
+			.text("A Furnace heats a basin on top, the way a Blaze Burner does. No blazes required")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -78,7 +78,7 @@ public class BasinScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Lit, charcoal and coal only burn Hot. That warms a basin, but too little for heated recipes like brass")
+			.text("Charcoal and coal burn only Hot: enough to warm a basin, not enough for heated recipes like brass")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(100);
@@ -112,7 +112,7 @@ public class BasinScenes {
 			ItemStack.EMPTY, ItemStack.EMPTY }, ModItems.COAL_COKE.asStack(7), ItemStack.EMPTY, HeatLevel.SEARING, true);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Once lit, it burns its fuel whether or not the basin holds anything, and fires its chamber meanwhile")
+			.text("Lit, it burns its fuel whether the basin's busy or not, and fires its chamber meanwhile")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST).add(0, 0.2, 0))
 			.placeNearTarget();
 		scene.idle(100);
@@ -126,7 +126,7 @@ public class BasinScenes {
 		scene.idle(10);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("With no mixer or press over it, a heated basin boils salt water down instead: each 500 mB leaves a lump of salt")
+			.text("With nothing working the basin, it boils salt water down to salt instead")
 			.pointAt(util.vector().topOf(basin))
 			.placeNearTarget();
 		scene.effects().emitParticles(util.vector().topOf(basin),
@@ -143,7 +143,7 @@ public class BasinScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Heat from under the furnace passes up unchanged: only fuel burnt in the furnace heats the basin harder")
+			.text("Heat from under the furnace passes straight through. Only fuel burnt inside heats the basin harder")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST).add(0, -0.45, 0))
 			.placeNearTarget();
 		scene.idle(100);

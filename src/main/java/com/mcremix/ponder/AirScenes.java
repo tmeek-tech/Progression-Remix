@@ -43,7 +43,7 @@ public class AirScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Air is liquefied in three steps: squeezed, chilled and let expand")
+			.text("Liquid air in three steps: squeeze, chill, let go")
 			.pointAt(util.vector().blockSurface(vessel, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -53,13 +53,13 @@ public class AirScenes {
 		scene.world().setKineticSpeed(util.select().position(fan), 64);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("An Encased Fan blowing into a side of a Pressurizer's vessel feeds it air: a mB a tick for every 16 RPM")
+			.text("A fan blowing into the side of a Pressurizer's vessel feeds it air: 1 mB a tick per 16 RPM")
 			.pointAt(util.vector().blockSurface(fan, Direction.UP))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.world().setKineticSpeed(drive, 256);
 		scene.overlay().showText(90)
-			.text("From 256 RPM the Pressurizer squeezes it into hot compressed air")
+			.text("From 256 RPM the Pressurizer squeezes that into hot compressed air")
 			.pointAt(util.vector().blockSurface(pressurizer, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -68,7 +68,7 @@ public class AirScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("A Steel Condenser chills it inline. Only coolant in its jacket is cold enough: on water it lets the air through still hot")
+			.text("A Steel Condenser chills it inline, but only on coolant. Water isn't cold enough")
 			.pointAt(util.vector().blockSurface(condenser, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -84,7 +84,7 @@ public class AirScenes {
 			nbt -> nbt.put("TankContent", Chemical.LIQUID_AIR.stack(4000).writeToNBT(new CompoundTag())));
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("An Expansion Valve lets it through. It expands and cools so hard that a fifth of it turns liquid and runs out of the bottom")
+			.text("Through an Expansion Valve it expands and cools so hard that a fifth turns liquid and runs out the bottom")
 			.pointAt(util.vector().blockSurface(valve, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -94,18 +94,18 @@ public class AirScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("The rest comes out of its top as air again, cold. Pipe it back into the vessel to go round once more. With nothing on top, it is let go")
+			.text("The rest leaves the top as cold air. Pipe it back for another lap, or leave the top bare to vent it")
 			.pointAt(util.vector().blockSurface(util.grid().at(6, 3, 3), Direction.UP))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(100)
-			.text("Nitrogen from an air column goes round the same way and comes out as liquid nitrogen")
+			.text("Nitrogen from an air column takes the same lap and comes out liquid")
 			.pointAt(util.vector().blockSurface(tank, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("The valve is aluminium: it never rusts, but melts beside anything Hot")
+			.text("The valve is aluminium: it never rusts, but it melts beside anything Hot")
 			.pointAt(util.vector().blockSurface(valve, Direction.UP))
 			.placeNearTarget();
 		scene.idle(100);
@@ -133,7 +133,7 @@ public class AirScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Aluminium Column Sections stack into an air column, one to three across and up to sixteen high. It splits liquid air into nitrogen, argon and oxygen")
+			.text("Aluminium Column Sections stack into an air column, up to three across and sixteen high, that splits liquid air into nitrogen, argon and oxygen")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 4, 3), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -142,13 +142,13 @@ public class AirScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Pipe liquid air into its bottom section. It needs no heat: liquid air boils in the world's warmth, 5 mB a tick for every block of the column's floor")
+			.text("Liquid air goes in the bottom, no heat needed: to liquid air, the world is a furnace. It boils 5 mB a tick per block of floor")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 1, 2), Direction.UP))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.world().modifyBlocks(column, state -> state.setValue(AirColumnSectionBlock.FROST, 1), false);
 		scene.overlay().showText(80)
-			.text("It frosts over as it runs, and grows icicles after a while")
+			.text("It frosts over as it runs, and grows icicles in time")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 3, 3), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(50);
@@ -159,13 +159,13 @@ public class AirScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Every cut is a gas, drawn off its own section: nitrogen from the top, argon from the one below it, and oxygen from the bottom")
+			.text("Each cut leaves as a gas from its own section: nitrogen at the top, argon just below, oxygen at the bottom")
 			.pointAt(util.vector().blockSurface(argon, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(110)
 			.colored(PonderPalette.RED)
-			.text("Argon and oxygen boil only 3 °C apart, so they need four sections between them: seven in all. Short of them, part of the argon escapes over the top")
+			.text("Argon and oxygen boil 3 °C apart, so they need four sections between them, seven in all, or argon escapes over the top")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 3, 3), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
@@ -174,13 +174,13 @@ public class AirScenes {
 		scene.idle(10);
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Liquid nitrogen piped into the top section as reflux stands in for those sections, one for each half of the reflux ratio. It boils back into nitrogen, and the column runs slower for it")
+			.text("Or pipe liquid nitrogen into the top as reflux: each half of the ratio stands in for one section, but the column runs slower")
 			.pointAt(util.vector().blockSurface(top, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(130);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("Like all aluminium it never rusts, and melts beside anything Hot, spilling what it holds")
+			.text("Like all aluminium it never rusts, but melts beside anything Hot, spilling what it holds")
 			.pointAt(util.vector().blockSurface(bottom, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -204,7 +204,7 @@ public class AirScenes {
 				nbt -> nbt.put("TankContent", Chemical.LIQUID_NITROGEN.stack(4000).writeToNBT(new CompoundTag())));
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Liquid air and liquid nitrogen are colder than anything else in the world, and not every pipe takes them")
+			.text("Liquid air and liquid nitrogen are the coldest things around, and plenty of pipes can't take them")
 			.pointAt(util.vector().blockSurface(util.grid().at(0, 1, 1), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);
@@ -214,7 +214,7 @@ public class AirScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Steel and iron go brittle: their pipes, pumps and tanks frost over and burst within a few seconds of it running in them. PVC shatters")
+			.text("Steel and iron go brittle: their pipes, pumps and tanks frost over and burst within seconds. PVC just shatters")
 			.pointAt(util.vector().blockSurface(util.grid().at(2, 1, 1), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(60);
@@ -227,12 +227,12 @@ public class AirScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Copper, aluminium and glass take it, as do the air column and the expansion valve. Their tooltips say which crack")
+			.text("Copper, aluminium and glass don't mind, nor do the air column and the valve. Tooltips say what cracks")
 			.pointAt(util.vector().blockSurface(util.grid().at(2, 1, 3), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(100)
-			.text("Spilt, it boils away in a moment, freezing water and putting out fire beside it. Anything standing in it freezes")
+			.text("Spilt, it boils off in a moment, freezing water and snuffing out fire nearby. Anything standing in it freezes")
 			.pointAt(util.vector().blockSurface(util.grid().at(4, 1, 3), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);

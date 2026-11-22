@@ -15,7 +15,7 @@
 				"35D075A91FFA3F0D"
 			]
 			description: [
-				"Steel is iron that has soaked up carbon, made the way it was in cementation furnaces: iron packed in coke and sealed in."
+				"Make steel the way cementation furnaces did: iron packed in coke and sealed in, to soak up the carbon."
 			]
 			id: "7726CC1946BE6CBC"
 			rewards: [ ]
@@ -36,9 +36,9 @@
 				"7726CC1946BE6CBC"
 			]
 			description: [
-				"Fired at &cSearing&r, from any heat source, a pack comes out as Blister Steel. It is the slowest firing in the Furnace, so plan for it."
+				"Fire a pack at &cSearing&r, from any heat source, and it comes out as Blister Steel. It's the slowest firing there is, so start it and go do something else."
 				""
-				"Blister steel is brittle, its skin raised in blisters, and crafts into nothing."
+				"Blister steel is brittle, its skin bubbled with blisters, and crafts into nothing."
 			]
 			id: "483ED798AEF19429"
 			rewards: [ ]
@@ -60,9 +60,9 @@
 				"3AC9A7994C4F9DC0"
 			]
 			description: [
-				"Only a Mechanical Press beats blister steel into steel ingots, and ingots press into steel sheets."
+				"Only a Mechanical Press beats blister steel into steel ingots, and presses those into sheets."
 				""
-				"Much later a crucible over &bBlazing&r heat alloys iron and coke straight into molten steel, four times as fast."
+				"Much later, a crucible over &bBlazing&r heat alloys iron and coke straight into molten steel, four times as fast."
 			]
 			id: "77A54992179DB0AA"
 			rewards: [ ]
@@ -85,7 +85,7 @@
 				"77A54992179DB0AA"
 			]
 			description: [
-				"Steel Casing, made from steel sheet the way Create's casings are, is the base for steel gearboxes, clutches, gearshifts and chain drives, and for steel machines."
+				"Steel Casing, made from steel sheet, is the base for steel gearboxes, clutches, gearshifts, chain drives and machines."
 			]
 			id: "76805D734AD34BD5"
 			rewards: [ ]
@@ -106,11 +106,11 @@
 				"76805D734AD34BD5"
 			]
 			description: [
-				"Steel supports turn up to 512 RPM, and steel shafts and cogs take any load and reach six blocks from a support. Steel supports are the heaviest to turn."
+				"Steel supports spin to 512 RPM, and steel shafts and cogs take any load and reach six blocks from a support. The price: steel supports are the heaviest to turn."
 				""
-				"A machine draws stress for every RPM, so at 512 it works twice as fast for twice the stress. Speed only pays where it matters."
+				"Machines draw stress per RPM, so at 512 one works twice as fast for twice the stress. Spend speed where it pays."
 				""
-				"Steel rusts where it gets wet, but never past its first stage."
+				"Steel rusts where it gets wet, but never past the first stage."
 			]
 			id: "6A4065E4125B400F"
 			rewards: [ ]

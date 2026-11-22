@@ -48,12 +48,12 @@ public class FrictionHeatScenes {
 		scene.world().setKineticSpeed(line, 64);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Aluminium supports warm up as they turn, the faster the hotter: an aluminium gearbox, clutch, gearshift, chain drive or machine, or an aluminium bracket or casing. Titanium ones warm up too, twice as much")
+			.text("Aluminium supports, from gearboxes and machines to brackets and casings, warm up as they turn: the faster, the hotter. Titanium heats twice as much")
 			.pointAt(util.vector().blockSurface(gearbox, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(80)
-			.text("Only what holds the part heats, so an aluminium shaft in a steel bracket stays cool. No other material heats up at all")
+			.text("Only the support heats, so an aluminium shaft in a steel bracket keeps its cool. No other material heats at all")
 			.pointAt(util.vector().topOf(util.grid().at(3, 1, 2)))
 			.placeNearTarget();
 		scene.idle(90);
@@ -61,7 +61,7 @@ public class FrictionHeatScenes {
 		scene.world().setKineticSpeed(line, 256);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Goggles show how hot it is. It takes about a minute to warm through, and left alone at 256 RPM it settles at about 600 °C, glowing and smoking from 520")
+			.text("It takes about a minute to warm through. At 256 RPM it settles near 600 °C, glowing and smoking from 520. Goggles show the temperature")
 			.pointAt(util.vector().topOf(gearbox))
 			.placeNearTarget();
 		glow(scene, hot, 10, false);
@@ -70,7 +70,7 @@ public class FrictionHeatScenes {
 		scene.world().setKineticSpeed(line, 384);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("Faster still, it drips from 620 °C, and at 660 it melts")
+			.text("Push it faster and it starts dripping at 620 °C, then melts outright at 660")
 			.pointAt(util.vector().topOf(gearbox))
 			.placeNearTarget();
 		glow(scene, hot, 10, true);
@@ -85,7 +85,7 @@ public class FrictionHeatScenes {
 			PonderParts.drop(scene, util, shaft, PonderParts.stack("aluminium_shaft"));
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("The aluminium runs down and sets as rough aluminium, and the shafts it held drop off unless another support holds them")
+			.text("The aluminium runs down and sets as rough aluminium, and the shafts it held drop unless another support has them")
 			.pointAt(util.vector().topOf(gearbox))
 			.placeNearTarget();
 		scene.idle(100);
@@ -102,7 +102,7 @@ public class FrictionHeatScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("A Heat Sink bolted onto it, base down, draws the heat out into the air, so it runs whole to about 384 RPM")
+			.text("A Heat Sink bolted on, base down, sheds the heat into the air, so it survives to about 384 RPM")
 			.pointAt(HeatSinkScenes.side(util, sink))
 			.placeNearTarget();
 		scene.idle(100);
@@ -114,7 +114,7 @@ public class FrictionHeatScenes {
 		scene.world().setKineticSpeed(directFan, 128);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("With no Heat Sink, an encased fan blowing straight onto it cools it about as much as one Heat Sink does")
+			.text("No Heat Sink? An Encased Fan blowing straight onto it cools it about as much as one")
 			.pointAt(util.vector().blockSurface(gearbox, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -129,7 +129,7 @@ public class FrictionHeatScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("A fan of 128 RPM or more blowing through the Heat Sink's fins carries it to aluminium's top speed of 512 RPM")
+			.text("A fan of 128 RPM or more blowing through the sink's fins carries it to aluminium's top speed, 512 RPM")
 			.pointAt(HeatSinkScenes.top(util, sink))
 			.placeNearTarget();
 		scene.idle(100);
@@ -141,7 +141,7 @@ public class FrictionHeatScenes {
 		scene.idle(10);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("For more, bolt a Water Cooler on in its place: it carries the heat away in water, faster than anything else")
+			.text("Want more? Bolt on a Water Cooler instead. It carries heat away in water, faster than anything else")
 			.pointAt(util.vector().blockSurface(sink, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);

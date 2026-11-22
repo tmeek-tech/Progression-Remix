@@ -15,9 +15,9 @@
 				"670861ACF270D86D"
 			]
 			description: [
-				"Steel Casing used on a Furnace makes a Steel Furnace. It fires what a Furnace fires and heats a boiler or basin on top the same way, but it burns only fluid fuel pumped up into it from underneath, and it still has to be lit."
+				"Use Steel Casing on a Furnace for a Steel Furnace. It fires what a Furnace fires and heats a boiler or basin on top the same way, but burns only fluid fuel pumped up from underneath, and still needs lighting."
 				""
-				"It is sealed: no heat comes up through it, and a Bellows does nothing for it."
+				"It's sealed: no heat comes up through it, and a Bellows does nothing for it."
 			]
 			id: "48D6B6311A24539C"
 			rewards: [ ]
@@ -38,9 +38,9 @@
 				"48D6B6311A24539C"
 			]
 			description: [
-				"Lit, it burns all the fuel that comes, and how hot depends on how fast it comes and what it is. Create's pumps move fuel in step with their speed, so the pump's speed sets the heat. Each fuel has a ceiling: wood spirit stops at &6Hot&r, ethanol and coal tar at &cSearing&r."
+				"Lit, it burns every drop that arrives, and how hot depends on the fuel and how fast it comes. Pumps move fuel in step with their speed, so the pump is your thermostat. Each fuel has a ceiling: wood spirit stops at &6Hot&r, ethanol and coal tar at &cSearing&r."
 				""
-				"Fuel coming faster than burns at its ceiling goes up the chimney, wasted. Fuel pumped into it unlit pours out of its front."
+				"Pump faster than the ceiling can use and the extra goes up the chimney. Pump into it unlit and the fuel pours out the front."
 				""
 				"&7JEI: the Steel Furnace Fuel tab.&r"
 			]
@@ -68,7 +68,7 @@
 				"5EEDEEC2867C3143"
 			]
 			description: [
-				"Only the richest fuels reach &bBlazing&r: hydrogen and ethylene, and later fuel gas. At &bBlazing&r a Steel Furnace superheats a boiler or basin on top, as a Blaze Burner fed Blaze Cake does."
+				"Only the richest fuels reach &bBlazing&r: hydrogen and ethylene, and later fuel gas. At &bBlazing&r a Steel Furnace superheats a boiler or basin on top, like a Blaze Burner on Blaze Cake."
 			]
 			id: "5AF40633E36AE46C"
 			rewards: [ ]
@@ -93,9 +93,9 @@
 				"6A4065E4125B400F"
 			]
 			description: [
-				"The Pressurizer is a steel machine on a shaft with a piston pump inside: its speed is its pressure. Each job needs a least speed and nothing happens below it, and twice as fast works twice as quick."
+				"The Pressurizer is a steel machine with a piston pump inside, and its speed is its pressure. Each job has a minimum speed, and twice as fast works twice as quick."
 				""
-				"It is very heavy to turn, so it wants gearing up. Heat for the jobs that need it comes from the block underneath, and the dial on its front reads the pressure."
+				"It's a beast to turn, so gear it up. Jobs that need heat take it from the block underneath, and the dial on the front reads the pressure."
 				""
 				"&7JEI: the Pressurizing tab. Ponder: the Pressurizer.&r"
 			]
@@ -121,7 +121,7 @@
 				"008AD6AA8A865A86"
 			]
 			description: [
-				"Ethanol run over alumina, in a Steel Furnace at &6Hot&r or in a hot tube, turns to ethylene, a gas. The Pressurizer at full steel speed, over &eWarm&r heat or more, squeezes ethylene into polyethylene pellets, and pellets pressed over a heated basin make a Polyethylene Bushing."
+				"Run ethanol over alumina, in a Steel Furnace at &6Hot&r or a hot tube, and it turns to ethylene gas. A Pressurizer at full steel speed over &eWarm&r heat or more squeezes that into polyethylene pellets, and pellets pressed over a heated basin make a Polyethylene Bushing."
 				""
 				"Every aluminium and titanium bracket and casing takes a bushing, and Power Grid's integrated circuit takes pellets."
 			]
@@ -145,9 +145,9 @@
 				"44DB9B8C2FC1DCE2"
 			]
 			description: [
-				"Aluminium Casing takes a Polyethylene Bushing, and is the base for aluminium gearboxes, clutches, gearshifts, chain drives and machines: steel's speed with no drag, as long as you mind the heat."
+				"Aluminium Casing takes a Polyethylene Bushing and is the base for aluminium gearboxes, clutches, gearshifts, chain drives and machines: steel's speed with no drag, if you mind the heat."
 				""
-				"Aluminium supports also warm up as they turn. The Heat and Cooling chapter is about that."
+				"About that heat: aluminium supports warm up as they turn. See the Heat and Cooling chapter."
 			]
 			id: "22308AEB6DC1499F"
 			rewards: [ ]
@@ -171,9 +171,9 @@
 				"5EEDEEC2867C3143"
 			]
 			description: [
-				"Chlorine and ethylene stirred in a vat over ferric chloride make ethylene dichloride. The Steel Furnace cracks that at &cSearing&r into vinyl chloride, and the Pressurizer squeezes vinyl chloride into PVC resin, which a press makes into sheets. Sheets craft into pipes."
+				"Chlorine and ethylene stirred in a vat over ferric chloride make ethylene dichloride. A Steel Furnace cracks that at &cSearing&r into vinyl chloride, a Pressurizer squeezes that into PVC resin, and a press makes the resin into sheets, which craft into pipes."
 				""
-				"PVC pipes lie flat on block faces, and a pump reaches twice as far through them as through other pipe: the pick for long runs. They hold only &3Cold&r fluids and never weather."
+				"PVC pipes lie flat on block faces, and a pump reaches twice as far through them as through other pipe, so they're the pick for long runs. They take only &3Cold&r fluids and never weather."
 			]
 			id: "3F805F9CA871A2D4"
 			rewards: [ ]
@@ -194,11 +194,11 @@
 				"3F805F9CA871A2D4"
 			]
 			description: [
-				"Cracking ethylene dichloride gives off hydrogen chloride. An Electrolyser splits it back into chlorine and hydrogen, or stirred into water it makes hydrochloric acid."
+				"Cracking ethylene dichloride gives off hydrogen chloride. An Electrolyser splits it back into chlorine and hydrogen, or stir it into water for hydrochloric acid."
 				""
-				"Poured out, acid strips rust and patina back to bare metal; waxed metal is sealed against it. A Spout of it cleans weathered parts on a belt."
+				"Poured out, the acid strips rust and patina back to bare metal, though waxed metal is sealed against it. A Spout of it cleans weathered parts riding a belt."
 				""
-				"Let loose, hydrogen chloride is a mist that rusts the metal under it."
+				"Let loose, hydrogen chloride hangs as a mist that rusts the metal under it."
 			]
 			id: "11220AE969A46307"
 			rewards: [ ]
@@ -219,7 +219,7 @@
 				"211EDAB3AE1ED6F2"
 			]
 			description: [
-				"The Pressurizer over &6Hot&r heat squeezes water into pressurised steam. Piped into a boiler of steel tanks, it is all that runs it: no water, no fire. A steel boiler is compact, needing half the tanks for each level."
+				"A Pressurizer over &6Hot&r heat squeezes water into pressurised steam, and that's all a boiler of steel tanks runs on: no water, no fire. It needs only half the tanks for each level, too."
 				""
 				"Steam its engines don't use builds pressure. Give it a whistle to vent, or it bursts."
 			]
@@ -242,7 +242,7 @@
 				"211EDAB3AE1ED6F2"
 			]
 			description: [
-				"Turned the other way, a Pressurizer pulls a vacuum, its needle dropping below zero, and seals what lies in its vessel over a &6Hot&r fire. Power Grid's light bulbs and vacuum tubes are made this way now, not by hand."
+				"Run a Pressurizer backwards and it pulls a vacuum, its needle dropping below zero, sealing whatever lies in its vessel over a &6Hot&r fire. Power Grid's light bulbs and vacuum tubes are made this way now, not by hand."
 				""
 				"Deeper vacuums need more speed: bulbs seal from 128 RPM, tubes from 256, and the cathode ray tube needs 512."
 				""

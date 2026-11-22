@@ -45,7 +45,7 @@ public class CoilingScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A Coil Winder winds Power Grid's coils from wire, on a bobbin its shaft turns")
+			.text("A Coil Winder winds Power Grid's coils from wire, onto a bobbin its shaft turns")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(90);
@@ -55,7 +55,7 @@ public class CoilingScenes {
 		scene.world().setKineticSpeed(turning, 128);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Its shaft goes in at either side, left or right of its open front")
+			.text("The shaft goes in either side, left or right of the open front")
 			.pointAt(util.vector().blockSurface(winder, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -67,7 +67,7 @@ public class CoilingScenes {
 		scene.overlay().showControls(top, Pointing.DOWN, 30).rightClick().withItem(AllItems.CARDBOARD.asStack(2));
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Give it what a coil takes, by hand or by funnel, chute or hopper from any side: four Copper Wire, a Stick and two Cardboard wind a Copper Coil")
+			.text("Feed it by hand, funnel, chute or hopper: four Copper Wire, a Stick and two Cardboard wind a Copper Coil")
 			.pointAt(top)
 			.placeNearTarget();
 		wind(scene, util, winder, 400, CoilingRecipe.DEFAULT_COLOUR);
@@ -76,7 +76,7 @@ public class CoilingScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("The wire fills the bobbin as it turns. A Copper Coil takes 2.5 seconds at 128 RPM, and half that at 256")
+			.text("The bobbin fills as it turns: 2.5 seconds a Copper Coil at 128 RPM, half that at 256")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(50);
@@ -89,7 +89,7 @@ public class CoilingScenes {
 			ModdedItems.COPPER_COIL.asStack());
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A funnel on any side takes the finished coils, or take them with an empty hand")
+			.text("Take finished coils by hand, or with a funnel on any side")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 1, 2), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -105,7 +105,7 @@ public class CoilingScenes {
 
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("It comes in every metal Create's machines do, each as fast as its shafts: andesite to 128 RPM, copper and iron to 256, steel and aluminium to 512, and titanium to 2048")
+			.text("It comes in every machine metal, each held to that metal's top speed, from andesite's 128 RPM to titanium's 2048")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(120);
@@ -114,7 +114,7 @@ public class CoilingScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Still, it waits. Engineer's Goggles show what it holds, and what a coil still wants")
+			.text("Short of something, it just waits. Goggles show what the coil still needs")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);

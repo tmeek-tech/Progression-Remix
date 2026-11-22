@@ -14,7 +14,7 @@
 				"219624AEE35DA726"
 			]
 			description: [
-				"Basalt crushed or milled is black sand, and black sand is where titanium starts."
+				"Crush or mill basalt into black sand. Unlikely as it looks, that's where titanium starts."
 			]
 			id: "374660BCC5E1AEFA"
 			rewards: [ ]
@@ -35,7 +35,7 @@
 				"374660BCC5E1AEFA"
 			]
 			description: [
-				"Power Grid's electromagnet pulls black sand's iron out as nuggets, leaving rutile, titanium's ore."
+				"Power Grid's electromagnet pulls the iron out of black sand as nuggets. What's left is rutile, titanium's ore."
 			]
 			id: "743B693E5D5E50DB"
 			rewards: [ ]
@@ -57,7 +57,7 @@
 				"670869AA09CABEE6"
 			]
 			description: [
-				"A press binds rutile into briquettes with coke, whose carbon will take the rutile's oxygen when chlorine meets it."
+				"A press binds rutile and coke into briquettes. When chlorine meets them, the coke's carbon steals the rutile's oxygen."
 			]
 			id: "7A3890CA9363650C"
 			rewards: [ ]
@@ -79,7 +79,7 @@
 				"36D4E952BA3CE9EC"
 			]
 			description: [
-				"Salt water in a heated basin, with no mixer or press over it, boils down to salt."
+				"Salt water in a heated basin with no mixer or press over it boils down to salt."
 				""
 				"&7JEI: the Boiling tab.&r"
 			]
@@ -104,9 +104,9 @@
 				"6BD37C7E20889D52"
 			]
 			description: [
-				"A crucible over &6Hot&r heat melts salt into molten salt, and an Electrolyser splits that into molten sodium and chlorine."
+				"A crucible over &6Hot&r heat melts salt, and an Electrolyser splits the molten salt into molten sodium and chlorine."
 				""
-				"Keep sodium away from water: it goes off with a bang and a burst of fire."
+				"Keep sodium away from water. It goes off with a bang and a burst of fire."
 			]
 			id: "0F1BA0A8623F6A0C"
 			rewards: [ ]
@@ -129,9 +129,9 @@
 				"5AF40633E36AE46C"
 			]
 			description: [
-				"Chlorine run over a briquette in a &bBlazing&r Steel Furnace comes off as titanium tetrachloride, a gas that fumes into white smoke and acid mist if let loose."
+				"Chlorine run over a briquette in a &bBlazing&r Steel Furnace comes off as titanium tetrachloride, a gas that fumes into white smoke and acid mist if it gets loose."
 				""
-				"Stirred in a vat with molten sodium, it leaves titanium sponge and salt, and the salt goes round again."
+				"Stir it in a vat with molten sodium for titanium sponge and salt. The salt goes round again."
 			]
 			id: "21B67815CE8A2BA9"
 			rewards: [ ]
@@ -153,9 +153,9 @@
 				"219624AEE35DA726"
 			]
 			description: [
-				"The Arc Furnace is a Power Grid device: a copper hearth under a Bakelite beam, with a Carbon Electrode hanging from each terminal. Its arc melts only with enough power through it."
+				"The Arc Furnace is a Power Grid device: a copper hearth under a Bakelite beam, a Carbon Electrode hanging from each terminal. Its arc melts nothing until enough power runs through it."
 				""
-				"Its hearth overheats quickly on its own, so it needs a water cooler. Both electrodes burn away as it works."
+				"On its own the hearth overheats fast, so give it a water cooler. Both electrodes burn away as it works."
 				""
 				"&7Ponder: the Arc Furnace. JEI: the Arc Furnace tab.&r"
 			]
@@ -179,7 +179,7 @@
 				"488876A9C1DE16B0"
 			]
 			description: [
-				"The arc melts titanium sponge into ingots. Hands, funnels and arms load it, and hoppers empty it."
+				"The arc melts titanium sponge into ingots. Load it by hand, funnel or arm, and let a hopper empty it."
 			]
 			id: "26629077D11A6817"
 			rewards: [ ]
@@ -203,9 +203,9 @@
 				"252B1D6D21683A9C"
 			]
 			description: [
-				"Titanium supports turn up to 2,048 RPM, four times steel's, with no drag, any load and no weathering. Its casing takes a bushing, as aluminium's does."
+				"Titanium supports spin to 2,048 RPM, four times steel, with no drag, any load and no weathering. Its casing takes a bushing, like aluminium's."
 				""
-				"But its supports need twice aluminium's cooling at the same speed and burn past 1,000 °C, flaring white and setting fire across the gap, then crumbling to powder. Heat sinks melt long before that, so fast titanium needs water coolers, on cold water or coolant for the top speeds."
+				"The catch: they need twice aluminium's cooling at the same speed, and past 1,000 °C they burn, flaring white and setting fire across the gap, then crumbling to powder. Heat sinks melt long before that, so fast titanium needs water coolers, on cold water or coolant for the top speeds."
 				""
 				"Heat leaves temper colours, gold, purple and blue, that stay until acid strips them."
 			]
@@ -228,7 +228,7 @@
 				"36F8B6611C6A4123"
 			]
 			description: [
-				"The Pressurizer in titanium turns up to 2,048 RPM, so its jobs run up to four times as fast. It heats and burns like any titanium machine, so past about 128 RPM it wants a water cooler."
+				"In titanium the Pressurizer spins to 2,048 RPM, so its jobs run up to four times as fast. It heats and burns like any titanium machine, though, so past about 128 RPM it wants a water cooler."
 			]
 			id: "5FE6C35DB5660149"
 			optional: true

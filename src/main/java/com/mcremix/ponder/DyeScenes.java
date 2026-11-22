@@ -64,7 +64,7 @@ public class DyeScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Sour gas burns, but its hydrogen sulfide chokes everything round the flame with sulfur dioxide. Cleaned first, it is fuel gas, and its sulfur is kept")
+			.text("Sour gas burns, but its hydrogen sulfide chokes everything nearby with sulfur dioxide. Clean it first: you get fuel gas and keep the sulfur")
 			.pointAt(util.vector().blockSurface(sour, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -73,7 +73,7 @@ public class DyeScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("For a small works, pipe it into a vat holding Red Mud. Each lump takes the hydrogen sulfide out of 250 mB of sour gas, leaving 150 mB of fuel gas")
+			.text("Small works: pipe it into a vat of Red Mud, which strips out the hydrogen sulfide and leaves fuel gas")
 			.pointAt(util.vector().blockSurface(redVat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -85,7 +85,7 @@ public class DyeScenes {
 		scene.overlay().showControls(util.vector().blockSurface(redVat, Direction.NORTH), Pointing.DOWN, 50)
 			.withItem(ModDyes.FOUL_RED_MUD.asStack());
 		scene.overlay().showText(100)
-			.text("Pipes draw the fuel gas off, and the red mud is left black: Foul Red Mud")
+			.text("Pipes draw off the fuel gas, and the mud turns black: Foul Red Mud")
 			.pointAt(util.vector().blockSurface(fuelTank, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
@@ -95,14 +95,14 @@ public class DyeScenes {
 		scene.world().createItemOnBeltLike(basin, Direction.UP, ModDyes.FOUL_RED_MUD.asStack());
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Aired in an open basin, cool and with nothing over it, foul red mud gives up its sulfur in 20 seconds and is red again, ready for more")
+			.text("Aired in a cool, open basin, it coughs up its sulfur in 20 seconds and turns red again")
 			.pointAt(util.vector().topOf(basin))
 			.placeNearTarget();
 		scene.idle(60);
 		setBasinItems(scene, util, basin, ItemStack.EMPTY, ModItems.RED_MUD.asStack(), ModDyes.SULFUR.asStack());
 		scene.idle(60);
 		scene.overlay().showText(90)
-			.text("In a vat, 50 mB of piped in oxygen does the same for each lump")
+			.text("In a vat, piped-in oxygen does the same")
 			.pointAt(util.vector().blockSurface(redVat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -125,7 +125,7 @@ public class DyeScenes {
 			List.of(), CLAUS_WASH);
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("A big works washes it instead, stirred in a vat with Soda Ash Solution: 250 mB of sour gas gives 150 of fuel gas and 250 of foul soda")
+			.text("Big works wash it instead, stirred in a vat with Soda Ash Solution, into fuel gas and foul soda")
 			.pointAt(util.vector().blockSurface(washVat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(70);
@@ -133,7 +133,7 @@ public class DyeScenes {
 			List.of(Chemical.FUEL_GAS.stack(1200), Chemical.FOUL_SODA.stack(2000)), CLAUS_WASH);
 		scene.idle(60);
 		scene.overlay().showText(110)
-			.text("Boiled Warm in a still, every bucket of foul soda gives back 400 mB of hydrogen sulfide, and 600 of soda ash solution to wash more")
+			.text("Boil the foul soda Warm in a still: it gives back hydrogen sulfide, and soda ash solution for the next wash")
 			.pointAt(util.vector().blockSurface(washVat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -148,18 +148,18 @@ public class DyeScenes {
 		scene.overlay().showControls(util.vector().topOf(furnace), Pointing.DOWN, 50).withItem(ModItems.ALUMINA.asStack());
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Then the Claus process: hydrogen sulfide run over Alumina in a Steel Furnace, Hot or hotter, burns to molten sulfur and water. The alumina lasts 16 buckets")
+			.text("Then the Claus process: hydrogen sulfide over Alumina in a Steel Furnace, Hot or hotter, burns to molten sulfur and water. The alumina lasts 16 buckets")
 			.pointAt(util.vector().blockSurface(furnace, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(130);
 		scene.overlay().showText(100)
-			.text("Molten sulfur sets: in a basin, each 100 mB into a lump of Sulfur, and poured out, into a Block of Sulfur")
+			.text("Molten sulfur sets into lumps in a basin, or a Block of Sulfur where it's poured out")
 			.pointAt(util.vector().topOf(furnace))
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(110)
 			.colored(PonderPalette.RED)
-			.text("Hydrogen sulfide is deadly. Leaked, it sinks, pools and hurts through any armour. A little shows a faint yellow haze; a lot shows nothing at all")
+			.text("Hydrogen sulfide is deadly. Leaked, it sinks, pools and hurts through any armour. A little shows as a faint yellow haze. A lot shows nothing at all")
 			.pointAt(util.vector().blockSurface(hydrogenSulfide, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -193,13 +193,13 @@ public class DyeScenes {
 		scene.overlay().showControls(util.vector().topOf(kiln), Pointing.DOWN, 50).withItem(ModDyes.SULFUR.asStack());
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Sulfur burns in a Furnace, Warm or hotter, leaving nothing but 100 mB of sulfur dioxide a lump, kept inside for pipes to draw off")
+			.text("Sulfur burns in a Furnace at Warm or hotter into sulfur dioxide, held inside for pipes to draw off")
 			.pointAt(util.vector().blockSurface(kiln, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("What has no room goes up its chimney as a choking cloud")
+			.text("Whatever has no room goes up the chimney as a choking cloud")
 			.pointAt(util.vector().topOf(kiln))
 			.placeNearTarget();
 		scene.idle(100);
@@ -217,7 +217,7 @@ public class DyeScenes {
 			.withItem(ModAir.PLATINUM_GAUZE.asStack());
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Run over a Platinum Gauze in a Steel Furnace, Hot or hotter, sulfur dioxide takes up more oxygen and comes out as sulfur trioxide. The gauze lasts 64 buckets")
+			.text("Over Platinum Gauze in a Steel Furnace, Hot or hotter, sulfur dioxide takes up more oxygen as sulfur trioxide. The gauze lasts 64 buckets")
 			.pointAt(util.vector().blockSurface(furnace, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(130);
@@ -233,7 +233,7 @@ public class DyeScenes {
 			List.of(Chemical.SULFUR_TRIOXIDE.stack(2000)), List.of(), SULFURIC_ACID);
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Stirred into water in a vat, sulfur trioxide makes sulfuric acid. But half of it fogs off the top of the vat as an acid fog")
+			.text("Stirred into water in a vat, sulfur trioxide makes sulfuric acid, but half of it fogs off the top as acid fog")
 			.pointAt(util.vector().blockSurface(vat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(40);
@@ -245,7 +245,7 @@ public class DyeScenes {
 			SULFURIC_ACID);
 		scene.overlay().showText(110)
 			.colored(PonderPalette.GREEN)
-			.text("Pipe some of the acid back in and none fogs: 250 mB each of sulfur trioxide, water and sulfuric acid give 750 of acid. Keep some going round")
+			.text("The trick: pipe some acid back in and none fogs. Keep some going round")
 			.pointAt(util.vector().blockSurface(vat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -256,7 +256,7 @@ public class DyeScenes {
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(110)
-			.text("Sulfuric acid strips rust and patina as the other acids do. Mixed with nitric acid it makes mixed acid, which nitrates four times as fast and gives its sulfuric acid back")
+			.text("It strips rust and patina like the other acids. With nitric acid it makes mixed acid, which nitrates four times as fast and hands the sulfuric back")
 			.pointAt(util.vector().blockSurface(vat, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
@@ -283,7 +283,7 @@ public class DyeScenes {
 		ElectrolysisScenes.setBasin(scene, first, Chemical.ANILINE.stack(1000), FluidStack.EMPTY);
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("The coal tar dyes start from aniline: light oil mixed with nitric acid makes nitrobenzene, and iron nuggets with a little vinegar in a heated basin make that aniline")
+			.text("Every coal tar dye starts from aniline: light oil nitrated into nitrobenzene, then cooked with iron and a splash of vinegar in a heated basin")
 			.pointAt(util.vector().topOf(first))
 			.placeNearTarget();
 		scene.idle(130);
@@ -293,7 +293,7 @@ public class DyeScenes {
 		ElectrolysisScenes.setBasin(scene, first, Chemical.ANILINE.stack(750), FluidStack.EMPTY);
 		setBasinItems(scene, util, first, ItemStack.EMPTY, ColourBlocks.of(NewColour.MAUVE).dye.asStack(8));
 		scene.overlay().showText(110)
-			.text("Mixed with bleach, 250 mB of aniline makes 8 Mauve dye. With iron and nitrobenzene, heated, aniline salt makes magenta; with ferric chloride, black")
+			.text("Aniline and bleach make Mauve. Aniline salt heated with iron and nitrobenzene makes magenta, and with ferric chloride, black")
 			.pointAt(util.vector().topOf(first))
 			.placeNearTarget();
 		scene.idle(120);
@@ -307,14 +307,14 @@ public class DyeScenes {
 		ElectrolysisScenes.setBasin(scene, second, FluidStack.EMPTY, Chemical.DIAZO_SALT.stack(500));
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Aniline, hydrochloric acid, Sodium Nitrite and a block of ice mixed make a diazo salt. Nitroaniline and naphthylamine make salts of their own the same way")
+			.text("Aniline, hydrochloric acid, Sodium Nitrite and a block of ice make a diazo salt. Nitroaniline and naphthylamine make their own salts the same way")
 			.pointAt(util.vector().topOf(second))
 			.placeNearTarget();
 		scene.idle(130);
 		scene.world().setKineticSpeed(secondMixer, 0);
 		scene.overlay().showText(120)
 			.colored(PonderPalette.RED)
-			.text("Diazo salts keep only cold. Unless ice or snow touches the basin, tank or vat holding them, or it snows there, a tenth breaks down every 10 seconds. Heat breaks them down at once")
+			.text("Diazo salts are fussy: unless ice or snow touches whatever holds them, or it snows there, a tenth breaks down every 10 seconds. Heat ruins them outright")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 1, 2), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(70);
@@ -322,7 +322,7 @@ public class DyeScenes {
 			scene.effects().simpleParticleEmitter(ParticleTypes.BUBBLE_POP, new Vec3(0, 0.02, 0)), 3, 30);
 		scene.idle(60);
 		scene.overlay().showText(120)
-			.text("Each salt is joined at once to make a dye: plain with aniline for yellow, or phenol in caustic soda for orange; nitroaniline's with naphthol for red; naphthylamine's with naphthol for Maroon")
+			.text("So use each salt fast: plain with aniline for yellow or alkaline phenol for orange, nitroaniline's with naphthol for red, naphthylamine's with naphthol for Maroon")
 			.pointAt(util.vector().topOf(second))
 			.placeNearTarget();
 		scene.idle(130);
@@ -332,20 +332,20 @@ public class DyeScenes {
 		ElectrolysisScenes.setBasin(scene, open, Chemical.INDIGO_MELT.stack(750), FluidStack.EMPTY);
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Indigo: aniline and chloroacetic acid make Phenylglycine, and phenylglycine melted with caustic soda in a heated basin makes indigo melt. Sodamide in the melt triples the indigo")
+			.text("Indigo: aniline and chloroacetic acid make Phenylglycine, melted with caustic soda in a heated basin into indigo melt. Sodamide in the melt triples the indigo")
 			.pointAt(util.vector().topOf(open))
 			.placeNearTarget();
 		scene.idle(130);
 		ElectrolysisScenes.setBasin(scene, open, Chemical.INDIGO_MELT.stack(500), Chemical.CAUSTIC_SODA.stack(250));
 		setBasinItems(scene, util, open, ItemStack.EMPTY, ColourBlocks.of(NewColour.INDIGO).dye.asStack(8));
 		scene.overlay().showText(110)
-			.text("Aired in an open basin, the melt turns to Indigo dye, 8 for 250 mB, and its caustic soda comes back")
+			.text("Aired in an open basin, the melt turns to Indigo dye and hands its caustic soda back")
 			.pointAt(util.vector().topOf(open))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(120)
 			.attachKeyFrame()
-			.text("Malachite Green: benzaldehyde and dimethylaniline stirred in a vat make its colourless base, and ferric chloride mixed with the base turns it green")
+			.text("Malachite Green: benzaldehyde and dimethylaniline stirred in a vat make a colourless base, and ferric chloride turns it green")
 			.pointAt(util.vector().topOf(first))
 			.placeNearTarget();
 		scene.idle(130);

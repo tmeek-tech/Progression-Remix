@@ -14,9 +14,9 @@
 				"22308AEB6DC1499F"
 			]
 			description: [
-				"An aluminium support warms as it turns. Left alone it settles near 600 °C at about 256 RPM, but at 512 it melts about a minute after starting cold. Only what holds a part heats: an aluminium shaft in a steel bracket stays cool."
+				"Aluminium supports warm up as they turn. At about 256 RPM one settles near 600 °C, but at 512 it melts about a minute after a cold start. Only what holds a part heats, so an aluminium shaft in a steel bracket stays cool."
 				""
-				"Goggles show its temperature, gold from 520 °C and red from 620."
+				"Goggles show the temperature: gold from 520 °C, red from 620. Red means trouble."
 			]
 			id: "374B6B27BFDD7013"
 			rewards: [ ]
@@ -37,7 +37,7 @@
 				"374B6B27BFDD7013"
 			]
 			description: [
-				"A heat sink bolted to the support carries it to about 384 RPM, and a fan of 128 RPM or more blowing through the sink's fins carries it to its full 512. A fan blowing straight at it with no sink helps about as much as one sink."
+				"A heat sink bolted to the support carries it to about 384 RPM, and a fan of 128 RPM or more blowing through the fins takes it all the way to 512. A fan aimed straight at it with no sink helps about as much as one sink."
 			]
 			id: "30173B91345304C8"
 			rewards: [ ]
@@ -58,9 +58,9 @@
 				"374B6B27BFDD7013"
 			]
 			description: [
-				"A water cooler is a heat sink's base in a copper water jacket, bolted on like a heat sink. It takes heat in step with how hot its support runs and turns its water warm as it does, so it uses water only as fast as it cools."
+				"A water cooler is a heat sink's base in a copper water jacket, bolted on the same way. It takes heat in step with how hot its support runs, warming its water as it goes, so it only uses water as fast as it cools."
 				""
-				"The warm water has to be pumped away, or it stops. Coolers work on Power Grid devices too."
+				"Pump the warm water away or it stops. Coolers work on Power Grid devices too."
 			]
 			id: "219624AEE35DA726"
 			rewards: [ ]
@@ -81,7 +81,7 @@
 				"219624AEE35DA726"
 			]
 			description: [
-				"Water drawn wherever it is cold enough to snow is cold water, though the sea gives salt water even where it freezes. It stays cold wherever you pipe it, and in a water cooler it works twice as well as plain water."
+				"Water drawn anywhere cold enough to snow is cold water, though the sea still gives salt water even where it freezes. It stays cold wherever you pipe it, and in a water cooler it works twice as well as plain water."
 			]
 			id: "739987E70CB02EF2"
 			rewards: [ ]
@@ -102,9 +102,9 @@
 				"739987E70CB02EF2"
 			]
 			description: [
-				"Radiators side by side in one plane join into a panel. A panel chills any water into cold water and hot coolant back into coolant, faster with a fan blowing through it."
+				"Radiators side by side in one plane join into a panel that chills any water into cold water and hot coolant back into coolant, faster with a fan blowing through it."
 				""
-				"So the warm water out of a cooler can come back cold."
+				"Close the loop: warm water out of a cooler, cold water back in."
 			]
 			id: "6DB3F2374FF5F911"
 			rewards: [ ]
@@ -126,9 +126,9 @@
 				"3F805F9CA871A2D4"
 			]
 			description: [
-				"Ethylene dichloride and caustic soda mixed over heat give ethylene glycol, and glycol with water is coolant. In a water cooler it takes heat three times as fast as water and comes out as hot coolant, which a radiator chills back."
+				"Ethylene dichloride and caustic soda mixed over heat give ethylene glycol, and glycol with water is coolant. In a water cooler it takes heat three times as fast as water and comes out hot, for a radiator to chill back."
 				""
-				"It never wears out, so it goes round a loop."
+				"It never wears out, so build the loop once and let it run."
 			]
 			id: "252B1D6D21683A9C"
 			rewards: [ ]

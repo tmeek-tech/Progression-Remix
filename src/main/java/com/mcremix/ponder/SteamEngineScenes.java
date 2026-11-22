@@ -45,14 +45,14 @@ public class SteamEngineScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Every metal whose tanks make a boiler has a Steam Engine of its own: copper, which is Create's, brass, iron and steel")
+			.text("Every metal whose tanks make a boiler has its own Steam Engine: copper (Create's), brass, iron and steel")
 			.pointAt(util.vector().blockSurface(brass, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Each goes only on tanks of its own metal, as Create's goes only on its copper ones")
+			.text("Each goes only on tanks of its own metal, as Create's goes only on copper")
 			.pointAt(util.vector().blockSurface(iron, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -61,7 +61,7 @@ public class SteamEngineScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.colored(PonderPalette.RED)
-			.text("Aluminium tanks make no boiler, so there is no aluminium engine")
+			.text("Aluminium tanks make no boiler, so there's no aluminium engine")
 			.pointAt(util.vector().blockSurface(util.grid().at(ALUMINIUM, 2, 4), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(90);
@@ -86,27 +86,27 @@ public class SteamEngineScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Whatever its metal, an engine runs as Create's does, as fast and as strong from each level of its boiler")
+			.text("Whatever the metal, an engine runs like Create's, as fast and as strong per boiler level")
 			.pointAt(util.vector().blockSurface(util.grid().at(BOILERS[1], 1, 1), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("The metal changes the boiler. Brass and iron boilers work as copper ones do, and hold fluids as hot")
+			.text("The metal changes the boiler. Brass and iron boilers work like copper ones, and hold fluids as hot")
 			.pointAt(util.vector().blockSurface(brass.south().above(), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A steel boiler boils no water and wants no fire: it runs only on pressurised steam piped in from a Pressurizer")
+			.text("A steel boiler boils no water and wants no fire. It runs only on pressurised steam piped in from a Pressurizer")
 			.pointAt(util.vector().blockSurface(steel.south().above(), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(100)
-			.text("It is compact, a level for every two tanks, but steam its engines do not use builds pressure. Give it a whistle to vent, or it bursts")
+			.text("It's compact, a level for every two tanks, but steam its engines don't use builds pressure. Give it a whistle to vent, or it bursts")
 			.pointAt(util.vector().blockSurface(steel.south().above(), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);

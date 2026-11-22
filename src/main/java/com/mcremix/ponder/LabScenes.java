@@ -45,7 +45,7 @@ public class LabScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A round flask stands on a heat source as a basin does. A campfire is Warm, enough for wash and wood spirit; coal tar needs the Hot of a fire")
+			.text("A round flask stands on heat like a basin. A campfire's Warm does wash and wood spirit, but coal tar needs a fire's Hot")
 			.pointAt(util.vector().blockSurface(flask, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -56,7 +56,7 @@ public class LabScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A still head goes on top, with up to three glass column pieces between. Its arm points the way it was placed")
+			.text("A still head goes on top, with up to three glass column pieces between. Its arm points the way you placed it")
 			.pointAt(util.vector().blockSurface(head, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -67,7 +67,7 @@ public class LabScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A coil condenser on the arm turns the vapour back into liquid: pipe water through it, and warm water comes out. A cow receiver under its low end catches the drips")
+			.text("A coil condenser on the arm, with water piped through, turns vapour back to liquid. A cow receiver under its low end catches the drips")
 			.pointAt(util.vector().topOf(condenser))
 			.placeNearTarget();
 		scene.idle(100);
@@ -75,7 +75,7 @@ public class LabScenes {
 		setFlask(scene, util, flask, Chemical.WOOD_SPIRIT.stack(1000), FluidStack.EMPTY);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Fill the flask with a bucket or by pipe. A bucket of wood spirit comes over a cut at a time, lightest first: acetone at 56 °C, then methanol at 65 °C")
+			.text("Wood spirit comes over a cut at a time, lightest first: acetone at 56 °C, then methanol at 65 °C")
 			.pointAt(util.vector().blockSurface(flask, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(40);
@@ -88,7 +88,7 @@ public class LabScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("As each cut ends, the thermometer climbs and gives a redstone pulse, and the still turns the cow receiver's next flask under the drip, so two cuts never mix")
+			.text("As each cut ends, the thermometer climbs and pulses redstone, and the still turns a fresh flask under the drip, so cuts never mix")
 			.pointAt(util.vector().topOf(head))
 			.placeNearTarget();
 		scene.idle(10);
@@ -102,14 +102,14 @@ public class LabScenes {
 			.rightClick();
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Right-click the receiver with an empty hand to turn it yourself. A bucket takes from the flask on the side you click, sneaking with an empty hand tips that flask out, and pipes draw from them all")
+			.text("Right-click the receiver to turn it yourself. A bucket takes from the flask you click, sneaking empty-handed tips it out, and pipes draw from them all")
 			.pointAt(util.vector().blockSurface(receiver, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("What is left, here vinegar, stays in the round flask. Pipe it off, or sneak with an empty hand to tip it out, before the next batch")
+			.text("What's left, here vinegar, stays in the round flask. Pipe it off, or sneak with an empty hand to tip it out, before the next batch")
 			.pointAt(util.vector().blockSurface(flask, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -117,7 +117,7 @@ public class LabScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Lab glass takes nothing past Hot, and hot glass cracks if rain falls on it or water stands beside it. Cracked glass shatters five seconds later: keep a roof over it")
+			.text("Lab glass takes nothing past Hot, and hot glass cracks in rain or beside water, shattering five seconds later. Put a roof over your lab")
 			.pointAt(util.vector().topOf(head))
 			.placeNearTarget();
 		scene.idle(110);
@@ -149,7 +149,7 @@ public class LabScenes {
 			.withItem(ModItems.COPPER_MESH.asStack());
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A hot tube over a fire does the Steel Furnace's catalyst jobs that need no more than Hot. Put the catalyst in by hand: methanol over copper mesh becomes formaldehyde")
+			.text("A hot tube over a fire does the Steel Furnace's catalyst jobs, up to Hot. Load the catalyst by hand: methanol over copper mesh becomes formaldehyde")
 			.pointAt(util.vector().blockSurface(tube, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(50);
@@ -170,7 +170,7 @@ public class LabScenes {
 		});
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A settling flask, with no heat under it, lets what settles settle: carbolic oil grows naphthalene, which an empty hand or a funnel takes, and the strained oil is piped off")
+			.text("A settling flask, kept off the heat, lets things settle: carbolic oil grows naphthalene for a hand or funnel to take, and the strained oil pipes off")
 			.pointAt(util.vector().blockSurface(settling, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -185,7 +185,7 @@ public class LabScenes {
 		});
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A separating funnel shakes two liquids into two layers. Strained carbolic oil and caustic soda give sodium phenolate under creosote: the heavier layer leaves by the tap underneath, the lighter from the top or sides")
+			.text("A separating funnel shakes two liquids into layers, here sodium phenolate under creosote. The heavy layer drains from the bottom tap, the light one from the top or sides")
 			.pointAt(util.vector().blockSurface(funnel, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
@@ -198,7 +198,7 @@ public class LabScenes {
 		});
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A round flask with a coil condenser standing on it is a reflux flask: what Create mixes in a heated basin from fluids alone, it cooks a bucket at a time over a fire, losing nothing")
+			.text("A round flask with a coil condenser on top is a reflux flask: it cooks Create's heated fluid-only mixes a bucket at a time over a fire, losing nothing")
 			.pointAt(util.vector().blockSurface(reflux, Direction.EAST))
 			.placeNearTarget();
 		scene.idle(60);

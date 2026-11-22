@@ -54,7 +54,7 @@ public class PressurizerScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A Pressurizer squeezes the fluid piped into it. Its shaft works a pump in the lower block, and what it squeezes is held in the vessel on top")
+			.text("A Pressurizer squeezes what's piped into it: a shaft-driven pump below, a vessel on top")
 			.pointAt(util.vector().blockSurface(vessel, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -64,14 +64,14 @@ public class PressurizerScenes {
 		speed(scene, motorSide, fast, 64);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Its shaft goes in at either side of the lower block, left or right of the dial. The faster it turns, the harder it squeezes")
+			.text("The shaft goes in either side of the lower block. The faster it turns, the harder it squeezes")
 			.pointAt(util.vector().blockSurface(cog, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("The dial on its front reads the pressure, which is speed. Each mark is a quarter of its top speed, 128 RPM for steel, and past 512 RPM the needle is in the red")
+			.text("The dial reads pressure, which is just speed: each mark is a quarter of its top speed. Past 512 RPM the needle's in the red")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
@@ -79,14 +79,14 @@ public class PressurizerScenes {
 		speed(scene, motorSide, fast, 128);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Each job needs a speed: 128 RPM for steam, 256 for PVC resin and 512 for polyethylene. Below it nothing happens, and above it the work goes faster")
+			.text("Each job needs a speed: 128 RPM for steam, 256 for PVC resin, 512 for polyethylene. Below it nothing happens, and above it the work goes faster")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("It is heavy to turn: 32 stress units for every RPM, over 16,000 at 512 RPM. Gear it up, as a large cogwheel turns a small one at twice its speed")
+			.text("It's a beast to turn: 32 su per RPM, over 16,000 at 512. Gear it up")
 			.pointAt(util.vector().blockSurface(util.grid().at(1, 2, 3), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -97,7 +97,7 @@ public class PressurizerScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Pipe the fluid into any side of its vessel, which reaches out to meet the pipe. The vessel's top and the lower block take no pipes")
+			.text("Pipe fluid into any side of the vessel, which reaches out to meet the pipe. Its top and the lower block take no pipes")
 			.pointAt(pipe)
 			.placeNearTarget();
 		scene.idle(100);
@@ -108,14 +108,14 @@ public class PressurizerScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("At 512 RPM, over Warm heat or hotter, it sets ethylene into Polyethylene Pellets, 100 mB a batch")
+			.text("At 512 RPM over Warm heat or hotter, it sets ethylene into Polyethylene Pellets")
 			.pointAt(util.vector().blockSurface(burner, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showControls(front, Pointing.DOWN, 40).rightClick();
 		scene.overlay().showText(90)
-			.text("Take what it makes with an empty hand, or with a funnel on any side of its vessel")
+			.text("Funnels on the vessel or an empty hand take the results")
 			.pointAt(side)
 			.placeNearTarget();
 		scene.idle(100);
@@ -124,7 +124,7 @@ public class PressurizerScenes {
 		scene.overlay().showControls(side, Pointing.LEFT, 50).withItem(ModItems.PVC_RESIN.asStack());
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("At 256 RPM, with or without heat underneath, it sets vinyl chloride into PVC Resin")
+			.text("At 256 RPM, heat or no heat, it sets vinyl chloride into PVC Resin")
 			.pointAt(side)
 			.placeNearTarget();
 		scene.idle(110);
@@ -132,14 +132,14 @@ public class PressurizerScenes {
 		speed(scene, motorSide, fast, 64);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("At 128 RPM over Hot heat it turns water into pressurised steam, 20 mB a tick, and more the faster it turns")
+			.text("At 128 RPM over Hot heat it turns water into pressurised steam, 20 mB a tick, more the faster it turns")
 			.pointAt(side)
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(110)
 			.colored(PonderPalette.GREEN)
-			.text("Pressurised steam is all a steel boiler runs on, with no water or fire. Every 10 mB a tick piped in is one boiler level")
+			.text("Pressurised steam is all a steel boiler runs on: no water, no fire. Every 10 mB a tick piped in is one boiler level")
 			.pointAt(util.vector().blockSurface(vessel, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
@@ -149,7 +149,7 @@ public class PressurizerScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Too slow or too cold, it waits. Engineer's Goggles show what it is waiting for")
+			.text("Too slow or too cold, it waits. Engineer's Goggles say what for")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -191,14 +191,14 @@ public class PressurizerScenes {
 		speed(scene, motorSide, fast, -64);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Turned the other way, a Pressurizer's pump pulls the air out of its vessel instead of squeezing it in")
+			.text("Turn a Pressurizer the other way and its pump pulls the air out of the vessel instead of squeezing it in")
 			.pointAt(util.vector().blockSurface(vessel, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Its needle drops below zero, into the blue. The faster it turns, the deeper the vacuum")
+			.text("The needle drops below zero, into the blue. The faster it turns, the deeper the vacuum")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -210,7 +210,7 @@ public class PressurizerScenes {
 		scene.overlay().showControls(top, Pointing.DOWN, 30).rightClick().withItem(AllItems.IRON_SHEET.asStack());
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Lay what it seals in its vessel, by hand or by funnel on any side of it, a kind of thing to each of its four slots")
+			.text("Load the vessel by hand or by funnel from any side, one kind of thing to each of its four slots")
 			.pointAt(side)
 			.placeNearTarget();
 		scene.idle(110);
@@ -220,7 +220,7 @@ public class PressurizerScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Over Hot heat, which melts the glass shut, it seals them: three Glass Panes, Iron Wire and an Iron Sheet into a Light Bulb")
+			.text("Over Hot heat, which melts the glass shut, it seals them, here into a Light Bulb")
 			.pointAt(util.vector().blockSurface(burner, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
@@ -229,14 +229,14 @@ public class PressurizerScenes {
 		scene.overlay().showControls(side, Pointing.LEFT, 50).withItem(ModdedItems.TRIODE.asStack());
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Each seal needs a vacuum, which is speed: Power Grid's bulbs from 128 RPM, its tubes from 256 and the Cathode Ray Tube from 512. Twice as fast seals twice as quick")
+			.text("Deeper vacuums need more speed: Power Grid's bulbs from 128 RPM, tubes from 256, the Cathode Ray Tube from 512. Double the speed, double the pace")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(120);
 
 		scene.overlay().showControls(front, Pointing.DOWN, 40).rightClick();
 		scene.overlay().showText(90)
-			.text("Take what it seals with an empty hand, or with a funnel on any side of its vessel")
+			.text("Funnels on the vessel or an empty hand take the results")
 			.pointAt(side)
 			.placeNearTarget();
 		scene.idle(100);

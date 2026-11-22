@@ -48,7 +48,7 @@ public class SawScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Like drill bits, saw blades can be stone, iron, gold or diamond. Every saw comes with an iron blade")
+			.text("Like drill bits, saw blades come in stone, iron, gold and diamond. Every saw starts with iron")
 			.pointAt(util.vector().blockSurface(iron, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -73,7 +73,7 @@ public class SawScenes {
 		feed(scene, util, saws, new ItemStack(Items.OAK_LOG));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Every blade cuts wood. Gold is the fastest, then diamond, iron and stone")
+			.text("Every blade cuts wood. Gold is fastest, then diamond, iron and stone")
 			.pointAt(util.vector().topOf(gold))
 			.placeNearTarget();
 		scene.idle(100);
@@ -84,7 +84,7 @@ public class SawScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Gold is too soft for stone: it skates across the blade uncut, in a shower of sparks")
+			.text("Gold is too soft for stone: the stone skates across the blade uncut, in a shower of sparks")
 			.pointAt(util.vector().topOf(gold))
 			.placeNearTarget();
 		scene.idle(100);
@@ -94,7 +94,7 @@ public class SawScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Stone and gold blades take half the stress of iron, diamond twice as much. A saw keeps its blade when broken")
+			.text("Stone and gold blades take half the stress of iron, diamond twice as much. A broken saw keeps its blade")
 			.pointAt(util.vector().blockSurface(stone, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);

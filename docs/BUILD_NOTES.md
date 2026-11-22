@@ -4030,3 +4030,32 @@ hand for one quest of each kind (a checkmark, an item, a look-at), not for every
 longer match the marker, so the next start keeps them as a changed book until the folder is deleted; a later FTB
 Quests that rewrites older books on load would make every book look changed, so updates would stop until the folder
 is deleted; the text is English only.
+
+## 53. Shorter, livelier Ponder and quest text (0.39.1)
+
+Taran's ask of 2026-11-22, "For ponders and quest descriptions, can you make explanation more consise, state the
+obvious less, and make them sound fun without being cringe?", with one card answered the same day after samples:
+more playful (more personality in the quests and a few more asides in Ponder, still no jokes for their own sake).
+Nothing but text changed.
+
+**Ponder.** 335 of the 373 text boxes in this mod's 54 scenes are reworded, 14% fewer words in all, and no box is
+over 30 words now (41 were). Out went what the scene already shows, what JEI lists (recipe amounts, every fuel) and
+lines that repeat the scene's title; in came a short aside here and there. Every scene keeps its boxes, timings and
+keyframes, so the lang keys (`mcremix.ponder.<scene>.text_N`) are the same: only the strings in the `*Scenes.java`
+classes and their values in `en_us.json` changed, and `ponder_lang()` in `gen_assets.py` gives the same values from
+the Java. Create's own scenes copied into this mod are untouched. Two scenes were also put right: the Steel Furnace
+scene now gives the fuel ladder as the code has it (fuel oil goes furthest, then coal tar, light oil, creosote,
+ethylene and fuel gas; hydrogen, ethylene and fuel gas burn Blazing) and leaves the full list to JEI, and naphtha
+cracking's pressurised steam comes from a Pressurizer, not a boiler.
+
+**Quests.** 124 of the 130 quests' descriptions and three chapter subtitles (The Hearth, Turning, Electricity) are
+reworded in the same voice, 5% fewer words. The quest text was already lean, so most of the change is voice, with
+lines that repeat another quest or the chapter's subtitle taken out (Bakelite's list of Power Grid parts, the
+transformer's steel core, steel as iron that soaked up carbon). Keys, titles, quest subtitles, tasks, dependencies and
+layout are unchanged, so ids and progress carry over, and every number, heat word and JEI or Ponder pointer is kept.
+The voice is written down at the top of `tools/gen_quests.py` for later edits. The book's version is now
+`5646b40b394c4a29`, so `compat/QuestBook` replaces an installed 0.39.0 book that nobody has edited and leaves an
+edited one alone.
+
+**Known gaps:** the text is still English only, and none of it was read in game; the strings are the same keys and
+the same SNBT fields as 0.39.0's, which were.

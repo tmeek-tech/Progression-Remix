@@ -14,9 +14,9 @@
 				"690A67A6D21199B1"
 			]
 			description: [
-				"Create's own shafts, cogs, gearboxes and machines are the andesite tier. They never weather and their shafts take any load, but their supports stop at 128 RPM."
+				"Create's own shafts, cogs, gearboxes and machines are the andesite tier. They never weather and their shafts take any load, but their supports top out at 128 RPM."
 				""
-				"Andesite stays the maintenance-free workhorse for slow, heavy machines all game."
+				"Slow, sturdy and maintenance-free: the workhorse for heavy machines all game."
 			]
 			id: "541D0DC718F4FF4B"
 			rewards: [ ]
@@ -37,9 +37,9 @@
 				"541D0DC718F4FF4B"
 			]
 			description: [
-				"A bare shaft or cog can't hang in the air. It must be held by a support: a machine, a gearbox, clutch, gearshift or chain drive, a casing, or a bracket bolted to a solid block. Water wheels, windmills and engines pass rotation on but hold nothing."
+				"Shafts and cogs don't float any more. Each needs a support: a machine, gearbox, clutch, gearshift, chain drive, casing, or a bracket bolted to something solid. Water wheels, windmills and engines drive but hold nothing."
 				""
-				"A support holds the parts in line with it as far as their own material reaches, counting through the bare parts between, like scaffolding from a post: two blocks for wood and brass, four for andesite, copper and iron, six for steel and up. Out of reach a part won't go on, and when its support goes it drops."
+				"A support holds the parts in line with it as far as their material reaches through the bare parts between, like scaffolding from a post: two blocks for wood and brass, four for andesite, copper and iron, six for steel and up. Out of reach, a part won't go on. Lose its support and it drops."
 				""
 				"&7Ponder: any shaft, bracket or casing.&r"
 			]
@@ -63,7 +63,7 @@
 				"3AC9A7994C4F9DC0"
 			]
 			description: [
-				"Create's Engineer's Goggles show what a placed block is doing: each part's material, what holds it and its limits, a Furnace's heat and fuel, and what a machine is waiting for."
+				"Engineer's Goggles show what a placed block is up to: each part's material, what holds it and its limits, a Furnace's heat and fuel, what a machine is waiting for."
 				""
 				"Their lenses sit in gold sheet, and sheets come only off a press, so goggles wait for iron."
 			]
@@ -86,11 +86,11 @@
 				"629C0AF66AEA3D00"
 			]
 			description: [
-				"Each material gives two limits. A support's Stability is the top speed it turns at. A shaft or cog's Strength is the load it carries. A part turns as fast as its supports allow, whatever it is made of."
+				"Every material has two limits. Stability is how fast its supports can turn. Strength is how much load its shafts and cogs can carry. A part turns as fast as its supports allow, whatever it's made of."
 				""
-				"Spin a support past its Stability and it grinds for a few seconds, then gives way and drops. Draw more stress through a network than a shaft or cog can carry and it wobbles, then breaks. Supports never break from load, and shafts never break from speed."
+				"Spin a support past its Stability and it grinds for a few seconds, then drops. Pull more stress through a shaft or cog than its Strength and it wobbles, then snaps. Speed never breaks shafts, and load never breaks supports."
 				""
-				"Tooltips show both as a word and a bar, and goggles give the numbers."
+				"Tooltips show both as a word and a bar. Goggles give the numbers."
 			]
 			icon: "create:stressometer"
 			id: "3296CE900D1C9370"
@@ -112,9 +112,9 @@
 				"629C0AF66AEA3D00"
 			]
 			description: [
-				"Logs make wooden shafts cheaply, and every one of the eleven woods has its own parts. Wood is the cheapest tier: its supports stop at 64 RPM, and its shafts carry the least load of anything."
+				"All eleven woods make parts, for next to nothing. They're also the weakest: supports stop at 64 RPM, and the shafts carry less load than anything else."
 				""
-				"That makes a wooden shaft a fuse. Between an engine and a risky machine, it is the first thing to break when the machine draws too much."
+				"That makes a wooden shaft a fuse. Put one between an engine and a risky machine, and when the machine gets greedy, the wood snaps first."
 				""
 				"Crimson and warped parts don't burn."
 			]
@@ -142,9 +142,9 @@
 				"3296CE900D1C9370"
 			]
 			description: [
-				"Copper supports turn up to 256 RPM, twice andesite's, and copper shafts and cogs carry light loads. They are the early road to full-speed lines."
+				"Copper supports spin to 256 RPM, twice andesite, but copper shafts and cogs only carry light loads. It's your early road to full speed."
 				""
-				"Copper weathers anywhere, within a day, and each stage adds a little friction at its supports. Honeycomb waxes it and an axe scrapes it back, just like copper blocks."
+				"Copper weathers within a day, anywhere, and each stage adds a little friction at its supports. Honeycomb waxes it and an axe scrapes it, same as copper blocks."
 				""
 				"Copper gearboxes, clutches, gearshifts and chain drives are built on Create's copper casing."
 			]
@@ -168,11 +168,11 @@
 				"4718C7B7C98B7081"
 			]
 			description: [
-				"Copper and iron weather fast and stop at a stage of their own: each spot ends weathered or fully weathered, so a build takes on a varied palette within a day of play instead of one flat green."
+				"Copper and iron weather fast, and each block stops at a stage of its own, weathered or fully weathered. Within a day a build gets a lived-in patchwork instead of one flat green."
 				""
-				"Iron only rusts while wet: rained on, waterlogged or beside water. Dry iron under rustier iron rusts too, so rust runs down a wall as far as the blocks above it got. Indoor machines stay clean."
+				"Iron only rusts while wet: rained on, waterlogged or beside water. Dry iron under rustier iron rusts too, so rust runs down a wall. Indoor machines stay clean."
 				""
-				"Honeycomb seals a block as it is. An axe scrapes it back a stage, and it weathers to the same stage again."
+				"Honeycomb seals a block as it is. Scrape it back a stage with an axe and it weathers back to the same stage."
 			]
 			id: "060ABCEC2D22B788"
 			optional: true
@@ -196,9 +196,9 @@
 				"3AC9A7994C4F9DC0"
 			]
 			description: [
-				"A Create basin standing on a Furnace is heated by the fuel burning in it, for the mixer or press above. Fuel burning &cSearing&r heats it as a fed Blaze Burner does, which is enough for heated mixing such as brass; a &eWarm&r or &6Hot&r fire only warms it. Heat from under the Furnace passes up as it is, so a soul campfire beneath only warms the basin."
+				"A basin on a Furnace is heated by the fuel burning inside. &cSearing&r heats it like a fed Blaze Burner, enough for brass; &eWarm&r or &6Hot&r only warms it. Heat from under the Furnace passes up as it is, so a soul campfire beneath only warms the basin."
 				""
-				"Superheated recipes still need a Blaze Burner fed Blaze Cake, later Power Grid's basin heater run hot enough, or a Steel Furnace burning &bBlazing&r."
+				"Superheated recipes still want a Blaze Burner on Blaze Cake, later Power Grid's basin heater run hot enough, or a Steel Furnace burning &bBlazing&r."
 			]
 			id: "36D4E952BA3CE9EC"
 			rewards: [ ]
@@ -219,7 +219,7 @@
 				"36D4E952BA3CE9EC"
 			]
 			description: [
-				"Brass parts are fine clockwork, polished and delicate. Their supports stop at 96 RPM and their shafts carry little, just above wood, because brass already has some powerful machines."
+				"Brass parts are fine clockwork: polished, pretty and delicate. Their supports stop at 96 RPM and their shafts carry little more than wood's. Brass already has some powerful machines, so its parts don't get to be strong too."
 				""
 				"Brass never tarnishes. It has no clutch, gearshift or chain gearshift, and the Mechanical Crafter comes only in brass."
 			]
@@ -242,7 +242,7 @@
 				"2D5A296BEAA4D578"
 			]
 			description: [
-				"Create's press, mixer, millstone, fan, saw, drill, deployer and arm also come in copper, iron, steel, aluminium and titanium. Each is the same machine in another casing, a support held to its own metal's top speed."
+				"Create's press, mixer, millstone, fan, saw, drill, deployer and arm also come in copper, iron, steel, aluminium and titanium: the same machine in a new casing, held to its metal's top speed."
 				""
 				"Use a casing on a placed machine to change its metal, up or down. It keeps its facing and settings, and the old casing pops out."
 				""
@@ -268,9 +268,9 @@
 				"6C06A8D2FE2265D4"
 			]
 			description: [
-				"A turning Bellows blows into the block its nozzle faces. A Furnace there, or one standing on a fire there, burns one level hotter, up to &cSearing&r. It never reaches &bBlazing&r, never lights a cold Furnace, and fuel it fans burns twice as fast."
+				"A turning Bellows blows into whatever its nozzle faces. A Furnace there, or one standing on a fire there, burns a level hotter, up to &cSearing&r. It won't reach &bBlazing&r or light a cold Furnace, and fuel it fans burns twice as fast."
 				""
-				"That makes low heat go further: a campfire under a fanned Furnace is &6Hot&r with no fuel at all, and lava under one is &cSearing&r. Blowing on a lit campfire, it cooks food twice as fast."
+				"So cheap heat goes further: a fanned Furnace on a campfire is &6Hot&r for free, and on lava &cSearing&r. Aimed at a lit campfire, it cooks food twice as fast."
 			]
 			id: "404A1BD175B2514C"
 			rewards: [ ]
@@ -293,11 +293,11 @@
 				"3AC9A7994C4F9DC0"
 			]
 			description: [
-				"A Furnace heats a Create boiler standing on it by the fuel burning in it, the way a Blaze Burner does. Fuel burning &cSearing&r boils it as a fed Blaze Burner would; a &eWarm&r or &6Hot&r fire only keeps it simmering. Heat from under the Furnace passes up as it is, so a soul campfire beneath only simmers it."
+				"A boiler on a Furnace is heated by the fuel burning inside, like a Blaze Burner. &cSearing&r boils it; &eWarm&r or &6Hot&r only keeps it simmering. Heat from under the Furnace passes up as it is, so a soul campfire beneath only simmers it."
 				""
-				"So steam power arrives with Coal Coke, without a trip to the Nether for blazes."
+				"So steam power arrives with Coal Coke, no Nether trip needed."
 				""
-				"Brass, iron and steel have steam engines of their own, and each goes only on tanks of its own metal. Create's engine goes on Create's copper tanks."
+				"Brass, iron and steel have steam engines of their own, each only for tanks of its own metal. Create's engine stays on Create's copper tanks."
 			]
 			id: "5C2C3A2E77FAA0F8"
 			rewards: [ ]
@@ -315,7 +315,7 @@
 		}
 	]
 	subtitle: [
-		"Create's kinetics, remixed: supports, materials and their limits"
+		"Create's kinetics, now with consequences"
 	]
 	title: "Turning"
 }

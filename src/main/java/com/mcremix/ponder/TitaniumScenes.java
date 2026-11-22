@@ -54,12 +54,12 @@ public class TitaniumScenes {
 		scene.world().setKineticSpeed(line, 128);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Titanium is the fastest material of all: its supports take up to 2048 RPM, under any load")
+			.text("Titanium is the fastest material there is: its supports take up to 2048 RPM, under any load")
 			.pointAt(util.vector().blockSurface(gearbox, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(100)
-			.text("Like aluminium they warm up as they turn, but twice as much, so they need twice the cooling. With nothing on it this gearbox holds about 128 RPM")
+			.text("The catch: like aluminium they warm as they turn, but twice as much, so they need twice the cooling. Bare, this gearbox holds only about 128 RPM")
 			.pointAt(util.vector().topOf(gearbox))
 			.placeNearTarget();
 		scene.idle(110);
@@ -67,7 +67,7 @@ public class TitaniumScenes {
 		scene.world().setKineticSpeed(line, 160);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Heat leaves its colours on it, as on real titanium: past 400 °C what holds the part turns gold, past 550 purple and past 700 blue")
+			.text("Heat leaves colours on it, as on real titanium: past 400 °C the support turns gold, past 550 purple, past 700 blue")
 			.pointAt(util.vector().blockSurface(gearbox, Direction.WEST))
 			.placeNearTarget();
 		for (String tint : new String[] { "gold_tinted_", "purple_tinted_", "blue_tinted_" }) {
@@ -100,7 +100,7 @@ public class TitaniumScenes {
 		scene.overlay().showText(70)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Run it too hot and past 1000 °C it burns: it flares white for a few seconds, setting fire to anything that burns across the gap beside it")
+			.text("Past 1000 °C it burns, flaring white for a few seconds and setting anything flammable across the gap alight")
 			.pointAt(util.vector().topOf(gearbox))
 			.placeNearTarget();
 		flare(scene, hot, 3);
@@ -116,7 +116,7 @@ public class TitaniumScenes {
 		scene.idle(20);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("Then it crumbles into titanium dioxide, which does for rutile again. What it held drops off unless another support holds it")
+			.text("Then it crumbles into titanium dioxide, which works as rutile again. What it held drops unless another support has it")
 			.pointAt(hot)
 			.placeNearTarget();
 		scene.idle(110);
@@ -136,13 +136,13 @@ public class TitaniumScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Cool it with water: a Water Cooler on water holds it to about 700 RPM, on cold water 1300 and on coolant 1900. Its top speed takes two coolers of coolant")
+			.text("Cool it with water: a Water Cooler on water holds it to about 700 RPM, on cold water 1300, on coolant 1900. Top speed takes two coolers on coolant")
 			.pointAt(util.vector().blockSurface(cooler, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("A Heat Sink is little use on it: the sink melts past 660 °C, so it holds titanium only to about 150 RPM, or 225 with a fan through it")
+			.text("A Heat Sink is little use: it melts past 660 °C, so it holds titanium only to about 150 RPM, or 225 with a fan through it")
 			.pointAt(util.vector().topOf(cooler))
 			.placeNearTarget();
 		scene.idle(110);
@@ -151,7 +151,7 @@ public class TitaniumScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Titanium plating, for building with, takes the same colours from a Furnace: gold at Hot, purple at Searing and blue at Blazing")
+			.text("Titanium plating, for building with, takes the same colours in a Furnace: gold at Hot, purple at Searing, blue at Blazing")
 			.pointAt(util.vector().topOf(util.grid().at(2, 1, 4)))
 			.placeNearTarget();
 		scene.idle(120);
@@ -179,7 +179,7 @@ public class TitaniumScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("The Arc Furnace melts titanium sponge into ingots. Molten titanium dissolves any crucible, so it melts on a copper hearth kept cool")
+			.text("The Arc Furnace melts titanium sponge into ingots. Molten titanium eats through any crucible, so it melts on a cooled copper hearth instead")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -189,7 +189,7 @@ public class TitaniumScenes {
 		fitElectrode(scene, util, furnace, ArcFurnaceBlock.RIGHT);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Fit a Carbon Electrode under each terminal. The arc runs down one, through what lies in the hearth, and back up the other")
+			.text("Fit a Carbon Electrode under each terminal. The arc runs down one, through whatever's in the hearth, and back up the other")
 			.pointAt(util.vector().topOf(furnace))
 			.placeNearTarget();
 		scene.idle(100);
@@ -202,13 +202,13 @@ public class TitaniumScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Wire its two terminals across a Power Grid source, either way round. The arc is a heavy load of a quarter ohm: 20 V drive 80 A, 1.6 kW")
+			.text("Wire the terminals across a Power Grid source, either way round. The arc is a heavy quarter-ohm load: 20 V drives 80 A, 1.6 kW")
 			.pointAt(util.vector().topOf(source))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("It melts nothing below 400 W, and its hearth sheds only 150 W by itself, so working on its own it soon overheats")
+			.text("It melts nothing below 400 W, and its hearth sheds only 150 W by itself, so left alone it soon overheats")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
@@ -218,7 +218,7 @@ public class TitaniumScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("A Water Cooler bolted onto it takes the heat away. One on water holds it to about 2.5 kW")
+			.text("A Water Cooler bolted on takes the heat away. One on water holds it to about 2.5 kW")
 			.pointAt(util.vector().topOf(cooler))
 			.placeNearTarget();
 		scene.idle(110);
@@ -232,7 +232,7 @@ public class TitaniumScenes {
 		scene.world().modifyBlock(furnace, s -> s.setValue(ArcFurnaceBlock.LIT, true), false);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Put the sponge in by hand, funnel or arm. Each takes 16 kJ to melt, and a hopper below takes the ingots out")
+			.text("Load sponge by hand, funnel or arm. Each takes 16 kJ to melt, and a hopper below takes the ingots out")
 			.pointAt(hearth)
 			.placeNearTarget();
 		sparks(scene, hearth, 6);
@@ -244,7 +244,7 @@ public class TitaniumScenes {
 			false), false);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("Both electrodes burn away as it works, each lasting 160 kJ. When one is gone, the arc goes out until a new one is fitted")
+			.text("Both electrodes burn away as it works, 160 kJ each. When one's gone, the arc goes out until you fit another")
 			.pointAt(util.vector().topOf(furnace))
 			.placeNearTarget();
 		scene.idle(110);

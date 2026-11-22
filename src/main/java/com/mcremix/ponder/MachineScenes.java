@@ -50,14 +50,14 @@ public class MachineScenes {
 
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Presses, mixers, millstones, fans, saws, drills, deployers and arms also come in copper, iron, steel, aluminium and titanium. Create's own are andesite, its arm brass, and its crafter comes in brass alone")
+			.text("Presses, mixers, millstones, fans, saws, drills, deployers and arms also come in copper, iron, steel, aluminium and titanium. The crafter stays brass only")
 			.pointAt(util.vector().topOf(iron))
 			.placeNearTarget();
 		scene.idle(120);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Each machine is a support, held to the top speed of its material: brass 96 RPM, andesite 128, copper and iron 256, steel and aluminium 512, titanium 2048")
+			.text("Each machine is a support, held to its material's top speed: brass 96 RPM, andesite 128, copper and iron 256, steel and aluminium 512, titanium 2048")
 			.pointAt(util.vector().topOf(copper))
 			.placeNearTarget();
 		scene.idle(110);
@@ -67,7 +67,7 @@ public class MachineScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Spin one past its limit and it grinds, then breaks and drops. Past 128 RPM the andesite press gives way")
+			.text("Spin one past its limit and it grinds, then breaks and drops. Past 128 RPM the andesite press gives up")
 			.pointAt(util.vector().blockSurface(andesite, Direction.WEST))
 			.placeNearTarget();
 		for (int i = 0; i < 5; i++) {
@@ -91,7 +91,7 @@ public class MachineScenes {
 		scene.world().createItemEntity(front, util.vector().of(0, 0.15, -0.1), ModBlocks.IRON_CASING.asStack());
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Use a casing on a placed machine to make it that material. It keeps its facing and what it holds, and the casing it had pops out")
+			.text("Use a casing on a placed machine to switch its material. It keeps its facing and contents, and the old casing pops out")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
@@ -108,7 +108,7 @@ public class MachineScenes {
 		scene.world().setKineticSpeed(util.select().position(copper), 32);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Copper machines oxidize like copper blocks, and iron and steel ones rust where they get wet. Each stage adds a little friction, which uses up stress")
+			.text("Copper machines oxidize like copper blocks, and iron and steel ones rust where they get wet. Each stage adds a little friction, which eats stress")
 			.pointAt(util.vector().topOf(copper))
 			.placeNearTarget();
 		scene.idle(110);
@@ -121,14 +121,14 @@ public class MachineScenes {
 		scene.effects().emitParticles(util.vector().topOf(copper),
 			scene.effects().simpleParticleEmitter(ParticleTypes.WAX_ON, Vec3.ZERO), 6, 1);
 		scene.overlay().showText(80)
-			.text("Wax one with honeycomb to keep it as it is. An axe scrapes off wax, then patina")
+			.text("Honeycomb keeps one as it is. An axe scrapes off wax, then patina")
 			.pointAt(util.vector().topOf(copper))
 			.placeNearTarget();
 		scene.idle(90);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Each is crafted as Create's machine is, with its material's casing in place of the andesite or brass one. Aluminium and titanium never weather")
+			.text("Each is crafted like Create's, with its own metal's casing. Aluminium and titanium never weather")
 			.pointAt(util.vector().topOf(aluminium))
 			.placeNearTarget();
 		scene.idle(110);

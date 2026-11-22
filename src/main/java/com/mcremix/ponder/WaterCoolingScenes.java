@@ -53,13 +53,13 @@ public class WaterCoolingScenes {
 		scene.world().setKineticSpeed(supplyPump, -32);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Pipe water through it, in at any face but its base. It takes the heat in step with how hot what it cools is, and gives the water back warm")
+			.text("Pipe water in at any face but the base. It takes heat in step with how hot its target runs, and gives the water back warm")
 			.pointAt(util.vector().topOf(util.grid().at(2, 2, 3)))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(80)
 			.colored(PonderPalette.RED)
-			.text("Pump the warm water away, or the cooler stops when it is full")
+			.text("Pump the warm water away, or the cooler stops once it's full")
 			.pointAt(util.vector().topOf(util.grid().at(3, 2, 3)))
 			.placeNearTarget();
 		scene.idle(90);
@@ -68,12 +68,12 @@ public class WaterCoolingScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("A Radiator chills any water into cold water. Radiators side by side facing the same way join into one panel that shares what it holds")
+			.text("A Radiator chills any water into cold water. Radiators side by side, facing the same way, join into one panel that shares what it holds")
 			.pointAt(util.vector().blockSurface(panelFront, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(80)
-			.text("Pipes join the panel on its front or back, on any of its blocks")
+			.text("Pipes join the panel at its front or back, on any of its blocks")
 			.pointAt(util.vector().blockSurface(util.grid().at(5, 3, 3), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -84,7 +84,7 @@ public class WaterCoolingScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("On its own it chills slowly. A fan under each column, blowing up through it, makes the whole column chill much faster")
+			.text("Alone it chills slowly. A fan under each column, blowing up through it, makes that whole column chill much faster")
 			.pointAt(util.vector().topOf(util.grid().at(5, 1, 4)))
 			.placeNearTarget();
 		scene.idle(110);
@@ -100,7 +100,7 @@ public class WaterCoolingScenes {
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(90)
-			.text("Water taken wherever it snows is already cold. Poured out, warm or cold water is only water")
+			.text("Water taken wherever it snows is already cold. Poured out, warm or cold water is just water again")
 			.pointAt(util.vector().topOf(cooler))
 			.placeNearTarget();
 		scene.idle(100);
@@ -108,7 +108,7 @@ public class WaterCoolingScenes {
 		scene.overlay().showText(120)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Coolant, glycol mixed with water, takes heat three times as fast as water. It comes out hot, a Radiator cools it back, and it never wears out, so keep it going round a loop")
+			.text("Coolant, glycol and water, takes heat three times as fast as water. It comes out hot, a Radiator cools it back, and it never wears out")
 			.pointAt(util.vector().blockSurface(cooler, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(130);

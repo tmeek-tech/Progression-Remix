@@ -15,9 +15,9 @@
 				"109BD4CCCD1F5D59"
 			]
 			description: [
-				"Sour gas is fuel gas carrying hydrogen sulfide, which poisons and flashes. Clean it, and the sulfur comes out."
+				"Sour gas is fuel gas carrying hydrogen sulfide, which poisons and flashes. Clean it and the sulfur comes out as a bonus."
 				""
-				"A vat of red mud with no mixer cleans sour gas piped through it, and the foul red mud, aired in an open basin, goes red again and drops sulfur. Or wash the gas with soda ash solution in a stirred vat, boil the foul soda for hydrogen sulfide, and burn that over alumina in a Steel Furnace into molten sulfur."
+				"Small scale: pipe sour gas through a vat of red mud with no mixer, then air the foul mud in an open basin, where it drops sulfur and turns red again. Big scale: wash the gas with soda ash solution in a stirred vat, boil the foul soda for hydrogen sulfide, and burn that over alumina in a Steel Furnace into molten sulfur."
 				""
 				"&7JEI: the Airing tab.&r"
 			]
@@ -41,7 +41,7 @@
 				"754D20403EEE0165"
 			]
 			description: [
-				"Sulfur burns away in a Furnace into sulfur dioxide, which platinum gauze in a &6Hot&r Steel Furnace turns to sulfur trioxide. Stirred into water in a vat it becomes sulfuric acid, but half of it fogs off as an acid mist unless there is acid in the vat already."
+				"Burn sulfur in a Furnace for sulfur dioxide, and platinum gauze in a &6Hot&r Steel Furnace turns that into sulfur trioxide. Stir it into water in a vat for sulfuric acid, but half fogs off as acid mist unless there's acid in the vat already."
 				""
 				"Mixed with nitric acid, it nitrates four times as fast."
 			]
@@ -65,7 +65,7 @@
 				"670869AA09CABEE6"
 			]
 			description: [
-				"Light oil nitrated becomes nitrobenzene, and nitrobenzene with iron and vinegar becomes aniline. These are mixed in basins, and JEI shows each step."
+				"Nitrate light oil into nitrobenzene, then cook that with iron and vinegar into aniline. All basin work; JEI has each step."
 			]
 			id: "452A4DAE3CE278D9"
 			rewards: [ ]
@@ -89,9 +89,9 @@
 				"11220AE969A46307"
 			]
 			description: [
-				"Aniline, hydrochloric acid, sodium nitrite and ice mixed cold give a diazo salt. It breaks down unless ice or snow touches what holds it, or it stands where it is cold enough to snow, and heat ruins it at once."
+				"Aniline, hydrochloric acid, sodium nitrite and ice give a diazo salt, and diazo salts are fussy. Unless ice or snow touches whatever holds one, or it stands somewhere cold enough to snow, it breaks down. Heat ruins it outright."
 				""
-				"Goggles say when it is warming."
+				"Goggles tell you when it's warming up."
 			]
 			id: "2B3105C1E2D06B94"
 			rewards: [ ]
@@ -113,7 +113,7 @@
 				"2B3105C1E2D06B94"
 			]
 			description: [
-				"Maroon comes from naphthylamine's diazo salt with naphthol, and naphthol needs sulfuric acid. Yellow, orange and red come from diazo salts too."
+				"Maroon comes from naphthylamine's diazo salt with naphthol, and naphthol needs sulfuric acid. Yellow, orange and red come from diazo salts too, so you'll get plenty of practice."
 			]
 			id: "5DA870321EF0BC9A"
 			rewards: [ ]
@@ -134,7 +134,7 @@
 				"452A4DAE3CE278D9"
 			]
 			description: [
-				"Mauve comes from aniline and bleach. It is one of four colours that only the dye works makes."
+				"Mauve comes from aniline and bleach. The real thing launched the synthetic dye industry, by accident. It's one of four colours only the dye works makes."
 			]
 			id: "73EA012B1EAFFC1E"
 			rewards: [ ]
@@ -176,7 +176,7 @@
 				"452A4DAE3CE278D9"
 			]
 			description: [
-				"Benzaldehyde and dimethylaniline give a colourless base, and ferric chloride turns it green."
+				"Benzaldehyde and dimethylaniline give a colourless base, and ferric chloride turns it green at the last step."
 			]
 			id: "29042AEDE80E90D3"
 			rewards: [ ]
@@ -197,7 +197,7 @@
 				"73EA012B1EAFFC1E"
 			]
 			description: [
-				"Each new dye with white makes a pale shade: lilac, periwinkle, mint and rose. All eight go on everything vanilla and Create dye, from wool and glass to seats and sails."
+				"Mix each new dye with white for a pale shade: lilac, periwinkle, mint and rose. All eight go on everything vanilla and Create dye, from wool and glass to seats and sails."
 			]
 			id: "6A5E8C6988122404"
 			optional: true
@@ -220,7 +220,7 @@
 				"64207D5B90DBDEF5"
 			]
 			description: [
-				"Soda ash and nitric acid give saltpetre, and saltpetre mixed with sulfur and charcoal gives gunpowder."
+				"Soda ash and nitric acid give saltpetre, and saltpetre with sulfur and charcoal gives gunpowder. The creepers can keep theirs."
 			]
 			id: "774B22164B0319D6"
 			optional: true

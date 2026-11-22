@@ -55,7 +55,7 @@ public class DecorScenes {
 		scene.idle(15);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A Steel Catwalk is bar grating in the top of its block, so it lies flush with a floor beside it. An edge band shows wherever it doesn't run on into another catwalk")
+			.text("A Steel Catwalk is bar grating flush with the top of its block. An edge band shows wherever it doesn't meet another catwalk")
 			.pointAt(util.vector().of(2.5, 3, 4.5))
 			.placeNearTarget();
 		scene.idle(110);
@@ -64,7 +64,7 @@ public class DecorScenes {
 		scene.idle(15);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Steel Catwalk Stairs climb the way you face onto a catwalk ahead. Each open side has a handrail; stairs side by side make a wide flight, railed only outside")
+			.text("Catwalk Stairs climb the way you face. Open sides get handrails, and stairs side by side make one wide flight, railed only outside")
 			.pointAt(util.vector().of(5.5, 2.6, 3.5))
 			.placeNearTarget();
 		scene.idle(110);
@@ -75,7 +75,7 @@ public class DecorScenes {
 			.withItem(new ItemStack(ModDecor.STEEL_RAILING.get()));
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A Steel Railing goes on the edge you aim at. Use another on it to rail another side. Nothing can jump it")
+			.text("A Steel Railing goes on the edge you aim at. Use another on it to rail another side. Nothing can jump it, not even you")
 			.pointAt(util.vector().of(2.1, 3.8, 3.5))
 			.placeNearTarget();
 		scene.idle(110);
@@ -84,7 +84,7 @@ public class DecorScenes {
 		scene.idle(15);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A Steel Caged Ladder's cage starts two blocks up, above your head, so you can step in at the foot. Once in, you can't fall off it")
+			.text("A Steel Caged Ladder's cage starts two blocks up, so you can step in at the foot. Once in, you can't fall off")
 			.pointAt(util.vector().of(3.5, 5.5, 2.1))
 			.placeNearTarget();
 		scene.idle(110);
@@ -123,7 +123,7 @@ public class DecorScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("An Argon Tube is a glass tube of argon with an electrode sealed into each end. It lies along the face it is set against, like a log")
+			.text("An Argon Tube is glass full of argon, an electrode sealed in each end. It lies along the face you set it on, like a log")
 			.pointAt(glow)
 			.placeNearTarget();
 		scene.idle(100);
@@ -146,13 +146,13 @@ public class DecorScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("With about 800 V across it the gas strikes and glows violet, lighting what is around it. A transformer can step a lower voltage up to that")
+			.text("At about 800 V the gas strikes and glows violet, lighting up its surroundings. A transformer can step a lower voltage up")
 			.pointAt(glow)
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("Below 800 V it stays dark. Once lit, it keeps glowing until the voltage falls below 600 V")
+			.text("Below 800 V it stays dark. Once lit, it keeps glowing until the voltage drops under 600 V")
 			.pointAt(glow)
 			.placeNearTarget();
 		scene.idle(100);
@@ -187,13 +187,13 @@ public class DecorScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Wire a line in series with short jumpers between the ends, as real sign tubes are. Each tube needs its own 800 V, so three need 2,400 V")
+			.text("Wire a line in series with short jumpers, like real sign tubes. Each tube needs its own 800 V, so three need 2,400 V")
 			.pointAt(util.vector().of(2, 2.5, 2.5))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(80)
 			.colored(PonderPalette.GREEN)
-			.text("An Argon Tube never wears out")
+			.text("It never wears out, so the lights stay on")
 			.pointAt(glow)
 			.placeNearTarget();
 		scene.idle(90);
