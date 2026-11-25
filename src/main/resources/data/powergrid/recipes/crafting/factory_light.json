@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "forge:plates/iron"
+    },
+    "L": {
+      "item": "powergrid:light_bulb"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "pattern": [
+    "I",
+    "L",
+    "G"
+  ],
+  "result": {
+    "item": "powergrid:factory_light"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,16 @@
+{
+  "type": "mcremix:coiling",
+  "processingTime": 160,
+  "colour": "#8f9294",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:iron_wire",
+      "count": 4
+    }
+  ]
+}

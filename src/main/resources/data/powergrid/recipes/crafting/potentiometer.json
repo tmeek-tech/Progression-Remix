@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "mcremix:bakelite"
+    },
+    "N": {
+      "tag": "forge:nuggets/copper"
+    },
+    "K": {
+      "tag": "mcremix:coke"
+    }
+  },
+  "pattern": [
+    "B",
+    "N",
+    "K"
+  ],
+  "result": {
+    "item": "powergrid:potentiometer"
+  },
+  "show_notification": true
+}

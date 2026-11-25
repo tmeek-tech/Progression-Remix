@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcremix:item/unfired_beta_alumina_tube"
+  }
+}

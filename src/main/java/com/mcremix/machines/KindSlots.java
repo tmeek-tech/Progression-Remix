@@ -107,6 +107,16 @@ public final class KindSlots {
 		return false;
 	}
 
+	/** Whether every kind of thing the slots hold is one some of {@code ingredients} takes: nothing lies there unused. */
+	public static boolean usesEvery(List<Ingredient> ingredients, IItemHandler slots) {
+		for (int slot = 0; slot < slots.getSlots(); slot++) {
+			ItemStack held = slots.getStackInSlot(slot);
+			if (!held.isEmpty() && !anyTakes(ingredients, held))
+				return false;
+		}
+		return true;
+	}
+
 	/** Whether the slots hold anything one of {@code ingredients} takes. */
 	public static boolean sharesAny(List<Ingredient> ingredients, IItemHandler slots) {
 		for (int slot = 0; slot < slots.getSlots(); slot++)

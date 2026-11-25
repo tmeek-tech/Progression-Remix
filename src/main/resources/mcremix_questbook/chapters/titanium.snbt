@@ -199,6 +199,73 @@
 		}
 		{
 			dependencies: [
+				"488876A9C1DE16B0"
+			]
+			description: [
+				"A press binds quartz and coke with pitch into a briquette, and in the arc the coke takes the quartz's oxygen. What's left is silicon, 98% pure, which is far too dirty for a chip."
+			]
+			id: "65D6C6A5BB5AE16F"
+			rewards: [ ]
+			subtitle: "Quartz, robbed of its oxygen"
+			tasks: [
+				{
+					id: "4DE72F419B595B54"
+					item: "mcremix:crude_silicon"
+					type: "item"
+				}
+			]
+			title: "Crude Silicon"
+			x: 7.0d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"65D6C6A5BB5AE16F"
+				"11220AE969A46307"
+				"5AF40633E36AE46C"
+			]
+			description: [
+				"Crude silicon in a &6Hot&r Steel Furnace turns hydrogen chloride into crude trichlorosilane, a liquid that boils just under blood heat. Distil the iron out of it."
+				""
+				"Run it with hydrogen through a &bBlazing&r Steel Furnace and pure silicon settles in the tray, giving the hydrogen chloride back for another round."
+			]
+			id: "1E38AFF2BE8C3C7D"
+			rewards: [ ]
+			subtitle: "As pure as anything gets"
+			tasks: [
+				{
+					id: "68499797164A971F"
+					item: "mcremix:polysilicon"
+					type: "item"
+				}
+			]
+			title: "Polysilicon"
+			x: 8.75d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"1E38AFF2BE8C3C7D"
+			]
+			description: [
+				"Melt polysilicon into an ingot in the Arc Furnace and saw it into wafers. Power Grid's diodes, transistors, chips and solar panels are all built on them."
+			]
+			id: "4DB31E8809C122B4"
+			rewards: [ ]
+			subtitle: "What chips are made on"
+			tasks: [
+				{
+					id: "72CC645EA3FC4DC0"
+					item: "mcremix:silicon_wafer"
+					type: "item"
+				}
+			]
+			title: "Silicon Wafers"
+			x: 10.5d
+			y: -1.75d
+		}
+		{
+			dependencies: [
 				"26629077D11A6817"
 				"252B1D6D21683A9C"
 			]

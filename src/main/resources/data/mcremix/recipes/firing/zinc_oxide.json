@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "tag": "forge:nuggets/zinc"
+  },
+  "result": {
+    "item": "mcremix:zinc_oxide"
+  },
+  "heat": "searing",
+  "time": 100
+}

@@ -17,7 +17,9 @@
 			description: [
 				"Power Grid adds real circuits: generators, wire, transformers and devices that care about volts and amps. Its own Ponder scenes explain its parts better than this book could."
 				""
-				"Here its motor and transformer core take steel, its boards, switches, buttons and sockets take Bakelite, and the boards are etched in ferric chloride."
+				"Here its parts are made as real ones are. Wire is drawn from an ingot on a Coil Winder, resistors are carbon, magnets are steel and insulators are glass. Its boards and switches take Bakelite, and the boards are etched in ferric chloride."
+				""
+				"&7JEI: the Coiling tab. Ponder: the Coil Winder.&r"
 			]
 			id: "79D3C636DD73D69C"
 			rewards: [ ]
@@ -25,6 +27,11 @@
 			tasks: [
 				{
 					id: "39A5044982D833FD"
+					item: "mcremix:coil_winder"
+					type: "item"
+				}
+				{
+					id: "766DD828BAEE81E7"
 					item: "powergrid:wire"
 					type: "item"
 				}
@@ -38,28 +45,21 @@
 				"79D3C636DD73D69C"
 			]
 			description: [
-				"Power Grid's coils come off a Coil Winder: copper wire into a Copper Coil, iron wire into a Resistive Coil. The faster it turns, the faster it winds."
+				"Power Grid's coils come off the Coil Winder too: copper wire into a Copper Coil, iron wire round a brick into a Resistive Coil. The faster it turns, the faster it winds. Once you have aluminium, it rolls capacitors as well."
 				""
 				"It comes in andesite and every metal from copper to titanium, each held to its metal's top speed."
-				""
-				"&7JEI: the Coiling tab.&r"
 			]
 			id: "6AEF9F7DC91405D5"
 			rewards: [ ]
-			subtitle: "Coils are wound, not crafted"
+			subtitle: "Wound, not crafted"
 			tasks: [
 				{
 					id: "2EAADC0E0B5F895A"
-					item: "mcremix:coil_winder"
-					type: "item"
-				}
-				{
-					id: "664B7FD9CF9C0ECB"
 					item: "powergrid:copper_coil"
 					type: "item"
 				}
 			]
-			title: "The Coil Winder"
+			title: "Coils"
 			x: 1.75d
 			y: 0.0d
 		}
@@ -167,6 +167,8 @@
 			]
 			description: [
 				"Water taken in an ocean or beach biome, by bucket, pump or hose pulley, is salt water."
+				""
+				"It fills Power Grid's batteries too: copper and zinc in brine, like Volta's first pile."
 			]
 			id: "41213510650AA21C"
 			rewards: [ ]

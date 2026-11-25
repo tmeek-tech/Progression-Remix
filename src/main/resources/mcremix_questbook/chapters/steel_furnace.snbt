@@ -246,6 +246,8 @@
 				""
 				"Deeper vacuums need more speed: bulbs seal from 128 RPM, tubes from 256, and the cathode ray tube needs 512."
 				""
+				"A few are filled with a gas piped into the vessel: hydrogen, or later neon and argon from liquid air."
+				""
 				"&7JEI: the Vacuum Sealing tab.&r"
 			]
 			id: "57EB3C92DD68A1E7"

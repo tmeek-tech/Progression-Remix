@@ -66,9 +66,13 @@ public class HotTubeBlockEntity extends BenchGlassBlockEntity {
 		super(type, pos, state, 1, 2);
 	}
 
-	/** A Steel Furnace job a hot tube can do: one over a catalyst, at Hot or below. */
+	/**
+	 * A Steel Furnace job a hot tube can do: one over a catalyst, at Hot or below, taking one fluid and laying nothing
+	 * down, as it has one tank in and nowhere to keep a solid.
+	 */
 	public static boolean runs(SteelFurnaceRecipe recipe) {
-		return recipe.catalyst() != null && !recipe.heat().isAtLeast(HeatLevel.SEARING);
+		return recipe.catalyst() != null && !recipe.heat().isAtLeast(HeatLevel.SEARING) && recipe.coFeed() == null
+			&& recipe.deposit().isEmpty();
 	}
 
 	public static Optional<SteelFurnaceRecipe> find(@Nullable Level level, FluidStack fluid) {

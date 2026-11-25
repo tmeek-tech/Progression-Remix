@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "mcremix:block/sodium_sulfur_battery_side",
+    "end": "mcremix:block/sodium_sulfur_battery_top",
+    "particle": "mcremix:block/sodium_sulfur_battery_side"
+  }
+}

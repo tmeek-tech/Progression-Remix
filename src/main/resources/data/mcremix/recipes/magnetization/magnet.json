@@ -1,0 +1,13 @@
+{
+  "type": "powergrid:magnetization",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:magnet"
+    }
+  ]
+}

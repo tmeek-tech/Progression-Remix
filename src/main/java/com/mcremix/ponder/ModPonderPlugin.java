@@ -23,6 +23,7 @@ import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
 import com.mcremix.registry.ModMachines;
 import com.mcremix.registry.ModMovers;
+import com.mcremix.registry.ModPowerGrid;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.infrastructure.ponder.AllCreatePonderTags;
@@ -152,6 +153,9 @@ public class ModPonderPlugin implements PonderPlugin {
 		entries.forComponents(ModBlocks.ELECTROLYSER, ModItems.CARBON_ELECTRODE)
 			.addStoryBoard("electrolysis/basin", ElectrolysisScenes::basin, PowerGridPonderTags.ELECTRIC_DEVICES)
 			.addStoryBoard("electrolysis/vat", ElectrolysisScenes::vat, PowerGridPonderTags.ELECTRIC_DEVICES);
+		entries.forComponents(ModPowerGrid.SODIUM_SULFUR_BATTERY, ModPowerGrid.BETA_ALUMINA_TUBE)
+			.addStoryBoard("sodium_sulfur_battery/intro", BatteryScenes::sodiumSulfur, HEAT,
+				PowerGridPonderTags.ELECTRIC_DEVICES);
 		ItemProviderEntry<?> saltWater = ModFluids.chemical(Chemical.SALT_WATER).bucket();
 		ItemProviderEntry<?> liquor = ModFluids.chemical(Chemical.BAUXITE_LIQUOR).bucket();
 		entries.forComponents(saltWater, ModItems.ALUMINA)

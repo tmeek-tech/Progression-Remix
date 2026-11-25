@@ -47,6 +47,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -307,6 +308,38 @@ public class LiquidAirTests {
 					+ " mB a tick");
 			BlockState state = h.getBlockState(refluxed.above());
 			h.assertTrue(state.getValue(AirColumnSectionBlock.FROST) >= 1, "it should have frosted over as it ran");
+		});
+	}
+
+	/**
+	 * Since 0.40.0 the air's neon, too little of it for a cut, gathers at the column's very top, a mB for every 55
+	 * buckets of liquid air split, and only a pipe on the top face of its top section draws it off. It takes nothing in.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 120)
+	public static void neonGathersAtTheVeryTopOfAnAirColumn(GameTestHelper h) {
+		BlockPos base = p(4, 2, 4);
+		ColumnSectionBlockEntity column = airColumn(h, base, 1, 7);
+		DistillingRecipe recipe = liquidAir(h);
+		h.assertTrue(recipe.trace() == Chemical.NEON.fluid() && recipe.traceEvery() == 55000,
+			"liquid air should carry a trace of neon, a mB for every 55 buckets, not " + recipe.trace() + " every "
+				+ recipe.traceEvery());
+		fluids(column, Direction.NORTH).fill(Chemical.LIQUID_AIR.stack(1000), FluidAction.EXECUTE);
+		h.runAtTickTime(20, () -> {
+			// as if all but 10 mB of 55 buckets had been split already
+			CompoundTag tag = column.saveWithoutMetadata();
+			tag.getCompound("Column").putLong("TraceOwed", 54990);
+			column.load(tag);
+		});
+		h.runAtTickTime(40, () -> {
+			FluidStack neon = column.column().trace();
+			h.assertTrue(holds(neon, Chemical.NEON, 1), "1 mB of neon should have gathered at the top, has " + of(neon));
+			IFluidHandler top = side(ColumnTests.section(h, base.above(6)), Direction.UP);
+			h.assertTrue(top.fill(Chemical.NEON.stack(10), FluidAction.SIMULATE) == 0, "its top should take nothing in");
+			h.assertTrue(side(ColumnTests.section(h, base.above(5)), Direction.UP).drain(10, FluidAction.SIMULATE).isEmpty(),
+				"a section below the top should give no neon");
+			h.assertTrue(holds(top.drain(10, FluidAction.EXECUTE), Chemical.NEON, 1), "a pipe on its top should draw the neon");
+			h.assertTrue(column.column().trace().isEmpty(), "and leave none behind");
+			h.succeed();
 		});
 	}
 

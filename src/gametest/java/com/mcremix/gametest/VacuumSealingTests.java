@@ -9,6 +9,7 @@ import com.mcremix.McRemix;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.pressurizer.PressurizerBlockEntity;
 import com.mcremix.pressurizer.PressurizerBlockEntity.Job;
+import com.mcremix.registry.ModItems;
 import com.simibubi.create.AllItems;
 
 import net.minecraft.core.BlockPos;
@@ -41,10 +42,16 @@ public class VacuumSealingTests {
 			AllItems.IRON_SHEET.asStack(sets) };
 	}
 
-	/** A triode's: a glass pane, polished rose quartz, glowstone dust and an iron sheet. */
+	/** A triode's since 0.40.0: a glass pane, an iron sheet for its anode, iron wire for its grid and quicklime. */
 	static ItemStack[] triode() {
-		return new ItemStack[] { new ItemStack(Items.GLASS_PANE), AllItems.POLISHED_ROSE_QUARTZ.asStack(),
-			new ItemStack(Items.GLOWSTONE_DUST), AllItems.IRON_SHEET.asStack() };
+		return new ItemStack[] { new ItemStack(Items.GLASS_PANE), AllItems.IRON_SHEET.asStack(),
+			ModdedItems.IRON_WIRE.asStack(), ModItems.QUICKLIME.asStack() };
+	}
+
+	/** A barretter's or a regulator tube's, sealed in hydrogen or neon (0.40.0): a pane, iron wire and an iron sheet. */
+	static ItemStack[] gasTube() {
+		return new ItemStack[] { new ItemStack(Items.GLASS_PANE), ModdedItems.IRON_WIRE.asStack(),
+			AllItems.IRON_SHEET.asStack() };
 	}
 
 	static void lay(GameTestHelper h, PressurizerBlockEntity pressurizer, ItemStack... stacks) {
@@ -170,6 +177,48 @@ public class VacuumSealingTests {
 		h.runAtTickTime(150, () -> {
 			ItemStack out = side.extractItem(0, 64, false);
 			h.assertTrue(out.is(ModdedItems.LIGHT_BULB.get()), "a funnel should take the bulb out, took " + out);
+			h.succeed();
+		});
+	}
+
+	/**
+	 * Since 0.40.0 some tubes are filled with a gas, piped into the vessel after their parts: a pane, iron wire and an
+	 * iron sheet seal a barretter in hydrogen and a regulator tube in neon, at 256 RPM. With no gas they wait, and the
+	 * goggles say how much of which. Gas left over once the parts are used up can be drawn off by a pipe again.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
+	public static void someTubesAreFilledWithAGasPipedIn(GameTestHelper h) {
+		BlockPos hydrogen = p(4, 3, 3), neon = p(4, 3, 7), none = p(4, 3, 11);
+		PressurizerBlockEntity barretter = PressurizerTests.turned(h, hydrogen, -256);
+		PressurizerBlockEntity regulator = PressurizerTests.turned(h, neon, -256);
+		PressurizerBlockEntity waiting = PressurizerTests.turned(h, none, -256);
+		for (BlockPos at : new BlockPos[] { hydrogen, neon, none })
+			KilnTests.walledLava(h, at.below());
+		for (PressurizerBlockEntity pressurizer : new PressurizerBlockEntity[] { barretter, regulator, waiting })
+			lay(h, pressurizer, gasTube());
+		h.assertTrue(PressurizerTests.pipes(barretter, Direction.NORTH).fill(Chemical.HYDROGEN.stack(20),
+			FluidAction.EXECUTE) == 20 && barretter.sealGas().getAmount() == 20,
+			"hydrogen should go to the gas tank while a hydrogen tube's parts lie in the vessel: " + barretter.sealGas());
+		h.assertTrue(PressurizerTests.pipes(regulator, Direction.NORTH).fill(Chemical.NEON.stack(1), FluidAction.EXECUTE) == 1,
+			"neon should go to the gas tank");
+		h.assertTrue(PressurizerTests.goggles(barretter).contains("[mcremix.goggles.pressurizer.gas]"),
+			PressurizerTests.goggles(barretter));
+		h.runAtTickTime(40, () -> {
+			String lines = PressurizerTests.goggles(waiting);
+			h.assertTrue(waiting.job() == Job.SEAL_WAITING && lines.contains("[mcremix.goggles.pressurizer.gas_wanted]"),
+				"with no gas it should wait, saying how much of which: " + waiting.job() + ", " + lines);
+		});
+		h.runAtTickTime(130, () -> {
+			h.assertTrue(barretter.made().is(ModdedItems.BARRETTER_TUBE.get()),
+				"in hydrogen they should seal a barretter, it has " + barretter.made());
+			h.assertTrue(regulator.made().is(ModdedItems.REGULATOR_TUBE.get()),
+				"in neon they should seal a regulator tube, it has " + regulator.made());
+			h.assertTrue(waiting.made().isEmpty(), "with no gas nothing should seal");
+			h.assertTrue(barretter.sealGas().getAmount() == 10 && regulator.sealGas().isEmpty(),
+				"each seal should use its gas: " + barretter.sealGas() + ", " + regulator.sealGas());
+			var drawn = PressurizerTests.pipes(barretter, Direction.NORTH).drain(100, FluidAction.EXECUTE);
+			h.assertTrue(drawn.getFluid() == Chemical.HYDROGEN.fluid() && drawn.getAmount() == 10,
+				"with nothing left to fill, a pipe should draw the hydrogen back off, drew " + drawn);
 			h.succeed();
 		});
 	}

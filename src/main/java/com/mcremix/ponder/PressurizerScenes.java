@@ -158,7 +158,8 @@ public class PressurizerScenes {
 
 	/**
 	 * Sealing in a vacuum (0.37.0), on the intro's Pressurizer: turned the other way it pulls the air out of its vessel,
-	 * the needle dropping below zero, and seals Power Grid's bulbs and tubes in it over the Blaze Burner's heat.
+	 * the needle dropping below zero, and seals Power Grid's bulbs and tubes in it over the Blaze Burner's heat; since
+	 * 0.40.0 some are filled with a gas piped in.
 	 */
 	public static void vacuum(SceneBuilder builder, SceneBuildingUtil util) {
 		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
@@ -233,6 +234,15 @@ public class PressurizerScenes {
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(120);
+
+		// 0.40.0: some are filled with a gas
+		scene.overlay().showControls(side, Pointing.LEFT, 50).withItem(ModdedItems.NEON_BULB.asStack());
+		scene.overlay().showText(100)
+			.attachKeyFrame()
+			.text("Some are filled with a gas piped into the vessel: hydrogen, neon or argon. Goggles say which and how much")
+			.pointAt(side)
+			.placeNearTarget();
+		scene.idle(110);
 
 		scene.overlay().showControls(front, Pointing.DOWN, 40).rightClick();
 		scene.overlay().showText(90)

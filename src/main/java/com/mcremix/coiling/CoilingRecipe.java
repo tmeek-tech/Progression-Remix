@@ -1,5 +1,6 @@
 package com.mcremix.coiling;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 /**
  * What a coil winder winds (Taran, 0.37.0: Power Grid's coils, wound in place of being crafted by hand): wire, the
  * stick it goes round and anything else it takes, an ingredient for each item, so four copper wire are four entries.
+ * Since 0.40.0 it also rolls capacitors up and draws an ingot through a die into wire, wound onto its bobbin as it comes.
  * At 16 RPM a coil takes {@link #getProcessingDuration()} ticks, a sixteenth of that at 256, as Create's millstone
  * grinds ({@link CoilWinderBlockEntity#progressPerTick}). {@code colour} is the wire's, which the bobbin fills with.
  * <pre>
@@ -47,9 +49,15 @@ public class CoilingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		return level == null ? List.of() : level.getRecipeManager().getAllRecipesFor(ModRecipes.COILING_TYPE.get());
 	}
 
-	/** The first recipe everything in {@code inputs} is enough for. */
+	/**
+	 * The recipe what lies in {@code inputs} is enough for: since 0.40.0 an ingot draws into wire too, so of those it is
+	 * enough for, the one that uses every kind it holds, then the one taking the most, then by name.
+	 */
 	public static Optional<CoilingRecipe> find(@Nullable Level level, IItemHandler inputs) {
-		return all(level).stream().filter(r -> r.takeFrom(inputs, true)).findFirst();
+		return all(level).stream().filter(r -> r.takeFrom(inputs, true))
+			.max(Comparator.comparing((CoilingRecipe r) -> KindSlots.usesEvery(r.getIngredients(), inputs))
+				.thenComparingInt(r -> r.getIngredients().size())
+				.thenComparing(r -> r.getId().toString(), Comparator.reverseOrder()));
 	}
 
 	/** Whether any recipe takes {@code stack}. */

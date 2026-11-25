@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:unfired_beta_alumina_tube"
+  },
+  "result": {
+    "item": "mcremix:beta_alumina_tube"
+  },
+  "heat": "blazing",
+  "time": 400
+}

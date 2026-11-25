@@ -8,10 +8,14 @@
       "item": "powergrid:heavy_wire_connector"
     },
     {
-      "item": "minecraft:ender_pearl"
+      "tag": "forge:plates/iron"
     },
     {
-      "tag": "forge:plates/iron"
+      "item": "mcremix:quicklime"
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 10
     }
   ],
   "results": [

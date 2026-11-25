@@ -17,10 +17,14 @@
       "item": "minecraft:quartz"
     },
     {
-      "tag": "forge:wires/iron"
+      "item": "mcremix:salt"
     },
     {
       "tag": "forge:plates/iron"
+    },
+    {
+      "fluid": "mcremix:argon",
+      "amount": 5
     }
   ],
   "results": [

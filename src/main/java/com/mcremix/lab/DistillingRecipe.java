@@ -46,6 +46,10 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
  * Liquid air (stage 4) splits only in the aluminium air column, {@code "still": "air_column"}, which the glass still and
  * steel column never take; its close pair needs {@code "extra_sections"} between them (two unless it says), and
  * {@code "reflux"} names what is piped into its top as reflux when that is not its top cut (liquid nitrogen).
+ * <p>
+ * Since 0.40.0 a mixture may carry a trace too little to make a cut of its own, {@code "trace": { "fluid":
+ * "mcremix:neon", "every": 55000 }}: a mB of it for every so many mB of the mixture split, which the column gathers in
+ * its top section and gives up only through its very top (the air's neon, Taran's pick).
  */
 public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	private HeatLevel heat = HeatLevel.WARM;
@@ -58,6 +62,11 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	/** What goes into its top as reflux, if not its top cut; reboiled, it goes off as its lightest cut. */
 	@Nullable
 	private Fluid reflux;
+	/** A trace it carries too little of for a cut, gathered at the column's very top, if any. */
+	@Nullable
+	private Fluid trace;
+	/** mB of the mixture split for each mB of its trace. */
+	private int traceEvery;
 
 	public DistillingRecipe(ProcessingRecipeParams params) {
 		super(ModRecipes.DISTILLING, params);
@@ -90,6 +99,17 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 	@Nullable
 	public Fluid reflux() {
 		return reflux;
+	}
+
+	/** The trace it carries too little of for a cut, drawn off the column's very top, if any. */
+	@Nullable
+	public Fluid trace() {
+		return trace;
+	}
+
+	/** mB of the mixture split for each mB of its trace. */
+	public int traceEvery() {
+		return traceEvery;
 	}
 
 	/** One fluid to split, in an amount, at least a residue, and cuts that come to no more than the mixture. */
@@ -192,6 +212,14 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 			Fluid fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(GsonHelper.getAsString(json, "reflux")));
 			reflux = fluid == Fluids.EMPTY ? null : fluid;
 		}
+		trace = null;
+		traceEvery = 0;
+		if (json.has("trace")) {
+			JsonObject given = GsonHelper.getAsJsonObject(json, "trace");
+			Fluid fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(GsonHelper.getAsString(given, "fluid")));
+			traceEvery = Math.max(1, GsonHelper.getAsInt(given, "every", 1000));
+			trace = fluid == Fluids.EMPTY ? null : fluid;
+		}
 	}
 
 	@Override
@@ -205,6 +233,9 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		extraSections = buffer.readVarInt();
 		Fluid fluid = BuiltInRegistries.FLUID.get(buffer.readResourceLocation());
 		reflux = fluid == Fluids.EMPTY ? null : fluid;
+		Fluid traced = BuiltInRegistries.FLUID.get(buffer.readResourceLocation());
+		trace = traced == Fluids.EMPTY ? null : traced;
+		traceEvery = buffer.readVarInt();
 	}
 
 	@Override
@@ -223,6 +254,12 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		json.addProperty("extra_sections", extraSections);
 		if (reflux != null)
 			json.addProperty("reflux", BuiltInRegistries.FLUID.getKey(reflux).toString());
+		if (trace != null) {
+			JsonObject traced = new JsonObject();
+			traced.addProperty("fluid", BuiltInRegistries.FLUID.getKey(trace).toString());
+			traced.addProperty("every", traceEvery);
+			json.add("trace", traced);
+		}
 	}
 
 	@Override
@@ -235,5 +272,7 @@ public class DistillingRecipe extends ProcessingRecipe<RecipeWrapper> {
 		buffer.writeBoolean(airColumn);
 		buffer.writeVarInt(extraSections);
 		buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(reflux == null ? Fluids.EMPTY : reflux));
+		buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(trace == null ? Fluids.EMPTY : trace));
+		buffer.writeVarInt(traceEvery);
 	}
 }

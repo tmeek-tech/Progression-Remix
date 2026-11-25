@@ -22,6 +22,7 @@ import com.mcremix.formula.StructuralFormula.Bond;
 import com.mcremix.formula.StructuralFormula.Kind;
 import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
+import com.mcremix.registry.ModPowerGrid;
 
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -135,7 +136,7 @@ public class FormulaTests {
 			ModItems.RUTILE.get(), ModItems.TITANIUM_DIOXIDE.get(), ModItems.POLYETHYLENE_PELLETS.get(),
 			ModItems.PVC_RESIN.get(), ModItems.PVC_SHEET.get(), ModItems.BAKELITE.get(), ModItems.NAPHTHALENE.get(),
 			ModItems.SODA_ASH.get(), ModItems.QUICKLIME.get(), ModItems.SLAKED_LIME.get(), ModItems.CHALK.get(),
-			Items.WATER_BUCKET, Items.ICE,
+			ModPowerGrid.ZINC_OXIDE.get(), ModPowerGrid.PHOSPHOR.get(), Items.WATER_BUCKET, Items.ICE,
 			Items.SNOWBALL, Items.SUGAR, Items.QUARTZ, Items.CALCITE, Items.CLAY_BALL, Items.BONE_MEAL,
 			ForgeRegistries.ITEMS.getValue(new ResourceLocation("create", "limestone")),
 			ForgeRegistries.ITEMS.getValue(new ResourceLocation("create", "rose_quartz"))))
@@ -148,7 +149,7 @@ public class FormulaTests {
 			ForgeRegistries.ITEMS.getValue(McRemix.asResource("aluminium_sheet")), "Al",
 			ForgeRegistries.ITEMS.getValue(McRemix.asResource("titanium_ingot")), "Ti",
 			ForgeRegistries.ITEMS.getValue(new ResourceLocation("create", "zinc_nugget")), "Zn",
-			ModFluids.chemical(Chemical.MOLTEN_SODIUM).bucket().get(), "Na");
+			ModFluids.chemical(Chemical.MOLTEN_SODIUM).bucket().get(), "Na", ModPowerGrid.SILICON_WAFER.get(), "Si");
 		elements.forEach((item, symbol) -> {
 			StructuralFormula formula = index.of(new ItemStack(item));
 			h.assertTrue(formula != null && formula.isElement() && formula.formula().equals(symbol),

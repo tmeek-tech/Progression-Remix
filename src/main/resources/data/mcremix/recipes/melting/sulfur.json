@@ -1,0 +1,10 @@
+{
+  "type": "mcremix:melting",
+  "ingredient": {
+    "item": "mcremix:sulfur"
+  },
+  "result": {
+    "fluid": "mcremix:molten_sulfur",
+    "amount": 100
+  }
+}

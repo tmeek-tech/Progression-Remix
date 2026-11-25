@@ -1,0 +1,25 @@
+{
+  "type": "create:mechanical_crafting",
+  "acceptMirrored": true,
+  "key": {
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "M": {
+      "tag": "forge:copper_coils"
+    },
+    "R": {
+      "item": "powergrid:generator_induction_rotor"
+    }
+  },
+  "pattern": [
+    "  S  ",
+    " SMS ",
+    "SMRMS",
+    " SMS ",
+    "  S  "
+  ],
+  "result": {
+    "item": "powergrid:generator_large_induction_rotor"
+  }
+}

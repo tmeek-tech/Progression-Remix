@@ -31,15 +31,16 @@ public record StructuralFormula(String formula, List<ResourceLocation> items, Li
 	 * Each element drawn and its colour, as chemists colour them (Taran's card): carbon grey, hydrogen white, oxygen
 	 * red, chlorine green, sodium violet, iron orange, titanium silver, aluminium pink, silicon tan, calcium pale green
 	 * and phosphorus orange, then (0.26.0, for metals shown on their own) copper's copper, gold's gold and zinc's
-	 * lavender, lightened where they would vanish on a tooltip's dark ground; and (0.34.0, the liquid air plant)
-	 * nitrogen blue, argon cyan and platinum's pale grey.
+	 * lavender, lightened where they would vanish on a tooltip's dark ground; (0.34.0, the liquid air plant)
+	 * nitrogen blue, argon cyan and platinum's pale grey; and (0.40.0) neon's paler blue.
 	 */
 	public static final Map<String, Integer> COLOURS = Map.ofEntries(Map.entry("H", 0xFFFFFFFF),
 		Map.entry("C", 0xFF909090), Map.entry("O", 0xFFFF4A4A), Map.entry("Cl", 0xFF3FE03F), Map.entry("Na", 0xFFAB5CF2),
 		Map.entry("Fe", 0xFFE06633), Map.entry("Ti", 0xFFC8CCD2), Map.entry("Al", 0xFFF0A8C0), Map.entry("Si", 0xFFF0C8A0),
 		Map.entry("Ca", 0xFFA8E6A0), Map.entry("P", 0xFFFF8000), Map.entry("Cu", 0xFFE08A48),
 		Map.entry("Au", 0xFFFFD123), Map.entry("Zn", 0xFFA8ACD8), Map.entry("S", 0xFFE8D838),
-		Map.entry("N", 0xFF6F8CFF), Map.entry("Ar", 0xFF80D1E3), Map.entry("Pt", 0xFFD8D8E4));
+		Map.entry("N", 0xFF6F8CFF), Map.entry("Ar", 0xFF80D1E3), Map.entry("Pt", 0xFFD8D8E4),
+		Map.entry("Ne", 0xFFB3E3F5));
 
 	/**
 	 * An atom or group written as its label ("" for a point a bond runs out of the drawing to), centred on its first

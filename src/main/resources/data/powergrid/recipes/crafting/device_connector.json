@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Z": {
+      "tag": "forge:plates/brass"
+    },
+    "C": {
+      "tag": "forge:plates/copper"
+    },
+    "B": {
+      "item": "mcremix:bakelite"
+    }
+  },
+  "pattern": [
+    " Z ",
+    "CBC"
+  ],
+  "result": {
+    "item": "powergrid:device_connector"
+  },
+  "show_notification": true
+}

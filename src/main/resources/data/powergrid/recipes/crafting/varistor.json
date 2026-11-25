@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mcremix:zinc_oxide"
+    },
+    {
+      "tag": "forge:wires/copper"
+    },
+    {
+      "tag": "forge:wires/copper"
+    }
+  ],
+  "result": {
+    "item": "powergrid:varistor"
+  }
+}

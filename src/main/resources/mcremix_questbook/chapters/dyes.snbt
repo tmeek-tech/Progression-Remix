@@ -237,6 +237,35 @@
 			x: 0.0d
 			y: -1.75d
 		}
+		{
+			dependencies: [
+				"21D1DCB0DD850FAC"
+				"0F1BA0A8623F6A0C"
+				"008AD6AA8A865A86"
+				"5AF40633E36AE46C"
+			]
+			description: [
+				"Molten sodium in a beta-alumina tube, molten sulfur round it, sealed in steel. The ceramic lets sodium through only hot, so it needs &eWarm&r heat or hotter under every block of its bottom. Cold, it keeps its charge and does nothing."
+				""
+				"It holds four times what Power Grid's Battery does, and comes full: the sodium is the charge. Short of molten sulfur? The crucible melts sulfur."
+				""
+				"&7Ponder: the Sodium-Sulfur Battery.&r"
+			]
+			id: "0F725BFD00203E63"
+			optional: true
+			rewards: [ ]
+			subtitle: "Four Batteries in one, kept hot"
+			tasks: [
+				{
+					id: "397F29BE29A7C348"
+					item: "mcremix:sodium_sulfur_battery"
+					type: "item"
+				}
+			]
+			title: "Sodium-Sulfur Battery"
+			x: 1.75d
+			y: -1.75d
+		}
 	]
 	subtitle: [
 		"The last chemistry, and four new colours"

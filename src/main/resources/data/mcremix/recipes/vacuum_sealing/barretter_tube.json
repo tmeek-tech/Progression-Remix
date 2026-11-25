@@ -5,13 +5,14 @@
       "item": "minecraft:glass_pane"
     },
     {
-      "item": "minecraft:quartz"
-    },
-    {
       "tag": "forge:wires/iron"
     },
     {
       "tag": "forge:plates/iron"
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 10
     }
   ],
   "results": [

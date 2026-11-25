@@ -34,5 +34,9 @@
     false,
     true,
     true
-  ]
+  ],
+  "trace": {
+    "fluid": "mcremix:neon",
+    "every": 55000
+  }
 }

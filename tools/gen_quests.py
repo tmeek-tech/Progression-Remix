@@ -425,15 +425,17 @@ c = Chapter('electricity', 'Electricity', 'Create: Power Grid, and pulling thing
 c.q('power_grid', 0, 0, 'Create: Power Grid', 'Real circuits, volts and amps', [
 	"Power Grid adds real circuits: generators, wire, transformers and devices that care about volts and amps. "
 	"Its own Ponder scenes explain its parts better than this book could.",
-	"Here its motor and transformer core take steel, its boards, switches, buttons and sockets take Bakelite, "
-	"and the boards are etched in ferric chloride.",
-], [item('powergrid:wire')], deps=['glass_lab:bakelite', 'steel:steel'])
-c.q('coils', 1, 0, 'The Coil Winder', 'Coils are wound, not crafted', [
-	"Power Grid's coils come off a Coil Winder: copper wire into a Copper Coil, iron wire into a Resistive Coil. "
-	"The faster it turns, the faster it winds.",
+	"Here its parts are made as real ones are. Wire is drawn from an ingot on a Coil Winder, resistors are "
+	"carbon, magnets are steel and insulators are glass. Its boards and switches take Bakelite, and the boards "
+	"are etched in ferric chloride.",
+	"@JEI: the Coiling tab. Ponder: the Coil Winder.",
+], [item('mcremix:coil_winder'), item('powergrid:wire')], deps=['glass_lab:bakelite', 'steel:steel'])
+c.q('coils', 1, 0, 'Coils', 'Wound, not crafted', [
+	"Power Grid's coils come off the Coil Winder too: copper wire into a Copper Coil, iron wire round a brick "
+	"into a Resistive Coil. The faster it turns, the faster it winds. Once you have aluminium, it rolls "
+	"capacitors as well.",
 	"It comes in andesite and every metal from copper to titanium, each held to its metal's top speed.",
-	"@JEI: the Coiling tab.",
-], [item('mcremix:coil_winder'), item('powergrid:copper_coil')], deps=['power_grid'])
+], [item('powergrid:copper_coil')], deps=['power_grid'])
 c.q('generator', 2, 0, 'A Generator', 'Rotation into current', [
 	"Power Grid's generator is copper coils strung on shafts round rotors and a commutator, and it has to be "
 	"excited before it gives anything.",
@@ -458,6 +460,7 @@ c.q('electrolyser', 4, 0, 'The Electrolyser', 'Volts to start, amps to work', [
 		'mcremix:carbon_electrode')], deps=['transformer', 'glass_lab:tar_cuts'], **MILESTONE)
 c.q('salt_water', 5, 1, 'Salt Water', 'Only from the sea', [
 	"Water taken in an ocean or beach biome, by bucket, pump or hose pulley, is salt water.",
+	"It fills Power Grid's batteries too: copper and zinc in brine, like Volta's first pile.",
 ], [item('mcremix:salt_water_bucket')], deps=['bloom_iron:iron'])
 c.q('chlorine', 5, 0, 'Chlorine', 'Splitting the sea', [
 	"Split salt water for chlorine, hydrogen and caustic soda. On a basin the gases escape, and chlorine rolls "
@@ -580,6 +583,7 @@ c.q('vacuum', -1, 2, 'Vacuum Sealing', 'The Pressurizer, run backwards', [
 	"Run a Pressurizer backwards and it pulls a vacuum, its needle dropping below zero, sealing whatever lies in "
 	"its vessel over a {Hot} fire. Power Grid's light bulbs and vacuum tubes are made this way now, not by hand.",
 	"Deeper vacuums need more speed: bulbs seal from 128 RPM, tubes from 256, and the cathode ray tube needs 512.",
+	"A few are filled with a gas piped into the vessel: hydrogen, or later neon and argon from liquid air.",
 	"@JEI: the Vacuum Sealing tab.",
 ], [item('powergrid:light_bulb')], deps=['pressurizer'])
 
@@ -653,6 +657,20 @@ c.q('arc', 3, -1, 'The Arc Furnace', 'An arc over a cooled hearth', [
 c.q('titanium', 4, 0, 'Titanium', 'Sponge, melted down', [
 	"The arc melts titanium sponge into ingots. Load it by hand, funnel or arm, and let a hopper empty it.",
 ], [item('mcremix:titanium_ingot')], deps=['sponge', 'arc'], **MILESTONE)
+c.q('crude_silicon', 4, -1, 'Crude Silicon', 'Quartz, robbed of its oxygen', [
+	"A press binds quartz and coke with pitch into a briquette, and in the arc the coke takes the quartz's "
+	"oxygen. What's left is silicon, 98% pure, which is far too dirty for a chip.",
+], [item('mcremix:crude_silicon')], deps=['arc'])
+c.q('polysilicon', 5, -1, 'Polysilicon', 'As pure as anything gets', [
+	"Crude silicon in a {Hot} Steel Furnace turns hydrogen chloride into crude trichlorosilane, a liquid that boils "
+	"just under blood heat. Distil the iron out of it.",
+	"Run it with hydrogen through a {Blazing} Steel Furnace and pure silicon settles in the tray, giving the "
+	"hydrogen chloride back for another round.",
+], [item('mcremix:polysilicon')], deps=['crude_silicon', 'steel_furnace:acid', 'steel_furnace:blazing'])
+c.q('wafers', 6, -1, 'Silicon Wafers', 'What chips are made on', [
+	"Melt polysilicon into an ingot in the Arc Furnace and saw it into wafers. Power Grid's diodes, transistors, "
+	"chips and solar panels are all built on them.",
+], [item('mcremix:silicon_wafer')], deps=['polysilicon'])
 c.q('ti_parts', 5, 0, 'Rock-solid', '2,048 RPM, if you can cool it', [
 	"Titanium supports spin to 2,048 RPM, four times steel, with no drag, any load and no weathering. Its casing "
 	"takes a bushing, like aluminium's.",
@@ -781,7 +799,13 @@ c.q('nitric', 4, 0, 'Nitric Acid', 'Ammonia, burnt', [
 c.q('argon', 2, -1, 'Argon', 'A bonus and a glow', [
 	"Pipe argon into an Arc Furnace's sides and each sponge gives half an ingot more. Or have a Spout fill a "
 	"glass tube with it for an argon tube, which glows violet with enough volts across it.",
+	"Power Grid's growth lamps are sealed in it too.",
 ], [item('mcremix:argon_tube')], deps=['air_column'], optional=True)
+c.q('neon', 1, -1, 'Neon', 'A trace at the very top', [
+	"Liquid air holds a little neon, a mB for every 55 buckets split. It gathers at the very top of the air "
+	"column, and only a pipe on the top face of its top section draws it off.",
+	"A mB fills one of Power Grid's neon bulbs or regulator tubes.",
+], [item('powergrid:neon_bulb')], deps=['air_column', 'steel_furnace:vacuum'], optional=True)
 c.q('nitrogen', 2, 1, 'Liquid Nitrogen', 'The coldest coolant', [
 	"In a water cooler, liquid nitrogen cools six times as fast as water and boils off as nitrogen. A Steel "
 	"Condenser's jacket and radiators won't take it.",
@@ -837,6 +861,15 @@ c.q('gunpowder', 0, -1, 'Gunpowder', 'Made, not hunted', [
 	"Soda ash and nitric acid give saltpetre, and saltpetre with sulfur and charcoal gives gunpowder. The "
 	"creepers can keep theirs.",
 ], [item('mcremix:saltpetre')], deps=['sulfur', 'liquid_air:nitric'], optional=True)
+c.q('sodium_sulfur', 1, -1, 'Sodium-Sulfur Battery', 'Four Batteries in one, kept hot', [
+	"Molten sodium in a beta-alumina tube, molten sulfur round it, sealed in steel. The ceramic lets sodium through "
+	"only hot, so it needs {Warm} heat or hotter under every block of its bottom. Cold, it keeps its charge and "
+	"does nothing.",
+	"It holds four times what Power Grid's Battery does, and comes full: the sodium is the charge. Short of molten "
+	"sulfur? The crucible melts sulfur.",
+	"@Ponder: the Sodium-Sulfur Battery.",
+], [item('mcremix:sodium_sulfur_battery')],
+	deps=['sulfur', 'titanium:sodium', 'aluminium:alumina', 'steel_furnace:blazing'], optional=True)
 
 # ---------------------------------------------------------------- side roads
 c = Chapter('ruins', 'Ruins', 'The villages are empty', 'minecraft:mossy_cobblestone', side=True)

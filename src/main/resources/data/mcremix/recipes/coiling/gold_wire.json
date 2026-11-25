@@ -1,0 +1,16 @@
+{
+  "type": "mcremix:coiling",
+  "processingTime": 160,
+  "colour": "#e8b830",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/gold"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:golden_wire",
+      "count": 4
+    }
+  ]
+}

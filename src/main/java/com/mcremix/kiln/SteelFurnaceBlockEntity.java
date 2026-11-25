@@ -40,13 +40,15 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 /**
  * The Steel Furnace: a Furnace cased in steel, which fires what a Furnace fires and works fluids too. A fluid one of
  * its recipes takes, piped or poured in at its front, sides or top, waits in its feed tank and is worked a batch at a
  * time, at the recipe's heat or hotter, into the fluids it gives, held for pipes to draw off. Some jobs run over a
  * catalyst lying in the chamber, as ethanol runs over alumina, which wears away slowly, and some take a second fluid
- * with the first, as naphtha is cracked with steam, which waits in a tank of its own. See {@link SteelFurnaceRecipe}.
+ * with the first, as naphtha is cracked with steam, which waits in a tank of its own. Some lay a solid down in the
+ * tray as they go, as trichlorosilane and hydrogen lay down polysilicon (0.40.0). See {@link SteelFurnaceRecipe}.
  * <p>
  * Its fire is fuel piped in from underneath and nothing else (Taran, 2026-10-22): it takes no solid fuel, it is sealed
  * so no heat comes up through it, and bellows do nothing for it. Once lit, it burns the fuel as it comes, whether or
@@ -553,7 +555,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		} else if (!heat.isAtLeast(r.heat())) {
 			job = Job.TOO_COLD;
 			jobProgress = Math.max(0, jobProgress - 2);
-		} else if (!put(r.getFluidResults(), true)) {
+		} else if (!put(r.getFluidResults(), true) || !layDown(r, true)) {
 			job = Job.FULL;
 		} else {
 			job = Job.WORKING;
@@ -565,6 +567,7 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 				if (r.coFeed() != null)
 					coFeed.drain(r.coFeed().getRequiredAmount(), IFluidHandler.FluidAction.EXECUTE);
 				put(r.getFluidResults(), false);
+				layDown(r, false);
 				if (r.catalyst() != null)
 					wear(r, amount);
 				level.playSound(null, worldPosition, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.15f, 0.6f);
@@ -602,6 +605,16 @@ public class SteelFurnaceBlockEntity extends KilnBlockEntity {
 		if (r != null)
 			return r.coFeed() != null && r.coFeed().test(stack);
 		return SteelFurnaceRecipe.anyCoFeed(level, stack);
+	}
+
+	/**
+	 * What a batch lays down goes into the tray, where fired things go, for a hopper or hand to take out: polysilicon
+	 * out of trichlorosilane and hydrogen (0.40.0). With {@code simulate}, only says whether it fits; a batch that lays
+	 * nothing down always fits.
+	 */
+	private boolean layDown(SteelFurnaceRecipe r, boolean simulate) {
+		ItemStack deposit = r.deposit();
+		return deposit.isEmpty() || ItemHandlerHelper.insertItemStacked(tray, deposit, simulate).isEmpty();
 	}
 
 	/** Fluid run over the catalyst wears it: an item of it crumbles away for every so much. */

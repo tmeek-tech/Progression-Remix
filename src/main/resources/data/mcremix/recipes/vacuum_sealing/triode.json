@@ -5,13 +5,13 @@
       "item": "minecraft:glass_pane"
     },
     {
-      "item": "create:polished_rose_quartz"
-    },
-    {
-      "item": "minecraft:glowstone_dust"
-    },
-    {
       "tag": "forge:plates/iron"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "item": "mcremix:quicklime"
     }
   ],
   "results": [

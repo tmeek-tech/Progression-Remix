@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "mcremix:silicon_ingot"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "mcremix:silicon_wafer",
+      "count": 8
+    }
+  ]
+}

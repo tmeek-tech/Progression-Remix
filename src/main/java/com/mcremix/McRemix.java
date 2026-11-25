@@ -25,6 +25,7 @@ import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
 import com.mcremix.registry.ModLootModifiers;
 import com.mcremix.registry.ModOil;
+import com.mcremix.registry.ModPowerGrid;
 import com.mcremix.registry.ModRecipes;
 import com.mcremix.registry.ModStructureProcessors;
 import com.mojang.logging.LogUtils;
@@ -72,6 +73,7 @@ public class McRemix {
 		ModAir.register();
 		ModDyes.register();
 		ModCoiling.register();
+		ModPowerGrid.register();
 		ModItems.register();
 		ColourBlocks.register();
 		ModBlockEntities.register();

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "item": "mcremix:silicon_wafer"
+    },
+    "C": {
+      "tag": "forge:plates/copper"
+    }
+  },
+  "pattern": [
+    "WC"
+  ],
+  "result": {
+    "item": "powergrid:diode"
+  },
+  "show_notification": true
+}

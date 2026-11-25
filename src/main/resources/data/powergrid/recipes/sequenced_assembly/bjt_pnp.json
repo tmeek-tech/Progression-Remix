@@ -1,0 +1,75 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "forge:plates/iron"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "powergrid:bjt_pnp",
+      "chance": 100.0
+    },
+    {
+      "item": "powergrid:bjt_npn",
+      "chance": 10.0
+    },
+    {
+      "item": "create:iron_sheet",
+      "chance": 3.0
+    },
+    {
+      "item": "mcremix:silicon_wafer",
+      "chance": 3.0
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_bjt_pnp"
+        },
+        {
+          "tag": "forge:wires/gold"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_bjt_pnp"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_bjt_pnp"
+        },
+        {
+          "item": "mcremix:silicon_wafer"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_bjt_pnp"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_bjt_pnp"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_bjt_pnp"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "powergrid:incomplete_bjt_pnp"
+  }
+}

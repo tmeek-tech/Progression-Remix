@@ -35,6 +35,16 @@ public class ModSpriteShifts {
 	/** A formed aluminium column's, bare, frosted and frozen (tools/gen_air_art.py). */
 	public static final List<CTSpriteShiftEntry> ALUMINIUM_COLUMN = column("aluminium", "", "frosted_", "frozen_");
 
+	/**
+	 * The sodium-sulfur battery's side and top, joined up across the battery as Power Grid's Battery's are
+	 * (tools/gen_powergrid.py).
+	 */
+	public static final List<CTSpriteShiftEntry> SODIUM_SULFUR_BATTERY = List.of(
+		CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, McRemix.asResource("block/sodium_sulfur_battery_side"),
+			McRemix.asResource("block/sodium_sulfur_battery_side_connected")),
+		CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, McRemix.asResource("block/sodium_sulfur_battery_top"),
+			McRemix.asResource("block/sodium_sulfur_battery_top_connected")));
+
 	/** A column section's side and top in each of its looks, the first look's side first. */
 	private static List<CTSpriteShiftEntry> column(String metal, String... looks) {
 		List<CTSpriteShiftEntry> shifts = new ArrayList<>();

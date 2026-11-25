@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "mcremix:alumina"
+    },
+    {
+      "item": "mcremix:alumina"
+    },
+    {
+      "item": "mcremix:soda_ash"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:unfired_beta_alumina_tube"
+    }
+  ]
+}

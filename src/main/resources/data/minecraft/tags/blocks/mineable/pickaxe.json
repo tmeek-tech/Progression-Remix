@@ -448,6 +448,7 @@
     "mcremix:iron_coil_winder",
     "mcremix:steel_coil_winder",
     "mcremix:aluminium_coil_winder",
-    "mcremix:titanium_coil_winder"
+    "mcremix:titanium_coil_winder",
+    "mcremix:sodium_sulfur_battery"
   ]
 }

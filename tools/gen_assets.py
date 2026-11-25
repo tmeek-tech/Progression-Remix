@@ -2488,6 +2488,13 @@ def gen_data():
         name = block.split(':')[1]
         write_json(data('mcremix', 'loot_tables', 'blocks', name + '.json'), loot_self(name))
     write_json(data('minecraft', 'tags', 'blocks', 'mineable', 'shovel.json'), tag(['mcremix:black_sand']))
+    # what a ruined village keeps only some of (0.38.0, ruins): beds, chests, barrels, workstations and cauldrons
+    write_json(data('mcremix', 'tags', 'blocks', 'ruin_salvage.json'), tag(
+        ['#minecraft:beds'] + ['minecraft:' + b for b in (
+            'chest', 'trapped_chest', 'barrel', 'crafting_table', 'smithing_table', 'fletching_table',
+            'cartography_table', 'loom', 'stonecutter', 'grindstone', 'lectern', 'composter', 'cauldron',
+            'water_cauldron', 'lava_cauldron', 'powder_snow_cauldron', 'brewing_stand', 'furnace', 'smoker',
+            'blast_furnace')]))
     # as Create's own: Contraption Controls switch drills, saws and deployers, and every machine but the millstone
     # (a pickaxe's) takes either tool
     write_json(data('create', 'tags', 'items', 'contraption_controlled.json'),
@@ -3040,12 +3047,14 @@ def power_grid_recipe(path, obj):
 
 
 def gen_power_grid_recipes():
-    # an electric motor's frame and a transformer's core are steel sheet, where Power Grid has iron
+    # an electric motor's frame and a transformer's core are steel sheet, where Power Grid has iron, and since 0.40.0
+    # the motor's current reaches its armature through carbon brushes, coke either side of its casing
     power_grid_recipe('mechanical_crafting/electric_motor', {
         'type': 'create:mechanical_crafting', 'acceptMirrored': True,
         'key': {'C': {'tag': 'forge:copper_coils'}, 'E': item('powergrid:conductive_casing'),
-                'I': {'tag': 'forge:plates/steel'}, 'M': item('powergrid:magnet'), 'S': item('create:shaft')},
-        'pattern': [' ICI ', 'CMSMC', ' ICI ', '  E  '], 'result': item('powergrid:electric_motor')})
+                'I': {'tag': 'forge:plates/steel'}, 'K': {'tag': 'mcremix:coke'}, 'M': item('powergrid:magnet'),
+                'S': item('create:shaft')},
+        'pattern': [' ICI ', 'CMSMC', ' ICI ', ' KEK '], 'result': item('powergrid:electric_motor')})
     core = item('powergrid:incomplete_transformer_core')
     power_grid_recipe('sequenced_assembly/transformer_core', {
         'type': 'create:sequenced_assembly', 'ingredient': {'tag': 'forge:plates/steel'}, 'loops': 3,
@@ -3060,18 +3069,18 @@ def gen_power_grid_recipes():
     power_grid_recipe('cutting/empty_circuit_slabs', {
         'type': 'create:cutting', 'ingredients': [item('mcremix:bakelite')], 'processingTime': 50,
         'results': [item('powergrid:empty_circuit', 2)]})
-    # circuit boards are etched in ferric chloride, not Blazing Acid (which batteries still take)
+    # circuit boards are etched in ferric chloride, not Blazing Acid (which nothing takes since 0.40.0)
     power_grid_recipe('mixing/etched_circuit_board', {
         'type': 'create:mixing', 'heatRequirement': 'heated',
         'ingredients': [item('powergrid:unetched_circuit'), {'fluid': 'mcremix:ferric_chloride', 'amount': 250}],
         'results': [item('powergrid:incomplete_circuit')]})
-    # an integrated circuit's chip is cased in polyethylene, two pellets either side of the lapis
+    # an integrated circuit is a silicon die (0.40.0, gen_powergrid) on copper leads, gold bond wires above and below
+    # it, cased in polyethylene
     power_grid_recipe('mechanical_crafting/integrated_circuit', {
         'type': 'create:mechanical_crafting', 'acceptMirrored': True,
-        'key': {'G': item('minecraft:gold_nugget'), 'L': item('minecraft:lapis_lazuli'),
-                'P': item('mcremix:polyethylene_pellets'), 'Q': item('create:polished_rose_quartz'),
-                'R': item('minecraft:redstone')},
-        'pattern': [' PLP ', 'RRQRR', ' GGG '], 'result': item('powergrid:integrated_circuit')})
+        'key': {'C': {'tag': 'forge:wires/copper'}, 'G': item('minecraft:gold_nugget'),
+                'P': item('mcremix:polyethylene_pellets'), 'W': item('mcremix:silicon_wafer')},
+        'pattern': [' PGP ', 'CCWCC', ' PGP '], 'result': item('powergrid:integrated_circuit')})
     casing, bakelite = item('powergrid:conductive_casing'), item('mcremix:bakelite')
     for name, parts in (('lv_switch', [item('minecraft:lever'), item('powergrid:pins')]),
                         ('mv_switch', [item('minecraft:lever'), {'tag': 'forge:plates/copper'}]),
@@ -4404,12 +4413,17 @@ CHEMICALS = {
     'mixed_acid': ((0xC0, 0xB8, 0x90), (0xEE, 0xE8, 0xCA), (0xFF, 0xFE, 0xF0), 120),
     # naphthalenesulfonic acid: a brown syrup
     'naphthalenesulfonic_acid': ((0x6E, 0x4C, 0x28), (0xAC, 0x84, 0x54), (0xE8, 0xC8, 0xA0), 220),
+    # trichlorosilane (0.40.0): crude, a faint grey-brown with its iron, and distilled, water-clear; neon a faint
+    # warm glow
+    'crude_trichlorosilane': ((0x9C, 0x96, 0x84), (0xD2, 0xCC, 0xB8), (0xF8, 0xF4, 0xE8), 140),
+    'trichlorosilane': ((0xB4, 0xB8, 0xB6), (0xE6, 0xEA, 0xE8), (0xFF, 0xFF, 0xFF), 90),
+    'neon': ((0xC8, 0xA8, 0x9C), (0xEE, 0xDA, 0xD0), (0xFF, 0xF4, 0xEE), 60),
 }
 # gases have no bucket (Chemical.gas)
 GASES = {'chlorine', 'hydrogen', 'ethylene', 'vinyl_chloride', 'hydrogen_chloride', 'pressurized_steam',
          'titanium_tetrachloride', 'carbon_dioxide', 'sour_gas', 'fuel_gas', 'air', 'hot_compressed_air',
          'compressed_air', 'nitrogen', 'hot_compressed_nitrogen', 'compressed_nitrogen', 'oxygen', 'argon', 'ammonia',
-         'nitrogen_dioxide', 'sulfur_dioxide', 'sulfur_trioxide', 'hydrogen_sulfide'}
+         'nitrogen_dioxide', 'sulfur_dioxide', 'sulfur_trioxide', 'hydrogen_sulfide', 'neon'}
 
 
 def liquid_frame(size, phase, waves, palette, shift=0):
@@ -6128,7 +6142,7 @@ def plastics_lang():
         'mcremix.jei.steel_furnace_fuel.pump': 'A pump turning at %s RPM moves that much',
         'mcremix.goggles.steel_furnace.catalyst': 'Catalyst',
         'mcremix.goggles.steel_furnace.no_catalyst': 'Needs %s in the chamber',
-        'mcremix.goggles.steel_furnace.full': 'Its tanks are full',
+        'mcremix.goggles.steel_furnace.full': 'Full: take out or draw off what it made',
         'mcremix.goggles.steel_furnace.waiting': 'Needs %s mB to start',
         'mcremix.goggles.steel_furnace.wear': '%s worn %s%%',
         'mcremix.jei.steel_furnace': 'Steel Furnace',
@@ -7999,18 +8013,20 @@ def titanium_chain_lang():
         'block.mcremix.arc_furnace': 'Arc Furnace',
         'block.mcremix.arc_furnace.tooltip.summary': (
             'A _Power Grid_ device. It strikes an _arc_ from one _Carbon Electrode_ down through what lies in its copper '
-            'hearth and back up the other, melting _titanium sponge_ into _ingots_. Molten titanium dissolves any '
-            'other crucible, so the hearth is copper, kept cool by _water_.'),
+            'hearth and back up the other, melting _titanium sponge_ into _ingots_, a _quartz briquette_ down to '
+            '_crude silicon_ and _polysilicon_ into a _silicon ingot_. Molten titanium dissolves any other crucible, so '
+            'the hearth is copper, kept cool by _water_.'),
         'block.mcremix.arc_furnace.tooltip.condition1': 'When powered',
         'block.mcremix.arc_furnace.tooltip.behaviour1': (
             'The arc is a heavy load of _a quarter ohm_, with no + or -: _20 V_ drive _80 A_, _1.6 kW_. It melts only '
-            'from _400 W_, each sponge taking _16 kJ_, and its hearth sheds only _150 W_ by itself, so it _overheats_ '
-            'unless a _water cooler_ takes the heat: one on water holds it to about _2.5 kW_.'),
+            'from _400 W_, each sponge or polysilicon taking _16 kJ_ and a briquette _32 kJ_, and its hearth sheds only '
+            '_150 W_ by itself, so it _overheats_ unless a _water cooler_ takes the heat: one on water holds it to about '
+            '_2.5 kW_.'),
         'block.mcremix.arc_furnace.tooltip.condition2': 'When used',
         'block.mcremix.arc_furnace.tooltip.behaviour2': (
-            'A _Carbon Electrode_ goes into an empty holder and _sponge_ into the hearth; an empty hand takes out the '
-            '_ingots_, then the sponge, then an electrode. Funnels and arms put them in; hoppers take the ingots out. '
-            'Both electrodes burn away as it works.'),
+            'A _Carbon Electrode_ goes into an empty holder and what it melts into the hearth; an empty hand takes out '
+            'what it _made_, then the rest of the charge, then an electrode. Funnels and arms put them in; hoppers take '
+            'what it made out. Both electrodes burn away as it works.'),
         'mcremix.goggles.arc_furnace.electrode': 'Electrode: %s%% left',
         'mcremix.goggles.arc_furnace.no_electrode': 'No electrode',
         'mcremix.goggles.arc_furnace.reading': '%s V, %s A, %s W',
@@ -8629,6 +8645,22 @@ def gen_formulas():
     for angle in (210, 330):
         f.branch(c, 'O', angle, charge='-')
 
+    # Power Grid's parts (0.40.0): a varistor's zinc oxide, the willemite of a screen's phosphor, and trichlorosilane,
+    # crude or distilled
+    f = formula('zinc_oxide', 'ZnO', mr('zinc_oxide'))
+    f.bond(f.atom('Zn', 0, 0, charge='2+'), f.atom('O', 1.8, 0, charge='2-'), 0)
+
+    f = formula('willemite', 'Zn2SiO4', mr('phosphor'))
+    f.atom('Zn', 0, 0, charge='2+', count='2')
+    si = f.atom('Si', 3.4, 0)
+    f.bracket([si] + [f.branch(si, 'O', angle, 1.1) for angle in (0, 90, 180, 270)], sup='4-')
+
+    f = formula('trichlorosilane', 'SiHCl3', fluids=mr('crude_trichlorosilane', 'trichlorosilane'))
+    si = f.atom('Si', 0, 0)
+    f.branch(si, 'H', 90)
+    for angle in (0, 180, 270):
+        f.branch(si, 'Cl', angle, 1.3)
+
     f = formula('calcium_oxide', 'CaO', mr('quicklime'))
     f.bond(f.atom('Ca', 0, 0, charge='2+'), f.atom('O', 1.8, 0, charge='2-'), 0)
 
@@ -8907,6 +8939,8 @@ def gen_formulas():
         'Pt': ('platinum', mr('platinum_nugget', 'platinum_gauze'), []),
         'S': ('sulfur', mr('sulfur', 'sulfur_block'), mr('molten_sulfur')),
         'Ar': ('argon', [], mr('argon')),
+        'Si': ('silicon', mr('crude_silicon', 'polysilicon', 'silicon_ingot', 'silicon_wafer'), []),
+        'Ne': ('neon', [], mr('neon')),
     }
     for symbol, (name, items, fluids) in elements.items():
         formula(name, symbol, items, fluids).atom(symbol, 0, 0)
@@ -9539,4 +9573,7 @@ if __name__ == '__main__':
     # vacuum sealing (0.37.0) adds to the text written above
     import gen_vacuum
     gen_vacuum.run(sys.modules[__name__])
+    # Power Grid's parts made as real ones are (0.40.0) add to the text and tags written above
+    import gen_powergrid
+    gen_powergrid.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

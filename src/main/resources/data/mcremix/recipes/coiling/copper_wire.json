@@ -1,0 +1,16 @@
+{
+  "type": "mcremix:coiling",
+  "processingTime": 160,
+  "colour": "#c8794a",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/copper"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:wire",
+      "count": 4
+    }
+  ]
+}

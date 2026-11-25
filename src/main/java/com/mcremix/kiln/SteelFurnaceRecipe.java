@@ -13,6 +13,7 @@ import com.simibubi.create.foundation.fluid.FluidIngredient;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
@@ -71,6 +72,11 @@ public class SteelFurnaceRecipe extends ProcessingRecipe<RecipeWrapper> {
 		return heat;
 	}
 
+	/** What a batch lays down in the tray, its one item result, or empty if it gives only fluids. */
+	public ItemStack deposit() {
+		return getRollableResults().isEmpty() ? ItemStack.EMPTY : getRollableResults().get(0).getStack().copy();
+	}
+
 	/** How much of the fluid one catalyst item works before it wears away, in mB. */
 	public int catalystLasts() {
 		return catalystLasts;
@@ -95,7 +101,7 @@ public class SteelFurnaceRecipe extends ProcessingRecipe<RecipeWrapper> {
 
 	@Override
 	protected int getMaxOutputCount() {
-		return 0;
+		return 1;
 	}
 
 	@Override
