@@ -1,0 +1,25 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "hot",
+  "processingTime": 100,
+  "catalyst_lasts": 300,
+  "ingredients": [
+    {
+      "item": "mcremix:crude_silicon"
+    },
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 300
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:crude_trichlorosilane",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 100
+    }
+  ]
+}

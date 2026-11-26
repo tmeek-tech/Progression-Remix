@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "C": {
+      "tag": "forge:plates/copper"
+    },
+    "E": {
+      "item": "powergrid:conductive_casing"
+    }
+  },
+  "pattern": [
+    "SC",
+    "ES"
+  ],
+  "result": {
+    "item": "powergrid:generator_housing"
+  },
+  "show_notification": true
+}

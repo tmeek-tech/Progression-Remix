@@ -18,6 +18,7 @@ import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.fan.EncasedFanBlockEntity;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.item.ItemHelper;
 
 import net.createmod.catnip.data.Iterate;
@@ -68,6 +69,11 @@ import net.minecraftforge.items.ItemStackHandler;
  * below nothing. Then, over a fire, it seals what lies in the vessel ({@link VacuumSealingRecipe}), put in a kind to a
  * slot by hand or funnel. One from before then squeezed whichever way it turned, so it keeps squeezing the way it
  * turns when it is first loaded ({@link #reversed}).
+ * <p>
+ * Since 0.40.0 some seals are filled with a gas (Taran's pick), piped into a gas tank of its own: hydrogen, neon or
+ * argon, let into the vessel as the glass melts shut ({@link VacuumSealingRecipe#gas}). A gas only seals take goes
+ * there, and hydrogen, which ammonia also takes, while the vessel holds parts of a seal filled with it. Pipes can draw
+ * the gas back out while the vessel holds nothing that is sealed in it.
  */
 public class PressurizerBlockEntity extends KineticBlockEntity {
 	/**
@@ -91,6 +97,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	public static final float VACUUM_SWEEP = 45;
 	/** Kinds of thing its vessel holds at once to seal in a vacuum: a cathode ray tube takes four. */
 	public static final int SEALING_SLOTS = 4;
+	/** The gas seals are filled with that it holds (0.40.0): ten barretters' worth of hydrogen. */
+	public static final int GAS_CAPACITY = 100;
 
 	/** What it is doing, for the goggles. */
 	public enum Job {
@@ -164,6 +172,14 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		@Override
 		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 			return VacuumSealingRecipe.takes(level, stack);
+		}
+	};
+	/** The gas a seal is filled with (0.40.0), let into the vessel as the glass melts shut. */
+	private final FluidTank gas = new FluidTank(GAS_CAPACITY, stack -> VacuumSealingRecipe.takesGas(level, stack)) {
+		@Override
+		protected void onContentsChanged() {
+			sealChecked = false;
+			contentsChanged();
 		}
 	};
 	private final LazyOptional<IFluidHandler> pipes = LazyOptional.of(Pipes::new);
@@ -274,7 +290,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		} else if (now == Job.SEALING) {
 			progress += seal.progressAt(Math.abs(getSpeed()));
 			for (int batches = 0; progress >= 1 && batches < MOST_BATCHES; batches++) {
-				if (checkSeal(seal) != Job.SEALING || !seal.takeFrom(sealing, true))
+				if (checkSeal(seal) != Job.SEALING || !seal.takeFrom(sealing, true) || !seal.gasReady(gas.getFluid()))
 					break;
 				sealOne(seal);
 				progress -= 1;
@@ -324,7 +340,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	@Nullable
 	public VacuumSealingRecipe sealRecipe() {
 		if (!sealChecked && level != null) {
-			sealFound = VacuumSealingRecipe.find(level, sealing).orElse(null);
+			sealFound = VacuumSealingRecipe.find(level, sealing, gas.getFluid()).orElse(null);
 			sealChecked = true;
 		}
 		return sealFound;
@@ -343,6 +359,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 
 	private void sealOne(VacuumSealingRecipe seal) {
 		seal.takeFrom(sealing, false);
+		if (seal.gas() != null)
+			gas.drain(seal.gas().getRequiredAmount(), FluidAction.EXECUTE);
 		for (ItemStack result : seal.rollResults())
 			made.insertItem(0, result, false);
 		level.playSound(null, worldPosition.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, .25f, 1.6f);
@@ -388,6 +406,21 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		if (!PressurizingRecipe.onlyCoFeed(level, stack))
 			return false;
 		return feed.isEmpty() || PressurizingRecipe.takesSecond(level, feed.getFluid(), stack);
+	}
+
+	/** Whether its vessel holds parts of a seal filled with {@code stack}. */
+	private boolean sealsIn(FluidStack stack) {
+		if (stack.isEmpty() || level == null)
+			return false;
+		for (VacuumSealingRecipe seal : VacuumSealingRecipe.all(level))
+			if (seal.gas() != null && seal.gas().test(stack) && KindSlots.sharesAny(seal.getIngredients(), sealing))
+				return true;
+		return false;
+	}
+
+	/** Whether the gas tank holds a gas nothing in the vessel is sealed in: pipes may draw it off. */
+	private boolean staleGas() {
+		return !gas.isEmpty() && !sealsIn(gas.getFluid());
 	}
 
 	/**
@@ -602,6 +635,11 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		return output.getFluid();
 	}
 
+	/** The gas it holds to fill seals with (0.40.0). */
+	public FluidStack sealGas() {
+		return gas.getFluid();
+	}
+
 	/** What its vessel holds to seal in a vacuum. */
 	public IItemHandler sealing() {
 		return sealing;
@@ -681,6 +719,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		tag.put("Feed", feed.writeToNBT(new CompoundTag()));
 		tag.put("Output", output.writeToNBT(new CompoundTag()));
 		tag.put("CoFeed", coFeed.writeToNBT(new CompoundTag()));
+		tag.put("Gas", gas.writeToNBT(new CompoundTag()));
 		tag.put("Made", made.serializeNBT());
 		tag.put("Catalyst", catalyst.serializeNBT());
 		tag.put("Sealing", sealing.serializeNBT());
@@ -705,6 +744,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		feed.readFromNBT(tag.getCompound("Feed"));
 		output.readFromNBT(tag.getCompound("Output"));
 		coFeed.readFromNBT(tag.getCompound("CoFeed"));
+		gas.readFromNBT(tag.getCompound("Gas"));
 		made.deserializeNBT(tag.getCompound("Made"));
 		if (tag.contains("Catalyst"))
 			catalyst.deserializeNBT(tag.getCompound("Catalyst"));
@@ -760,6 +800,9 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		if (!coFeed.isEmpty())
 			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.feed",
 				coFeed.getFluid().getDisplayName(), coFeed.getFluidAmount()).withStyle(ChatFormatting.GRAY)));
+		if (!gas.isEmpty())
+			tooltip.add(line(Component.translatable("mcremix.goggles.pressurizer.gas", gas.getFluid().getDisplayName(),
+				gas.getFluidAmount()).withStyle(ChatFormatting.GRAY)));
 		for (int slot = 0; slot < SEALING_SLOTS; slot++) {
 			ItemStack held = sealing.getStackInSlot(slot);
 			if (!held.isEmpty())
@@ -790,7 +833,7 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 
 	/**
 	 * What the seal its vessel holds the most of still wants, by name, for the goggles: of those it holds part of, the
-	 * one fewest items short; ties go by name.
+	 * one fewest items short, its gas counted as one; ties go by name.
 	 */
 	private Component sealWants() {
 		VacuumSealingRecipe nearest = null;
@@ -798,13 +841,27 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		for (VacuumSealingRecipe seal : VacuumSealingRecipe.all(level)) {
 			if (!KindSlots.sharesAny(seal.getIngredients(), sealing))
 				continue;
-			int lacking = KindSlots.unmet(seal.getIngredients(), sealing).size();
+			int lacking = KindSlots.unmet(seal.getIngredients(), sealing).size() + (seal.gasReady(gas.getFluid()) ? 0 : 1);
 			if (lacking < fewest || lacking == fewest && seal.getId().compareTo(nearest.getId()) < 0) {
 				nearest = seal;
 				fewest = lacking;
 			}
 		}
-		return nearest == null ? Component.empty() : KindSlots.missing(nearest.getIngredients(), sealing);
+		if (nearest == null)
+			return Component.empty();
+		Component items = KindSlots.missing(nearest.getIngredients(), sealing);
+		if (nearest.gasReady(gas.getFluid()))
+			return items;
+		// "10 mB of Hydrogen", after any items it is short of
+		FluidIngredient wanted = nearest.gas();
+		List<FluidStack> gases = wanted.getMatchingFluidStacks();
+		Component name = gases.isEmpty() ? Component.empty() : gases.get(0).getDisplayName();
+		int more = wanted.getRequiredAmount() - (wanted.test(gas.getFluid()) ? gas.getFluidAmount() : 0);
+		Component gasWanted = Component.translatable("mcremix.goggles.pressurizer.gas_wanted", more, name);
+		if (KindSlots.unmet(nearest.getIngredients(), sealing).isEmpty())
+			return gasWanted;
+		return Component.empty().append(items).append(Component.translatable("mcremix.goggles.wants.and"))
+			.append(gasWanted);
 	}
 
 	/** What its recipe works over, by name, for the goggles. */
@@ -835,12 +892,12 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 	 */
 	private class Pipes implements IFluidHandler {
 		private FluidTank tank(int tank) {
-			return tank == 0 ? feed : tank == 1 ? coFeed : output;
+			return tank == 0 ? feed : tank == 1 ? coFeed : tank == 2 ? output : gas;
 		}
 
 		@Override
 		public int getTanks() {
-			return 3;
+			return 4;
 		}
 
 		@Nonnull
@@ -856,12 +913,21 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 
 		@Override
 		public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-			return tank == 0 ? feed.isFluidValid(stack) : tank == 1 && coFeed.isFluidValid(stack);
+			return tank == 0 ? feed.isFluidValid(stack) : tank == 1 ? coFeed.isFluidValid(stack)
+				: tank == 3 && gas.isFluidValid(stack);
 		}
 
+		/**
+		 * The feed takes what it squeezes; a gas only seals take goes to the gas tank, and hydrogen, which ammonia
+		 * takes second, too while the vessel holds parts of a seal filled with it; the second feed tank the rest.
+		 */
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {
-			return feed.isFluidValid(resource) ? feed.fill(resource, action) : coFeed.fill(resource, action);
+			if (feed.isFluidValid(resource))
+				return feed.fill(resource, action);
+			if (gas.isFluidValid(resource) && (!coFeed.isFluidValid(resource) || sealsIn(resource)))
+				return gas.fill(resource, action);
+			return coFeed.fill(resource, action);
 		}
 
 		@Nonnull
@@ -869,6 +935,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		public FluidStack drain(FluidStack resource, FluidAction action) {
 			if (staleCoFeed() && coFeed.getFluid().isFluidEqual(resource))
 				return coFeed.drain(resource, action);
+			if (output.isEmpty() && staleGas() && gas.getFluid().isFluidEqual(resource))
+				return gas.drain(resource, action);
 			return output.drain(resource, action);
 		}
 
@@ -877,6 +945,8 @@ public class PressurizerBlockEntity extends KineticBlockEntity {
 		public FluidStack drain(int maxDrain, FluidAction action) {
 			if (output.isEmpty() && staleCoFeed())
 				return coFeed.drain(maxDrain, action);
+			if (output.isEmpty() && staleGas())
+				return gas.drain(maxDrain, action);
 			return output.drain(maxDrain, action);
 		}
 	}

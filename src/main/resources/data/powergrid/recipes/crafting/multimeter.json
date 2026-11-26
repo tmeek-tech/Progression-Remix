@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "tag": "forge:wires/copper"
+    },
+    "R": {
+      "item": "powergrid:resistor"
+    },
+    "C": {
+      "item": "powergrid:current_gauge"
+    },
+    "B": {
+      "item": "mcremix:bakelite"
+    },
+    "V": {
+      "item": "powergrid:voltage_gauge"
+    }
+  },
+  "pattern": [
+    "WRW",
+    "CBV"
+  ],
+  "result": {
+    "item": "powergrid:multimeter"
+  },
+  "show_notification": true
+}

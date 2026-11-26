@@ -56,6 +56,10 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  * the world's warmth, {@link #PACE_PER_HEATER} mB a tick for every block of its floor; it has no condenser, its cuts
  * all leaving as gases drawn from their own sections, the top one too; its reflux is liquid nitrogen piped into the top
  * section, which boils back into nitrogen there; and what has no room escapes over the top as the gases it is.
+ * <p>
+ * Since 0.40.0 a mixture's trace, too little of it for a cut, gathers at the column's very top, a mB for so many of the
+ * mixture split, and a pipe on the top face of its top section draws it off: the air's neon (Taran's pick), a mB for
+ * every 55 buckets. What it has no room for escapes over the top.
  */
 public class Column {
 	public static final int MAX_WIDTH = 3;
@@ -74,6 +78,8 @@ public class Column {
 	static final int VENT_EVERY = 20;
 	/** How often it looks again for its condenser and its heaters. */
 	static final int LOOK_EVERY = 10;
+	/** The trace its very top holds before the rest escapes, in mB: a hundred neon bulbs' worth. */
+	public static final int TRACE_CAPACITY = 100;
 
 	public enum Job {
 		IDLE(ChatFormatting.GRAY), WONT_DISTIL(ChatFormatting.GOLD), NO_CONDENSER(ChatFormatting.GOLD),
@@ -92,6 +98,10 @@ public class Column {
 	private final FluidTank feed = tank(FEED_PER_BLOCK);
 	private final FluidTank reflux = tank(REFLUX_PER_BLOCK);
 	private FluidTank[] sections = { tank(CUT_PER_BLOCK) };
+	/** The mixture's trace, gathered at the column's very top (0.40.0). */
+	private final FluidTank trace = tank(TRACE_CAPACITY);
+	/** mB of the mixture split since the last whole mB of its trace. */
+	private long traceOwed;
 
 	/** The mixture {@link #owed} is kept for. */
 	@Nullable
@@ -308,6 +318,7 @@ public class Column {
 			owed = new long[recipe.getFluidResults().size()];
 			ventOwed = new float[owed.length];
 			carry = 0;
+			traceOwed = 0;
 			lookIn = 0; // its heaters counted at once, at this mixture's heat
 		}
 		// it finds its condenser idle too, so the condenser draws its vapour line from the start
@@ -524,6 +535,7 @@ public class Column {
 	private void boil(ColumnLayout.Plan plan, DistillingRecipe recipe, @Nullable SteelCondenserBlockEntity condenser,
 		int boil) {
 		feed.drain(boil, IFluidHandler.FluidAction.EXECUTE);
+		gather(recipe, boil);
 		List<FluidStack> results = recipe.getFluidResults();
 		long batch = Math.max(1, recipe.batch());
 		for (int i = 0; i < results.size(); i++) {
@@ -566,7 +578,74 @@ public class Column {
 		}
 	}
 
+	/**
+	 * The mixture's trace, a mB for every {@link DistillingRecipe#traceEvery} mB of it split, gathers at the column's very
+	 * top; in the air column, what has no room there escapes over the top with the other gases.
+	 */
+	private void gather(DistillingRecipe recipe, int boil) {
+		if (recipe.trace() == null)
+			return;
+		traceOwed += boil;
+		int give = (int) (traceOwed / recipe.traceEvery());
+		if (give <= 0)
+			return;
+		traceOwed -= (long) give * recipe.traceEvery();
+		int kept = trace.fill(new FluidStack(recipe.trace(), give), IFluidHandler.FluidAction.EXECUTE);
+		if (kept < give && air())
+			escape(new FluidStack(recipe.trace(), give - kept));
+	}
+
+	/** The trace gathered at its very top, for the goggles and tests. */
+	public FluidStack trace() {
+		return trace.getFluid();
+	}
+
 	// ------------------------------------------------------------------------------------------------ pipes
+
+	/** What a pipe on the top face of its top section does: draws the trace gathered there, and puts nothing in. */
+	public IFluidHandler topHandler() {
+		return new TraceHandler();
+	}
+
+	private class TraceHandler implements IFluidHandler {
+		@Override
+		public int getTanks() {
+			return 1;
+		}
+
+		@Nonnull
+		@Override
+		public FluidStack getFluidInTank(int tank) {
+			return trace.getFluid();
+		}
+
+		@Override
+		public int getTankCapacity(int tank) {
+			return trace.getCapacity();
+		}
+
+		@Override
+		public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+			return false;
+		}
+
+		@Override
+		public int fill(FluidStack resource, FluidAction action) {
+			return 0;
+		}
+
+		@Nonnull
+		@Override
+		public FluidStack drain(FluidStack resource, FluidAction action) {
+			return trace.drain(resource, action);
+		}
+
+		@Nonnull
+		@Override
+		public FluidStack drain(int maxDrain, FluidAction action) {
+			return trace.drain(maxDrain, action);
+		}
+	}
 
 	/** What a pipe on section {@code layer}'s side can do: feed the bottom, reflux the top, draw any section's cut. */
 	public IFluidHandler handler(int layer) {
@@ -664,6 +743,8 @@ public class Column {
 	public void write(CompoundTag tag) {
 		tag.put("Feed", feed.writeToNBT(new CompoundTag()));
 		tag.put("Reflux", reflux.writeToNBT(new CompoundTag()));
+		tag.put("Trace", trace.writeToNBT(new CompoundTag()));
+		tag.putLong("TraceOwed", traceOwed);
 		ListTag list = new ListTag();
 		for (FluidTank section : sections)
 			list.add(section.writeToNBT(new CompoundTag()));
@@ -692,6 +773,8 @@ public class Column {
 	public void read(CompoundTag tag) {
 		feed.readFromNBT(tag.getCompound("Feed"));
 		reflux.readFromNBT(tag.getCompound("Reflux"));
+		trace.readFromNBT(tag.getCompound("Trace"));
+		traceOwed = tag.getLong("TraceOwed");
 		ListTag list = tag.getList("Sections", Tag.TAG_COMPOUND);
 		FluidTank[] read = new FluidTank[Math.max(1, list.size())];
 		for (int i = 0; i < read.length; i++) {
@@ -805,6 +888,9 @@ public class Column {
 		tooltip.add(line(tank("feed", feed)));
 		if (!reflux.isEmpty())
 			tooltip.add(line(tank("reflux_held", reflux)));
+		if (!trace.isEmpty())
+			tooltip.add(line(lang("trace", trace.getFluid().getDisplayName(), trace.getFluidAmount())
+				.withStyle(ChatFormatting.AQUA)));
 		for (int i = 0; i < results.size(); i++)
 			if (plan.vented()[i] >= 1)
 				tooltip.add(line(lang("no_room", results.get(i).getDisplayName()).withStyle(ChatFormatting.RED)));
@@ -823,6 +909,7 @@ public class Column {
 	void absorb(Column other, int up) {
 		pour(feed, other.feed);
 		pour(reflux, other.reflux);
+		pour(trace, other.trace);
 		for (int i = 0; i < other.sections.length; i++) {
 			int at = i + up;
 			if (at < 0)
@@ -857,6 +944,8 @@ public class Column {
 	void clear() {
 		feed.setFluid(FluidStack.EMPTY);
 		reflux.setFluid(FluidStack.EMPTY);
+		trace.setFluid(FluidStack.EMPTY);
+		traceOwed = 0;
 		for (FluidTank section : sections)
 			section.setFluid(FluidStack.EMPTY);
 		recipeId = null;
@@ -874,7 +963,7 @@ public class Column {
 	/** Everything it holds, taken out of it: the feed, the reflux and every section's cut, as the column melts. */
 	public List<FluidStack> empty() {
 		java.util.ArrayList<FluidStack> out = new java.util.ArrayList<>();
-		for (FluidTank tank : new FluidTank[] { feed, reflux })
+		for (FluidTank tank : new FluidTank[] { feed, reflux, trace })
 			if (!tank.isEmpty())
 				out.add(tank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
 		for (FluidTank section : sections)
@@ -885,7 +974,7 @@ public class Column {
 
 	/** Whether what it holds would spill or escape if it were broken: for the block entity's own use. */
 	public boolean holdsAnything() {
-		if (!feed.isEmpty() || !reflux.isEmpty())
+		if (!feed.isEmpty() || !reflux.isEmpty() || !trace.isEmpty())
 			return true;
 		for (FluidTank section : sections)
 			if (!section.isEmpty())

@@ -48,7 +48,7 @@ public class BellowsScenes {
 
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("A campfire only heats this furnace to Warm, and copper needs Hot")
+			.text("On its own, this campfire only gets the furnace Warm. Copper wants Hot")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(80);
@@ -58,7 +58,7 @@ public class BellowsScenes {
 		scene.world().setKineticSpeed(drive, 32);
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("While its shaft turns, a Bellows blows into the block in front of its nozzle")
+			.text("Turn a Bellows and it blows into whatever its nozzle faces")
 			.pointAt(nozzle)
 			.placeNearTarget();
 		scene.idle(80);
@@ -67,7 +67,7 @@ public class BellowsScenes {
 		scene.overlay().showText(80)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("A furnace standing on a fanned fire burns one level hotter. This campfire now heats it to Hot, with no fuel at all")
+			.text("Fan the fire under a furnace and it burns a level hotter. The same campfire now makes Hot, no fuel needed")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
@@ -81,14 +81,14 @@ public class BellowsScenes {
 		scene.idle(10);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Blowing straight into a furnace works too: its fuel burns one level hotter, but twice as fast. Charcoal now reaches Searing")
+			.text("Or blow straight into the furnace: its fuel burns a level hotter, but twice as fast. Charcoal reaches Searing")
 			.pointAt(util.vector().blockSurface(fire, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(80)
 			.colored(PonderPalette.RED)
-			.text("Bellows cannot light a furnace with no fire, and never push one past Searing. Only a superheated Blaze Burner reaches Blazing")
+			.text("Bellows can't light a cold furnace, and no amount of puffing gets past Searing. For Blazing, try a superheated Blaze Burner underneath")
 			.pointAt(util.vector().blockSurface(fire, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(90);
@@ -104,13 +104,13 @@ public class BellowsScenes {
 		scene.idle(10);
 		scene.overlay().showText(70)
 			.attachKeyFrame()
-			.text("Food on a campfire it blows into cooks twice as fast")
+			.text("Food on a fanned campfire cooks twice as fast")
 			.pointAt(util.vector().topOf(fire))
 			.placeNearTarget();
 		scene.idle(80);
 
 		scene.overlay().showText(80)
-			.text("Any speed will do. Turning it faster only puts more stress on the network")
+			.text("Any speed works. Spinning it faster just costs more stress")
 			.pointAt(util.vector().blockSurface(bellows, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(90);

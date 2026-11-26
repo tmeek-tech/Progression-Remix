@@ -71,7 +71,7 @@ public class CrucibleScenes {
 		contents(scene, pot, List.of(), copper, zinc);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Put metal in by hand, or with funnels, chutes and arms: ingots, nuggets, sheets, and raw or crushed ore. An ingot or a piece of ore melts into 90 mB")
+			.text("Feed it by hand, funnel, chute or arm: ingots, nuggets, sheets or ore. An ingot or a piece of ore makes 90 mB")
 			.pointAt(util.vector().topOf(crucible))
 			.placeNearTarget();
 		scene.idle(50);
@@ -80,7 +80,7 @@ public class CrucibleScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Zinc melts Hot; copper, gold and brass Searing, over a fed Blaze Burner. Iron, steel and netherite need a superheated one")
+			.text("Zinc melts Hot. Copper, gold and brass need Searing, from a fed Blaze Burner. Iron, steel and netherite need a superheated one")
 			.pointAt(util.vector().blockSurface(burner, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(40);
@@ -91,7 +91,7 @@ public class CrucibleScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Metals that meet in it join as alloys: copper and zinc as brass, iron and coal coke as steel, gold and netherite scrap as netherite")
+			.text("Metals that meet inside alloy: copper and zinc into brass, iron and coal coke into steel, gold and netherite scrap into netherite")
 			.pointAt(util.vector().topOf(crucible))
 			.placeNearTarget();
 		scene.idle(100);
@@ -107,7 +107,7 @@ public class CrucibleScenes {
 		scene.world().setKineticSpeed(drive.add(pot), 32);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Turning its shaft tips it over. It pours whatever rises over its lip, so tip it a little to pour a little")
+			.text("Turn its shaft to tip it. It pours whatever rises over the lip, so a small tip pours a little")
 			.pointAt(util.vector().centerOf(shaft))
 			.placeNearTarget();
 		scene.idle(23);
@@ -127,7 +127,7 @@ public class CrucibleScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A Sand Mold on a depot or belt under the stream fills with one metal. Full, it sets, then the casting breaks out of the sand")
+			.text("A Sand Mold on a depot or belt under the stream fills with one metal, sets, and the casting breaks out")
 			.pointAt(util.vector().topOf(depot))
 			.placeNearTarget();
 		scene.idle(40);
@@ -135,7 +135,7 @@ public class CrucibleScenes {
 		scene.idle(60);
 
 		scene.overlay().showText(90)
-			.text("A Mechanical Press rams molds in a basin: sand round an ingot, or four sand round a block. The pattern comes back out")
+			.text("A Mechanical Press rams molds in a basin: sand round an ingot, or four sand round a block. You get the pattern back")
 			.pointAt(util.vector().topOf(depot))
 			.placeNearTarget();
 		scene.idle(100);
@@ -143,7 +143,7 @@ public class CrucibleScenes {
 		scene.world().setKineticSpeed(drive.add(pot), -32);
 		scene.overlay().showText(60)
 			.attachKeyFrame()
-			.text("Turn the shaft back to stand it up again")
+			.text("Turn the shaft back to stand it up")
 			.pointAt(util.vector().centerOf(shaft))
 			.placeNearTarget();
 		scene.idle(23);
@@ -154,14 +154,14 @@ public class CrucibleScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Metal that misses spills like slow lava and sets fire to what it touches, then sets as Rough Metal, which mines back into ingots")
+			.text("Spilt metal flows like slow lava and sets things alight, then cools as Rough Metal. Mine it for the ingots back")
 			.pointAt(util.vector().topOf(spilt))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("27 Crucibles placed as a cube join into one big crucible. It needs heat under every column, holds 27 times as much, and melts nine times as fast")
+			.text("27 Crucibles in a cube join into one big crucible. It needs heat under every column, holds 27 times as much and melts nine times as fast")
 			.pointAt(util.vector().blockSurface(crucible, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);

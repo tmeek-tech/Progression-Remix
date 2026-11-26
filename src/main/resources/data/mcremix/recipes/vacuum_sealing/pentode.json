@@ -5,10 +5,10 @@
       "item": "powergrid:triode"
     },
     {
-      "item": "minecraft:amethyst_shard"
+      "tag": "forge:wires/iron"
     },
     {
-      "tag": "forge:plates/iron"
+      "tag": "forge:wires/iron"
     }
   ],
   "results": [

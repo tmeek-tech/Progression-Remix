@@ -1,0 +1,28 @@
+{
+  "type": "mcremix:coiling",
+  "processingTime": 320,
+  "colour": "#d4d9de",
+  "ingredients": [
+    {
+      "tag": "forge:plates/aluminium"
+    },
+    {
+      "tag": "forge:plates/aluminium"
+    },
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "tag": "mcremix:waxes"
+    }
+  ],
+  "results": [
+    {
+      "item": "powergrid:capacitor",
+      "count": 4
+    }
+  ]
+}

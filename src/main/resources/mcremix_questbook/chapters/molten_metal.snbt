@@ -14,9 +14,9 @@
 				"690A67A6D21199B1"
 			]
 			description: [
-				"Clay shaped like a pot and fired &6Hot&r becomes a crucible. It hangs on a shaft between two posts and melts what goes in with the heat of the block underneath: zinc and aluminium at &6Hot&r, copper, gold and brass at &cSearing&r, and iron, steel and netherite only at &bBlazing&r: over a superheated Blaze Burner, or later Power Grid's basin heater run past 1,200 °C."
+				"Clay shaped like a pot and fired &6Hot&r becomes a crucible. It hangs on a shaft between two posts and melts what goes in by the heat underneath: zinc and aluminium at &6Hot&r, copper, gold and brass at &cSearing&r, and iron, steel and netherite only at &bBlazing&r, over a superheated Blaze Burner or, later, Power Grid's basin heater past 1,200 °C."
 				""
-				"It melts tools and armour too, into half the metal they were made of, and copper with zinc becomes brass."
+				"Old tools and armour melt for half the metal that went into them. Copper and zinc together come out as brass."
 				""
 				"&7JEI: the Melting and Alloying tabs.&r"
 			]
@@ -40,9 +40,9 @@
 				"3AC9A7994C4F9DC0"
 			]
 			description: [
-				"Turning the crucible's shaft tips it, and it pours what rises over its lip onto whatever is in front: a Sand Mold on a depot or belt, a tank, another crucible, or the ground, where it spills and sets as rough metal."
+				"Turn the crucible's shaft to tip it. It pours whatever rises over the lip onto what's in front: a Sand Mold on a depot or belt, a tank, another crucible, or the floor, where it spills and sets as rough metal. Aim carefully."
 				""
-				"A press in a basin rams sand round an ingot or a block to make a mold. Full, a mold sets in two seconds and the casting breaks out."
+				"A press in a basin rams sand round an ingot or block to make a mold. A full mold sets in two seconds and the casting breaks out."
 				""
 				"&7JEI: the Casting tab. Ponder: the crucible.&r"
 			]
@@ -65,7 +65,7 @@
 				"6D7CDDADA949BC04"
 			]
 			description: [
-				"Twenty-seven crucibles placed as a 3x3x3 cube join into one big crucible. It needs heat under every one of its nine columns, then melts and pours nine times as fast. Turning it is a heavy load."
+				"Twenty-seven crucibles in a 3x3x3 cube join into one big crucible. Heat all nine columns and it melts and pours nine times as fast. Tipping it takes real muscle."
 			]
 			id: "212B25E798689E47"
 			optional: true
@@ -92,11 +92,11 @@
 				"3AC9A7994C4F9DC0"
 			]
 			description: [
-				"Fluids carry heat on the same scale as fires: water is &3Cold&r, lava &6Hot&r, and molten metals as hot as they melt. Every pipe, pump and tank has a ceiling: brass, glass, copper and iron hold up to &6Hot&r, steel &cSearing&r, aluminium only &eWarm&r and PVC only &3Cold&r. Past it a part glows, then bursts or melts and spills."
+				"Fluids sit on the same heat scale as fires: water is &3Cold&r, lava &6Hot&r, molten metal as hot as it melts. Every pipe, pump and tank has a ceiling: brass, glass, copper and iron take up to &6Hot&r, steel &cSearing&r, aluminium only &eWarm&r and PVC only &3Cold&r. Past it, a part glows, then bursts or melts and spills."
 				""
-				"A plain pipe joins only pipes of its own metal. Pumps, valves and smart pipes join any, so one between two metals is the adapter. Tanks of different metals never join."
+				"Plain pipes only join pipes of their own metal. Pumps, valves and smart pipes join anything, so use one as the adapter. Tanks of different metals never join."
 				""
-				"Tooltips say how hot a fluid each part holds."
+				"Tooltips say how hot a fluid each part takes."
 			]
 			id: "361F092D54BF5055"
 			rewards: [ ]

@@ -56,7 +56,7 @@ public class VatMixerScenes {
 			.withItem(AllItems.GOGGLES.asStack());
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A vat holds up to four fluids at once, each in a layer of its own: the heaviest at the bottom and gases at the top. Engineer's Goggles show them all")
+			.text("A vat holds up to four fluids at once, layered: the heaviest at the bottom, gases on top. Engineer's Goggles show them all")
 			.pointAt(util.vector().blockSurface(front, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
@@ -69,14 +69,14 @@ public class VatMixerScenes {
 		scene.idle(15);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Use a Copper Mechanical Mixer on the side of one of its tanks, and it goes on as a plate of the vat's own tank with a cog on its face, as though put inside")
+			.text("Use a Copper Mechanical Mixer on a tank's side and it becomes a plate of that tank with a cog on its face, as if fitted inside")
 			.pointAt(util.vector().blockSurface(mixer, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("A mixer only fits a vat of its own material: copper on copper vats, iron on iron, steel on steel and aluminium on aluminium. Create's own mixer works only over basins, and no mixer fits a brass vat. Sneak to put down an ordinary mixer instead")
+			.text("A mixer only fits a vat of its own metal, and none fits brass. Create's own mixer works only over basins. Sneak to place a plain mixer instead")
 			.pointAt(util.vector().blockSurface(mixer, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
@@ -89,7 +89,7 @@ public class VatMixerScenes {
 			List.of(Chemical.CHLORINE.stack(12000), Chemical.ETHYLENE.stack(12000)), List.of(), true);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("No shaft goes into it: its cog turns with the cogs beside it, as a Mechanical Mixer's does. Turned, it stirs what the vat holds, four batches at a time. A big vat wants several mixers")
+			.text("No shaft: it turns with the cogs beside it, like a Mechanical Mixer. Each stirs four batches at a time, so a big vat wants several")
 			.pointAt(util.vector().topOf(mixer))
 			.placeNearTarget();
 		scene.idle(50);
@@ -110,13 +110,13 @@ public class VatMixerScenes {
 
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("A vat mixes only wet, unheated recipes. Nothing settles or ferments in it while its mixers turn")
+			.text("A vat mixes only wet, unheated recipes. Nothing settles or ferments while its mixers turn")
 			.pointAt(util.vector().blockSurface(front, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(90)
-			.text("Pipes on any of its tanks draw off what it makes, gases first, and leave what it is still using")
+			.text("Pipes on any of its tanks draw off what it makes, gases first, and leave what it's still using")
 			.pointAt(util.vector().topOf(3, 3, 3))
 			.placeNearTarget();
 		scene.idle(100);

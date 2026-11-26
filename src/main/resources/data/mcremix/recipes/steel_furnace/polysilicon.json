@@ -1,0 +1,24 @@
+{
+  "type": "mcremix:steel_furnace",
+  "heat": "blazing",
+  "processingTime": 200,
+  "ingredients": [
+    {
+      "fluid": "mcremix:trichlorosilane",
+      "amount": 100
+    },
+    {
+      "fluid": "mcremix:hydrogen",
+      "amount": 100
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:polysilicon"
+    },
+    {
+      "fluid": "mcremix:hydrogen_chloride",
+      "amount": 300
+    }
+  ]
+}

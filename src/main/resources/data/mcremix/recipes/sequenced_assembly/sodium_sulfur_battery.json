@@ -1,0 +1,80 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "mcremix:steel_casing"
+  },
+  "loops": 2,
+  "results": [
+    {
+      "item": "mcremix:sodium_sulfur_battery"
+    }
+  ],
+  "transitionalItem": {
+    "item": "mcremix:incomplete_sodium_sulfur_battery"
+  },
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        },
+        {
+          "item": "mcremix:beta_alumina_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        },
+        {
+          "fluid": "mcremix:molten_sodium",
+          "amount": 100
+        }
+      ],
+      "results": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        },
+        {
+          "fluid": "mcremix:molten_sulfur",
+          "amount": 250
+        }
+      ],
+      "results": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        }
+      ],
+      "results": [
+        {
+          "item": "mcremix:incomplete_sodium_sulfur_battery"
+        }
+      ]
+    }
+  ]
+}

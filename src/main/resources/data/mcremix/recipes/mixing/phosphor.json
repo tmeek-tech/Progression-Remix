@@ -1,0 +1,21 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "superheated",
+  "ingredients": [
+    {
+      "item": "mcremix:zinc_oxide"
+    },
+    {
+      "item": "mcremix:zinc_oxide"
+    },
+    {
+      "tag": "forge:gems/quartz"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:phosphor",
+      "count": 2
+    }
+  ]
+}

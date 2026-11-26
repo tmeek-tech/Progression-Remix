@@ -14,9 +14,9 @@
 				"6BD37C7E20889D52"
 			]
 			description: [
-				"Washing red sand in front of an Encased Fan turns up bauxite a quarter of the time, beside the gold nuggets."
+				"Wash red sand with an Encased Fan and a quarter of the time you'll find bauxite among the gold nuggets."
 				""
-				"Every step from here can be worked out from what you see."
+				"From here on, every step can be worked out from what you see."
 			]
 			id: "3F4C5E0A2AB19ACB"
 			rewards: [ ]
@@ -59,7 +59,7 @@
 				"109BD4CCCD1F5D59"
 			]
 			description: [
-				"Left to stand cool, the liquor settles out aluminium hydroxide and gives back some of its caustic soda. A basin settles a batch at a time, but only with no heat under it and nothing working over it. A vat settles a batch for every bucket it holds."
+				"Left to stand cool, the liquor settles out aluminium hydroxide and hands back some caustic soda. A basin settles a batch at a time, with no heat under it and nothing working over it. A vat settles a batch for every bucket it holds."
 				""
 				"&7JEI: the Settling tab.&r"
 			]
@@ -82,7 +82,7 @@
 				"42115E5A5C8D65E6"
 			]
 			description: [
-				"Aluminium hydroxide fired at &cSearing&r becomes alumina, the white powder electrolysis turns into metal. Keep some spare: it is a catalyst later too."
+				"Fire aluminium hydroxide at &cSearing&r for alumina, the white powder electrolysis turns into metal. Keep a stash: it's a catalyst later too."
 			]
 			id: "008AD6AA8A865A86"
 			rewards: [ ]
@@ -104,9 +104,9 @@
 				"6D7CDDADA949BC04"
 			]
 			description: [
-				"An Electrolyser splits alumina into molten aluminium, with no heat under it: the current keeps the melt hot. Pipe it off and cast it in sand molds."
+				"An Electrolyser splits alumina into molten aluminium, no heat needed: the current keeps the melt hot. Pipe it off and cast it in sand molds."
 				""
-				"It takes far more charge than salt water does, so this is where a good circuit pays off."
+				"It eats far more charge than salt water, so this is where a good circuit pays for itself."
 			]
 			id: "028B0660FD4BDF35"
 			rewards: [ ]
@@ -129,9 +129,9 @@
 				"028B0660FD4BDF35"
 			]
 			description: [
-				"Aluminium supports turn up to 512 RPM with no drag at all, and nothing aluminium ever weathers. But its shafts and cogs carry only light loads, and it melts beside anything &6Hot&r: lava, fire, a lit Furnace, a Blaze Burner or molten metal. A melted part runs down and sets as rough aluminium."
+				"Aluminium supports spin to 512 RPM with no drag, and aluminium never weathers. The catch: its shafts and cogs carry only light loads, and it melts beside anything &6Hot&r, from lava and fire to a lit Furnace, a Blaze Burner or molten metal. A melted part runs down and sets as rough aluminium."
 				""
-				"Its pipes hold only &eWarm&r fluids, and its tanks make no boiler. Keep it out of the furnace yard."
+				"Its pipes take only &eWarm&r fluids and its tanks make no boiler. Keep it well away from the furnace yard."
 				""
 				"Every aluminium bracket and casing needs a Polyethylene Bushing, so aluminium parts wait for the Steel Furnace chapter."
 			]
@@ -154,7 +154,7 @@
 				"028B0660FD4BDF35"
 			]
 			description: [
-				"Bolted to a Power Grid device with its base against it, a heat sink draws heat out, so the device takes more power before it overheats. Several add up, and a fan blowing through the fins sheds far more."
+				"Bolt a heat sink to a Power Grid device, base against it, and it draws the heat out, so the device takes more power before it overheats. Several add up, and a fan blowing through the fins sheds far more."
 			]
 			id: "39CE89A28527ED35"
 			rewards: [ ]
@@ -175,7 +175,7 @@
 				"109BD4CCCD1F5D59"
 			]
 			description: [
-				"Red mud fires &eWarm&r into red mud bricks, with stairs, slabs and walls of their own."
+				"All that red mud piling up? Fire it &eWarm&r into red mud bricks, with stairs, slabs and walls of their own."
 			]
 			id: "33DDABD396D7D304"
 			optional: true

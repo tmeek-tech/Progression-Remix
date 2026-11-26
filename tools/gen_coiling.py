@@ -250,15 +250,17 @@ def recipes():
             'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['S', 'C', 'G'],
             'key': {'S': item(part(metal, 'shaft')), 'C': item(casing(metal)), 'G': item(part(metal, 'cogwheel'))},
             'result': item('mcremix:' + winder(metal))})
-    # Power Grid's two coils, from what their hand recipes took, wound in place of them; a copper coil takes 2.5
-    # seconds at andesite's 128 RPM, a resistive one, with less wire on a thinner stick, under 2
+    # Power Grid's two coils, wound in place of their hand recipes; a copper coil takes 2.5 seconds at andesite's
+    # 128 RPM, a resistive one, with less wire, under 2. A heating coil wound on wood would burn, so since 0.40.0 the
+    # resistive one is wound on fired clay, a Brick, as real elements are. (The winder's other jobs, drawing wire and
+    # rolling capacitors, are gen_powergrid's.)
     G.recipe('coiling/copper_coil', {
         'type': 'mcremix:coiling', 'processingTime': 400, 'colour': '#c8794a',
         'ingredients': [{'tag': 'forge:wires/copper'}] * 4 + [item('minecraft:stick')] + [item('create:cardboard')] * 2,
         'results': [item('powergrid:copper_coil')]})
     G.recipe('coiling/resistive_coil', {
         'type': 'mcremix:coiling', 'processingTime': 300, 'colour': '#8f9294',
-        'ingredients': [{'tag': 'forge:wires/iron'}] * 4 + [item('minecraft:stick')],
+        'ingredients': [{'tag': 'forge:wires/iron'}] * 4 + [item('minecraft:brick')],
         'results': [item('powergrid:resistive_coil')]})
     G.disabled('powergrid', 'crafting/copper_coil')
     G.disabled('powergrid', 'crafting/resistive_coil')
@@ -297,14 +299,16 @@ def lang():
         key = 'block.mcremix.' + winder(metal)
         text[key] = G.title_case(winder(metal))
         text[key + '.tooltip.summary'] = (
-            'Winds Power Grid\'s _coils_ from _wire_ on a bobbin turned by its _shaft_, which goes in at _either side_ '
-            'of its open front. It winds _faster the faster it turns_, up to _%d RPM_ in %s.'
+            'Winds Power Grid\'s _coils_ and _capacitors_ on a bobbin turned by its _shaft_, which goes in at _either '
+            'side_ of its open front, and draws _wire_. It works _faster the faster it turns_, up to _%d RPM_ in %s.'
             % (speeds[metal], 'andesite' if metal == 'andesite' else metal))
         text[key + '.tooltip.condition1'] = 'What it winds'
         text[key + '.tooltip.behaviour1'] = (
-            '_Four Copper Wire_, a _Stick_ and _two Cardboard_ into a _Copper Coil_; _four Iron Wire_ and a _Stick_ '
-            'into a _Resistive Coil_. They go in by _hand_, or by _funnel_, _chute_ or _hopper_ from any side, a kind '
-            'of thing to each of its _four slots_. Take the coils with an _empty hand_ or a _funnel_.')
+            '_Four Copper Wire_, a _Stick_ and _two Cardboard_ into a _Copper Coil_; _four Iron Wire_ on a _Brick_ '
+            'into a _Resistive Coil_; _two Aluminium Sheets_ rolled up in _two Paper_ and _wax_ into _four Capacitors_. '
+            'An _ingot_ of copper, iron or gold it draws through a die into _four wire_. They go in by _hand_, or by '
+            '_funnel_, _chute_ or _hopper_ from any side, a kind of thing to each of its _four slots_. Take what it '
+            'made with an _empty hand_ or a _funnel_.')
         text[key + '.tooltip.condition2'] = 'How fast'
         text[key + '.tooltip.behaviour2'] = (
             'A Copper Coil takes _2.5 seconds at 128 RPM_, half that at 256 and so on. Each metal turns as fast as its '
@@ -313,11 +317,11 @@ def lang():
     text.update({
         g + 'winding': 'Winding %s, %s%%',
         g + 'still': 'Holds enough for %s, but is not turning',
-        g + 'full': 'Full of coils: take them out',
+        g + 'full': 'Full: take out what it made',
         g + 'empty': 'Empty: give it wire to wind',
         g + 'waiting': 'Still wants %s',
         g + 'holds': 'Holds %s %s',
-        g + 'made': 'Wound %s %s',
+        g + 'made': 'Done: %s %s',
         'mcremix.goggles.wants.count': '%s %s',
         'mcremix.goggles.wants.comma': ', ',
         'mcremix.goggles.wants.and': ' and ',

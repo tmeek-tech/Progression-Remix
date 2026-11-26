@@ -1,0 +1,28 @@
+{
+  "type": "mcremix:distilling",
+  "heat": "warm",
+  "processingTime": 600,
+  "ingredients": [
+    {
+      "fluid": "mcremix:crude_trichlorosilane",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "fluid": "mcremix:trichlorosilane",
+      "amount": 950
+    },
+    {
+      "fluid": "mcremix:ferric_chloride",
+      "amount": 50
+    }
+  ],
+  "boiling_points": [
+    32,
+    316
+  ],
+  "close": [
+    false
+  ]
+}

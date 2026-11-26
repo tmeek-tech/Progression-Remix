@@ -45,7 +45,7 @@ public class SparkPlugScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Furnaces and Steel Furnaces have to be lit. A Spark Plug lights one with electricity, with no one there to strike a flame")
+			.text("Furnaces and Steel Furnaces need lighting. A Spark Plug does it with electricity, no flint required")
 			.pointAt(util.vector().blockSurface(kiln, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -54,7 +54,7 @@ public class SparkPlugScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("It screws into a furnace's side or back. It will not go on the front, where the fuel goes in")
+			.text("It screws into a furnace's side or back, never the front, where the fuel goes in")
 			.pointAt(util.vector().blockSurface(plug, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -79,21 +79,21 @@ public class SparkPlugScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("With about 1,000 V across it, it sparks and lights the fuel in the furnace. A transformer can step a lower voltage up to that")
+			.text("At about 1,000 V it sparks and lights the furnace's fuel. A transformer can step a lower voltage up")
 			.pointAt(gap)
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("Below 900 V nothing crosses its gap. Once it sparks, it keeps on until the voltage falls below 800 V")
+			.text("Below 900 V nothing jumps the gap. Once it sparks, it keeps on until the voltage falls below 800 V")
 			.pointAt(gap)
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("It sparks the whole time it is powered, lit furnace or not, drawing about 10 mA. A switch or relay in its circuit decides when")
+			.text("It sparks the whole time it's powered, lit furnace or not, drawing about 10 mA. A switch or relay in its circuit decides when")
 			.pointAt(util.vector().topOf(source))
 			.placeNearTarget();
 		scene.idle(110);
@@ -108,14 +108,14 @@ public class SparkPlugScenes {
 		HeatScenes.setKiln(scene, util, kiln, clay, planks, ItemStack.EMPTY, HeatLevel.WARM, true);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Put out with a Shovel, a furnace with a sparking plug catches again at once")
+			.text("Shovel out a furnace while its plug sparks, and it just catches again")
 			.pointAt(firebox)
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(80)
 			.colored(PonderPalette.GREEN)
-			.text("A Spark Plug never wears out")
+			.text("It never wears out")
 			.pointAt(gap)
 			.placeNearTarget();
 		scene.idle(90);

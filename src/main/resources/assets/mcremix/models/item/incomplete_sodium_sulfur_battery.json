@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcremix:item/incomplete_sodium_sulfur_battery"
+  }
+}

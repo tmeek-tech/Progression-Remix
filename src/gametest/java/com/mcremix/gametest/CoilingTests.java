@@ -12,6 +12,7 @@ import com.mcremix.coiling.CoilWinderBlockEntity;
 import com.mcremix.kinetics.KineticMaterial;
 import com.mcremix.registry.ModBlocks;
 import com.mcremix.registry.ModCoiling;
+import com.mcremix.registry.ModItems;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
@@ -113,8 +114,8 @@ public class CoilingTests {
 	}
 
 	/**
-	 * Four iron wire and a stick wind a resistive coil; short of the stick it waits, its goggles say what for, and a
-	 * funnel's stick sets it going. One that holds all a coil takes but is not turning waits too.
+	 * Four iron wire on a brick wind a resistive coil (0.40.0: wood would burn); short of the brick it waits, its goggles
+	 * say what for, and a funnel's brick sets it going. One that holds all a coil takes but is not turning waits too.
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
 	public static void resistiveCoilsWaitForWhatTheyLack(GameTestHelper h) {
@@ -123,19 +124,19 @@ public class CoilingTests {
 		CoilWinderBlockEntity idle = turned(h, still, KineticMaterial.ANDESITE, 0);
 		TestPlayer player = GT.player(h, p(4, 2, 1));
 		give(h, player, turning, ModdedItems.IRON_WIRE.asStack(4));
-		give(h, player, still, ModdedItems.IRON_WIRE.asStack(4), new ItemStack(Items.STICK));
+		give(h, player, still, ModdedItems.IRON_WIRE.asStack(4), new ItemStack(Items.BRICK));
 		h.runAtTickTime(40, () -> {
-			h.assertTrue(winder.made().isEmpty(), "with no stick nothing should be wound");
+			h.assertTrue(winder.made().isEmpty(), "with no brick nothing should be wound");
 			String lines = goggles(winder);
-			h.assertTrue(lines.contains("[mcremix.goggles.coil_winder.waiting]") && lines.contains("[item.minecraft.stick]"),
-				"its goggles should say it wants a stick: " + lines);
+			h.assertTrue(lines.contains("[mcremix.goggles.coil_winder.waiting]") && lines.contains("[item.minecraft.brick]"),
+				"its goggles should say it wants a brick: " + lines);
 			h.assertTrue(goggles(idle).contains("[mcremix.goggles.coil_winder.still]"), goggles(idle));
-			ItemStack left = funnel(winder, Direction.UP).insertItem(0, new ItemStack(Items.STICK), false);
-			h.assertTrue(left.isEmpty(), "a funnel should put the stick in, left " + left);
+			ItemStack left = funnel(winder, Direction.UP).insertItem(0, new ItemStack(Items.BRICK), false);
+			h.assertTrue(left.isEmpty(), "a funnel should put the brick in, left " + left);
 		});
 		h.runAtTickTime(100, () -> {
 			h.assertTrue(winder.made().is(ModdedItems.RESISTIVE_COIL.get()),
-				"four iron wire and a stick should wind a resistive coil in under 2 seconds, has " + winder.made());
+				"four iron wire on a brick should wind a resistive coil in under 2 seconds, has " + winder.made());
 			h.assertTrue(idle.made().isEmpty(), "a winder that is not turning should wind nothing");
 			h.succeed();
 		});
@@ -185,11 +186,46 @@ public class CoilingTests {
 		h.assertTrue(winder.inputs().getStackInSlot(0).getCount() == 6, "the wire should be in one slot");
 		for (int slot = 0; slot < side.getSlots(); slot++)
 			h.assertTrue(side.extractItem(slot, 64, false).isEmpty(), "a funnel should take nothing it winds with");
-		side.insertItem(1, new ItemStack(Items.STICK), false);
+		side.insertItem(1, new ItemStack(Items.BRICK), false);
 		h.runAtTickTime(90, () -> {
 			ItemStack out = side.extractItem(CoilWinderBlockEntity.INPUT_SLOTS, 64, false);
 			h.assertTrue(out.is(ModdedItems.RESISTIVE_COIL.get()), "a funnel should take the coil out, took " + out);
 			h.assertTrue(winder.inputs().getStackInSlot(0).getCount() == 2, "two wire should be left");
+			h.succeed();
+		});
+	}
+
+	/**
+	 * Since 0.40.0 it draws an ingot of copper, iron or gold through a die into four wire, a second an ingot at 128 RPM,
+	 * and rolls two aluminium sheets up in two paper and wax into four capacitors. Holding the parts of a coil and an
+	 * ingot as well, it winds the coil first, the job that takes the most; then, its coil not taken out, it waits.
+	 * Power Grid's saw no longer cuts wire from plates.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
+	public static void itDrawsWireAndRollsCapacitors(GameTestHelper h) {
+		BlockPos drawing = p(4, 2, 4), rolling = p(4, 2, 8), both = p(4, 2, 12);
+		CoilWinderBlockEntity drawer = turned(h, drawing, KineticMaterial.ANDESITE, 128);
+		CoilWinderBlockEntity roller = turned(h, rolling, KineticMaterial.ANDESITE, 128);
+		CoilWinderBlockEntity winder = turned(h, both, KineticMaterial.ANDESITE, 128);
+		TestPlayer player = GT.player(h, p(4, 2, 1));
+		give(h, player, drawing, new ItemStack(Items.COPPER_INGOT, 2));
+		give(h, player, rolling, ModItems.ALUMINIUM_SHEET.asStack(2), new ItemStack(Items.PAPER, 2),
+			ModItems.PARAFFIN_WAX.asStack());
+		give(h, player, both, ModdedItems.WIRE.asStack(4), new ItemStack(Items.STICK), AllItems.CARDBOARD.asStack(2),
+			new ItemStack(Items.COPPER_INGOT));
+		h.runAtTickTime(100, () -> {
+			h.assertTrue(drawer.made().is(ModdedItems.WIRE.get()) && drawer.made().getCount() == 8,
+				"two copper ingots should draw into eight copper wire in two seconds, has " + drawer.made());
+			h.assertTrue(roller.made().is(ModdedItems.CAPACITOR.get()) && roller.made().getCount() == 4,
+				"two aluminium sheets, two paper and wax should roll four capacitors, has " + roller.made());
+			h.assertTrue(winder.made().is(ModdedItems.COPPER_COIL.get()) && winder.made().getCount() == 1
+				&& winder.inputs().getStackInSlot(3).is(Items.COPPER_INGOT),
+				"it should wind the coil first and keep the ingot, its coil not taken out: " + winder.made());
+			for (String metal : new String[] { "copper", "iron", "gold" })
+				h.assertTrue(h.getLevel().getRecipeManager().byKey(McRemix.asResource("coiling/" + metal + "_wire"))
+					.isPresent() && h.getLevel().getRecipeManager()
+						.byKey(new ResourceLocation("powergrid", "cutting/" + metal + "_wire_cutting")).isEmpty(),
+					metal + " wire should be drawn, not sawn");
 			h.succeed();
 		});
 	}

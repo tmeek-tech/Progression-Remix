@@ -53,6 +53,8 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	private boolean checkedFlange;
 	/** What a pipe on its side works with: its section of the column, whichever block keeps it now. */
 	private final LazyOptional<IFluidHandler> port = LazyOptional.of(Port::new);
+	/** What a pipe on its top works with, at the column's very top: the trace gathered there (0.40.0). */
+	private final LazyOptional<IFluidHandler> top = LazyOptional.of(Top::new);
 
 	public ColumnSectionBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -253,6 +255,8 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 		if (cap == ForgeCapabilities.FLUID_HANDLER && (side == null || side.getAxis().isHorizontal()))
 			return port.cast();
+		if (cap == ForgeCapabilities.FLUID_HANDLER && side == Direction.UP)
+			return top.cast();
 		return super.getCapability(cap, side);
 	}
 
@@ -260,6 +264,55 @@ public class ColumnSectionBlockEntity extends SmartBlockEntity implements IMulti
 	public void invalidateCaps() {
 		super.invalidateCaps();
 		port.invalidate();
+		top.invalidate();
+	}
+
+	/** The trace gathered at the column's very top, if this block is in its top section; found afresh each time. */
+	private class Top implements IFluidHandler {
+		private IFluidHandler trace() {
+			ColumnSectionBlockEntity c = getControllerBE();
+			if (c == null || worldPosition.getY() - c.worldPosition.getY() != c.height - 1)
+				return EmptyFluidHandler.INSTANCE;
+			return c.column.topHandler();
+		}
+
+		@Override
+		public int getTanks() {
+			return trace().getTanks();
+		}
+
+		@Nonnull
+		@Override
+		public FluidStack getFluidInTank(int tank) {
+			return trace().getFluidInTank(tank);
+		}
+
+		@Override
+		public int getTankCapacity(int tank) {
+			return trace().getTankCapacity(tank);
+		}
+
+		@Override
+		public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+			return false;
+		}
+
+		@Override
+		public int fill(FluidStack resource, FluidAction action) {
+			return 0;
+		}
+
+		@Nonnull
+		@Override
+		public FluidStack drain(FluidStack resource, FluidAction action) {
+			return trace().drain(resource, action);
+		}
+
+		@Nonnull
+		@Override
+		public FluidStack drain(int maxDrain, FluidAction action) {
+			return trace().drain(maxDrain, action);
+		}
 	}
 
 	/** Its section of the column, found afresh each time: the column may have grown or split since. */

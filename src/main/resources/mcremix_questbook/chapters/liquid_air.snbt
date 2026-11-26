@@ -16,9 +16,9 @@
 				"211EDAB3AE1ED6F2"
 			]
 			description: [
-				"An Encased Fan blowing into a Pressurizer's vessel feeds it air, and from 256 RPM the Pressurizer squeezes it hot. A Steel Condenser with coolant in its jacket chills it, and an aluminium Expansion Valve lets it through, a fifth of it turning liquid."
+				"An Encased Fan blowing into a Pressurizer's vessel feeds it air, and from 256 RPM the Pressurizer squeezes it hot. A Steel Condenser with coolant in its jacket chills it, and an aluminium Expansion Valve lets it go, a fifth of it turning liquid."
 				""
-				"The rest comes out cold, to go round again."
+				"The rest comes out cold, ready for another lap."
 				""
 				"&7JEI: the Liquefying tab.&r"
 			]
@@ -41,9 +41,9 @@
 				"6E06FDD802380DCB"
 			]
 			description: [
-				"Liquid air is cryogenic. In steel or iron pipes, pumps or tanks, or in PVC, it frosts them white, then they crack and burst. Copper, aluminium and glass take it, and tooltips say which crack."
+				"Liquid air is cryogenic. Steel and iron pipes, pumps and tanks frost white, then crack and burst, and PVC fares no better. Copper, aluminium and glass take it, and tooltips say what cracks."
 				""
-				"Spilt, it boils away in seconds, freezing the water beside it."
+				"Spilt, it boils off in seconds, freezing the water beside it."
 			]
 			id: "5CDB9FE65D68D6E3"
 			rewards: [ ]
@@ -64,9 +64,9 @@
 				"5CDB9FE65D68D6E3"
 			]
 			description: [
-				"Aluminium Column Sections join as steel ones do, but need no heat and no condenser: liquid air boils in the world's warmth. It splits into nitrogen from the top, oxygen from the bottom and argon from a section of its own between them. Spare sections sit just under the top and draw nothing, and goggles show which section draws what."
+				"Aluminium Column Sections join like steel ones, but need no heat and no condenser: to liquid air, the world is a furnace. Nitrogen comes off the top, oxygen the bottom and argon a section of its own between. Spare sections sit just under the top and draw nothing, and goggles show which section draws what."
 				""
-				"Argon and oxygen boil only 3 °C apart, so the column needs extra sections between them, or liquid nitrogen piped back into its top as reflux. It frosts and grows icicles as it runs, and melts beside anything &6Hot&r."
+				"Argon and oxygen boil only 3 °C apart, so the column needs extra sections between them, or liquid nitrogen piped back into its top as reflux. It frosts up and grows icicles as it runs, and melts beside anything &6Hot&r."
 			]
 			id: "4A92C81CCC100231"
 			rewards: [ ]
@@ -93,7 +93,7 @@
 				"4A92C81CCC100231"
 			]
 			description: [
-				"Piped into a lit Steel Furnace beside its fuel, oxygen makes the fire burn twice as hot and lifts the fuel's ceiling a level. Let loose, it makes fire spread."
+				"Pipe oxygen into a lit Steel Furnace beside its fuel and the fire burns twice as hot, its ceiling a level higher. Let loose, oxygen makes fire spread."
 			]
 			icon: "minecraft:fire_charge"
 			id: "4E069455AC7A5FE8"
@@ -116,9 +116,9 @@
 				"5EEDEEC2867C3143"
 			]
 			description: [
-				"Iron nuggets pressed with alumina make iron catalyst pellets. Dropped into a Pressurizer's vessel, a pellet lets nitrogen and hydrogen squeeze into ammonia over &6Hot&r heat."
+				"Press iron nuggets with alumina into iron catalyst pellets. Drop one in a Pressurizer's vessel and nitrogen and hydrogen squeeze into ammonia over &6Hot&r heat."
 				""
-				"Ammonia squeezed with carbon dioxide gives urea, which is bone meal by the bucket: on a crop it grows one stage."
+				"Squeeze ammonia with carbon dioxide for urea, bone meal by the bucket: on a crop it grows one stage."
 			]
 			id: "5242ADDF56F91A4D"
 			rewards: [ ]
@@ -139,7 +139,7 @@
 				"3F4C5E0A2AB19ACB"
 			]
 			description: [
-				"Washing red sand turns up a platinum nugget about once in a hundred. Nuggets make a gauze, a catalyst that lasts a long time."
+				"Washing red sand turns up a platinum nugget about once in a hundred. Hoard them: nuggets make a gauze, a catalyst that lasts a long time."
 			]
 			id: "754D20403EEE0165"
 			rewards: [ ]
@@ -162,9 +162,9 @@
 				"4E069455AC7A5FE8"
 			]
 			description: [
-				"Ammonia and oxygen burnt over platinum gauze in a &cSearing&r Steel Furnace give nitrogen dioxide, a brown, poisonous haze. Stirred with water in a vat it becomes nitric acid, and with caustic soda, sodium nitrite."
+				"Burn ammonia and oxygen over platinum gauze in a &cSearing&r Steel Furnace for nitrogen dioxide, a brown, poisonous haze. Stir it with water in a vat for nitric acid, or with caustic soda for sodium nitrite."
 				""
-				"Every coal tar dye needs nitric acid."
+				"Every coal tar dye needs nitric acid, so make plenty."
 			]
 			id: "64207D5B90DBDEF5"
 			rewards: [ ]
@@ -185,7 +185,9 @@
 				"4A92C81CCC100231"
 			]
 			description: [
-				"Piped into an Arc Furnace's sides, argon gives half an ingot more for each sponge. A Spout fills a glass tube with argon for an argon tube, which glows violet once enough volts are across it."
+				"Pipe argon into an Arc Furnace's sides and each sponge gives half an ingot more. Or have a Spout fill a glass tube with it for an argon tube, which glows violet with enough volts across it."
+				""
+				"Power Grid's growth lamps are sealed in it too."
 			]
 			id: "3EEC4B6E68B06CB6"
 			optional: true
@@ -200,6 +202,31 @@
 			]
 			title: "Argon"
 			x: 3.5d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"4A92C81CCC100231"
+				"57EB3C92DD68A1E7"
+			]
+			description: [
+				"Liquid air holds a little neon, a mB for every 55 buckets split. It gathers at the very top of the air column, and only a pipe on the top face of its top section draws it off."
+				""
+				"A mB fills one of Power Grid's neon bulbs or regulator tubes."
+			]
+			id: "24CA6F1827E4ACDA"
+			optional: true
+			rewards: [ ]
+			subtitle: "A trace at the very top"
+			tasks: [
+				{
+					id: "5B7AFA6D69004EC7"
+					item: "powergrid:neon_bulb"
+					type: "item"
+				}
+			]
+			title: "Neon"
+			x: 1.75d
 			y: -1.75d
 		}
 		{

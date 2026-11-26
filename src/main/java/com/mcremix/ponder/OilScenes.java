@@ -44,13 +44,13 @@ public class OilScenes {
 		scene.idle(20);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Crude oil lies in sealed pockets deep in the deepslate, between y -40 and -16, about one in every six by six chunks, under any biome")
+			.text("Crude oil lies in sealed pockets deep in the deepslate, between y -40 and -16, about one per six by six chunks, under any biome")
 			.pointAt(util.vector().blockSurface(pocketFront, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("A pocket never opens onto a cave: there is no sign of it until you dig into it")
+			.text("A pocket never opens onto a cave. There's no sign of one until your pickaxe finds it")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 3, 2), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -63,7 +63,7 @@ public class OilScenes {
 		scene.world().setKineticSpeed(util.select().position(1, 5, 3), -32);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("A Hose Pulley lowered into a pocket draws it. However small the pocket, it never runs dry, and several pulleys can share one")
+			.text("Lower a Hose Pulley into a pocket to draw it. However small, it never runs dry, and several pulleys can share one")
 			.pointAt(util.vector().topOf(util.grid().at(3, 5, 3)))
 			.placeNearTarget();
 		scene.idle(70);
@@ -71,7 +71,7 @@ public class OilScenes {
 			nbt -> nbt.put("TankContent", Chemical.CRUDE_OIL.stack(4000).writeToNBT(new CompoundTag())));
 		scene.idle(50);
 		scene.overlay().showText(100)
-			.text("The oil is thick: it comes up a bucket every ten seconds, however fast the pump turns. That keeps one heater of a steel column busy")
+			.text("It's thick stuff: a bucket every ten seconds, however fast the pump turns. That keeps one heater of a steel column busy")
 			.pointAt(util.vector().blockSurface(util.grid().at(1, 5, 3), Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(110);
@@ -86,7 +86,7 @@ public class OilScenes {
 		scene.world().showSection(util.select().position(out.north()), Direction.DOWN);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Dug into, it floods out slowly, as lava does. It is sticky: anything in it is slowed as by a cobweb, and nothing can swim in it")
+			.text("Dig into it and it floods out slowly, like lava. It's sticky too: anything in it slows as in cobweb, and nothing can swim in it")
 			.pointAt(util.vector().blockSurface(out.north(), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);
@@ -99,7 +99,7 @@ public class OilScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("It burns. Fire, lava or anything burning that touches it sets it alight, and fire runs over it, burning it away until the spill is gone")
+			.text("And it burns. Fire, lava or anything burning sets it alight, and the fire runs over it until the spill is gone")
 			.pointAt(spill)
 			.placeNearTarget();
 		scene.idle(120);
@@ -122,7 +122,7 @@ public class OilScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("The Diesel Engine: a cylinder, a flywheel and a smoke stack. Its shaft comes out of both sides")
+			.text("The Diesel Engine: a cylinder, a flywheel and a smoke stack. Its shaft comes out both sides")
 			.pointAt(util.vector().blockSurface(engine, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(100);
@@ -149,7 +149,7 @@ public class OilScenes {
 		scene.world().setKineticSpeed(drive, 32);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("It must be cranked to start: turn its shaft at 8 RPM or more, by a hand crank or any turning shaft, for two seconds")
+			.text("It won't start itself. Crank it at 8 RPM or more for two seconds, by hand crank or any turning shaft")
 			.pointAt(handle)
 			.placeNearTarget();
 		scene.idle(60);
@@ -164,7 +164,7 @@ public class OilScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Then it catches, and runs the way it was cranked: 32 RPM and 16,384 su, a whole steam engine's worth, burning a bucket of diesel every 50 seconds")
+			.text("Then it catches and runs the way it was cranked: 32 RPM and 16,384 su, a whole steam engine's worth, on a bucket of diesel every 50 seconds")
 			.pointAt(util.vector().topOf(engine))
 			.placeNearTarget();
 		scene.idle(120);
@@ -180,7 +180,7 @@ public class OilScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("It stalls when it runs dry, or when what it drives is too much for it, and must be cranked again")
+			.text("Run it dry or ask too much of it and it stalls. Back to the crank")
 			.pointAt(util.vector().topOf(engine))
 			.placeNearTarget();
 		scene.idle(120);
@@ -206,7 +206,7 @@ public class OilScenes {
 		scene.idle(15);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Naphtha, crude oil's lightest liquid cut, cracks into ethylene in a Steel Furnace at Searing, with steam")
+			.text("Naphtha, crude oil's lightest liquid cut, cracks into ethylene with steam in a Steel Furnace at Searing")
 			.pointAt(util.vector().blockSurface(util.grid().at(1, 1, 2), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);
@@ -217,7 +217,7 @@ public class OilScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("A second fluid a job takes, here pressurised steam from a boiler, goes in the same way and waits in a tank of its own")
+			.text("A job's second fluid, here pressurised steam from a Pressurizer, goes in the same way and waits in a tank of its own")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 1, 2), Direction.UP))
 			.placeNearTarget();
 		scene.idle(120);
@@ -226,7 +226,7 @@ public class OilScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Every 250 mB of naphtha and 100 of steam give 150 mB of ethylene and 100 of fuel gas, for pipes to draw off")
+			.text("Out come ethylene and fuel gas, for pipes to draw off")
 			.pointAt(util.vector().topOf(util.grid().at(2, 2, 2)))
 			.placeNearTarget();
 		scene.idle(120);

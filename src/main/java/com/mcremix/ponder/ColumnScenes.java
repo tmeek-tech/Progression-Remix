@@ -33,7 +33,7 @@ public class ColumnScenes {
 		BlockPos condenser = util.grid().at(4, 1, 3);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A Steel Column stands on heat, as a basin does. Coal tar needs it Hot: here, a Blaze Burner")
+			.text("A Steel Column stands on heat, like a basin. Coal tar needs Hot: here, a Blaze Burner")
 			.pointAt(util.vector().topOf(burner))
 			.placeNearTarget();
 		scene.idle(90);
@@ -45,12 +45,12 @@ public class ColumnScenes {
 		scene.idle(10);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Column Sections join as fluid tanks do, one to three across and up to sixteen high. Each block layer is a section")
+			.text("Column Sections join like fluid tanks, up to three across and sixteen high. Each layer is one section")
 			.pointAt(util.vector().blockSurface(top, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.overlay().showText(90)
-			.text("Every block under a wide column adds to its pace if it is hot enough, and twice as much for each level hotter")
+			.text("Each block under a wide column that's hot enough adds pace, double for each level hotter")
 			.pointAt(util.vector().topOf(burner))
 			.placeNearTarget();
 		scene.idle(100);
@@ -59,7 +59,7 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A Steel Condenser placed against the bottom section stands upright and makes it a fractionating column. Its vapour line runs up and over into the top")
+			.text("A Steel Condenser against the bottom section stands upright and makes this a fractionating column, its vapour line running up into the top")
 			.pointAt(util.vector().blockSurface(condenser, Direction.UP))
 			.placeNearTarget();
 		scene.idle(100);
@@ -68,7 +68,7 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Pipe the feed into the bottom section's side: one mixture at a time")
+			.text("Pipe the feed into the bottom section's side, one mixture at a time")
 			.pointAt(util.vector().blockSurface(bottom, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(90);
@@ -78,13 +78,13 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Every cut comes out at once, each in its own section, in boiling order: a pipe on a section's side draws the cut that condenses there. The bottom gives what is left, here pitch")
+			.text("Every cut condenses at once in its own section, ready for a pipe on its side. The dregs, here pitch, stay at the bottom")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 2, 3), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("A cut leaves as hot as its section. Hot carbolic oil, creosote and vinegar need cooling before they can go on in PVC pipe")
+			.text("Cuts leave as hot as their section. Hot carbolic oil, creosote and vinegar need cooling before PVC can carry them")
 			.pointAt(util.vector().blockSurface(util.grid().at(2, 3, 3), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);
@@ -95,20 +95,20 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("The lightest cut goes over the top, down into the condenser and out of its bottom, cold. Water, cold water or coolant piped into its sides cools it, each faster than the last")
+			.text("The lightest cut goes over the top and down through the condenser. Water, cold water or coolant cools it, each faster than the last")
 			.pointAt(util.vector().topOf(util.grid().at(4, 0, 4)))
 			.placeNearTarget();
 		scene.idle(120);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A cut nobody draws fills its section and holds the whole column up until it is drawn")
+			.text("An undrawn cut fills its section and stalls the whole column. Every cut needs somewhere to go")
 			.pointAt(util.vector().blockSurface(util.grid().at(3, 3, 3), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.overlay().showText(110)
 			.colored(PonderPalette.RED)
-			.text("A column too short for its mixture lets the cuts it has no room for escape over the top, a vapour that flashes into flame at a fire. Its goggles say how much taller it needs to be")
+			.text("Too short a column lets cuts escape over the top as vapour, which flashes into flame at a fire. Goggles say how much taller to build")
 			.pointAt(util.vector().blockSurface(top, Direction.UP))
 			.placeNearTarget();
 		scene.idle(120);
@@ -140,7 +140,7 @@ public class ColumnScenes {
 		scene.idle(20);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Wood spirit's acetone and methanol boil close together: between them they need two more sections, five in all, or the column lets acetone escape")
+			.text("Acetone and methanol boil close together, so wood spirit wants two extra sections, five in all, or acetone gets away")
 			.pointAt(util.vector().blockSurface(top, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);
@@ -151,19 +151,19 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Instead, send some of the top cut back into the top section's side: reflux. It boils again and goes over again, and the goggles show the ratio, what came back for each mB kept")
+			.text("Or cheat a little: send some of the top cut back into the top section. That's reflux. Goggles show the ratio, sent back to kept")
 			.pointAt(util.vector().blockSurface(top, Direction.NORTH))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("A ratio of 1, as much sent back as kept, stands in for both missing sections; a ratio of 1/2 for one. Set it with the speeds of the two pumps drawing from the condenser")
+			.text("A ratio of 1 stands in for both missing sections, 1/2 for one. Set it with the speeds of the two pumps on the condenser")
 			.pointAt(util.vector().topOf(util.grid().at(4, 0, 3)))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("Reflux costs pace: at a ratio of 1 the column boils its feed half as fast. More than 1 buys nothing")
+			.text("The price is pace: at a ratio of 1 the column boils its feed half as fast. Past 1 buys nothing")
 			.pointAt(util.vector().blockSurface(top, Direction.UP))
 			.placeNearTarget();
 		scene.idle(100);
@@ -183,7 +183,7 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Anywhere but beside a column, a Steel Condenser cools: a hot cut piped into one end comes out of the other as its plain form")
+			.text("Away from a column, a Steel Condenser just cools: hot cuts go in one end and come out the other in their plain form")
 			.pointAt(util.vector().blockSurface(condenser, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -195,12 +195,12 @@ public class ColumnScenes {
 		scene.idle(15);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Hot carbolic oil, hot creosote and hot vinegar cool at 10 mB a tick with water piped into its sides, 20 with cold water and 30 with coolant. Every 4 mB warms 1 mB of water")
+			.text("It cools hot carbolic oil, creosote and vinegar: 10 mB a tick on water, 20 on cold water, 30 on coolant. Every 4 mB it cools warms 1 mB of water")
 			.pointAt(util.vector().blockSurface(util.grid().at(2, 1, 1), Direction.UP))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(100)
-			.text("Cooled, they can go on in PVC pipe, and carbolic oil can settle out its naphthalene")
+			.text("Cooled, PVC pipe can carry them, and carbolic oil can settle out its naphthalene")
 			.pointAt(util.vector().blockSurface(util.grid().at(4, 1, 2), Direction.UP))
 			.placeNearTarget();
 		scene.idle(110);

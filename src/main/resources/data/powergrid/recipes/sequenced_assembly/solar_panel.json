@@ -1,0 +1,120 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:glass_pane"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "powergrid:solar_panel",
+      "chance": 100.0
+    },
+    {
+      "item": "mcremix:silicon_wafer",
+      "chance": 3.0
+    },
+    {
+      "item": "mcremix:aluminium_sheet",
+      "chance": 3.0
+    },
+    {
+      "item": "mcremix:polyethylene_pellets",
+      "chance": 3.0
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        },
+        {
+          "item": "mcremix:polyethylene_pellets"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        },
+        {
+          "item": "mcremix:silicon_wafer"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ]
+    },
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        },
+        {
+          "tag": "forge:wires/copper"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ],
+      "results": [
+        {
+          "item": "powergrid:incomplete_solar_panel"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "powergrid:incomplete_solar_panel"
+  }
+}

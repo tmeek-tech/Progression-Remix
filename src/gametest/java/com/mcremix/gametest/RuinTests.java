@@ -521,7 +521,12 @@ public class RuinTests {
 		h.succeed();
 	}
 
-	/** The worst-off house of each kind of village grows back its own way. */
+	/**
+	 * The worst-off houses of each kind of village grow back their own way. Each is placed at the two spots on the
+	 * platform where it would be worst off: one house can by chance fall in so that next to nothing grows in it, and
+	 * where this test sits moves whenever a test is added (0.40.0's moved it to where the worst-off taiga house fell in
+	 * almost entirely and grew nothing of the taiga kind).
+	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 100)
 	public static void ruinsGrowOverByBiome(GameTestHelper h) {
 		Predicate<BlockState> green = s -> is(s, Blocks.MOSS_BLOCK, Blocks.MOSS_CARPET, Blocks.GRASS, Blocks.TALL_GRASS,
@@ -531,29 +536,53 @@ public class RuinTests {
 		Predicate<BlockState> snow = s -> s.is(Blocks.SNOW);
 		Predicate<BlockState> dry = s -> is(s, Blocks.COARSE_DIRT, Blocks.ROOTED_DIRT, Blocks.DEAD_BUSH, Blocks.GRASS,
 			Blocks.TALL_GRASS, Blocks.ACACIA_SAPLING);
-		Ruin plains = ruinAt(h, SMALL_HOUSE, spot(h, SMALL_HOUSE, true), false);
-		Ruin taiga = ruinAt(h, "village/taiga/houses/taiga_small_house_1",
-			spot(h, "village/taiga/houses/taiga_small_house_1", true), false);
-		Ruin savanna = ruinAt(h, "village/savanna/houses/savanna_small_house_1",
-			spot(h, "village/savanna/houses/savanna_small_house_1", true), false);
-		Ruin desert = ruinAt(h, "village/desert/houses/desert_small_house_1",
-			spot(h, "village/desert/houses/desert_small_house_1", true), false);
-		Ruin snowy = ruinAt(h, "village/snowy/houses/snowy_small_house_1",
-			spot(h, "village/snowy/houses/snowy_small_house_1", true), false);
-		for (Ruin ruin : List.of(plains, taiga, savanna, desert, snowy)) {
-			McRemix.LOGGER.info("[gametest] {} grew green {}, sand {}, snow {}, dry {}", ruin, ruin.grown(green),
-				ruin.grown(sand), ruin.grown(snow), ruin.grown(dry));
-			h.assertTrue(ruin.faults().isEmpty(), ruin + " should have nothing hanging or blocked: " + ruin.faults());
-		}
-		h.assertTrue(plains.grown(green) > 0 && plains.grown(sand) == 0 && plains.grown(snow) == 0,
+		Predicate<BlockState> taigaGreen = s -> is(s, Blocks.PODZOL, Blocks.MOSS_BLOCK, Blocks.MOSS_CARPET, Blocks.FERN,
+			Blocks.LARGE_FERN, Blocks.SWEET_BERRY_BUSH, Blocks.SPRUCE_SAPLING);
+		List<Ruin> plains = worstOff(h, SMALL_HOUSE);
+		List<Ruin> taiga = worstOff(h, "village/taiga/houses/taiga_small_house_1");
+		List<Ruin> savanna = worstOff(h, "village/savanna/houses/savanna_small_house_1");
+		List<Ruin> desert = worstOff(h, "village/desert/houses/desert_small_house_1");
+		List<Ruin> snowy = worstOff(h, "village/snowy/houses/snowy_small_house_1");
+		for (List<Ruin> ruins : List.of(plains, taiga, savanna, desert, snowy))
+			for (Ruin ruin : ruins) {
+				McRemix.LOGGER.info("[gametest] {} grew green {}, sand {}, snow {}, dry {}", ruin, ruin.grown(green),
+					ruin.grown(sand), ruin.grown(snow), ruin.grown(dry));
+				h.assertTrue(ruin.faults().isEmpty(), ruin + " should have nothing hanging or blocked: " + ruin.faults());
+			}
+		h.assertTrue(grown(plains, green) > 0 && grown(plains, sand) == 0 && grown(plains, snow) == 0,
 			"a plains ruin should grow green: " + plains);
-		h.assertTrue(taiga.grown(s -> is(s, Blocks.PODZOL, Blocks.MOSS_BLOCK, Blocks.MOSS_CARPET, Blocks.FERN,
-			Blocks.LARGE_FERN, Blocks.SWEET_BERRY_BUSH, Blocks.SPRUCE_SAPLING)) > 0, "a taiga ruin should grow over: " + taiga);
-		h.assertTrue(savanna.grown(dry) > 0 && savanna.grown(s -> s.is(Blocks.MOSS_BLOCK)) == 0,
+		h.assertTrue(grown(taiga, taigaGreen) > 0, "a taiga ruin should grow over: " + taiga);
+		h.assertTrue(grown(savanna, dry) > 0 && grown(savanna, s -> s.is(Blocks.MOSS_BLOCK)) == 0,
 			"a savanna ruin should go to coarse dirt and dry grass: " + savanna);
-		h.assertTrue(desert.grown(sand) > 0 && desert.grown(green) == 0, "a desert ruin should fill with sand: " + desert);
-		h.assertTrue(snowy.grown(snow) > 0 && snowy.grown(green) == 0, "a snowy ruin should fill with snow: " + snowy);
+		h.assertTrue(grown(desert, sand) > 0 && grown(desert, green) == 0, "a desert ruin should fill with sand: " + desert);
+		h.assertTrue(grown(snowy, snow) > 0 && grown(snowy, green) == 0, "a snowy ruin should fill with snow: " + snowy);
 		h.succeed();
+	}
+
+	/** A house as a ruin at the two spots on the platform where it would be the most decayed, one after the other. */
+	static List<Ruin> worstOff(GameTestHelper h, String template) {
+		BlockPos first = spot(h, template, true);
+		Vec3i size = template(h, template).getSize();
+		BlockPos second = null;
+		float secondDecay = 0;
+		for (int x = 2; x + size.getX() <= 14; x++)
+			for (int z = 2; z + size.getZ() <= 14; z++) {
+				BlockPos at = h.absolutePos(p(x, 2, z));
+				if (at.equals(first) || burns(h, at))
+					continue;
+				float decay = RuinProcessor.decay(at, at);
+				if (second == null || decay > secondDecay) {
+					second = at;
+					secondDecay = decay;
+				}
+			}
+		return second == null ? List.of(ruinAt(h, template, first, false))
+			: List.of(ruinAt(h, template, first, false), ruinAt(h, template, second, false));
+	}
+
+	/** How many blocks of a kind grew in these ruins, in all. */
+	static int grown(List<Ruin> ruins, Predicate<BlockState> which) {
+		return ruins.stream().mapToInt(ruin -> ruin.grown(which)).sum();
 	}
 
 	static RuinStyle styleOf(String path) {

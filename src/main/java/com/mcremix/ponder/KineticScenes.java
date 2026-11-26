@@ -62,12 +62,12 @@ public class KineticScenes {
 
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Each line is held by brackets of its own material. A support's material sets its top speed, its Stability: wood 64 RPM, brass 96, andesite 128, copper and iron 256, steel and aluminium 512, titanium 2048")
+			.text("A support's material sets its top speed, its Stability: wood 64 RPM, brass 96, andesite 128, copper and iron 256, steel and aluminium 512, titanium 2048")
 			.pointAt(util.vector().topOf(0, 1, 2))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(90)
-			.text("Only supports are held to it, here the brackets, and a part in one turns as fast as the support allows. The bare parts between them take any speed")
+			.text("Only supports have that limit, here the brackets. Bare parts between them take any speed")
 			.pointAt(util.vector().topOf(1, 1, 2))
 			.placeNearTarget();
 		scene.idle(100);
@@ -77,7 +77,7 @@ public class KineticScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Spin a support past its limit and it grinds, smoking or sparking, then gives way. Here every oak bracket comes off, and the oak shafts they held drop")
+			.text("Spin a support past its limit and it grinds, smoking or sparking, then gives way. Here every oak bracket comes off and the oak shafts drop")
 			.pointAt(util.vector().centerOf(2, 1, 0))
 			.placeNearTarget();
 		for (int i = 0; i < 5; i++) {
@@ -109,7 +109,7 @@ public class KineticScenes {
 		scene.world().setKineticSpeed(copper, 32);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Copper parts and brackets oxidize like copper blocks, within a day, each stopping at a stage of its own. At a support, each stage adds friction, which uses up stress")
+			.text("Copper oxidizes within a day, each part stopping at a stage of its own. At a support, every stage adds friction, which eats stress")
 			.pointAt(util.vector().topOf(1, 1, 3))
 			.placeNearTarget();
 		scene.idle(110);
@@ -124,27 +124,27 @@ public class KineticScenes {
 			scene.effects().simpleParticleEmitter(ParticleTypes.WAX_ON, Vec3.ZERO), 6, 1);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Wax them with honeycomb to keep them as they are. An axe scrapes off wax, then patina")
+			.text("Honeycomb keeps them as they are. An axe scrapes off wax, then patina")
 			.pointAt(util.vector().topOf(2, 1, 3))
 			.placeNearTarget();
 		scene.idle(90);
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Iron rusts the same way, but only where it gets wet. Iron supports are a little heavier to turn, and no load is too much for iron")
+			.text("Iron rusts the same way, but only where it gets wet. Its supports are a little heavier to turn, and it takes any load")
 			.pointAt(util.vector().topOf(1, 1, 4))
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Brass parts are delicate clockwork. They never tarnish, but they are only a little stronger than wood")
+			.text("Brass parts are delicate clockwork: pretty, never tarnished, and only a little stronger than wood")
 			.pointAt(util.vector().topOf(1, 1, 1))
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(100)
-			.text("Shafts and cogs have a Strength, the load they carry. Put more stress through a wooden, brass, copper or aluminium one than it carries and it wobbles loose and breaks")
+			.text("Shafts and cogs have a Strength, the load they carry. Overload a wooden, brass, copper or aluminium one and it wobbles loose and breaks")
 			.pointAt(util.vector().topOf(3, 1, 3))
 			.placeNearTarget();
 		scene.idle(110);
@@ -170,7 +170,7 @@ public class KineticScenes {
 
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Copper and iron supports top out at 256 RPM. Steel brackets, casings, gearboxes, clutches, gearshifts and chain drives run up to 512")
+			.text("Copper and iron supports top out at 256 RPM. Steel brackets, casings, gearboxes, clutches, gearshifts and chain drives run to 512")
 			.pointAt(util.vector().topOf(1, 1, 2))
 			.placeNearTarget();
 		scene.idle(110);
@@ -182,7 +182,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Past 256 RPM the iron brackets grind and give way, and the iron line drops, while the steel one carries on")
+			.text("Past 256 RPM the iron brackets grind off and the iron line drops. The steel one doesn't flinch")
 			.pointAt(ironMid)
 			.placeNearTarget();
 		for (int i = 0; i < 5; i++) {
@@ -202,7 +202,7 @@ public class KineticScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A machine draws stress for every RPM, so at 512 it works twice as fast for twice the stress. Speed only pays where it matters")
+			.text("A machine draws stress per RPM, so at 512 it works twice as fast for twice the stress. Speed only pays where it matters")
 			.pointAt(util.vector().topOf(3, 1, 2))
 			.placeNearTarget();
 		scene.idle(100);
@@ -212,7 +212,7 @@ public class KineticScenes {
 		scene.world().setKineticSpeed(steel, 128);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Steel supports are the heaviest to turn, and steel rusts as iron does, only where it gets wet. Wax it with honeycomb")
+			.text("Steel supports are the heaviest to turn, and steel rusts like iron, only where it gets wet. Honeycomb waxes it")
 			.pointAt(util.vector().topOf(1, 1, 2))
 			.placeNearTarget();
 		scene.idle(100);
@@ -226,7 +226,7 @@ public class KineticScenes {
 		scene.world().setBlock(log, ModBlocks.STEEL_CASING.getDefaultState(), true);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Steel Casing is made the way Create makes its casings, a steel sheet applied to a stripped log. Steel cased parts are built on it, and it encases any shaft or cog")
+			.text("Steel Casing is a steel sheet on a stripped log. Steel parts are built on it, and it encases any shaft or cog")
 			.pointAt(util.vector().topOf(log))
 			.placeNearTarget();
 		scene.idle(110);
@@ -254,7 +254,7 @@ public class KineticScenes {
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Wooden shafts, gearboxes, clutches, gearshifts and brackets come in every wood, so they can match what they are built into")
+			.text("Wooden shafts, gearboxes, clutches, gearshifts and brackets come in every wood, to match whatever you build them into")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(20);
@@ -283,7 +283,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Crimson and warped parts are cut from stems, and like the stems they do not burn")
+			.text("Crimson and warped parts are cut from stems, and like the stems, they don't burn")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(100);
@@ -342,7 +342,7 @@ public class KineticScenes {
 
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Gearboxes come in the same materials as shafts and cogs, with the same limits. A gearbox is a support for the shafts around it")
+			.text("Gearboxes come in the same materials as shafts and cogs, with the same limits. A gearbox supports the shafts around it")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(90);
@@ -358,7 +358,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Create's own gearbox is andesite, so it tops out at 128 RPM. When it breaks, the shafts it held drop off with it")
+			.text("Create's own gearbox is andesite, so it tops out at 128 RPM. When it breaks, the shafts it held go down with it")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(20);
@@ -377,7 +377,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Copper and iron gearboxes take up to 256 RPM. They oxidize and rust like their shafts, and wax the same way")
+			.text("Copper and iron gearboxes take up to 256 RPM, and weather and wax like their shafts")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(100);
@@ -390,7 +390,7 @@ public class KineticScenes {
 		scene.idle(10);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A wooden gearbox needs no andesite. Wood carries the least load, so it gives way first when a network draws too much")
+			.text("A wooden gearbox needs no andesite, and as the weakest, it's the first to go when a network draws too much")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(100);
@@ -410,7 +410,7 @@ public class KineticScenes {
 		scene.idle(10);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Placed against a shaft above or below, a gearbox lies on its side to meet it. Sneak while placing to lay it down anywhere")
+			.text("Placed against a shaft above or below, a gearbox lies on its side to meet it. Sneak while placing to lay one down anywhere")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(100);
@@ -439,7 +439,7 @@ public class KineticScenes {
 		scene.idle(10);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Clutches and gearshifts come in the same materials as gearboxes, with the same limits, all but brass. Each is a support")
+			.text("Clutches and gearshifts come in every gearbox material but brass, with the same limits. Each is a support")
 			.pointAt(util.vector().topOf(relay))
 			.placeNearTarget();
 		scene.idle(90);
@@ -454,7 +454,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Create's own clutch and gearshift are andesite, so they top out at 128 RPM. When one breaks, the shafts it held drop off with it")
+			.text("Create's own clutch and gearshift are andesite, so they top out at 128 RPM. When one breaks, the shafts it held go down with it")
 			.pointAt(util.vector().topOf(relay))
 			.placeNearTarget();
 		scene.idle(20);
@@ -472,7 +472,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Copper and iron ones take up to 256 RPM. They oxidize and rust like their shafts, and wax the same way")
+			.text("Copper and iron ones take up to 256 RPM, and weather and wax like their shafts")
 			.pointAt(util.vector().topOf(relay))
 			.placeNearTarget();
 		scene.idle(100);
@@ -514,7 +514,7 @@ public class KineticScenes {
 		scene.idle(10);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A wooden clutch is the cheapest switch. Wood carries the least load, so it gives way first when a network draws too much")
+			.text("A wooden clutch is the cheapest switch there is, and the first thing to go when a network draws too much")
 			.pointAt(util.vector().topOf(relay))
 			.placeNearTarget();
 		scene.idle(110);
@@ -550,7 +550,7 @@ public class KineticScenes {
 		scene.idle(10);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Chain drives come in brass, copper, iron and steel too. Each is a support, with its material's top speed")
+			.text("Chain drives come in brass, copper, iron and steel too. Each is a support with its material's top speed")
 			.pointAt(util.vector().topOf(middle))
 			.placeNearTarget();
 		scene.idle(90);
@@ -566,7 +566,7 @@ public class KineticScenes {
 		scene.overlay().showText(80)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Create's own chain drive and chain gearshift are andesite, so they top out at 128 RPM. Shafts only a broken one held drop off")
+			.text("Create's own chain drive and chain gearshift are andesite, so they top out at 128 RPM. When one breaks, the shafts only it held drop")
 			.pointAt(util.vector().topOf(middle))
 			.placeNearTarget();
 		scene.idle(20);
@@ -589,7 +589,7 @@ public class KineticScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Copper and iron ones take up to 256 RPM, and one row can mix them. They oxidize and rust like their shafts, and wax the same way")
+			.text("Copper and iron ones take up to 256 RPM, and one row can mix them. They weather and wax like their shafts")
 			.pointAt(util.vector().topOf(middle))
 			.placeNearTarget();
 		scene.idle(100);
@@ -605,7 +605,7 @@ public class KineticScenes {
 		scene.idle(10);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Powered, a chain gearshift drives the rest of its row up to twice as fast, so every chain drive past it must take the faster speed")
+			.text("A powered chain gearshift drives the rest of its row up to twice as fast, so every chain drive after it must handle that")
 			.pointAt(util.vector().topOf(middle))
 			.placeNearTarget();
 		scene.idle(110);
@@ -613,7 +613,7 @@ public class KineticScenes {
 		scene.overlay().showControls(util.vector().topOf(first), Pointing.DOWN, 50).withItem(AllItems.GOGGLES.asStack());
 		scene.idle(10);
 		scene.overlay().showText(80)
-			.text("Goggles on a powered chain gearshift show how much faster the rest of its row turns")
+			.text("Goggles on a powered chain gearshift show how much faster the rest of the row turns")
 			.pointAt(util.vector().topOf(first))
 			.placeNearTarget();
 		scene.idle(90);

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "mcremix:coke"
+    },
+    {
+      "item": "mcremix:bakelite"
+    },
+    {
+      "tag": "forge:wires/copper"
+    },
+    {
+      "tag": "forge:wires/copper"
+    }
+  ],
+  "result": {
+    "item": "powergrid:resistor",
+    "count": 4
+  }
+}

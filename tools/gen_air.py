@@ -51,13 +51,15 @@ def recipes():
         'results': [item('mcremix:urea', 4), fluid('minecraft:water', 50)]})
     # the air column's split, lightest first: nitrogen over the top, argon from the middle, oxygen from the bottom; it
     # boils in the world's warmth, so its heat is never asked for. Argon and oxygen boil 3 degrees apart: four extra
-    # sections between them, or liquid nitrogen sent back into the top
+    # sections between them, or liquid nitrogen sent back into the top. Since 0.40.0 the air's neon, 18 parts in a
+    # million, gathers at its very top, a mB for every 55 buckets (Taran's pick, for Power Grid's glow tubes)
     G.recipe('distilling/liquid_air', {
         'type': 'mcremix:distilling', 'heat': 'warm', 'processingTime': 200, 'still': 'air_column',
         'extra_sections': 4, 'reflux': 'mcremix:liquid_nitrogen',
         'ingredients': [fluid('liquid_air', 1000)],
         'results': [fluid('nitrogen', 780), fluid('argon', 10), fluid('oxygen', 210)],
-        'boiling_points': [-196, -186, -183], 'close': [False, True, True]})
+        'boiling_points': [-196, -186, -183], 'close': [False, True, True],
+        'trace': {'fluid': 'mcremix:neon', 'every': 55000}})
     # the Ostwald process, done here in one step: ammonia burnt with oxygen over platinum gauze at Searing
     G.recipe('steel_furnace/nitrogen_dioxide', {
         'type': 'mcremix:steel_furnace', 'heat': 'searing', 'processingTime': 100, 'catalyst_lasts': 64000,
@@ -318,6 +320,10 @@ def lang():
         'mcremix.jei.distilling.close_air_column': 'Boils close to its neighbour: %s more sections between them, or '
                                                    'liquid nitrogen reflux',
         'mcremix.jei.distilling.no_heat': 'No heat: it boils in the world\'s warmth',
+        'mcremix.jei.distilling.trace': (
+            'A trace, too little for a cut: 1 mB gathers at the very top for every %s buckets split. A pipe on the top '
+            'face of the top section draws it off'),
+        'mcremix.goggles.steel_column.trace': 'Gathered at the top: %s, %s mB',
         'mcremix.jei.pressurizing.catalyst': 'Dropped into the vessel; one wears away every %s buckets it makes',
         'mcremix.jei.cooling.coolant_only': 'Coolant only: water leaves it too warm to liquefy',
         'mcremix.jei.steel_furnace_fuel.oxygen': 'With a mB of oxygen piped in for every %s mB of it, it burns twice as '

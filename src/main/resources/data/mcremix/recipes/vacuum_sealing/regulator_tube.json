@@ -5,13 +5,14 @@
       "item": "minecraft:glass_pane"
     },
     {
-      "item": "minecraft:amethyst_shard"
-    },
-    {
-      "item": "minecraft:glowstone_dust"
-    },
-    {
       "tag": "forge:plates/iron"
+    },
+    {
+      "tag": "forge:wires/iron"
+    },
+    {
+      "fluid": "mcremix:neon",
+      "amount": 1
     }
   ],
   "results": [

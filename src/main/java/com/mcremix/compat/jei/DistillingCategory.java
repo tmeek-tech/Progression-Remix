@@ -8,12 +8,14 @@ import com.mcremix.column.ColumnLayout;
 import com.mcremix.lab.DistillingRecipe;
 import com.mcremix.registry.ModAir;
 import com.mcremix.registry.ModBlocks;
+import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.ChatFormatting;
@@ -70,6 +72,14 @@ public class DistillingCategory extends AbstractRecipeCategory<DistillingRecipe>
 		});
 		if (!recipe.airColumn())
 			Page.heatSources(builder, recipe.heat());
+		else if (recipe.trace() != null) {
+			// the air's neon (0.40.0), too little for a cut, at the end of the bar where heated pages show their heat
+			Page.fluid(builder.addSlot(RecipeIngredientRole.OUTPUT, Page.BAR_SLOT_X, Page.BAR_SLOT_Y)
+				.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1), new FluidStack(recipe.trace(), 1))
+				.addRichTooltipCallback((view, tooltip) -> tooltip.add(Component.translatable(
+					"mcremix.jei.distilling.trace", JeiText.decimal(recipe.traceEvery() / 1000f))
+					.withStyle(ChatFormatting.GOLD)));
+		}
 	}
 
 	@Override

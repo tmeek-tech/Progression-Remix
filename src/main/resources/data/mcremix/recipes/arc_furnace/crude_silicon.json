@@ -1,0 +1,14 @@
+{
+  "type": "mcremix:arc_furnace",
+  "energy": 32000,
+  "ingredients": [
+    {
+      "item": "mcremix:quartz_briquette"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:crude_silicon"
+    }
+  ]
+}

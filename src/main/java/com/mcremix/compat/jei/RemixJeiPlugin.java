@@ -50,7 +50,10 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * JEI shows what kilns fire and at what heat, what makes a kiln hot, how blooms become iron, what a crucible
@@ -261,6 +264,16 @@ public class RemixJeiPlugin implements IModPlugin {
 		// out of the creative tab, which is where JEI's list comes from, so it is never in it: ModCreativeTab.shown)
 		runtime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK,
 			List.of(AllBlocks.WOODEN_BRACKET.asStack()));
+		// Power Grid's Blazing Acid is no longer made (0.40.0): the Battery takes salt water, and boards are etched in
+		// ferric chloride
+		Fluid acid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation("powergrid", "acid"));
+		if (acid != null && acid != Fluids.EMPTY) {
+			runtime.getIngredientManager().removeIngredientsAtRuntime(ForgeTypes.FLUID_STACK,
+				List.of(new FluidStack(acid, 1000)));
+			ItemStack bucket = new ItemStack(acid.getBucket());
+			if (!bucket.isEmpty())
+				runtime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(bucket));
+		}
 		if (!RemixConfig.get(RemixConfig.COLD_FURNACES))
 			return;
 		var manager = runtime.getRecipeManager();

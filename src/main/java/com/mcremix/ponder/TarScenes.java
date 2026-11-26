@@ -67,7 +67,7 @@ public class TarScenes {
 		scene.idle(20);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Pump it off from any side, or fill a bucket from it. A Furnace takes nothing in by pipe: only a Steel Furnace burns piped fuel, from underneath")
+			.text("Pump it off from any side, or fill a bucket. Nothing goes in by pipe, though: only a Steel Furnace burns piped fuel")
 			.pointAt(util.vector().topOf(pump))
 			.placeNearTarget();
 		scene.idle(40);
@@ -84,7 +84,7 @@ public class TarScenes {
 		setByproducts(scene, util, kiln, Chemical.WOOD_SPIRIT.stack(150));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Charring logs gives off wood spirit the same way. The tank already holds tar, so the spirit waits in the Furnace")
+			.text("Charring logs gives off wood spirit the same way. That tank already holds tar, so the spirit stays in the Furnace")
 			.pointAt(chamber)
 			.placeNearTarget();
 		scene.idle(100);
@@ -94,12 +94,12 @@ public class TarScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("A Furnace holds a bucket of one of them. Past that, or if it holds the other one, the rest burns away at the chimney in black smoke")
+			.text("A Furnace holds a bucket of one or the other. Past that, or with the other already in, the rest burns off at the chimney")
 			.pointAt(util.vector().topOf(kiln))
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(80)
-			.text("The firing carries on either way: only what it gives off is lost")
+			.text("The firing carries on either way. Only the byproduct goes up in smoke")
 			.pointAt(chamber)
 			.placeNearTarget();
 		scene.idle(90);
@@ -133,7 +133,7 @@ public class TarScenes {
 			}));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Phenol and formaldehyde, 50 mB of each, set hard into Bakelite when pressed together in a heated basin")
+			.text("Press phenol and formaldehyde together in a heated basin and they set hard into Bakelite, the first plastic")
 			.pointAt(util.vector().blockSurface(basin, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(30);
@@ -155,7 +155,7 @@ public class TarScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Power Grid's blank circuit boards are sawn from Bakelite, and its switches, buttons and sockets need it too")
+			.text("Power Grid's blank circuit boards are sawn from it, and its switches, buttons and sockets need it too")
 			.pointAt(util.vector().topOf(basin))
 			.placeNearTarget();
 		scene.idle(100);

@@ -15,9 +15,9 @@
 				"77A54992179DB0AA"
 			]
 			description: [
-				"Steel Column Sections join as Create's tanks do, one to three across and up to sixteen high, each block layer a section. Heat under the column boils its feed: each block under it at the mixture's heat adds more, and hotter adds more again."
+				"Steel Column Sections join like Create's tanks, up to three across and sixteen high, each block layer a section. Heat under the column boils its feed: each block under it at the mixture's heat adds more, and hotter adds more again."
 				""
-				"Feed goes into the bottom, the residue stays there, and each cut condenses in its own section above, in boiling order."
+				"Feed goes in at the bottom, the residue stays there, and each cut condenses in its own section above, in boiling order."
 				""
 				"&7Ponder: the column section.&r"
 			]
@@ -40,7 +40,7 @@
 				"0CEBDB8A282691E9"
 			]
 			description: [
-				"A Steel Condenser beside the bottom section takes the vapour from the top one; without it the column doesn't start. Water, cold water or coolant through its jacket sets how much it condenses, each better than the last."
+				"A Steel Condenser beside the bottom section takes the vapour from the top one. No condenser, no column. Water, cold water or coolant through its jacket sets how much it condenses, each better than the last."
 			]
 			id: "5CD85503C7FA27AB"
 			rewards: [ ]
@@ -61,9 +61,9 @@
 				"5CD85503C7FA27AB"
 			]
 			description: [
-				"A pipe on a section's side draws that section's cut. A cut nobody draws fills its section and holds the whole column up."
+				"A pipe on a section's side draws that section's cut. Leave one undrawn and it fills its section and stalls the whole column."
 				""
-				"Each mixture needs enough sections for all its cuts: close cuts need empty sections between them, and a column too short lets the cuts it has no room for escape over the top."
+				"Each mixture needs a section for every cut, with empty sections between close ones. Cuts a short column has no room for escape over the top."
 				""
 				"&7JEI: the Distilling tab gives the sections each mixture needs.&r"
 			]
@@ -87,7 +87,7 @@
 				"7B195200D9D3485B"
 			]
 			description: [
-				"Pipe some of the top cut back into the top section and it stands in for the empty sections that close cuts need between them, at the cost of pace. It makes no room for a cut the column is too short for."
+				"Pipe some of the top cut back into the top section and it stands in for the empty sections close cuts need, at the cost of pace. It makes no room for a cut the column is simply too short for."
 			]
 			icon: "create:mechanical_pump"
 			id: "57C79F579F0F6029"
@@ -110,9 +110,9 @@
 				"7B195200D9D3485B"
 			]
 			description: [
-				"A cut leaves as hot as its section. Carbolic oil, creosote and vinegar come out hot, and no PVC pipe carries them; pitch is always kept warm. A Steel Condenser anywhere but beside a column cools hot cuts inline."
+				"Cuts leave as hot as their section. Carbolic oil, creosote and vinegar come out too hot for any PVC pipe, and pitch is always kept warm. A Steel Condenser anywhere but beside a column cools hot cuts inline."
 				""
-				"Whatever escapes over the top hangs low as solvent vapour, and flashes into flame at anything &eWarm&r or hotter."
+				"Whatever escapes over the top hangs low as solvent vapour and flashes into flame at anything &eWarm&r or hotter. Mind your furnaces."
 				""
 				"&7JEI: the Cooling Hot Cuts tab.&r"
 			]

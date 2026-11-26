@@ -199,6 +199,19 @@ charring logs gives off **wood spirit**; pipes draw them off the Furnace, and wh
 chimney. The glass lab (below) distils them into, among other things, phenol and formaldehyde, and a press over a
 heated basin sets 50 mB of each hard into Bakelite, about five to a bucket of coal tar.
 
+**Power Grid's parts, made as real ones are.** A **Coil Winder**, in andesite and every machine metal, winds Power
+Grid's coils, draws an ingot of copper, iron or gold into four wire and rolls capacitors of aluminium foil and waxed
+paper. A Pressurizer turned the other way pulls a vacuum and seals Power Grid's bulbs and tubes over Hot heat, some
+filled with hydrogen, neon or argon piped into its vessel; neon is a trace that gathers at the top of the air column,
+a mB for every 55 buckets of liquid air. Insulation is PVC, resistors and brushes carbon, magnets steel, varistors zinc
+oxide and insulators glass, and the battery is copper and zinc in salt water. Chips, transistors, diodes and solar
+panels are made on **silicon wafers**: quartz reduced with coke in the Arc Furnace, worked into trichlorosilane with
+hydrogen chloride in a Steel Furnace, distilled, laid down as polysilicon by hydrogen at Blazing, melted into an ingot
+and sawn. The **Sodium-Sulfur Battery** holds four times what Power Grid's Battery does at a steadier voltage, and comes
+full, but works only hot: it needs Warm heat or hotter under every block of its bottom, and cold it keeps its charge but
+gives and takes none. It is built on the assembly line from a Steel Casing, beta-alumina tubes (alumina and soda ash
+fired at Blazing) and spouted molten sodium and molten sulfur; the crucible melts sulfur.
+
 **The glass lab.** Glassware on iron retort stands, early enough for a campfire: lab glass takes its heat from what is
 under it, as a basin does, but cracks over Searing heat, and hot glass cracks in rain or beside water, so a lab needs a
 roof (glass will do); cracked glass shatters five seconds later and spills what it held. A **still** is a **round
@@ -430,7 +443,7 @@ Cooler, the Radiator and warm water, cold water, coolant and hot coolant. Vanill
 cold.
 
 **Quest book.** With FTB Quests installed, the mod puts its own quest book in `config/ftbquests/quests` the first
-time it starts, unless a book is already there: 130 quests in 15 chapters, from the first fire to the dye works, with
+time it starts, unless a book is already there: 135 quests in 15 chapters, from the first fire to the dye works, with
 the ruins and the decor blocks as side roads. Each quest names a goal, an item in hand or a block seen working, and
 explains why it matters and the rule behind it, pointing to JEI and Ponder for the rest. It never gives a layout or a
 recipe, so how each step is built is yours to work out. Quests give no rewards, and every quest shows from the start,
@@ -506,7 +519,9 @@ Most textures are drawn procedurally. The shaft and cog textures only reuse the 
 (`tools/uv_masks.json`) so they fit Create's models, which are referenced as parents, and the gearbox, clutch and
 gearshift casings are drawn from scratch to fit Create's models of them. The brass, iron, glass, steel and aluminium
 pipes, pumps and tanks, and the weathered copper and rusted iron ones, are Create's own copper textures recoloured: they are kept as palettes in
-`tools/create_fluid_textures.json` (Create is MIT licensed).
+`tools/create_fluid_textures.json` (Create is MIT licensed). The electric pumps and the sodium-sulfur battery are
+Power Grid's own pump and Battery recoloured, kept the same way in `tools/powergrid_textures.json` (Create: Power
+Grid is Apache-2.0 licensed).
 
 The decorative blocks (catwalks to argon tubes) are written by `tools/gen_decor.py`, which `gen_assets.py` runs last,
 after `gen_colours.py`, adding its lines to the lang file and tags written before it.

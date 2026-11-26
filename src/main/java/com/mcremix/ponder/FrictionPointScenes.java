@@ -51,12 +51,12 @@ public class FrictionPointScenes {
 		scene.idle(10);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("Shafts and cogs cannot hang in the air. Each needs a support to hold it")
+			.text("Shafts and cogs don't float. Each needs a support to hold it up")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(90);
 		scene.overlay().showText(100)
-			.text("Machines, gearboxes, clutches, gearshifts, chain drives, encased shafts and cogs, and brackets are supports, and a speed controller holds the large cog on top of it")
+			.text("Supports are machines, gearboxes, clutches, gearshifts, chain drives, encased shafts and cogs, and brackets. A speed controller holds the large cog on top of it")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(110);
@@ -69,7 +69,7 @@ public class FrictionPointScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("A support holds the parts in line with it, as far along as their material reaches")
+			.text("A support holds the parts in line with it, as far as their material reaches")
 			.pointAt(util.vector().topOf(4, 1, 3))
 			.placeNearTarget();
 		scene.idle(90);
@@ -88,7 +88,7 @@ public class FrictionPointScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Like a torch, a part goes only where something holds it. Out of reach of every support, it will not go on")
+			.text("Like a torch, a part only goes where something holds it. Out of every support's reach, it won't go on")
 			.pointAt(util.vector().topOf(tooFar))
 			.placeNearTarget();
 		scene.idle(100);
@@ -101,7 +101,7 @@ public class FrictionPointScenes {
 		scene.idle(10);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Sources hold nothing: a motor, engine, water wheel or crank only drives. Belts and gauges hold nothing either")
+			.text("Sources hold nothing: a motor, engine, water wheel or crank only drives. Belts and gauges are no help either")
 			.pointAt(util.vector().topOf(motor))
 			.placeNearTarget();
 		scene.idle(110);
@@ -109,7 +109,7 @@ public class FrictionPointScenes {
 		scene.overlay().showControls(util.vector().topOf(oak), Pointing.DOWN, 60).withItem(AllItems.GOGGLES.asStack());
 		scene.idle(10);
 		scene.overlay().showText(80)
-			.text("Goggles show how far a part reaches, and which support holds it")
+			.text("Goggles show how far a part reaches and which support holds it")
 			.pointAt(util.vector().topOf(oak))
 			.placeNearTarget();
 		scene.idle(90);
@@ -117,7 +117,7 @@ public class FrictionPointScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Take a support away, and the parts only it held drop off")
+			.text("Take a support away and the parts only it held drop off")
 			.pointAt(util.vector().topOf(box))
 			.placeNearTarget();
 		scene.idle(20);
@@ -166,7 +166,7 @@ public class FrictionPointScenes {
 		}
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A bracket goes down on its own, bolted to a solid face: a floor, a wall, a ceiling or the top of a post. With nothing solid there, it will not go down")
+			.text("A bracket bolts onto a solid face: a floor, a wall, a ceiling or the top of a post. No solid face, no bracket")
 			.pointAt(util.vector().blockSurface(left, Direction.DOWN))
 			.placeNearTarget();
 		scene.idle(100);
@@ -181,7 +181,7 @@ public class FrictionPointScenes {
 		}
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Place a shaft or cog into it, and it lies along the bracket, which makes it a support")
+			.text("Place a shaft or cog into it and it lies along the bracket, which is now its support")
 			.pointAt(util.vector().topOf(left))
 			.placeNearTarget();
 		scene.idle(50);
@@ -199,7 +199,7 @@ public class FrictionPointScenes {
 		PonderParts.fitBracket(scene, util, top, iron, PonderParts.block("iron_bracket"), Direction.DOWN);
 		scene.idle(10);
 		scene.overlay().showText(100)
-			.text("A bracket also clips onto a part already placed. Its foot goes on the side away from you, here onto the top of the post")
+			.text("A bracket also clips onto a part already placed. Its foot goes on the side away from you, here the top of the post")
 			.pointAt(util.vector().topOf(top))
 			.placeNearTarget();
 		scene.idle(110);
@@ -208,7 +208,7 @@ public class FrictionPointScenes {
 		scene.idle(10);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Only supports have a top speed, their Stability. A part in a bracket turns as fast as the bracket allows, whatever the part is made of")
+			.text("Only supports have a top speed, their Stability. A part in a bracket turns as fast as the bracket allows, whatever it's made of")
 			.pointAt(util.vector().topOf(left))
 			.placeNearTarget();
 		scene.idle(110);
@@ -223,7 +223,7 @@ public class FrictionPointScenes {
 		Vec3 smoking = util.vector().centerOf(right);
 		scene.overlay().showText(110)
 			.colored(PonderPalette.RED)
-			.text("So an oak bracket holds even a copper shaft to 64 RPM. Past it, the bracket grinds and comes off. The shafts stay while another support is in reach, as the copper bracket is here")
+			.text("So an oak bracket caps even a copper shaft at 64 RPM, and grinds off past it. The shafts stay up while another support is in reach")
 			.pointAt(smoking)
 			.placeNearTarget();
 		for (int i = 0; i < 5; i++) {
@@ -238,7 +238,7 @@ public class FrictionPointScenes {
 		scene.overlay().showText(80)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Break the block a bracket is bolted to, and the bracket falls off")
+			.text("Break the block a bracket is bolted to and the bracket falls off with it")
 			.pointAt(util.vector().topOf(post))
 			.placeNearTarget();
 		scene.idle(20);
@@ -265,14 +265,14 @@ public class FrictionPointScenes {
 		scene.effects().emitParticles(util.vector().topOf(left),
 			scene.effects().simpleParticleEmitter(ParticleTypes.WAX_ON, Vec3.ZERO), 6, 1);
 		scene.overlay().showText(80)
-			.text("Honeycomb waxes a part and its bracket together, and an axe scrapes them together")
+			.text("Honeycomb waxes a part and its bracket together, and an axe scrapes both")
 			.pointAt(util.vector().topOf(left))
 			.placeNearTarget();
 		scene.idle(90);
 
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Hold brackets in your offhand, and one goes on each part as you place it")
+			.text("With brackets in your offhand, every part you place gets one")
 			.pointAt(util.vector().topOf(0, 1, 2))
 			.placeNearTarget();
 		scene.idle(100);
@@ -306,12 +306,12 @@ public class FrictionPointScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Any shaft or cog goes into any material's casing: andesite, brass, copper, iron, steel, aluminium or titanium. Encased, it is a support")
+			.text("Any shaft or cog fits any casing: andesite, brass, copper, iron, steel, aluminium or titanium. Encased, it's a support")
 			.pointAt(util.vector().topOf(end))
 			.placeNearTarget();
 		scene.idle(120);
 		scene.overlay().showText(110)
-			.text("The casing sets its top speed and its friction, whatever the part is made of. The part sets only the load it carries, and out of the weather it keeps the look it went in with")
+			.text("The casing sets the top speed and friction, the part only its load. Inside, it keeps the look it went in with, safe from the weather")
 			.pointAt(util.vector().topOf(end))
 			.placeNearTarget();
 		scene.idle(120);
@@ -349,7 +349,7 @@ public class FrictionPointScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Sneak and use a wrench to take a casing off again. Encasing never uses the casing up, and breaking an encased part gives back the part inside")
+			.text("Sneak and use a wrench to take a casing off. Encasing never uses the casing up, and breaking an encased part gives the part back")
 			.pointAt(util.vector().topOf(end))
 			.placeNearTarget();
 		scene.idle(120);
@@ -373,7 +373,7 @@ public class FrictionPointScenes {
 		scene.idle(10);
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Every shaft and cog carries only so much stress, its Strength: wood 2,048 su, brass 3,072, copper 4,096 and aluminium 8,192. Andesite, iron, steel and titanium carry any load")
+			.text("Every shaft and cog carries only so much stress, its Strength: wood 2,048 su, brass 3,072, copper 4,096, aluminium 8,192. Andesite, iron, steel and titanium carry any load")
 			.pointAt(util.vector().topOf(oak))
 			.placeNearTarget();
 		scene.idle(120);
@@ -381,7 +381,7 @@ public class FrictionPointScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Put more stress through a network than a shaft or cog carries, and it wobbles for about a second, then breaks off, bare, bracketed or encased. Supports never break from load")
+			.text("Overload one and it wobbles for about a second, then breaks off, bare, bracketed or encased. Supports never break from load")
 			.pointAt(util.vector().topOf(oak))
 			.placeNearTarget();
 		scene.idle(20);
@@ -397,7 +397,7 @@ public class FrictionPointScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Wood carries the least, so it breaks first. A wooden part between your engine and a risky machine is a fuse: the overload is cut off, and the engine side keeps turning")
+			.text("Wood carries the least, so it breaks first. Put a wooden part between your engine and a risky machine: when it blows, the engine side keeps turning")
 			.pointAt(util.vector().topOf(1, 1, 2))
 			.placeNearTarget();
 		scene.idle(120);
@@ -445,7 +445,7 @@ public class FrictionPointScenes {
 
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("The controller is brass, so its own shaft turns no faster than 96 RPM. The cog it drives is no support itself and has no top speed: the supports further on set it")
+			.text("The controller is brass, so its own shaft tops out at 96 RPM. The cog it drives has no limit of its own: supports further along set that")
 			.pointAt(util.vector().blockSurface(controller, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(120);

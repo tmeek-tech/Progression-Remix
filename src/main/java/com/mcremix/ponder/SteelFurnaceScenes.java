@@ -71,7 +71,7 @@ public class SteelFurnaceScenes {
 		scene.world().createItemEntity(mouth, util.vector().of(-0.1, 0.15, 0), new ItemStack(Items.CHARCOAL, 6));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Steel Casing used on a Furnace cases it in steel. It keeps what it held, but its solid fuel pops out and its fire goes out")
+			.text("Steel Casing on a Furnace cases it in steel. It keeps what it held, but its solid fuel pops out and its fire dies")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -79,7 +79,7 @@ public class SteelFurnaceScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("A Steel Furnace burns no solid fuel. It is sealed, so heat from underneath does not reach it, and Bellows do nothing for it")
+			.text("A Steel Furnace burns no solid fuel. It's sealed, so heat from below can't reach it, and Bellows are wasted on it")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -91,7 +91,7 @@ public class SteelFurnaceScenes {
 		setTank(scene, util, tank, Chemical.COAL_TAR.stack(8000));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("It burns fuel pumped up into it from underneath: wood spirit, ethanol, acetone, coal tar, light oil, creosote, hydrogen or ethylene")
+			.text("It burns fluid fuel pumped up from underneath, from wood spirit to fuel gas. JEI lists them all")
 			.pointAt(util.vector().blockSurface(elbow, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -111,7 +111,7 @@ public class SteelFurnaceScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Fuel pumped into it while it is out escapes from the front. Liquids pour out, to be cleaned up, and gases hiss away into the air")
+			.text("Fuel pumped in while it's out escapes from the front. Liquids pour out for you to mop up, and gases hiss away")
 			.pointAt(mouth)
 			.placeNearTarget();
 		scene.idle(110);
@@ -123,14 +123,14 @@ public class SteelFurnaceScenes {
 			scene.effects().simpleParticleEmitter(ParticleTypes.FLAME, new Vec3(-0.04, 0.02, 0)), 6, 2);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Light it as you would a Furnace: Flint and Steel, a Fire Charge or a Spark Plug")
+			.text("Light it like a Furnace: Flint and Steel, a Fire Charge or a Spark Plug")
 			.pointAt(mouth)
 			.placeNearTarget();
 		scene.idle(100);
 
 		scene.overlay().showText(110)
 			.attachKeyFrame()
-			.text("Lit, it burns the fuel as it comes, and the faster it comes the hotter it burns. A pump moves 1 mB a tick for every 2 RPM, so coal tar at 4 RPM burns Searing")
+			.text("Lit, it burns fuel as fast as it arrives, and faster flow burns hotter: coal tar pumped at 4 RPM burns Searing")
 			.pointAt(util.vector().topOf(pumpPos))
 			.placeNearTarget();
 		scene.idle(120);
@@ -141,14 +141,14 @@ public class SteelFurnaceScenes {
 		scene.overlay().showText(110)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("Each fuel stops at its own top heat, coal tar at Searing. Fuel that comes faster than that is lost, and the chimney smokes black")
+			.text("Each fuel stops at its own top heat, coal tar at Searing. Anything faster is wasted, and the chimney smokes black")
 			.pointAt(util.vector().topOf(furnace))
 			.placeNearTarget();
 		scene.idle(120);
 
 		scene.overlay().showText(90)
 			.colored(PonderPalette.GREEN)
-			.text("Coal tar, light oil, creosote and ethylene go the furthest. Only hydrogen and ethylene burn Blazing")
+			.text("Fuel oil goes furthest, then coal tar, light oil, creosote, ethylene and fuel gas. Hydrogen, ethylene and fuel gas burn Blazing")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -159,7 +159,7 @@ public class SteelFurnaceScenes {
 		setSteelFurnace(scene, util, furnace, false, HeatLevel.COLD, null, 0, null);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A second after its fuel stops coming, it goes out and has to be lit again")
+			.text("A second after the fuel stops, it goes out and needs lighting again")
 			.pointAt(mouth)
 			.placeNearTarget();
 		scene.idle(100);
@@ -177,14 +177,14 @@ public class SteelFurnaceScenes {
 			.withItem(ModFluids.chemical(Chemical.ETHANOL).bucket().asStack());
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("It works fluids too, piped or poured in at its front, sides or top. What it makes waits inside for pipes to draw off")
+			.text("It works fluids too, piped or poured in at its front, sides or top, and holds what it makes for pipes to draw off")
 			.pointAt(util.vector().topOf(furnace))
 			.placeNearTarget();
 		scene.idle(110);
 
 		scene.overlay().showControls(chamber, Pointing.LEFT, 40).withItem(ModItems.ALUMINA.asStack());
 		scene.overlay().showText(100)
-			.text("Ethanol run over Alumina in its chamber, Hot or hotter, turns to ethylene. The alumina wears away slowly")
+			.text("Ethanol over Alumina in its chamber, Hot or hotter, turns to ethylene. The alumina wears away slowly")
 			.pointAt(chamber)
 			.placeNearTarget();
 		scene.idle(110);
@@ -196,7 +196,7 @@ public class SteelFurnaceScenes {
 		scene.idle(110);
 
 		scene.overlay().showText(90)
-			.text("It fires what a Furnace fires, and heats a boiler or basin on top of it the same way")
+			.text("It fires what a Furnace fires, and heats a boiler or basin on top the same way")
 			.pointAt(chamber)
 			.placeNearTarget();
 		scene.idle(100);

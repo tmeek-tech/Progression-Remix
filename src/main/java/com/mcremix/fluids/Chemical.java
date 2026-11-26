@@ -280,7 +280,20 @@ public enum Chemical {
 	/** Nitric and sulfuric acid together: nitrates four times as fast, and the sulfuric acid comes back after. */
 	MIXED_ACID("mixed_acid", 0xFFF2EED2, MapColor.COLOR_YELLOW, 1600, 2000, 300, true),
 	/** Naphthalene heated in sulfuric acid: a brown, syrupy acid that melts with caustic soda into naphthol. */
-	NAPHTHALENESULFONIC_ACID("naphthalenesulfonic_acid", 0xFFB48A5A, MapColor.COLOR_BROWN, 1440, 2400, 300, false);
+	NAPHTHALENESULFONIC_ACID("naphthalenesulfonic_acid", 0xFFB48A5A, MapColor.COLOR_BROWN, 1440, 2400, 300, false),
+	// Power Grid's parts made as real ones are (0.40.0, Taran)
+	/**
+	 * Crude silicon worked by hydrogen chloride in a Steel Furnace: a clear, thin liquid that boils just under blood
+	 * heat, still carrying the iron the silicon brought with it as ferric chloride. A still takes the iron out.
+	 */
+	CRUDE_TRICHLOROSILANE("crude_trichlorosilane", 0xFFDCD6C2, MapColor.SNOW, 1340, 350, 300, true),
+	/** Trichlorosilane distilled clean: water-clear. Run with hydrogen through a Blazing Steel Furnace, it lays down polysilicon. */
+	TRICHLOROSILANE("trichlorosilane", 0xFFEEF0EC, MapColor.SNOW, 1340, 330, 300, true),
+	/**
+	 * Eighteen parts in a million of the air, too light to condense in the air column: drawn off its very top a drop at a
+	 * time. Sealed in a bulb, it glows red-orange. Let loose, it hisses away harmlessly.
+	 */
+	NEON("neon", 0xFFF2E6DE, MapColor.NONE, 0, 9, 290, true, true);
 
 	public final String id;
 	/** Its colour as seen through it, from inside. */

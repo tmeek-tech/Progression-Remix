@@ -55,7 +55,7 @@ public class ElectrolysisScenes {
 		scene.idle(15);
 		scene.overlay().showText(80)
 			.attachKeyFrame()
-			.text("An Electrolyser fixed to the side of a basin passes a heavy current through what is in it, and the current splits it")
+			.text("An Electrolyser on a basin's side drives a heavy current through what's inside, pulling it apart")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(90);
@@ -65,7 +65,7 @@ public class ElectrolysisScenes {
 		fitElectrode(scene, util, electrolyser, false);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("It carries the current in on two Carbon Electrodes, which stand out of its terminals. The first one fitted is the anode (+), the second the cathode (-)")
+			.text("Current runs in on two Carbon Electrodes in its terminals. The first fitted is the anode (+), the second the cathode (-)")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(100);
@@ -78,18 +78,18 @@ public class ElectrolysisScenes {
 		scene.idle(20);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Wire its + terminal to the + side of a Power Grid source and its - terminal to the - side. Wired the wrong way round, nothing flows")
+			.text("Wire it + to + and - to - on a Power Grid source. Backwards, nothing flows")
 			.pointAt(util.vector().topOf(source))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.overlay().showText(100)
-			.text("Below about 4 V next to nothing flows. Past that the current climbs steeply, and with it how fast it splits and how hot it runs")
+			.text("Below about 4 V almost nothing flows. Past that the current climbs steeply, and so do the splitting speed and the heat")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("A generator wired straight across one drives a huge current through it and cooks it. Step the voltage down with a transformer, or wire several in series")
+			.text("A generator wired straight across it will cook it. Step the voltage down with a transformer, or wire several in series")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
@@ -98,7 +98,7 @@ public class ElectrolysisScenes {
 		scene.idle(20);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Salt water splits into caustic soda, which stays in the basin, and chlorine and hydrogen, which escape over it")
+			.text("Salt water splits into caustic soda, which stays in the basin, and chlorine and hydrogen, which escape")
 			.pointAt(basinFront)
 			.placeNearTarget();
 		scene.effects().emitParticles(rim,
@@ -110,7 +110,7 @@ public class ElectrolysisScenes {
 		scene.idle(70);
 		scene.overlay().showText(100)
 			.colored(PonderPalette.RED)
-			.text("Chlorine let loose is a green cloud that hurts you and kills plants, while the hydrogen just hisses away. A vat keeps both")
+			.text("Loose chlorine is a green cloud that hurts you and kills plants. The hydrogen just hisses off. A vat keeps both")
 			.pointAt(rim)
 			.placeNearTarget();
 		scene.idle(110);
@@ -120,7 +120,7 @@ public class ElectrolysisScenes {
 		scene.idle(20);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("Alumina, put in by a funnel or an arm, splits into molten aluminium. It needs no heat under the basin: the current keeps it hot")
+			.text("Alumina, fed by funnel or arm, splits into molten aluminium. No heat needed: the current keeps it molten")
 			.pointAt(basinFront)
 			.placeNearTarget();
 		scene.idle(50);
@@ -128,7 +128,7 @@ public class ElectrolysisScenes {
 		setBasinItems(scene, util, basin, ModItems.ALUMINA.asStack(2));
 		scene.idle(60);
 		scene.overlay().showText(80)
-			.text("Pipe the molten aluminium off into a crucible to cast it")
+			.text("Pipe it off into a crucible to cast it")
 			.pointAt(basinFront)
 			.placeNearTarget();
 		scene.idle(90);
@@ -137,13 +137,13 @@ public class ElectrolysisScenes {
 		scene.overlay().showText(100)
 			.attachKeyFrame()
 			.colored(PonderPalette.RED)
-			.text("The anode burns away with the power through it, and the cathode a tenth as fast. When one is gone, the Electrolyser stops")
+			.text("The anode burns away with the power through it, the cathode a tenth as fast. When either is gone, it stops")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(110);
 		fitElectrode(scene, util, electrolyser, true);
 		scene.overlay().showText(80)
-			.text("Fit a new one by hand, or let a funnel or an arm feed them in")
+			.text("Fit a new one by hand, or let a funnel or arm keep them coming")
 			.pointAt(front)
 			.placeNearTarget();
 		scene.idle(90);
@@ -153,7 +153,7 @@ public class ElectrolysisScenes {
 		scene.overlay().showText(90)
 			.attachKeyFrame()
 			.colored(PonderPalette.GREEN)
-			.text("Driven hard it runs hot, like any Power Grid device. A Heat Sink on top draws the heat out of it")
+			.text("Driven hard it runs hot, like any Power Grid device. A Heat Sink on top draws the heat out")
 			.pointAt(HeatSinkScenes.side(util, sink))
 			.placeNearTarget();
 		scene.idle(100);
@@ -186,14 +186,14 @@ public class ElectrolysisScenes {
 		scene.idle(5);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("A vat is a tank one to three wide and up to five high, standing on a whole layer of andesite scaffolding, which becomes its cone and legs")
+			.text("A vat is a tank up to three wide and five high on a full layer of andesite scaffolding, which becomes its cone and legs")
 			.pointAt(util.vector().blockSurface(util.grid().at(1, 1, 2), Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.overlay().showControls(tankFront, Pointing.DOWN, 80)
 			.withItem(AllItems.GOGGLES.asStack());
 		scene.overlay().showText(90)
-			.text("Its windows shut while it stands, and open again once it is taken apart. Engineer's Goggles show what it holds")
+			.text("Its windows close while it stands and open again once it's taken apart. Engineer's Goggles show what's inside")
 			.pointAt(tankFront)
 			.placeNearTarget();
 		scene.idle(100);
@@ -203,12 +203,12 @@ public class ElectrolysisScenes {
 		setVat(scene, controller, Chemical.BAUXITE_LIQUOR.stack(32000));
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("Pipes fill it through any of its tanks, and funnels, chutes and arms put in the items it works on")
+			.text("Pipe fluids into any of its tanks. Funnels, chutes and arms add items")
 			.pointAt(util.vector().topOf(1, 4, 1))
 			.placeNearTarget();
 		scene.idle(100);
 		scene.overlay().showText(100)
-			.text("Left alone it settles what will settle: a batch for every bucket it holds, all at once, where a basin settles one at a time")
+			.text("Left alone it settles a batch for every bucket it holds, all at once. A basin manages one at a time")
 			.pointAt(tankFront)
 			.placeNearTarget();
 		scene.idle(60);
@@ -221,7 +221,7 @@ public class ElectrolysisScenes {
 			.withItem(ModItems.ALUMINIUM_HYDROXIDE.asStack());
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("What it makes as items comes out of the outlet under its cone, piped to any inventory beside or under its scaffolding")
+			.text("Items it makes come out of the outlet under its cone, into any inventory beside or under its scaffolding")
 			.pointAt(util.vector().blockSurface(chest, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -230,12 +230,12 @@ public class ElectrolysisScenes {
 		scene.world().createItemEntity(util.vector().centerOf(funnel).add(-.25, -.3, 0), util.vector().of(-.04, 0, 0),
 			ModItems.ALUMINIUM_HYDROXIDE.asStack());
 		scene.overlay().showText(80)
-			.text("A funnel on its scaffolding, facing out, pulls them out too")
+			.text("Or a funnel on its scaffolding, facing out, pulls them")
 			.pointAt(util.vector().blockSurface(funnel, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(90);
 		scene.overlay().showText(90)
-			.text("What it makes as liquids, like the caustic soda the liquor gives back, waits in the vat for its pipes to draw off")
+			.text("Liquids it makes, like the caustic soda the liquor gives back, wait inside for pipes to draw off")
 			.pointAt(util.vector().topOf(2, 4, 2))
 			.placeNearTarget();
 		scene.idle(100);
@@ -246,7 +246,7 @@ public class ElectrolysisScenes {
 		scene.idle(15);
 		scene.overlay().showText(90)
 			.attachKeyFrame()
-			.text("With Electrolysers on its sides it splits what a current splits, as fast as their current allows")
+			.text("With Electrolysers on its sides it splits whatever a current splits, as fast as their current allows")
 			.pointAt(util.vector().blockSurface(first, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(100);
@@ -261,7 +261,7 @@ public class ElectrolysisScenes {
 		scene.idle(20);
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("In series, the - of one wired to the + of the next, they share one source. Each needs about 4 V, so two need about 8")
+			.text("Wired in series, - of one to + of the next, they share one source. Each wants about 4 V, so two want about 8")
 			.pointAt(util.vector().blockSurface(second, Direction.WEST))
 			.placeNearTarget();
 		scene.idle(110);
@@ -269,7 +269,7 @@ public class ElectrolysisScenes {
 		setVat(scene, controller, Chemical.SALT_WATER.stack(24000));
 		scene.overlay().showText(100)
 			.attachKeyFrame()
-			.text("A vat is closed, so it keeps the chlorine and hydrogen. Its pipes draw off its gases first, then its liquids")
+			.text("A vat is closed, so the chlorine and hydrogen stay put. Pipes draw off gases first, then liquids")
 			.pointAt(util.vector().topOf(1, 4, 1))
 			.placeNearTarget();
 		scene.idle(110);
@@ -281,7 +281,7 @@ public class ElectrolysisScenes {
 		scene.idle(100);
 		scene.overlay().showText(90)
 			.colored(PonderPalette.RED)
-			.text("Once it has no room left for what it makes, it stops until its pipes take some away")
+			.text("Out of room for what it makes, it stops until pipes take some away")
 			.pointAt(tankFront)
 			.placeNearTarget();
 		scene.idle(100);

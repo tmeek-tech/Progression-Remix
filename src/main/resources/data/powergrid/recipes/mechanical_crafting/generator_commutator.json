@@ -1,0 +1,33 @@
+{
+  "type": "create:mechanical_crafting",
+  "acceptMirrored": true,
+  "key": {
+    "P": {
+      "item": "powergrid:pins"
+    },
+    "K": {
+      "tag": "mcremix:coke"
+    },
+    "M": {
+      "tag": "forge:plates/copper"
+    },
+    "B": {
+      "item": "mcremix:bakelite"
+    },
+    "H": {
+      "item": "create:shaft"
+    },
+    "C": {
+      "item": "create:andesite_casing"
+    }
+  },
+  "pattern": [
+    " P ",
+    "KMK",
+    "BHB",
+    " C "
+  ],
+  "result": {
+    "item": "powergrid:generator_commutator"
+  }
+}

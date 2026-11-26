@@ -4030,3 +4030,143 @@ hand for one quest of each kind (a checkmark, an item, a look-at), not for every
 longer match the marker, so the next start keeps them as a changed book until the folder is deleted; a later FTB
 Quests that rewrites older books on load would make every book look changed, so updates would stop until the folder
 is deleted; the text is English only.
+
+## 53. Shorter, livelier Ponder and quest text (0.39.1)
+
+Taran's ask of 2026-11-22, "For ponders and quest descriptions, can you make explanation more consise, state the
+obvious less, and make them sound fun without being cringe?", with one card answered the same day after samples:
+more playful (more personality in the quests and a few more asides in Ponder, still no jokes for their own sake).
+Nothing but text changed.
+
+**Ponder.** 335 of the 373 text boxes in this mod's 54 scenes are reworded, 14% fewer words in all, and no box is
+over 30 words now (41 were). Out went what the scene already shows, what JEI lists (recipe amounts, every fuel) and
+lines that repeat the scene's title; in came a short aside here and there. Every scene keeps its boxes, timings and
+keyframes, so the lang keys (`mcremix.ponder.<scene>.text_N`) are the same: only the strings in the `*Scenes.java`
+classes and their values in `en_us.json` changed, and `ponder_lang()` in `gen_assets.py` gives the same values from
+the Java. Create's own scenes copied into this mod are untouched. Two scenes were also put right: the Steel Furnace
+scene now gives the fuel ladder as the code has it (fuel oil goes furthest, then coal tar, light oil, creosote,
+ethylene and fuel gas; hydrogen, ethylene and fuel gas burn Blazing) and leaves the full list to JEI, and naphtha
+cracking's pressurised steam comes from a Pressurizer, not a boiler.
+
+**Quests.** 124 of the 130 quests' descriptions and three chapter subtitles (The Hearth, Turning, Electricity) are
+reworded in the same voice, 5% fewer words. The quest text was already lean, so most of the change is voice, with
+lines that repeat another quest or the chapter's subtitle taken out (Bakelite's list of Power Grid parts, the
+transformer's steel core, steel as iron that soaked up carbon). Keys, titles, quest subtitles, tasks, dependencies and
+layout are unchanged, so ids and progress carry over, and every number, heat word and JEI or Ponder pointer is kept.
+The voice is written down at the top of `tools/gen_quests.py` for later edits. The book's version is now
+`5646b40b394c4a29`, so `compat/QuestBook` replaces an installed 0.39.0 book that nobody has edited and leaves an
+edited one alone.
+
+**Known gaps:** the text is still English only, and none of it was read in game; the strings are the same keys and
+the same SNBT fields as 0.39.0's, which were.
+
+## 54. Power Grid's parts made as real ones are (0.40.0)
+
+Taran's ask of 2026-11-25, "Can you make the recipes more realistic for Create: Power Grid?". Claude surveyed all 116
+of Power Grid 0.6.2's recipes (21 already changed by 0.14.0, 0.16.0 and 0.37.0) and proposed about 40 more, row by
+row, in the design folder's `power-grid-recipes.md`, then asked seven cards. Taran answered all seven the same day:
+every part made as real ones are, with the fantasy gadgets left alone (the pick); silicon purified the real way (not
+the pick, which was arc-furnace silicon alone); real gases in tubes, neon from the air column (the pick); wire drawn on
+the Coil Winder (the pick); PVC insulation (the pick); capacitors of aluminium and waxed paper on the Coil Winder (the
+pick); and the battery as Volta's pile in salt water (the pick), answered in words with a new ask: "also add a high
+capacity battery that uses the sodium and sulfur recipe". That battery had four cards of its own, which Taran answered the same day:
+heat, capacity and recipe as Claude picked them, and the look as Power Grid's Battery in dark steel, not the grey
+painted cabinet Claude picked (below).
+
+**Recipes** (`tools/gen_powergrid.py`, run last by `gen_assets.py`, and the motor and integrated circuit in
+`gen_assets.py`). Power Grid's recipes are replaced by files of the same name under `data/powergrid/recipes`, and
+switched off with a `forge:false` condition where this mod makes the part another way:
+
+| Part | Now |
+|---|---|
+| Copper, iron and gold wire | drawn on the Coil Winder, an ingot into four (`coiling/*_wire`); the saw recipes are off |
+| Insulated copper wire, copper cord | four wire and a PVC sheet make four; a cord is two in a PVC jacket |
+| Magnet | a steel ingot magnetised (`magnetization/magnet`); andesite alloy's is off |
+| Generator rotors, housing | steel plate laminations round copper coils; steel plate housing |
+| Electric motor, commutator | coke brushes |
+| Resistor, potentiometer, varistor | coke on Bakelite with copper leads, four at a time; a carbon track under a copper wiper; zinc oxide between two copper wire |
+| Capacitor | two aluminium sheets, two paper and a wax rolled on the Coil Winder into four (`coiling/capacitor`) |
+| Battery | three layers of copper and zinc plate wet with 250 mB of salt water; `mixing/acid` is off |
+| Unetched circuit board | a wax resist (honeycomb or paraffin), deployed, in place of dough |
+| Relays, gauges, multimeter, device and wire connectors, factory light | iron, Bakelite, brass, glass, the magnet and a vacuum-sealed light bulb; the multimeter needs no Gizmo |
+| Diode, VFET, BJTs, integrated circuit, solar panel | made on a silicon wafer, the BJTs with gold wire, the IC with gold, copper and polyethylene, the panel in polyethylene and aluminium under glass |
+| Tubes and bulbs | iron plate anodes, iron wire grids, quicklime cathodes, phosphor for the CRT, and a gas for five of them (below) |
+
+The FE Inverter, Electrical Gizmo, Electro-Baton, Electro-Zapper and Nether Transformer keep Power Grid's own recipes
+(card). A Resistive Coil is now wound on a Brick in place of a Stick.
+
+**New things** (`registry/ModPowerGrid`, `fluids/Chemical`). Seven items: zinc oxide (zinc nuggets fired at Searing),
+phosphor (two zinc oxide and quartz mixed superheated into willemite), the quartz briquette (quartz, coke and 50 mB of
+pitch pressed), crude silicon, polysilicon, the silicon ingot and the silicon wafer. Three fluids: crude
+trichlorosilane, trichlorosilane and neon (a gas). Each has a structural formula: ZnO, Zn2SiO4, SiHCl3, and Si and Ne
+alone (`StructuralFormula` colours neon a paler blue than argon).
+
+**The silicon chain.** The Arc Furnace reduces a briquette to crude silicon for 32 kJ and melts polysilicon into an
+ingot for 16 kJ. Crude silicon is a catalyst in the Steel Furnace at Hot: 300 mB of hydrogen chloride over it gives
+100 mB of crude trichlorosilane and 100 of hydrogen, and it wears away an item a batch (`catalyst_lasts` 300). The hot
+tube runs it too: it now takes any Steel Furnace job with a catalyst at Hot or below that takes one fluid and lays
+nothing down (`HotTubeBlockEntity.runs`). Crude trichlorosilane distils at Warm into 950 mB of trichlorosilane and 50
+of ferric chloride. **Steel Furnace jobs may now lay a solid down** (`SteelFurnaceRecipe.deposit`, its one item
+result): trichlorosilane with hydrogen piped in as its second feed lays a polysilicon in the tray at Blazing, a hopper
+or hand taking it out as fired things are, and gives back 300 mB of hydrogen chloride; a full tray stops the job as a
+full tank does. A saw cuts an ingot into eight wafers. One crude silicon makes about 0.95 polysilicon, so a briquette
+is about seven and a half wafers, and the hydrogen chloride and hydrogen go round.
+
+**Gas-filled tubes** (`PressurizerBlockEntity`, `VacuumSealingRecipe.gas`). The vessel has a gas tank of 100 mB. A
+seal may take one fluid ingredient, its gas: the barretter and thyratron 10 mB of hydrogen, the neon bulb and regulator
+tube 1 mB of neon, the growth lamp 5 mB of argon. Piped in, neon and argon go to the gas tank; hydrogen, which ammonia
+takes as its second feed, goes there only while the vessel holds parts of a hydrogen-filled seal. Of the seals what it
+holds is enough for, gas included, it seals the one that uses every kind it holds, then a gas-filled one, then the one
+with the most ingredients. With nothing in the vessel that is sealed in the gas it holds, a pipe can draw the gas
+off. Goggles show the gas held and, short of it, "Still wants 10 mB of Hydrogen to seal". A Steel Furnace whose tray
+is full says to take out or draw off what it made.
+
+**Neon from the air** (`Column`, `DistillingRecipe.trace`). A distilling recipe may carry a trace too little for a cut,
+`"trace": {"fluid": ..., "every": ...}`: liquid air's is a mB of neon for every 55,000 mB split. The column counts what
+it splits (`TraceOwed`, saved) and gathers the trace in a 100 mB tank at its very top; in the air column what has no
+room there escapes over the top. Only a pipe on the top face of the top section draws it off
+(`ColumnSectionBlockEntity`'s `UP` capability), and nothing goes in that way. Goggles show it, and JEI's liquid air
+page shows it at the end of its bar with how many buckets make a mB.
+
+**The Coil Winder** draws wire (an ingot, 160 ticks of work) and rolls capacitors (320). Of the recipes what it holds
+is enough for, it winds the one that uses everything it holds (`KindSlots.usesEvery`), then the one with the most
+ingredients, so the parts of a coil and an ingot wind the coil first. JEI hides Power Grid's Blazing Acid and its
+bucket.
+
+**Ponder and quests.** The coil winder scene gains wire drawing and capacitors and winds the Resistive Coil on a
+Brick; the vacuum sealing scene gains a line on gas-filled tubes. The quest book gains four quests (crude silicon,
+polysilicon and wafers in the titanium chapter, neon in the liquid air chapter), the Power Grid quest asks for the
+Coil Winder and drawn wire, and the coils, salt water, vacuum and argon quests say what changed.
+
+**The sodium-sulfur battery** (`battery/SodiumSulfurBatteryBlock`, `SodiumSulfurBatteryBlockEntity`, registered in
+`ModPowerGrid`). It subclasses Power Grid's `BatteryBlock` and `MultiBlockBatteryEntity` with its own block entity
+type and `SimpleBatterySpec`, so it is Power Grid's Battery in every other way (joining up to 3 by 3 by 5, the Device
+Connector, its charge kept on the item, Display Links) and joins only its own kind. Its spec: four times Power Grid's
+`acidBatteryCapacity` a block, and it comes full (the sodium is the charge); 12.45 to 12.6 V from full to 40%, then
+down to 10.8 V empty; 0.05 Ω plus a term that only matters in the last tenth (Power Grid's is 0.1 Ω full and over
+100 Ω at a fifth). Its heat settings (150 W, mass 3) come from a `ThermalValues.Provider` it registers, since Power
+Grid's `CThermal` only knows Power Grid's blocks. The controller checks every 10 ticks that every block under its
+bottom layer has Warm heat or hotter (`LabGlass.heatUnder`, so a Furnace below counts); `updateParameters` sets the
+spec's voltage and resistance (divided by the battery's size) while hot and 10 kΩ, Power Grid's own highest, while
+cold, even when empty, so a drained battery warmed again still charges. Goggles show its charge in Wh and whether it
+is hot. The beta-alumina tube is two alumina and a soda ash compacted into an unfired tube, fired at Blazing for 400
+ticks; the battery is a Steel Casing going round the assembly line twice: deploy a tube, fill 100 mB of molten sodium,
+fill 250 mB of molten sulfur, press. The crucible melts a sulfur into 100 mB of molten sulfur (Warm, the heat of what it
+melts into), the settling recipe backwards. It looks like Power Grid's Battery (Taran's look card): Power Grid's side and
+top and their connected sheets, kept as palettes in `tools/powergrid_textures.json` (Power Grid is Apache-2.0), with
+the copper ribs sulfur yellow shade for shade, the grey frame dark steel (`gen_decor.STEEL`) and the pale panels
+beside the ribs as they are. They join across the battery with Create's RECTANGLE connected textures as Power Grid's
+do (`ModSpriteShifts.SODIUM_SULFUR_BATTERY` through `ColumnCTBehaviour`). A Ponder
+scene (`BatteryScenes`, a two-high battery on a magma block) and an optional quest in the sulfur chapter (135 in all)
+go with it.
+
+**A ruins test made sturdier.** With this version's tests added, `ruinsGrowOverByBiome` (0.38.0) sat, in a run with
+companions, where its worst-off taiga house fell in almost entirely (a sixth left standing) and grew nothing of the
+taiga kind, so it failed every such run.
+Each kind of house is now placed at the two spots on the platform where it would be worst off, and what grew in both
+is counted together (`RuinTests.worstOff`).
+
+**Known gaps:** the sodium-sulfur battery's temperature, as Power Grid's thermometer reads it, is the heat of its own
+current, not the heat under it; hydrogen left in the gas tank seals light bulb parts as barretters until it runs out (a pipe can draw
+it off once no hydrogen tube's parts lie in the vessel); argon's half again in the Arc Furnace applies to silicon
+melts as it does to sponge; and the Arc Furnace's charge is drawn as titanium sponge whatever it holds.

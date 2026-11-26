@@ -14,7 +14,7 @@
 				"5CD85503C7FA27AB"
 			]
 			description: [
-				"Crude oil lies in sealed pockets deep underground, between y -40 and -16, under every biome. A skin of stone keeps them from opening onto caves or water, so you only find one by digging."
+				"Crude oil hides in sealed pockets deep underground, between y -40 and -16, under every biome. A skin of stone keeps them off caves and water, so the only way to find one is to dig."
 				""
 				"Spilt crude creeps out slowly, clings like cobweb and burns."
 			]
@@ -37,7 +37,7 @@
 				"19CD54A7B8257823"
 			]
 			description: [
-				"To a hose pulley a pocket is endless, however small, but crude comes up at a slow, fixed rate however fast the pump turns."
+				"To a hose pulley, any pocket is endless, however small. The catch: crude comes up at a slow, fixed rate, however fast the pump turns."
 				""
 				"&7Ponder: the hose pulley.&r"
 			]
@@ -60,7 +60,7 @@
 				"19CD54A7B8257823"
 			]
 			description: [
-				"Crude oil distils at &6Hot&r into sour gas, naphtha, kerosene, diesel and heavy oil, with bitumen left behind. Sour gas leaves by the still's vent or the condenser's gas outlet."
+				"Crude distils at &6Hot&r into sour gas, naphtha, kerosene, diesel and heavy oil, with bitumen left behind. Sour gas leaves by the still's vent or the condenser's gas outlet."
 				""
 				"Kerosene, diesel and heavy oil come out of a column hot, and bitumen is always warm."
 			]
@@ -83,9 +83,9 @@
 				"695A658C30C5B030"
 			]
 			description: [
-				"The diesel engine is one block built round a steel flywheel. Crank it briskly for two seconds to start it, and it runs on diesel or, weaker, kerosene, turning the way it was cranked."
+				"The diesel engine is one block built round a steel flywheel. Crank it briskly for two seconds and it catches, running on diesel or, weaker, kerosene, and turning the way it was cranked."
 				""
-				"It stalls when it runs dry or is overloaded, and then it has to be cranked again."
+				"Run it dry or overload it and it stalls. Back to the crank."
 				""
 				"&7JEI: the Diesel Engine tab. Ponder: the diesel engine.&r"
 			]
@@ -135,7 +135,7 @@
 				"695A658C30C5B030"
 			]
 			description: [
-				"Heavy oil settles into paraffin wax and fuel oil. Wax waxes whatever honeycomb waxes, and makes candles."
+				"Heavy oil settles into paraffin wax and fuel oil. Wax waxes anything honeycomb does, so the bees can take a break, and it makes candles."
 			]
 			id: "1C5F8BD2CFAE28F0"
 			optional: true
@@ -157,7 +157,7 @@
 				"695A658C30C5B030"
 			]
 			description: [
-				"Bitumen boiled down in a basin over &cSearing&r heat leaves petroleum coke, which stands in for Coal Coke everywhere."
+				"Boil bitumen down in a basin over &cSearing&r heat for petroleum coke, which stands in for Coal Coke everywhere."
 			]
 			id: "20CA7C2F0C25119A"
 			optional: true
