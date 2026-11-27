@@ -6,12 +6,13 @@ after gen_ores, passing itself; this file adds to the lang and tag files written
 own blocks.
 
 Each texture is drawn from vanilla's for the sound wood, so a ruin's rotted timber still reads as the wood it was:
-darker and duller, the warmth gone out of it toward grey-brown and mottled where it stayed wet; the seams between boards
-opened up, the boards checked into little cubes across the grain and split along it (brown rot), a soft dark spot or
-two and a few tufts of pale mycelium; on a log, bark fallen away in patches with the soft wood showing and a small
-bracket fungus; on a sawn end, the heart gone soft and dark with cracks running out of it. Doors and trapdoors have
-boards missing (Taran's card) and a foot rotted away where water stood, and their iron has rusted. The blockstates and
-models are vanilla's own, pointed at the rotted textures.
+darker and duller, the warmth gone out of it toward grey-brown; a damp patch or two fading softly into the wood where
+the seams held water, and a short split or two along the grain; on a log, a strip of bark peeled away with the wood
+under it showing; on a sawn end, the heart gone soft with two checks running out of it. Since 0.43.1 (Taran: the first
+look was messy, its black lines too strong) every mark is darker than the wood round it by a share of that wood's own
+lightness, about as dark as vanilla's seams between boards, and the specks, fungus and cubed checking are gone. Doors
+and trapdoors have boards missing (Taran's card) and a foot rotted away where water stood, and their iron has rusted.
+The blockstates and models are vanilla's own, pointed at the rotted textures.
 
 A rotted block leaves a stick about a third of the time (Taran's card), and itself with Silk Touch, as glass does. It is
 in none of the item tags recipes and furnaces read, so it makes no planks or tools; it is in the block tags that make
@@ -63,6 +64,11 @@ def blocks(kind=None):
 
 
 # ------------------------------------------------------------------------------------------------ drawing
+#
+# Rot is drawn quietly (0.43.1, Taran: the first textures looked messy, their black lines too strong). Every mark is
+# darker than the wood round it by a share of that wood's own lightness, never a fixed near-black: a crack is about as
+# dark as vanilla's seams between boards, a damp patch fades smoothly into the wood. There are few marks, and each sits
+# where the wood's own shape puts it: damp in the joints, splits along the grain, the heart of a sawn end.
 
 def vanilla(name, folder='block'):
     return C.jar_png(C.MC, f'assets/minecraft/textures/{folder}/{name}.png')
@@ -88,12 +94,20 @@ def noise_fn(seed, size, cell):
 class Tex:
     """A texture being rotted: its pixels, read and written in OKLab, and the random its marks are placed by."""
 
-    def __init__(self, img, seed):
+    def __init__(self, img, seed, tiles=True):
         self.img = img.copy()
         self.px = self.img.load()
         self.W, self.H = self.img.size
         self.rng = random.Random(seed)
         self.seed = seed
+        # a block's side tiles with its neighbours', so marks wrap round its edges; a door's or an item's do not
+        self.tiles = tiles
+
+    def at(self, x, y):
+        """The pixel a mark at (x, y) lands on, wrapped if the texture tiles, or None off a texture that does not."""
+        if self.tiles:
+            return x % self.W, y % self.H
+        return (x, y) if 0 <= x < self.W and 0 <= y < self.H else None
 
     def ok(self, x, y):
         return 0 <= x < self.W and 0 <= y < self.H and self.px[x, y][3] > 0
@@ -105,30 +119,27 @@ class Tex:
         self.px[x, y] = C.from_oklab(lab) + (self.px[x, y][3],)
 
     def scale(self, x, y, by, chroma=1.0):
-        """Darkens (or lightens) a pixel, and its colour by chroma."""
-        if self.ok(x, y):
-            L, a, b = self.lab(x, y)
-            self.put_lab(x, y, (L * by, a * chroma, b * chroma))
-
-    def paint(self, x, y, lab):
-        if self.ok(x, y):
-            self.put_lab(x, y, lab)
+        """Darkens (or lightens) a pixel by a share of its own lightness, and its colour by chroma."""
+        p = self.at(x, y)
+        if p and self.ok(*p):
+            L, a, b = self.lab(*p)
+            self.put_lab(*p, (L * by, a * chroma, b * chroma))
 
     def hole(self, x, y):
         if 0 <= x < self.W and 0 <= y < self.H:
             self.px[x, y] = (0, 0, 0, 0)
 
 
-def dull(t, darken=0.84, lift=0.02, chroma=0.5, mottle=0.08):
-    """Rotted wood's colour: darker and duller than sound wood, going grey-brown, mottled where it stayed wet."""
+def dull(t, darken=0.84, lift=0.02, chroma=0.5, mottle=0.05):
+    """Rotted wood's colour: darker and duller than sound wood, going grey-brown, mottled softly where it stayed wet."""
     n1, n2 = noise_fn(t.seed * 7 + 1, 16, 4), noise_fn(t.seed * 7 + 2, 16, 8)
     for y in range(t.H):
         for x in range(t.W):
             if t.px[x, y][3] == 0:
                 continue
             L, a, b = t.lab(x, y)
-            n = n1(x, y) * 0.55 + n2(x, y) * 0.45
-            k = chroma * (0.8 + 0.4 * n)
+            n = n1(x, y) * 0.3 + n2(x, y) * 0.7
+            k = chroma * (0.85 + 0.3 * n)
             L2 = L * darken + lift + (n - 0.5) * mottle
             if L2 > 0.7:  # pale wood (birch, its bark) greys over most
                 L2 = 0.7 + (L2 - 0.7) * 0.45
@@ -141,154 +152,128 @@ def mean_L(t):
     return sum(s) / len(s)
 
 
-def crack_colour(t):
-    return mean_L(t) * 0.45, 0.008, 0.012
+def stain(t, cx, cy, rx, ry, depth=0.15):
+    """
+    A damp patch round (cx, cy), rx by ry pixels: darkest in its middle, by depth of the wood's own lightness, fading
+    smoothly to nothing at its edge, its colour gone greyer and a touch green.
+    """
+    for y in range(t.H):
+        for x in range(t.W):
+            if not t.ok(x, y):
+                continue
+            dx, dy = abs(x - cx), abs(y - cy)
+            if t.tiles:
+                dx, dy = min(dx, t.W - dx), min(dy, t.H - dy)
+            d2 = (dx / rx) ** 2 + (dy / ry) ** 2
+            if d2 >= 1:
+                continue
+            f = (1 - d2) ** 2
+            L, a, b = t.lab(x, y)
+            t.put_lab(x, y, (L * (1 - depth * f), a * (1 - 0.3 * f) - 0.005 * f, b * (1 - 0.25 * f)))
 
 
-def fungus(t, n, near=None):
-    """Pale grey-white mycelium in small tufts, near the given spots or anywhere."""
-    for _ in range(n):
-        x, y = t.rng.choice(near) if near else (t.rng.randrange(t.W), t.rng.randrange(t.H))
-        L = 0.74 + t.rng.random() * 0.06
-        t.paint(x, y, (L, 0.003, 0.016))
-        dx, dy = t.rng.choice(((1, 0), (-1, 0), (0, 1), (0, -1)))
-        if t.rng.random() < 0.7:
-            t.paint(x + dx, y + dy, (L - 0.07, 0.003, 0.018))
+def split(t, x, y, n, dx, dy, by=0.74):
+    """A crack n pixels long from (x, y), a step of (dx, dy) at a time: about as dark as a seam, its ends fainter."""
+    for k in range(n):
+        end = n > 2 and k in (0, n - 1)
+        t.scale(x + k * dx, y + k * dy, (by + 1) / 2 if end else by, 0.85)
+
+
+def apart(a, b, size=16):
+    """How far apart two rows or columns are, round a tiling texture."""
+    return min((a - b) % size, (b - a) % size)
 
 
 def rot_planks(img, seed):
-    """Planks: the joints opened up, the boards checked across the grain and split along it, soft spots, mycelium."""
+    """Planks: water stood in a joint or two, the joint opened a little; a board split along its grain."""
     t = Tex(img, seed)
     dull(t)
-    # the seams between boards are the darkest rows
+    # the joints between boards are the darkest rows
     rowL = [sum(t.lab(x, y)[0] for x in range(16)) / 16 for y in range(16)]
     seams = sorted(range(16), key=lambda y: rowL[y])[:4]
-    dark = crack_colour(t)
-    seam_spots = []
-    for s in seams:
-        # a joint opening up: a run of the seam darker, the edge of the board above it crumbling
-        for _ in range(t.rng.randrange(1, 3)):
-            x0 = t.rng.randrange(16)
-            for k in range(t.rng.randrange(2, 5)):
-                x = (x0 + k) % 16
-                t.paint(x, s, dark)
-                if t.rng.random() < 0.6:
-                    t.scale(x, (s - 1) % 16, 0.72, 0.8)
-                seam_spots.append((x, (s - 1) % 16))
-    boards = [((s + 1) % 16, (s + 3) % 16) for s in seams]
-    # brown rot checks a board into little cubes: short cracks across the grain, a split along it
-    for (b0, _) in t.rng.sample(boards, 2):
-        x0 = t.rng.randrange(16)
-        for i in range(t.rng.randrange(2, 4)):
-            x = (x0 + i * 2) % 16
-            for y in range(b0, b0 + 3):
-                if t.rng.random() < 0.75:
-                    t.scale(x, y % 16, 0.66, 0.85)
-        y = (b0 + 1) % 16
-        x1 = (x0 + t.rng.randrange(-2, 3)) % 16
-        for k in range(t.rng.randrange(3, 6)):
-            t.scale((x1 + k) % 16, y, 0.74, 0.85)
-    # a soft spot gone dark with wet
-    for _ in range(2):
-        cx, cy = t.rng.randrange(16), t.rng.randrange(16)
-        for dx in range(-1, 2):
-            for dy in range(0, 2):
-                if t.rng.random() < 0.8:
-                    t.scale((cx + dx) % 16, (cy + dy) % 16, 0.86, 1.1)
-    fungus(t, 2, seam_spots or None)
+    for s in t.rng.sample(seams, 2):
+        cx = t.rng.randrange(16)
+        stain(t, cx, s + 0.5, t.rng.uniform(4, 5.5), t.rng.uniform(2.4, 3.2), 0.2)
+        for k in range(-2, 3):
+            t.scale(cx + k, s, 0.88 if abs(k) < 2 else 0.94)
+    # a board split along its grain, in its middle row, well clear of the damp
+    for _ in range(t.rng.choice((1, 2))):
+        s = t.rng.choice(seams)
+        split(t, t.rng.randrange(16), s + 2, t.rng.randrange(3, 6), 1, 0)
     return t.img
 
 
 def rot_side(img, seed, inner=None):
     """
-    A log's side, the grain running up it: split along the grain and checked across it. With inner (the stripped
-    log's side) it is bark, fallen away in patches with the soft wood under it showing, and a small bracket fungus.
+    A log's side, the grain running up it. Stripped (no inner), it is split along the grain, a damp streak down it.
+    With inner (the stripped log's side), it is bark, fallen away in one patch with the soft wood under it showing.
     """
     t = Tex(img, seed)
     dull(t, darken=0.86 if inner else 0.84)
-    dark = crack_colour(t)
-    splits = []
-    for _ in range(3):
-        # never two splits side by side at one height: on a lone block, such as a plains lamp post's head, a pair
-        # reads as a face's eyes
-        while True:
-            x, y = t.rng.randrange(16), t.rng.randrange(16)
-            if all(min((x - sx) % 16, (sx - x) % 16) <= 1 or min((y - sy) % 16, (sy - y) % 16) >= 6
-                   for sx, sy in splits):
-                break
-        splits.append((x, y))
-        for k in range(t.rng.randrange(3, 7)):
-            t.paint(x, (y + k) % 16, dark if k % 3 else (dark[0] * 1.3, dark[1], dark[2]))
-    for _ in range(2):
-        x0, y0 = t.rng.randrange(16), t.rng.randrange(16)
-        for i in range(3):
-            for k in range(2):
-                if t.rng.random() < 0.8:
-                    t.scale((x0 + k) % 16, (y0 + i * 2) % 16, 0.68, 0.85)
-    if inner is not None:
-        ip = inner.load()
+    if inner is None:
+        splits = []
         for _ in range(2):
-            cx, cy = t.rng.randrange(16), t.rng.randrange(16)
-            w, h = t.rng.randrange(2, 4), t.rng.randrange(3, 6)
-            for dy in range(-h // 2, h - h // 2):
-                for dx in range(-w // 2, w - w // 2):
-                    if abs(dx) + abs(dy) > (w + h) // 2 + 1 and t.rng.random() < 0.6:
-                        continue
-                    x, y = (cx + dx) % 16, (cy + dy) % 16
-                    L, a, b = C.oklab(ip[x, y][:3])
-                    t.put_lab(x, y, (L * 0.82 + 0.02, a * 0.5, b * 0.5))
-            # the bark's broken edge above the patch
-            for dx in range(-w // 2 - 1, w - w // 2 + 1):
-                t.scale((cx + dx) % 16, (cy - h // 2 - 1) % 16, 0.7)
-        # the bracket fungus: a pale shelf, its shadow under it
-        x, y = t.rng.randrange(16), t.rng.randrange(3, 14)
-        for k in range(3):
-            t.paint((x + k) % 16, y, (0.70 - 0.05 * abs(k - 1), 0.01, 0.04))
-        t.paint((x + 1) % 16, y - 1, (0.66, 0.01, 0.04))
-        for k in range(3):
-            t.scale((x + k) % 16, (y + 1) % 16, 0.6)
-    fungus(t, 2)
+            # never two splits side by side at one height: on a lone block, such as a plains lamp post's head, a
+            # pair reads as a face's eyes
+            while True:
+                x, y = t.rng.randrange(16), t.rng.randrange(16)
+                if all(apart(x, sx) <= 1 or apart(y, sy) >= 7 for sx, sy in splits):
+                    break
+            splits.append((x, y))
+            split(t, x, y, t.rng.randrange(3, 6), 0, 1)
+        stain(t, t.rng.randrange(16), t.rng.randrange(16), t.rng.uniform(2.2, 3), t.rng.uniform(4.5, 6), 0.13)
+        return t.img
+    ip = inner.load()
+    bark = mean_L(t)
+    # bark peels away along the grain: a strip two pixels wide, its ends one, its sides wandering a little
+    x, y0, h = t.rng.randrange(16), t.rng.randrange(16), t.rng.randrange(5, 8)
+    patch = set()
+    for k in range(h):
+        if 0 < k < h - 1 and t.rng.random() < 0.3:
+            x += t.rng.choice((-1, 1))
+        width = 1 if k in (0, h - 1) else 2
+        patch.update(((x + i) % 16, (y0 + k) % 16) for i in range(width))
+    # the soft wood under it, dulled, never much paler than the bark round it, so it reads as a strip gone and not
+    # a mark on it
+    for px, py in patch:
+        L, a, b = C.oklab(ip[px, py][:3])
+        t.put_lab(px, py, (min(L * 0.78 + 0.02, bark + 0.14), a * 0.45, b * 0.45))
+    # the bark's broken edge along each side, a shade darker
+    for px, py in patch:
+        for side in (-1, 1):
+            q = ((px + side) % 16, py)
+            if q not in patch:
+                t.scale(*q, 0.88)
+    stain(t, t.rng.randrange(16), t.rng.randrange(16), t.rng.uniform(2.2, 3), t.rng.uniform(4.5, 6), 0.12)
     return t.img
 
 
 def rot_end(img, seed):
-    """A log's sawn end: the heart gone soft and dark, cracks running out from it, a ring come apart."""
+    """A log's sawn end: the heart gone soft and a little dark, two checks running out from it."""
     t = Tex(img, seed)
-    dull(t, mottle=0.05)
-    dark = crack_colour(t)
+    dull(t, mottle=0.03)
     cx, cy = 7.5 + t.rng.uniform(-0.8, 0.8), 7.5 + t.rng.uniform(-0.8, 0.8)
     for y in range(16):
         for x in range(16):
             r = math.hypot(x - cx, y - cy)
-            if r < 2.2:
-                t.scale(x, y, 0.55 + 0.1 * r, 0.9)
-            elif r < 3.2:
-                t.scale(x, y, 0.85)
-    for _ in range(3):
-        ang = t.rng.uniform(0, 2 * math.pi)
-        r, r1 = 2, t.rng.uniform(4, 6.5)
+            if r < 3.5:
+                t.scale(x, y, 0.8 + 0.2 * (r / 3.5) ** 2, 0.9)
+    done = set()
+    a0 = t.rng.uniform(0, 2 * math.pi)
+    for ang in (a0, a0 + t.rng.uniform(2.2, 4.1)):
+        r, r1 = 1.6, t.rng.uniform(4, 5.5)
         while r < r1:
-            t.paint(round(cx + math.cos(ang) * r), round(cy + math.sin(ang) * r), dark)
+            p = (round(cx + math.cos(ang) * r), round(cy + math.sin(ang) * r))
+            if p not in done:
+                done.add(p)
+                t.scale(*p, 0.76 if r < r1 - 1 else 0.87, 0.9)
             r += 0.7
-            ang += t.rng.uniform(-0.15, 0.15)
-    rr, a0 = t.rng.uniform(4.2, 5.2), t.rng.uniform(0, 2 * math.pi)
-    for i in range(10):
-        ang = a0 + i * 0.12
-        t.scale(round(cx + math.cos(ang) * rr), round(cy + math.sin(ang) * rr), 0.65)
-    fungus(t, 1)
+            ang += t.rng.uniform(-0.12, 0.12)
     return t.img
 
 
-def board_cracks(t, n):
-    """Short cracks down the boards of a door."""
-    for _ in range(n):
-        x, y = t.rng.randrange(t.W), t.rng.randrange(t.H)
-        for k in range(t.rng.randrange(2, 5)):
-            t.scale(x, (y + k) % t.H, 0.62, 0.85)
-
-
 def rust_metal(t, src):
-    """A door's iron (hinges, bands, a latch) gone to rust: the grey pixels of the sound door's texture."""
+    """A door's iron (hinges, bands, a latch) gone to a dull rust: the grey pixels of the sound door's texture."""
     sp = src.load()
     for y in range(t.H):
         for x in range(t.W):
@@ -297,64 +282,64 @@ def rust_metal(t, src):
                 continue
             L, A, B = C.oklab((r, g, b))
             if math.hypot(A, B) < 0.018 and 0.35 < L < 0.86:
-                k = 0.6 + 0.4 * t.rng.random()
-                t.put_lab(x, y, (L * 0.72, 0.045 * k + 0.01, 0.055 * k + 0.01))
+                k = 0.85 + 0.15 * t.rng.random()
+                t.put_lab(x, y, (L * 0.78, 0.03 * k + 0.008, 0.04 * k + 0.01))
 
 
 def chew(t, x0, x1, y_edge, step, depth_max):
-    """Eats an edge away unevenly, from row y_edge inward (step -1 eats up from the foot), its new edge crumbled dark."""
+    """Eats an edge away unevenly, from row y_edge inward (step -1 eats up from the foot), its new edge a shade dark."""
     d = t.rng.randrange(1, depth_max + 1)
     for x in range(x0, x1):
         d = max(0, min(depth_max, d + t.rng.choice((-1, 0, 0, 1))))
         for k in range(d):
             t.hole(x, y_edge + k * step)
-        t.scale(x, y_edge + d * step, 0.72)
+        t.scale(x, y_edge + d * step, 0.82)
 
 
 def gap(t, x0, w, y0, h):
-    """A board gone: a ragged hole, its broken ends uneven, its rim dark."""
+    """A board gone: a hole, its broken ends a little uneven, the wood round it a shade dark."""
     for x in range(x0, x0 + w):
-        top, bottom = y0 + t.rng.randrange(0, 3), y0 + h - t.rng.randrange(0, 3)
+        top, bottom = y0 + t.rng.randrange(0, 2), y0 + h - t.rng.randrange(0, 2)
         for y in range(top, bottom):
             t.hole(x, y)
-        t.scale(x, top - 1, 0.7)
-        t.scale(x, bottom, 0.7)
+        t.scale(x, top - 1, 0.82)
+        t.scale(x, bottom, 0.82)
     for y in range(y0, y0 + h):
-        t.scale(x0 - 1, y, 0.8)
-        t.scale(x0 + w, y, 0.8)
+        t.scale(x0 - 1, y, 0.9)
+        t.scale(x0 + w, y, 0.9)
 
 
 def rot_door(img, seed, half):
-    """A door's half: a board missing, and on the lower half the foot rotted away, where water stood."""
-    t = Tex(img, seed)
+    """A door's half: a board missing; on the lower half the foot rotted away and damp where water stood."""
+    t = Tex(img, seed, tiles=False)
     dull(t)
     rust_metal(t, img)
-    board_cracks(t, 2)
     if half == 'bottom':
+        stain(t, t.rng.uniform(4, 12), 15, t.rng.uniform(4.5, 6), t.rng.uniform(4, 5.5), 0.14)
         x0 = t.rng.randrange(1, 5)
-        chew(t, x0, x0 + t.rng.randrange(8, 12), 15, -1, 4)
+        chew(t, x0, x0 + t.rng.randrange(8, 12), 15, -1, 3)
         gap(t, t.rng.randrange(3, 10), 3, t.rng.randrange(2, 5), t.rng.randrange(5, 8))
     else:
         gap(t, t.rng.randrange(3, 10), 3, t.rng.randrange(3, 8), t.rng.randrange(5, 8))
-    fungus(t, 1)
     return t.img
 
 
 def rot_trapdoor(img, seed):
-    t = Tex(img, seed)
+    """A trapdoor: a board missing, an edge rotted away, damp along it."""
+    t = Tex(img, seed, tiles=False)
     dull(t)
     rust_metal(t, img)
-    board_cracks(t, 2)
     x0 = t.rng.randrange(0, 7)
-    chew(t, x0, x0 + t.rng.randrange(5, 9), 15, -1, 3)
+    w = t.rng.randrange(5, 9)
+    stain(t, x0 + w / 2, 15, t.rng.uniform(4, 5.5), t.rng.uniform(3, 4.5), 0.14)
+    chew(t, x0, x0 + w, 15, -1, 3)
     gap(t, t.rng.randrange(2, 11), 3, t.rng.randrange(1, 6), t.rng.randrange(5, 8))
-    fungus(t, 1)
     return t.img
 
 
 def rot_door_item(img, seed):
-    """The door's item, drawn small: a notch out of its foot and a crack."""
-    t = Tex(img, seed)
+    """The door's item, drawn small: a notch out of its foot."""
+    t = Tex(img, seed, tiles=False)
     dull(t)
     ys = [y for y in range(16) if any(t.px[x, y][3] for x in range(16))]
     xs = [x for x in range(16) if any(t.px[x, y][3] for y in range(16))]
@@ -365,7 +350,6 @@ def rot_door_item(img, seed):
         if t.rng.random() < 0.6:
             t.hole(x, bottom - 1)
     rust_metal(t, img)
-    board_cracks(t, 1)
     return t.img
 
 

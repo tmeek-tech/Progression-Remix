@@ -4344,10 +4344,11 @@ breaks that half with no tool once the upper one is gone.
 `RottedWood.rotted(state)` gives what a sound block becomes with its properties kept, from a table built the first time
 it is asked, and `RottedWood.setup` sets fire's odds (vanilla's for the sound wood: doors and trapdoors do not burn) and
 composting (one in two). Textures, models, loot, tags and names come from `tools/gen_rot.py`, which reads the two enums
-from the Java: each texture is drawn from vanilla's for the sound wood (darkened, desaturated toward grey-brown,
-mottled, seams opened, boards checked across the grain and split along it, soft spots, mycelium; bark fallen away in
-patches on logs with a small bracket fungus; a log end's heart gone soft and cracked; doors and trapdoors with a board
-missing and a rotted foot, their iron rusted), and the blockstates and models are vanilla's own pointed at them. Loot
+from the Java: each texture is drawn from vanilla's for the sound wood (in 0.43.0 darkened, desaturated toward
+grey-brown, mottled, seams opened, boards checked across the grain and split along it, soft spots, mycelium; bark fallen
+away in patches on logs with a small bracket fungus; a log end's heart gone soft and cracked; doors and trapdoors with a
+board missing and a rotted foot, their iron rusted; 0.43.1 drew them again more quietly, section 58), and the
+blockstates and models are vanilla's own pointed at them. Loot
 is a stick a third of the time, the block with Silk Touch (both halves of a double slab; a door from its lower half
 only). Block tags: `mineable/axe`; `wooden_fences`, `fence_gates`, `wooden_doors` and `wooden_trapdoors`, so fences
 join sound ones and villagers and zombies treat the doors as wooden; `mushroom_grow_block` for the whole blocks; and
@@ -4402,3 +4403,43 @@ their zombies come as zombie villagers like any village's; wood of other mods' k
 village from the first of its starts looked at, so a mod's structure that only sometimes holds a village piece may be
 judged by one without; a village placed with `/place structure` or `/place jigsaw` rots but gets no zombie villagers,
 as those commands leave no structure start in the world's chunks.
+
+## 58. Quieter rotted wood textures (0.43.1)
+
+Taran on 0.43.0, 2026-11-27: "Could you make the textures look better? It looks messy and the black lines have too much
+contrast." Only the drawing in `tools/gen_rot.py` and the 72 textures it writes (64 block, 8 item) changed: no Java,
+model, loot, tag or name.
+
+**Why 0.43.0 looked messy.** Its cracks, checks and bracket fungus were painted in one flat colour, 0.45 of the
+texture's average lightness, so on every wood they were near-black lines; and each texture carried a dozen small marks
+(boards checked into cubes, soft spots, pale mycelium specks, a bracket fungus, ragged oval bark patches) that read as
+noise from a few blocks away.
+
+**How 0.43.1 draws rot.** Every mark darkens the pixels under it by a share of their own lightness (`Tex.scale`) and
+never paints a colour, so it keeps the wood's grain and hue: a split 0.74 (0.87 at its ends), about as dark as vanilla's
+own seams between boards; a joint opened 0.88; the rim of a hole 0.82. Few marks, each where the wood's shape puts it:
+
+- `dull` as before (0.84 of the lightness plus 0.02, half the colour, pale wood over 0.7 pressed down) with a softer
+  mottle, 0.05 where it was 0.08, mostly from the larger of its two noise scales.
+- Damp patches (`stain`): ellipses that fade out as (1 - d²)², up to 0.2 of the lightness darker on planks and 0.12 to
+  0.14 elsewhere, going greyer and a touch green toward their middles.
+- Planks: two damp patches, each on one of the texture's four darkest rows (its joints) with that joint opened over five
+  pixels, and one or two splits of 3 to 5 pixels along the grain two rows below a joint.
+- Stripped logs and wood: two splits of 3 to 5 pixels up the grain, still never side by side at one height (0.43.0's
+  lamp post faces), and a long damp streak.
+- Logs and wood: one strip of bark peeled away along the grain, 5 to 7 pixels long and 2 wide (1 at its ends), its
+  sides wandering a pixel now and then; under it the stripped wood, dulled and held to at most 0.14 above the bark's
+  average lightness, with its broken sides 0.88. Round patches were tried first and looked stuck on, cherry's pink
+  worst.
+- Log ends: the heart darkened to 0.8 at its middle, easing out over 3.5 pixels, and two checks 4 to 5.5 pixels long
+  running out from it at 0.76.
+- Doors and trapdoors: as 0.43.0 (a board gone, the foot rotted away, the iron rusted, a softer rust now) with a damp
+  patch over the rotted foot and lighter rims; the cracks down their boards are gone, and their marks no longer wrap from
+  one edge to the other (`Tex(tiles=False)`), as a door does not tile.
+- Gone: the flat crack colour, mycelium, bracket fungus, checking into cubes and soft spots.
+
+**Measured** over the 64 block textures, against vanilla's for the same woods: the darkest 2% of each texture's pixels
+sat at 0.52 of its average lightness in 0.43.0 and sit at 0.72 now (vanilla 0.78); its single darkest pixel averaged
+0.42 and went as low as 0.20, now 0.62 and 0.35 (vanilla 0.74 and 0.34, both lows the dark bark round a cherry log's
+end); the spread of lightness, standard deviation over the mean, was 0.20 and is 0.13 (vanilla 0.12). Before and after
+sheets of every wood and dev client shots from 0.43.0's camera spots are in `builds/screenshots/0.43.1`.
