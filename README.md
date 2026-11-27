@@ -1,6 +1,6 @@
 # Minecraft Remix
 
-A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around one shared heat scale, shafts and
+A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around flint tools knapped on stone, bread from the millstone, one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
 electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar, wood spirit and crude oil, a cranked diesel engine, abandoned villages, eight new dye colours, and steel catwalks and creosote timber, with a quest book for FTB Quests that walks it all. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
@@ -14,6 +14,17 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
 
 ## What is in 0.33.0
+
+**Flint tools.** Wooden and stone tools are gone. Dig flint out of gravel and strike it on stone: four strikes in a
+row on any natural stone or cobblestone chip off a sharp flake, **Knapped Flint** (a Deployer holding flint knaps
+too, a strike each push). Flakes and sticks make a flint pickaxe, hatchet, shovel and hoe in vanilla's shapes, and a
+**knife** in place of the sword that stabs rather than sweeps (a dagger with Better Combat). Flint mines whatever stone
+did, iron ore included, as fast as iron, but lasts 65 uses, half of stone's. Chests, mobs and toolsmiths that would
+hand out a wooden or stone tool hand out the flint one.
+
+**Bread from the mill.** Bread and cake no longer craft from wheat, and cookies take flour. Wheat goes through
+Create's Millstone into flour, flour and water make dough (a water bottle does, and is given back, so the first
+bread needs no iron), and dough bakes on a campfire or in fan smoke. Create's cake takes dough.
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -419,7 +430,7 @@ creosote timber; argon tubes are creative only until argon can be made.
 
 **Enchanting and XP** are left vanilla for now, while they are redesigned together.
 
-**Ponder.** Every new interaction has a Ponder scene (hold W over the item): furnace basics, heating from below,
+**Ponder.** Every new interaction has a Ponder scene (hold W over the item): knapping flint, furnace basics, heating from below,
 fanning fires with bellows, bloom iron and anvils, blister steel, furnace-heated steam boilers and basins,
 supports, speed controllers as supports, brackets, casings in every material, wood as a fuse, kinetic materials, steel parts, wooden parts in
 every wood, gearbox materials, clutch and gearshift materials, chain drive materials, machine materials, drill bits, saw blades, the crucible, drawing off tar and wood spirit, the glass lab still and bench, the steel column, reflux and the inline condenser, oil pockets, the diesel engine, cracking naphtha,
@@ -430,7 +441,7 @@ own scenes for them. Any scene can be paused, with the button beside Replay or t
 opened by holding W starts playing.
 
 **JEI.** A Furnace tab lists everything a furnace fires with the heat and time it needs, a Furnace Heat tab shows
-which fuels and which blocks underneath give each heat level, a Striking Blooms tab shows the anvil recipe, and
+which fuels and which blocks underneath give each heat level, a Striking Blooms tab shows the anvil recipe, a Knapping tab flint struck on stone, and
 Melting and Alloying tabs show what a crucible melts and makes. Settling and Electrolysis tabs show what settles out
 and what an Electrolyser splits, with the charge each takes and its time at a given current. Distilling, Fermenting, Steel
 Furnace, Steel Furnace Fuel, Diesel Engine, Vat Mixing and Pressurizing tabs show what a still splits into which cuts (and how many sections a steel column needs for them), what ferments, what the Steel Furnace works and how
@@ -443,7 +454,7 @@ Cooler, the Radiator and warm water, cold water, coolant and hot coolant. Vanill
 cold.
 
 **Quest book.** With FTB Quests installed, the mod puts its own quest book in `config/ftbquests/quests` the first
-time it starts, unless a book is already there: 135 quests in 15 chapters, from the first fire to the dye works, with
+time it starts, unless a book is already there: 137 quests in 15 chapters, from the first fire to the dye works, with
 the ruins and the decor blocks as side roads. Each quest names a goal, an item in hand or a block seen working, and
 explains why it matters and the rule behind it, pointing to JEI and Ponder for the rest. It never gives a layout or a
 recipe, so how each step is built is yours to work out. Quests give no rewards, and every quest shows from the start,
