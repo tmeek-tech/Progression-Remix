@@ -4459,3 +4459,15 @@ sat at 0.52 of its average lightness in 0.43.0 and sit at 0.72 now (vanilla 0.78
 0.42 and went as low as 0.20, now 0.62 and 0.35 (vanilla 0.74 and 0.34, both lows the dark bark round a cherry log's
 end); the spread of lightness, standard deviation over the mean, was 0.20 and is 0.13 (vanilla 0.12). Before and after
 sheets of every wood and dev client shots from 0.43.0's camera spots are in `builds/screenshots/0.43.1`.
+
+## 59. Logs need a flint hatchet, on top of 0.43.1 (0.43.2)
+
+Taran answered the eight flint and bread cards of section 55 on 2026-11-27: seven as built, and the fourth the other
+way, so rather than punching trees, logs need a flint hatchet. The change was made on 0.41.0's branch before it merged
+(PR #15, commit 82b21a9) and merged here onto 0.43.1, so this version is 0.43.1 with it; section 55's "Logs need an
+axe" says how it works. In short: bare hands, and any tool but an axe, make no headway on a log
+(`#mcremix:needs_an_axe`, which holds `#minecraft:logs`), and starting on one says so on the action bar; the flint
+hatchet crafts in the inventory's 2x2 grid; leaves drop a stick about one time in eight. Rotted logs (section 57) are
+not in `#minecraft:logs`, so they still break by hand in a moment, and the Real Ores quest (section 56) still follows
+Flint Tools. In the merge only the generated quest book index conflicted (its book hash); every generated file came out
+of `gen_assets.py` and `gen_quests.py` identical to the merge. 138 quests, book `4b24d6040403c8b9`.
