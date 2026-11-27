@@ -9,10 +9,12 @@ smoking (Create's recipes). Besides Create's water bucket, mixer and fan, a wate
 given back (food/KeepBottleRecipe), so the first bread needs glass, not iron. Create's cake takes dough.
 
 Flint: flint knapped on stone (flint/Knapping) gives Knapped Flint, which makes a pickaxe, hatchet, shovel, hoe and
-knife in vanilla's shapes (flint/FlintTools). Wooden and stone tools are no longer made: their recipes are off, the
-loot modifier written here swaps them for flint ones in any loot, and the code takes them out of JEI, the creative
-tabs, mobs' hands and trades (flint/OldTools). The Ponder scene's text is gen_assets' ponder_lang's, from
-FlintScenes.java.
+knife in vanilla's shapes (flint/FlintTools), but for the hatchet: logs break only with an axe (flint/LogsNeedAnAxe,
+the mcremix:needs_an_axe tag written here), so the hatchet comes first and crafts in the inventory's 2x2 grid, from
+knapped flint and a stick that leaves drop more often (flint/LeafSticksModifier, written here). Wooden and stone tools
+are no longer made: their recipes are off, the loot modifier written here swaps them for flint ones in any loot, and
+the code takes them out of JEI, the creative tabs, mobs' hands and trades (flint/OldTools). The Ponder scene's text is
+gen_assets' ponder_lang's, from FlintScenes.java.
 """
 from PIL import Image
 
@@ -173,7 +175,7 @@ def recipes():
     flint, stick = G.item('mcremix:knapped_flint'), {'tag': 'forge:rods/wooden'}
     shapes = {
         'pickaxe': ['KKK', ' S ', ' S '],
-        'hatchet': ['KK', 'KS', ' S'],
+        'hatchet': ['KK', 'KS'],  # 2x2, so it can come first: logs need an axe
         'shovel': ['K', 'S', 'S'],
         'hoe': ['KK', ' S', ' S'],
         'knife': ['K', 'S'],
@@ -232,13 +234,19 @@ def tags():
         'minecraft:smooth_stone', 'mcremix:stone_anvil', 'mcremix:chipped_stone_anvil', 'mcremix:damaged_stone_anvil'])
     # nothing needs flint in particular (FlintTools.FLINT ranks after stone, so it mines whatever stone did)
     D.add_tag('mcremix', 'blocks', 'needs_flint_tool', [])
+    # what bare hands, or any tool but an axe, make no headway on (flint/LogsNeedAnAxe)
+    D.add_tag('mcremix', 'blocks', 'needs_an_axe', ['#minecraft:logs'])
 
 
 def loot():
     G.write_json(G.data('mcremix', 'loot_modifiers', 'swap_old_tools.json'),
                  {'type': 'mcremix:swap_old_tools', 'conditions': []})
+    # leaves drop a stick a tenth of the time on top of vanilla's fiftieth, unless taken whole by shears or silk touch
+    G.write_json(G.data('mcremix', 'loot_modifiers', 'leaf_sticks.json'),
+                 {'type': 'mcremix:leaf_sticks', 'conditions': [{'condition': 'minecraft:survives_explosion'}],
+                  'chance': 0.1})
     D.merge_json(G.data('forge', 'loot_modifiers', 'global_loot_modifiers.json'),
-                 lambda obj: obj['entries'].append('mcremix:swap_old_tools'))
+                 lambda obj: obj['entries'].extend(['mcremix:swap_old_tools', 'mcremix:leaf_sticks']))
 
 
 def advancements():
@@ -303,15 +311,20 @@ def lang():
         'item.mcremix.knapped_flint': 'Knapped Flint',
         'item.mcremix.knapped_flint.tooltip.summary': (
             'Flint struck on _stone_ until a sharp flake comes away: use flint on any stone _four times_. Makes '
-            '_flint tools_ in the shapes of vanilla\'s.'),
+            '_flint tools_, the _hatchet_ first, since logs need an axe.'),
         'mcremix.jei.knapping': 'Knapping',
         'mcremix.jei.knapping.strikes': '%s strikes on stone',
+        'mcremix.logs.need_an_axe': 'That log needs an axe. A flint hatchet will do',
+        # vanilla's first tutorial hint says to punch the tree
+        'tutorial.find_tree.description': 'Its logs need a flint hatchet',
     }
     summaries = {
         'pickaxe': ('_Sharp but brittle_: mines whatever stone did, _iron ore_ included, as fast as _iron_, but lasts '
                     '_half as long_ as stone.'),
         'knife': ('In place of the sword: it _stabs_ rather than sweeps, a little softer than a stone sword but '
                   'quicker. _Brittle_: lasts _half as long_ as stone.'),
+        'hatchet': ('_Logs_ need an axe, so this comes first, and it crafts right in the _inventory grid_. _Sharp but '
+                    'brittle_: as fast as _iron_, but lasts _half as long_ as stone.'),
     }
     for tool in TOOLS:
         key = f'item.mcremix.flint_{tool}'

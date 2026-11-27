@@ -15,9 +15,9 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 
 ## What is in 0.33.0
 
-**Flint tools.** Wooden and stone tools are gone. Dig flint out of gravel and strike it on stone: four strikes in a
+**Flint tools.** Wooden and stone tools are gone, and a log needs an axe, so the first thing made is a flint hatchet. Dig flint out of gravel and strike it on stone: four strikes in a
 row on any natural stone or cobblestone chip off a sharp flake, **Knapped Flint** (a Deployer holding flint knaps
-too, a strike each push). Flakes and sticks make a flint pickaxe, hatchet, shovel and hoe in vanilla's shapes, and a
+too, a strike each push). Three flakes and a stick make the hatchet right in the inventory grid (leaves drop sticks more often for it); flakes and sticks make a pickaxe, shovel and hoe in vanilla's shapes, and a
 **knife** in place of the sword that stabs rather than sweeps (a dagger with Better Combat). Flint mines whatever stone
 did, iron ore included (every real ore but gold quartz), as fast as iron, but lasts 65 uses, half of stone's. Chests, mobs and toolsmiths that would
 hand out a wooden or stone tool hand out the flint one.

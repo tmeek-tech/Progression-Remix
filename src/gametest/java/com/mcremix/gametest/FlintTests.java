@@ -18,7 +18,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -33,13 +36,17 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
 import net.minecraftforge.items.IItemHandler;
 
-/** Section 55 of BUILD_NOTES: flint tools in place of wooden and stone ones, and knapping flint on stone. */
+/**
+ * Section 55 of BUILD_NOTES: flint tools in place of wooden and stone ones, knapping flint on stone, and logs that need
+ * an axe.
+ */
 @GameTestHolder(McRemix.ID)
 @PrefixGameTestTemplate(false)
 public class FlintTests {
@@ -169,7 +176,9 @@ public class FlintTests {
 	public static void flintToolsCraftWhereWoodAndStoneDidNot(GameTestHelper h) {
 		Item k = FlintTools.KNAPPED_FLINT.get(), s = Items.STICK;
 		h.assertTrue(GT.craft(h, k, k, k, null, s, null, null, s, null).is(FlintTools.PICKAXE.get()), "pickaxe");
-		h.assertTrue(GT.craft(h, k, k, null, k, s, null, null, s, null).is(FlintTools.HATCHET.get()), "hatchet");
+		h.assertTrue(GT.craftInInventory(h, k, k, k, s).is(FlintTools.HATCHET.get()),
+			"the hatchet should craft in the inventory grid, since logs need it");
+		h.assertTrue(GT.craft(h, k, k, null, k, s, null, null, null, null).is(FlintTools.HATCHET.get()), "hatchet");
 		h.assertTrue(GT.craft(h, null, k, null, null, s, null, null, s, null).is(FlintTools.SHOVEL.get()), "shovel");
 		h.assertTrue(GT.craft(h, k, k, null, null, s, null, null, s, null).is(FlintTools.HOE.get()), "hoe");
 		h.assertTrue(GT.craft(h, null, k, null, null, s, null, null, null, null).is(FlintTools.KNIFE.get()), "knife");
@@ -193,6 +202,78 @@ public class FlintTests {
 				left.add(id.toString());
 		}
 		h.assertTrue(left.isEmpty(), "these recipes should be gone: " + left);
+		h.succeed();
+	}
+
+	/**
+	 * Holds left click on {@code rel} with {@code held} for three seconds, as the server sees it from a fresh player
+	 * standing two blocks west, and gives the player back to read its action bar.
+	 */
+	static TestPlayer dig(GameTestHelper h, BlockPos rel, ItemStack held) {
+		TestPlayer player = GT.player(h, rel.west(2));
+		player.setItemInHand(InteractionHand.MAIN_HAND, held);
+		player.setOnGround(true);
+		BlockPos pos = h.absolutePos(rel);
+		int top = h.getLevel().getMaxBuildHeight();
+		player.gameMode.handleBlockBreakAction(pos, ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK,
+			Direction.UP, top, 0);
+		for (int tick = 0; tick < 60; tick++)
+			player.gameMode.tick();
+		player.gameMode.handleBlockBreakAction(pos, ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK,
+			Direction.UP, top, 0);
+		return player;
+	}
+
+	static boolean saidLogsNeedAnAxe(TestPlayer player) {
+		return player.actionBar.stream().anyMatch(message -> message.getContents() instanceof TranslatableContents text
+			&& text.getKey().equals("mcremix.logs.need_an_axe"));
+	}
+
+	/** Card 4: bare hands, and tools that aren't axes, make no headway on logs; an axe chops them as ever. */
+	@GameTest(template = GT.PLATFORM)
+	public static void logsNeedAnAxe(GameTestHelper h) {
+		BlockPos at = p(4, 2, 4);
+		for (Block log : new Block[] { Blocks.OAK_LOG, Blocks.STRIPPED_BIRCH_WOOD, Blocks.CRIMSON_STEM }) {
+			for (ItemStack held : new ItemStack[] { ItemStack.EMPTY, FlintTools.PICKAXE.asStack(),
+				FlintTools.KNIFE.asStack() }) {
+				h.setBlock(at, log);
+				TestPlayer player = dig(h, at, held);
+				h.assertTrue(h.getBlockState(at).is(log), (held.isEmpty() ? "bare hands" : held.getItem().toString())
+					+ " shouldn't break " + log);
+				h.assertTrue(saidLogsNeedAnAxe(player), "starting on " + log + " without an axe should say it needs "
+					+ "one, said " + player.actionBar);
+			}
+		}
+		for (ItemStack axe : new ItemStack[] { FlintTools.HATCHET.asStack(), new ItemStack(Items.IRON_AXE) }) {
+			h.setBlock(at, Blocks.OAK_LOG);
+			TestPlayer player = dig(h, at, axe);
+			h.assertTrue(h.getBlockState(at).isAir(), axe.getItem() + " should chop an oak log");
+			h.assertFalse(saidLogsNeedAnAxe(player), "and say nothing");
+		}
+		h.setBlock(at, Blocks.OAK_PLANKS);
+		TestPlayer player = dig(h, at, ItemStack.EMPTY);
+		h.assertTrue(h.getBlockState(at).isAir() && !saidLogsNeedAnAxe(player), "planks should still break by hand");
+		h.succeed();
+	}
+
+	/** Card 4: a stick, half the first hatchet, drops from leaves about one time in eight, not one in fifty. */
+	@GameTest(template = GT.PLATFORM)
+	public static void leavesDropSticksMoreOften(GameTestHelper h) {
+		BlockPos pos = h.absolutePos(p(4, 2, 4));
+		BlockState leaves = Blocks.OAK_LEAVES.defaultBlockState();
+		int rolls = 2000, sticks = 0, sheared = 0;
+		for (int i = 0; i < rolls; i++) {
+			if (Block.getDrops(leaves, h.getLevel(), pos, null, null, ItemStack.EMPTY).stream()
+				.anyMatch(stack -> stack.is(Items.STICK)))
+				sticks++;
+			if (Block.getDrops(leaves, h.getLevel(), pos, null, null, new ItemStack(Items.SHEARS)).stream()
+				.anyMatch(stack -> stack.is(Items.STICK)))
+				sheared++;
+		}
+		// vanilla's 1 in 50 alone would give about 40 of 2000; with a tenth more on top, about 236
+		h.assertTrue(sticks > 150 && sticks < 330, "about one leaf in eight should drop a stick, " + sticks + " of "
+			+ rolls + " did");
+		h.assertTrue(sheared == 0, "sheared leaves should drop no sticks, " + sheared + " did");
 		h.succeed();
 	}
 

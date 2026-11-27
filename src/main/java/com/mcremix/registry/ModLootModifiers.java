@@ -1,6 +1,7 @@
 package com.mcremix.registry;
 
 import com.mcremix.McRemix;
+import com.mcremix.flint.LeafSticksModifier;
 import com.mcremix.flint.SwapItemsModifier;
 import com.mcremix.fluids.KeepPatinaModifier;
 import com.mcremix.machines.KeepFittingsModifier;
@@ -27,6 +28,9 @@ public class ModLootModifiers {
 	/** Wooden and stone tools in loot come out as flint ones (0.41.0). */
 	public static final RegistryObject<Codec<SwapItemsModifier>> SWAP_OLD_TOOLS =
 		SERIALIZERS.register("swap_old_tools", SwapItemsModifier.CODEC);
+	/** Leaves drop sticks more often, since logs need a hatchet (0.41.0). */
+	public static final RegistryObject<Codec<LeafSticksModifier>> LEAF_STICKS =
+		SERIALIZERS.register("leaf_sticks", LeafSticksModifier.CODEC);
 
 	public static void register(IEventBus modBus) {
 		SERIALIZERS.register(modBus);

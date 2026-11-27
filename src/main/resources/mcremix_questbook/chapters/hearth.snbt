@@ -40,9 +40,11 @@
 				"1626CEC5328F5382"
 			]
 			description: [
-				"Wooden and stone tools are gone. Flint takes over: dig it out of gravel, then strike it on stone until a sharp flake comes away."
+				"Wooden and stone tools are gone, and fists won't break logs. Dig flint out of gravel, then strike it on stone until a sharp flake comes away."
 				""
-				"They're quick and brittle, so pack spares before heading underground."
+				"The hatchet comes first, and it crafts right in your inventory. A few broken leaves will turn up its stick."
+				""
+				"Flint tools are quick but brittle, so pack spares before heading underground."
 				""
 				"&7Ponder: flint.&r"
 			]
