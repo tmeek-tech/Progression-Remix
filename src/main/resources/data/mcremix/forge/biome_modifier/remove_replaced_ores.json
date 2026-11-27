@@ -10,7 +10,14 @@
     "minecraft:ore_gold",
     "minecraft:ore_gold_lower",
     "minecraft:ore_gold_extra",
-    "create:zinc_ore"
+    "create:zinc_ore",
+    "minecraft:ore_coal_upper",
+    "minecraft:ore_coal_lower",
+    "minecraft:ore_lapis",
+    "minecraft:ore_lapis_buried",
+    "minecraft:ore_diamond",
+    "minecraft:ore_diamond_large",
+    "minecraft:ore_diamond_buried"
   ],
   "steps": [
     "underground_ores"

@@ -25,9 +25,9 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /**
- * Draws a chunk's part of every ore body that reaches it, then the things that are not bodies: pyrite's scattered
- * cubes, native sulfur's crusts on the rock round deep lava, and the vanilla ores that something else still made,
- * turned into the real minerals (Taran's card: replace them). A chunk writes only its own blocks, and everything it
+ * Draws a chunk's part of every ore body that reaches it, kimberlite pipes first ({@link Formation#DRAW_ORDER}), then
+ * the things that are not bodies: pyrite's scattered cubes, native sulfur's crusts on the rock round deep lava, and the
+ * vanilla ores that something else still made, turned into the real minerals (Taran's card: replace them). A chunk writes only its own blocks, and everything it
  * draws comes from the world's seed and the rock it holds, so a body centred in another chunk comes out the same
  * whichever chunk generates first.
  */
@@ -52,7 +52,7 @@ public final class OreBodies {
 		int minY = level.getMinBuildHeight(), maxY = level.getMaxBuildHeight() - 1;
 		Ground ground = new Ground(level, x0, z0);
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-		for (Formation formation : Formation.values()) {
+		for (Formation formation : Formation.DRAW_ORDER) {
 			Spec s = formation.spec;
 			if (s.mode == Mode.HEIGHT && (s.vMax + 64 < minY || s.vMin - 64 > maxY))
 				continue;
@@ -89,7 +89,7 @@ public final class OreBodies {
 		BlockPos.MutableBlockPos pos, int x0, int z0, int minY, int maxY) {
 		Spec s = body.spec;
 		boolean byDepth = s.mode == Mode.DEPTH;
-		boolean needsGround = byDepth || s.cap != null || s.columns;
+		boolean needsGround = byDepth || s.cap != null || s.columns || s.below > 0;
 		int xa = Math.max(body.minX, x0), xb = Math.min(body.maxX, x0 + 15);
 		int za = Math.max(body.minZ, z0), zb = Math.min(body.maxZ, z0 + 15);
 		for (int x = xa; x <= xb; x++)
@@ -106,7 +106,7 @@ public final class OreBodies {
 					yb = Math.min(top - shallowest(body), maxY);
 				} else {
 					ya = Math.max(body.minV, minY);
-					yb = Math.min(body.maxV, maxY);
+					yb = Math.min(highest(body, top), maxY);
 				}
 				for (int y = ya; y <= yb; y++) {
 					int depth = needsGround ? top - y : Body.NO_DEPTH;
@@ -127,6 +127,15 @@ public final class OreBodies {
 	 */
 	static int shallowest(Body body) {
 		return Math.max(body.minV, body.spec.vMin > 0 ? 1 : 0);
+	}
+
+	/**
+	 * The highest a body set by height comes over ground whose top block is at {@code top}: its own top, or for a body
+	 * that stops under the ground (Taran's card: no hints), that many blocks under it, so a kimberlite pipe's top, a
+	 * marble lens or a coal seam never lies open on flat ground.
+	 */
+	static int highest(Body body, int top) {
+		return body.spec.below > 0 ? Math.min(body.maxV, top - body.spec.below) : body.maxV;
 	}
 
 	/** Fool's gold, a few small clusters of cubes in every chunk's rock. */
@@ -263,7 +272,10 @@ public final class OreBodies {
 
 	private static volatile Map<Block, Mineral> vanillaOres;
 
-	/** The ores the real minerals replace (Taran's card): vanilla's iron, copper and gold, and Create's zinc. */
+	/**
+	 * The ores the real minerals replace (Taran's cards): vanilla's iron, copper and gold, and Create's zinc, and since
+	 * 0.44.0 vanilla's coal, lapis and diamonds.
+	 */
 	static Map<Block, Mineral> vanillaOres() {
 		Map<Block, Mineral> map = vanillaOres;
 		if (map == null) {
@@ -276,6 +288,12 @@ public final class OreBodies {
 			map.put(Blocks.RAW_COPPER_BLOCK, Mineral.CHALCOPYRITE);
 			map.put(Blocks.GOLD_ORE, Mineral.GOLD_QUARTZ);
 			map.put(Blocks.DEEPSLATE_GOLD_ORE, Mineral.GOLD_QUARTZ);
+			map.put(Blocks.COAL_ORE, Mineral.COAL);
+			map.put(Blocks.DEEPSLATE_COAL_ORE, Mineral.COAL);
+			map.put(Blocks.LAPIS_ORE, Mineral.LAPIS);
+			map.put(Blocks.DEEPSLATE_LAPIS_ORE, Mineral.LAPIS);
+			map.put(Blocks.DIAMOND_ORE, Mineral.DIAMOND);
+			map.put(Blocks.DEEPSLATE_DIAMOND_ORE, Mineral.DIAMOND);
 			for (String zinc : new String[] { "create:zinc_ore", "create:deepslate_zinc_ore" }) {
 				Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(zinc));
 				if (block != null && block != Blocks.AIR)

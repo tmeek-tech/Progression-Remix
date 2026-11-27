@@ -11,10 +11,12 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.material.MapColor;
@@ -24,7 +26,8 @@ import net.minecraft.world.level.material.MapColor;
  * rocks that are ores of their own (bauxite, rock salt, the black ilmenite sand of some beaches), the minerals they
  * drop and what roasting makes of the sulfides. There are no signs and no pan (Taran's card: no hints): ore bodies are
  * found in caves and by digging. Where they go is {@link com.mcremix.ores.OreBodies}; models, textures, loot, tags,
- * recipes and text come from tools/gen_ores.py.
+ * recipes and text come from tools/gen_ores.py. Since 0.44.0 coal, lapis and diamonds are real ores too (Taran's answer
+ * on which minerals), and kimberlite, the rock diamonds come up in, is a rock of this mod's own.
  */
 public class ModOres {
 	private static final Map<Mineral, Map<Host, BlockEntry<? extends Block>>> ORES = new EnumMap<>(Mineral.class);
@@ -38,9 +41,14 @@ public class ModOres {
 		}
 	}
 
-	/** One mineral's ore in one rock: the rock's own look and feel, a little harder, and a pickaxe (or shovel) to mine. */
+	/**
+	 * One mineral's ore in one rock: the rock's own look and feel, a little harder, and a pickaxe (or shovel) to mine.
+	 * Coal, lapis and diamond ores give experience when mined for their mineral, as vanilla's do.
+	 */
 	private static BlockEntry<? extends Block> oreBlock(Mineral mineral, Host host) {
-		return REGISTRATE.block(mineral.blockId(host), p -> host.pillar() ? new RotatedPillarBlock(p) : new Block(p))
+		UniformInt xp = mineral.xpMax() > 0 ? UniformInt.of(mineral.xpMin(), mineral.xpMax()) : null;
+		return REGISTRATE.block(mineral.blockId(host), p -> host.pillar() ? new RotatedPillarBlock(p)
+				: xp != null ? new DropExperienceBlock(p, xp) : new Block(p))
 			.initialProperties(host.like::get)
 			.properties(p -> {
 				if (host.mapColor != null)
@@ -64,6 +72,16 @@ public class ModOres {
 	public static final BlockEntry<Block> ROCK_SALT = REGISTRATE.block("rock_salt", Block::new)
 		.initialProperties(() -> Blocks.CALCITE)
 		.properties(p -> p.mapColor(MapColor.TERRACOTTA_WHITE).strength(1.2f, 2f).requiresCorrectToolForDrops())
+		.simpleItem()
+		.register();
+
+	/**
+	 * Kimberlite, the dark blue-grey rock diamonds come up in, risen in pipes from the bottom of the world: stone to mine,
+	 * and crushed it gives up the odd diamond.
+	 */
+	public static final BlockEntry<Block> KIMBERLITE = REGISTRATE.block("kimberlite", Block::new)
+		.initialProperties(() -> Blocks.STONE)
+		.properties(p -> p.mapColor(MapColor.TERRACOTTA_CYAN))
 		.simpleItem()
 		.register();
 

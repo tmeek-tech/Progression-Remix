@@ -67,9 +67,11 @@
 				"39E181355BA6BAE4"
 			]
 			description: [
-				"Iron, copper, zinc and gold come from real minerals now, in a few big ore bodies. An ore takes on the rock it runs through, so a body crossing into granite turns granite."
+				"Iron, copper, zinc, gold, coal, lapis and diamonds come from real minerals now, in a few big ore bodies. An ore takes on the rock it runs through, so a body crossing into granite turns granite."
 				""
-				"Nothing on the surface gives one away: find them in caves, or dig. Swamp mud hides bog iron for a shovel, and gold quartz wants an iron pickaxe."
+				"Coal lies in flat seams, lapis in lenses of white marble, and diamonds in pipes of dark kimberlite, more of them the deeper you dig."
+				""
+				"Nothing on the surface gives one away: find them in caves, or dig. Swamp mud hides bog iron for a shovel, and gold quartz and diamonds want an iron pickaxe."
 				""
 				"&7Each mineral's tooltip says where it's found.&r"
 			]

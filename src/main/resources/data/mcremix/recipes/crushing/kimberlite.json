@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "mcremix:kimberlite"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "minecraft:gravel"
+    },
+    {
+      "item": "minecraft:diamond",
+      "chance": 0.02
+    }
+  ]
+}

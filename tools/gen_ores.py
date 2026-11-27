@@ -20,6 +20,12 @@ vanilla's are, and leave the sulfides out of them so they must be roasted.
 The world generation is OreBodies.java's: this writes its feature, the biome tags that say where each kind of body
 goes, and takes vanilla's iron, copper and gold ores and Create's zinc ore out of the overworld (Taran's card: replace
 them). Washing red sand no longer turns up bauxite (the card on old sources): bauxite is mined now.
+
+0.44.0 (Taran's answer on which minerals: coal, lapis and diamonds too): coal in flat seams through the rock laid down
+as sediment, drawn as black bands along the seam (a seam's block shows its bedding on top); lapis lazuli as blue
+patches flecked with pyrite in white marble (calcite); diamonds as pale crystals in kimberlite, a dark blue-grey rock
+of its own, which crushes into gravel and now and then a diamond. They drop vanilla's coal, lapis and diamonds, and
+vanilla's coal, lapis and diamond ores leave the overworld as the metals' did.
 """
 import math
 import os
@@ -74,7 +80,7 @@ def read_minerals():
 
 HOSTS = read_hosts()
 MINERALS = read_minerals()
-assert len(HOSTS) == 31 and len(MINERALS) == 11, (len(HOSTS), len(MINERALS))
+assert len(HOSTS) == 32 and len(MINERALS) == 14, (len(HOSTS), len(MINERALS))
 
 
 def block_id(mineral, host):
@@ -88,7 +94,7 @@ def ore_blocks(mineral=None):
 # the minerals that are items of their own (sulfur's is the sulfur works' item)
 ITEMS = ['bog_iron', 'hematite', 'magnetite', 'malachite', 'chalcopyrite', 'copper_matte', 'native_copper',
          'sphalerite', 'zinc_calcine', 'gold_quartz', 'ilmenite', 'pyrite']
-OWN_ROCKS = ['bauxite_ore', 'rock_salt', 'ilmenite_sand']
+OWN_ROCKS = ['bauxite_ore', 'rock_salt', 'ilmenite_sand', 'kimberlite']
 
 # each rock's own textures: one for every face, side and end, or sandstone's top, side and bottom
 VANILLA_TEX = {'dripstone': 'dripstone_block'}
@@ -105,6 +111,8 @@ SEDIMENT = {'sandstone', 'red_sandstone', 'terracotta', 'white_terracotta', 'ora
 def host_faces(host):
     """face -> texture image for a rock: 'all', or 'side' and 'end', or 'top', 'side' and 'bottom'."""
     look = HOSTS[host][1]
+    if host == 'kimberlite':
+        return {'all': kimberlite_texture()}
     if host in CREATE_TEX:
         return {'all': C.jar_png(C.CREATE, f'assets/create/textures/block/{CREATE_TEX[host]}.png')}
     name = VANILLA_TEX.get(host, host)
@@ -138,6 +146,11 @@ PAL = {
     'sulfur': [(140, 134, 18), (200, 194, 36), (234, 230, 72), (250, 250, 156)],
     'copper_matte': [(18, 16, 16), (38, 32, 30), (62, 52, 46), (118, 94, 78)],
     'zinc_calcine': [(104, 102, 96), (146, 144, 138), (182, 180, 174), (212, 210, 204)],
+    'coal': [(34, 34, 37), (46, 46, 50), (60, 60, 65), (92, 93, 100)],
+    'lazurite': [(30, 58, 142), (40, 80, 182), (58, 106, 212), (96, 140, 230)],
+    'diamond': [(120, 172, 178), (170, 218, 222), (214, 242, 244), (252, 255, 255)],
+    'kimberlite': [(54, 64, 66), (66, 78, 79), (80, 93, 92), (96, 108, 104)],
+    'olivine': [(82, 106, 74), (102, 128, 86)],
 }
 
 
@@ -482,10 +495,97 @@ def draw_sulfur(face, rng, host):
                 face.shade_rock(x + 1, y + 1, 0.7)
 
 
+def draw_coal(face, rng, host, face_name):
+    """Coal in its seam. On a block's sides a layer of dull coal fills most of its height, its top and bottom edges
+    waving a pixel either way, one wave a block, so a seam runs on along a wall as one dark layer; the block's rock
+    shows only as a thin parting at its top and bottom, shaded under the coal, and two faint brighter laminae of
+    vitrain run through it. (Two thin black bands a block, as drawn at first, read in a dev client as a stack of black
+    lines rather than a seam.) On top and bottom, the bedding plane, coal in patches."""
+    pal = PAL['coal']
+    px = face.img.load()
+    if sum(sum(px[x, y][:3]) for x in range(16) for y in range(16)) / 768 < 100:
+        # in dark rock (deepslate, tuff) coal is as black as vanilla's there, or the seam would not show
+        pal = [tuple(round(c * f) for c in rgb) for rgb, f in zip(pal, (0.45, 0.5, 0.62, 0.85))]
+    if face_name in ('side', 'all'):
+        up, down = rng.uniform(0, 6.3), rng.uniform(0, 6.3)
+        top = [2 + round(0.8 * math.sin(x * math.pi / 8 + up)) for x in range(16)]
+        bottom = [13 + round(0.8 * math.sin(x * math.pi / 8 + down)) for x in range(16)]
+        for x in range(16):
+            for y in range(top[x], bottom[x] + 1):
+                face.put(x, y, pal[0] if rng.random() < 0.2 else pal[1])
+            face.put(x, top[x], pal[2])
+        for x in range(16):
+            face.shade_rock(x, bottom[x] + 1, 0.8)
+        # vitrain: two faint brighter laminae along the bedding, a part of the way across
+        for y0 in (rng.randint(5, 7), rng.randint(9, 11)):
+            x0 = rng.randint(0, 8)
+            for x in range(x0, x0 + rng.randint(4, 7)):
+                y = y0 + round(0.8 * math.sin(x * math.pi / 8 + up))
+                if top[x] < y < bottom[x]:
+                    face.put(x, y, pal[2])
+        return
+    # the bedding plane: coal in broad patches, lit from the top left
+    for _ in range(rng.randint(4, 5)):
+        r = rng.choice((1.6, 2.0, 2.4))
+        cells = place(face, rng, lambda x, y: disc(x + 0.5, y + 0.5, r) | disc(x + 1.5, y + 1.0, r * 0.8), margin=0)
+        if cells:
+            face.grain(cells, pal, base=1, shadow=0.8)
+
+
+def draw_lapis(face, rng, host):
+    """Lapis lazuli in marble: three patches of deep blue lazurite, mottled, flecked with brassy pyrite."""
+    pal = PAL['lazurite']
+    gold = PAL['pyrite']
+    for n in range(3):
+        for _ in range(60):
+            r = rng.choice((1.9, 2.2, 2.6))
+            x, y = rng.randint(3, 12), rng.randint(3, 12)
+            cells = disc(x + 0.5, y + 0.5, r) | disc(x + rng.choice((-1.5, 1.5)) + 0.5, y + rng.choice((-1.0, 1.5)) + 0.5,
+                                                     r * 0.75)
+            if face.free(cells):
+                break
+        else:
+            continue
+        face.grain(cells, pal, base=1, shadow=0.86)
+        for (x, y) in cells:
+            if rng.random() < 0.18:
+                face.put(x, y, pal[rng.choice((0, 2))])
+        if n < 2:
+            x, y = rng.choice(sorted(cells))
+            face.put(x, y, gold[2])
+
+
+def draw_diamond(face, rng, host):
+    """Diamonds in kimberlite: a few small pale octahedra, their faces lit from the top left, one point glinting."""
+    pal = PAL['diamond']
+    for n in range(3):
+        r = 2 if n == 0 else 1
+        cells = place(face, rng, lambda x, y: diamond(x, y, r), margin=2)
+        if not cells:
+            continue
+        cx = sum(c[0] for c in cells) // len(cells)
+        cy = sum(c[1] for c in cells) // len(cells)
+        for (x, y) in cells:
+            k = x - cx + y - cy
+            face.put(x, y, pal[2] if k < 0 else pal[0] if k > 0 else pal[1])
+        face.put(cx, cy - r, pal[3])
+        for (x, y) in cells:
+            face.shade_rock(x + 1, y + 1, 0.78)
+
+
 DRAW = {'bog_iron': draw_bog_iron, 'hematite': draw_hematite, 'magnetite': draw_magnetite,
         'malachite': draw_malachite, 'chalcopyrite': draw_chalcopyrite, 'native_copper': draw_native_copper,
         'sphalerite': draw_sphalerite, 'gold_quartz': draw_gold_quartz, 'ilmenite': draw_ilmenite,
-        'pyrite': draw_pyrite, 'sulfur': draw_sulfur}
+        'pyrite': draw_pyrite, 'sulfur': draw_sulfur, 'lapis': draw_lapis, 'diamond': draw_diamond}
+
+
+def ore_faces(mineral, host):
+    """face -> the rock's texture an ore's face is drawn on. A coal seam's block in a rock of one texture has sides,
+    where its bedding shows, and a top and bottom."""
+    faces = host_faces(host)
+    if mineral == 'coal' and 'all' in faces:
+        return {'side': faces['all'], 'end': faces['all']}
+    return faces
 
 
 def ore_face(mineral, host, face_name, img):
@@ -493,7 +593,10 @@ def ore_face(mineral, host, face_name, img):
     seed = sum(ord(ch) * (i + 1) for i, ch in enumerate(mineral)) * 31 + {'all': 0, 'side': 1, 'end': 2, 'top': 2,
                                                                            'bottom': 3}[face_name]
     face = Face(img)
-    DRAW[mineral](face, random.Random(seed), host)
+    if mineral == 'coal':
+        draw_coal(face, random.Random(seed), host, face_name)
+    else:
+        DRAW[mineral](face, random.Random(seed), host)
     return face.img
 
 
@@ -538,6 +641,20 @@ def rock_salt_texture():
             face.put(x0 + t, y0, (250, 246, 242))          # a lit top edge
             face.put(x0 + s, y0 + t, (176, 146, 140))      # a shaded side
         face.put(x0 + s, y0 + s, (168, 136, 130))
+    return face.img
+
+
+def kimberlite_texture():
+    """Kimberlite: tuff's grain recoloured a dark blue-grey, with grains of green olivine; dull, and no darker than
+    deepslate. No pale bits of other rock: the same few in every block made a grid of dots across a pipe's face, and the
+    pipe has whole blocks of the rock it broke through caught up in it."""
+    rng = random.Random(4204)
+    face = Face(recolour(C.jar_png(C.MC, 'assets/minecraft/textures/block/tuff.png'), PAL['kimberlite']))
+    for _ in range(4):
+        cells = place(face, rng, lambda x, y: {(x, y)} if rng.random() < 0.5 else {(x, y), (x + 1, y)}, margin=0)
+        if cells:
+            for (x, y) in cells:
+                face.put(x, y, PAL['olivine'][rng.randint(0, 1)])
     return face.img
 
 
@@ -710,13 +827,14 @@ def item_texture(name):
 def textures():
     for mineral, (_, _, _, _, hosts) in MINERALS.items():
         for host in hosts:
-            for face_name, img in host_faces(host).items():
+            for face_name, img in ore_faces(mineral, host).items():
                 suffix = '' if face_name == 'all' else '_' + face_name
                 G.save_png(ore_face(mineral, host, face_name, img),
                            G.asset('textures', 'block', 'ore', block_id(mineral, host) + suffix + '.png'))
     G.save_png(bauxite_texture(), G.asset('textures', 'block', 'bauxite_ore.png'))
     G.save_png(rock_salt_texture(), G.asset('textures', 'block', 'rock_salt.png'))
     G.save_png(ilmenite_sand_texture(), G.asset('textures', 'block', 'ilmenite_sand.png'))
+    G.save_png(kimberlite_texture(), G.asset('textures', 'block', 'kimberlite.png'))
     for name in ITEMS:
         G.save_png(item_texture(name), G.asset('textures', 'item', name + '.png'))
 
@@ -727,7 +845,7 @@ def models():
             name = block_id(mineral, host)
             tex = f'mcremix:block/ore/{name}'
             look = HOSTS[host][1]
-            if look in ('COLUMN', 'PILLAR'):
+            if look in ('COLUMN', 'PILLAR') or 'end' in ore_faces(mineral, host):
                 model = {'parent': 'minecraft:block/cube_column', 'textures': {'side': tex + '_side', 'end': tex + '_end'}}
             elif look == 'SANDSTONE':
                 model = {'parent': 'minecraft:block/cube_bottom_top',
@@ -776,12 +894,14 @@ def loot():
                  ore_loot('bauxite_ore', 'mcremix:bauxite', 1, 2))
     G.write_json(G.data('mcremix', 'loot_tables', 'blocks', 'rock_salt.json'), ore_loot('rock_salt', 'mcremix:salt', 2, 4))
     G.write_json(G.data('mcremix', 'loot_tables', 'blocks', 'ilmenite_sand.json'), G.loot_self('ilmenite_sand'))
+    G.write_json(G.data('mcremix', 'loot_tables', 'blocks', 'kimberlite.json'), G.loot_self('kimberlite'))
 
 
 # the metal each mineral is an ore of, for forge:ores/<metal>
 METAL = {'bog_iron': 'iron', 'hematite': 'iron', 'magnetite': 'iron', 'malachite': 'copper',
          'chalcopyrite': 'copper', 'native_copper': 'copper', 'sphalerite': 'zinc', 'gold_quartz': 'gold',
-         'ilmenite': 'titanium', 'pyrite': 'sulfur', 'sulfur': 'sulfur'}
+         'ilmenite': 'titanium', 'pyrite': 'sulfur', 'sulfur': 'sulfur', 'coal': 'coal', 'lapis': 'lapis',
+         'diamond': 'diamond'}
 # the minerals that are raw ore as vanilla's raw iron, copper and gold are: Create crushes them, the crucible melts them
 RAW = {'bog_iron': 'iron', 'hematite': 'iron', 'magnetite': 'iron', 'malachite': 'copper', 'native_copper': 'copper',
        'gold_quartz': 'gold'}
@@ -805,12 +925,17 @@ def tags():
             D.add_tag('forge', kind, 'ores_in_ground/stone', m([block_id(mineral, 'stone')] if 'stone' in hosts else []))
             D.add_tag('forge', kind, 'ores_in_ground/deepslate',
                       m([block_id(mineral, 'deepslate')] if 'deepslate' in hosts else []))
-            D.add_tag('forge', kind, 'ore_rates/singular', m(names))
+            D.add_tag('forge', kind, 'ore_rates/dense' if mineral == 'lapis' else 'ore_rates/singular', m(names))
+            # vanilla's own tags for the ores whose drops are their own items, never raw ore (blocks and items alike)
+            if mineral in ('coal', 'lapis', 'diamond'):
+                D.add_tag('minecraft', kind, f'{mineral}_ores', m(names))
         # vanilla's own ore block tags, which other mods key on and piglins guard gold by (blocks only: the item tags
         # would hand the ores to vanilla's and Create's recipes for raw ore)
         if METAL[mineral] in ('iron', 'copper', 'gold'):
             D.add_tag('minecraft', 'blocks', f'{METAL[mineral]}_ores', m(names))
-    D.add_tag('minecraft', 'blocks', 'mineable/pickaxe', m(hard + ['bauxite_ore', 'rock_salt']))
+    D.add_tag('minecraft', 'blocks', 'mineable/pickaxe', m(hard + ['bauxite_ore', 'rock_salt', 'kimberlite']))
+    # kimberlite is the overworld's rock as stone and deepslate are: moss, sculk and dripstone grow over it
+    D.add_tag('minecraft', 'blocks', 'base_stone_overworld', m(['kimberlite']))
     D.add_tag('minecraft', 'blocks', 'mineable/shovel', m(soft + ['ilmenite_sand']))
     D.add_tag('minecraft', 'blocks', 'needs_stone_tool', m(['bauxite_ore']))
     for kind in ('blocks', 'items'):
@@ -873,6 +998,10 @@ def recipes():
     G.recipe('crushing/bauxite_ore', {
         'type': 'create:crushing', 'ingredients': [G.item('mcremix:bauxite_ore')], 'processingTime': 250,
         'results': [G.item('mcremix:bauxite', 2), {'item': 'mcremix:bauxite', 'chance': 0.5}]})
+    # diamonds are won by crushing kimberlite: now and then one is in a block that shows none
+    G.recipe('crushing/kimberlite', {
+        'type': 'create:crushing', 'ingredients': [G.item('mcremix:kimberlite')], 'processingTime': 250,
+        'results': [G.item('minecraft:gravel'), {'item': 'minecraft:diamond', 'chance': 0.02}]})
     G.recipe('crushing/rock_salt', {
         'type': 'create:crushing', 'ingredients': [G.item('mcremix:rock_salt')], 'processingTime': 200,
         'results': [G.item('mcremix:salt', 4), {'item': 'mcremix:salt', 'count': 2, 'chance': 0.5}]})
@@ -900,12 +1029,23 @@ BODY_BIOMES = {
     'ilmenite_sand': ['#minecraft:is_beach'],
     'bauxite': ['#minecraft:is_jungle', '#minecraft:is_savanna', {'id': '#forge:is_jungle', 'required': False}],
     'rock_salt': ['#minecraft:is_badlands', 'minecraft:desert', {'id': '#forge:is_desert', 'required': False}],
+    # where the old coal swamps were: forests, plains, swamps and river lowlands
+    'coal': ['#minecraft:is_forest', '#minecraft:is_taiga', '#minecraft:is_jungle', '#minecraft:is_river',
+             'minecraft:plains', 'minecraft:sunflower_plains', 'minecraft:swamp', 'minecraft:mangrove_swamp',
+             {'id': '#forge:is_plains', 'required': False}, {'id': '#forge:is_swamp', 'required': False}],
+    # marble, where mountains baked their limestone
+    'lapis': ['#minecraft:is_mountain', '#minecraft:is_hill', 'minecraft:meadow', 'minecraft:cherry_grove',
+              {'id': '#forge:is_mountain', 'required': False}, {'id': '#forge:is_peak', 'required': False},
+              {'id': '#forge:is_slope', 'required': False}],
 }
 
 # vanilla's iron, copper and gold ores in the overworld, and Create's zinc: the real minerals replace them (Taran's card)
 REPLACED = ['minecraft:ore_iron_upper', 'minecraft:ore_iron_middle', 'minecraft:ore_iron_small',
             'minecraft:ore_copper', 'minecraft:ore_copper_large', 'minecraft:ore_gold', 'minecraft:ore_gold_lower',
-            'minecraft:ore_gold_extra', 'create:zinc_ore']
+            'minecraft:ore_gold_extra', 'create:zinc_ore',
+            # and since 0.44.0 (coal, lapis and diamonds too): vanilla's coal, lapis and diamonds
+            'minecraft:ore_coal_upper', 'minecraft:ore_coal_lower', 'minecraft:ore_lapis', 'minecraft:ore_lapis_buried',
+            'minecraft:ore_diamond', 'minecraft:ore_diamond_large', 'minecraft:ore_diamond_buried']
 
 
 def worldgen():
@@ -929,7 +1069,10 @@ def worldgen():
 
 MINERAL_NAMES = {'bog_iron': 'Bog Iron', 'hematite': 'Hematite', 'magnetite': 'Magnetite', 'malachite': 'Malachite',
                  'chalcopyrite': 'Chalcopyrite', 'native_copper': 'Native Copper', 'sphalerite': 'Sphalerite',
-                 'gold_quartz': 'Gold Quartz', 'ilmenite': 'Ilmenite', 'pyrite': 'Pyrite', 'sulfur': 'Sulfur'}
+                 'gold_quartz': 'Gold Quartz', 'ilmenite': 'Ilmenite', 'pyrite': 'Pyrite', 'sulfur': 'Sulfur',
+                 'coal': 'Coal', 'lapis': 'Lapis Lazuli', 'diamond': 'Diamond'}
+# what an ore block of a mineral is called after the rock's name: a block of a coal seam is a coal seam
+ORE_NOUN = {'coal': 'Coal Seam'}
 
 SUMMARIES = {
     'bog_iron': ('Rusty nodules a block or two under _swamps_, _mangroves_ and _river banks_: the first iron. '
@@ -963,7 +1106,8 @@ def lang():
     for mineral, (_, _, _, _, hosts) in MINERALS.items():
         for host in hosts:
             prefix = '' if host == 'stone' else host_name(host) + ' '
-            text[f'block.mcremix.{block_id(mineral, host)}'] = f'{prefix}{MINERAL_NAMES[mineral]} Ore'
+            noun = ORE_NOUN.get(mineral, MINERAL_NAMES[mineral] + ' Ore')
+            text[f'block.mcremix.{block_id(mineral, host)}'] = f'{prefix}{noun}'
     for name in ITEMS:
         text[f'item.mcremix.{name}'] = MINERAL_NAMES.get(name, ' '.join(w.capitalize() for w in name.split('_')))
         text[f'item.mcremix.{name}.tooltip.summary'] = SUMMARIES[name]
@@ -980,5 +1124,9 @@ def lang():
             'Beach sand streaked black where the waves sorted out the heavy grains. _Wash_ it for _black sand_.'),
         'item.mcremix.bauxite.tooltip.summary': (
             "Aluminium's ore, mined from _bauxite_ just under the ground of _jungles_ and _savannas_."),
+        'block.mcremix.kimberlite': 'Kimberlite',
+        'block.mcremix.kimberlite.tooltip.summary': (
+            'Dark rock risen from far down in carrot-shaped _pipes_, the only place _diamonds_ are found. _Crushed_, '
+            'it gives up the odd one.'),
     })
     D.merge_json(G.asset('lang', 'en_us.json'), lambda obj: obj.update(text))

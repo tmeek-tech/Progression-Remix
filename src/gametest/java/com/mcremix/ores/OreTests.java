@@ -32,6 +32,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -41,10 +42,12 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,7 +55,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 /**
  * Realistic ores (0.42.0): an ore block for each mineral in each rock it occurs in, the tools each takes, the ore bodies'
  * plans, the vanilla ores turned into real minerals, the bodies in the overworld's worldgen, and each mineral's own way
- * to its metal.
+ * to its metal. Since 0.44.0, coal seams, lapis in marble and diamonds in kimberlite pipes too.
  */
 @GameTestHolder(McRemix.ID)
 @PrefixGameTestTemplate(false)
@@ -122,7 +125,13 @@ public class OreTests {
 			new Dig(ModOres.ore(Mineral.SULFUR, Host.BASALT), flint, ModDyes.SULFUR.get(), 1, 2),
 			new Dig(ModOres.ROCK_SALT.get(), flint, ModItems.SALT.get(), 2, 4),
 			new Dig(ModOres.BAUXITE_ORE.get(), flint, ModItems.BAUXITE.get(), 1, 2),
-			new Dig(chalcopyrite, silk, chalcopyrite.asItem(), 1, 1))) {
+			new Dig(chalcopyrite, silk, chalcopyrite.asItem(), 1, 1),
+			new Dig(ModOres.ore(Mineral.COAL, Host.SANDSTONE), flint, Items.COAL, 1, 1),
+			new Dig(ModOres.ore(Mineral.LAPIS, Host.CALCITE), flint, Items.LAPIS_LAZULI, 4, 9),
+			new Dig(ModOres.ore(Mineral.DIAMOND, Host.KIMBERLITE), flint, null, 0, 0),
+			new Dig(ModOres.ore(Mineral.DIAMOND, Host.KIMBERLITE), new ItemStack(Items.IRON_PICKAXE), Items.DIAMOND, 1,
+				1),
+			new Dig(ModOres.KIMBERLITE.get(), flint, ModOres.KIMBERLITE.get().asItem(), 1, 1))) {
 			h.setBlock(pos, dig.ore());
 			List<ItemStack> drops = GT.breakWith(h, pos, dig.tool().copy());
 			String what = dig.ore() + " mined with " + dig.tool();
@@ -134,6 +143,18 @@ public class OreTests {
 				&& drops.get(0).getCount() <= dig.max(), what + " should drop " + dig.min() + " to " + dig.max() + " "
 					+ dig.drop() + ", drops " + drops);
 		}
+		// coal, lapis and diamond ores give experience, as vanilla's do; the metals' do not
+		for (Mineral mineral : Mineral.values())
+			for (Host host : mineral.hosts)
+				h.assertTrue((ModOres.ore(mineral, host) instanceof DropExperienceBlock) == (mineral == Mineral.COAL
+					|| mineral == Mineral.LAPIS || mineral == Mineral.DIAMOND), mineral + " in " + host
+					+ (mineral.xpMax() > 0 ? " should" : " should not") + " give experience");
+		AABB box = new AABB(h.absolutePos(pos)).inflate(2);
+		h.getLevel().getEntitiesOfClass(ExperienceOrb.class, box).forEach(ExperienceOrb::discard);
+		h.setBlock(pos, ModOres.ore(Mineral.DIAMOND, Host.KIMBERLITE));
+		GT.breakWith(h, pos, new ItemStack(Items.IRON_PICKAXE));
+		h.assertTrue(!h.getLevel().getEntitiesOfClass(ExperienceOrb.class, box).isEmpty(),
+			"mining a diamond ore should drop experience");
 		h.succeed();
 	}
 
@@ -147,7 +168,7 @@ public class OreTests {
 		Body.Climate anywhere = (x, z) -> true;
 		for (Formation formation : Formation.values()) {
 			Spec s = formation.spec;
-			int bodies = 0, ores = 0, caps = 0, halos = 0;
+			int bodies = 0, ores = 0, caps = 0, halos = 0, mains = 0;
 			for (int i = -20; i < 40 && bodies < 2; i++)
 				for (int j = 0; j < s.stack && bodies < 2; j++) {
 					Body body = Body.plan(formation, seed, i, j, 7, anywhere);
@@ -174,6 +195,8 @@ public class OreTests {
 								ores++;
 								if (what == Body.HALO)
 									halos++;
+								if (what == Body.MAIN)
+									mains++;
 								String where = formation + " at " + x + ", " + v + ", " + z;
 								h.assertTrue(x >= body.minX && x <= body.maxX && z >= body.minZ && z <= body.maxZ
 									&& v >= body.minV && v <= body.maxV, where + " is outside its bounds");
@@ -182,7 +205,8 @@ public class OreTests {
 									&& Math.abs(z + 0.5 - body.cz) <= formation.reach,
 									where + " is further from its centre than a chunk looks");
 								h.assertTrue(what == Body.MAIN || (what == Body.ACCESSORY && s.accessory != null)
-									|| (what == Body.HALO && s.halo != null), where + " is " + what);
+									|| (what == Body.HALO && s.halo != null) || (what == Body.ROCK && s.matrix != null),
+									where + " is " + what);
 								if (s.cap != null && !byDepth) {
 									h.assertTrue(body.at(x, y, z, v, 2) == Body.NONE,
 										where + " should be leached bare just under the ground");
@@ -195,7 +219,7 @@ public class OreTests {
 							}
 				}
 			h.assertTrue(bodies == 2, formation + " should have bodies in some of 60 cells, found " + bodies);
-			h.assertTrue(ores > 0, formation + "'s bodies should hold some ore");
+			h.assertTrue(ores > 0 && mains > 0, formation + "'s bodies should hold some ore");
 			h.assertTrue(s.cap == null || caps > 0, formation + " should have a weathered cap");
 			h.assertTrue(s.halo == null || halos > 0, formation + " should have a ring of " + s.halo);
 		}
@@ -230,6 +254,91 @@ public class OreTests {
 			}
 		}
 		h.assertTrue(reachingTop > 0, "some shallow bodies' shapes should reach the top block, which is kept bare");
+		h.succeed();
+	}
+
+	/**
+	 * Kimberlite pipes stop four blocks under the ground, and coal seams and marble lenses one (Taran's card: no hints),
+	 * though some of their shapes would reach higher; bodies that do not ask for it are drawn to their own top.
+	 */
+	@GameTest(template = GT.PLATFORM)
+	public static void bodiesThatStopUnderTheGroundDo(GameTestHelper h) {
+		long seed = 0x5EED0F0AEL;
+		Body.Climate anywhere = (x, z) -> true;
+		int ground = 20, clipped = 0;
+		h.assertTrue(Formation.KIMBERLITE.spec.below == 4 && Formation.COAL.spec.below == 1
+			&& Formation.LAPIS.spec.below == 1, "pipes should stop 4 blocks under the ground, seams and lenses 1");
+		for (Formation formation : Formation.values()) {
+			Spec s = formation.spec;
+			if (s.mode != Mode.HEIGHT)
+				continue;
+			for (int i = -40; i < 40; i++)
+				for (int j = 0; j < s.stack; j++) {
+					Body body = Body.plan(formation, seed, i, j, 3, anywhere);
+					if (body == null)
+						continue;
+					int highest = OreBodies.highest(body, ground);
+					if (s.below == 0) {
+						h.assertTrue(highest == body.maxV, formation + " should be drawn to its own top");
+						continue;
+					}
+					h.assertTrue(highest <= ground - s.below, formation + " should stop " + s.below
+						+ " blocks under the ground, reaches " + highest);
+					if (body.maxV > ground - s.below)
+						clipped++;
+				}
+		}
+		h.assertTrue(clipped > 0, "some pipes, seams or lenses should reach higher than they are drawn");
+		h.succeed();
+	}
+
+	/**
+	 * A kimberlite pipe is kimberlite from its root to its top, wider at the top, with blocks of the rock it broke through
+	 * left in it and diamonds scattered through it, more of them in its lower half (deeper is richer).
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 400)
+	public static void pipesAreKimberliteWithMoreDiamondsDeeper(GameTestHelper h) {
+		long seed = 0x5EED0F0AEL;
+		Body.Climate anywhere = (x, z) -> true;
+		int pipes = 0;
+		for (Formation formation : List.of(Formation.KIMBERLITE, Formation.KIMBERLITE_DEEP))
+			for (int i = 0; i < 30 && pipes < 4; i++) {
+				Body pipe = Body.plan(formation, seed, i, 0, 5, anywhere);
+				if (pipe == null)
+					continue;
+				pipes++;
+				int mid = (pipe.minV + pipe.maxV) / 2;
+				int[] rock = new int[2], diamonds = new int[2], left = new int[2];
+				int widthLow = 0, widthHigh = 0;
+				for (int x = pipe.minX; x <= pipe.maxX; x++)
+					for (int z = pipe.minZ; z <= pipe.maxZ; z++)
+						for (int y = pipe.minV; y <= pipe.maxV; y++) {
+							int what = pipe.at(x, y, z, y, Body.NO_DEPTH);
+							int half = y < mid ? 0 : 1;
+							if (what == Body.ROCK)
+								rock[half]++;
+							else if (what == Body.MAIN)
+								diamonds[half]++;
+							else if (Math.abs(x + 0.5 - pipe.cx) < 2 && Math.abs(z + 0.5 - pipe.cz) < 2
+								&& Math.abs(y - mid) < pipe.b / 2)
+								left[half]++;
+							if (what != Body.NONE && y == pipe.minV + 6)
+								widthLow++;
+							if (what != Body.NONE && y == pipe.maxV - 6)
+								widthHigh++;
+						}
+				String which = formation + "'s pipe at " + (int) pipe.cx + ", " + (int) pipe.cz;
+				h.assertTrue(rock[0] > 0 && rock[1] > 0, which + " should be kimberlite through its height");
+				h.assertTrue(widthHigh > widthLow * 2, which + " should be far wider at its top (" + widthHigh
+					+ ") than near its root (" + widthLow + ")");
+				double low = diamonds[0] / (double) (diamonds[0] + rock[0]),
+					high = diamonds[1] / (double) (diamonds[1] + rock[1]);
+				h.assertTrue(diamonds[0] + diamonds[1] > 10 && low > high, which + " should hold more diamonds in its"
+					+ " lower half: " + diamonds[0] + " in " + (diamonds[0] + rock[0]) + " below, " + diamonds[1] + " in "
+					+ (diamonds[1] + rock[1]) + " above");
+				h.assertTrue(low < 0.05, which + " should be mostly bare kimberlite, " + low + " diamonds below");
+			}
+		h.assertTrue(pipes == 4, "pipes should be planned in some of 30 cells, found " + pipes);
 		h.succeed();
 	}
 
@@ -277,6 +386,14 @@ public class OreTests {
 		turnsInto(h, at, zinc, Blocks.AIR, Blocks.AIR, Mineral.SPHALERITE, "deepslate_sphalerite_ore");
 		turnsInto(h, at, Blocks.RAW_COPPER_BLOCK, Blocks.AIR, Blocks.AIR, Mineral.CHALCOPYRITE,
 			"granite_chalcopyrite_ore");
+		// coal keeps to its rock; lapis is found only in marble and diamonds only in kimberlite, whatever is round them
+		turnsInto(h, at, Blocks.COAL_ORE, Blocks.SANDSTONE, Blocks.STONE, Mineral.COAL, "sandstone_coal_ore");
+		turnsInto(h, at, Blocks.DEEPSLATE_COAL_ORE, Blocks.AIR, Blocks.AIR, Mineral.COAL, "deepslate_coal_ore");
+		turnsInto(h, at, Blocks.LAPIS_ORE, Blocks.STONE, Blocks.STONE, Mineral.LAPIS, "calcite_lapis_ore");
+		turnsInto(h, at, Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.DEEPSLATE, Blocks.TUFF, Mineral.DIAMOND,
+			"kimberlite_diamond_ore");
+		turnsInto(h, at, Blocks.DIAMOND_ORE, ModOres.KIMBERLITE.get(), Blocks.STONE, Mineral.DIAMOND,
+			"kimberlite_diamond_ore");
 		h.succeed();
 	}
 
@@ -340,14 +457,93 @@ public class OreTests {
 		h.succeed();
 	}
 
-	/** The ore bodies are drawn in every overworld biome, and vanilla's iron, copper and gold and Create's zinc are not. */
+	/**
+	 * Drawing a chunk round a kimberlite pipe far from the tests turns its stone into kimberlite, with diamonds in it,
+	 * and leaves the glass and the cave air through it as they are, and a geode's calcite and smooth basalt.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 400)
+	public static void drawingAPipeTurnsRockIntoKimberlite(GameTestHelper h) {
+		ServerLevel level = h.getLevel();
+		long seed = level.getSeed();
+		Formation formation = Formation.KIMBERLITE;
+		BlockPos far = h.absolutePos(BlockPos.ZERO).offset(-20000, 0, 20000);
+		int i0 = Math.floorDiv(far.getX(), formation.spec.cell), k0 = Math.floorDiv(far.getZ(), formation.spec.cell);
+		Body pipe = null;
+		for (int n = 0; n < 64 && pipe == null; n++)
+			pipe = OreBodies.body(formation, level, seed, i0 + n, 0, k0);
+		h.assertTrue(pipe != null, "a kimberlite pipe should be planned in one of 64 cells");
+		ChunkPos chunk = new ChunkPos(new BlockPos((int) Math.floor(pipe.cx), 0, (int) Math.floor(pipe.cz)));
+		int cy = (int) Math.floor(pipe.cv), lo = Math.max(cy - 8, -58), hi = Math.min(cy + 8, -2);
+		int x0 = chunk.getMinBlockX(), z0 = chunk.getMinBlockZ();
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		for (int x = x0; x < x0 + 16; x++)
+			for (int z = z0; z < z0 + 16; z++)
+				for (int y = lo; y <= hi; y++)
+					level.setBlock(pos.set(x, y, z), (x + y + z) % 7 == 0 ? Blocks.GLASS.defaultBlockState()
+						: Math.floorMod(x + 2 * y + 3 * z, 13) == 0 ? Blocks.CAVE_AIR.defaultBlockState()
+							: Math.floorMod(x - y + 2 * z, 11) == 0 ? Blocks.CALCITE.defaultBlockState()
+								: Math.floorMod(2 * x + y - z, 17) == 0 ? Blocks.SMOOTH_BASALT.defaultBlockState()
+									: Blocks.STONE.defaultBlockState(), Block.UPDATE_CLIENTS);
+
+		OreBodies.draw(level, chunk);
+
+		BlockState kimberlite = ModOres.KIMBERLITE.getDefaultState();
+		BlockState diamond = Rocks.ore(Mineral.DIAMOND, Host.KIMBERLITE);
+		Set<BlockState> stoneOres = new HashSet<>();
+		for (Mineral mineral : Mineral.values()) {
+			BlockState ore = Rocks.ore(mineral, Host.STONE);
+			if (ore != null)
+				stoneOres.add(ore);
+		}
+		int rock = 0, gems = 0, geode = 0;
+		for (int x = x0; x < x0 + 16; x++)
+			for (int z = z0; z < z0 + 16; z++)
+				for (int y = lo; y <= hi; y++) {
+					BlockState state = level.getBlockState(pos.set(x, y, z));
+					if ((x + y + z) % 7 == 0) {
+						h.assertTrue(state.is(Blocks.GLASS), "glass at " + pos + " should stay glass, is " + state);
+						continue;
+					}
+					if (Math.floorMod(x + 2 * y + 3 * z, 13) == 0) {
+						h.assertTrue(state.is(Blocks.CAVE_AIR), "the cave at " + pos + " should stay open, is " + state);
+						continue;
+					}
+					// a geode's shell (0.44.0): another body may put its ore in it, but the pipe never takes it
+					if (Math.floorMod(x - y + 2 * z, 11) == 0 || Math.floorMod(2 * x + y - z, 17) == 0) {
+						if (pipe.at(x, y, z, y, Body.NO_DEPTH) != Body.NONE)
+							geode++;
+						h.assertTrue(state != kimberlite && state != diamond, "a geode's calcite or smooth basalt at " + pos
+							+ " should stay out of the pipe, is " + state);
+						continue;
+					}
+					if (state == kimberlite)
+						rock++;
+					else if (state == diamond)
+						gems++;
+					else
+						h.assertTrue(state.is(Blocks.STONE) || stoneOres.contains(state), "stone at " + pos
+							+ " should be stone, kimberlite or an ore, is " + state);
+				}
+		h.assertTrue(rock > 20, "the pipe planned at " + (int) pipe.cx + ", " + cy + ", " + (int) pipe.cz
+			+ " should have turned the stone round its middle into kimberlite, found " + rock);
+		h.assertTrue(gems < rock / 10, "the pipe should be mostly bare kimberlite: " + gems + " diamond ores in " + rock);
+		h.assertTrue(geode > 5, "the pipe should have run through the geode's shell, " + geode + " blocks of it");
+		h.succeed();
+	}
+
+	/**
+	 * The ore bodies are drawn in every overworld biome, and vanilla's iron, copper, gold, coal, lapis and diamonds and
+	 * Create's zinc are not; vanilla's redstone stays.
+	 */
 	@GameTest(template = GT.PLATFORM)
 	public static void theOreBodiesReplaceVanillasOresInWorldgen(GameTestHelper h) {
 		var biomes = h.getLevel().registryAccess().registryOrThrow(Registries.BIOME);
 		ResourceLocation ours = McRemix.asResource("ore_bodies");
 		List<String> gone = List.of("minecraft:ore_iron_upper", "minecraft:ore_iron_middle", "minecraft:ore_iron_small",
 			"minecraft:ore_copper", "minecraft:ore_copper_large", "minecraft:ore_gold", "minecraft:ore_gold_lower",
-			"minecraft:ore_gold_extra", "create:zinc_ore");
+			"minecraft:ore_gold_extra", "create:zinc_ore", "minecraft:ore_coal_upper", "minecraft:ore_coal_lower",
+			"minecraft:ore_lapis", "minecraft:ore_lapis_buried", "minecraft:ore_diamond", "minecraft:ore_diamond_large",
+			"minecraft:ore_diamond_buried");
 		for (ResourceKey<Biome> key : List.of(Biomes.PLAINS, Biomes.SWAMP, Biomes.BADLANDS, Biomes.DRIPSTONE_CAVES,
 			Biomes.DEEP_DARK, Biomes.JUNGLE, Biomes.DESERT)) {
 			Biome biome = biomes.getOrThrow(key);
@@ -361,9 +557,8 @@ public class OreTests {
 						if (feature.is(new ResourceLocation(old)))
 							left.add(old);
 			h.assertTrue(left.isEmpty(), key.location() + " should no longer place " + left);
-			h.assertTrue(ores.stream().anyMatch(f -> f.is(new ResourceLocation("minecraft", "ore_diamond")))
-				&& ores.stream().anyMatch(f -> f.is(new ResourceLocation("minecraft", "ore_coal_upper"))),
-				key.location() + " should keep vanilla's diamonds and coal");
+			h.assertTrue(ores.stream().anyMatch(f -> f.is(new ResourceLocation("minecraft", "ore_redstone"))),
+				key.location() + " should keep vanilla's redstone");
 		}
 		h.succeed();
 	}
@@ -410,6 +605,11 @@ public class OreTests {
 			"zinc ore (sphalerite now) should no longer smelt straight into zinc");
 		h.assertTrue(recipes.byKey(McRemix.asResource("magnetization/magnetite")).isPresent(),
 			"an electromagnet should sort magnetite");
+		// diamonds are won by crushing kimberlite: gravel, and now and then a diamond
+		h.assertTrue(recipes.byKey(McRemix.asResource("crushing/kimberlite")).map(r -> r instanceof ProcessingRecipe<?> p
+			&& p.getRollableResults().stream().anyMatch(o -> o.getStack().is(Items.DIAMOND) && o.getChance() < 0.1f)
+			&& p.getRollableResults().stream().anyMatch(o -> o.getStack().is(Items.GRAVEL))).orElse(false),
+			"crushing kimberlite should give gravel and the odd diamond");
 		h.assertTrue(recipes.byKey(McRemix.asResource("splashing/ilmenite_sand")).map(r -> r instanceof
 			ProcessingRecipe<?> p && p.getRollableResults().get(0).getStack().is(ModBlocks.BLACK_SAND.get().asItem()))
 			.orElse(false), "washing ilmenite sand should give black sand");

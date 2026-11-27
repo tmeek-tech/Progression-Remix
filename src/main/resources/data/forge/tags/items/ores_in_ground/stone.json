@@ -8,6 +8,7 @@
     "mcremix:sphalerite_ore",
     "mcremix:gold_quartz_ore",
     "mcremix:pyrite_ore",
-    "mcremix:sulfur_ore"
+    "mcremix:sulfur_ore",
+    "mcremix:coal_ore"
   ]
 }

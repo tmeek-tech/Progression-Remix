@@ -4471,3 +4471,92 @@ hatchet crafts in the inventory's 2x2 grid; leaves drop a stick about one time i
 not in `#minecraft:logs`, so they still break by hand in a moment, and the Real Ores quest (section 56) still follows
 Flint Tools. In the merge only the generated quest book index conflicted (its book hash); every generated file came out
 of `gen_assets.py` and `gen_quests.py` identical to the merge. 138 quests, book `4b24d6040403c8b9`.
+
+## 60. Coal, lapis and diamonds as real ores (0.44.0)
+
+Taran answered the minerals card of section 56 on 2026-11-27 (16:31 UTC) the other way from Claude's pick: "coal,
+lapis and diamonds too", so coal lies in flat seams, lapis in marble and diamonds in kimberlite pipes, in both mods.
+The same minute the old sources card came back as Claude picked it (nothing changes). A new card asks whether deep
+coal should be anthracite, a fuel that burns Searing without coking; this is built on Claude's pick, one coal
+everywhere. The looks card is still open, so these are drawn as real minerals too.
+
+**Minerals and rocks** (`ores/Mineral`, `ores/Host`, `ores/OwnRock`, `registry/ModOres`). Three minerals appended to
+the enum (`COAL`, `LAPIS`, `DIAMOND`), so the old ones keep their order: coal in stone, deepslate, tuff, both
+sandstones, the seven terracottas, limestone and ochrum (any pickaxe); lapis in calcite only (a flint pickaxe, four to
+nine lapis as vanilla); diamonds in kimberlite only (an iron pickaxe). They drop vanilla's coal, lapis and diamond, and
+their ores are `DropExperienceBlock`s with vanilla's experience (`Mineral.xpMin`/`xpMax`). Kimberlite is a new rock
+(`mcremix:kimberlite`, stone's properties, a cyan-grey map colour) and a new `Host`, so `Rocks` knows it. Two new
+`OwnRock`s: `MARBLE`, which makes calcite, and `KIMBERLITE`. Every own rock now takes only hard rock that is not
+kimberlite, so nothing drawn after a pipe eats into it, nor calcite or smooth basalt, a geode's shell (the overworld's
+only smooth basalt), so a pipe, lens or bed through a geode leaves it whole rather than its amethyst bare in the new rock
+(from the review). 127 ore blocks over 32 rocks.
+
+**Bodies** (`ores/Formation`, `ores/Body`, `ores/OreBodies`). Six formations appended at the end of the enum, so the
+others keep their ordinals and every body planned before is planned the same: `COAL` (seams, solid, y 0 to 112, two
+slices, by the `ore_bodies/coal` biome tag: forests, taiga, jungles, rivers, plains, swamps), `COAL_DEEP` (the Deep
+Gardens, thicker), `LAPIS` (a lens of marble with lapis in specks, y -48 to 40, by `ore_bodies/lapis`: mountains,
+hills, meadows, cherry groves), `LAPIS_DEEP` (the Deep Gardens), `KIMBERLITE` (pipes, y centre -40 to -10, 34 to 46
+blocks either side of it) and `KIMBERLITE_DEEP` (the Blue Reaches, tops at y -100 or below, so none reaches a world
+without Exploration Remix). New in `Formation.Spec`: `in(OwnRock)`, a body that is a rock of its own with its mineral
+in it, whose blocks without ore are `Body.ROCK`; `below(n)`, a body set by height that stops `n` blocks under the
+ground (`OreBodies.highest`: pipes 4, seams and lenses 1; the formations from 0.42.0 are 0, as before); `taper`, a
+pipe's root width as a share of its top. New shape `PIPE`: an upright cone, its width growing in a straight line from
+root to top, leaning up to 8 degrees along its strike and wandering 1.5 blocks as it rises, rough-edged, with blocks of
+the rock it broke through left where a noise is high (about one in seven). New pattern `SCATTER`: single crystals,
+`fill` of the body scaled from 0.6 at the top to 1.4 at the root (deeper is richer). `Formation.DRAW_ORDER` draws the
+pipes first, then the marble lenses, then the rest: a body only takes rock its mineral occurs in, so the pipes cut every
+other body, and a mineral found in calcite runs on into a marble lens.
+
+**Vanilla's out.** `remove_replaced_ores` also takes `ore_coal_upper`, `ore_coal_lower`, `ore_lapis`,
+`ore_lapis_buried`, `ore_diamond`, `ore_diamond_large` and `ore_diamond_buried` out of the overworld (1.20.1 has no
+`ore_diamond_medium`), and the conversion pass turns vanilla's coal, lapis and diamond ores into the real ones: coal in
+the rock round it, lapis into calcite's lapis and diamonds into kimberlite's whatever is round them (`drawnOn` falls
+back to the mineral's first rock), which is what a fossil's coal and diamonds become too. Redstone and emeralds stay.
+
+**Files** (`tools/gen_ores.py`). A coal seam's block in a rock of one texture is a `cube_column`: on its sides a layer of
+dull coal fills most of its height, its top and bottom edges waving a pixel either way, one wave a block so a seam runs
+on along a wall as one layer, the rock showing only as a thin parting at its top and bottom, and two faint laminae of
+vitrain run through it; on its top and bottom, the bedding plane, coal in patches. (It was drawn at first as two thin
+black bands a block, which in a dev client read as a stack of black lines rather than a seam.) In dark rock (mean
+lightness under 100: deepslate, tuff, terracotta's darker ones) the coal is darkened to vanilla's black there, or the
+seam would not show. Lapis: three patches of lazurite, mottled, two of them with a pyrite fleck. Diamonds: three small
+pale octahedra lit from the top left. Kimberlite: tuff's grain recoloured dark blue-grey with four olivine grains
+(spread 0.14, mean lightness 77, deepslate's 80); the three pale bits of other rock it had at first made a grid of dots
+across a pipe's face in a dev client, so they went. Names: coal's are "Coal Seam"
+("Sandstone Coal Seam"), so none is called "Coal Ore" beside vanilla's; "Calcite Lapis Lazuli Ore"; "Kimberlite
+Diamond Ore". Tags: `forge:ores/coal`, `lapis` and `diamond`; vanilla's `minecraft:coal_ores`, `lapis_ores` and
+`diamond_ores`, blocks and items (their drops are their own items, so no raw-ore recipe can catch them); lapis is
+`forge:ore_rates/dense`; kimberlite is `minecraft:base_stone_overworld`, so moss, sculk and dripstone treat it as
+stone. Create crushes each ore block into its mineral as before (coal, lapis and diamond as Create's own ores do), and
+kimberlite into gravel and, one time in 50, a diamond.
+
+**Quests.** Real Ores says where coal, lapis and diamonds lie (`tools/gen_quests.py`): 138 quests, book
+`6af6ced8174a197f`.
+
+**Exploration Remix 0.23.5** (its own pull request). `Rock.KIMBERLITE_DIAMOND` appended (ordinals stay), resolved by
+`DeepMaterials.remix("kimberlite_diamond_ore", DEEPSLATE_DIAMOND_ORE)`, and the Deep Blue Rift's diamond specks are
+that rock: Minecraft Remix's diamond in kimberlite, vanilla's deepslate diamond ore without it, in the same places as
+before. Its fingerprint test is pinned again and its vein test now finds no vanilla diamond ore chosen.
+
+**Tests** (`OreTests`, eleven now). `eachOreTakesItsTool` digs coal (flint, one coal), lapis (flint, four to nine),
+diamonds (nothing with flint, a diamond with iron) and kimberlite (itself), and checks that only coal, lapis and diamond
+ores give experience, and that mining one drops some. `oreBodiesStayInsideTheirPlans` lets a marble lens or a pipe have
+bare rock and asks every formation for some of its mineral. New: `bodiesThatStopUnderTheGroundDo` (pipes 4 blocks
+under, seams and lenses 1, some clipped, the rest drawn to their top), `pipesAreKimberliteWithMoreDiamondsDeeper` (four
+pipes: kimberlite top to bottom, more than twice as wide at the top as near the root, more diamonds in the lower half,
+under 5% diamonds) and `drawingAPipeTurnsRockIntoKimberlite` (a pipe drawn into a chunk far from the tests: stone
+turned to kimberlite, few diamonds, glass and cave air left as they are, and calcite and smooth basalt in its way never
+kimberlite). `vanillaOresTurnIntoTheRealMinerals` adds
+coal in sandstone and deepslate, lapis in stone (calcite's lapis) and diamonds in deepslate and in kimberlite
+(kimberlite's diamond). `theOreBodiesReplaceVanillasOresInWorldgen` now wants vanilla's coal, lapis and diamonds gone
+and its redstone kept. `eachMineralGoesItsOwnWayToItsMetal` checks crushed kimberlite gives gravel and the odd diamond.
+`RuinTests.housesFallInWithDecay` (0.38.0) failed once with the new tests in: wheat in `plains_small_house_8`'s planters
+under its eaves "cannot stand". It stood on its farmland; `CropBlock.canSurvive` also asks for light, and the light a
+test reads lags behind blocks it placed that tick (the light engine catches up in batches on its own thread), so it read
+dark where the house placed before it had stood. The ruin tests' fault check now judges a crop by its soil alone, and
+logs it when the light check alone would have failed; in the four runs since, the same layout, it never did, so the
+wheat's soil was never the trouble.
+
+**Known gaps:** worlds made before 0.44.0 keep their vanilla coal, lapis and diamonds where chunks were generated; a
+coal seam is cut off by granite, diorite, andesite and the volcanic rocks; Exploration Remix's Deep Blue Rift keeps its
+diamonds as single specks (now of kimberlite) rather than pipes.
