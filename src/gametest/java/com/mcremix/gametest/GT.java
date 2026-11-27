@@ -129,6 +129,15 @@ public final class GT {
 
 	/** What a 3x3 crafting grid makes, or an empty stack. Cells go row by row; null is an empty cell. */
 	public static ItemStack craft(GameTestHelper h, ItemLike... grid) {
+		return craft(h, 3, grid);
+	}
+
+	/** What the inventory's 2x2 crafting grid makes, or an empty stack. Cells go row by row; null is an empty cell. */
+	public static ItemStack craftInInventory(GameTestHelper h, ItemLike... grid) {
+		return craft(h, 2, grid);
+	}
+
+	private static ItemStack craft(GameTestHelper h, int size, ItemLike... grid) {
 		CraftingContainer container = new TransientCraftingContainer(new AbstractContainerMenu(null, -1) {
 			@Override
 			public ItemStack quickMoveStack(Player player, int slot) {
@@ -139,7 +148,7 @@ public final class GT {
 			public boolean stillValid(Player player) {
 				return true;
 			}
-		}, 3, 3);
+		}, size, size);
 		for (int i = 0; i < grid.length; i++)
 			if (grid[i] != null)
 				container.setItem(i, new ItemStack(grid[i]));
