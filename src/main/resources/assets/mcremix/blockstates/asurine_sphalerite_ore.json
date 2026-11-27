@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/asurine_sphalerite_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/asurine_sphalerite_ore"
+      },
+      {
+        "model": "mcremix:block/asurine_sphalerite_ore_1"
+      },
+      {
+        "model": "mcremix:block/asurine_sphalerite_ore_2"
+      },
+      {
+        "model": "mcremix:block/asurine_sphalerite_ore_3"
+      }
+    ]
   }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "mcremix:block/ore/basalt_sulfur_ore_3_side",
+    "end": "mcremix:block/ore/basalt_sulfur_ore_3_end"
+  }
+}

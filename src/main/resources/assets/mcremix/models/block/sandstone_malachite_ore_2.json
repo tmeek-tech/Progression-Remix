@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "mcremix:block/ore/sandstone_malachite_ore_2_top",
+    "side": "mcremix:block/ore/sandstone_malachite_ore_2_side",
+    "bottom": "mcremix:block/ore/sandstone_malachite_ore_2_bottom"
+  }
+}

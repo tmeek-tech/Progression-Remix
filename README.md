@@ -32,9 +32,10 @@ porphyry copper capped with green malachite, native copper sheets in basalt, str
 quartz veins, ilmenite seams, bauxite under jungles and savannas, rock salt under deserts, coal in flat seams, lapis
 in lenses of white marble, diamonds in pipes of dark kimberlite, pyrite everywhere and sulfur round deep lava. Each
 ore comes in every rock it is found in, drawn on that rock, so a body running from stone into granite, tuff or
-Create's stones changes with it. Nothing on the surface gives a body away: find them in caves, or dig. Each mineral
-goes its own way to its metal: oxides fire into a bloom or the metal, sulfides roast first and give off sulfur
-dioxide. With Exploration Remix the deep layers hold the biggest bodies.
+Create's stones changes with it, and each block shows one of four layouts, so a body's face does not repeat. Nothing
+on the surface gives a body away: find them in caves, or dig. Each mineral goes its own way to its metal: oxides
+fire into a bloom or the metal, sulfides roast first and give off sulfur dioxide. With Exploration Remix the deep
+layers hold the biggest bodies.
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace

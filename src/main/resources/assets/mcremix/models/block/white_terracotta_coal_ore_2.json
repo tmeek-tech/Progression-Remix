@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "mcremix:block/ore/white_terracotta_coal_ore_2_side",
+    "end": "mcremix:block/ore/white_terracotta_coal_ore_2_end"
+  }
+}

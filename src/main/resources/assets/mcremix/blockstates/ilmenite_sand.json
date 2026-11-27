@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/ilmenite_sand"
-    }
+    "": [
+      {
+        "model": "mcremix:block/ilmenite_sand"
+      },
+      {
+        "model": "mcremix:block/ilmenite_sand_1"
+      },
+      {
+        "model": "mcremix:block/ilmenite_sand_2"
+      },
+      {
+        "model": "mcremix:block/ilmenite_sand_3"
+      }
+    ]
   }
 }

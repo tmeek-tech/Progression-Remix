@@ -4560,3 +4560,33 @@ wheat's soil was never the trouble.
 **Known gaps:** worlds made before 0.44.0 keep their vanilla coal, lapis and diamonds where chunks were generated; a
 coal seam is cut off by granite, diorite, andesite and the volcanic rocks; Exploration Remix's Deep Blue Rift keeps its
 diamonds as single specks (now of kimberlite) rather than pipes.
+
+## 61. Four looks for each ore (0.44.1)
+
+Taran, 2026-11-27 (22:55 UTC): "Can you make a few texture variations for each ore to make them look less repetitive?"
+A card asks whether the looks should differ only in where the mineral lies or in how much as well (some richer, some
+poorer); this is built on Claude's pick, as much mineral in each look, moved about. Only `tools/gen_ores.py` and the
+files it writes changed: no Java, loot, tag, name or recipe.
+
+**Looks.** Each of the 127 ore blocks and the four rocks of the mod's own (bauxite ore, rock salt, ilmenite sand,
+kimberlite) has four looks. Its blockstate lists their four models and Minecraft picks one for each block from its
+position, as it does for vanilla's stone; a basalt ore lists them for each axis. The first look keeps the block's name
+and its 0.44.0 texture, and the item shows it; the others are `<block>_1` to `_3`, models and textures (a face's
+texture is `ore/<block>_1_side.png`).
+
+**How the looks differ.** Each look's mineral is drawn by the same function from another seed: the same mineral in the
+same habit in other places, and still the same pattern in every rock. The drawings pick how many grains and how big,
+and some find no room for one, so of up to 16 seeds the first whose mineral covers within an eighth as many pixels as
+the first look's is kept, else the nearest: over all 127 blocks each look's changed pixels are 0.83 to 1.18 of its
+first's. The rock under the mineral is the rock as it shows round the block: stone and deepslate mirrored on the
+second and fourth looks, as vanilla mirrors them on half their blocks, and Create's asurine, crimsite, ochrum and
+veridium on their own four textures; the other rocks have one texture in vanilla and Create too. Bauxite, rock salt and
+kimberlite are mirrored on the second and fourth looks with their grains placed from other seeds, and ilmenite sand's
+streaks lie elsewhere in each look.
+
+**Coal.** A seam's layer edges were waves one block long with a random phase, which met only their own block; each edge
+is now half a wave or a whole one, nought at both sides of the block, so any look joins any other into one layer. That
+redrew coal's first look too (its 14 side textures).
+
+**Files.** 492 new textures (480 ore faces, 12 own rocks), 393 new models, 131 blockstates rewritten and 14 coal side
+textures redrawn; the jar grows from 8.09 to 8.63 MB.

@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/orange_terracotta_malachite_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/orange_terracotta_malachite_ore"
+      },
+      {
+        "model": "mcremix:block/orange_terracotta_malachite_ore_1"
+      },
+      {
+        "model": "mcremix:block/orange_terracotta_malachite_ore_2"
+      },
+      {
+        "model": "mcremix:block/orange_terracotta_malachite_ore_3"
+      }
+    ]
   }
 }

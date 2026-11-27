@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/kimberlite"
-    }
+    "": [
+      {
+        "model": "mcremix:block/kimberlite"
+      },
+      {
+        "model": "mcremix:block/kimberlite_1"
+      },
+      {
+        "model": "mcremix:block/kimberlite_2"
+      },
+      {
+        "model": "mcremix:block/kimberlite_3"
+      }
+    ]
   }
 }
