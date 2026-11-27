@@ -115,18 +115,24 @@ c.q('welcome', 0, 0, 'Welcome to the Remix', 'How this book works', [
 	"item and hold W. Engineer's Goggles show what a placed block is doing.",
 	"Item quests tick themselves off. If one doesn't, click the task.",
 ], [check()], icon='minecraft:writable_book', **MILESTONE)
-c.q('campfire', 1, -1, 'Food Goes on the Fire', "Vanilla's furnaces have gone cold", [
+c.q('flint', 1, 0, 'Flint Tools', 'Wood and stone are out', [
+	"Wooden and stone tools are gone. Flint takes over: dig it out of gravel, then strike it on stone until a "
+	"sharp flake comes away.",
+	"They're quick and brittle, so pack spares before heading underground.",
+	"@Ponder: flint.",
+], [item('mcremix:flint_pickaxe')], deps=['welcome'])
+c.q('campfire', 2, -1, 'Food Goes on the Fire', "Vanilla's furnaces have gone cold", [
 	"Vanilla's furnace, smoker and blast furnace have gone cold: no menus, no smelting, not even from a hopper.",
 	"Cook on a campfire. Later, an Encased Fan blowing through fire smokes food in bulk.",
-], [item('minecraft:campfire')], deps=['welcome'])
-c.q('furnace', 1, 0, 'The Furnace', 'No menu, and a cut-open front', [
+], [item('minecraft:campfire')], deps=['flint'])
+c.q('furnace', 2, 0, 'The Furnace', 'No menu, and a cut-open front', [
 	"The furnace recipe now makes the Furnace, and it has no menu. Click things to fire into the upper chamber "
 	"and fuel into the firebox, then watch them glow on the grate.",
 	"Hoppers and funnels work it too: things to fire in the top, fuel in the sides, results out the bottom. It "
 	"won't take food.",
 	"@Ponder: the Furnace.",
-], [item('mcremix:kiln')], deps=['welcome'])
-c.q('light', 2, 1, 'Light It', 'Fuel waits for a flame', [
+], [item('mcremix:kiln')], deps=['flint'])
+c.q('light', 3, 1, 'Light It', 'Fuel waits for a flame', [
 	"Fuel doesn't light itself. Flint and steel or a fire charge does, by hand or from a Deployer.",
 	"Flint and steel takes iron, which comes later, so go hunting for your first lighter. Ruined portal chests "
 	"can hold flint and steel or a fire charge, and mineshafts, dungeons and shipwrecks still keep iron.",
@@ -134,25 +140,25 @@ c.q('light', 2, 1, 'Light It', 'Fuel waits for a flame', [
 	"keeps the fuel.",
 	"Heat from the block underneath needs no lighting.",
 ], [look('mcremix:kiln[lit=true]', 'Look at a lit Furnace', 'minecraft:flint_and_steel')], deps=['furnace'])
-c.q('charcoal', 2, 0, 'Warm: Charcoal', 'One scale for every fire', [
+c.q('charcoal', 3, 0, 'Warm: Charcoal', 'One scale for every fire', [
 	"Every fire sits on one scale: {Warm}, {Hot}, {Searing}, {Blazing}. Each recipe has a minimum, and every "
 	"level above it halves the time.",
 	"Wood burns {Warm}, as does a campfire or magma block under the Furnace: enough to char logs and fire clay "
 	"into bricks and terracotta. A Furnace on a campfire stays {Warm} forever, for free.",
 	"@JEI: the Furnace tab gives each firing's heat, and the Furnace Heat tab shows what burns how hot.",
 ], [item('minecraft:charcoal')], deps=['furnace'])
-c.q('hot', 3, 0, 'Hot: Glass and Copper', 'Charcoal and coal burn Hot', [
+c.q('hot', 4, 0, 'Hot: Glass and Copper', 'Charcoal and coal burn Hot', [
 	"Charcoal and coal burn {Hot}, as does fire or lava under the Furnace. That covers vanilla's smelting that "
 	"isn't food: glass, smooth stone, copper, gold. Raw iron, iron ore and ancient debris want hotter fires of "
 	"their own.",
 	"Copper is your first real metal, for Create's parts and the first tier of your own.",
 ], [item('minecraft:glass'), item('minecraft:copper_ingot')], deps=['charcoal', 'light'])
-c.q('coke', 4, 0, 'Coal Coke', 'Coal baked hotter', [
+c.q('coke', 5, 0, 'Coal Coke', 'Coal baked hotter', [
 	"Fire coal at {Hot} and it cokes into Coal Coke, which burns {Searing} and lasts twice as long.",
 	"Coking also leaves coal tar in a tank inside the Furnace. Past a bucket it burns off at the chimney, so "
 	"ignore it for now. Later, that black goo is one of the most useful things you make.",
 ], [item('mcremix:coal_coke')], deps=['hot'])
-c.q('searing', 5, 0, 'Searing', 'The heat iron needs', [
+c.q('searing', 6, 0, 'Searing', 'The heat iron needs', [
 	"Get a Furnace to {Searing}: Coal Coke or blaze rods in the firebox, or soul fire, a soul campfire or a fed "
 	"Blaze Burner underneath.",
 	"{Searing} is where iron, steel and brass begin. Goggles show a Furnace's exact heat, its fuel and what each "
@@ -166,6 +172,11 @@ c.q('alloy', 0, 0, 'Andesite Alloy', "Create's own tier, steady and slow", [
 	"shafts take any load, but their supports top out at 128 RPM.",
 	"Slow, sturdy and maintenance-free: the workhorse for heavy machines all game.",
 ], [item('create:andesite_alloy')], deps=['hearth:hot'])
+c.q('mill', 0, -1, 'Bread from the Mill', 'Wheat has to be ground first', [
+	"Bread, cake and cookies no longer take whole wheat. Grind it in a Millstone, then knead the flour with a water "
+	"bottle into dough for the campfire. No bucket needed.",
+	"A Millstone grinds gravel into flint every time, too: spare tools on tap.",
+], [item('create:wheat_flour'), item('minecraft:bread')], deps=['alloy'], icon='create:millstone')
 c.q('support', 1, 0, 'Shafts Need Holding', 'Every part turns in a support', [
 	"Shafts and cogs don't float any more. Each needs a support: a machine, gearbox, clutch, gearshift, chain "
 	"drive, casing, or a bracket bolted to something solid. Water wheels, windmills and engines drive but hold "

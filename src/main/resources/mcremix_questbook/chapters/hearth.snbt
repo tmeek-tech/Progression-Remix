@@ -40,6 +40,31 @@
 				"1626CEC5328F5382"
 			]
 			description: [
+				"Wooden and stone tools are gone. Flint takes over: dig it out of gravel, then strike it on stone until a sharp flake comes away."
+				""
+				"They're quick and brittle, so pack spares before heading underground."
+				""
+				"&7Ponder: flint.&r"
+			]
+			id: "39E181355BA6BAE4"
+			rewards: [ ]
+			subtitle: "Wood and stone are out"
+			tasks: [
+				{
+					id: "37C09D08625DB3ED"
+					item: "mcremix:flint_pickaxe"
+					type: "item"
+				}
+			]
+			title: "Flint Tools"
+			x: 1.75d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"39E181355BA6BAE4"
+			]
+			description: [
 				"Vanilla's furnace, smoker and blast furnace have gone cold: no menus, no smelting, not even from a hopper."
 				""
 				"Cook on a campfire. Later, an Encased Fan blowing through fire smokes food in bulk."
@@ -55,12 +80,12 @@
 				}
 			]
 			title: "Food Goes on the Fire"
-			x: 1.75d
+			x: 3.5d
 			y: -1.75d
 		}
 		{
 			dependencies: [
-				"1626CEC5328F5382"
+				"39E181355BA6BAE4"
 			]
 			description: [
 				"The furnace recipe now makes the Furnace, and it has no menu. Click things to fire into the upper chamber and fuel into the firebox, then watch them glow on the grate."
@@ -80,7 +105,7 @@
 				}
 			]
 			title: "The Furnace"
-			x: 1.75d
+			x: 3.5d
 			y: 0.0d
 		}
 		{
@@ -111,7 +136,7 @@
 				}
 			]
 			title: "Light It"
-			x: 3.5d
+			x: 5.25d
 			y: 1.75d
 		}
 		{
@@ -136,7 +161,7 @@
 				}
 			]
 			title: "Warm: Charcoal"
-			x: 3.5d
+			x: 5.25d
 			y: 0.0d
 		}
 		{
@@ -165,7 +190,7 @@
 				}
 			]
 			title: "Hot: Glass and Copper"
-			x: 5.25d
+			x: 7.0d
 			y: 0.0d
 		}
 		{
@@ -188,7 +213,7 @@
 				}
 			]
 			title: "Coal Coke"
-			x: 7.0d
+			x: 8.75d
 			y: 0.0d
 		}
 		{
@@ -217,7 +242,7 @@
 				}
 			]
 			title: "Searing"
-			x: 8.75d
+			x: 10.5d
 			y: 0.0d
 		}
 	]

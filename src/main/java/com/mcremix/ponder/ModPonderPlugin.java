@@ -10,6 +10,7 @@ import org.patryk3211.powergrid.ponder.PowerGridPonderTags;
 
 import com.mcremix.McRemix;
 import com.mcremix.electrolysis.VatMixerBlock;
+import com.mcremix.flint.FlintTools;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.kinetics.KineticFamilies;
 import com.mcremix.kinetics.KineticMaterial;
@@ -47,7 +48,9 @@ import net.createmod.ponder.api.registration.MultiSceneBuilder;
 import net.createmod.ponder.api.registration.PonderPlugin;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
 
 public class ModPonderPlugin implements PonderPlugin {
@@ -75,6 +78,12 @@ public class ModPonderPlugin implements PonderPlugin {
 		entries.forComponents(ModItems.COAL_COKE)
 			.addStoryBoard("kiln/boiler", BoilerScenes::kilnBoiler, HEAT)
 			.addStoryBoard("kiln/basin", BasinScenes::kilnBasin, HEAT);
+		// flint, knapped on stone into the tools that replace wood and stone (0.41.0)
+		entries.forComponents(FlintTools.KNAPPED_FLINT, FlintTools.PICKAXE, FlintTools.HATCHET, FlintTools.SHOVEL,
+				FlintTools.HOE, FlintTools.KNIFE)
+			.addStoryBoard("flint/knapping", FlintScenes::knapping);
+		helper.forComponents(BuiltInRegistries.ITEM.getKey(Items.FLINT))
+			.addStoryBoard("flint/knapping", FlintScenes::knapping);
 		// steam engines, tanks, basins and mixers lead to the kiln, an early heater that needs no blaze
 		helper.forComponents(AllBlocks.STEAM_ENGINE.getId(), AllBlocks.FLUID_TANK.getId())
 			.addStoryBoard("kiln/boiler", BoilerScenes::kilnBoiler, HEAT)

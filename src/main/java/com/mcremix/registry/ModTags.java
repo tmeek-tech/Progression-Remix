@@ -48,6 +48,10 @@ public class ModTags {
 		public static final TagKey<Block> COLD_FURNACES = tag("cold_furnaces");
 		/** Blocks an iron bloom can be struck on: the vanilla anvils and the stone anvils. */
 		public static final TagKey<Block> BLOOM_ANVILS = tag("bloom_anvils");
+		/** Blocks flint can be knapped on (see {@link com.mcremix.flint.Knapping}): natural stone and cobblestone. */
+		public static final TagKey<Block> KNAPPING_STONES = tag("knapping_stones");
+		/** Blocks only flint tools or better mine for drops: none, unless a pack adds some. */
+		public static final TagKey<Block> NEEDS_FLINT_TOOL = tag("needs_flint_tool");
 		/**
 		 * What a ruined village's houses have been stripped of, about half of it gone (see
 		 * {@link com.mcremix.village.Collapse}): beds, chests, barrels and workstations. Bells are left.

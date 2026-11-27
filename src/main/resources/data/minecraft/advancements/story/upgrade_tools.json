@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:story/mine_stone",
+  "criteria": {
+    "flint_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "mcremix:flint_pickaxe"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.story.upgrade_tools.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "mcremix:flint_pickaxe",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.story.upgrade_tools.title"
+    }
+  },
+  "requirements": [
+    [
+      "flint_pickaxe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

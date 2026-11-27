@@ -94,7 +94,7 @@ public class RemixJeiPlugin implements IModPlugin {
 			new BoilingCategory(gui), new ElectrolysisCategory(gui), new SteelFurnaceCategory(gui), new SteelFurnaceFuelCategory(gui),
 			new PressurizingCategory(gui), new VatMixingCategory(gui), new ArcFurnaceCategory(gui), new CastingCategory(gui),
 			new DistillingCategory(gui), new CoolingCategory(gui), new DieselEngineCategory(gui), new LiquefyingCategory(gui),
-			new CoilingCategory(gui), new VacuumSealingCategory(gui));
+			new CoilingCategory(gui), new VacuumSealingCategory(gui), new KnappingCategory(gui));
 	}
 
 	@Override
@@ -132,6 +132,7 @@ public class RemixJeiPlugin implements IModPlugin {
 		registration.addRecipes(CoolingCategory.TYPE, CoolingCategory.Cooling.all());
 		registration.addRecipes(LiquefyingCategory.TYPE, Liquefying.ALL);
 		registration.addRecipes(BloomCategory.TYPE, List.of(BloomCategory.Display.INSTANCE));
+		registration.addRecipes(KnappingCategory.TYPE, List.of(KnappingCategory.Display.INSTANCE));
 		registration.addRecipes(CastingCategory.TYPE, CastingCategory.Display.all());
 
 		if (RemixConfig.get(RemixConfig.COLD_FURNACES)) {
@@ -194,6 +195,8 @@ public class RemixJeiPlugin implements IModPlugin {
 			DieselEngineCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.STONE_ANVIL.get()), BloomCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(Items.ANVIL), BloomCategory.TYPE);
+		for (ItemStack stone : KnappingCategory.stones())
+			registration.addRecipeCatalyst(stone, KnappingCategory.TYPE);
 		registration.addRecipeCatalyst(new ItemStack(ModBlocks.CRUCIBLE.get()), MeltingCategory.TYPE,
 			AlloyingCategory.TYPE, CastingCategory.TYPE);
 		// molds fill under the stream on a depot or a belt

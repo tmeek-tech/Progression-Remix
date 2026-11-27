@@ -1,6 +1,7 @@
 package com.mcremix.registry;
 
 import com.mcremix.McRemix;
+import com.mcremix.flint.SwapItemsModifier;
 import com.mcremix.fluids.KeepPatinaModifier;
 import com.mcremix.machines.KeepFittingsModifier;
 import com.mcremix.village.RemoveItemsModifier;
@@ -22,6 +23,10 @@ public class ModLootModifiers {
 		SERIALIZERS.register("keep_patina", KeepPatinaModifier.CODEC);
 	public static final RegistryObject<Codec<KeepFittingsModifier>> KEEP_FITTINGS =
 		SERIALIZERS.register("keep_fittings", KeepFittingsModifier.CODEC);
+
+	/** Wooden and stone tools in loot come out as flint ones (0.41.0). */
+	public static final RegistryObject<Codec<SwapItemsModifier>> SWAP_OLD_TOOLS =
+		SERIALIZERS.register("swap_old_tools", SwapItemsModifier.CODEC);
 
 	public static void register(IEventBus modBus) {
 		SERIALIZERS.register(modBus);
