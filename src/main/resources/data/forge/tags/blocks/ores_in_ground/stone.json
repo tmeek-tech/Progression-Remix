@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:hematite_ore",
+    "mcremix:magnetite_ore",
+    "mcremix:malachite_ore",
+    "mcremix:chalcopyrite_ore",
+    "mcremix:sphalerite_ore",
+    "mcremix:gold_quartz_ore",
+    "mcremix:pyrite_ore",
+    "mcremix:sulfur_ore"
+  ]
+}

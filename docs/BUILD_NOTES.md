@@ -4229,3 +4229,96 @@ Andesite Alloy, and says a millstone grinds gravel into flint every time. 137 qu
 **Known gaps:** wooden and stone tools already in inventories, in chests opened before 0.41.0 or in item frames stay
 as they are (they still work); a player holding flint over stone cannot place a torch from the offhand onto it with
 that click; knapping progress never runs out, so three strikes now and one an hour later still make a flake.
+
+## 56. Realistic ores (0.42.0)
+
+Taran's ask of 2026-11-27, "Can you add realistic ores and coordinate it with my other mod Exploration Remix so that
+they look good in each biome?", with nine cards (design/realistic-ores.md): replace vanilla's ores, process each
+mineral its own way, a few big ore bodies, no hints at the surface (not Claude's pick: no gossan, no pan), both mods,
+deeper is richer. Three cards (which minerals, their looks, the old sources) were still open when this was built, so
+it follows Claude's pick for each.
+
+**Minerals and their rocks** (`ores/Mineral`, `ores/Host`, `registry/ModOres`). Eleven minerals (bog iron, hematite,
+magnetite, malachite, chalcopyrite, native copper, sphalerite, gold quartz, ilmenite, pyrite, native sulfur), each
+with the list of rocks it occurs in. Every pair is an ore block, `<rock>_<mineral>_ore` (plain stone's is
+`<mineral>_ore`), 111 in all over 31 rocks: vanilla's stones, both sandstones, seven terracottas, the soft ground bog
+iron lies in, and Create's limestone, asurine, crimsite, ochrum, veridium, scorchia and scoria, which Exploration
+Remix builds its layers from. An ore copies its rock's block (`Host.like`: for Create's stones the vanilla block
+Create builds them on, with the stone's map colour), 1.5 harder (0.5 for soft ground), and needs the right tool;
+basalt's ores are pillars and keep the basalt's axis. Bauxite, rock salt and ilmenite sand are rocks of their own
+(`OwnRock`). `ModOres.ore(mineral, host)` gives the block or null. Everything else about them (textures drawn on each
+rock's own texture in the mineral's habit, models, loot, tags, recipes, the biome tags and lang) is written by
+`tools/gen_ores.py`, which reads the two Java enums so the lists live in one place; `gen_assets.py` runs it.
+
+**Ore bodies** (`ores/Formation`, `ores/Body`, `ores/OreBodies`, `ores/OreBodiesFeature`). Each formation has a grid
+(`cell`), and each cell holds one body or none (`chance`, by the biome on the ground over the cell's centre where the
+formation asks for one, through `SurfaceClimate`, the overworld's climate read at depth 0, so a body under a mountain
+belongs to the mountain whether or not that column is generated). A body's place, size, shape and twist are hashed
+from the seed and its cell (`Hash`), so the feature, placed once per chunk at `underground_ores` with no placement
+(`forge:add_features` on `#minecraft:is_overworld`), draws only the chunk's own blocks of every body that reaches it,
+and a body comes out whole in any order of chunk generation. Plans are cached in a small lock-free table keyed by
+dimension, seed and cell. `Body.at` says what a block is (nothing, the mineral, its accessory, the halo, the weathered
+cap) and `Body.place` makes it the ore of the rock the block is, through `Rocks`, a block-to-rock table built the first
+time it is asked; rock the mineral does not occur in is left alone. Shapes: lens, bed (wide, thin, waving), vein
+(steep, pinching and swelling), stock (porphyry's tall web of veinlets in a pyrite halo, malachite within 18 blocks of
+the ground, its last 3 leached bare), pods on a string, sheets, seams and blanket (bauxite, under the soil, never the
+grass). A body set by depth comes up no higher than one block under the ground (`OreBodies.shallowest`), so a shallow
+lens never lies open on flat ground (the no hints card); ilmenite sand, which lies on black beaches, is the one that
+reaches the top block. Formations are kept out of chunks they cannot reach (`Mode.HEIGHT` bounds), and the deep ones
+(`*_DEEP`, at the depths of Exploration Remix's layers) out of worlds that do not reach those depths. After the bodies: pyrite's few
+small clusters of cubes in every chunk's rock, native sulfur crusting about a third of the rock round lava and magma
+below y 0, and any vanilla iron, copper or gold ore (or raw iron or copper block, or Create's zinc ore) still in a
+section, found cheaply with `PalettedContainer.maybeHas`, turned into the real mineral in the rock most of its
+neighbours are (`OreBodies.realOre`).
+
+**Vanilla's ores out.** `forge:remove_features` takes vanilla's iron, copper and gold ore features and Create's zinc
+ore out of the overworld; the conversion pass catches the rest (vanilla's big noise veins, other mods' and Exploration
+Remix's own veins). Coal, lapis, redstone, emeralds, diamonds and the nether's gold stay.
+
+**Processing** (`tools/gen_ores.py` recipes and tags). Bog iron, hematite and magnetite are
+`forge:raw_materials/iron` and fire Searing into a bloom; malachite and native copper are raw copper (malachite gives
+off carbon dioxide); chalcopyrite, sphalerite and pyrite are roasted Hot first, into copper matte, zinc calcine and
+hematite, giving off sulfur dioxide (which the Furnace's tank takes, or vents as the 0.35.0 cloud), and are kept out of
+the raw-material tags so Create's crushing and the crucible cannot skip the roast. The iron, copper and gold minerals'
+ore blocks are in vanilla's `minecraft:iron_ores`, `copper_ores` and `gold_ores` block tags (piglins guard gold by
+them, and other mods key on them), but not the item tags, which would hand them to vanilla's and Create's raw ore
+recipes. Gold quartz is raw gold and needs an
+iron pickaxe; ilmenite crushes into black sand and ilmenite sand washes into it. Create crushes every ore block into
+its mineral and three quarters of another. Create's zinc ore smelting is off. Washing red sand no longer gives bauxite
+(the old sources card, Claude's pick); rutile from basalt and platinum from red sand stay.
+
+**Exploration Remix.** Its deep layers (y -784 at the bottom) hold the deep formations: magnetite and porphyry in the
+Blue Reaches, hematite and zinc in the Deep Gardens, gold veins through the Wasteland, native copper and ilmenite in
+the Wasteland and the Galleries. Their rocks are hosts, scoria included (`Host.SCORIA`, added for the Wasteland), so a
+deep body runs on through asurine, blackstone, scoria and scorchia. ER's own veins (vanilla ores in its palette) are
+turned by the conversion pass; its pull request (0.23.3) has them write the real ores directly, each in the rock round
+it: gold quartz in Lantern Lake, the Ember Gardens, the Wasteland and the Galleries, chalcopyrite in the Silver Fern
+Rift, hematite (in limestone and calcite, which is why calcite takes hematite) in the Ivory Root Cavern, with vanilla's
+ores in their place when Minecraft Remix is missing. Its `basalt_rock` and `cave_rock` tags take `#forge:ores`, so the
+ores in its rock count as that rock. To see them in a dev
+client, `-PexplorationRemix=<jar>` loads a jar zipped from ER's `build/classes/java/main` and `build/resources/main`
+with its refmap (`build/tmp/compileJava`) and manifest, through a flat-dir repository as a plain runtime dependency: its
+release jar's mixin shadows keep their SRG names when moddev remaps it, and its `rune.*` mixins trip Registrate's
+unused-callback check at start-up in a dev client (only there: outside dev it is a log line), so the dev jar leaves
+those out of `explorationremix.mixins.json`.
+
+**Quests.** The Hearth gains Real Ores after Flint Tools, and the copper, iron, zinc, bauxite, black sand and sulfur
+quests say where their ores come from now (`tools/gen_quests.py`): 138 quests.
+
+**Tests** (`src/gametest/java/com/mcremix/ores/OreTests`, eight): every mineral has an ore in each of its rocks and
+leaves other blocks be; each ore takes its tool (flint for most, iron for gold quartz, a shovel for bog iron, Silk
+Touch keeps the block); every formation plans the same body every time and keeps it inside its bounds and its reach;
+bodies set by depth stay at least a block under the ground, except ilmenite sand; vanilla's ores and Create's zinc
+turn into the real minerals in the rock round them (iron ore in calcite as calcite's hematite, in diorite, which
+hematite is not found in, as plain hematite); drawing a chunk far from the tests
+turns only rock into ore (a magnetite lens takes its stone, glass through it stays glass, copper ore in granite becomes
+granite's chalcopyrite); the bodies are in every overworld biome's features and vanilla's iron, copper, gold and
+Create's zinc are not; and each mineral goes its own way to its metal, the sulfides giving off sulfur dioxide and
+never melting or crushing straight into metal. `PowerGridRecipeTests` now checks that washing red sand turns up gold and
+platinum but no bauxite.
+
+**Known gaps:** worlds made before 0.42.0 keep their vanilla ores in chunks already generated; a body crossing rock
+its mineral is not in (crimsite and ochrum take only hematite) leaves that rock bare; Exploration Remix's gilded
+blackstone and redstone stay as they are; the conversion pass sees each chunk once, when its own features are placed,
+so a vanilla ore that a neighbour's feature writes into it afterwards (a vein near a chunk edge, or another mod's ore
+feature that runs after this one) stays vanilla.

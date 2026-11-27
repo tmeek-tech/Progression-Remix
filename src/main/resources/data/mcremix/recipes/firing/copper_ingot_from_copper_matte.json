@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:copper_matte"
+  },
+  "result": {
+    "item": "minecraft:copper_ingot"
+  },
+  "heat": "searing",
+  "time": 200,
+  "byproduct": {
+    "fluid": "mcremix:sulfur_dioxide",
+    "amount": 50
+  }
+}

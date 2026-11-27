@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:gold_quartz_ore",
+    "mcremix:deepslate_gold_quartz_ore",
+    "mcremix:granite_gold_quartz_ore",
+    "mcremix:diorite_gold_quartz_ore",
+    "mcremix:andesite_gold_quartz_ore",
+    "mcremix:tuff_gold_quartz_ore",
+    "mcremix:blackstone_gold_quartz_ore",
+    "mcremix:basalt_gold_quartz_ore",
+    "mcremix:smooth_basalt_gold_quartz_ore",
+    "mcremix:terracotta_gold_quartz_ore",
+    "mcremix:white_terracotta_gold_quartz_ore",
+    "mcremix:orange_terracotta_gold_quartz_ore",
+    "mcremix:yellow_terracotta_gold_quartz_ore",
+    "mcremix:red_terracotta_gold_quartz_ore",
+    "mcremix:brown_terracotta_gold_quartz_ore",
+    "mcremix:light_gray_terracotta_gold_quartz_ore",
+    "mcremix:limestone_gold_quartz_ore",
+    "mcremix:scorchia_gold_quartz_ore",
+    "mcremix:scoria_gold_quartz_ore"
+  ]
+}

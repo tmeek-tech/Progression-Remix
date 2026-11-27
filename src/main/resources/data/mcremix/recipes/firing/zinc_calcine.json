@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:sphalerite"
+  },
+  "result": {
+    "item": "mcremix:zinc_calcine"
+  },
+  "heat": "hot",
+  "time": 200,
+  "byproduct": {
+    "fluid": "mcremix:sulfur_dioxide",
+    "amount": 100
+  }
+}

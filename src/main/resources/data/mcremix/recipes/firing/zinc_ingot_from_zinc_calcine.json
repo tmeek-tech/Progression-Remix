@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:zinc_calcine"
+  },
+  "result": {
+    "item": "create:zinc_ingot"
+  },
+  "heat": "searing",
+  "time": 200
+}

@@ -65,6 +65,32 @@
 				"39E181355BA6BAE4"
 			]
 			description: [
+				"Iron, copper, zinc and gold come from real minerals now, in a few big ore bodies. An ore takes on the rock it runs through, so a body crossing into granite turns granite."
+				""
+				"Nothing on the surface gives one away: find them in caves, or dig. Swamp mud hides bog iron for a shovel, and gold quartz wants an iron pickaxe."
+				""
+				"&7Each mineral's tooltip says where it's found.&r"
+			]
+			icon: "mcremix:hematite"
+			id: "044997E51492AF72"
+			rewards: [ ]
+			subtitle: "A few big bodies, not specks everywhere"
+			tasks: [
+				{
+					id: "48AAB86A2E61C9F1"
+					title: "Got it"
+					type: "checkmark"
+				}
+			]
+			title: "Real Ores"
+			x: 1.75d
+			y: 1.75d
+		}
+		{
+			dependencies: [
+				"39E181355BA6BAE4"
+			]
+			description: [
 				"Vanilla's furnace, smoker and blast furnace have gone cold: no menus, no smelting, not even from a hopper."
 				""
 				"Cook on a campfire. Later, an Encased Fan blowing through fire smokes food in bulk."
@@ -170,7 +196,9 @@
 				"380C39E07B5A7809"
 			]
 			description: [
-				"Charcoal and coal burn &6Hot&r, as does fire or lava under the Furnace. That covers vanilla's smelting that isn't food: glass, smooth stone, copper, gold. Raw iron, iron ore and ancient debris want hotter fires of their own."
+				"Charcoal and coal burn &6Hot&r, as does fire or lava under the Furnace: enough for glass and smooth stone, and to fire green malachite, native copper and gold quartz into metal. Iron and ancient debris want hotter fires."
+				""
+				"Brassy chalcopyrite roasts &6Hot&r into copper matte, then wants &cSearing&r. Roasting fumes sulfur dioxide, and what the Furnace can't hold sinks round it, choking. Roast outdoors, or pipe it off."
 				""
 				"Copper is your first real metal, for Create's parts and the first tier of your own."
 			]

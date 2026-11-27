@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:basalt_native_copper_ore",
+    "mcremix:smooth_basalt_native_copper_ore",
+    "mcremix:blackstone_native_copper_ore",
+    "mcremix:scorchia_native_copper_ore",
+    "mcremix:scoria_native_copper_ore",
+    "mcremix:andesite_native_copper_ore"
+  ]
+}

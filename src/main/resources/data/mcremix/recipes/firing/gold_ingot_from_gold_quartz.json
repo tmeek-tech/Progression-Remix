@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:gold_quartz"
+  },
+  "result": {
+    "item": "minecraft:gold_ingot"
+  },
+  "heat": "hot",
+  "time": 200
+}

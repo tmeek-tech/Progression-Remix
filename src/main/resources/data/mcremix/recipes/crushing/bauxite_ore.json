@@ -1,0 +1,19 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "mcremix:bauxite_ore"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "mcremix:bauxite",
+      "count": 2
+    },
+    {
+      "item": "mcremix:bauxite",
+      "chance": 0.5
+    }
+  ]
+}

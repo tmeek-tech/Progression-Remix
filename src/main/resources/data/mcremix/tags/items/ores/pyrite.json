@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:pyrite_ore",
+    "mcremix:deepslate_pyrite_ore",
+    "mcremix:tuff_pyrite_ore",
+    "mcremix:granite_pyrite_ore",
+    "mcremix:diorite_pyrite_ore",
+    "mcremix:andesite_pyrite_ore",
+    "mcremix:calcite_pyrite_ore",
+    "mcremix:dripstone_pyrite_ore",
+    "mcremix:limestone_pyrite_ore"
+  ]
+}

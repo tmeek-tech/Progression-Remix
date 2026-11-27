@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mcremix:block/basalt_sulfur_ore",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "mcremix:block/basalt_sulfur_ore"
+    },
+    "axis=z": {
+      "model": "mcremix:block/basalt_sulfur_ore",
+      "x": 90
+    }
+  }
+}

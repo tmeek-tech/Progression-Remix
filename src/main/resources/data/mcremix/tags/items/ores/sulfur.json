@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:sulfur_ore",
+    "mcremix:deepslate_sulfur_ore",
+    "mcremix:tuff_sulfur_ore",
+    "mcremix:basalt_sulfur_ore",
+    "mcremix:smooth_basalt_sulfur_ore",
+    "mcremix:blackstone_sulfur_ore",
+    "mcremix:scorchia_sulfur_ore",
+    "mcremix:scoria_sulfur_ore"
+  ]
+}

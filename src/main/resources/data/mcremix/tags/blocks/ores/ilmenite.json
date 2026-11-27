@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:deepslate_ilmenite_ore",
+    "mcremix:tuff_ilmenite_ore",
+    "mcremix:basalt_ilmenite_ore",
+    "mcremix:smooth_basalt_ilmenite_ore",
+    "mcremix:blackstone_ilmenite_ore",
+    "mcremix:scorchia_ilmenite_ore",
+    "mcremix:scoria_ilmenite_ore"
+  ]
+}

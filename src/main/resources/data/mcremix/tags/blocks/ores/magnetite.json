@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:magnetite_ore",
+    "mcremix:deepslate_magnetite_ore",
+    "mcremix:tuff_magnetite_ore",
+    "mcremix:basalt_magnetite_ore",
+    "mcremix:smooth_basalt_magnetite_ore",
+    "mcremix:blackstone_magnetite_ore",
+    "mcremix:andesite_magnetite_ore",
+    "mcremix:diorite_magnetite_ore",
+    "mcremix:asurine_magnetite_ore"
+  ]
+}

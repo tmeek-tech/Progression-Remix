@@ -9,6 +9,11 @@
     "mcremix:malachite_green_concrete_powder",
     "mcremix:mint_concrete_powder",
     "mcremix:maroon_concrete_powder",
-    "mcremix:rose_concrete_powder"
+    "mcremix:rose_concrete_powder",
+    "mcremix:mud_bog_iron_ore",
+    "mcremix:clay_bog_iron_ore",
+    "mcremix:dirt_bog_iron_ore",
+    "mcremix:gravel_bog_iron_ore",
+    "mcremix:ilmenite_sand"
   ]
 }

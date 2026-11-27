@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:bog_iron",
+    "mcremix:hematite",
+    "mcremix:magnetite",
+    "mcremix:malachite",
+    "mcremix:native_copper",
+    "mcremix:gold_quartz"
+  ]
+}

@@ -1,5 +1,5 @@
 # The quest book Minecraft Remix installs for FTB Quests, made by tools/gen_quests.py.
-book 95312fc1da0ea994
+book f1c7c16b2abcdf60
 chapter_groups.snbt
 chapters/aluminium.snbt
 chapters/bloom_iron.snbt

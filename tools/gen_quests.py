@@ -121,6 +121,13 @@ c.q('flint', 1, 0, 'Flint Tools', 'Wood and stone are out', [
 	"They're quick and brittle, so pack spares before heading underground.",
 	"@Ponder: flint.",
 ], [item('mcremix:flint_pickaxe')], deps=['welcome'])
+c.q('ores', 1, 1, 'Real Ores', 'A few big bodies, not specks everywhere', [
+	"Iron, copper, zinc and gold come from real minerals now, in a few big ore bodies. An ore takes on the rock it "
+	"runs through, so a body crossing into granite turns granite.",
+	"Nothing on the surface gives one away: find them in caves, or dig. Swamp mud hides bog iron for a shovel, and "
+	"gold quartz wants an iron pickaxe.",
+	"@Each mineral's tooltip says where it's found.",
+], [check()], deps=['flint'], icon='mcremix:hematite')
 c.q('campfire', 2, -1, 'Food Goes on the Fire', "Vanilla's furnaces have gone cold", [
 	"Vanilla's furnace, smoker and blast furnace have gone cold: no menus, no smelting, not even from a hopper.",
 	"Cook on a campfire. Later, an Encased Fan blowing through fire smokes food in bulk.",
@@ -148,9 +155,10 @@ c.q('charcoal', 3, 0, 'Warm: Charcoal', 'One scale for every fire', [
 	"@JEI: the Furnace tab gives each firing's heat, and the Furnace Heat tab shows what burns how hot.",
 ], [item('minecraft:charcoal')], deps=['furnace'])
 c.q('hot', 4, 0, 'Hot: Glass and Copper', 'Charcoal and coal burn Hot', [
-	"Charcoal and coal burn {Hot}, as does fire or lava under the Furnace. That covers vanilla's smelting that "
-	"isn't food: glass, smooth stone, copper, gold. Raw iron, iron ore and ancient debris want hotter fires of "
-	"their own.",
+	"Charcoal and coal burn {Hot}, as does fire or lava under the Furnace: enough for glass and smooth stone, and "
+	"to fire green malachite, native copper and gold quartz into metal. Iron and ancient debris want hotter fires.",
+	"Brassy chalcopyrite roasts {Hot} into copper matte, then wants {Searing}. Roasting fumes sulfur dioxide, and "
+	"what the Furnace can't hold sinks round it, choking. Roast outdoors, or pipe it off.",
 	"Copper is your first real metal, for Create's parts and the first tier of your own.",
 ], [item('minecraft:glass'), item('minecraft:copper_ingot')], deps=['charcoal', 'light'])
 c.q('coke', 5, 0, 'Coal Coke', 'Coal baked hotter', [
@@ -225,6 +233,7 @@ c.q('brass', 4, 0, 'Brass', 'A heated basin, no blazes needed', [
 	"A basin on a Furnace is heated by the fuel burning inside. {Searing} heats it like a fed Blaze Burner, "
 	"enough for brass; {Warm} or {Hot} only warms it. Heat from under the Furnace passes up as it is, so a soul "
 	"campfire beneath only warms the basin.",
+	"Zinc comes from sphalerite: roast it {Hot} into zinc calcine, then fire that {Searing}.",
 	"Superheated recipes still want a Blaze Burner on Blaze Cake, later Power Grid's basin heater run hot "
 	"enough, or a Steel Furnace burning {Blazing}.",
 ], [item('create:brass_ingot')], deps=['copper', 'hearth:searing', 'bloom_iron:press'])
@@ -261,8 +270,8 @@ c.q('boiler', 0, 2, 'Steam from Fire', 'A Furnace under a boiler', [
 # ---------------------------------------------------------------- 3. Bloom Iron
 c = Chapter('bloom_iron', 'Bloom Iron', 'Iron is struck, not smelted', 'mcremix:iron_bloom')
 c.q('bloom', 0, 0, "Raw Iron Won't Smelt", 'Fire it into a bloom', [
-	"Raw iron no longer smelts into ingots. Fire raw iron or iron ore at {Searing} for a glowing Iron Bloom: "
-	"spongy iron full of slag that has to be beaten out.",
+	"Iron ore no longer smelts into ingots. Fire bog iron, hematite, magnetite or raw iron at {Searing} for a "
+	"glowing Iron Bloom: spongy iron full of slag that has to be beaten out.",
 	"@JEI: the Furnace and Striking Blooms tabs.",
 ], [item('mcremix:iron_bloom')], deps=['hearth:searing'])
 c.q('stone_anvil', 1, 0, 'A Stone Anvil', 'Strike before you have iron', [
@@ -492,9 +501,10 @@ c.q('electric_heat', 0, -1, 'Electric Heat', 'Heat with no fire', [
 ], [item('powergrid:heating_coil')], deps=['coils'], optional=True)
 
 # ---------------------------------------------------------------- 8. Aluminium
-c = Chapter('aluminium', 'Aluminium', 'From red sand to the everyday late metal', 'mcremix:aluminium_ingot')
-c.q('bauxite', 0, 0, 'Bauxite', 'Washed out of red sand', [
-	"Wash red sand with an Encased Fan and a quarter of the time you'll find bauxite among the gold nuggets.",
+c = Chapter('aluminium', 'Aluminium', 'From bauxite to the everyday late metal', 'mcremix:aluminium_ingot')
+c.q('bauxite', 0, 0, 'Bauxite', 'Red earth under the tropics', [
+	"Bauxite is red, pebbly ground a few blocks under jungles and savannas, where rain has washed everything but "
+	"the aluminium out of the soil. Dig through the dirt to find it.",
 	"From here on, every step can be worked out from what you see.",
 ], [item('mcremix:bauxite')], deps=['electricity:electrolyser'])
 c.q('liquor', 1, 0, 'Bauxite Liquor', 'Dissolved in caustic soda', [
@@ -636,6 +646,8 @@ c.q('coolant', 4, 0, 'Coolant', 'Three times water', [
 c = Chapter('titanium', 'Titanium', 'The top tier, if you can keep it cool', 'mcremix:titanium_ingot')
 c.q('black_sand', 0, 0, 'Black Sand', 'Crushed basalt', [
 	"Crush or mill basalt into black sand. Unlikely as it looks, that's where titanium starts.",
+	"Crushed ilmenite from deep basalt and deepslate makes a lot more, and some beaches are streaked with it: wash "
+	"that sand for black sand by the stack.",
 ], [item('mcremix:black_sand')], deps=['cooling:water_cooler'])
 c.q('rutile', 1, 0, 'Rutile', 'What the magnet leaves', [
 	"Power Grid's electromagnet pulls the iron out of black sand as nuggets. What's left is rutile, titanium's "
@@ -830,6 +842,7 @@ c.q('sulfur', 0, 0, 'Sulfur', 'Cleaned out of sour gas', [
 	"Small scale: pipe sour gas through a vat of red mud with no mixer, then air the foul mud in an open basin, "
 	"where it drops sulfur and turns red again. Big scale: wash the gas with soda ash solution in a stirred vat, "
 	"boil the foul soda for hydrogen sulfide, and burn that over alumina in a Steel Furnace into molten sulfur.",
+	"Or dig for it: native sulfur crusts the rock round lava deep underground.",
 	"@JEI: the Airing tab.",
 ], [item('mcremix:sulfur')], deps=['crude_oil:cuts', 'aluminium:liquor'])
 c.q('sulfuric', 1, 0, 'Sulfuric Acid', 'Sulfur, burnt twice', [

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mcremix:block/ore/scorchia_native_copper_ore"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:hematite_ore",
+    "mcremix:deepslate_hematite_ore",
+    "mcremix:granite_hematite_ore",
+    "mcremix:tuff_hematite_ore",
+    "mcremix:red_sandstone_hematite_ore",
+    "mcremix:terracotta_hematite_ore",
+    "mcremix:white_terracotta_hematite_ore",
+    "mcremix:orange_terracotta_hematite_ore",
+    "mcremix:yellow_terracotta_hematite_ore",
+    "mcremix:red_terracotta_hematite_ore",
+    "mcremix:brown_terracotta_hematite_ore",
+    "mcremix:light_gray_terracotta_hematite_ore",
+    "mcremix:limestone_hematite_ore",
+    "mcremix:calcite_hematite_ore",
+    "mcremix:crimsite_hematite_ore",
+    "mcremix:ochrum_hematite_ore",
+    "mcremix:blackstone_hematite_ore"
+  ]
+}

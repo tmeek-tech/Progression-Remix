@@ -14,13 +14,13 @@
 				"6BD37C7E20889D52"
 			]
 			description: [
-				"Wash red sand with an Encased Fan and a quarter of the time you'll find bauxite among the gold nuggets."
+				"Bauxite is red, pebbly ground a few blocks under jungles and savannas, where rain has washed everything but the aluminium out of the soil. Dig through the dirt to find it."
 				""
 				"From here on, every step can be worked out from what you see."
 			]
 			id: "3F4C5E0A2AB19ACB"
 			rewards: [ ]
-			subtitle: "Washed out of red sand"
+			subtitle: "Red earth under the tropics"
 			tasks: [
 				{
 					id: "6A92CB4B52B2B4C4"
@@ -194,7 +194,7 @@
 		}
 	]
 	subtitle: [
-		"From red sand to the everyday late metal"
+		"From bauxite to the everyday late metal"
 	]
 	title: "Aluminium"
 }

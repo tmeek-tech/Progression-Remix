@@ -4,6 +4,7 @@ import static com.mcremix.gametest.GT.p;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -522,10 +523,11 @@ public class RuinTests {
 	}
 
 	/**
-	 * The worst-off houses of each kind of village grow back their own way. Each is placed at the two spots on the
-	 * platform where it would be worst off: one house can by chance fall in so that next to nothing grows in it, and
-	 * where this test sits moves whenever a test is added (0.40.0's moved it to where the worst-off taiga house fell in
-	 * almost entirely and grew nothing of the taiga kind).
+	 * The worst-off houses of each kind of village grow back their own way. Each is placed at the spots on the platform
+	 * where it would be worst off, two or more ({@link #worstOff}): one house can by chance fall in so that next to
+	 * nothing grows in it, and where this test sits moves whenever a test is added (0.40.0's moved it to where the
+	 * worst-off taiga house fell in almost entirely and grew nothing of the taiga kind, 0.42.0's to where it grew
+	 * nothing at either of the two spots it then had).
 	 */
 	@GameTest(template = GT.PLATFORM, timeoutTicks = 100)
 	public static void ruinsGrowOverByBiome(GameTestHelper h) {
@@ -538,15 +540,15 @@ public class RuinTests {
 			Blocks.TALL_GRASS, Blocks.ACACIA_SAPLING);
 		Predicate<BlockState> taigaGreen = s -> is(s, Blocks.PODZOL, Blocks.MOSS_BLOCK, Blocks.MOSS_CARPET, Blocks.FERN,
 			Blocks.LARGE_FERN, Blocks.SWEET_BERRY_BUSH, Blocks.SPRUCE_SAPLING);
-		List<Ruin> plains = worstOff(h, SMALL_HOUSE);
-		List<Ruin> taiga = worstOff(h, "village/taiga/houses/taiga_small_house_1");
-		List<Ruin> savanna = worstOff(h, "village/savanna/houses/savanna_small_house_1");
-		List<Ruin> desert = worstOff(h, "village/desert/houses/desert_small_house_1");
-		List<Ruin> snowy = worstOff(h, "village/snowy/houses/snowy_small_house_1");
+		List<Ruin> plains = worstOff(h, SMALL_HOUSE, green);
+		List<Ruin> taiga = worstOff(h, "village/taiga/houses/taiga_small_house_1", taigaGreen);
+		List<Ruin> savanna = worstOff(h, "village/savanna/houses/savanna_small_house_1", dry);
+		List<Ruin> desert = worstOff(h, "village/desert/houses/desert_small_house_1", sand);
+		List<Ruin> snowy = worstOff(h, "village/snowy/houses/snowy_small_house_1", snow);
 		for (List<Ruin> ruins : List.of(plains, taiga, savanna, desert, snowy))
 			for (Ruin ruin : ruins) {
-				McRemix.LOGGER.info("[gametest] {} grew green {}, sand {}, snow {}, dry {}", ruin, ruin.grown(green),
-					ruin.grown(sand), ruin.grown(snow), ruin.grown(dry));
+				McRemix.LOGGER.info("[gametest] {} ({} standing) grew green {}, sand {}, snow {}, dry {}", ruin,
+					ruin.standing(), ruin.grown(green), ruin.grown(sand), ruin.grown(snow), ruin.grown(dry));
 				h.assertTrue(ruin.faults().isEmpty(), ruin + " should have nothing hanging or blocked: " + ruin.faults());
 			}
 		h.assertTrue(grown(plains, green) > 0 && grown(plains, sand) == 0 && grown(plains, snow) == 0,
@@ -559,25 +561,26 @@ public class RuinTests {
 		h.succeed();
 	}
 
-	/** A house as a ruin at the two spots on the platform where it would be the most decayed, one after the other. */
-	static List<Ruin> worstOff(GameTestHelper h, String template) {
-		BlockPos first = spot(h, template, true);
+	/**
+	 * A house as a ruin at the spots on the platform where it would be the most decayed, most decayed first: at two of
+	 * them, and at more, up to six, until what its kind of village grows back has grown in one. At a spot where it is
+	 * worst off a house can by chance keep its roof, or fall in so far that rubble covers its floors, and then next to
+	 * nothing grows in it.
+	 */
+	static List<Ruin> worstOff(GameTestHelper h, String template, Predicate<BlockState> grows) {
 		Vec3i size = template(h, template).getSize();
-		BlockPos second = null;
-		float secondDecay = 0;
+		List<BlockPos> spots = new ArrayList<>();
 		for (int x = 2; x + size.getX() <= 14; x++)
 			for (int z = 2; z + size.getZ() <= 14; z++) {
 				BlockPos at = h.absolutePos(p(x, 2, z));
-				if (at.equals(first) || burns(h, at))
-					continue;
-				float decay = RuinProcessor.decay(at, at);
-				if (second == null || decay > secondDecay) {
-					second = at;
-					secondDecay = decay;
-				}
+				if (!burns(h, at))
+					spots.add(at);
 			}
-		return second == null ? List.of(ruinAt(h, template, first, false))
-			: List.of(ruinAt(h, template, first, false), ruinAt(h, template, second, false));
+		spots.sort(Comparator.comparingDouble((BlockPos at) -> RuinProcessor.decay(at, at)).reversed());
+		List<Ruin> ruins = new ArrayList<>();
+		for (int i = 0; i < spots.size() && i < 6 && (i < 2 || grown(ruins, grows) == 0); i++)
+			ruins.add(ruinAt(h, template, spots.get(i), false));
+		return ruins;
 	}
 
 	/** How many blocks of a kind grew in these ruins, in all. */

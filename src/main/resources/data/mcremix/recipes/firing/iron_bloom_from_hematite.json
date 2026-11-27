@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:hematite"
+  },
+  "result": {
+    "item": "mcremix:iron_bloom"
+  },
+  "heat": "searing",
+  "time": 300
+}

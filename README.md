@@ -1,6 +1,6 @@
 # Minecraft Remix
 
-A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around flint tools knapped on stone, bread from the millstone, one shared heat scale, shafts and
+A Forge 1.20.1 overhaul built on Create. It remixes vanilla progression around flint tools knapped on stone, bread from the millstone, real ores in big ore bodies that match the rock round them, one shared heat scale, shafts and
 cogs that need supports to hold them, in materials that weather, steel that runs to 512 RPM, machines in every
 metal, drills and saws fitted with tool tiers, pipes and tanks in every metal rated for heat, a crucible that melts and pours metal,
 electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it is cooled, plastics and PVC pipes, titanium that turns at 2,048 RPM and burns unless water cools it, a glass lab and a steel fractionating column that distil coal tar, wood spirit and crude oil, a cranked diesel engine, abandoned villages, eight new dye colours, and steel catwalks and creosote timber, with a quest book for FTB Quests that walks it all. The design plan is in [docs/DESIGN.md](docs/DESIGN.md).
@@ -11,7 +11,7 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 | Forge | 47.4.6 (works on 47.1.3 and later) |
 | Required | Create 6.0.7 or later 6.0.x, Ponder (ships with Create), Create: Power Grid 0.6.2 or later, Architectury API (Power Grid needs it) |
 | Optional | Immersive Weathering, JEI, FTB Quests (the mod brings its own quest book) |
-| Plays alongside | William Wythers' Overhauled Overworld, Better Combat |
+| Plays alongside | William Wythers' Overhauled Overworld, Better Combat, Exploration Remix (its deep layers hold the richest ores) |
 
 ## What is in 0.33.0
 
@@ -19,12 +19,21 @@ electrolysis on Create: Power Grid's circuits, aluminium that runs hot unless it
 row on any natural stone or cobblestone chip off a sharp flake, **Knapped Flint** (a Deployer holding flint knaps
 too, a strike each push). Flakes and sticks make a flint pickaxe, hatchet, shovel and hoe in vanilla's shapes, and a
 **knife** in place of the sword that stabs rather than sweeps (a dagger with Better Combat). Flint mines whatever stone
-did, iron ore included, as fast as iron, but lasts 65 uses, half of stone's. Chests, mobs and toolsmiths that would
+did, iron ore included (every real ore but gold quartz), as fast as iron, but lasts 65 uses, half of stone's. Chests, mobs and toolsmiths that would
 hand out a wooden or stone tool hand out the flint one.
 
 **Bread from the mill.** Bread and cake no longer craft from wheat, and cookies take flour. Wheat goes through
 Create's Millstone into flour, flour and water make dough (a water bottle does, and is given back, so the first
 bread needs no iron), and dough bakes on a campfire or in fan smoke. Create's cake takes dough.
+
+**Real ores.** Vanilla's iron, copper and gold ores and Create's zinc are gone. In their place are real minerals in a
+few big ore bodies: banded hematite beds, black magnetite lenses, bog iron in swamp mud, porphyry copper capped with
+green malachite, native copper sheets in basalt, strings of sphalerite pods, steep gold quartz veins, ilmenite seams,
+bauxite under jungles and savannas, rock salt under deserts, pyrite everywhere and sulfur round deep lava. Each ore
+comes in every rock it is found in, drawn on that rock, so a body running from stone into granite, tuff or Create's
+stones changes with it. Nothing on the surface gives a body away: find them in caves, or dig. Each mineral goes its own
+way to its metal: oxides fire into a bloom or the metal, sulfides roast first and give off sulfur dioxide. With
+Exploration Remix the deep layers hold the biggest bodies.
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
@@ -50,7 +59,7 @@ a fire there, burns one heat level hotter (up to Searing), and fuel it fans burn
 into cooks twice as fast. So a campfire-heated furnace reaches Hot with no fuel, and a lava-heated one reaches
 Searing. It works at any speed (2 su per RPM); a crank at the back pumps the lid once per turn.
 
-**Bloom iron.** Raw iron no longer smelts. A Searing furnace fires it into a glowing **Iron Bloom**; four strikes on
+**Bloom iron.** Iron ore no longer smelts. A Searing furnace fires bog iron, hematite, magnetite or raw iron into a glowing **Iron Bloom**; four strikes on
 an anvil (or one Mechanical Press) beat out an ingot and often **Slag**, which fertilises like bone meal and washes
 back into iron nuggets.
 Before there is iron for an anvil, a **Stone Anvil** (smooth stone, stone and cobblestone in the anvil's pattern) does
@@ -300,7 +309,7 @@ out too. Standing, it looks like a brewery's conical fermenter, all in its tanks
 becomes a cone on braced legs, each side of its bottom layer has a manway door unless something is fitted there, and
 its windows shut, so goggles show what it holds.
 
-**Aluminium.** Washing red sand turns up **bauxite**. Heated with caustic soda in a basin it dissolves into **bauxite
+**Aluminium.** **Bauxite** is dug from just under the ground of jungles and savannas. Heated with caustic soda in a basin it dissolves into **bauxite
 liquor** and leaves **red mud**, which fires into red mud bricks. Left to stand cool, in a basin or a vat, the liquor
 settles out **aluminium hydroxide** and gives back some caustic soda; fired at Searing, the hydroxide becomes
 **alumina**, which an Electrolyser splits into **molten aluminium** for the crucible and sand molds. Aluminium makes

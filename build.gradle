@@ -141,6 +141,15 @@ dependencies {
         modRuntimeOnly 'maven.modrinth:playeranimator:xe2EVE6q'
         modRuntimeOnly 'maven.modrinth:cloth-config:t8TXrZvZ'
     }
+    // ./gradlew runClient -Pcompanions -PexplorationRemix=<path to a jar> also loads Exploration Remix, Taran's other
+    // mod (it needs Immersive Weathering, which -Pcompanions brings), to see the ore bodies in its deep layers. The jar
+    // is one zipped from its build's classes and resources (Mojang names, its refmap and manifest added), not its
+    // release jar: that one's mixin shadows keep their SRG names when remapped and fail to apply. Never in the jar
+    if (project.hasProperty('explorationRemix')) {
+        def erJar = file(project.property('explorationRemix'))
+        repositories { flatDir { dirs erJar.parentFile } }
+        runtimeOnly([name: erJar.name - '.jar'])
+    }
     // ./gradlew runClient -Pquests (or runGameTestServer -Pquests) also loads FTB Quests 2001.4.22 with FTB Library
     // 2001.2.13 and FTB Teams 2001.3.2, so the quest book the mod installs (src/main/resources/mcremix_questbook, made
     // by tools/gen_quests.py) can be seen in the game. FTB Quests stays optional for players

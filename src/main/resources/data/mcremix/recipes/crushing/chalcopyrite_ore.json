@@ -1,0 +1,22 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "mcremix:ores/chalcopyrite"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "mcremix:chalcopyrite"
+    },
+    {
+      "item": "mcremix:chalcopyrite",
+      "chance": 0.75
+    },
+    {
+      "item": "create:experience_nugget",
+      "chance": 0.75
+    }
+  ]
+}
