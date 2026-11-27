@@ -116,9 +116,10 @@ c.q('welcome', 0, 0, 'Welcome to the Remix', 'How this book works', [
 	"Item quests tick themselves off. If one doesn't, click the task.",
 ], [check()], icon='minecraft:writable_book', **MILESTONE)
 c.q('flint', 1, 0, 'Flint Tools', 'Wood and stone are out', [
-	"Wooden and stone tools are gone. Flint takes over: dig it out of gravel, then strike it on stone until a "
-	"sharp flake comes away.",
-	"They're quick and brittle, so pack spares before heading underground.",
+	"Wooden and stone tools are gone, and fists won't break logs. Dig flint out of gravel, then strike it on stone "
+	"until a sharp flake comes away.",
+	"The hatchet comes first, and it crafts right in your inventory. A few broken leaves will turn up its stick.",
+	"Flint tools are quick but brittle, so pack spares before heading underground.",
 	"@Ponder: flint.",
 ], [item('mcremix:flint_pickaxe')], deps=['welcome'])
 c.q('campfire', 2, -1, 'Food Goes on the Fire', "Vanilla's furnaces have gone cold", [
