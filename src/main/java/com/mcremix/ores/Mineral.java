@@ -16,6 +16,11 @@ import java.util.List;
  * Zinc from sphalerite (roasted first, in limestone). Gold from gold quartz veins. Titanium from ilmenite (black, in
  * basalt and deepslate). Pyrite, fool's gold, roasts into hematite and sulfur dioxide. Native sulfur crusts the rock
  * round lava and vents. Bauxite, rock salt and black ilmenite sand are rocks of their own ({@link OwnRock}).
+ *
+ * <p>Since 0.44.0 (Taran's answer on which minerals: coal, lapis and diamonds too) coal lies in flat seams through the
+ * rock laid down as sediment, lapis lazuli in lenses of marble (vanilla's calcite, the mineral marble is made of), and
+ * diamonds in pipes of kimberlite, which this mod adds as a rock of its own. They drop vanilla's coal, lapis and
+ * diamonds, with vanilla's experience.
  */
 public enum Mineral {
 	BOG_IRON("bog_iron", Tier.SHOVEL, "mcremix:bog_iron", 1, 1, MUD, CLAY, DIRT, GRAVEL),
@@ -41,7 +46,12 @@ public enum Mineral {
 	PYRITE("pyrite", Tier.STONE, "mcremix:pyrite", 1, 1, STONE, DEEPSLATE, TUFF, GRANITE, DIORITE, ANDESITE, CALCITE,
 		DRIPSTONE, LIMESTONE),
 	SULFUR("sulfur", Tier.NONE, "mcremix:sulfur", 1, 2, STONE, DEEPSLATE, TUFF, BASALT, SMOOTH_BASALT, BLACKSTONE,
-		SCORCHIA, SCORIA);
+		SCORCHIA, SCORIA),
+	COAL("coal", Tier.NONE, "minecraft:coal", 1, 1, STONE, DEEPSLATE, TUFF, SANDSTONE, RED_SANDSTONE, TERRACOTTA,
+		WHITE_TERRACOTTA, ORANGE_TERRACOTTA, YELLOW_TERRACOTTA, RED_TERRACOTTA, BROWN_TERRACOTTA, LIGHT_GRAY_TERRACOTTA,
+		LIMESTONE, OCHRUM),
+	LAPIS("lapis", Tier.STONE, "minecraft:lapis_lazuli", 4, 9, CALCITE),
+	DIAMOND("diamond", Tier.IRON, "minecraft:diamond", 1, 1, KIMBERLITE);
 
 	/** What it takes to mine one for its drops: a shovel, a flint (stone-tier) pickaxe, an iron one, or any pickaxe. */
 	public enum Tier { NONE, SHOVEL, STONE, IRON }
@@ -69,5 +79,23 @@ public enum Mineral {
 
 	public boolean occursIn(Host host) {
 		return hosts.contains(host);
+	}
+
+	/** The experience an ore of it drops when mined for its mineral, as vanilla's coal, lapis and diamond ores do. */
+	public int xpMin() {
+		return switch (this) {
+			case LAPIS -> 2;
+			case DIAMOND -> 3;
+			default -> 0;
+		};
+	}
+
+	public int xpMax() {
+		return switch (this) {
+			case COAL -> 2;
+			case LAPIS -> 5;
+			case DIAMOND -> 7;
+			default -> 0;
+		};
 	}
 }

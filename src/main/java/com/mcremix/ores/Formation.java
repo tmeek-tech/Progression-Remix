@@ -98,7 +98,47 @@ enum Formation {
 		.depth(1, 3).size(24, 44, 1.5, 3, 20, 36)),
 	/** Rock salt: thick beds left by dried-up seas, deep under deserts and badlands. */
 	ROCK_SALT(new Spec(Shape.BED, Pattern.SOLID, OwnRock.ROCK_SALT).cell(256).biomes("rock_salt", 0.5, 0).depth(18, 48)
-		.size(28, 48, 2, 4, 22, 36).undulate(2).dip(6));
+		.size(28, 48, 2, 4, 22, 36).undulate(2).dip(6)),
+
+	// ------------------------------------------------------------------- coal, lapis and diamonds (0.44.0)
+	/**
+	 * Coal: flat seams a block to three thick, two to four one over another with the rock between, wide and gently
+	 * waving, in the rock laid down as sediment (stone, sandstone, terracotta, limestone); most under the forests,
+	 * plains and swamps where the old coal swamps were.
+	 */
+	COAL(new Spec(Shape.SEAMS, Pattern.SOLID, Mineral.COAL).cell(160).biomes("coal", 0.7, 0.4).y(0, 112).stack(2).below(1)
+		.size(24, 40, 0.6, 1.4, 18, 30).seams(2, 4, 5, 10).undulate(2)),
+	/** The Deep Gardens' coal, in thick seams through the limestone and deepslate under its oil. */
+	COAL_DEEP(new Spec(Shape.SEAMS, Pattern.SOLID, Mineral.COAL).cell(160).chance(0.7).y(-470, -300).stack(3)
+		.size(28, 44, 1, 2, 20, 34).seams(3, 5, 6, 10).undulate(3)),
+	/**
+	 * Lapis lazuli in a lens of white marble, limestone the heat of the rock round it baked: blue patches through it,
+	 * richest at its heart. Under mountains and hills most.
+	 */
+	LAPIS(new Spec(Shape.LENS, Pattern.SPECKS, Mineral.LAPIS).in(OwnRock.MARBLE).cell(256).biomes("lapis", 0.5, 0.15)
+		.y(-48, 40).below(1).size(10, 18, 5, 9, 8, 14).fill(0.32)),
+	/** The Deep Gardens' marble, baked by its vents: bigger lenses, more lapis. */
+	LAPIS_DEEP(new Spec(Shape.LENS, Pattern.SPECKS, Mineral.LAPIS).in(OwnRock.MARBLE).cell(192).chance(0.6)
+		.y(-470, -300).stack(2).size(14, 24, 6, 11, 10, 18).fill(0.36)),
+	/**
+	 * Kimberlite pipes: carrots of dark rock risen from the bottom of the world, narrow at their root and widening up to
+	 * a top a few blocks under the ground, with blocks of the rock they broke through caught up in them and a few
+	 * diamonds, more the deeper down. They are drawn before every other body, as the youngest rock cuts the rest.
+	 */
+	KIMBERLITE(new Spec(Shape.PIPE, Pattern.SCATTER, Mineral.DIAMOND).in(OwnRock.KIMBERLITE).cell(192).chance(0.55)
+		.y(-40, -10).below(4).size(6, 10, 34, 46, 5, 9).taper(0.25).dip(8).fill(0.015)),
+	/** The Blue Reaches' pipes, wider and richer (deeper is richer). */
+	KIMBERLITE_DEEP(new Spec(Shape.PIPE, Pattern.SCATTER, Mineral.DIAMOND).in(OwnRock.KIMBERLITE).cell(192)
+		.chance(0.6).y(-230, -170).size(9, 14, 55, 70, 8, 12).taper(0.22).dip(8).fill(0.022));
+
+	/**
+	 * The order bodies are drawn in: the kimberlite pipes first, then the marble lenses, then the rest. A body only
+	 * takes rock its mineral occurs in, so whatever is drawn first keeps its blocks: the pipes cut every other body,
+	 * and an ore found in calcite (zinc, iron, copper) runs on into a marble lens.
+	 */
+	static final Formation[] DRAW_ORDER = java.util.Arrays.stream(values())
+		.sorted(java.util.Comparator.comparingInt(f -> f.spec.matrix == OwnRock.KIMBERLITE ? 0 : f.spec.matrix != null ? 1 : 2))
+		.toArray(Formation[]::new);
 
 	/** How a body is laid out. */
 	enum Shape {
@@ -115,7 +155,9 @@ enum Formation {
 		/** A sheet under the ground that follows it, a set depth down. */
 		BLANKET,
 		/** Several thin flat sheets, one over another. */
-		SEAMS
+		SEAMS,
+		/** An upright carrot, narrow at its root and widening to its top, leaning a little and wandering. */
+		PIPE
 	}
 
 	/** How a body's ore fills it. */
@@ -131,7 +173,9 @@ enum Formation {
 		/** Streaks across the body, as waves leave black sand. */
 		STREAKS,
 		/** All of it. */
-		SOLID
+		SOLID,
+		/** Single crystals here and there, {@link Spec#fill} of it, more of them the deeper in the body. */
+		SCATTER
 	}
 
 	/** Where a body's vertical place is measured from: world height, or depth under the ground. */
@@ -152,6 +196,8 @@ enum Formation {
 		final Pattern pattern;
 		final Mineral mineral;
 		final OwnRock rock;
+		/** The rock of its own a body is made of, its mineral in it (lapis in marble, diamonds in kimberlite), or null. */
+		OwnRock matrix;
 		Mineral accessory, halo, cap;
 		double accessoryShare, capDepth;
 		int cell = 192;
@@ -161,6 +207,10 @@ enum Formation {
 		boolean columns;
 		Mode mode = Mode.HEIGHT;
 		int vMin, vMax, stack = 1;
+		/** How many blocks under the ground a body set by height stops (Taran's card: no hints), or 0 where it may not. */
+		int below;
+		/** A pipe's width at its root, as a share of its width at its top. */
+		double taper = 1;
 		double aMin, aMax, bMin, bMax, cMin, cMax;
 		double dipMin, dipMax, undulate, rough = 0.3, fill = 1;
 		int podsMin, podsMax, seamsMin, seamsMax;
@@ -182,6 +232,23 @@ enum Formation {
 
 		Spec cell(int blocks) {
 			cell = blocks;
+			return this;
+		}
+
+		/** The body is a rock of its own with its mineral in it: what is not ore is that rock. */
+		Spec in(OwnRock rock) {
+			matrix = rock;
+			return this;
+		}
+
+		/** A body set by height stops this many blocks under the ground. */
+		Spec below(int blocks) {
+			below = blocks;
+			return this;
+		}
+
+		Spec taper(double share) {
+			taper = share;
 			return this;
 		}
 
@@ -295,6 +362,7 @@ enum Formation {
 			double r = switch (shape) {
 				case VEIN -> Math.hypot(aMax, bMax + cMax * 2 + 2);
 				case PODS -> aMax + podMax;
+				case PIPE -> Math.max(aMax, cMax) + Math.tan(Math.toRadians(dipMax)) * bMax + Body.PIPE_WANDER;
 				default -> Math.max(aMax, cMax);
 			};
 			return (int) Math.ceil(r * (1 + rough) + 1);

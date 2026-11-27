@@ -123,10 +123,12 @@ c.q('flint', 1, 0, 'Flint Tools', 'Wood and stone are out', [
 	"@Ponder: flint.",
 ], [item('mcremix:flint_pickaxe')], deps=['welcome'])
 c.q('ores', 1, 1, 'Real Ores', 'A few big bodies, not specks everywhere', [
-	"Iron, copper, zinc and gold come from real minerals now, in a few big ore bodies. An ore takes on the rock it "
-	"runs through, so a body crossing into granite turns granite.",
+	"Iron, copper, zinc, gold, coal, lapis and diamonds come from real minerals now, in a few big ore bodies. An ore "
+	"takes on the rock it runs through, so a body crossing into granite turns granite.",
+	"Coal lies in flat seams, lapis in lenses of white marble, and diamonds in pipes of dark kimberlite, more of them "
+	"the deeper you dig.",
 	"Nothing on the surface gives one away: find them in caves, or dig. Swamp mud hides bog iron for a shovel, and "
-	"gold quartz wants an iron pickaxe.",
+	"gold quartz and diamonds want an iron pickaxe.",
 	"@Each mineral's tooltip says where it's found.",
 ], [check()], deps=['flint'], icon='mcremix:hematite')
 c.q('campfire', 2, -1, 'Food Goes on the Fire', "Vanilla's furnaces have gone cold", [

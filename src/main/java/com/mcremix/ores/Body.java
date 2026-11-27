@@ -15,17 +15,22 @@ import net.minecraft.world.level.block.state.BlockState;
  * <p>Inside it, {@link #at} says what each block is: nothing (the rock stays), the body's own mineral, the mineral that
  * goes with it ({@code accessory}: pyrite through zinc pods), the ring round its core ({@code halo}: pyrite round
  * porphyry copper) or its weathered top ({@code cap}: malachite over it). {@link #place} turns that into the ore of the
- * rock the block is.
+ * rock the block is. A body that is a rock of its own with its mineral in it (lapis in marble, diamonds in kimberlite)
+ * also has {@code ROCK}, its own rock with no ore in it.
  */
 final class Body {
-	static final int NONE = 0, MAIN = 1, ACCESSORY = 2, HALO = 3, CAP = 4;
+	static final int NONE = 0, MAIN = 1, ACCESSORY = 2, HALO = 3, CAP = 4, ROCK = 5;
 	/** A depth not looked up: the body does not need to know how far under the ground a block is. */
 	static final int NO_DEPTH = Integer.MIN_VALUE;
 
 	private static final long EDGE = 0x5ED6E1L, WAVE = 0xA7E5L, PINCH = 0x91C4L, WEB = 0x3EBL, CLUMP = 0xC1B9L,
-		WITH = 0xACCE55L, CAP_LINE = 0xCA9L;
+		WITH = 0xACCE55L, CAP_LINE = 0xCA9L, XENO = 0x8E9011L;
 	/** How far a vein's middle wanders off its plane, in blocks. */
 	private static final double WANDER = 1.5;
+	/** How far a pipe's middle wanders off its line as it rises, in blocks. */
+	static final double PIPE_WANDER = 1.5;
+	/** How much of a pipe is blocks of the rock it broke through, caught up in it: where this noise is higher. */
+	private static final double XENOLITHS = 0.6;
 
 	final Formation formation;
 	final Spec spec;
@@ -97,6 +102,10 @@ final class Body {
 				across = Math.hypot(a * grow, sheet + b * grow * Math.abs(cosDip));
 				up = sheet + b * grow;
 			}
+			case PIPE -> {
+				across = Math.max(a, c) * grow + Math.abs(tanDip) * b + PIPE_WANDER;
+				up = b;
+			}
 			default -> {}
 		}
 		minX = (int) Math.floor(cx - across) - 1;
@@ -157,13 +166,14 @@ final class Body {
 		return switch (spec.shape) {
 			case VEIN -> sq(u / a) <= grow;
 			case PODS -> Math.abs(u) <= a + 2 + spec.podMax * 1.2 && Math.abs(s) <= spec.podMax * 1.2;
+			case PIPE -> sq(Math.max(0, Math.abs(u) - Math.abs(tanDip) * b - PIPE_WANDER) / a) + sq(s / c) <= grow;
 			default -> sq(u / a) + sq(s / c) <= grow;
 		};
 	}
 
 	/**
 	 * What block ({@code x}, {@code y}, {@code z}) is in this body: {@link #NONE}, {@link #MAIN}, {@link #ACCESSORY},
-	 * {@link #HALO} or {@link #CAP}.
+	 * {@link #HALO}, {@link #CAP} or {@link #ROCK}.
 	 *
 	 * @param v     its height, or for a body set by depth, how far under the ground it is
 	 * @param depth how far under the ground it is, or {@link #NO_DEPTH} where the body does not ask
@@ -173,7 +183,7 @@ final class Body {
 		double dx = x + 0.5 - cx, dz = z + 0.5 - cz, dv = v + 0.5 - cv;
 		double u = dx * cos + dz * sin, w = -dx * sin + dz * cos;
 		double d; // 0 at its heart, 1 at its edge
-		double layer = 0; // a bed's height inside it, for its bands
+		double layer = 0; // a bed's height inside it, for its bands; how far down a pipe it is, 0 at its top
 		switch (s.shape) {
 			case LENS, STOCK -> {
 				double q = sq(u / a) + sq(dv / b) + sq(w / c);
@@ -243,39 +253,61 @@ final class Body {
 				if (!in)
 					return NONE;
 			}
+			case PIPE -> {
+				double t = (dv + b) / (2 * b); // 0 at its root, 1 at its top
+				if (t < 0 || t > 1)
+					return NONE;
+				double axis = tanDip * dv + PIPE_WANDER * Hash.noise(seed ^ WAVE, 0.5, y, 0.5, 21);
+				double share = s.taper + (1 - s.taper) * t;
+				double q = sq((u - axis) / (a * share)) + sq(w / (c * share));
+				double edge = 1 + s.rough * Hash.noise(seed ^ EDGE, x, y, z, 6);
+				if (q > edge)
+					return NONE;
+				// a block of the rock it broke through, caught up in it
+				if (Hash.noise(seed ^ XENO, x, y, z, 5) > XENOLITHS)
+					return NONE;
+				d = q / edge;
+				layer = 1 - t;
+			}
 			default -> throw new IllegalStateException(s.shape.name());
 		}
 
+		// where a body that is a rock of its own has no ore, it is still that rock
+		int bare = s.matrix != null ? ROCK : NONE;
 		int what = MAIN;
 		double grain = Hash.unit(Hash.mix(seed, x, y, z));
 		switch (s.pattern) {
 			case SPECKS -> {
 				double clump = 0.5 + 0.5 * Hash.noise(seed ^ CLUMP, x, y, z, 3);
 				if (0.5 * grain + 0.5 * clump >= s.fill * (1.2 - 0.4 * d))
-					return NONE;
+					return bare;
 			}
 			case BANDS -> {
 				if ((Math.floorMod((int) Math.floor(layer), 2)) != 0 || grain >= s.fill)
-					return NONE;
+					return bare;
 			}
 			case STOCKWORK -> {
 				boolean veinlet = Math.abs(Hash.noise(seed ^ WEB, x, y, z, 5)) < 0.06 + 0.08 * (1 - d);
 				if (!veinlet && grain >= 0.1 * (1 - d))
-					return NONE;
+					return bare;
 				if (s.halo != null && d > 0.7)
 					what = HALO;
 			}
 			case DENDRITIC -> {
 				double ridge = 1 - Math.abs(Hash.noise(seed ^ WEB, x, y, z, 4));
 				if (ridge < 0.82 && grain >= 0.12)
-					return NONE;
+					return bare;
 			}
 			case STREAKS -> {
 				double band = w / 2.5 + 0.8 * Hash.noise(seed ^ WAVE, x, z, 9);
 				if (band - Math.floor(band) >= 0.5 || grain >= s.fill)
-					return NONE;
+					return bare;
 			}
 			case SOLID -> {}
+			case SCATTER -> {
+				if (grain >= s.fill * (0.6 + 0.8 * layer))
+					return bare;
+			}
 		}
 		if (s.accessory != null && Hash.unit(Hash.mix(seed ^ WITH, x, y, z)) < s.accessoryShare)
 			what = ACCESSORY;
@@ -292,6 +324,13 @@ final class Body {
 	/** The block {@code what} makes of {@code old}, or null where {@code old} is not a rock it occurs in. */
 	BlockState place(int what, BlockState old) {
 		Spec s = spec;
+		if (s.matrix != null) {
+			BlockState rock = s.matrix.place(old);
+			if (rock == null || what == ROCK)
+				return rock;
+			BlockState ore = Rocks.ore(s.mineral, rock);
+			return ore != null ? ore : rock;
+		}
 		if (s.rock != null)
 			return s.rock.place(old);
 		return switch (what) {

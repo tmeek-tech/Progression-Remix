@@ -55,7 +55,9 @@ public enum Host {
 	VERIDIUM("veridium", "create:veridium", () -> Blocks.TUFF, Look.CUBE, MapColor.WARPED_NYLIUM),
 	SCORCHIA("scorchia", "create:scorchia", () -> Blocks.BLACKSTONE, Look.CUBE, MapColor.TERRACOTTA_GRAY),
 	/** Frothy lava rock: Create's striated bands, and a quarter of Exploration Remix's Wasteland. */
-	SCORIA("scoria", "create:scoria", () -> Blocks.BLACKSTONE, Look.CUBE, MapColor.COLOR_BROWN);
+	SCORIA("scoria", "create:scoria", () -> Blocks.BLACKSTONE, Look.CUBE, MapColor.COLOR_BROWN),
+	/** Kimberlite, the dark rock of the pipes diamonds come up in: a rock of this mod's own ({@link OwnRock}). */
+	KIMBERLITE("kimberlite", "mcremix:kimberlite", () -> Blocks.STONE, Look.CUBE, MapColor.TERRACOTTA_CYAN);
 
 	/** How the rock's texture covers a block: one texture, sides and ends, or sandstone's top, side and bottom. */
 	public enum Look { CUBE, COLUMN, PILLAR, SANDSTONE }

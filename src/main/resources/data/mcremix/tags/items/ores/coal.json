@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:coal_ore",
+    "mcremix:deepslate_coal_ore",
+    "mcremix:tuff_coal_ore",
+    "mcremix:sandstone_coal_ore",
+    "mcremix:red_sandstone_coal_ore",
+    "mcremix:terracotta_coal_ore",
+    "mcremix:white_terracotta_coal_ore",
+    "mcremix:orange_terracotta_coal_ore",
+    "mcremix:yellow_terracotta_coal_ore",
+    "mcremix:red_terracotta_coal_ore",
+    "mcremix:brown_terracotta_coal_ore",
+    "mcremix:light_gray_terracotta_coal_ore",
+    "mcremix:limestone_coal_ore",
+    "mcremix:ochrum_coal_ore"
+  ]
+}

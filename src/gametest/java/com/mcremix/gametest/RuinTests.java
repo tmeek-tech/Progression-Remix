@@ -177,8 +177,15 @@ public class RuinTests {
 			if (state.isAir())
 				return;
 			String fault = null;
-			if (!state.canSurvive(level, pos))
-				fault = "cannot stand";
+			// a crop by its soil alone: its light check reads light that lags behind blocks placed this tick (the light
+			// engine catches up in batches on its own thread), so a crop under an eave read dark where a house placed
+			// before it stood (0.44.0)
+			boolean stands = state.getBlock() instanceof CropBlock ? level.getBlockState(pos.below()).is(Blocks.FARMLAND)
+				: state.canSurvive(level, pos);
+			if (stands && state.getBlock() instanceof CropBlock && !state.canSurvive(level, pos))
+				McRemix.LOGGER.info("[gametest] {} at {} on farmland reads light {}", state, pos, level.getRawBrightness(pos, 0));
+			if (!stands)
+				fault = "cannot stand on " + level.getBlockState(pos.below());
 			else if (state.getBlock() instanceof FallingBlock && FallingBlock.isFree(level.getBlockState(pos.below())))
 				fault = "would fall";
 			else if (state.isSolid() && !held.contains(pos))
