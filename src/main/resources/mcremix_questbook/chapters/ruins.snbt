@@ -12,9 +12,11 @@
 		{
 			dependencies: [ ]
 			description: [
-				"Every village is a ruin, each its own age: roofs caved in, walls crumbled, rubble where it fell, and nature moving back in. Nobody lives there, not even zombies or golems."
+				"Every village is a ruin, each its own age: roofs caved in, walls crumbled, timber rotted, rubble where it fell, and nature moving back in. Nobody lives there, not even golems."
 				""
-				"Salvage what's left: cold campfires, lanterns, beds, workstations and the odd Cold Furnace. Someone got to the chests first and took anything valuable. The streets are dark at night, and monsters walk them."
+				"Salvage what's left: cold campfires, lanterns, beds, workstations and the odd Cold Furnace. Someone got to the chests first and took anything valuable. Mind the rotted floors: land on them hard and they can give way."
+				""
+				"After dark the old locals turn up again, as zombie villagers, wherever it's dark enough."
 			]
 			id: "61E8ED08B9F21D4D"
 			rewards: [ ]
@@ -38,7 +40,7 @@
 				"690A67A6D21199B1"
 			]
 			description: [
-				"Every villager comes from curing a zombie villager out in the world, and they don't breed. Each one you cure is worth keeping safe."
+				"Every villager comes from curing a zombie villager, and a ruin has plenty after dark. Villagers don't breed, so each one you cure is worth keeping safe."
 			]
 			id: "5AF486FCBBA11A7E"
 			rewards: [ ]

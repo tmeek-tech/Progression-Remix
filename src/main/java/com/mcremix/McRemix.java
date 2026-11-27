@@ -20,6 +20,8 @@ import com.mcremix.registry.ModCoiling;
 import com.mcremix.registry.ModDyes;
 import com.mcremix.registry.ModColumn;
 import com.mcremix.registry.ModDecor;
+import com.mcremix.registry.ModRottedWood;
+import com.mcremix.village.RottedWood;
 import com.mcremix.registry.ModEntities;
 import com.mcremix.registry.ModCreativeTab;
 import com.mcremix.registry.ModFeatures;
@@ -71,6 +73,7 @@ public class McRemix {
 		ModFluids.register(modBus);
 		ModBlocks.register();
 		ModDecor.register();
+		ModRottedWood.register();
 		ModColumn.register();
 		ModOil.register();
 		ModAir.register();
@@ -97,6 +100,7 @@ public class McRemix {
 			ModFluids.registerInteractions();
 			Colours.setup();
 			CreosoteBlocks.setup();
+			RottedWood.setup();
 			ModAir.setup();
 			QuestBook.install();
 		}));

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "mcremix:block/rotted_jungle_planks",
+    "side": "mcremix:block/rotted_jungle_planks",
+    "top": "mcremix:block/rotted_jungle_planks"
+  }
+}

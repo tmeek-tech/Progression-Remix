@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "mcremix:block/rotted_cherry_log_top",
+    "side": "mcremix:block/rotted_cherry_log"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mcremix:block/rotted_oak_slab"
+    },
+    "type=double": {
+      "model": "mcremix:block/rotted_oak_planks"
+    },
+    "type=top": {
+      "model": "mcremix:block/rotted_oak_slab_top"
+    }
+  }
+}

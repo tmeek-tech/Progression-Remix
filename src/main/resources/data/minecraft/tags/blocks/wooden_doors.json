@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:rotted_oak_door",
+    "mcremix:rotted_spruce_door",
+    "mcremix:rotted_birch_door",
+    "mcremix:rotted_jungle_door",
+    "mcremix:rotted_acacia_door",
+    "mcremix:rotted_dark_oak_door",
+    "mcremix:rotted_mangrove_door",
+    "mcremix:rotted_cherry_door"
+  ]
+}

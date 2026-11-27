@@ -9582,4 +9582,7 @@ if __name__ == '__main__':
     # realistic ores (0.42.0) add to the text and tags written above, and take bauxite out of washed red sand
     import gen_ores
     gen_ores.run(sys.modules[__name__])
+    # rotted wood in ruined villages (0.43.0) adds to the text and tags written above
+    import gen_rot
+    gen_rot.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

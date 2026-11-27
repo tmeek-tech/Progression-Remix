@@ -167,7 +167,9 @@ final class Overgrowth {
 	private static void green(PieceView view, RuinStyle style, float growth, BlockPos ground, BlockState floor,
 		RandomSource random, boolean way) {
 		BlockPos above = ground.above();
-		boolean boards = floor.is(BlockTags.PLANKS), soil = floor.is(BlockTags.DIRT);
+		// rotted planks are boards too: rot comes first, and takes floors open to the sky most
+		boolean boards = floor.is(BlockTags.PLANKS) || RottedWood.kind(floor) == RottedWood.Kind.PLANKS;
+		boolean soil = floor.is(BlockTags.DIRT);
 		Block mossy = RuinProcessor.MOSS.get(floor.getBlock());
 		if (random.nextFloat() < style.cover * growth) {
 			float pick = random.nextFloat();

@@ -26,6 +26,7 @@ public class RemixConfig {
 	public static final ForgeConfigSpec.BooleanValue EMPTY_VILLAGES;
 	public static final ForgeConfigSpec.BooleanValue DISABLE_VILLAGER_BREEDING;
 	public static final ForgeConfigSpec.BooleanValue RUINED_VILLAGES;
+	public static final ForgeConfigSpec.BooleanValue ZOMBIE_VILLAGERS_IN_RUINS;
 
 	static {
 		ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
@@ -99,8 +100,12 @@ public class RemixConfig {
 			.define("disableBreeding", true);
 		RUINED_VILLAGES = b.comment("New villages generate as ruins: roofs fallen in and walls crumbled (each village its own age), rubble",
 				"where it fell, grown over by biome, half the doors, beds, chests and workstations gone, mossy and cracked stone,",
-				"broken windows, burnt-out torches, cold campfires and cobwebs. Only affects chunks generated while it is on.")
+				"broken windows, burnt-out torches, cold campfires, cobwebs and rotted wood. Only affects chunks generated while it",
+				"is on.")
 			.define("ruinedVillages", true);
+		ZOMBIE_VILLAGERS_IN_RUINS = b.comment("Every zombie and husk that spawns in a village (in the dark, so mostly at night) is a zombie villager",
+				"instead, of the village's kind.")
+			.define("zombieVillagersInRuins", true);
 		b.pop();
 
 		SPEC = b.build();

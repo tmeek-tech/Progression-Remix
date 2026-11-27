@@ -4322,3 +4322,83 @@ its mineral is not in (crimsite and ochrum take only hematite) leaves that rock 
 blackstone and redstone stay as they are; the conversion pass sees each chunk once, when its own features are placed,
 so a vanilla ore that a neighbour's feature writes into it afterwards (a vein near a chunk edge, or another mod's ore
 feature that runs after this one) stays vanilla.
+
+## 57. Rotted wood and zombie villagers in ruins (0.43.0)
+
+Taran's ask of 2026-11-27, "Can you add rotted wood for ruined villages and have ruined villages always spawn zombie
+villagers at night?", with seven cards: every overworld wood (not Claude's pick, which was oak, spruce and acacia),
+doors and trapdoors with boards missing, a stick now and then (not Claude's pick, which was the block itself, for
+building only), floors that give way if you land on them, more rot the older and damper, a ruin's zombies are zombie
+villagers, anywhere in the ruin. Said in the thread without a card: only ruins have rotted wood, mushrooms grow on it
+as on podzol, burnt houses stay charred, and Silk Touch keeps the block whole, as it does glass.
+
+**Blocks** (`village/RottedWood`, `registry/ModRottedWood`). `RottedWood.Wood` lists the eight overworld woods and
+`Kind` the eleven blocks of each (log, wood, stripped log, stripped wood, planks, stairs, slab, fence, fence gate, door,
+trapdoor), named `rotted_<vanilla id>`: 88 blocks. They are vanilla's blocks (`FenceBlock`, `DoorBlock` with the wood's
+`BlockSetType`, and so on) with rotted wood's properties: a duller map colour than the wood's, hardness 0.6 (0.8 for doors and
+trapdoors), wood's sounds quieter and lower. Logs and wood strip with an axe into the rotted stripped ones
+(`RottedWood.Pillar`); planks, stairs and slabs give way (`Planks`, `Stairs`, `Slab`, through `RottedWood.giveWay`).
+A door broken by its upper half (`RottedWood.Door`) drops what its lower half would with the same tool and takes that
+half away quietly, so Silk Touch keeps it whichever half is hit: vanilla drops a door from its lower half's loot, and
+breaks that half with no tool once the upper one is gone.
+`RottedWood.rotted(state)` gives what a sound block becomes with its properties kept, from a table built the first time
+it is asked, and `RottedWood.setup` sets fire's odds (vanilla's for the sound wood: doors and trapdoors do not burn) and
+composting (one in two). Textures, models, loot, tags and names come from `tools/gen_rot.py`, which reads the two enums
+from the Java: each texture is drawn from vanilla's for the sound wood (darkened, desaturated toward grey-brown,
+mottled, seams opened, boards checked across the grain and split along it, soft spots, mycelium; bark fallen away in
+patches on logs with a small bracket fungus; a log end's heart gone soft and cracked; doors and trapdoors with a board
+missing and a rotted foot, their iron rusted), and the blockstates and models are vanilla's own pointed at them. Loot
+is a stick a third of the time, the block with Silk Touch (both halves of a double slab; a door from its lower half
+only). Block tags: `mineable/axe`; `wooden_fences`, `fence_gates`, `wooden_doors` and `wooden_trapdoors`, so fences
+join sound ones and villagers and zombies treat the doors as wooden; `mushroom_grow_block` for the whole blocks; and
+`mcremix:rotted_wood` (blocks and items). No item tags, so nothing crafts from it and it is not fuel.
+
+**Giving way.** `giveWay` is farmland's trampling rule at half the odds: something living of more than 0.512 cubic
+blocks (a zombie, a player, not a chicken), a mob only if `mobGriefing` lets it, never a player in creative,
+spectator or adventure mode, with a chance of (fall distance - 0.5) / 2. The block is destroyed with its drops; the `fallOn` that broke it
+does not pass the fall on, so the landing does no harm and whatever landed keeps falling.
+
+**Rot** (`village/Rot`, run by `RuinProcessor.finalizeProcessing` on every piece but burnt houses: a house after it has
+collapsed, a street or anything else on its own). A piece's share is (0.18 + 0.3 x decay) x `RuinStyle.rot` (plains 1,
+taiga 1.1, snowy 0.9, savanna 0.6, desert 0.3), decay being a house's own and the village's age for the rest. Each
+block's odds are the share times its wetness (1.6 open to the sky, 1.4 on the ground, the piece's lowest two courses,
+2.24 both, 0.55 under a roof) plus a patch of value noise, three blocks across in layers three high, worth up to a
+quarter either way, so rot comes in patches along wet timber. A door goes by its lower half, so it rots whole. Rolls are
+seeded by position (`Collapse.roll`) and the patch by the piece, so every chunk a piece crosses rots it the same.
+Mushrooms then come up on one in twenty rotted logs or planks still under a roof, where there is room and not in a
+doorway, a red one in four. `Overgrowth` counts rotted planks as boards, so a floor open to the sky still grows moss or
+podzol after it has rotted.
+
+**Zombie villagers** (`village/RuinSpawns`). On Forge's `LevelEvent.PotentialSpawns` for monsters, when the list has a
+zombie or husk entry and the position is in a ruin, each such entry is replaced by a zombie villager entry of the same
+weight and group size. The natural spawner asks for the list twice (to pick a spawn, then to check it is still allowed,
+by identity), so the replacement for given numbers is always the same object. In a ruin is inside the box round all the
+pieces of a structure that has a piece from a template under `village/` (read through the new
+`SinglePoolElementAccessor`), found with the structure manager's references for the position's chunk. The spawner
+asks at every try, so a structure is judged a village or not from the first of its starts looked at, and one that is
+not (a mineshaft, a stronghold) is never loaded again to ask, as vanilla loads only structures with spawns of their own;
+each village's box is worked out once per start. Both are held weakly. `zombieVillagersInRuins` (server config, on)
+switches it off. `VillageEvents` still cancels the zombie villagers a
+village places as it generates; these are natural spawns.
+
+**Quests.** A Ruined Village says timber rots, rotted floors give way and the old locals turn up again as zombie
+villagers after dark, and Bringing People Back that a ruin has plenty after dark (`tools/gen_quests.py`, keys and titles
+unchanged).
+
+**Tests** (`src/gametest/java/com/mcremix/gametest/RottedWoodTests`, five): a plank room with a door and a stair-edged
+roof, run through the processor in young and old villages, rots more in the old, more on its roof and on the ground than
+in walls under the roof, less in a savanna and more in a taiga, keeps every rotted block's shape, rots a door whole, the
+same every time, and grows mushrooms only on rotted wood under the roof; real plains and taiga houses rot as they
+generate with nothing left hanging; rotted floors give way as above (a zombie dropped onto rotted planks falls through;
+only planks, stairs and slabs give way); rotted wood leaves a stick about a third of the time and nothing else, itself
+with Silk Touch (a door from either half, once), is in no item tag recipes read and crafts nothing, joins sound fences,
+grows mushrooms in full light, burns as the sound wood does, composts and strips; and inside a village's pieces the
+monster list has zombie villagers in place of zombies and husks, as likely, and the same entries when asked again, while
+outside it and for animals the list is as it was. `RuinTests.housesFallInWithDecay` counts rotted slabs, stairs and
+logs as rubble, since rubble on the ground is the likeliest wood to rot.
+
+**Known gaps:** villages generated before 0.43.0 keep their sound wood (rot happens as a village generates), though
+their zombies come as zombie villagers like any village's; wood of other mods' kinds never rots; a structure is judged a
+village from the first of its starts looked at, so a mod's structure that only sometimes holds a village piece may be
+judged by one without; a village placed with `/place structure` or `/place jigsaw` rots but gets no zombie villagers,
+as those commands leave no structure start in the world's chunks.

@@ -1,6 +1,14 @@
 {
   "replace": false,
   "values": [
-    "mcremix:creosote_fence_gate"
+    "mcremix:creosote_fence_gate",
+    "mcremix:rotted_oak_fence_gate",
+    "mcremix:rotted_spruce_fence_gate",
+    "mcremix:rotted_birch_fence_gate",
+    "mcremix:rotted_jungle_fence_gate",
+    "mcremix:rotted_acacia_fence_gate",
+    "mcremix:rotted_dark_oak_fence_gate",
+    "mcremix:rotted_mangrove_fence_gate",
+    "mcremix:rotted_cherry_fence_gate"
   ]
 }

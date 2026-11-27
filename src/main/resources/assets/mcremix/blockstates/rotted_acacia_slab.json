@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mcremix:block/rotted_acacia_slab"
+    },
+    "type=double": {
+      "model": "mcremix:block/rotted_acacia_planks"
+    },
+    "type=top": {
+      "model": "mcremix:block/rotted_acacia_slab_top"
+    }
+  }
+}

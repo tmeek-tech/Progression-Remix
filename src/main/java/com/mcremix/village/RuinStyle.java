@@ -15,15 +15,15 @@ import net.minecraft.util.StringRepresentable;
  */
 public enum RuinStyle implements StringRepresentable {
 	/** Moss over open floors, grass, flowers and oak or birch saplings, vines up the walls. */
-	PLAINS(0.35f, 0.3f, 0.4f),
-	/** Moss and podzol, ferns, sweet berry bushes and spruce saplings, fewer vines. */
-	TAIGA(0.45f, 0.22f, 0.45f),
-	/** Coarse dirt, dry grass, dead bushes and acacia saplings, a few vines. */
-	SAVANNA(0.3f, 0.08f, 0.4f),
-	/** Sand drifted over floors and up against walls, dead bushes on it. */
-	DESERT(0.45f, 0, 0),
+	PLAINS(0.35f, 0.3f, 0.4f, 1),
+	/** Moss and podzol, ferns, sweet berry bushes and spruce saplings, fewer vines; damp, so its wood rots more. */
+	TAIGA(0.45f, 0.22f, 0.45f, 1.1f),
+	/** Coarse dirt, dry grass, dead bushes and acacia saplings, a few vines; dry, so its wood rots less. */
+	SAVANNA(0.3f, 0.08f, 0.4f, 0.6f),
+	/** Sand drifted over floors and up against walls, dead bushes on it; its wood barely rots. */
+	DESERT(0.45f, 0, 0, 0.3f),
 	/** Snow over everything open to the sky. */
-	SNOWY(0.85f, 0, 0);
+	SNOWY(0.85f, 0, 0, 0.9f);
 
 	public static final Codec<RuinStyle> CODEC = StringRepresentable.fromEnum(RuinStyle::values);
 
@@ -33,11 +33,14 @@ public enum RuinStyle implements StringRepresentable {
 	final float vines;
 	/** How likely a grown-over floor is to have something growing on it. */
 	final float plants;
+	/** How much of its wood has rotted, against the plains' (see {@link Rot}): it rots where it stays wet. */
+	final float rot;
 
-	RuinStyle(float cover, float vines, float plants) {
+	RuinStyle(float cover, float vines, float plants, float rot) {
 		this.cover = cover;
 		this.vines = vines;
 		this.plants = plants;
+		this.rot = rot;
 	}
 
 	/** Whether this kind of village is damp enough for moss and vines. */
