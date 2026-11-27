@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 
 import com.mcremix.McRemix;
 import com.mcremix.config.RemixConfig;
+import com.mcremix.village.RottedWood;
 import com.mcremix.village.RuinProcessor;
 import com.mcremix.village.RuinStyle;
 import com.mojang.datafixers.util.Either;
@@ -307,6 +308,13 @@ public class RuinTests {
 		return best;
 	}
 
+	/** Rotted wood of the kinds rubble is: a slab, stairs, a log or a beam. */
+	static boolean rottedRubble(BlockState state) {
+		RottedWood.Kind kind = RottedWood.kind(state);
+		return kind == RottedWood.Kind.SLAB || kind == RottedWood.Kind.STAIRS || kind == RottedWood.Kind.LOG
+			|| kind == RottedWood.Kind.WOOD || kind == RottedWood.Kind.STRIPPED_LOG || kind == RottedWood.Kind.STRIPPED_WOOD;
+	}
+
 	static boolean is(BlockState state, Block... blocks) {
 		for (Block block : blocks)
 			if (state.is(block))
@@ -489,9 +497,10 @@ public class RuinTests {
 				whole + " should have most of its walls and roof: " + whole.standing());
 			h.assertTrue(gone.decay() < 0.9f || gone.standing() < 0.5f, gone + " should be mostly fallen: " + gone.standing());
 			h.assertTrue(whole.standing() > gone.standing(), whole + " should stand more than " + gone);
+			// rubble lying on the ground is the likeliest wood to have rotted (0.43.0)
 			Predicate<BlockState> rubble = s -> is(s, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.GRAVEL,
 				Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB) || s.is(BlockTags.WOODEN_SLABS)
-				|| s.is(BlockTags.WOODEN_STAIRS) || s.is(BlockTags.LOGS);
+				|| s.is(BlockTags.WOODEN_STAIRS) || s.is(BlockTags.LOGS) || rottedRubble(s);
 			h.assertTrue(gone.decay() < 0.7f || gone.grown(rubble) > 0, gone + " should have rubble about");
 			// the floor's course always stands
 			for (Map.Entry<BlockPos, BlockState> e : gone.built().entrySet())

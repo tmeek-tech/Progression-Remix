@@ -50,7 +50,8 @@ import net.minecraftforge.registries.ForgeRegistries;
  * gone further or less far than that ({@link #decay}): a few are nearly whole with holes in the roof, a few are wall
  * stubs, most are in between, their roofs fallen in over the rooms and rubble lying where it fell ({@link Collapse}).
  * Nature has taken back what is open to the sky, by the kind of village ({@link RuinStyle}, {@link Overgrowth}), and
- * the streets are going back to grass, sand or snow.
+ * the streets are going back to grass, sand or snow. Its wood has rotted where the rain got in
+ * ({@link Rot}, {@link RottedWood}), more the longer the house has stood empty.
  * <p>
  * Everywhere, stone has gone mossy and cracked, windows are broken (more of them in a worse house), every torch has burnt
  * out and campfires are cold, lanterns have been taken, potted flowers have died, cobwebs hang in the corners of rooms
@@ -298,9 +299,10 @@ public class RuinProcessor extends StructureProcessor {
 	}
 
 	/**
-	 * Works the piece as a whole once each of its blocks has been through {@link #process}: a house falls in, is
-	 * stripped and overgrown, a street grows over, and rooms still roofed get their cobwebs. A burnt house keeps its
-	 * fire's look: most of its roof falls in, and it is stripped like the rest.
+	 * Works the piece as a whole once each of its blocks has been through {@link #process}: a house falls in, its wood
+	 * rots ({@link Rot}), and it is stripped and overgrown; a street grows over; the wood of everything else rots by
+	 * the village's age; and rooms still roofed get their cobwebs. A burnt house keeps its fire's look: most of its roof
+	 * falls in, its wood stays charred, and it is stripped like the rest.
 	 */
 	@Override
 	public List<StructureBlockInfo> finalizeProcessing(ServerLevelAccessor level, BlockPos piece, BlockPos pivot,
@@ -320,11 +322,18 @@ public class RuinProcessor extends StructureProcessor {
 			case HOUSE -> {
 				float decay = decay(piece, pivot);
 				Collapse.Result collapse = Collapse.apply(view, decay, Mth.getSeed(piece));
+				Rot.apply(view, style, decay, Mth.getSeed(piece));
 				hangCobwebs(view, settings);
 				Overgrowth.house(view, style, decay, collapse);
 			}
-			case STREET -> Overgrowth.street(view, style, villageAge(pivot));
-			default -> hangCobwebs(view, settings);
+			case STREET -> {
+				Rot.apply(view, style, villageAge(pivot), Mth.getSeed(piece));
+				Overgrowth.street(view, style, villageAge(pivot));
+			}
+			default -> {
+				Rot.apply(view, style, villageAge(pivot), Mth.getSeed(piece));
+				hangCobwebs(view, settings);
+			}
 		}
 		return view.list();
 	}

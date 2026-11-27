@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_uv_locked_x",
+  "textures": {
+    "end": "mcremix:block/rotted_stripped_cherry_log_top",
+    "side": "mcremix:block/rotted_stripped_cherry_log"
+  }
+}

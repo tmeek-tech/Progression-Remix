@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "mcremix:block/rotted_dark_oak_log",
+    "side": "mcremix:block/rotted_dark_oak_log"
+  }
+}

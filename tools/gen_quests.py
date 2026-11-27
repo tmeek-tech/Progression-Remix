@@ -899,14 +899,15 @@ c.q('sodium_sulfur', 1, -1, 'Sodium-Sulfur Battery', 'Four Batteries in one, kep
 # ---------------------------------------------------------------- side roads
 c = Chapter('ruins', 'Ruins', 'The villages are empty', 'minecraft:mossy_cobblestone', side=True)
 c.q('ruin', 0, 0, 'A Ruined Village', 'Long abandoned', [
-	"Every village is a ruin, each its own age: roofs caved in, walls crumbled, rubble where it fell, and nature "
-	"moving back in. Nobody lives there, not even zombies or golems.",
+	"Every village is a ruin, each its own age: roofs caved in, walls crumbled, timber rotted, rubble where it "
+	"fell, and nature moving back in. Nobody lives there, not even golems.",
 	"Salvage what's left: cold campfires, lanterns, beds, workstations and the odd Cold Furnace. Someone got to "
-	"the chests first and took anything valuable. The streets are dark at night, and monsters walk them.",
+	"the chests first and took anything valuable. Mind the rotted floors: land on them hard and they can give way.",
+	"After dark the old locals turn up again, as zombie villagers, wherever it's dark enough.",
 ], [structure('#minecraft:village', 'Find a village', 'minecraft:bell')])
 c.q('villagers', 1, 0, 'Bringing People Back', "Cure, don't breed", [
-	"Every villager comes from curing a zombie villager out in the world, and they don't breed. Each one you "
-	"cure is worth keeping safe.",
+	"Every villager comes from curing a zombie villager, and a ruin has plenty after dark. Villagers don't "
+	"breed, so each one you cure is worth keeping safe.",
 ], [item('minecraft:golden_apple')], deps=['ruin', 'hearth:hot'])
 c.q('cold_furnace', 1, 1, 'A Cold Furnace', 'Still good for something', [
 	"Nothing makes vanilla's furnace any more; you'll find them in ruins as Cold Furnaces. They smelt nothing, "

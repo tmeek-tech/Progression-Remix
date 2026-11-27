@@ -58,6 +58,7 @@
     "SheepAccessor",
     "SheepMixin",
     "ShulkerBoxBlockMixin",
+    "SinglePoolElementAccessor",
     "SinglePoolElementMixin",
     "SmartFluidTankBehaviourMixin",
     "SteamEngineBlockEntityMixin",

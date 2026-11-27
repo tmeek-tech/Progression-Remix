@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mcremix:block/rotted_mangrove_slab"
+    },
+    "type=double": {
+      "model": "mcremix:block/rotted_mangrove_planks"
+    },
+    "type=top": {
+      "model": "mcremix:block/rotted_mangrove_slab_top"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_trapdoor_top",
+  "textures": {
+    "texture": "mcremix:block/rotted_oak_trapdoor"
+  }
+}

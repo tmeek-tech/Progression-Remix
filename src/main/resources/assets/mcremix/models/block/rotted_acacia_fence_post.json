@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "mcremix:block/rotted_acacia_planks"
+  }
+}

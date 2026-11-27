@@ -426,8 +426,12 @@ creative menu only. Sheep never spawn in the new colours, but take them from dye
 
 **Villages.** Villages are abandoned: no villagers, zombie villagers or iron golems, and no progression loot in their
 chests. They generate as ruins, with mossy stone, broken windows, burnt-out torches, cold campfires, cobwebs and weedy
-fields; with Immersive Weathering, some houses have burned down to charred shells. Villagers cannot breed; the only
-way to get one is to cure a zombie villager met out in the world.
+fields; with Immersive Weathering, some houses have burned down to charred shells. Their timber has **rotted**, more
+the older the ruin and the more rain reached it: rotted logs, planks, stairs, slabs, fences, gates, and doors and
+trapdoors with boards missing, in every overworld wood. Rotted wood breaks in a moment and leaves a stick now and then
+(itself with Silk Touch), mushrooms grow on it in any light, and a rotted floor can give way if you jump or drop onto
+it. After dark, every zombie or husk that spawns in a ruin is a zombie villager. Villagers cannot breed; the only way
+to get one is to cure a zombie villager.
 
 **Walkways and decor.** Steel **catwalks** (bar grating in the top of the block, flush with a floor beside it, banded where
 they end), **catwalk stairs** railed on their open sides, **railings** that go on the edge you aim at, and **caged
