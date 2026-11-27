@@ -227,6 +227,8 @@
 			description: [
 				"A basin on a Furnace is heated by the fuel burning inside. &cSearing&r heats it like a fed Blaze Burner, enough for brass; &eWarm&r or &6Hot&r only warms it. Heat from under the Furnace passes up as it is, so a soul campfire beneath only warms the basin."
 				""
+				"Zinc comes from sphalerite: roast it &6Hot&r into zinc calcine, then fire that &cSearing&r."
+				""
 				"Superheated recipes still want a Blaze Burner on Blaze Cake, later Power Grid's basin heater run hot enough, or a Steel Furnace burning &bBlazing&r."
 			]
 			id: "36D4E952BA3CE9EC"

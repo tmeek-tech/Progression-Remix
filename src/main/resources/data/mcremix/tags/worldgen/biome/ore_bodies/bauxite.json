@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_jungle",
+    "#minecraft:is_savanna",
+    {
+      "id": "#forge:is_jungle",
+      "required": false
+    }
+  ]
+}

@@ -9579,4 +9579,7 @@ if __name__ == '__main__':
     # bread from the mill and flint tools (0.41.0) add to the text, tags and loot modifiers written above
     import gen_early
     gen_early.run(sys.modules[__name__])
+    # realistic ores (0.42.0) add to the text and tags written above, and take bauxite out of washed red sand
+    import gen_ores
+    gen_ores.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

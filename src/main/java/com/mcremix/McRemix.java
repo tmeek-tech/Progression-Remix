@@ -23,6 +23,7 @@ import com.mcremix.registry.ModDecor;
 import com.mcremix.registry.ModEntities;
 import com.mcremix.registry.ModCreativeTab;
 import com.mcremix.registry.ModFeatures;
+import com.mcremix.registry.ModOres;
 import com.mcremix.registry.ModFluids;
 import com.mcremix.registry.ModItems;
 import com.mcremix.registry.ModLootModifiers;
@@ -78,6 +79,7 @@ public class McRemix {
 		ModPowerGrid.register();
 		ModItems.register();
 		FlintTools.register();
+		ModOres.register();
 		ColourBlocks.register();
 		ModBlockEntities.register();
 		ModEntities.register();

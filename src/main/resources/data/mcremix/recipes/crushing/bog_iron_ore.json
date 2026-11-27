@@ -1,0 +1,22 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "mcremix:ores/bog_iron"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "mcremix:bog_iron"
+    },
+    {
+      "item": "mcremix:bog_iron",
+      "chance": 0.75
+    },
+    {
+      "item": "create:experience_nugget",
+      "chance": 0.75
+    }
+  ]
+}

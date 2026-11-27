@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:mud_bog_iron_ore",
+    "mcremix:clay_bog_iron_ore",
+    "mcremix:dirt_bog_iron_ore",
+    "mcremix:gravel_bog_iron_ore"
+  ]
+}

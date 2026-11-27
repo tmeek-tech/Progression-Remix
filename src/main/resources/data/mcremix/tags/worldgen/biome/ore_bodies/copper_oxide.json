@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_badlands",
+    "minecraft:desert",
+    "#minecraft:is_savanna",
+    {
+      "id": "#forge:is_desert",
+      "required": false
+    }
+  ]
+}

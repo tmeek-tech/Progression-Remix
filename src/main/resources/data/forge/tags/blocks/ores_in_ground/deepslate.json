@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:deepslate_hematite_ore",
+    "mcremix:deepslate_magnetite_ore",
+    "mcremix:deepslate_chalcopyrite_ore",
+    "mcremix:deepslate_sphalerite_ore",
+    "mcremix:deepslate_gold_quartz_ore",
+    "mcremix:deepslate_ilmenite_ore",
+    "mcremix:deepslate_pyrite_ore",
+    "mcremix:deepslate_sulfur_ore"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:chalcopyrite_ore",
+    "mcremix:deepslate_chalcopyrite_ore",
+    "mcremix:andesite_chalcopyrite_ore",
+    "mcremix:diorite_chalcopyrite_ore",
+    "mcremix:granite_chalcopyrite_ore",
+    "mcremix:tuff_chalcopyrite_ore",
+    "mcremix:limestone_chalcopyrite_ore",
+    "mcremix:veridium_chalcopyrite_ore",
+    "mcremix:asurine_chalcopyrite_ore"
+  ]
+}

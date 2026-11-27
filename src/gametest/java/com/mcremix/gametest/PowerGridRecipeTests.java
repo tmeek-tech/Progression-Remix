@@ -8,6 +8,7 @@ import com.mcremix.McRemix;
 import com.mcremix.fluids.Chemical;
 import com.mcremix.kiln.SteelFurnaceBlockEntity;
 import com.mcremix.lab.DistillingRecipe;
+import com.mcremix.registry.ModAir;
 import com.mcremix.registry.ModItems;
 import com.mcremix.registry.ModPowerGrid;
 import com.simibubi.create.AllItems;
@@ -179,14 +180,18 @@ public class PowerGridRecipeTests {
 		});
 	}
 
-	/** Washing red sand turns up bauxite beside Create's gold nuggets. */
+	/**
+	 * Washing red sand turns up Create's gold nuggets and now and then platinum, but no longer bauxite, which is mined
+	 * since 0.42.0 (realistic ores).
+	 */
 	@GameTest(template = GT.PLATFORM)
-	public static void washingRedSandTurnsUpBauxite(GameTestHelper h) {
+	public static void washingRedSandTurnsUpGoldAndPlatinumNotBauxite(GameTestHelper h) {
 		var washing = h.getLevel().getRecipeManager().byKey(new ResourceLocation("create", "splashing/red_sand"));
 		h.assertTrue(washing.isPresent() && washing.get() instanceof ProcessingRecipe<?> splashing
-			&& splashing.getRollableResults().stream().anyMatch(r -> r.getStack().is(ModItems.BAUXITE.get()))
-			&& splashing.getRollableResults().stream().anyMatch(r -> r.getStack().is(Items.GOLD_NUGGET)),
-			"washing red sand should give bauxite and gold nuggets");
+			&& splashing.getRollableResults().stream().noneMatch(r -> r.getStack().is(ModItems.BAUXITE.get()))
+			&& splashing.getRollableResults().stream().anyMatch(r -> r.getStack().is(Items.GOLD_NUGGET))
+			&& splashing.getRollableResults().stream().anyMatch(r -> r.getStack().is(ModAir.PLATINUM_NUGGET.get())),
+			"washing red sand should give gold nuggets and platinum, and no bauxite");
 		h.succeed();
 	}
 }

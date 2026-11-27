@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:sphalerite_ore",
+    "mcremix:deepslate_sphalerite_ore",
+    "mcremix:limestone_sphalerite_ore",
+    "mcremix:calcite_sphalerite_ore",
+    "mcremix:dripstone_sphalerite_ore",
+    "mcremix:asurine_sphalerite_ore"
+  ]
+}

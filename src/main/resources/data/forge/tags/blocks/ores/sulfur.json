@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:pyrite_ore",
+    "mcremix:deepslate_pyrite_ore",
+    "mcremix:tuff_pyrite_ore",
+    "mcremix:granite_pyrite_ore",
+    "mcremix:diorite_pyrite_ore",
+    "mcremix:andesite_pyrite_ore",
+    "mcremix:calcite_pyrite_ore",
+    "mcremix:dripstone_pyrite_ore",
+    "mcremix:limestone_pyrite_ore",
+    "mcremix:sulfur_ore",
+    "mcremix:deepslate_sulfur_ore",
+    "mcremix:tuff_sulfur_ore",
+    "mcremix:basalt_sulfur_ore",
+    "mcremix:smooth_basalt_sulfur_ore",
+    "mcremix:blackstone_sulfur_ore",
+    "mcremix:scorchia_sulfur_ore",
+    "mcremix:scoria_sulfur_ore"
+  ]
+}

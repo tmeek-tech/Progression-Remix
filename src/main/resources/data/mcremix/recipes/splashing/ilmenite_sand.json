@@ -1,0 +1,17 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "mcremix:ilmenite_sand"
+    }
+  ],
+  "results": [
+    {
+      "item": "mcremix:black_sand"
+    },
+    {
+      "item": "minecraft:sand",
+      "chance": 0.5
+    }
+  ]
+}

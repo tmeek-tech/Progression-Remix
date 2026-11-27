@@ -1,0 +1,15 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:pyrite"
+  },
+  "result": {
+    "item": "mcremix:hematite"
+  },
+  "heat": "hot",
+  "time": 200,
+  "byproduct": {
+    "fluid": "mcremix:sulfur_dioxide",
+    "amount": 100
+  }
+}

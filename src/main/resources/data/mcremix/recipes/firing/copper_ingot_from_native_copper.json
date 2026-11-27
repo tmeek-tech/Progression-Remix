@@ -1,0 +1,11 @@
+{
+  "type": "mcremix:firing",
+  "ingredient": {
+    "item": "mcremix:native_copper"
+  },
+  "result": {
+    "item": "minecraft:copper_ingot"
+  },
+  "heat": "hot",
+  "time": 100
+}
