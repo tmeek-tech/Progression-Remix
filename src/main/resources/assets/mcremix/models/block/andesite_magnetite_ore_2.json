@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mcremix:block/ore/andesite_magnetite_ore_2"
+  }
+}

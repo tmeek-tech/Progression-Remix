@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/chalcopyrite_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/chalcopyrite_ore"
+      },
+      {
+        "model": "mcremix:block/chalcopyrite_ore_1"
+      },
+      {
+        "model": "mcremix:block/chalcopyrite_ore_2"
+      },
+      {
+        "model": "mcremix:block/chalcopyrite_ore_3"
+      }
+    ]
   }
 }

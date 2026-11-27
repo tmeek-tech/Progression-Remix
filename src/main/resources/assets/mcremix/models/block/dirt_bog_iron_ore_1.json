@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mcremix:block/ore/dirt_bog_iron_ore_1"
+  }
+}

@@ -26,13 +26,20 @@ as sediment, drawn as black bands along the seam (a seam's block shows its beddi
 patches flecked with pyrite in white marble (calcite); diamonds as pale crystals in kimberlite, a dark blue-grey rock
 of its own, which crushes into gravel and now and then a diamond. They drop vanilla's coal, lapis and diamonds, and
 vanilla's coal, lapis and diamond ores leave the overworld as the metals' did.
+
+0.44.1 (Taran's ask: a few texture variations for each ore, so they look less repetitive): every ore block, and the
+four rocks of the mod's own, has four looks, and its blockstate picks one at random for each block, as vanilla's stone
+does. Each look is drawn with as much mineral as the first, in other places, on the rock as it shows next to it: stone
+and deepslate mirrored on two of the four as vanilla mirrors them, and Create's natural stones on their own four
+textures. The first look is each block's 0.44.0 texture, except coal's, whose seam now meets every block's sides at the
+same rows so that any look joins any other into one layer.
 """
 import math
 import os
 import random
 import re
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 import gen_colours as C
 import gen_decor as D
@@ -95,6 +102,16 @@ def ore_blocks(mineral=None):
 ITEMS = ['bog_iron', 'hematite', 'magnetite', 'malachite', 'chalcopyrite', 'copper_matte', 'native_copper',
          'sphalerite', 'zinc_calcine', 'gold_quartz', 'ilmenite', 'pyrite']
 OWN_ROCKS = ['bauxite_ore', 'rock_salt', 'ilmenite_sand', 'kimberlite']
+# how many looks each ore block and own rock has, one picked at random for each block
+VARIANTS = 4
+# rocks whose vanilla blockstate shows them mirrored on half their blocks
+MIRRORED = {'stone', 'deepslate'}
+
+
+def variant(name, k):
+    """The k-th look's model or texture name: the first look keeps the block's own name."""
+    return name if k == 0 else f'{name}_{k}'
+
 
 # each rock's own textures: one for every face, side and end, or sandstone's top, side and bottom
 VANILLA_TEX = {'dripstone': 'dripstone_block'}
@@ -108,20 +125,26 @@ SEDIMENT = {'sandstone', 'red_sandstone', 'terracotta', 'white_terracotta', 'ora
             'dripstone'}
 
 
-def host_faces(host):
-    """face -> texture image for a rock: 'all', or 'side' and 'end', or 'top', 'side' and 'bottom'."""
+def host_faces(host, k=0):
+    """face -> texture image for a rock's k-th look: 'all', or 'side' and 'end', or 'top', 'side' and 'bottom'. The
+    rock as it shows on the blocks round an ore: Create's natural stones in their four textures, stone and deepslate
+    mirrored on every other look as vanilla mirrors them, the rest as they are."""
     look = HOSTS[host][1]
     if host == 'kimberlite':
-        return {'all': kimberlite_texture()}
+        return {'all': kimberlite_texture(k)}
     if host in CREATE_TEX:
-        return {'all': C.jar_png(C.CREATE, f'assets/create/textures/block/{CREATE_TEX[host]}.png')}
+        path = CREATE_TEX[host]
+        if path.endswith('_0'):
+            path = path[:-1] + str(k % 4)
+        return {'all': C.jar_png(C.CREATE, f'assets/create/textures/block/{path}.png')}
     name = VANILLA_TEX.get(host, host)
     tex = lambda n: C.jar_png(C.MC, f'assets/minecraft/textures/block/{n}.png')
     if look in ('COLUMN', 'PILLAR'):
         return {'side': tex(name if look == 'COLUMN' else name + '_side'), 'end': tex(name + '_top')}
     if look == 'SANDSTONE':
         return {'top': tex(name + '_top'), 'side': tex(name), 'bottom': tex(name + '_bottom')}
-    return {'all': tex(name)}
+    img = tex(name)
+    return {'all': ImageOps.mirror(img) if host in MIRRORED and k % 2 else img}
 
 
 # ------------------------------------------------------------------------------------------------ drawing
@@ -497,19 +520,24 @@ def draw_sulfur(face, rng, host):
 
 def draw_coal(face, rng, host, face_name):
     """Coal in its seam. On a block's sides a layer of dull coal fills most of its height, its top and bottom edges
-    waving a pixel either way, one wave a block, so a seam runs on along a wall as one dark layer; the block's rock
-    shows only as a thin parting at its top and bottom, shaded under the coal, and two faint brighter laminae of
-    vitrain run through it. (Two thin black bands a block, as drawn at first, read in a dev client as a stack of black
-    lines rather than a seam.) On top and bottom, the bedding plane, coal in patches."""
+    waving a pixel up or down inside the block and meeting its sides at the same rows, so whichever of its looks stands
+    next to which, a seam runs on along a wall as one dark layer; the block's rock shows only as a thin parting at its
+    top and bottom, shaded under the coal, and two faint brighter laminae of vitrain run through it. (Two thin black
+    bands a block, as drawn at first, read in a dev client as a stack of black lines rather than a seam.) On top and
+    bottom, the bedding plane, coal in patches."""
     pal = PAL['coal']
     px = face.img.load()
     if sum(sum(px[x, y][:3]) for x in range(16) for y in range(16)) / 768 < 100:
         # in dark rock (deepslate, tuff) coal is as black as vanilla's there, or the seam would not show
         pal = [tuple(round(c * f) for c in rgb) for rgb, f in zip(pal, (0.45, 0.5, 0.62, 0.85))]
     if face_name in ('side', 'all'):
-        up, down = rng.uniform(0, 6.3), rng.uniform(0, 6.3)
-        top = [2 + round(0.8 * math.sin(x * math.pi / 8 + up)) for x in range(16)]
-        bottom = [13 + round(0.8 * math.sin(x * math.pi / 8 + down)) for x in range(16)]
+        def wave():
+            # half a wave or a whole one across the block, nought at both its sides
+            n, a = rng.choice((1, 2)), rng.choice((-1, 1)) * rng.uniform(0.75, 1.0)
+            return [round(a * math.sin(math.pi * n * (x + 0.5) / 16)) for x in range(16)]
+        up, down = wave(), wave()
+        top = [2 + w for w in up]
+        bottom = [13 + w for w in down]
         for x in range(16):
             for y in range(top[x], bottom[x] + 1):
                 face.put(x, y, pal[0] if rng.random() < 0.2 else pal[1])
@@ -520,7 +548,7 @@ def draw_coal(face, rng, host, face_name):
         for y0 in (rng.randint(5, 7), rng.randint(9, 11)):
             x0 = rng.randint(0, 8)
             for x in range(x0, x0 + rng.randint(4, 7)):
-                y = y0 + round(0.8 * math.sin(x * math.pi / 8 + up))
+                y = y0 + up[x]
                 if top[x] < y < bottom[x]:
                     face.put(x, y, pal[2])
         return
@@ -579,25 +607,42 @@ DRAW = {'bog_iron': draw_bog_iron, 'hematite': draw_hematite, 'magnetite': draw_
         'pyrite': draw_pyrite, 'sulfur': draw_sulfur, 'lapis': draw_lapis, 'diamond': draw_diamond}
 
 
-def ore_faces(mineral, host):
-    """face -> the rock's texture an ore's face is drawn on. A coal seam's block in a rock of one texture has sides,
-    where its bedding shows, and a top and bottom."""
-    faces = host_faces(host)
+def ore_faces(mineral, host, k=0):
+    """face -> the rock's texture an ore's face is drawn on, in its k-th look. A coal seam's block in a rock of one
+    texture has sides, where its bedding shows, and a top and bottom."""
+    faces = host_faces(host, k)
     if mineral == 'coal' and 'all' in faces:
         return {'side': faces['all'], 'end': faces['all']}
     return faces
 
 
-def ore_face(mineral, host, face_name, img):
-    # the same pattern in every rock, as vanilla's stone and deepslate ores share theirs; each face of a block its own
+def ore_face(mineral, host, face_name, img, k=0):
+    # the same pattern in every rock, as vanilla's stone and deepslate ores share theirs; each face of a block its own,
+    # and each look its own
     seed = sum(ord(ch) * (i + 1) for i, ch in enumerate(mineral)) * 31 + {'all': 0, 'side': 1, 'end': 2, 'top': 2,
                                                                            'bottom': 3}[face_name]
-    face = Face(img)
-    if mineral == 'coal':
-        draw_coal(face, random.Random(seed), host, face_name)
-    else:
-        DRAW[mineral](face, random.Random(seed), host)
-    return face.img
+
+    def draw(seed):
+        face = Face(img)
+        if mineral == 'coal':
+            draw_coal(face, random.Random(seed), host, face_name)
+        else:
+            DRAW[mineral](face, random.Random(seed), host)
+        return face
+    first = draw(seed)
+    if k == 0:
+        return first.img
+    # the other looks show as much mineral as the first, in other places: of a few patterns, the first within an
+    # eighth of it, else the nearest (the drawings pick how many grains and how big, and some find no room for one)
+    best = None
+    for attempt in range(16):
+        face = draw(seed + 7919 * k + 104729 * attempt)
+        off = abs(len(face.taken) - len(first.taken)) / max(1, len(first.taken))
+        if best is None or off < best[0]:
+            best = (off, face)
+        if off <= 0.125:
+            break
+    return best[1].img
 
 
 def recolour(img, pal, rng=None, jitter=0):
@@ -617,11 +662,16 @@ def recolour(img, pal, rng=None, jitter=0):
     return out
 
 
-def bauxite_texture():
+def own_rock(name, k):
+    """A vanilla texture an own rock is made from, mirrored on every other look."""
+    img = C.jar_png(C.MC, f'assets/minecraft/textures/block/{name}.png')
+    return ImageOps.mirror(img) if k % 2 else img
+
+
+def bauxite_texture(k=0):
     """Laterite: terracotta's grain recoloured red-brown, full of round pea-sized grains (pisoliths)."""
-    rng = random.Random(4201)
-    face = Face(recolour(C.jar_png(C.MC, 'assets/minecraft/textures/block/terracotta.png'),
-                         [(86, 38, 21), (112, 52, 29), (134, 64, 35), (156, 78, 43)]))
+    rng = random.Random(4201 + 101 * k)
+    face = Face(recolour(own_rock('terracotta', k), [(86, 38, 21), (112, 52, 29), (134, 64, 35), (156, 78, 43)]))
     for _ in range(10):
         cells = place(face, rng, lambda x, y: disc(x + 0.5, y + 0.5, rng.choice((0.9, 1.3, 1.3))), margin=0)
         if cells:
@@ -629,11 +679,10 @@ def bauxite_texture():
     return face.img
 
 
-def rock_salt_texture():
+def rock_salt_texture(k=0):
     """Halite: calcite's grain recoloured pink-white, cut by the straight edges of its cubic cleavage."""
-    rng = random.Random(4202)
-    img = recolour(C.jar_png(C.MC, 'assets/minecraft/textures/block/calcite.png'),
-                   [(186, 160, 154), (212, 190, 184), (232, 216, 210), (246, 238, 234)])
+    rng = random.Random(4202 + 101 * k)
+    img = recolour(own_rock('calcite', k), [(186, 160, 154), (212, 190, 184), (232, 216, 210), (246, 238, 234)])
     face = Face(img)
     for _ in range(4):
         x0, y0, s = rng.randint(0, 11), rng.randint(0, 11), rng.randint(3, 5)
@@ -644,12 +693,12 @@ def rock_salt_texture():
     return face.img
 
 
-def kimberlite_texture():
+def kimberlite_texture(k=0):
     """Kimberlite: tuff's grain recoloured a dark blue-grey, with grains of green olivine; dull, and no darker than
     deepslate. No pale bits of other rock: the same few in every block made a grid of dots across a pipe's face, and the
     pipe has whole blocks of the rock it broke through caught up in it."""
-    rng = random.Random(4204)
-    face = Face(recolour(C.jar_png(C.MC, 'assets/minecraft/textures/block/tuff.png'), PAL['kimberlite']))
+    rng = random.Random(4204 + 101 * k)
+    face = Face(recolour(own_rock('tuff', k), PAL['kimberlite']))
     for _ in range(4):
         cells = place(face, rng, lambda x, y: {(x, y)} if rng.random() < 0.5 else {(x, y), (x + 1, y)}, margin=0)
         if cells:
@@ -658,15 +707,16 @@ def kimberlite_texture():
     return face.img
 
 
-def ilmenite_sand_texture():
-    """Beach sand with black ilmenite in streaks along it, as the waves leave it."""
-    rng = random.Random(4203)
+def ilmenite_sand_texture(k=0):
+    """Beach sand with black ilmenite in streaks along it, as the waves leave it: the streaks lie elsewhere in each
+    look."""
+    rng = random.Random(4203 + 101 * k)
     img = C.jar_png(C.MC, 'assets/minecraft/textures/block/sand.png')
     px = img.load()
     dark = [(40, 37, 36), (58, 54, 51), (82, 76, 70)]
     for y in range(16):
         for x in range(16):
-            streak = math.sin(y * 1.1 + x * 0.3 + 1.7 * math.sin(x * 0.4)) > 0.35
+            streak = math.sin(y * 1.1 + x * 0.3 + 1.7 * math.sin(x * 0.4) + 2.1 * k) > 0.35
             if rng.random() < (0.38 if streak else 0.06):
                 px[x, y] = rng.choice(dark) + (255,)
     return img
@@ -825,44 +875,53 @@ def item_texture(name):
 # ------------------------------------------------------------------------------------------------ files
 
 def textures():
-    for mineral, (_, _, _, _, hosts) in MINERALS.items():
-        for host in hosts:
-            for face_name, img in ore_faces(mineral, host).items():
-                suffix = '' if face_name == 'all' else '_' + face_name
-                G.save_png(ore_face(mineral, host, face_name, img),
-                           G.asset('textures', 'block', 'ore', block_id(mineral, host) + suffix + '.png'))
-    G.save_png(bauxite_texture(), G.asset('textures', 'block', 'bauxite_ore.png'))
-    G.save_png(rock_salt_texture(), G.asset('textures', 'block', 'rock_salt.png'))
-    G.save_png(ilmenite_sand_texture(), G.asset('textures', 'block', 'ilmenite_sand.png'))
-    G.save_png(kimberlite_texture(), G.asset('textures', 'block', 'kimberlite.png'))
+    for k in range(VARIANTS):
+        for mineral, (_, _, _, _, hosts) in MINERALS.items():
+            for host in hosts:
+                for face_name, img in ore_faces(mineral, host, k).items():
+                    suffix = '' if face_name == 'all' else '_' + face_name
+                    G.save_png(ore_face(mineral, host, face_name, img, k),
+                               G.asset('textures', 'block', 'ore', variant(block_id(mineral, host), k) + suffix + '.png'))
+        for name, draw in (('bauxite_ore', bauxite_texture), ('rock_salt', rock_salt_texture),
+                           ('ilmenite_sand', ilmenite_sand_texture), ('kimberlite', kimberlite_texture)):
+            G.save_png(draw(k), G.asset('textures', 'block', variant(name, k) + '.png'))
     for name in ITEMS:
         G.save_png(item_texture(name), G.asset('textures', 'item', name + '.png'))
 
 
 def models():
+    """A model for each look of each ore block and own rock, and a blockstate that picks one of them at random for each
+    block (the item shows the first)."""
     for mineral, (_, _, _, _, hosts) in MINERALS.items():
         for host in hosts:
             name = block_id(mineral, host)
-            tex = f'mcremix:block/ore/{name}'
             look = HOSTS[host][1]
-            if look in ('COLUMN', 'PILLAR') or 'end' in ore_faces(mineral, host):
-                model = {'parent': 'minecraft:block/cube_column', 'textures': {'side': tex + '_side', 'end': tex + '_end'}}
-            elif look == 'SANDSTONE':
-                model = {'parent': 'minecraft:block/cube_bottom_top',
-                         'textures': {'top': tex + '_top', 'side': tex + '_side', 'bottom': tex + '_bottom'}}
-            else:
-                model = {'parent': 'minecraft:block/cube_all', 'textures': {'all': tex}}
-            D.model(name, model)
-            m = f'mcremix:block/{name}'
+            column = look in ('COLUMN', 'PILLAR') or 'end' in ore_faces(mineral, host)
+            looks = []
+            for k in range(VARIANTS):
+                tex = f'mcremix:block/ore/{variant(name, k)}'
+                if column:
+                    model = {'parent': 'minecraft:block/cube_column',
+                             'textures': {'side': tex + '_side', 'end': tex + '_end'}}
+                elif look == 'SANDSTONE':
+                    model = {'parent': 'minecraft:block/cube_bottom_top',
+                             'textures': {'top': tex + '_top', 'side': tex + '_side', 'bottom': tex + '_bottom'}}
+                else:
+                    model = {'parent': 'minecraft:block/cube_all', 'textures': {'all': tex}}
+                D.model(variant(name, k), model)
+                looks.append(f'mcremix:block/{variant(name, k)}')
             if look == 'PILLAR':
-                D.states(name, {'variants': {'axis=x': {'model': m, 'x': 90, 'y': 90}, 'axis=y': {'model': m},
-                                             'axis=z': {'model': m, 'x': 90}}})
+                D.states(name, {'variants': {'axis=x': [{'model': m, 'x': 90, 'y': 90} for m in looks],
+                                             'axis=y': [{'model': m} for m in looks],
+                                             'axis=z': [{'model': m, 'x': 90} for m in looks]}})
             else:
-                D.states(name, {'variants': {'': {'model': m}}})
-            D.item_model(name, {'parent': m})
+                D.states(name, {'variants': {'': [{'model': m} for m in looks]}})
+            D.item_model(name, {'parent': looks[0]})
     for name in OWN_ROCKS:
-        D.model(name, {'parent': 'minecraft:block/cube_all', 'textures': {'all': f'mcremix:block/{name}'}})
-        D.states(name, {'variants': {'': {'model': f'mcremix:block/{name}'}}})
+        for k in range(VARIANTS):
+            D.model(variant(name, k), {'parent': 'minecraft:block/cube_all',
+                                       'textures': {'all': f'mcremix:block/{variant(name, k)}'}})
+        D.states(name, {'variants': {'': [{'model': f'mcremix:block/{variant(name, k)}'} for k in range(VARIANTS)]}})
         D.item_model(name, {'parent': f'mcremix:block/{name}'})
     for name in ITEMS:
         D.item_model(name, {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'mcremix:item/{name}'}})

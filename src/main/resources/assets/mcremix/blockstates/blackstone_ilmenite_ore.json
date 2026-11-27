@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/blackstone_ilmenite_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/blackstone_ilmenite_ore"
+      },
+      {
+        "model": "mcremix:block/blackstone_ilmenite_ore_1"
+      },
+      {
+        "model": "mcremix:block/blackstone_ilmenite_ore_2"
+      },
+      {
+        "model": "mcremix:block/blackstone_ilmenite_ore_3"
+      }
+    ]
   }
 }

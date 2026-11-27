@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mcremix:block/ore/orange_terracotta_hematite_ore_1"
+  }
+}

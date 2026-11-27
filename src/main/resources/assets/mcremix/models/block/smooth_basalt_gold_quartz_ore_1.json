@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mcremix:block/ore/smooth_basalt_gold_quartz_ore_1"
+  }
+}

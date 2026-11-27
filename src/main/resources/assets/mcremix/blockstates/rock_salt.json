@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/rock_salt"
-    }
+    "": [
+      {
+        "model": "mcremix:block/rock_salt"
+      },
+      {
+        "model": "mcremix:block/rock_salt_1"
+      },
+      {
+        "model": "mcremix:block/rock_salt_2"
+      },
+      {
+        "model": "mcremix:block/rock_salt_3"
+      }
+    ]
   }
 }

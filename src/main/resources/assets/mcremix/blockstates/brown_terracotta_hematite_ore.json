@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/brown_terracotta_hematite_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/brown_terracotta_hematite_ore"
+      },
+      {
+        "model": "mcremix:block/brown_terracotta_hematite_ore_1"
+      },
+      {
+        "model": "mcremix:block/brown_terracotta_hematite_ore_2"
+      },
+      {
+        "model": "mcremix:block/brown_terracotta_hematite_ore_3"
+      }
+    ]
   }
 }

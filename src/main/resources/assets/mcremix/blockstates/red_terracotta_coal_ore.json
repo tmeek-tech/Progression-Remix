@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/red_terracotta_coal_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/red_terracotta_coal_ore"
+      },
+      {
+        "model": "mcremix:block/red_terracotta_coal_ore_1"
+      },
+      {
+        "model": "mcremix:block/red_terracotta_coal_ore_2"
+      },
+      {
+        "model": "mcremix:block/red_terracotta_coal_ore_3"
+      }
+    ]
   }
 }

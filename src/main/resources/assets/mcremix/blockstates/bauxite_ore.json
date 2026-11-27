@@ -1,7 +1,18 @@
 {
   "variants": {
-    "": {
-      "model": "mcremix:block/bauxite_ore"
-    }
+    "": [
+      {
+        "model": "mcremix:block/bauxite_ore"
+      },
+      {
+        "model": "mcremix:block/bauxite_ore_1"
+      },
+      {
+        "model": "mcremix:block/bauxite_ore_2"
+      },
+      {
+        "model": "mcremix:block/bauxite_ore_3"
+      }
+    ]
   }
 }
