@@ -4170,3 +4170,78 @@ is counted together (`RuinTests.worstOff`).
 current, not the heat under it; hydrogen left in the gas tank seals light bulb parts as barretters until it runs out (a pipe can draw
 it off once no hydrogen tube's parts lie in the vessel); argon's half again in the Arc Furnace applies to silicon
 melts as it does to sponge; and the Arc Furnace's charge is drawn as titanium sponge whatever it holds.
+
+## 55. Flint tools and bread from the mill (0.41.0)
+
+Taran's ask of 2026-11-26, "Can you add bread from the mill and flint tools to replace wood and stone?", two ideas
+from the idea bank's third round. Claude checked Create's bread chain first (milling a wheat gives 1.5 flour on
+average; dough is flour and a water bucket, a mixer's 1000 mB or a fan's splashing, all of which need iron; dough
+bakes into bread on a campfire, smoking or smelting; Create's cake takes dough; the millstone is a cogwheel, andesite
+casing and stone, so it comes with andesite alloy) and asked eight cards. This version was built on Claude's pick for
+each while Taran's answers were pending, and Taran then chose seven as picked: bread, cake and cookies need flour; no
+hand quern; a water bottle makes dough; flint is knapped on stone; a knife in place of the sword; sharp but brittle;
+wooden and stone tools gone everywhere. The eighth went the other way (2026-11-27): rather than punching trees, logs
+need a flint hatchet, so the version was changed before it merged (Logs need an axe, below).
+
+**Knapping** (`flint/Knapping`, a `PlayerInteractEvent.RightClickBlock` handler). Flint used on a block in
+`#mcremix:knapping_stones` (the overworld's and the nether's base stone, `#forge:cobblestone`, `#forge:stone`, smooth
+stone and the three stone anvils) is struck on it: the click is taken on both sides, and the server counts strikes by
+striker and block, starting again when the striker moves to another block. The fourth strike in a row
+(`STRIKES_NEEDED`) uses up a flint and gives Knapped Flint (into the inventory, or dropped). Each strike throws flint
+and block particles and plays stone and pot clicks that rise in pitch; the last breaks with a pot's crack and crits.
+The event is cancelled and its use-block and use-item results are both denied, because Create's Deployer fires the
+event but reads those results rather than the cancelling; so a Deployer holding flint strikes once a push and leaves
+the flake in its overflow. JEI has a Knapping page (`KnappingCategory`, laid out as `BloomCategory`: flint jumping on
+a stone block, "4 strikes on stone"), with the common stones as catalysts, and Ponder a scene (`FlintScenes.knapping`:
+gravel dug for flint, four strikes, the flake) on flint, Knapped Flint and every flint tool.
+
+**Flint tools** (`flint/FlintTools`). A tier registered with `TierSortingRegistry` after stone and before iron, so it
+mines whatever stone did (iron ore needs only stone) and nothing more; its own tag, `mcremix:needs_flint_tool`, is
+empty. Level 1, 65 uses (stone has 131), speed 6 (iron's), stone's attack bonus and enchantability, mended with
+Knapped Flint. The pickaxe, hatchet (an `AxeItem`), shovel and hoe take stone's attack numbers; the knife is a
+`SwordItem` of 2 and -2 (4 damage at 2 attacks a second, against the stone sword's 5 at 1.6) that cannot sweep
+(`FlintKnifeItem` refuses `SWORD_SWEEP`). Recipes are vanilla's shapes in Knapped Flint and `#forge:rods/wooden`, but
+the hatchet is 2x2 (`KK`, `KS`: three flakes and a stick) so that it crafts in the inventory, and the knife is a flake
+on a stick; each has a recipe advancement that unlocks it with the first flake. They are in
+`#minecraft:pickaxes`, `axes`, `shovels`, `hoes` and `swords` (so `#minecraft:tools` and decorated pots), the pickaxe
+in `#minecraft:cluster_max_harvestables`, and `#mcremix:flint_tools`. Better Combat, where installed, gives the knife
+its dagger preset, the hatchet its axe and the pickaxe its pickaxe (`data/mcremix/weapon_attributes`). Textures are
+drawn in `tools/gen_early.py` from ASCII sprites: a dark glassy flint head lashed with cord to a stick.
+
+**Wooden and stone tools gone** (`flint/OldTools`). Their ten recipes are off (`forge:false`) and the creative tabs
+leave them out (`OldTools.fillTabs` puts the flint tools where the stone ones were in the tools and combat tabs), so
+JEI, which builds its list from the tabs, does too; removing them from JEI as well only logged an error for each. `FlintTools.replace` gives the flint tool for one of them, keeping count, tag (name, enchantments) and
+wear as the same share of its uses; it is used by a global loot modifier (`mcremix:swap_old_tools`,
+`SwapItemsModifier`, last in the list) on every loot table, by `EntityJoinLevelEvent` on a mob's hands (a wither
+skeleton's stone sword), and by `VillagerTradesEvent`, which wraps every trade so a toolsmith's stone tools come out
+flint. Vanilla's `story/mine_stone` and `story/upgrade_tools` advancements show and ask for the flint pickaxe, and
+`husbandry/wax_off` counts the flint hatchet.
+
+**Logs need an axe** (Taran's card, `flint/LogsNeedAnAxe`). A `PlayerEvent.BreakSpeed` handler sets the dig speed to 0
+on a block in `#mcremix:needs_an_axe` (which holds `#minecraft:logs`: logs, wood, stripped logs and wood, stems and
+hyphae) unless the main hand can `AXE_DIG` or is the correct tool for the block, so hands and other tools make no
+headway, on the client (no cracks) as on the server. Creative breaks as ever, never asking the dig speed. A Deployer's
+player digs at the same speed, so it needs an axe in hand too, while a Mechanical Saw and explosions break logs with
+none. Starting on such a block without an axe (`LeftClickBlock`, action START, on the server, a player in survival)
+puts "That log needs an axe. A flint hatchet will do" on the action bar, once a click. Leaves give the hatchet its
+stick: a global loot modifier (`mcremix:leaf_sticks`, `LeafSticksModifier`, `chance` 0.1, with `survives_explosion`)
+adds a stick a tenth of the time to any `#minecraft:leaves` loot that holds no leaves block (shears and silk touch take
+the block, and no sticks with it, as in vanilla), on top of vanilla's 1 in 50: about one leaf in eight. Vanilla's first
+tutorial hint ("Punch it to collect wood") says "Its logs need a flint hatchet". Known gaps: a spawn far from gravel
+means a walk before the first hatchet (a ruin's planks and the bonus chest are the other ways in), and logs placed as
+decoration need an axe to take down too.
+
+**Bread** (`tools/gen_early.py`, `food/KeepBottleRecipe`). Vanilla's `bread` and `cake` recipes are off and `cookie`
+takes `#forge:flour/wheat` in place of wheat. Everything else is Create's: milling or crushing wheat, dough from a
+water bucket, mixing or splashing, and dough baked on a campfire, smoked or smelted, and its cake made with dough.
+A new recipe type, `mcremix:crafting_shapeless_keep_bottle`, is vanilla's shapeless crafting that hands back a glass
+bottle for each potion it uses; flour and a water bottle (`forge:partial_nbt`, Potion `minecraft:water`) make dough
+with it, so the first bread needs only glass.
+
+**Quests.** The Hearth chapter opens with Flint Tools (a flint pickaxe, the hatchet first), which the campfire and Furnace quests now
+follow, the rest of the chapter moved a column right; Turning gains Bread from the Mill (flour and bread) after
+Andesite Alloy, and says a millstone grinds gravel into flint every time. 137 quests.
+
+**Known gaps:** wooden and stone tools already in inventories, in chests opened before 0.41.0 or in item frames stay
+as they are (they still work); a player holding flint over stone cannot place a torch from the offhand onto it with
+that click; knapping progress never runs out, so three strikes now and one an hour later still make a flake.

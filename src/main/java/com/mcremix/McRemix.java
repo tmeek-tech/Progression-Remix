@@ -6,6 +6,8 @@ import com.mcremix.colour.Colours;
 import com.mcremix.compat.QuestBook;
 import com.mcremix.config.RemixConfig;
 import com.mcremix.decor.CreosoteBlocks;
+import com.mcremix.flint.FlintTools;
+import com.mcremix.flint.OldTools;
 import com.mcremix.fluids.MetalElectricPumpBlock;
 import com.mcremix.kinetics.Brackets;
 import com.mcremix.kinetics.EncasedParts;
@@ -75,6 +77,7 @@ public class McRemix {
 		ModCoiling.register();
 		ModPowerGrid.register();
 		ModItems.register();
+		FlintTools.register();
 		ColourBlocks.register();
 		ModBlockEntities.register();
 		ModEntities.register();
@@ -96,6 +99,7 @@ public class McRemix {
 			QuestBook.install();
 		}));
 		modBus.addListener(Colours::fillTabs);
+		modBus.addListener(OldTools::fillTabs);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> McRemixClient.onCtorClient(modBus));
 	}

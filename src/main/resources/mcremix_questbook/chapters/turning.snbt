@@ -37,6 +37,35 @@
 				"541D0DC718F4FF4B"
 			]
 			description: [
+				"Bread, cake and cookies no longer take whole wheat. Grind it in a Millstone, then knead the flour with a water bottle into dough for the campfire. No bucket needed."
+				""
+				"A Millstone grinds gravel into flint every time, too: spare tools on tap."
+			]
+			icon: "create:millstone"
+			id: "080518A2B24609EC"
+			rewards: [ ]
+			subtitle: "Wheat has to be ground first"
+			tasks: [
+				{
+					id: "3054B1BCCB20F3CD"
+					item: "create:wheat_flour"
+					type: "item"
+				}
+				{
+					id: "11A1F98F9B1604A1"
+					item: "minecraft:bread"
+					type: "item"
+				}
+			]
+			title: "Bread from the Mill"
+			x: 0.0d
+			y: -1.75d
+		}
+		{
+			dependencies: [
+				"541D0DC718F4FF4B"
+			]
+			description: [
 				"Shafts and cogs don't float any more. Each needs a support: a machine, gearbox, clutch, gearshift, chain drive, casing, or a bracket bolted to something solid. Water wheels, windmills and engines drive but hold nothing."
 				""
 				"A support holds the parts in line with it as far as their material reaches through the bare parts between, like scaffolding from a post: two blocks for wood and brass, four for andesite, copper and iron, six for steel and up. Out of reach, a part won't go on. Lose its support and it drops."

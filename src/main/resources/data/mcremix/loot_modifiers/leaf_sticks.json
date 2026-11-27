@@ -1,0 +1,9 @@
+{
+  "type": "mcremix:leaf_sticks",
+  "conditions": [
+    {
+      "condition": "minecraft:survives_explosion"
+    }
+  ],
+  "chance": 0.1
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "#minecraft:base_stone_nether",
+    "#forge:cobblestone",
+    "#forge:stone",
+    "minecraft:smooth_stone",
+    "mcremix:stone_anvil",
+    "mcremix:chipped_stone_anvil",
+    "mcremix:damaged_stone_anvil"
+  ]
+}

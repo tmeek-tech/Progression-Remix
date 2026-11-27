@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "KK",
+    "KS"
+  ],
+  "key": {
+    "K": {
+      "item": "mcremix:knapped_flint"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "mcremix:flint_hatchet"
+  }
+}

@@ -9576,4 +9576,7 @@ if __name__ == '__main__':
     # Power Grid's parts made as real ones are (0.40.0) add to the text and tags written above
     import gen_powergrid
     gen_powergrid.run(sys.modules[__name__])
+    # bread from the mill and flint tools (0.41.0) add to the text, tags and loot modifiers written above
+    import gen_early
+    gen_early.run(sys.modules[__name__])
     print('generated', len(VARIANTS), 'kinetic variants')

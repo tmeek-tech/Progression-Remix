@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mcremix:flint_pickaxe",
+    "mcremix:flint_hatchet",
+    "mcremix:flint_shovel",
+    "mcremix:flint_hoe",
+    "mcremix:flint_knife"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "mcremix:crafting_shapeless_keep_bottle",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:flour/wheat"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:potion",
+      "nbt": {
+        "Potion": "minecraft:water"
+      }
+    }
+  ],
+  "result": {
+    "item": "create:dough"
+  }
+}

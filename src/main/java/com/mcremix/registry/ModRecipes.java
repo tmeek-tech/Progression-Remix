@@ -13,6 +13,7 @@ import com.mcremix.electrolysis.ElectrolysisRecipe;
 import com.mcremix.electrolysis.FermentingRecipe;
 import com.mcremix.electrolysis.SettlingRecipe;
 import com.mcremix.electrolysis.VatMixingRecipe;
+import com.mcremix.food.KeepBottleRecipe;
 import com.mcremix.kiln.FiringRecipe;
 import com.mcremix.kiln.SteelFurnaceRecipe;
 import com.mcremix.lab.DistillingRecipe;
@@ -38,6 +39,10 @@ public class ModRecipes {
 		TYPES.register("firing", () -> RecipeType.simple(McRemix.asResource("firing")));
 	public static final RegistryObject<RecipeSerializer<FiringRecipe>> FIRING_SERIALIZER =
 		SERIALIZERS.register("firing", FiringRecipe.Serializer::new);
+
+	/** A shapeless crafting recipe that gives back the glass bottle a water bottle was poured from: dough (0.41.0). */
+	public static final RegistryObject<RecipeSerializer<KeepBottleRecipe>> KEEP_BOTTLE_SERIALIZER =
+		SERIALIZERS.register("crafting_shapeless_keep_bottle", KeepBottleRecipe.Serializer::new);
 
 	/** What the crucible melts: an item into molten metal. */
 	public static final RegistryObject<RecipeType<MeltingRecipe>> MELTING_TYPE =

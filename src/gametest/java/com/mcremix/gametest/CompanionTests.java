@@ -99,6 +99,9 @@ public class CompanionTests {
 			tests.add(new TestFunction("dryIronConfig", "dryironrustswhenswitchedon", McRemix.ID + ":" + GT.PLATFORM,
 				300, 0, true, CompanionTests::dryIronRustsWhenSwitchedOn));
 		}
+		if (ModList.get().isLoaded("bettercombat"))
+			tests.add(new TestFunction("defaultBatch", "bettercombatknowsflinttools", McRemix.ID + ":" + GT.PLATFORM, 100, 0,
+				true, CompanionTests::betterCombatKnowsFlintTools));
 		if (ModList.get().isLoaded("powergrid")) {
 			tests.add(new TestFunction("defaultBatch", "powergridheaterheatsakiln", McRemix.ID + ":" + GT.PLATFORM, 100, 0,
 				true, CompanionTests::powerGridHeaterHeatsAKiln));
@@ -106,6 +109,33 @@ public class CompanionTests {
 				true, CompanionTests::powerGridMagnetizesSlag));
 		}
 		return tests;
+	}
+
+	/**
+	 * Better Combat gives the flint knife a dagger's moves, the hatchet an axe's and the pickaxe a pickaxe's: each preset
+	 * named in data/mcremix/weapon_attributes is one Better Combat has.
+	 */
+	static void betterCombatKnowsFlintTools(GameTestHelper h) {
+		net.minecraft.server.packs.resources.ResourceManager resources = h.getLevel().getServer().getResourceManager();
+		List<String> wrong = new ArrayList<>();
+		for (String tool : new String[] { "flint_knife", "flint_hatchet", "flint_pickaxe" }) {
+			var ours = resources.getResource(McRemix.asResource("weapon_attributes/" + tool + ".json"));
+			if (ours.isEmpty()) {
+				wrong.add(tool + " has no weapon attributes");
+				continue;
+			}
+			try (var reader = ours.get().openAsReader()) {
+				ResourceLocation parent = new ResourceLocation(net.minecraft.util.GsonHelper.parse(reader).get("parent")
+					.getAsString());
+				if (resources.getResource(new ResourceLocation(parent.getNamespace(), "weapon_attributes/" + parent.getPath()
+					+ ".json")).isEmpty())
+					wrong.add(tool + "'s parent " + parent + " is not a preset Better Combat has");
+			} catch (java.io.IOException e) {
+				wrong.add(tool + ": " + e);
+			}
+		}
+		h.assertTrue(wrong.isEmpty(), String.join("; ", wrong));
+		h.succeed();
 	}
 
 	/**
