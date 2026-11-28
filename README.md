@@ -37,6 +37,10 @@ on the surface gives a body away: find them in caves, or dig. Each mineral goes 
 fire into a bloom or the metal, sulfides roast first and give off sulfur dioxide. With Exploration Remix the deep
 layers hold the biggest bodies.
 
+**No ore from plain stone.** Create's crushing wheels and millstone get nothing out of tuff, diorite, andesite, granite
+or calcite, nor out of Create's ore stones (asurine, crimsite, ochrum and veridium) or the cut and polished blocks made
+from them: no nuggets, crushed ore, quartz, red sand or bone meal.
+
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
 textures, but its front is cut open and it has no menu. Click things into its upper chamber and fuel into its
