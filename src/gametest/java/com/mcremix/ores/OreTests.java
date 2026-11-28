@@ -31,13 +31,17 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -45,8 +49,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
@@ -560,6 +572,127 @@ public class OreTests {
 			h.assertTrue(ores.stream().anyMatch(f -> f.is(new ResourceLocation("minecraft", "ore_redstone"))),
 				key.location() + " should keep vanilla's redstone");
 		}
+		h.succeed();
+	}
+
+	/**
+	 * While a chunk generates, nothing else places the ores the real minerals replace (Taran, 2026-11-28): a feature,
+	 * fossil or structure setting vanilla's iron, copper, gold, coal, lapis or diamond ore, a raw iron or copper block or
+	 * Create's zinc leaves the rock that was there, or puts the ore's own rock in air, and a disk of diamond ore over
+	 * deepslate and a pool, like WWOO's cave disks, places none and fills the pool with deepslate. Redstone, emerald, the
+	 * Nether's ores and the real minerals are placed as before, and the Nether keeps them all.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
+	public static void generationLeavesOutTheOresTheMineralsReplace(GameTestHelper h) {
+		ServerLevel level = h.getLevel();
+		ChunkPos chunk = new ChunkPos(h.absolutePos(BlockPos.ZERO).offset(20000, 0, -20000));
+		int x0 = chunk.getMinBlockX(), z0 = chunk.getMinBlockZ(), y = h.absolutePos(BlockPos.ZERO).getY() + 12;
+		WorldGenRegion region = new WorldGenRegion(level, List.of(level.getChunk(chunk.x, chunk.z)),
+			ChunkStatus.FEATURES, 0);
+		BlockPos at = new BlockPos(x0 + 8, y, z0 + 8);
+		Set<Block> rocks = Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.GRANITE);
+		for (Block ore : OreBodies.vanillaOres().keySet()) {
+			level.setBlock(at, Blocks.STONE.defaultBlockState(), Block.UPDATE_CLIENTS);
+			boolean set = region.setBlock(at, ore.defaultBlockState(), Block.UPDATE_CLIENTS);
+			h.assertTrue(!set && level.getBlockState(at).is(Blocks.STONE), ore + " should be left out and the stone kept, "
+				+ "found " + level.getBlockState(at));
+			level.setBlock(at, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+			region.setBlock(at, ore.defaultBlockState(), Block.UPDATE_CLIENTS);
+			h.assertTrue(rocks.contains(level.getBlockState(at).getBlock()), ore + " set in air should be its rock, found "
+				+ level.getBlockState(at));
+		}
+		Block zinc = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("create", "deepslate_zinc_ore"));
+		for (Block[] pair : new Block[][] { { Blocks.IRON_ORE, Blocks.STONE }, { Blocks.COAL_ORE, Blocks.STONE },
+			{ Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.DEEPSLATE }, { zinc, Blocks.DEEPSLATE },
+			{ Blocks.RAW_IRON_BLOCK, Blocks.TUFF }, { Blocks.RAW_COPPER_BLOCK, Blocks.GRANITE } }) {
+			level.setBlock(at, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+			region.setBlock(at, pair[0].defaultBlockState(), Block.UPDATE_CLIENTS);
+			h.assertTrue(level.getBlockState(at).is(pair[1]), pair[0] + " set in air should be " + pair[1] + ", found "
+				+ level.getBlockState(at));
+		}
+		for (BlockState state : List.of(Blocks.REDSTONE_ORE.defaultBlockState(),
+			Blocks.DEEPSLATE_REDSTONE_ORE.defaultBlockState(), Blocks.EMERALD_ORE.defaultBlockState(),
+			Blocks.DEEPSLATE_EMERALD_ORE.defaultBlockState(), Blocks.NETHER_GOLD_ORE.defaultBlockState(),
+			Blocks.NETHER_QUARTZ_ORE.defaultBlockState(), Rocks.ore(Mineral.HEMATITE, Host.STONE),
+			Rocks.ore(Mineral.DIAMOND, Host.KIMBERLITE))) {
+			level.setBlock(at, Blocks.STONE.defaultBlockState(), Block.UPDATE_CLIENTS);
+			boolean set = region.setBlock(at, state, Block.UPDATE_CLIENTS);
+			h.assertTrue(set && level.getBlockState(at) == state, state + " should still be placed, found "
+				+ level.getBlockState(at));
+		}
+		level.setBlock(at, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+
+		// a strip of pool through the deepslate, all inside the disk, which the diamond ore would have filled
+		BlockPos centre = new BlockPos(x0 + 8, y + 2, z0 + 8);
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		for (int x = -4; x <= 4; x++)
+			for (int z = -4; z <= 4; z++)
+				level.setBlock(pos.setWithOffset(centre, x, 0, z), x == 0 && Math.abs(z) <= 3
+					? Blocks.WATER.defaultBlockState() : Blocks.DEEPSLATE.defaultBlockState(), Block.UPDATE_CLIENTS);
+		ChunkGenerator generator = level.getChunkSource().getGenerator();
+		for (Block ore : List.of(Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.DEEPSLATE_REDSTONE_ORE))
+			Feature.DISK.place(new DiskConfiguration(RuleBasedBlockStateProvider.simple(ore),
+				BlockPredicate.matchesBlocks(Blocks.DEEPSLATE, Blocks.WATER), ConstantInt.of(3), 0), region, generator,
+				RandomSource.create(1), centre);
+		int diamonds = 0, redstone = 0;
+		for (int x = -4; x <= 4; x++)
+			for (int z = -4; z <= 4; z++) {
+				BlockState state = level.getBlockState(pos.setWithOffset(centre, x, 0, z));
+				if (state.is(Blocks.DEEPSLATE_DIAMOND_ORE))
+					diamonds++;
+				else if (state.is(Blocks.DEEPSLATE_REDSTONE_ORE))
+					redstone++;
+				else
+					h.assertTrue(state.is(Blocks.DEEPSLATE), "the deepslate at " + pos + " should be deepslate or "
+						+ "redstone ore, is " + state);
+			}
+		h.assertTrue(diamonds == 0 && redstone == 29, "a disk of diamond ore should place none and one of redstone ore "
+			+ "all 29 of its blocks, placed " + diamonds + " diamond and " + redstone + " redstone ores");
+
+		ServerLevel nether = level.getServer().getLevel(Level.NETHER);
+		h.assertTrue(VanillaOres.keptOut(level, Blocks.GOLD_ORE.defaultBlockState()) && nether != null
+			&& !VanillaOres.keptOut(nether, Blocks.GOLD_ORE.defaultBlockState()), "gold ore should be left out of the "
+			+ "overworld's generation only");
+		h.succeed();
+	}
+
+	/**
+	 * An ore feature, which writes straight into the chunk's sections, places none of the ores the real minerals replace
+	 * (WWOO's windswept iron and coal veins), and still places redstone.
+	 */
+	@GameTest(template = GT.PLATFORM, timeoutTicks = 200)
+	public static void oreVeinsOfTheReplacedOresPlaceNothing(GameTestHelper h) {
+		ServerLevel level = h.getLevel();
+		ChunkPos chunk = new ChunkPos(h.absolutePos(BlockPos.ZERO).offset(-20000, 0, -20000));
+		int x0 = chunk.getMinBlockX(), z0 = chunk.getMinBlockZ(), y0 = h.absolutePos(BlockPos.ZERO).getY() + 12;
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		for (int x = x0 + 2; x <= x0 + 14; x++)
+			for (int z = z0 + 2; z <= z0 + 14; z++)
+				for (int y = y0; y <= y0 + 12; y++)
+					level.setBlock(pos.set(x, y, z), Blocks.STONE.defaultBlockState(), Block.UPDATE_CLIENTS);
+		BlockPos centre = new BlockPos(x0 + 8, y0 + 6, z0 + 8);
+		ChunkGenerator generator = level.getChunkSource().getGenerator();
+		RandomSource random = RandomSource.create(1);
+		for (Block ore : List.of(Blocks.IRON_ORE, Blocks.COAL_ORE, Blocks.GOLD_ORE, Blocks.DIAMOND_ORE))
+			Feature.ORE.place(new OreConfiguration(new BlockMatchTest(Blocks.STONE), ore.defaultBlockState(), 17), level,
+				generator, random, centre);
+		int stone = 0;
+		for (int x = x0 + 2; x <= x0 + 14; x++)
+			for (int z = z0 + 2; z <= z0 + 14; z++)
+				for (int y = y0; y <= y0 + 12; y++)
+					if (level.getBlockState(pos.set(x, y, z)).is(Blocks.STONE))
+						stone++;
+		h.assertTrue(stone == 13 * 13 * 13, "veins of iron, coal, gold and diamond ore should place nothing, "
+			+ (13 * 13 * 13 - stone) + " of the stone blocks changed");
+		Feature.ORE.place(new OreConfiguration(new BlockMatchTest(Blocks.STONE), Blocks.REDSTONE_ORE.defaultBlockState(),
+			8), level, generator, random, centre);
+		int redstone = 0;
+		for (int x = x0 + 2; x <= x0 + 14; x++)
+			for (int z = z0 + 2; z <= z0 + 14; z++)
+				for (int y = y0; y <= y0 + 12; y++)
+					if (level.getBlockState(pos.set(x, y, z)).is(Blocks.REDSTONE_ORE))
+						redstone++;
+		h.assertTrue(redstone > 0, "a vein of redstone ore should still be placed");
 		h.succeed();
 	}
 

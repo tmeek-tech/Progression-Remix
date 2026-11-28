@@ -4565,8 +4565,8 @@ diamonds as single specks (now of kimberlite) rather than pipes.
 
 Taran, 2026-11-27 (22:55 UTC): "Can you make a few texture variations for each ore to make them look less repetitive?"
 A card asks whether the looks should differ only in where the mineral lies or in how much as well (some richer, some
-poorer); this is built on Claude's pick, as much mineral in each look, moved about. Only `tools/gen_ores.py` and the
-files it writes changed: no Java, loot, tag, name or recipe.
+poorer); this is built on Claude's pick, as much mineral in each look, moved about, which Taran chose (2026-11-28).
+Only `tools/gen_ores.py` and the files it writes changed: no Java, loot, tag, name or recipe.
 
 **Looks.** Each of the 127 ore blocks and the four rocks of the mod's own (bauxite ore, rock salt, ilmenite sand,
 kimberlite) has four looks. Its blockstate lists their four models and Minecraft picks one for each block from its
@@ -4590,3 +4590,94 @@ redrew coal's first look too (its 14 side textures).
 
 **Files.** 492 new textures (480 ore faces, 12 own rocks), 393 new models, 131 blockstates rewritten and 14 coal side
 textures redrawn; the jar grows from 8.09 to 8.63 MB.
+
+## 62. Create's stone crushing recipes off (0.44.2)
+
+Taran, 2026-11-28 (01:00 UTC): "Can you remove the recipes that Create adds for its stone types, tuff, diorite,
+andesite, granite, and calcite?", and a minute later: "I meant the crushing recipes that those stones are used in." A
+card then asked whether Create's four ore stones (asurine, crimsite, ochrum, veridium) should stop crushing into ore
+too, Claude's pick being to keep them as the ask named only five stones; Taran chose "Remove theirs too" (01:10). So
+Create's crushing wheels and millstone take nothing from those nine stones, or from Create's cut, polished, brick,
+layered and pillar forms of them. The stones themselves, Create's decorative blocks made from them and the stonecutter
+recipes between them stay.
+
+**What is off.** Fifteen of Create's recipes, turned off as the mod turns off others (`forge:false`, written by
+`gen_recipes` in `tools/gen_assets.py`). Each `_recycling` one is its stone's other forms, by Create's tag
+`#create:stone_types/<stone>`:
+
+| Recipe | Took | Gave |
+| --- | --- | --- |
+| `create:crushing/tuff`, `tuff_recycling` | tuff and its forms | a quarter flint, a tenth each gold, copper, zinc and iron nuggets |
+| `create:crushing/diorite`, `diorite_recycling` | diorite and its forms | a quarter quartz |
+| `create:milling/andesite` | andesite | cobblestone |
+| `create:milling/granite` | granite | red sand |
+| `create:milling/calcite` | calcite | bone meal, three times in four |
+| `create:crushing/asurine`, `asurine_recycling` | asurine and its forms | crushed raw zinc and a zinc nugget, each 30% |
+| `create:crushing/crimsite`, `crimsite_recycling` | crimsite and its forms | crushed raw iron and an iron nugget, each 40% |
+| `create:crushing/ochrum`, `ochrum_recycling` | ochrum and its forms | crushed raw gold and a gold nugget, each 20% |
+| `create:crushing/veridium`, `veridium_recycling` | veridium and its forms | crushed raw copper and a copper nugget, each 80% |
+
+Crushing wheels run milling recipes too, and JEI lists those under Crushing as well as Milling, which is why the three
+milling ones count as crushing here. Nothing else in Create, Power Grid or this mod crushes or mills the nine; Create's
+Ex Nihilo Sequentia recipes for andesite, diorite and granite load only with that mod and are left alone. The four ore
+stones were the bigger leak: Create lays them down in big layered deposits, and Exploration Remix's Blue Reaches are
+made of asurine, so crushing them gave zinc, iron, gold and copper without finding a real ore body (section 56).
+
+**What stays.** Red sand still mills from terracotta and is dug in badlands, so washing it for platinum is unchanged;
+quartz comes from the nether, bone meal from bones and flint from gravel. Real ore bodies still run through all nine
+rocks, and their ores crush as before.
+
+**Test.** `StoneCrushingTests.createCrushesAndMillsNoneOfTheNineStones`: the fifteen recipes are gone; no crushing or
+milling recipe, from any mod, takes one of the nine or anything in Create's tag of its forms; a millstone refuses
+andesite, granite, calcite, tuff and diorite and still takes wheat, cobblestone and terracotta; and gravel's crushing,
+cobblestone's and terracotta's milling and the stonecutter recipes to and from Create's forms are still there.
+
+## 63. No vanilla ores from other mods' worldgen (0.44.3)
+
+Taran, 2026-11-28 (00:52 UTC): "Vanilla ores still generate in some places, possibly because of WWOO. Can you keep
+vanilla ore from generating except for redstone and emerald?"
+
+**Where they came from.** The biome modifier takes vanilla's own ore features out of every overworld biome (0.42.0,
+0.44.0), and the ore bodies' pass turns any of those ores left in the chunk it draws into the real mineral. WWOO's
+biomes place the same ores with features of their own: `wythers:ores/ore_iron_windswept` and `ore_coal_windswept`
+(vanilla's iron and coal veins, a hundred of each a chunk at y 64 to 256 in the windswept hills, forest and gravelly
+hills), `ore_diamond_volcanic` (deepslate diamond ore in basalt, fifty a chunk in the windswept hills), the smooth
+basalt and blackstone cave disks round deep lava under flower forests, mangrove swamps, rivers and swamps
+(`terrain/local/cave_disk_basalt` and `cave_disk_blackstone`, with deepslate iron, gold, redstone and diamond ore among
+the basalt), gold among the volcanic forests' gilded blackstone (`terrain/extended/volcanic_extinction`,
+`terrain/local/replace_volcanics_flower_forest`) and raw iron in the warm ocean's vents
+(`terrain/feature/thermal_vents_iron`). The pass turned what landed in its own chunk into real minerals: the windswept
+veins into hematite and coal specks high in the mountains, where the ore bodies put none (1,857 blocks in 25 chunks of
+windswept hills on seed 20261127), and the cave disks' diamonds and a fossil's into kimberlite specks. What spilled into
+a chunk already drawn stayed vanilla (381 blocks in those 25 chunks), and so did what came in a later step, the
+volcanic gold and the vents' raw iron.
+
+**What changed.** Nothing in the overworld's generation places those ores now (`ores/VanillaOres`).
+`WorldGenRegionMixin` checks `WorldGenRegion.setBlock`, which every feature, fossil, template and structure piece sets
+its blocks through while a chunk generates, and `OreFeatureMixin` the `LevelChunkSection.setBlockState` call in
+`OreFeature.doPlace`, since an ore feature writes into the sections straight. Where the ore would have taken a solid
+block, that block stays; where it would have filled air or water (a cave disk laid over a pool, an ore block in a mod's
+building), the rock the ore is drawn on goes there (stone, deepslate for a deepslate ore, tuff for raw iron, granite
+for raw copper), so the feature keeps its shape. The ores are the ones the real minerals replace
+(`OreBodies.vanillaOres`): iron, copper, gold, coal, lapis and diamond ore in stone and deepslate, raw iron and raw
+copper blocks, and Create's zinc. Redstone, emerald, the Nether's gold and quartz and ancient debris are placed as
+before, and only the overworld is checked, so another mod's mining dimension keeps its ores. Vanilla's big copper and
+iron veins are laid with the terrain, before any feature, so the pass still turns them into chalcopyrite in their
+granite and magnetite in their tuff. Nothing names a WWOO feature: the mod needs no WWOO, and any other mod's ores are
+stopped the same way.
+
+**What it looks like.** In new chunks the windswept hills hold only the ore bodies, as everywhere else; WWOO's cave
+disks are smooth basalt and blackstone with their redstone; the volcanic forests show gilded blackstone without gold
+ore; the warm ocean's vents are dripstone; and fossils are bone without coal or diamonds. Chunks generated before
+0.44.3 keep what they have.
+
+**Known gaps.** A mod placing ore with code of its own that writes into the sections straight, not with vanilla's ore
+feature, gets past this: its ore becomes the real mineral where the ore bodies' pass sees it (in its own chunk, before
+the bodies are drawn) and stays vanilla elsewhere. A mod's building with one of these ores in it as decoration shows
+plain rock there.
+
+**Tests.** `OreTests.generationLeavesOutTheOresTheMineralsReplace` sets every replaced ore through a `WorldGenRegion`
+(left out of stone, its rock in air), lays a disk of diamond ore over deepslate and a pool (none placed, the pool
+filled with deepslate) and one of redstone ore (all 29 blocks), and checks that redstone, emerald, the Nether's ores and
+real ores are still placed and that the Nether keeps every ore. `oreVeinsOfTheReplacedOresPlaceNothing` runs ore
+features of iron, coal, gold and diamond ore through a block of stone (none changes) and one of redstone ore (placed).

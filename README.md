@@ -26,7 +26,8 @@ hand out a wooden or stone tool hand out the flint one.
 Create's Millstone into flour, flour and water make dough (a water bottle does, and is given back, so the first
 bread needs no iron), and dough bakes on a campfire or in fan smoke. Create's cake takes dough.
 
-**Real ores.** Vanilla's iron, copper, gold, coal, lapis and diamond ores and Create's zinc are gone. In their place
+**Real ores.** Vanilla's iron, copper, gold, coal, lapis and diamond ores and Create's zinc are gone, whichever mod's
+worldgen would place them. In their place
 are real minerals in a few big ore bodies: banded hematite beds, black magnetite lenses, bog iron in swamp mud,
 porphyry copper capped with green malachite, native copper sheets in basalt, strings of sphalerite pods, steep gold
 quartz veins, ilmenite seams, bauxite under jungles and savannas, rock salt under deserts, coal in flat seams, lapis
@@ -36,6 +37,10 @@ Create's stones changes with it, and each block shows one of four layouts, so a 
 on the surface gives a body away: find them in caves, or dig. Each mineral goes its own way to its metal: oxides
 fire into a bloom or the metal, sulfides roast first and give off sulfur dioxide. With Exploration Remix the deep
 layers hold the biggest bodies.
+
+**No ore from plain stone.** Create's crushing wheels and millstone get nothing out of tuff, diorite, andesite, granite
+or calcite, nor out of Create's ore stones (asurine, crimsite, ochrum and veridium) or the cut and polished blocks made
+from them: no nuggets, crushed ore, quartz, red sand or bone meal.
 
 **Heat and the Furnace.** Vanilla's furnace (now the **Cold Furnace**), smoker and blast furnace have gone cold. The
 **Furnace** takes their place: crafted exactly like vanilla's, from eight cobblestone, and in vanilla's furnace
