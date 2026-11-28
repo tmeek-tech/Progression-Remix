@@ -49,6 +49,7 @@
     "MapBannerMixin",
     "MechanicalPistonBlockMixin",
     "OpenEndedPipeMixin",
+    "OreFeatureMixin",
     "PipeConnectionMixin",
     "PipeTransportMixin",
     "PistonContraptionMixin",
@@ -66,6 +67,7 @@
     "ThermalBehaviourAccessor",
     "TropicalFishMixin",
     "WhistleBlockEntityMixin",
+    "WorldGenRegionMixin",
     "WrenchableDirectionalBlockMixin"
   ],
   "client": [

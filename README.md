@@ -26,7 +26,8 @@ hand out a wooden or stone tool hand out the flint one.
 Create's Millstone into flour, flour and water make dough (a water bottle does, and is given back, so the first
 bread needs no iron), and dough bakes on a campfire or in fan smoke. Create's cake takes dough.
 
-**Real ores.** Vanilla's iron, copper, gold, coal, lapis and diamond ores and Create's zinc are gone. In their place
+**Real ores.** Vanilla's iron, copper, gold, coal, lapis and diamond ores and Create's zinc are gone, whichever mod's
+worldgen would place them. In their place
 are real minerals in a few big ore bodies: banded hematite beds, black magnetite lenses, bog iron in swamp mud,
 porphyry copper capped with green malachite, native copper sheets in basalt, strings of sphalerite pods, steep gold
 quartz veins, ilmenite seams, bauxite under jungles and savannas, rock salt under deserts, coal in flat seams, lapis
