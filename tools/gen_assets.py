@@ -2670,6 +2670,18 @@ def gen_recipes():
         disabled('minecraft', p)
     disabled('create', 'smelting/iron_ingot_from_crushed')
     disabled('create', 'blasting/iron_ingot_from_crushed')
+    # Create's crushing wheels and millstones take nothing from tuff, diorite, andesite, granite or calcite (Taran,
+    # 2026-11-28): no nuggets and flint from tuff, quartz from diorite, cobblestone from andesite, red sand from granite
+    # or bone meal from calcite. JEI lists the milling ones under Crushing too, as crushing wheels run them. Nor from
+    # Create's ore stones (Taran's card, the same night): asurine, crimsite, ochrum and veridium no longer crush into
+    # crushed zinc, iron, gold and copper, so their layers are no way round the real ores. Each _recycling one takes
+    # Create's cut, polished and brick forms of its stone (#create:stone_types/...)
+    for path in ['crushing/tuff', 'crushing/tuff_recycling', 'crushing/diorite', 'crushing/diorite_recycling',
+                 'milling/andesite', 'milling/granite', 'milling/calcite']:
+        disabled('create', path)
+    for stone in ['asurine', 'crimsite', 'ochrum', 'veridium']:
+        disabled('create', f'crushing/{stone}')
+        disabled('create', f'crushing/{stone}_recycling')
     # ancient debris needs a Blazing kiln (see firing/netherite_scrap), not a lava fan
     disabled('minecraft', 'netherite_scrap')
     disabled('minecraft', 'netherite_scrap_from_blasting')

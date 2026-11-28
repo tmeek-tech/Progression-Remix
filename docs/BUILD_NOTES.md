@@ -4590,3 +4590,44 @@ redrew coal's first look too (its 14 side textures).
 
 **Files.** 492 new textures (480 ore faces, 12 own rocks), 393 new models, 131 blockstates rewritten and 14 coal side
 textures redrawn; the jar grows from 8.09 to 8.63 MB.
+
+## 62. Create's stone crushing recipes off (0.44.2)
+
+Taran, 2026-11-28 (01:00 UTC): "Can you remove the recipes that Create adds for its stone types, tuff, diorite,
+andesite, granite, and calcite?", and a minute later: "I meant the crushing recipes that those stones are used in." A
+card then asked whether Create's four ore stones (asurine, crimsite, ochrum, veridium) should stop crushing into ore
+too, Claude's pick being to keep them as the ask named only five stones; Taran chose "Remove theirs too" (01:10). So
+Create's crushing wheels and millstone take nothing from those nine stones, or from Create's cut, polished, brick,
+layered and pillar forms of them. The stones themselves, Create's decorative blocks made from them and the stonecutter
+recipes between them stay.
+
+**What is off.** Fifteen of Create's recipes, turned off as the mod turns off others (`forge:false`, written by
+`gen_recipes` in `tools/gen_assets.py`). Each `_recycling` one is its stone's other forms, by Create's tag
+`#create:stone_types/<stone>`:
+
+| Recipe | Took | Gave |
+| --- | --- | --- |
+| `create:crushing/tuff`, `tuff_recycling` | tuff and its forms | a quarter flint, a tenth each gold, copper, zinc and iron nuggets |
+| `create:crushing/diorite`, `diorite_recycling` | diorite and its forms | a quarter quartz |
+| `create:milling/andesite` | andesite | cobblestone |
+| `create:milling/granite` | granite | red sand |
+| `create:milling/calcite` | calcite | bone meal, three times in four |
+| `create:crushing/asurine`, `asurine_recycling` | asurine and its forms | crushed raw zinc and a zinc nugget, each 30% |
+| `create:crushing/crimsite`, `crimsite_recycling` | crimsite and its forms | crushed raw iron and an iron nugget, each 40% |
+| `create:crushing/ochrum`, `ochrum_recycling` | ochrum and its forms | crushed raw gold and a gold nugget, each 20% |
+| `create:crushing/veridium`, `veridium_recycling` | veridium and its forms | crushed raw copper and a copper nugget, each 80% |
+
+Crushing wheels run milling recipes too, and JEI lists those under Crushing as well as Milling, which is why the three
+milling ones count as crushing here. Nothing else in Create, Power Grid or this mod crushes or mills the nine; Create's
+Ex Nihilo Sequentia recipes for andesite, diorite and granite load only with that mod and are left alone. The four ore
+stones were the bigger leak: Create lays them down in big layered deposits, and Exploration Remix's Blue Reaches are
+made of asurine, so crushing them gave zinc, iron, gold and copper without finding a real ore body (section 56).
+
+**What stays.** Red sand still mills from terracotta and is dug in badlands, so washing it for platinum is unchanged;
+quartz comes from the nether, bone meal from bones and flint from gravel. Real ore bodies still run through all nine
+rocks, and their ores crush as before.
+
+**Test.** `StoneCrushingTests.createCrushesAndMillsNoneOfTheNineStones`: the fifteen recipes are gone; no crushing or
+milling recipe, from any mod, takes one of the nine or anything in Create's tag of its forms; a millstone refuses
+andesite, granite, calcite, tuff and diorite and still takes wheat, cobblestone and terracotta; and gravel's crushing,
+cobblestone's and terracotta's milling and the stonecutter recipes to and from Create's forms are still there.
